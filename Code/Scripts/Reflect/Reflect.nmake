@@ -3,7 +3,6 @@
 ##########################################
 
 KRG_SOLUTION_PATH = "$(KRG_ROOT_DIR)KRG.sln"
-DEPLOY_CMD = msbuild $(KRG_SOLUTION_PATH) /t:"0_ Scripts\KRG_Scripts_Deploy" /p:Configuration=Release;Platform=x64
 REFLECTOR_EXE = $(KRG_BUILD_DIR)x64_Release\KrugerReflector.exe
 REFLECTOR_BUILD_CMD = msbuild $(KRG_SOLUTION_PATH) /t:"1_ Applications\KRG_Applications_Reflector" /p:Configuration=Release;Platform=x64 /m /v:m
 REFLECTOR_REFLECT_CMD = "$(REFLECTOR_EXE)" -s $(KRG_SOLUTION_PATH)
@@ -17,13 +16,11 @@ REFLECTOR_CLEAN_CMD =
 ##########################################
 
 prebuild:
-    $(DEPLOY_CMD)
     $(REFLECTOR_BUILD_CMD)
     $(REFLECTOR_REFLECT_CMD)
 
 ##########################################
 
 clean:
-    $(DEPLOY_CMD)
     $(REFLECTOR_BUILD_CMD)
     $(REFLECTOR_CLEAN_CMD)
