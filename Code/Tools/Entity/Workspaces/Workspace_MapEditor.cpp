@@ -8,8 +8,8 @@
 
 namespace KRG::EntityModel
 {
-    EntityMapEditor::EntityMapEditor( WorkspaceInitializationContext const& context, EntityWorld* pWorld )
-        : EntityEditorBaseWorkspace( context, pWorld )
+    EntityMapEditor::EntityMapEditor( ToolsContext const* pToolsContext, EntityWorld* pWorld )
+        : EntityEditorBaseWorkspace( pToolsContext, pWorld )
     {
         m_gizmo.SetTargetTransform( &m_gizmoTransform );
         SetDisplayName( "Map Editor" );
@@ -32,7 +32,7 @@ namespace KRG::EntityModel
         // Get new map filename
         //-------------------------------------------------------------------------
 
-        auto const mapFilename = pfd::save_file( "Create New Map", m_pResourceDatabase->GetRawResourceDirectoryPath().c_str(), { "Map Files", "*.map" } ).result();
+        auto const mapFilename = pfd::save_file( "Create New Map", m_pToolsContext->m_pResourceDatabase->GetRawResourceDirectoryPath().c_str(), { "Map Files", "*.map" } ).result();
         if ( mapFilename.empty() )
         {
             return;
@@ -64,7 +64,7 @@ namespace KRG::EntityModel
         //-------------------------------------------------------------------------
 
         EntityCollectionDescriptor emptyMap;
-        if ( Serialization::WriteEntityCollectionToFile( *m_pTypeRegistry, emptyMap, mapFilePath ) )
+        if ( Serialization::WriteEntityCollectionToFile( *m_pToolsContext->m_pTypeRegistry, emptyMap, mapFilePath ) )
         {
             LoadMap( mapResourceID );
         }
@@ -76,7 +76,7 @@ namespace KRG::EntityModel
 
     void EntityMapEditor::SelectAndLoadMap()
     {
-        auto const selectedMap = pfd::open_file( "Load Map", m_pResourceDatabase->GetRawResourceDirectoryPath().c_str(), { "Map Files", "*.map" }, pfd::opt::none ).result();
+        auto const selectedMap = pfd::open_file( "Load Map", m_pToolsContext->m_pResourceDatabase->GetRawResourceDirectoryPath().c_str(), { "Map Files", "*.map" }, pfd::opt::none ).result();
         if ( selectedMap.empty() )
         {
             return;
@@ -143,12 +143,12 @@ namespace KRG::EntityModel
         //-------------------------------------------------------------------------
 
         EntityCollectionDescriptor ecd;
-        if ( !pEditedMap->CreateDescriptor( *m_pTypeRegistry, ecd ) )
+        if ( !pEditedMap->CreateDescriptor( *m_pToolsContext->m_pTypeRegistry, ecd ) )
         {
             return;
         }
 
-        if ( Serialization::WriteEntityCollectionToFile( *m_pTypeRegistry, ecd, mapFilePath ) )
+        if ( Serialization::WriteEntityCollectionToFile( *m_pToolsContext->m_pTypeRegistry, ecd, mapFilePath ) )
         {
             ResourceID const mapResourcePath = GetResourcePath( mapFilePath );
             LoadMap( mapResourcePath );
@@ -168,13 +168,13 @@ namespace KRG::EntityModel
         }
 
         EntityCollectionDescriptor ecd;
-        if ( !pEditedMap->CreateDescriptor( *m_pTypeRegistry, ecd ) )
+        if ( !pEditedMap->CreateDescriptor( *m_pToolsContext->m_pTypeRegistry, ecd ) )
         {
             return false;
         }
 
         FileSystem::Path const filePath = GetFileSystemPath( m_loadedMap );
-        return Serialization::WriteEntityCollectionToFile( *m_pTypeRegistry, ecd, filePath );
+        return Serialization::WriteEntityCollectionToFile( *m_pToolsContext->m_pTypeRegistry, ecd, filePath );
     }
 
     //-------------------------------------------------------------------------

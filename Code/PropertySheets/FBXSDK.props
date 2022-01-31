@@ -16,4 +16,10 @@
       <AdditionalDependencies>libfbxsdk.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
+  <Target Name="FBX_CopyDLL" BeforeTargets="Build">
+    <Copy SkipUnchangedFiles="True" SourceFiles="$(FBX_SDK_LIB_DIR)libfbxsdk.dll" DestinationFolder="$(OutDir)" />
+  </Target>
+  <Target Name="FBX_CleanDLL" BeforeTargets="Clean">
+    <Delete Files="$(OutDir)libfbxsdk.dll" />
+  </Target>
 </Project>

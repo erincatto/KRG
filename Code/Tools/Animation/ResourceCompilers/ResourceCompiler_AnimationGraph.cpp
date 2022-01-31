@@ -263,7 +263,7 @@ namespace KRG::Animation
                 return false;
             }
 
-            auto const dataSlotResourceID = iter->second->GetValue( editorGraph.GetVariationHierarchy(), variationID );
+            auto const dataSlotResourceID = iter->second->GetResourceID( editorGraph.GetVariationHierarchy(), variationID );
             dataSet.m_resources.emplace_back( dataSlotResourceID );
         }
 

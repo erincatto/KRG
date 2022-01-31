@@ -29,7 +29,7 @@ namespace KRG::Animation
 
     public:
 
-        AnimationGraphWorkspace( WorkspaceInitializationContext const& context, EntityWorld* pWorld, ResourceID const& resourceID );
+        AnimationGraphWorkspace( ToolsContext const* pToolsContext, EntityWorld* pWorld, ResourceID const& resourceID );
         ~AnimationGraphWorkspace();
 
     private:

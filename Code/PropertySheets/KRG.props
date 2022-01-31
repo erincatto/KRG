@@ -60,4 +60,10 @@
       <EnableCOMDATFolding>false</EnableCOMDATFolding>
     </Link>
   </ItemDefinitionGroup>
+  <Target Name="KRG_CopyINI" BeforeTargets="Build">
+    <Copy SkipUnchangedFiles="True" SourceFiles="$(SolutionDir)Code\KRG.ini" DestinationFolder="$(OutDir)" />
+  </Target>
+  <Target Name="KRG_CleanINI" BeforeTargets="Clean">
+    <Delete Files="$(OutDir)KRG.ini" />
+  </Target>
 </Project>

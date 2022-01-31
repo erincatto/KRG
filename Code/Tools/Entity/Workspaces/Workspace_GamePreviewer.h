@@ -12,7 +12,7 @@ namespace KRG
     {
     public:
 
-        GamePreviewer( WorkspaceInitializationContext const& context, EntityWorld* pWorld );
+        GamePreviewer( ToolsContext const* pToolsContext, EntityWorld* pWorld );
 
         void LoadMapToPreview( ResourceID mapResourceID );
 

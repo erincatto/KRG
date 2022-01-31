@@ -10,14 +10,14 @@
 
 namespace KRG
 {
-    ResourceDescriptorCreator::ResourceDescriptorCreator( EditorContext* pModel, TypeSystem::TypeID const descriptorTypeID, FileSystem::Path const& startingDir )
-        : m_pModel( pModel )
-        , m_propertyGrid( *pModel->GetTypeRegistry(), *pModel->GetResourceDatabase() )
+    ResourceDescriptorCreator::ResourceDescriptorCreator( EditorContext* pEditorContext, TypeSystem::TypeID const descriptorTypeID, FileSystem::Path const& startingDir )
+        : m_pEditorContext( pEditorContext )
+        , m_propertyGrid( pEditorContext )
         , m_startingPath( startingDir )
     {
-        KRG_ASSERT( m_pModel != nullptr );
-        KRG_ASSERT( m_pModel->GetTypeRegistry()->IsTypeDerivedFrom( descriptorTypeID, Resource::ResourceDescriptor::GetStaticTypeID() ) );
-        auto pTypeInfo = m_pModel->GetTypeRegistry()->GetTypeInfo( descriptorTypeID );
+        KRG_ASSERT( m_pEditorContext != nullptr );
+        KRG_ASSERT( m_pEditorContext->GetTypeRegistry()->IsTypeDerivedFrom( descriptorTypeID, Resource::ResourceDescriptor::GetStaticTypeID() ) );
+        auto pTypeInfo = m_pEditorContext->GetTypeRegistry()->GetTypeInfo( descriptorTypeID );
         KRG_ASSERT( pTypeInfo != nullptr );
 
         m_pDescriptor = Cast<Resource::ResourceDescriptor>( pTypeInfo->m_pTypeHelper->CreateType() );
@@ -77,7 +77,7 @@ namespace KRG
 
     bool ResourceDescriptorCreator::SaveDescriptor()
     {
-        auto pTypeRegistry = m_pModel->GetTypeRegistry();
+        auto pTypeRegistry = m_pEditorContext->GetTypeRegistry();
 
         //-------------------------------------------------------------------------
 

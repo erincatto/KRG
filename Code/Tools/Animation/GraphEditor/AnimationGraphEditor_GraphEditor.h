@@ -1,6 +1,7 @@
 #pragma once
 #include "Tools/Core/VisualGraph/VisualGraph_View.h"
 #include "Tools/Core/Helpers/CategoryTree.h"
+#include "Tools/Core/ToolsContext.h"
 
 //-------------------------------------------------------------------------
 
@@ -58,7 +59,7 @@ namespace KRG::Animation
 
     public:
 
-        GraphEditor( TypeSystem::TypeRegistry const& typeRegistry, Resource::ResourceDatabase const& resourceDB, EditorGraphDefinition* pGraphDefinition );
+        GraphEditor( ToolsContext const* pToolsContext, EditorGraphDefinition* pGraphDefinition );
 
         // Graph information
         EditorGraphDefinition* GetGraphDefinition() { return m_pGraphDefinition; }
@@ -84,8 +85,7 @@ namespace KRG::Animation
 
     private:
 
-        TypeSystem::TypeRegistry const&                 m_typeRegistry;
-        Resource::ResourceDatabase const&               m_resourceDB;
+        ToolsContext const*                             m_pToolsContext = nullptr;
         EditorGraphDefinition*                          m_pGraphDefinition = nullptr;
         TVector<TypeSystem::TypeInfo const*>            m_registeredNodeTypes;
         CategoryTree<TypeSystem::TypeInfo const*>       m_categorizedNodeTypes;
@@ -96,5 +96,7 @@ namespace KRG::Animation
 
         VisualGraph::GraphView*                         m_pFocusedGraphView = nullptr;
         UUID                                            m_primaryViewGraphID;
+
+        TVector<ResourceID>                             m_resourceViewRequests;
     };
 }

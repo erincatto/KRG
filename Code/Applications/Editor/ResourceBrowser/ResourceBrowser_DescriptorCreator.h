@@ -32,7 +32,7 @@ namespace KRG
 
     protected:
 
-        EditorContext*                                m_pModel = nullptr;
+        EditorContext*                                m_pEditorContext = nullptr;
         Resource::ResourceDescriptor*               m_pDescriptor = nullptr;
         PropertyGrid                                m_propertyGrid;
         FileSystem::Path                            m_startingPath;

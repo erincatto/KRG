@@ -21,8 +21,8 @@ namespace KRG::Resource
 
     //-------------------------------------------------------------------------
 
-    ResourceInspectorGLTF::ResourceInspectorGLTF( TypeSystem::TypeRegistry const& typeRegistry, Resource::ResourceDatabase const& resourceDatabase, FileSystem::Path const& filePath )
-        : RawResourceInspector( typeRegistry, resourceDatabase, filePath )
+    ResourceInspectorGLTF::ResourceInspectorGLTF( ToolsContext const* pToolsContext, FileSystem::Path const& filePath )
+        : RawResourceInspector( pToolsContext, filePath )
         , m_sceneContext( filePath )
     {
         KRG_ASSERT( FileSystem::Exists( filePath ) );

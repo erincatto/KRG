@@ -223,6 +223,14 @@ namespace KRG::Animation
                 m_graphEditor.NavigateTo( pVP->GetChildGraph() );
             }
         }
+        else if ( auto pDataSlotNode = TryCast<DataSlotEditorNode>( pNode ) )
+        {
+            ResourceID const resourceID = pDataSlotNode->GetResourceID( m_graphEditor.m_pGraphDefinition->GetVariationHierarchy(), m_graphEditor.m_pGraphDefinition->GetSelectedVariationID() );
+            if ( resourceID.IsValid() )
+            {
+                m_graphEditor.m_resourceViewRequests.emplace_back( resourceID );
+            }
+        }
     }
 
     void GraphEditor::GraphView::DrawExtraInformation( VisualGraph::DrawContext const& ctx )
@@ -274,7 +282,7 @@ namespace KRG::Animation
             InlineString payloadStr = (char*) payload->Data;
 
             ResourceID const resourceID( payloadStr.c_str() );
-            if ( !resourceID.IsValid() || !m_graphEditor.m_resourceDB.DoesResourceExist(resourceID) )
+            if ( !resourceID.IsValid() || !m_graphEditor.m_pToolsContext->m_pResourceDatabase->DoesResourceExist(resourceID) )
             {
                 return;
             }
@@ -359,19 +367,19 @@ namespace KRG::Animation
 
     //-------------------------------------------------------------------------
 
-    GraphEditor::GraphEditor( TypeSystem::TypeRegistry const& typeRegistry, Resource::ResourceDatabase const& resourceDB, EditorGraphDefinition* pGraphDefinition )
-        : m_typeRegistry( typeRegistry )
-        , m_resourceDB( resourceDB )
+    GraphEditor::GraphEditor( ToolsContext const* pToolsContext, EditorGraphDefinition* pGraphDefinition )
+        : m_pToolsContext( pToolsContext )
         , m_pGraphDefinition( pGraphDefinition )
         , m_primaryGraphView( *this )
         , m_secondaryGraphView( *this )
     {
+        KRG_ASSERT( m_pToolsContext != nullptr && m_pToolsContext->IsValid() );
         KRG_ASSERT( pGraphDefinition != nullptr );
 
         // Create DB of all node types
         //-------------------------------------------------------------------------
 
-        m_registeredNodeTypes = typeRegistry.GetAllDerivedTypes( EditorGraphNode::GetStaticTypeID(), false, false, true );
+        m_registeredNodeTypes = pToolsContext->m_pTypeRegistry->GetAllDerivedTypes( EditorGraphNode::GetStaticTypeID(), false, false, true );
 
         for ( auto pNodeType : m_registeredNodeTypes )
         {
@@ -473,7 +481,9 @@ namespace KRG::Animation
 
     void GraphEditor::UpdateAndDraw( UpdateContext const& context, DebugContext* pDebugContext, ImGuiWindowClass* pWindowClass, char const* pWindowName )
     {
+        m_resourceViewRequests.clear();
         bool isGraphViewFocused = false;
+
         ImGui::PushStyleVar( ImGuiStyleVar_WindowPadding, ImVec2( 0, 0 ) );
         ImGui::SetNextWindowClass( pWindowClass );
         if ( ImGui::Begin( pWindowName ) )
@@ -619,6 +629,14 @@ namespace KRG::Animation
         //-------------------------------------------------------------------------
 
         HandleFocusAndSelectionChanges();
+
+        // Process view change requests
+        //-------------------------------------------------------------------------
+
+        for ( auto const& resourceToView : m_resourceViewRequests )
+        {
+            m_pToolsContext->TryOpenResource( context, resourceToView );
+        }
     }
 
     void GraphEditor::HandleFocusAndSelectionChanges()

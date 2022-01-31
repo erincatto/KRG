@@ -15,8 +15,11 @@
       <AdditionalLibraryDirectories>$(LLVM_DIR)lib;$(LLVM_DIR)bin;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>LLVMCore.lib;LLVMSupport.lib;LLVMBinaryFormat.lib;LLVMRemarks.lib;LLVMFrontendOpenMP.lib;LLVMBitstreamReader.lib;libclang.lib;clangAST.lib;clangBasic.lib;clangLex.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
-    <PreBuildEvent>
-      <Command>xcopy /y /i "$(LLVM_DIR)bin\libclang.dll" "$(OutDir)"</Command>
-    </PreBuildEvent>
   </ItemDefinitionGroup>
+  <Target Name="LLVM_CopyDLL" BeforeTargets="Build">
+    <Copy SkipUnchangedFiles="True" SourceFiles="$(LLVM_DIR)bin\libclang.dll" DestinationFolder="$(OutDir)" />
+  </Target>
+  <Target Name="LLVM_CleanDLL" BeforeTargets="Clean">
+    <Delete Files="$(OutDir)libclang.dll" />
+  </Target>
 </Project>

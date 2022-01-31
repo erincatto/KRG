@@ -26,8 +26,8 @@ namespace KRG::Resource
 
     //-------------------------------------------------------------------------
 
-    ResourceInspectorFBX::ResourceInspectorFBX( TypeSystem::TypeRegistry const& typeRegistry, Resource::ResourceDatabase const& resourceDatabase, FileSystem::Path const& filePath )
-        : RawResourceInspector( typeRegistry, resourceDatabase, filePath )
+    ResourceInspectorFBX::ResourceInspectorFBX( ToolsContext const* pToolsContext, FileSystem::Path const& filePath )
+        : RawResourceInspector( pToolsContext, filePath )
         , m_sceneContext( filePath )
     {
         KRG_ASSERT( FileSystem::Exists( filePath ) );
@@ -227,6 +227,14 @@ namespace KRG::Resource
             if ( haveSkeletalMeshes )
             {
                 ImGuiX::TextSeparator( "Skeletal Meshes", 10, ImGui::GetColumnWidth() );
+
+                bool const isCombinedSkeletalMeshSelected = ( m_selectedItemType == InfoType::SkeletalMesh ) && !m_selectedItemID.IsValid();
+                if ( ImGui::Selectable( KRG_ICON_CUBES" Combined Skeletal Mesh", isCombinedSkeletalMeshSelected, ImGuiSelectableFlags_DontClosePopups ) )
+                {
+                    m_selectedItemType = InfoType::SkeletalMesh;
+                    m_selectedItemID = StringID();
+                    OnSwitchSelectedItem();
+                }
 
                 for ( auto const& meshInfo : m_meshes )
                 {

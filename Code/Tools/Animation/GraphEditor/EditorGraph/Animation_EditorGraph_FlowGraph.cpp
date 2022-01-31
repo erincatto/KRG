@@ -174,7 +174,7 @@ namespace KRG::Animation::GraphNodes
         return true;
     }
 
-    ResourceID DataSlotEditorNode::GetValue( VariationHierarchy const& variationHierarchy, StringID variationID ) const
+    ResourceID DataSlotEditorNode::GetResourceID( VariationHierarchy const& variationHierarchy, StringID variationID ) const
     {
         KRG_ASSERT( variationHierarchy.IsValidVariation( variationID ) );
 

@@ -1,6 +1,7 @@
 #pragma once
 #include "Tools/Entity/_Module/API.h"
 #include "Tools/Core/UndoStack.h"
+#include "Tools/Core/ToolsContext.h"
 #include "Engine/Core/Entity/EntityWorld.h"
 #include "System/Resource/ResourceID.h"
 #include "System/Core/Types/StringID.h"
@@ -25,9 +26,15 @@ namespace KRG::EntityModel
     {
     public:
 
-        EntityEditorContext( TypeSystem::TypeRegistry const& typeRegistry, Resource::ResourceDatabase const& resourceDB, EntityWorld* pWorld, UndoStack& undoStack );
+        EntityEditorContext( ToolsContext const* pToolsContext, EntityWorld* pWorld, UndoStack& undoStack );
 
         void Update( UpdateContext const& context );
+
+        // Accessors
+        //-------------------------------------------------------------------------
+
+        KRG_FORCE_INLINE TypeSystem::TypeRegistry const& GetTypeRegistry() const { return *m_pToolsContext->m_pTypeRegistry; }
+        KRG_FORCE_INLINE Resource::ResourceDatabase const& GetResourceDB() const { return *m_pToolsContext->m_pResourceDatabase; }
 
         // Map/World
         //-------------------------------------------------------------------------
@@ -126,8 +133,7 @@ namespace KRG::EntityModel
 
     public:
 
-        TypeSystem::TypeRegistry const&         m_typeRegistry;
-        Resource::ResourceDatabase const&       m_resourceDB;
+        ToolsContext const* const               m_pToolsContext = nullptr;
 
     private:
 

@@ -20,9 +20,9 @@ namespace KRG::Animation
 
     //-------------------------------------------------------------------------
 
-    AnimationClipWorkspace::AnimationClipWorkspace( WorkspaceInitializationContext const& context, EntityWorld* pWorld, ResourceID const& resourceID )
-        : TResourceWorkspace<AnimationClip>( context, pWorld, resourceID )
-        , m_propertyGrid( *m_pTypeRegistry, *m_pResourceDatabase )
+    AnimationClipWorkspace::AnimationClipWorkspace( ToolsContext const* pToolsContext, EntityWorld* pWorld, ResourceID const& resourceID )
+        : TResourceWorkspace<AnimationClip>( pToolsContext, pWorld, resourceID )
+        , m_propertyGrid( m_pToolsContext )
     {}
 
     AnimationClipWorkspace::~AnimationClipWorkspace()
@@ -85,7 +85,7 @@ namespace KRG::Animation
         {
             FileSystem::Path const resourceDescPath = GetFileSystemPath( pAnimClipDescriptor->m_pSkeleton.GetResourcePath() );
             SkeletonResourceDescriptor resourceDesc;
-            if ( TryReadResourceDescriptorFromFile( *m_pTypeRegistry, resourceDescPath, resourceDesc ) && resourceDesc.m_previewMesh.IsValid() )
+            if ( TryReadResourceDescriptorFromFile( *m_pToolsContext->m_pTypeRegistry, resourceDescPath, resourceDesc ) && resourceDesc.m_previewMesh.IsValid() )
             {
                 // Create a preview mesh component
                 m_pMeshComponent = KRG::New<Render::SkeletalMeshComponent>( StringID( "Mesh Component" ) );
@@ -161,7 +161,7 @@ namespace KRG::Animation
             // Lazy init of the event editor - since we need to wait for the resource to be loaded
             if ( m_pEventEditor == nullptr )
             {
-                m_pEventEditor = KRG::New<EventEditor>( *m_pTypeRegistry, m_descriptorPath, m_pResource->GetNumFrames(), m_pResource->GetFPS() );
+                m_pEventEditor = KRG::New<EventEditor>( *m_pToolsContext->m_pTypeRegistry, m_descriptorPath, m_pResource->GetNumFrames(), m_pResource->GetFPS() );
             }
 
             // Update position

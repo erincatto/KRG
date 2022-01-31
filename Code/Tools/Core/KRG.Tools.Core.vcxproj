@@ -136,6 +136,7 @@
     <ClInclude Include="Helpers\CategoryTree.h" />
     <ClInclude Include="Widgets\InterfaceHelpers.h" />
     <ClInclude Include="UndoStack.h" />
+    <ClInclude Include="ToolsContext.h" />
     <ClInclude Include="_Module\API.h" />
     <ClInclude Include="_Module\Module.h" />
   </ItemGroup>

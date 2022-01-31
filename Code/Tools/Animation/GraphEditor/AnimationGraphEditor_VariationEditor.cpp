@@ -223,7 +223,7 @@ namespace KRG::Animation
                     }
                     else // Show current value
                     {
-                        ImGui::Text( pDataSlotNode->GetValue( m_pGraphDefinition->GetVariationHierarchy(), currentVariationID ).c_str() );
+                        ImGui::Text( pDataSlotNode->GetResourceID( m_pGraphDefinition->GetVariationHierarchy(), currentVariationID ).c_str() );
                     }
                 }
 

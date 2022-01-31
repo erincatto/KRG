@@ -15,4 +15,10 @@
       <AdditionalDependencies Condition="$(Configuration) != 'Shipping'">OptickCore.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
+  <Target Name="Optick_CopyDLL" BeforeTargets="Build">
+    <Copy SkipUnchangedFiles="True" SourceFiles="$(OPTICK_LIB_DIR)OptickCore.dll" DestinationFolder="$(OutDir)" />
+  </Target>
+  <Target Name="Optick_CleanDLL" BeforeTargets="Clean">
+    <Delete Files="$(OutDir)OptickCore.dll" />
+  </Target>
 </Project>

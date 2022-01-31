@@ -24,6 +24,7 @@ namespace KRG::Resource { class ResourceDatabase; }
 
 namespace KRG
 {
+    class ToolsContext;
     namespace TypeSystem{ class PropertyEditor; }
 
     //-------------------------------------------------------------------------
@@ -53,7 +54,7 @@ namespace KRG
 
     public:
 
-        PropertyGrid( TypeSystem::TypeRegistry const& typeRegistry, Resource::ResourceDatabase const& resourceDatabase );
+        PropertyGrid( ToolsContext const* pToolsContext );
         ~PropertyGrid();
 
         // Get the current edited type
@@ -99,7 +100,7 @@ namespace KRG
 
     private:
 
-        TypeSystem::TypeRegistry const&                             m_typeRegistry;
+        ToolsContext const*                                         m_pToolsContext;
         TypeSystem::TypeInfo const*                                 m_pTypeInfo = nullptr;
         Resource::ResourceFilePicker                                m_resourcePicker;
         IRegisteredType*                                            m_pTypeInstance = nullptr;

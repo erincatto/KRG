@@ -1,6 +1,7 @@
 #pragma once
 #include "Tools/Core/UndoStack.h"
 #include "Tools/Core/Resource/ResourceDatabase.h"
+#include "Tools/Core/ToolsContext.h"
 #include "System/Render/Imgui/ImguiX.h"
 #include "System/Render/RenderTarget.h"
 #include "System/Resource/ResourceRequesterID.h"
@@ -15,12 +16,8 @@ namespace KRG
 {
     class Entity;
     class EntityWorld;
-    class UpdateContext;
     class EntityWorldUpdateContext;
-
     namespace Render { class Viewport; }
-    namespace Resource { class ResourceSystem; }
-    namespace TypeSystem { class TypeRegistry; }
 }
 
 //-------------------------------------------------------------------------
@@ -31,15 +28,6 @@ namespace KRG
 
 namespace KRG
 {
-    struct WorkspaceInitializationContext
-    {
-        TypeSystem::TypeRegistry const*         m_pTypeRegistry = nullptr;
-        Resource::ResourceDatabase const*       m_pResourceDatabase = nullptr;
-        Resource::ResourceSystem*               m_pResourceSystem = nullptr;
-    };
-
-    //-------------------------------------------------------------------------
-
     class KRG_TOOLS_CORE_API EditorWorkspace
     {
     public:
@@ -52,7 +40,7 @@ namespace KRG
 
     public:
 
-        EditorWorkspace( WorkspaceInitializationContext const& context, EntityWorld* pWorld, String const& displayName = "Workspace" );
+        EditorWorkspace( ToolsContext const* pToolsContext, EntityWorld* pWorld, String const& displayName = "Workspace" );
         virtual ~EditorWorkspace();
 
         // Get the display name for this workspace (shown on tab, dialogs, etc...)
@@ -190,25 +178,25 @@ namespace KRG
         // Resource helpers
         //-------------------------------------------------------------------------
 
-        inline FileSystem::Path const& GetRawResourceDirectoryPath() const { return m_pResourceDatabase->GetRawResourceDirectoryPath(); }
-        inline FileSystem::Path const& GetCompiledResourceDirectoryPath() const { return m_pResourceDatabase->GetCompiledResourceDirectoryPath(); }
+        inline FileSystem::Path const& GetRawResourceDirectoryPath() const { return m_pToolsContext->m_pResourceDatabase->GetRawResourceDirectoryPath(); }
+        inline FileSystem::Path const& GetCompiledResourceDirectoryPath() const { return m_pToolsContext->m_pResourceDatabase->GetCompiledResourceDirectoryPath(); }
 
         inline FileSystem::Path GetFileSystemPath( ResourcePath const& resourcePath ) const
         {
-            KRG_ASSERT( m_pResourceDatabase != nullptr && resourcePath.IsValid() );
-            return resourcePath.ToFileSystemPath( m_pResourceDatabase->GetRawResourceDirectoryPath() );
+            KRG_ASSERT( resourcePath.IsValid() );
+            return resourcePath.ToFileSystemPath( m_pToolsContext->m_pResourceDatabase->GetRawResourceDirectoryPath() );
         }
 
         inline FileSystem::Path GetFileSystemPath( ResourceID const& resourceID ) const
         {
-            KRG_ASSERT( m_pResourceDatabase != nullptr && resourceID.IsValid() );
-            return resourceID.GetResourcePath().ToFileSystemPath( m_pResourceDatabase->GetRawResourceDirectoryPath() );
+            KRG_ASSERT( resourceID.IsValid() );
+            return resourceID.GetResourcePath().ToFileSystemPath( m_pToolsContext->m_pResourceDatabase->GetRawResourceDirectoryPath() );
         }
 
         inline ResourcePath GetResourcePath( FileSystem::Path const& path ) const
         {
-            KRG_ASSERT( m_pResourceDatabase != nullptr && path.IsValid() );
-            return ResourcePath::FromFileSystemPath( m_pResourceDatabase->GetRawResourceDirectoryPath(), path );
+            KRG_ASSERT( path.IsValid() );
+            return ResourcePath::FromFileSystemPath( m_pToolsContext->m_pResourceDatabase->GetRawResourceDirectoryPath(), path );
         }
 
         // Resource and Entity Management
@@ -236,8 +224,7 @@ namespace KRG
     protected:
 
         EntityWorld*                                m_pWorld = nullptr;
-        TypeSystem::TypeRegistry const* const       m_pTypeRegistry = nullptr;
-        Resource::ResourceDatabase const* const     m_pResourceDatabase = nullptr;
+        ToolsContext const*                         m_pToolsContext = nullptr;
 
         UndoStack                                   m_undoStack;
         String                                      m_displayName;
@@ -248,8 +235,6 @@ namespace KRG
         bool                                        m_isViewportHovered = false;
 
     private:
-
-        Resource::ResourceSystem* const             m_pResourceSystem = nullptr;
 
         // Time controls
         bool                                        m_allowWorldTimeControl = false;

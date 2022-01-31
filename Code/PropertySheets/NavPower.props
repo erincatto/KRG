@@ -17,4 +17,10 @@
       <AdditionalDependencies Condition="$(NAVPOWER_INCLUDED) == 'True'">AllNavPowerDll_CMT.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
+  <Target Name="Navpower_CopyDLL" BeforeTargets="Build">
+    <Copy SkipUnchangedFiles="True" Condition="$(NAVPOWER_INCLUDED) == 'True'" SourceFiles="$(NAVPOWER_LIB_DIR)AllNavPowerDll_CMT.dll" DestinationFolder="$(OutDir)" />
+  </Target>
+  <Target Name="Navpower_CleanDLL" BeforeTargets="Clean">
+    <Delete Condition="$(NAVPOWER_INCLUDED) == 'True'" Files="$(OutDir)AllNavPowerDll_CMT.dll" />
+  </Target>
 </Project>

@@ -1,5 +1,6 @@
 #include "PropertyGrid.h"
 #include "PropertyGridEditors.h"
+#include "Tools/Core/ToolsContext.h"
 #include "System/TypeSystem/TypeRegistry.h"
 #include "System/TypeSystem/PropertyInfo.h"
 
@@ -50,10 +51,12 @@ namespace KRG
 
     //-------------------------------------------------------------------------
 
-    PropertyGrid::PropertyGrid( TypeSystem::TypeRegistry const& typeRegistry, Resource::ResourceDatabase const& resourceDatabase )
-        : m_typeRegistry( typeRegistry )
-        , m_resourcePicker( resourceDatabase )
-    {}
+    PropertyGrid::PropertyGrid( ToolsContext const* pToolsContext )
+        : m_pToolsContext( pToolsContext )
+        , m_resourcePicker( *pToolsContext->m_pResourceDatabase )
+    {
+        KRG_ASSERT( m_pToolsContext != nullptr && m_pToolsContext->IsValid() );
+    }
 
     PropertyGrid::~PropertyGrid()
     {
@@ -104,7 +107,7 @@ namespace KRG
         }
         else // Create new editor instance
         {
-            pPropertyEditor = CreatePropertyEditor( m_typeRegistry, m_resourcePicker, propertyInfo, pActualPropertyInstance );
+            pPropertyEditor = CreatePropertyEditor( m_pToolsContext, m_resourcePicker, propertyInfo, pActualPropertyInstance );
             m_propertyEditors[pActualPropertyInstance] = pPropertyEditor;
         }
 
@@ -274,7 +277,7 @@ namespace KRG
         {
             KRG_ASSERT( propertyInfo.IsStructureProperty() );
 
-            TypeInfo const* pChildTypeInfo = m_typeRegistry.GetTypeInfo( propertyInfo.m_typeID );
+            TypeInfo const* pChildTypeInfo = m_pToolsContext->m_pTypeRegistry->GetTypeInfo( propertyInfo.m_typeID );
             KRG_ASSERT( pChildTypeInfo != nullptr );
             Byte* pChildTypeInstance = pActualPropertyInstance;
 

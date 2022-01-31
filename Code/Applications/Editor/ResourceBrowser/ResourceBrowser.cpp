@@ -269,7 +269,7 @@ namespace KRG
                 {
                     if ( Resource::RawResourceInspectorFactory::CanCreateInspector( selectedFilePath ) )
                     {
-                        m_pRawResourceInspector = Resource::RawResourceInspectorFactory::TryCreateInspector( *m_editorContext.GetTypeRegistry(), *m_editorContext.GetResourceDatabase(), selectedFilePath );
+                        m_pRawResourceInspector = Resource::RawResourceInspectorFactory::TryCreateInspector( &m_editorContext, selectedFilePath );
                     }
                     else
                     {
@@ -579,7 +579,7 @@ namespace KRG
         {
             if ( Resource::RawResourceInspectorFactory::CanCreateInspector( pResourceFileItem->GetFilePath() ) )
             {
-                m_pRawResourceInspector = Resource::RawResourceInspectorFactory::TryCreateInspector( *m_editorContext.GetTypeRegistry(), *m_editorContext.GetResourceDatabase(), pResourceFileItem->GetFilePath() );
+                m_pRawResourceInspector = Resource::RawResourceInspectorFactory::TryCreateInspector( &m_editorContext, pResourceFileItem->GetFilePath() );
             }
         }
     }

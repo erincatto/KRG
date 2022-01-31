@@ -205,6 +205,11 @@ namespace KRG::FileSystem
 
         auto ProcessPath = [&] ( std::filesystem::path const& path )
         {
+            if ( !std::filesystem::exists( path ) )
+            {
+                return;
+            }
+
             if ( std::filesystem::is_directory( path ) )
             {
                 if ( output != DirectoryReaderOutput::OnlyFiles )

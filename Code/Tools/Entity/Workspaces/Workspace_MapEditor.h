@@ -10,7 +10,7 @@ namespace KRG::EntityModel
     {
     public:
 
-        EntityMapEditor( WorkspaceInitializationContext const& context, EntityWorld* pWorld );
+        EntityMapEditor( ToolsContext const* pToolsContext, EntityWorld* pWorld );
 
         inline bool HasLoadedMap() const { return m_loadedMap.IsValid(); }
         inline ResourceID GetLoadedMap() const { return m_loadedMap; }

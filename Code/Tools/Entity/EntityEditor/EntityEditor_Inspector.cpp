@@ -94,8 +94,8 @@ namespace KRG::EntityModel
     EntityEditorInspector::EntityEditorInspector( EntityEditorContext& ctx )
         : TreeListView()
         , m_context( ctx )
-        , m_allSystemTypes( ctx.m_typeRegistry.GetAllDerivedTypes( EntitySystem::GetStaticTypeID(), false, false, true ) )
-        , m_allComponentTypes( ctx.m_typeRegistry.GetAllDerivedTypes( EntityComponent::GetStaticTypeID(), false, false, true ) )
+        , m_allSystemTypes( ctx.GetTypeRegistry().GetAllDerivedTypes( EntitySystem::GetStaticTypeID(), false, false, true ) )
+        , m_allComponentTypes( ctx.GetTypeRegistry().GetAllDerivedTypes( EntityComponent::GetStaticTypeID(), false, false, true ) )
     {
         Memory::MemsetZero( m_filterBuffer, 256 * sizeof( char ) );
         m_expandItemsOnlyViaArrow = true;
@@ -412,7 +412,7 @@ namespace KRG::EntityModel
             bool isValidOption = true;
             for ( auto pExistingSystem : m_pEntity->GetSystems() )
             {
-                if ( m_context.m_typeRegistry.AreTypesInTheSameHierarchy( pExistingSystem->GetTypeInfo(), pSystemTypeInfo ) )
+                if ( m_context.GetTypeRegistry().AreTypesInTheSameHierarchy( pExistingSystem->GetTypeInfo(), pSystemTypeInfo ) )
                 {
                     isValidOption = false;
                     break;
@@ -453,7 +453,7 @@ namespace KRG::EntityModel
             {
                 if ( pExistingComponent->IsSingletonComponent() )
                 {
-                    if ( m_context.m_typeRegistry.AreTypesInTheSameHierarchy( pExistingComponent->GetTypeInfo(), pComponentTypeInfo ) )
+                    if ( m_context.GetTypeRegistry().AreTypesInTheSameHierarchy( pExistingComponent->GetTypeInfo(), pComponentTypeInfo ) )
                     {
                         isValidOption = false;
                         break;

@@ -41,10 +41,10 @@ namespace KRG::Timeline
 
     static float g_trackHeight = 30;
     static ImColor const g_trackSeparatorColor( 0xFF808080 );
-    static ImColor const g_selectedTrackColor = ImGuiX::ConvertColor( Color( 0xFFB6C1FF ).GetAlphaVersion( 0.2f ) );
+    static ImColor const g_selectedTrackColor = ImGuiX::ConvertColor( Color( 0x00AA0021 ) );
     static float const g_itemMarginY = 2;
     static float const g_itemHandleWidth = 4;
-    static float const g_immediateItemWidth = 6;
+    static float const g_immediateItemHalfWidth = 5;
 
     //-------------------------------------------------------------------------
 
@@ -291,6 +291,7 @@ namespace KRG::Timeline
 
                         editedItemTimeRange.m_start = validEventStartRange.GetClampedValue( newTime );
                         editedItemTimeRange.m_end = editedItemTimeRange.m_start + m_itemEditState.m_originalTimeRange.GetLength();
+                        SetPlayheadPosition( editedItemTimeRange.m_start );
                     }
                     else if ( m_itemEditState.m_mode == ItemEditMode::ResizeLeft )
                     {
@@ -302,6 +303,7 @@ namespace KRG::Timeline
 
                         editedItemTimeRange.m_start = Math::Min( m_itemEditState.m_originalTimeRange.m_end - 1, newTime );
                         editedItemTimeRange.m_start = Math::Max( validEventRange.m_start, editedItemTimeRange.m_start );
+                        SetPlayheadPosition( editedItemTimeRange.m_start );
                     }
                     else if ( m_itemEditState.m_mode == ItemEditMode::ResizeRight )
                     {
@@ -313,6 +315,7 @@ namespace KRG::Timeline
 
                         editedItemTimeRange.m_end = Math::Max( m_itemEditState.m_originalTimeRange.m_start + 1, newTime );
                         editedItemTimeRange.m_end = Math::Min( validEventRange.m_end, editedItemTimeRange.m_end );
+                        SetPlayheadPosition( editedItemTimeRange.m_end );
                     }
 
                     pEditedItem->SetTimeRange( editedItemTimeRange );
@@ -554,7 +557,7 @@ namespace KRG::Timeline
 
         //-------------------------------------------------------------------------
 
-        ImGui::SameLine( 0, buttonSeperation );
+        ImGuiX::VerticalSeparator( ImVec2( 9, -1 ) );
 
         if ( ImGuiX::ColoredButton( ImGuiX::Style::s_itemColorSemiDark, m_isFrameSnappingEnabled ? ImGuiX::Style::s_textColor : ImGuiX::Style::s_textColorDisabled, KRG_ICON_MAGNET "##Snap", buttonSize ) )
         {
@@ -569,7 +572,7 @@ namespace KRG::Timeline
 
         if ( IsLoopingEnabled() )
         {
-            if ( ImGui::Button( KRG_ICON_EXCHANGE_ALT "##PlayOnce", buttonSize ) )
+            if ( ImGui::Button( KRG_ICON_RETWEET "##PlayOnce", buttonSize ) )
             {
                 m_isLoopingEnabled = false;
             }
@@ -590,7 +593,7 @@ namespace KRG::Timeline
 
         ImGui::SameLine( 0, buttonSeperation );
 
-        if ( ImGui::Button( KRG_ICON_EYE "##ResetView", buttonSize ) )
+        if ( ImGui::Button( KRG_ICON_BINOCULARS "##ResetView", buttonSize ) )
         {
             ResetViewRange();
         }
@@ -598,17 +601,15 @@ namespace KRG::Timeline
         ImGuiX::ItemTooltip( "Reset View" );
 
         //-------------------------------------------------------------------------
-        // Spacer
+       // Add tracks button
         //-------------------------------------------------------------------------
 
-        float const buttonOffset = buttonSeperation + buttonSize.x;
-        float const spacerWidth = controlsChildSize.x - ( buttonOffset * 8 );
+        ImVec2 const addTracksButtonSize( 46, -1 );
+        ImGui::SameLine( 0, 0 );
+        float const spacerWidth = ImGui::GetContentRegionAvail().x - addTracksButtonSize.x - 4;
         ImGui::SameLine( 0, spacerWidth );
 
-        // Add tracks button
-        //-------------------------------------------------------------------------
-
-        if ( ImGuiX::ColoredButton( ImGuiX::ConvertColor( Colors::ForestGreen ), ImGuiX::ConvertColor( Colors::White ), KRG_ICON_PLUS "##AddTrack", buttonSize ) )
+        if ( ImGuiX::ColoredButton( ImGuiX::ConvertColor( Colors::ForestGreen ), ImGuiX::ConvertColor( Colors::White ),KRG_ICON_PLUS"Add##AddTrack", addTracksButtonSize ) )
         {
             ImGui::OpenPopup( "AddTracksPopup" );
         }
@@ -884,72 +885,95 @@ namespace KRG::Timeline
 
                     //-------------------------------------------------------------------------
 
-                    float itemEndTime = itemTimeRange.m_end;
+                    auto GetItemColor = [this, pItem] ( bool isItemHovered )
+                    {
+                        ImVec4 itemColor = pItem->GetColor().ToFloat4();
+
+                        // Set selection color first
+                        if ( IsSelected( pItem ) )
+                        {
+                            itemColor = (Float4) itemColor * 1.45f;
+                        }
+
+                        // Apply modifiers based on current state
+                        if ( pItem == m_itemEditState.m_pEditedItem )
+                        {
+                            itemColor = (Float4) itemColor * 1.1f;
+                        }
+                        else if ( isItemHovered )
+                        {
+                            itemColor = (Float4) itemColor * 1.15f;
+                        }
+
+                        return (uint32) ImColor( itemColor );
+                    };
+
+                    //-------------------------------------------------------------------------
+
                     if ( pItem->IsImmediateItem() )
                     {
-                        itemEndTime += ( g_immediateItemWidth / m_pixelsPerFrame );
-                    }
+                        float const itemPosX = trackAreaRect.GetTL().x + ( itemTimeRange.m_start - m_viewRange.m_start ) * m_pixelsPerFrame;
+                        float const itemPosTopY = trackAreaRect.GetTL().y + g_itemMarginY;
+                        float const itemPosBottomY = trackAreaRect.GetBR().y + g_itemMarginY;
 
-                    float const itemStartX = trackAreaRect.GetTL().x + ( itemTimeRange.m_start - m_viewRange.m_start ) * m_pixelsPerFrame;
-                    float const itemEndX = trackAreaRect.GetTL().x + ( itemEndTime - m_viewRange.m_start ) * m_pixelsPerFrame;
-                    float const itemStartY = trackAreaRect.GetTL().y + g_itemMarginY;
-                    float const itemEndY = trackAreaRect.GetBR().y - g_itemMarginY;
+                        ImVec2 const base( itemPosX, itemPosBottomY );
+                        ImVec2 const topLeft( itemPosX - g_immediateItemHalfWidth, itemPosTopY );
+                        ImVec2 const topRight( itemPosX + g_immediateItemHalfWidth, itemPosTopY );
 
-                    ImVec2 const itemStart( itemStartX, itemStartY );
-                    ImVec2 const itemEnd( itemEndX, itemEndY );
+                        ImRect const itemRect( ImVec2( itemPosX - g_immediateItemHalfWidth, itemPosTopY ), ImVec2( itemPosX + g_immediateItemHalfWidth, itemPosBottomY ) );
+                        bool const isItemHovered = itemRect.Contains(mousePos);
 
-                    // Handle mouse
-                    //-------------------------------------------------------------------------
-
-                    bool const isItemHovered = ImRect( itemStart, itemEnd ).Contains( mousePos );
-                    bool const isHoveredOverLeftHandle = ( !pItem->IsImmediateItem() && isItemHovered ) ? ImRect( itemStart, ImVec2( itemStart.x + g_itemHandleWidth, itemEnd.y ) ).Contains( mousePos ) : false;
-                    bool const isHoveredOverRightHandle = ( !pItem->IsImmediateItem() && isItemHovered && !isHoveredOverLeftHandle ) ? ImRect( ImVec2( itemEnd.x - g_itemHandleWidth, itemStart.y ), itemEnd ).Contains( mousePos ) : false;
-
-                    if ( isItemHovered )
-                    {
-                        m_mouseState.m_pHoveredItem = pItem;
-
-                        if ( isHoveredOverLeftHandle )
+                        if ( isItemHovered )
                         {
-                            m_mouseState.m_hoveredItemMode = ItemEditMode::ResizeLeft;
-                        }
-                        else if ( isHoveredOverRightHandle )
-                        {
-                            m_mouseState.m_hoveredItemMode = ItemEditMode::ResizeRight;
-                        }
-                        else
-                        {
+                            m_mouseState.m_pHoveredItem = pItem;
                             m_mouseState.m_hoveredItemMode = ItemEditMode::Move;
                         }
+
+                        pDrawList->AddTriangleFilled( topLeft, topRight, base, GetItemColor( isItemHovered ) );
+
+                        InlineString const itemLabel = pItem->GetLabel();
+                        pDrawList->AddText( topRight + ImVec2( 5, 1 ), 0xFF000000, itemLabel.c_str() );
+                        pDrawList->AddText( topRight + ImVec2( 4, 0 ), ImColor( ImGuiX::Style::s_textColor ), itemLabel.c_str() );
                     }
-
-                    // Draw item
-                    //-------------------------------------------------------------------------
-
-                    ImVec4 itemColor = pItem->GetColor().ToFloat4();
-
-                    // Set selection color first
-                    if ( IsSelected( pItem ) )
+                    else
                     {
-                        itemColor = (Float4) itemColor * 1.45f;
-                    }
+                        float itemEndTime = itemTimeRange.m_end;
+                        float const itemStartX = trackAreaRect.GetTL().x + ( itemTimeRange.m_start - m_viewRange.m_start ) * m_pixelsPerFrame;
+                        float const itemEndX = trackAreaRect.GetTL().x + ( itemEndTime - m_viewRange.m_start ) * m_pixelsPerFrame;
+                        float const itemStartY = trackAreaRect.GetTL().y + g_itemMarginY;
+                        float const itemEndY = trackAreaRect.GetBR().y - g_itemMarginY;
 
-                    // Apply modifiers based on current state
-                    if ( pItem == m_itemEditState.m_pEditedItem )
-                    {
-                        itemColor = (Float4) itemColor * 1.1f;
-                    }
-                    else if ( isItemHovered )
-                    {
-                        itemColor = (Float4) itemColor * 1.15f;
-                    }
+                        ImVec2 const itemStart( itemStartX, itemStartY );
+                        ImVec2 const itemEnd( itemEndX, itemEndY );
 
-                    // Draw actual item
-                    pDrawList->AddRectFilled( itemStart, itemEnd, ImColor( itemColor ), pItem->IsImmediateItem() ? 0.0f : 4.0f );
+                        bool const isItemHovered = ImRect( itemStart, itemEnd ).Contains( mousePos );
+                        bool const isHoveredOverLeftHandle = ( !pItem->IsImmediateItem() && isItemHovered ) ? ImRect( itemStart, ImVec2( itemStart.x + g_itemHandleWidth, itemEnd.y ) ).Contains( mousePos ) : false;
+                        bool const isHoveredOverRightHandle = ( !pItem->IsImmediateItem() && isItemHovered && !isHoveredOverLeftHandle ) ? ImRect( ImVec2( itemEnd.x - g_itemHandleWidth, itemStart.y ), itemEnd ).Contains( mousePos ) : false;
 
-                    InlineString const itemLabel = pItem->GetLabel();
-                    pDrawList->AddText( itemStart + ImVec2( 5, 1 ), 0xFF000000, itemLabel.c_str() );
-                    pDrawList->AddText( itemStart + ImVec2( 4, 0 ), ImColor( ImGuiX::Style::s_textColor ), itemLabel.c_str() );
+                        if ( isItemHovered )
+                        {
+                            m_mouseState.m_pHoveredItem = pItem;
+
+                            if ( isHoveredOverLeftHandle )
+                            {
+                                m_mouseState.m_hoveredItemMode = ItemEditMode::ResizeLeft;
+                            }
+                            else if ( isHoveredOverRightHandle )
+                            {
+                                m_mouseState.m_hoveredItemMode = ItemEditMode::ResizeRight;
+                            }
+                            else
+                            {
+                                m_mouseState.m_hoveredItemMode = ItemEditMode::Move;
+                            }
+                        }
+
+                        pDrawList->AddRectFilled( itemStart, itemEnd, GetItemColor( isItemHovered ), pItem->IsImmediateItem() ? 0.0f : 4.0f);
+
+                        InlineString const itemLabel = pItem->GetLabel();
+                        pDrawList->AddText( itemStart + ImVec2( 5, 1 ), 0xFF000000, itemLabel.c_str() );
+                        pDrawList->AddText( itemStart + ImVec2( 4, 0 ), ImColor( ImGuiX::Style::s_textColor ), itemLabel.c_str() );
+                    }
                 }
 
                 ImGui::PopClipRect();
@@ -1010,7 +1034,15 @@ namespace KRG::Timeline
             {
                 if ( ImGui::MenuItem( "Add Item" ) )
                 {
-                    m_contextMenuState.m_pTrack->CreateItem( m_contextMenuState.m_playheadTimeForMouse < 0.0f ? m_playheadTime : m_contextMenuState.m_playheadTimeForMouse );
+                    // Calculate the appropriate item start time
+                    float itemStartTime = ( m_contextMenuState.m_playheadTimeForMouse < 0.0f ) ? m_playheadTime : m_contextMenuState.m_playheadTimeForMouse;
+
+                    if ( m_isFrameSnappingEnabled )
+                    {
+                        itemStartTime = Math::Floor( itemStartTime );
+                    }
+
+                    m_contextMenuState.m_pTrack->CreateItem( itemStartTime );
                 }
 
                 bool const shouldDeleteTrack = ImGui::MenuItem( "Delete Track" );

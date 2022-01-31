@@ -31,13 +31,13 @@ namespace KRG
 
         //-------------------------------------------------------------------------
 
-        m_workspaceInitContext.m_pTypeRegistry = context.GetSystem<TypeSystem::TypeRegistry>();
-        m_workspaceInitContext.m_pResourceSystem = context.GetSystem<Resource::ResourceSystem>();
+        m_pTypeRegistry = context.GetSystem<TypeSystem::TypeRegistry>();
+        m_pResourceSystem = context.GetSystem<Resource::ResourceSystem>();
         m_pWorldManager = context.GetSystem<EntityWorldManager>();
         m_pRenderingSystem = context.GetSystem<Render::RenderingSystem>();
 
-        m_resourceDB.Initialize( m_workspaceInitContext.m_pTypeRegistry, pResourceSettings->m_rawResourcePath, pResourceSettings->m_compiledResourcePath );
-        m_workspaceInitContext.m_pResourceDatabase = &m_resourceDB;
+        m_resourceDB.Initialize( m_pTypeRegistry, pResourceSettings->m_rawResourcePath, pResourceSettings->m_compiledResourcePath );
+        m_pResourceDatabase = &m_resourceDB;
 
         // Create map editor workspace
         //-------------------------------------------------------------------------
@@ -48,7 +48,7 @@ namespace KRG
         // Create the map editor world
         auto pMapEditorWorld = m_pWorldManager->CreateWorld( EntityWorldType::Editor );
         m_pRenderingSystem->CreateCustomRenderTargetForViewport( pMapEditorWorld->GetViewport(), true );
-        m_pMapEditor = KRG::New<EntityModel::EntityMapEditor>( m_workspaceInitContext, pMapEditorWorld );
+        m_pMapEditor = KRG::New<EntityModel::EntityMapEditor>( this, pMapEditorWorld );
         m_pMapEditor->Initialize( context );
         m_workspaces.emplace_back( m_pMapEditor );
     }
@@ -66,9 +66,9 @@ namespace KRG
 
         m_pWorldManager = nullptr;
         m_pRenderingSystem = nullptr;
-        m_workspaceInitContext.m_pResourceSystem = nullptr;
-        m_workspaceInitContext.m_pTypeRegistry = nullptr;
-        m_workspaceInitContext.m_pResourceDatabase = nullptr;
+        m_pResourceSystem = nullptr;
+        m_pTypeRegistry = nullptr;
+        m_pResourceDatabase = nullptr;
 
         m_resourceDB.Shutdown();
     }
@@ -117,7 +117,7 @@ namespace KRG
             m_pRenderingSystem->CreateCustomRenderTargetForViewport( pPreviewWorld->GetViewport() );
 
             // Create EC workspace
-            auto pWorkspace = KRG::New<EntityModel::EntityCollectionEditor>( m_workspaceInitContext, pPreviewWorld, resourceID );
+            auto pWorkspace = KRG::New<EntityModel::EntityCollectionEditor>( this, pPreviewWorld, resourceID );
             pWorkspace->Initialize( context );
             m_workspaces.emplace_back( pWorkspace );
 
@@ -136,7 +136,7 @@ namespace KRG
             m_pRenderingSystem->CreateCustomRenderTargetForViewport( pPreviewWorld->GetViewport() );
 
             // Create workspace
-            auto pCreatedWorkspace = ResourceWorkspaceFactory::TryCreateWorkspace( m_workspaceInitContext, pPreviewWorld, resourceID );
+            auto pCreatedWorkspace = ResourceWorkspaceFactory::TryCreateWorkspace( this, pPreviewWorld, resourceID );
             KRG_ASSERT( pCreatedWorkspace != nullptr );
             pCreatedWorkspace->Initialize( context );
             m_workspaces.emplace_back( pCreatedWorkspace );
@@ -221,7 +221,7 @@ namespace KRG
             return false;
         }
 
-        return m_workspaceInitContext.m_pTypeRegistry->IsRegisteredResourceType( resourceTypeID );
+        return m_pTypeRegistry->IsRegisteredResourceType( resourceTypeID );
     }
 
     void EditorContext::LoadMap( ResourceID const& mapResourceID ) const
@@ -298,7 +298,7 @@ namespace KRG
 
         auto pPreviewWorld = m_pWorldManager->CreateWorld( EntityWorldType::Game );
         m_pRenderingSystem->CreateCustomRenderTargetForViewport( pPreviewWorld->GetViewport() );
-        m_pGamePreviewer = KRG::New<GamePreviewer>( m_workspaceInitContext, pPreviewWorld );
+        m_pGamePreviewer = KRG::New<GamePreviewer>( this, pPreviewWorld );
         m_pGamePreviewer->Initialize( context );
         m_pGamePreviewer->LoadMapToPreview( m_pMapEditor->GetLoadedMap() );
         m_workspaces.emplace_back( m_pGamePreviewer );

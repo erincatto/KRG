@@ -2,6 +2,7 @@
 #include "Tools/Core/Resource/Compilers/ResourceDescriptor.h"
 #include "Tools/Core/Resource/ResourceDatabase.h"
 #include "Tools/Core/ThirdParty/pfd/portable-file-dialogs.h"
+#include "Tools/Core/ToolsContext.h"
 #include "System/Core/FileSystem/FileSystem.h"
 #include "imgui.h"
 
@@ -9,11 +10,11 @@
 
 namespace KRG::Resource
 {
-    RawResourceInspector::RawResourceInspector( TypeSystem::TypeRegistry const& typeRegistry, Resource::ResourceDatabase const& resourceDatabase, FileSystem::Path const& filePath )
-        : m_typeRegistry( typeRegistry )
-        , m_rawResourceDirectory( resourceDatabase.GetRawResourceDirectoryPath() )
+    RawResourceInspector::RawResourceInspector( ToolsContext const* pToolsContext, FileSystem::Path const& filePath )
+        : m_pToolsContext( pToolsContext )
+        , m_rawResourceDirectory( pToolsContext->m_pResourceDatabase->GetRawResourceDirectoryPath() )
         , m_filePath( filePath )
-        , m_propertyGrid( typeRegistry, resourceDatabase )
+        , m_propertyGrid( pToolsContext )
     {
         KRG_ASSERT( m_rawResourceDirectory.IsDirectory() && FileSystem::Exists( m_rawResourceDirectory ) );
         KRG_ASSERT( filePath.IsFile() && FileSystem::Exists( filePath ) );
@@ -100,7 +101,7 @@ namespace KRG::Resource
 
         //-------------------------------------------------------------------------
 
-        TypeSystem::Serialization::TypeWriter typeWriter( m_typeRegistry );
+        TypeSystem::Serialization::TypeWriter typeWriter( *m_pToolsContext->m_pTypeRegistry );
         typeWriter << pDescriptor;
         return typeWriter.WriteToFile( newDescriptorPath );
     }
@@ -129,7 +130,7 @@ namespace KRG::Resource
         return false;
     }
 
-    RawResourceInspector* RawResourceInspectorFactory::TryCreateInspector( TypeSystem::TypeRegistry const& typeRegistry, Resource::ResourceDatabase const& resourceDatabase, FileSystem::Path const& filePath )
+    RawResourceInspector* RawResourceInspectorFactory::TryCreateInspector( ToolsContext const* pToolsContext, FileSystem::Path const& filePath )
     {
         KRG_ASSERT( filePath.IsValid() );
 
@@ -138,7 +139,7 @@ namespace KRG::Resource
         {
             if ( pCurrentFactory->IsSupportedFile( filePath ) )
             {
-                return pCurrentFactory->CreateInspector( typeRegistry, resourceDatabase, filePath );
+                return pCurrentFactory->CreateInspector( pToolsContext, filePath );
             }
 
             pCurrentFactory = pCurrentFactory->GetNextItem();

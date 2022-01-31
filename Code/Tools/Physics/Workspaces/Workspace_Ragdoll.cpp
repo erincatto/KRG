@@ -382,11 +382,11 @@ namespace KRG::Physics
 
     //-------------------------------------------------------------------------
 
-    RagdollWorkspace::RagdollWorkspace( WorkspaceInitializationContext const& context, EntityWorld* pWorld, ResourceID const& resourceID, bool shouldLoadResource )
-        : TResourceWorkspace<RagdollDefinition>( context, pWorld, resourceID, shouldLoadResource )
-        , m_bodyEditorPropertyGrid( *m_pTypeRegistry, *m_pResourceDatabase )
-        , m_solverSettingsGrid( *m_pTypeRegistry, *m_pResourceDatabase )
-        , m_resourceFilePicker( *m_pResourceDatabase )
+    RagdollWorkspace::RagdollWorkspace( ToolsContext const* pToolsContext, EntityWorld* pWorld, ResourceID const& resourceID, bool shouldLoadResource )
+        : TResourceWorkspace<RagdollDefinition>( pToolsContext, pWorld, resourceID, shouldLoadResource )
+        , m_bodyEditorPropertyGrid( pToolsContext )
+        , m_solverSettingsGrid( pToolsContext )
+        , m_resourceFilePicker( *pToolsContext->m_pResourceDatabase )
     {
         SetViewportCameraSpeed( 5.0f );
         SetWorldTimeControlsEnabled( true );
@@ -528,7 +528,7 @@ namespace KRG::Physics
             // Load resource descriptor for skeleton to get the preview mesh
             auto resourceDescPath = GetFileSystemPath( m_pSkeleton.GetResourcePath() );
             Animation::SkeletonResourceDescriptor skeletonResourceDesc;
-            bool const result = TryReadResourceDescriptorFromFile( *m_pTypeRegistry, resourceDescPath, skeletonResourceDesc );
+            bool const result = TryReadResourceDescriptorFromFile( *m_pToolsContext->m_pTypeRegistry, resourceDescPath, skeletonResourceDesc );
             KRG_ASSERT( result );
 
             // Create preview entity

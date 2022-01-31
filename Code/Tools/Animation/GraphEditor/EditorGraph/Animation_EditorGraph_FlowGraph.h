@@ -86,7 +86,7 @@ namespace KRG::Animation
             virtual ResourceTypeID GetSlotResourceTypeID() const { return ResourceTypeID(); }
 
             // This will return the final resolved resource value for this slot
-            ResourceID GetValue( VariationHierarchy const& variationHierarchy, StringID variationID ) const;
+            ResourceID GetResourceID( VariationHierarchy const& variationHierarchy, StringID variationID ) const;
 
             // This sets the resource for the default variation
             void SetDefaultResourceID( ResourceID const& defaultResourceID )

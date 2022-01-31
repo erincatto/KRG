@@ -55,11 +55,11 @@ namespace KRG
 
     //-------------------------------------------------------------------------
 
-    GenericResourceWorkspace::GenericResourceWorkspace( WorkspaceInitializationContext const& context, EntityWorld* pWorld, ResourceID const& resourceID )
-        : EditorWorkspace( context, pWorld, resourceID.GetFileNameWithoutExtension() )
+    GenericResourceWorkspace::GenericResourceWorkspace( ToolsContext const* pToolsContext, EntityWorld* pWorld, ResourceID const& resourceID )
+        : EditorWorkspace( pToolsContext, pWorld, resourceID.GetFileNameWithoutExtension() )
         , m_descriptorID( resourceID )
         , m_descriptorPath( GetFileSystemPath( resourceID ) )
-        , m_descriptorPropertyGrid( *context.m_pTypeRegistry, *context.m_pResourceDatabase )
+        , m_descriptorPropertyGrid( m_pToolsContext )
     {
         KRG_ASSERT( resourceID.IsValid() );
         m_preEditEventBindingID = m_descriptorPropertyGrid.OnPreEdit().Bind( [this] ( PropertyEditInfo const& info ) { PreEdit( info ); } );
@@ -113,13 +113,13 @@ namespace KRG
     void GenericResourceWorkspace::LoadDescriptor()
     {
         KRG_ASSERT( m_pDescriptor == nullptr );
-        TypeSystem::Serialization::TypeReader typeReader( *m_pTypeRegistry );
+        TypeSystem::Serialization::TypeReader typeReader( *m_pToolsContext->m_pTypeRegistry );
         if ( typeReader.ReadFromFile( m_descriptorPath ) )
         {
             TypeSystem::TypeDescriptor typeDesc;
             if ( typeReader.ReadType( typeDesc ) )
             {
-                m_pDescriptor = typeDesc.CreateTypeInstance<Resource::ResourceDescriptor>( *m_pTypeRegistry );
+                m_pDescriptor = typeDesc.CreateTypeInstance<Resource::ResourceDescriptor>( *m_pToolsContext->m_pTypeRegistry );
                 m_descriptorPropertyGrid.SetTypeToEdit( m_pDescriptor );
             }
         }
@@ -198,7 +198,7 @@ namespace KRG
         KRG_ASSERT( m_descriptorID.IsValid() && m_descriptorPath.IsFile() );
         KRG_ASSERT( m_pDescriptor != nullptr );
         
-        if ( WriteResourceDescriptorToFile( *m_pTypeRegistry, m_descriptorPath, m_pDescriptor ) )
+        if ( WriteResourceDescriptorToFile( *m_pToolsContext->m_pTypeRegistry, m_descriptorPath, m_pDescriptor ) )
         {
             m_descriptorPropertyGrid.ClearDirty();
             m_isDirty = false;
@@ -224,7 +224,7 @@ namespace KRG
     {
         if ( m_beginModificationCallCount == 0 )
         {
-            auto pUndoableAction = KRG::New<ResourceDescriptorUndoableAction>( *m_pTypeRegistry, this );
+            auto pUndoableAction = KRG::New<ResourceDescriptorUndoableAction>( *m_pToolsContext->m_pTypeRegistry, this );
             pUndoableAction->SerializeBeforeState();
             m_pActiveUndoableAction = pUndoableAction;
         }
@@ -266,7 +266,7 @@ namespace KRG
         return false;
     }
 
-    EditorWorkspace* ResourceWorkspaceFactory::TryCreateWorkspace( WorkspaceInitializationContext const& context, EntityWorld* pWorld, ResourceID const& resourceID )
+    EditorWorkspace* ResourceWorkspaceFactory::TryCreateWorkspace( ToolsContext const* pToolsContext, EntityWorld* pWorld, ResourceID const& resourceID )
     {
         KRG_ASSERT( resourceID.IsValid() );
         auto resourceTypeID = resourceID.GetResourceTypeID();
@@ -277,7 +277,7 @@ namespace KRG
         {
             if ( resourceTypeID == pCurrentFactory->GetSupportedResourceTypeID() )
             {
-                return pCurrentFactory->CreateWorkspace( context, pWorld, resourceID );
+                return pCurrentFactory->CreateWorkspace( pToolsContext, pWorld, resourceID );
             }
 
             pCurrentFactory = pCurrentFactory->GetNextItem();
@@ -286,6 +286,6 @@ namespace KRG
         // Create generic descriptor workspace
         //-------------------------------------------------------------------------
 
-        return KRG::New<GenericResourceWorkspace>( context, pWorld, resourceID );
+        return KRG::New<GenericResourceWorkspace>( pToolsContext, pWorld, resourceID );
     }
 }

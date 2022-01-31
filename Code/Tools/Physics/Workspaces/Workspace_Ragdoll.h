@@ -53,7 +53,7 @@ namespace KRG::Physics
 
     public:
 
-        RagdollWorkspace( WorkspaceInitializationContext const& context, EntityWorld* pWorld, ResourceID const& resourceID, bool shouldLoadResource = true );
+        RagdollWorkspace( ToolsContext const* pToolsContext, EntityWorld* pWorld, ResourceID const& resourceID, bool shouldLoadResource = true );
         virtual ~RagdollWorkspace();
 
     private:

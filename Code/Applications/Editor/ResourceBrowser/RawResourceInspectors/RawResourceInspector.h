@@ -31,7 +31,7 @@ namespace KRG::Resource
 
     public:
 
-        RawResourceInspector( TypeSystem::TypeRegistry const& typeRegistry, Resource::ResourceDatabase const& resourceDatabase, FileSystem::Path const& filePath );
+        RawResourceInspector( ToolsContext const* pToolsContext, FileSystem::Path const& filePath );
         virtual ~RawResourceInspector();
 
         // Get the actual file-path for the file
@@ -60,7 +60,7 @@ namespace KRG::Resource
 
     protected:
 
-        TypeSystem::TypeRegistry const&     m_typeRegistry;
+        ToolsContext const*                 m_pToolsContext = nullptr;
         FileSystem::Path                    m_rawResourceDirectory;
         FileSystem::Path                    m_filePath;
         ResourceDescriptor*                 m_pDescriptor = nullptr;
@@ -79,7 +79,7 @@ namespace KRG::Resource
     public:
 
         static bool CanCreateInspector( FileSystem::Path const& filePath );
-        static RawResourceInspector* TryCreateInspector( TypeSystem::TypeRegistry const& typeRegistry, Resource::ResourceDatabase const& resourceDatabase, FileSystem::Path const& filePath );
+        static RawResourceInspector* TryCreateInspector( ToolsContext const* pToolsContext, FileSystem::Path const& filePath );
 
     protected:
 
@@ -87,7 +87,7 @@ namespace KRG::Resource
         virtual bool IsSupportedFile( FileSystem::Path const& filePath ) const = 0;
 
         // Virtual method that will create a workspace if the resource ID matches the appropriate types
-        virtual RawResourceInspector* CreateInspector( TypeSystem::TypeRegistry const& typeRegistry, Resource::ResourceDatabase const& resourceDatabase, FileSystem::Path const& filePath ) const = 0;
+        virtual RawResourceInspector* CreateInspector( ToolsContext const* pToolsContext, FileSystem::Path const& filePath ) const = 0;
     };
 }
 
@@ -101,10 +101,10 @@ namespace KRG::Resource
 class FactoryName final : public RawResourceInspectorFactory\
 {\
     virtual bool IsSupportedFile( FileSystem::Path const& filePath) const override { return filePath.GetLowercaseExtensionAsString() == RawFileExtension; }\
-    virtual RawResourceInspector* CreateInspector( TypeSystem::TypeRegistry const& typeRegistry, Resource::ResourceDatabase const& resourceDatabase, FileSystem::Path const& filePath ) const override\
+    virtual RawResourceInspector* CreateInspector( ToolsContext const* pToolsContext, FileSystem::Path const& filePath ) const override\
     {\
         KRG_ASSERT( IsSupportedFile( filePath ) );\
-        return KRG::New<EditorClass>( typeRegistry, resourceDatabase, filePath );\
+        return KRG::New<EditorClass>( pToolsContext, filePath );\
     }\
 };\
 static FactoryName g_##FactoryName;

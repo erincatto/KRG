@@ -1,4 +1,6 @@
 #pragma once
+
+#include "Tools/Core/ToolsContext.h"
 #include "System/Core/Types/IntegralTypes.h"
 #include "System/TypeSystem/CoreTypeIDs.h"
 
@@ -20,7 +22,7 @@ namespace KRG::TypeSystem
 
     public:
 
-        PropertyEditor( TypeRegistry const& typeRegistry, PropertyInfo const& propertyInfo, Byte* pPropertyInstance );
+        PropertyEditor( ToolsContext const* pToolsContext, PropertyInfo const& propertyInfo, Byte* pPropertyInstance );
         virtual ~PropertyEditor() = default;
 
         // Returns true if the value was updated
@@ -39,7 +41,7 @@ namespace KRG::TypeSystem
 
     protected:
 
-        TypeRegistry const&     m_typeRegistry;
+        ToolsContext const*     m_pToolsContext;
         PropertyInfo const&     m_propertyInfo;
         Byte*                   m_pPropertyInstance;
         CoreTypeID const        m_coreType;
@@ -47,5 +49,5 @@ namespace KRG::TypeSystem
 
     //-------------------------------------------------------------------------
 
-    PropertyEditor* CreatePropertyEditor( TypeRegistry const& typeRegistry, Resource::ResourceFilePicker& resourcePicker, PropertyInfo const& propertyInfo, Byte* pPropertyInstance );
+    PropertyEditor* CreatePropertyEditor( ToolsContext const* pToolsContext, Resource::ResourceFilePicker& resourcePicker, PropertyInfo const& propertyInfo, Byte* pPropertyInstance );
 }

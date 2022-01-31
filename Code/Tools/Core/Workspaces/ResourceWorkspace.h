@@ -26,7 +26,7 @@ namespace KRG
 
     public:
 
-        GenericResourceWorkspace( WorkspaceInitializationContext const& context, EntityWorld* pWorld, ResourceID const& resourceID );
+        GenericResourceWorkspace( ToolsContext const* pToolsContext, EntityWorld* pWorld, ResourceID const& resourceID );
         ~GenericResourceWorkspace();
 
     protected:
@@ -113,8 +113,8 @@ namespace KRG
     public:
 
         // Specify whether to initially load the resource, this is not necessary for all editors
-        TResourceWorkspace( WorkspaceInitializationContext const& context, EntityWorld* pWorld, ResourceID const& resourceID, bool shouldLoadResource = true )
-            : GenericResourceWorkspace( context, pWorld, resourceID )
+        TResourceWorkspace( ToolsContext const* pToolsContext, EntityWorld* pWorld, ResourceID const& resourceID, bool shouldLoadResource = true )
+            : GenericResourceWorkspace( pToolsContext, pWorld, resourceID )
             , m_pResource( resourceID )
         {
             KRG_ASSERT( resourceID.IsValid() );
@@ -162,7 +162,7 @@ namespace KRG
     public:
 
         static bool HasCustomWorkspace( ResourceTypeID const& resourceTypeID );
-        static EditorWorkspace* TryCreateWorkspace( WorkspaceInitializationContext const& context, EntityWorld* pWorld, ResourceID const& resourceID );
+        static EditorWorkspace* TryCreateWorkspace( ToolsContext const* pToolsContext, EntityWorld* pWorld, ResourceID const& resourceID );
 
     protected:
 
@@ -170,7 +170,7 @@ namespace KRG
         virtual ResourceTypeID GetSupportedResourceTypeID() const = 0;
 
         // Virtual method that will create a workspace if the resource ID matches the appropriate types
-        virtual EditorWorkspace* CreateWorkspace( WorkspaceInitializationContext const& context, EntityWorld* pWorld, ResourceID const& resourceID ) const = 0;
+        virtual EditorWorkspace* CreateWorkspace( ToolsContext const* pToolsContext, EntityWorld* pWorld, ResourceID const& resourceID ) const = 0;
     };
 }
 
@@ -183,10 +183,10 @@ namespace KRG
 class factoryName final : public ResourceWorkspaceFactory\
 {\
     virtual ResourceTypeID GetSupportedResourceTypeID() const override { return resourceClass::GetStaticResourceTypeID(); }\
-    virtual EditorWorkspace* CreateWorkspace( WorkspaceInitializationContext const& context, EntityWorld* pWorld, ResourceID const& resourceID ) const override\
+    virtual EditorWorkspace* CreateWorkspace( ToolsContext const* pToolsContext, EntityWorld* pWorld, ResourceID const& resourceID ) const override\
     {\
         KRG_ASSERT( resourceID.GetResourceTypeID() == resourceClass::GetStaticResourceTypeID() );\
-        return KRG::New<workspaceClass>( context, pWorld, resourceID );\
+        return KRG::New<workspaceClass>( pToolsContext, pWorld, resourceID );\
     }\
 };\
 static factoryName g_##factoryName;

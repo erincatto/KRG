@@ -89,9 +89,9 @@ namespace KRG::Animation
 
     //-------------------------------------------------------------------------
 
-    AnimationGraphWorkspace::AnimationGraphWorkspace( WorkspaceInitializationContext const& context, EntityWorld* pWorld, ResourceID const& resourceID )
-        : TResourceWorkspace<GraphDefinition>( context, pWorld, resourceID, false )
-        , m_propertyGrid( *context.m_pTypeRegistry, *context.m_pResourceDatabase )
+    AnimationGraphWorkspace::AnimationGraphWorkspace( ToolsContext const* pToolsContext, EntityWorld* pWorld, ResourceID const& resourceID )
+        : TResourceWorkspace<GraphDefinition>( pToolsContext, pWorld, resourceID, false )
+        , m_propertyGrid( m_pToolsContext )
     {
         SetViewportCameraSpeed( 10.0f );
         SetWorldTimeControlsEnabled( true );
@@ -113,7 +113,7 @@ namespace KRG::Animation
 
             // Try to load the graph from the file
             m_pGraphDefinition = KRG::New<EditorGraphDefinition>();
-            graphLoadFailed = !m_pGraphDefinition->LoadFromJson( *m_pTypeRegistry, reader.GetDocument() );
+            graphLoadFailed = !m_pGraphDefinition->LoadFromJson( *m_pToolsContext->m_pTypeRegistry, reader.GetDocument() );
 
             // Load failed, so clean up and create a new graph
             if ( graphLoadFailed )
@@ -131,8 +131,8 @@ namespace KRG::Animation
         //-------------------------------------------------------------------------
 
         m_pControlParameterEditor = KRG::New<GraphControlParameterEditor>( m_pGraphDefinition );
-        m_pVariationEditor = KRG::New<GraphVariationEditor>( m_pResourceDatabase, m_pGraphDefinition );
-        m_pGraphEditor = KRG::New<GraphEditor>( *m_pTypeRegistry, *context.m_pResourceDatabase, m_pGraphDefinition );
+        m_pVariationEditor = KRG::New<GraphVariationEditor>( m_pToolsContext->m_pResourceDatabase, m_pGraphDefinition );
+        m_pGraphEditor = KRG::New<GraphEditor>( m_pToolsContext, m_pGraphDefinition );
 
         // Bind events
         //-------------------------------------------------------------------------
@@ -143,7 +143,7 @@ namespace KRG::Animation
             {
                 KRG_ASSERT( m_pActiveUndoableAction == nullptr );
 
-                m_pActiveUndoableAction = KRG::New<GraphUndoableAction>( this, *m_pTypeRegistry, m_pGraphDefinition );
+                m_pActiveUndoableAction = KRG::New<GraphUndoableAction>( this, *m_pToolsContext->m_pTypeRegistry, m_pGraphDefinition );
                 m_pActiveUndoableAction->SerializeBeforeState();
             }
         };
@@ -227,6 +227,7 @@ namespace KRG::Animation
             pDebugContext = &m_debugContext;
         }
 
+        // Control Parameters
         //-------------------------------------------------------------------------
 
         if ( m_pControlParameterEditor->UpdateAndDraw( context, pDebugContext, pWindowClass, m_controlParametersWindowName.c_str() ) )
@@ -238,8 +239,15 @@ namespace KRG::Animation
             }
         }
 
-        m_pGraphEditor->UpdateAndDraw( context, pDebugContext, pWindowClass, m_graphViewWindowName.c_str() );
+        // Variation Editor
+        //-------------------------------------------------------------------------
+
         m_pVariationEditor->UpdateAndDraw( context, pWindowClass, m_variationEditorWindowName.c_str() );
+
+        // Graph Editor
+        //-------------------------------------------------------------------------
+
+        m_pGraphEditor->UpdateAndDraw( context, pDebugContext, pWindowClass, m_graphViewWindowName.c_str() );
 
         // Property Grid
         //-------------------------------------------------------------------------
@@ -254,8 +262,6 @@ namespace KRG::Animation
             m_propertyGrid.SetTypeToEdit( selection.back().m_pNode );
         }
 
-        //-------------------------------------------------------------------------
-
         ImGui::SetNextWindowClass( pWindowClass );
         if ( ImGui::Begin( m_propertyGridWindowName.c_str() ) )
         {
@@ -263,6 +269,7 @@ namespace KRG::Animation
         }
         ImGui::End();
 
+        // Debugger
         //-------------------------------------------------------------------------
 
         ImGui::SetNextWindowClass( pWindowClass );
@@ -421,7 +428,7 @@ namespace KRG::Animation
             InlineString const variationPathStr = GenerateFilePathForVariation( m_graphFilePath, variation.m_ID );
             FileSystem::Path const variationPath( variationPathStr.c_str() );
 
-            WriteResourceDescriptorToFile( *m_pTypeRegistry, variationPath, &resourceDesc );
+            WriteResourceDescriptorToFile( *m_pToolsContext->m_pTypeRegistry, variationPath, &resourceDesc );
         }
     }
 
@@ -429,7 +436,7 @@ namespace KRG::Animation
     {
         KRG_ASSERT( m_graphFilePath.IsValid() );
         JsonWriter writer;
-        m_pGraphDefinition->SaveToJson( *m_pTypeRegistry, *writer.GetWriter() );
+        m_pGraphDefinition->SaveToJson( *m_pToolsContext->m_pTypeRegistry, *writer.GetWriter() );
         if ( writer.WriteToFile( m_graphFilePath ) )
         {
             GenerateAnimGraphVariationDescriptors();
@@ -518,7 +525,7 @@ namespace KRG::Animation
             // Load resource descriptor for skeleton to get the preview mesh
             FileSystem::Path const resourceDescPath = GetFileSystemPath( pVariation->m_pSkeleton.GetResourcePath() );
             SkeletonResourceDescriptor resourceDesc;
-            if ( TryReadResourceDescriptorFromFile( *m_pTypeRegistry, resourceDescPath, resourceDesc ) )
+            if ( TryReadResourceDescriptorFromFile( *m_pToolsContext->m_pTypeRegistry, resourceDescPath, resourceDesc ) )
             {
                 // Create a preview mesh component
                 auto pMeshComponent = KRG::New<Render::SkeletalMeshComponent>( StringID( "Mesh Component" ) );

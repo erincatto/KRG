@@ -189,6 +189,7 @@
     <ClInclude Include="VisualGraph\VisualGraph_StateMachineGraph.h" />
     <ClInclude Include="VisualGraph\VisualGraph_View.h" />
     <ClInclude Include="Widgets\TreeListView.h" />
+    <ClInclude Include="ToolsContext.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ThirdParty\sqlite\SqliteHelpers.cpp">

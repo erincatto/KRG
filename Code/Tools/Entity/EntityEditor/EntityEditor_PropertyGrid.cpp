@@ -7,7 +7,7 @@ namespace KRG::EntityModel
 {
     EntityEditorPropertyGrid::EntityEditorPropertyGrid( EntityEditorContext& ctx )
         : m_context( ctx )
-        , m_propertyGrid( ctx.m_typeRegistry, ctx.m_resourceDB )
+        , m_propertyGrid( ctx.m_pToolsContext )
     {
         m_preEditBindingID = m_propertyGrid.OnPreEdit().Bind( [this] ( PropertyEditInfo const& eventInfo ) { PreEdit( eventInfo ); } );
         m_postEditBindingID = m_propertyGrid.OnPostEdit().Bind( [this] ( PropertyEditInfo const& eventInfo ) { PostEdit( eventInfo ); } );

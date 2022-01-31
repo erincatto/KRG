@@ -21,4 +21,10 @@
       <AdditionalLibraryDirectories>$(PhysxLibDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
+  <Target Name="PhysX_CopyDLL" BeforeTargets="Build">
+    <Copy SkipUnchangedFiles="True" SourceFiles="$(PhysxLibDir)PhysX_64.dll;$(PhysxLibDir)PhysXCommon_64.dll;$(PhysxLibDir)PhysXCooking_64.dll;$(PhysxLibDir)PhysXFoundation_64.dll;$(PhysxLibDir)PhysXGpu_64.dll" DestinationFolder="$(OutDir)" />
+  </Target>
+  <Target Name="PhysX_CleanDLL" BeforeTargets="Clean">
+    <Delete Files="$(OutDir)PhysX_64.dll;$(OutDir)PhysXCommon_64.dll;$(OutDir)PhysXCooking_64.dll;$(OutDir)PhysXFoundation_64.dll;$(OutDir)PhysXGpu_64.dll" />
+  </Target>
 </Project>

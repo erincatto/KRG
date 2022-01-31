@@ -16,7 +16,7 @@ namespace KRG::EntityModel
     {
     public:
 
-        EntityEditorBaseWorkspace( WorkspaceInitializationContext const& context, EntityWorld * pWorld );
+        EntityEditorBaseWorkspace( ToolsContext const* pToolsContext, EntityWorld * pWorld );
 
         virtual void Initialize( UpdateContext const& context ) override;
         virtual void Shutdown( UpdateContext const& context ) override;

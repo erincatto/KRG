@@ -17,11 +17,6 @@
   <ItemGroup>
     <None Include="Reflect.nmake" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Deploy\KRG.Scripts.Deploy.vcxproj">
-      <Project>{daca4cdd-0729-4016-81a6-a29225649cb6}</Project>
-    </ProjectReference>
-  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{22D8D0D3-3D46-43AC-BAE5-FA588D2CAC0E}</ProjectGuid>

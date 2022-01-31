@@ -17,15 +17,13 @@ namespace KRG
 
     //-------------------------------------------------------------------------
 
-    EditorWorkspace::EditorWorkspace( WorkspaceInitializationContext const& context, EntityWorld* pWorld, String const& displayName )
-        : m_pTypeRegistry( context.m_pTypeRegistry )
-        , m_pResourceDatabase( context.m_pResourceDatabase )
-        , m_pResourceSystem( context.m_pResourceSystem )
+    EditorWorkspace::EditorWorkspace( ToolsContext const* pToolsContext, EntityWorld* pWorld, String const& displayName )
+        : m_pToolsContext( pToolsContext )
         , m_pWorld( pWorld )
         , m_displayName( displayName )
     {
         KRG_ASSERT( m_pWorld != nullptr );
-        KRG_ASSERT( m_pTypeRegistry != nullptr && m_pResourceDatabase != nullptr && m_pResourceSystem != nullptr );
+        KRG_ASSERT( m_pToolsContext != nullptr && m_pToolsContext->IsValid() );
     }
 
     EditorWorkspace::~EditorWorkspace()
@@ -367,14 +365,14 @@ namespace KRG
         KRG_ASSERT( pResourcePtr != nullptr && pResourcePtr->IsUnloaded() );
         KRG_ASSERT( !VectorContains( m_requestedResources, pResourcePtr ) );
         m_requestedResources.emplace_back( pResourcePtr );
-        m_pResourceSystem->LoadResource( *pResourcePtr );
+        m_pToolsContext->m_pResourceSystem->LoadResource( *pResourcePtr );
     }
 
     void EditorWorkspace::UnloadResource( Resource::ResourcePtr* pResourcePtr )
     {
         KRG_ASSERT( !pResourcePtr->IsUnloaded() );
         KRG_ASSERT( VectorContains( m_requestedResources, pResourcePtr ) );
-        m_pResourceSystem->UnloadResource( *pResourcePtr );
+        m_pToolsContext->m_pResourceSystem->UnloadResource( *pResourcePtr );
         m_requestedResources.erase_first_unsorted( pResourcePtr );
     }
 
@@ -431,7 +429,7 @@ namespace KRG
             // Request unload and track the resource we need to reload
             if ( shouldUnload )
             {
-                m_pResourceSystem->UnloadResource( *pLoadedResource );
+                m_pToolsContext->m_pResourceSystem->UnloadResource( *pLoadedResource );
                 m_reloadingResources.emplace_back( pLoadedResource );
             }
         }
@@ -441,7 +439,7 @@ namespace KRG
     {
         for( auto& pReloadedResource : m_reloadingResources )
         {
-            m_pResourceSystem->LoadResource( *pReloadedResource );
+            m_pToolsContext->m_pResourceSystem->LoadResource( *pReloadedResource );
         }
         m_reloadingResources.clear();
     }

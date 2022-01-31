@@ -7,8 +7,8 @@
 
 namespace KRG::EntityModel
 {
-    EntityCollectionEditor::EntityCollectionEditor( WorkspaceInitializationContext const& context, EntityWorld* pWorld, ResourceID const& collectionResourceID )
-        : EntityEditorBaseWorkspace( context, pWorld )
+    EntityCollectionEditor::EntityCollectionEditor( ToolsContext const* pToolsContext, EntityWorld* pWorld, ResourceID const& collectionResourceID )
+        : EntityEditorBaseWorkspace( pToolsContext, pWorld )
         , m_collection( collectionResourceID )
     {
         SetDisplayName( collectionResourceID.GetFileNameWithoutExtension() );
@@ -46,13 +46,13 @@ namespace KRG::EntityModel
         }
 
         EntityCollectionDescriptor ecd;
-        if ( !pEditedMap->CreateDescriptor( *m_pTypeRegistry, ecd ) )
+        if ( !pEditedMap->CreateDescriptor( m_context.GetTypeRegistry(), ecd) )
         {
             return false;
         }
 
         FileSystem::Path const filePath = GetFileSystemPath( m_collection.GetResourcePath() );
-        return Serialization::WriteEntityCollectionToFile( *m_pTypeRegistry, ecd, filePath);
+        return Serialization::WriteEntityCollectionToFile( m_context.GetTypeRegistry(), ecd, filePath);
     }
 
     //-------------------------------------------------------------------------
@@ -65,7 +65,7 @@ namespace KRG::EntityModel
             {
                 // Create transient map for the collection editing
                 auto pMap = m_pWorld->CreateTransientMap();
-                pMap->AddEntityCollection( context.GetSystem<TaskSystem>(), m_context.m_typeRegistry, *m_collection.GetPtr() );
+                pMap->AddEntityCollection( context.GetSystem<TaskSystem>(), m_context.GetTypeRegistry(), *m_collection.GetPtr() );
                 
                 // Unload the collection resource
                 m_collectionInstantiated = true;

@@ -244,13 +244,14 @@ namespace KRG::EntityModel
 
 namespace KRG::EntityModel
 {
-    EntityEditorContext::EntityEditorContext( TypeSystem::TypeRegistry const& typeRegistry, Resource::ResourceDatabase const& resourceDB, EntityWorld* pWorld, UndoStack& undoStack )
-        : m_typeRegistry( typeRegistry )
-        , m_resourceDB( resourceDB )
+    EntityEditorContext::EntityEditorContext( ToolsContext const* pToolsContext, EntityWorld* pWorld, UndoStack& undoStack )
+        : m_pToolsContext( pToolsContext )
         , m_undoStack( undoStack )
         , m_pWorld( pWorld )
-        , m_volumeTypes( m_typeRegistry.GetAllDerivedTypes( VolumeComponent::GetStaticTypeID(), false, false, true ) )
-    {}
+        , m_volumeTypes( pToolsContext->m_pTypeRegistry->GetAllDerivedTypes( VolumeComponent::GetStaticTypeID(), false, false, true ) )
+    {
+        KRG_ASSERT( m_pToolsContext != nullptr && m_pToolsContext->IsValid() );
+    }
 
     void EntityEditorContext::SetMapToUse( ResourceID const& resourceID )
     {
@@ -325,7 +326,7 @@ namespace KRG::EntityModel
         KRG_ASSERT( m_pActiveUndoableAction == nullptr );
 
         // Record undo action
-        m_pActiveUndoableAction = KRG::New<EntityEditorUndoableAction>( m_typeRegistry, m_pMap );
+        m_pActiveUndoableAction = KRG::New<EntityEditorUndoableAction>( *m_pToolsContext->m_pTypeRegistry, m_pMap );
         m_pActiveUndoableAction->RecordBeginEdit( entities );
     }
 
@@ -696,7 +697,7 @@ namespace KRG::EntityModel
         }
 
         // Create undo action
-        m_pActiveUndoableAction = KRG::New<EntityEditorUndoableAction>( m_typeRegistry, m_pMap );
+        m_pActiveUndoableAction = KRG::New<EntityEditorUndoableAction>( *m_pToolsContext->m_pTypeRegistry, m_pMap );
         m_pActiveUndoableAction->RecordBeginEdit( m_selectedEntities, duplicateSelection );
 
         // Apply transform modification
@@ -768,7 +769,7 @@ namespace KRG::EntityModel
         SelectEntity( pEntity );
 
         // Record undo action
-        m_pActiveUndoableAction = KRG::New<EntityEditorUndoableAction>( m_typeRegistry, m_pMap );
+        m_pActiveUndoableAction = KRG::New<EntityEditorUndoableAction>( *m_pToolsContext->m_pTypeRegistry, m_pMap );
         m_pActiveUndoableAction->RecordCreate( { pEntity } );
         m_undoStack.RegisterAction( m_pActiveUndoableAction );
         m_pActiveUndoableAction = nullptr;
@@ -787,9 +788,9 @@ namespace KRG::EntityModel
         for ( auto pEntity : m_selectedEntities )
         {
             EntityDescriptor entityDesc;
-            if ( pEntity->CreateDescriptor( m_typeRegistry, entityDesc ) )
+            if ( pEntity->CreateDescriptor( *m_pToolsContext->m_pTypeRegistry, entityDesc ) )
             {
-                auto pDuplicatedEntity = Entity::CreateFromDescriptor( m_typeRegistry, entityDesc );
+                auto pDuplicatedEntity = Entity::CreateFromDescriptor( *m_pToolsContext->m_pTypeRegistry, entityDesc );
                 duplicatedEntities.emplace_back( pDuplicatedEntity );
                 m_pMap->AddEntity( pDuplicatedEntity );
             }
@@ -809,7 +810,7 @@ namespace KRG::EntityModel
         ClearSelection();
 
         // Record undo action
-        m_pActiveUndoableAction = KRG::New<EntityEditorUndoableAction>( m_typeRegistry, m_pMap );
+        m_pActiveUndoableAction = KRG::New<EntityEditorUndoableAction>( *m_pToolsContext->m_pTypeRegistry, m_pMap );
         m_pActiveUndoableAction->RecordDelete( { pEntity } );
         m_undoStack.RegisterAction( m_pActiveUndoableAction );
         m_pActiveUndoableAction = nullptr;
@@ -831,7 +832,7 @@ namespace KRG::EntityModel
         ClearSelection();
 
         // Record undo action
-        m_pActiveUndoableAction = KRG::New<EntityEditorUndoableAction>( m_typeRegistry, m_pMap );
+        m_pActiveUndoableAction = KRG::New<EntityEditorUndoableAction>( *m_pToolsContext->m_pTypeRegistry, m_pMap );
         m_pActiveUndoableAction->RecordDelete( m_entityDeletionRequests );
         m_undoStack.RegisterAction( m_pActiveUndoableAction );
         m_pActiveUndoableAction = nullptr;
@@ -843,7 +844,7 @@ namespace KRG::EntityModel
         KRG_ASSERT( pEntity != nullptr );
         KRG_ASSERT( m_pMap->ContainsEntity( pEntity->GetID() ) );
 
-        m_pActiveUndoableAction = KRG::New<EntityEditorUndoableAction>( m_typeRegistry, m_pMap );
+        m_pActiveUndoableAction = KRG::New<EntityEditorUndoableAction>( *m_pToolsContext->m_pTypeRegistry, m_pMap );
         m_pActiveUndoableAction->RecordBeginEdit( { pEntity } );
         pEntity->CreateSystem( pSystemTypeInfo );
         m_pActiveUndoableAction->RecordEndEdit();
@@ -859,7 +860,7 @@ namespace KRG::EntityModel
 
         ClearSelectedSystem(); // Todo only clear if the system is selected
 
-        m_pActiveUndoableAction = KRG::New<EntityEditorUndoableAction>( m_typeRegistry, m_pMap );
+        m_pActiveUndoableAction = KRG::New<EntityEditorUndoableAction>( *m_pToolsContext->m_pTypeRegistry, m_pMap );
         m_pActiveUndoableAction->RecordBeginEdit( { pEntity } );
         pEntity->DestroySystem( systemTypeID );
         m_pActiveUndoableAction->RecordEndEdit();
@@ -879,7 +880,7 @@ namespace KRG::EntityModel
             m_pSelectedSystem = nullptr;
         }
 
-        m_pActiveUndoableAction = KRG::New<EntityEditorUndoableAction>( m_typeRegistry, m_pMap );
+        m_pActiveUndoableAction = KRG::New<EntityEditorUndoableAction>( *m_pToolsContext->m_pTypeRegistry, m_pMap );
         m_pActiveUndoableAction->RecordBeginEdit( { pEntity } );
         pEntity->DestroySystem( pSystem->GetTypeID() );
         m_pActiveUndoableAction->RecordEndEdit();
@@ -893,7 +894,7 @@ namespace KRG::EntityModel
         KRG_ASSERT( pEntity != nullptr );
         KRG_ASSERT( m_pMap->ContainsEntity( pEntity->GetID() ) );
 
-        m_pActiveUndoableAction = KRG::New<EntityEditorUndoableAction>( m_typeRegistry, m_pMap );
+        m_pActiveUndoableAction = KRG::New<EntityEditorUndoableAction>( *m_pToolsContext->m_pTypeRegistry, m_pMap );
         m_pActiveUndoableAction->RecordBeginEdit( { pEntity } );
         pEntity->CreateComponent( pComponentTypeInfo, parentSpatialComponentID );
         m_pActiveUndoableAction->RecordEndEdit();
@@ -909,7 +910,7 @@ namespace KRG::EntityModel
 
         m_selectedComponents.erase_first_unsorted( pComponent );
 
-        m_pActiveUndoableAction = KRG::New<EntityEditorUndoableAction>( m_typeRegistry, m_pMap );
+        m_pActiveUndoableAction = KRG::New<EntityEditorUndoableAction>( *m_pToolsContext->m_pTypeRegistry, m_pMap );
         m_pActiveUndoableAction->RecordBeginEdit( { pEntity } );
         pEntity->DestroyComponent( pComponent->GetID() );
         m_pActiveUndoableAction->RecordEndEdit();

@@ -10,7 +10,7 @@ namespace KRG::Resource
     {
     public:
 
-        ResourceInspectorGLTF( TypeSystem::TypeRegistry const& typeRegistry, Resource::ResourceDatabase const& resourceDatabase, FileSystem::Path const& filePath );
+        ResourceInspectorGLTF( ToolsContext const* pToolsContext, FileSystem::Path const& filePath );
 
     private:
 

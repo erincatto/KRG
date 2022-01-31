@@ -22,7 +22,7 @@ namespace KRG::Animation
     {
     public:
 
-        AnimationClipWorkspace( WorkspaceInitializationContext const& context, EntityWorld* pWorld, ResourceID const& resourceID );
+        AnimationClipWorkspace( ToolsContext const* pToolsContext, EntityWorld* pWorld, ResourceID const& resourceID );
         virtual ~AnimationClipWorkspace();
 
     private:

@@ -23,9 +23,9 @@
 
 namespace KRG::EntityModel
 {
-    EntityEditorBaseWorkspace::EntityEditorBaseWorkspace( WorkspaceInitializationContext const& context, EntityWorld* pWorld )
-        : EditorWorkspace( context, pWorld )
-        , m_context( *context.m_pTypeRegistry, *context.m_pResourceDatabase, pWorld, m_undoStack )
+    EntityEditorBaseWorkspace::EntityEditorBaseWorkspace( ToolsContext const* pToolsContext, EntityWorld* pWorld )
+        : EditorWorkspace( pToolsContext, pWorld )
+        , m_context( pToolsContext, pWorld, m_undoStack )
         , m_entityOutliner( m_context )
         , m_entityInspector( m_context )
         , m_propertyGrid( m_context )
@@ -83,7 +83,7 @@ namespace KRG::EntityModel
             InlineString payloadStr = (char*) payload->Data;
 
             ResourceID const resourceID( payloadStr.c_str() );
-            if ( !resourceID.IsValid() || !m_pResourceDatabase->DoesResourceExist( resourceID ) )
+            if ( !resourceID.IsValid() || !m_pToolsContext->m_pResourceDatabase->DoesResourceExist( resourceID ) )
             {
                 return;
             }
@@ -143,7 +143,7 @@ namespace KRG::EntityModel
             ResourcePath physicsResourcePath = resourceID.GetResourcePath();
             physicsResourcePath.ReplaceExtension( Physics::PhysicsMesh::GetStaticResourceTypeID().ToString() );
             ResourceID const physicsResourceID( physicsResourcePath );
-            if ( m_pResourceDatabase->DoesResourceExist( physicsResourceID ) )
+            if ( m_pToolsContext->m_pResourceDatabase->DoesResourceExist( physicsResourceID ) )
             {
                 auto pPhysicsMeshComponent = KRG::New<Physics::PhysicsMeshComponent>( StringID( "Physics Component" ) );
                 pPhysicsMeshComponent->SetMesh( physicsResourceID );

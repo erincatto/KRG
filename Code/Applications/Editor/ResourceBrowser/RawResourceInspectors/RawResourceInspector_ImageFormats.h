@@ -9,7 +9,7 @@ namespace KRG::Resource
     {
     public:
 
-        ResourceInspectorImageFormats( TypeSystem::TypeRegistry const& typeRegistry, Resource::ResourceDatabase const& resourceDatabase, FileSystem::Path const& filePath );
+        ResourceInspectorImageFormats( ToolsContext const* pToolsContext, FileSystem::Path const& filePath );
 
     private:
 

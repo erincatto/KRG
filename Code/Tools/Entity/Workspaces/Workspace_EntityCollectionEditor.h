@@ -11,7 +11,7 @@ namespace KRG::EntityModel
     {
     public:
 
-        EntityCollectionEditor( WorkspaceInitializationContext const& context, EntityWorld* pWorld, ResourceID const& collectionResourceID );
+        EntityCollectionEditor( ToolsContext const* pToolsContext, EntityWorld* pWorld, ResourceID const& collectionResourceID );
 
         virtual void Initialize( UpdateContext const& context ) override;
         virtual void Shutdown( UpdateContext const& context ) override;

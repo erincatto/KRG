@@ -12,7 +12,7 @@ namespace KRG
 
     //-------------------------------------------------------------------------
 
-    class EditorContext final
+    class EditorContext final : public ToolsContext
     {
     public:
 
@@ -24,9 +24,9 @@ namespace KRG
 
         inline FileSystem::Path const& GetRawResourceDirectory() const { return m_resourceDB.GetRawResourceDirectoryPath(); }
         inline FileSystem::Path const& GetCompiledResourceDirectory() const { return m_resourceDB.GetCompiledResourceDirectoryPath(); }
-        inline TypeSystem::TypeRegistry const* GetTypeRegistry() const { return m_workspaceInitContext.m_pTypeRegistry; }
-        inline Resource::ResourceDatabase const* GetResourceDatabase() const { return m_workspaceInitContext.m_pResourceDatabase; }
-        inline Resource::ResourceSystem* GetResourceSystem() const { return m_workspaceInitContext.m_pResourceSystem; }
+        inline TypeSystem::TypeRegistry const* GetTypeRegistry() const { return m_pTypeRegistry; }
+        inline Resource::ResourceDatabase const* GetResourceDatabase() const { return m_pResourceDatabase; }
+        inline Resource::ResourceSystem* GetResourceSystem() const { return m_pResourceSystem; }
         inline Render::RenderingSystem* GetRenderingSystem() const { return m_pRenderingSystem; }
 
         bool HasDescriptorForResourceType( ResourceTypeID resourceTypeID ) const;
@@ -49,7 +49,6 @@ namespace KRG
 
         // Workspaces
         //-------------------------------------------------------------------------
-
 
         inline TVector<EditorWorkspace*> const& GetWorkspaces() const { return m_workspaces; }
         void* GetViewportTextureForWorkspace( EditorWorkspace* pWorkspace ) const;
@@ -77,6 +76,16 @@ namespace KRG
 
         void DestroyWorkspaceInternal( UpdateContext const& context, EditorWorkspace* pWorkspace );
 
+        virtual bool TryOpenResource( UpdateContext const& context, ResourceID const& resourceID ) const override
+        {
+            if ( resourceID.IsValid() )
+            {
+                return const_cast<EditorContext*>( this )->TryCreateWorkspace( context, resourceID );
+            }
+
+            return false;
+        }
+
     private:
 
         EntityModel::EntityMapEditor*       m_pMapEditor = nullptr;
@@ -84,7 +93,6 @@ namespace KRG
         EntityWorldManager*                 m_pWorldManager = nullptr;
         Render::RenderingSystem*            m_pRenderingSystem = nullptr;
         Resource::ResourceDatabase          m_resourceDB;
-        WorkspaceInitializationContext      m_workspaceInitContext;
         TVector<EditorWorkspace*>           m_workspaces;
         TVector<ResourceID>                 m_workspaceCreationRequests;
         TVector<EditorWorkspace*>           m_workspaceDestructionRequests;

@@ -5,8 +5,8 @@
 
 namespace KRG
 {
-    GamePreviewer::GamePreviewer( WorkspaceInitializationContext const& context, EntityWorld* pWorld )
-        : EditorWorkspace( context, pWorld )
+    GamePreviewer::GamePreviewer( ToolsContext const* pToolsContext, EntityWorld* pWorld )
+        : EditorWorkspace( pToolsContext, pWorld )
     {}
 
     void GamePreviewer::LoadMapToPreview( ResourceID mapResourceID )

@@ -16,8 +16,8 @@ namespace KRG::Resource
 
     //-------------------------------------------------------------------------
 
-    ResourceInspectorImageFormats::ResourceInspectorImageFormats( TypeSystem::TypeRegistry const& typeRegistry, Resource::ResourceDatabase const& resourceDatabase, FileSystem::Path const& filePath )
-        : RawResourceInspector( typeRegistry, resourceDatabase, filePath )
+    ResourceInspectorImageFormats::ResourceInspectorImageFormats( ToolsContext const* pToolsContext, FileSystem::Path const& filePath )
+        : RawResourceInspector( pToolsContext, filePath )
     {
         KRG_ASSERT( FileSystem::Exists( filePath ) );
         auto pDesc = KRG::New<Render::TextureResourceDescriptor>();
