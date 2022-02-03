@@ -23,11 +23,42 @@ namespace KRG::Animation
     AnimationClipWorkspace::AnimationClipWorkspace( ToolsContext const* pToolsContext, EntityWorld* pWorld, ResourceID const& resourceID )
         : TResourceWorkspace<AnimationClip>( pToolsContext, pWorld, resourceID )
         , m_propertyGrid( m_pToolsContext )
-    {}
+        , m_eventEditor( *pToolsContext->m_pTypeRegistry )
+    {
+        auto OnBeginMod = [this]( Timeline::TrackContainer* pContainer )
+        {
+            if ( pContainer != m_eventEditor.GetTrackContainer() )
+            {
+                return;
+            }
+
+            BeginModification();
+        };
+
+        auto OnEndMod = [this]( Timeline::TrackContainer* pContainer )
+        {
+            if ( pContainer != m_eventEditor.GetTrackContainer() )
+            {
+                return;
+            }
+
+            EndModification();
+        };
+
+        m_beginModEventID = Timeline::TrackContainer::s_onBeginModification.Bind( OnBeginMod );
+        m_endModEventID = Timeline::TrackContainer::s_onEndModification.Bind( OnEndMod );
+
+        m_propertyGridPreEditEventBindingID = m_propertyGrid.OnPreEdit().Bind( [this] ( PropertyEditInfo const& info ) { PreEdit( info ); } );
+        m_propertyGridPostEditEventBindingID = m_propertyGrid.OnPostEdit().Bind( [this] ( PropertyEditInfo const& info ) { PostEdit( info ); } );
+    }
 
     AnimationClipWorkspace::~AnimationClipWorkspace()
     {
-        KRG_ASSERT( m_pEventEditor == nullptr );
+        Timeline::TrackContainer::s_onBeginModification.Unbind( m_beginModEventID );
+        Timeline::TrackContainer::s_onEndModification.Unbind( m_endModEventID );
+
+        m_propertyGrid.OnPreEdit().Unbind( m_propertyGridPreEditEventBindingID );
+        m_propertyGrid.OnPostEdit().Unbind( m_propertyGridPostEditEventBindingID );
     }
 
     void AnimationClipWorkspace::InitializeDockingLayout( ImGuiID dockspaceID ) const
@@ -63,11 +94,6 @@ namespace KRG::Animation
     {
         KRG_ASSERT( m_pPreviewEntity != nullptr );
 
-        if ( m_pEventEditor != nullptr )
-        {
-            KRG::Delete( m_pEventEditor );
-        }
-
         m_pPreviewEntity = nullptr;
         m_pAnimationComponent = nullptr;
         m_pMeshComponent = nullptr;
@@ -79,13 +105,37 @@ namespace KRG::Animation
     {
         KRG_ASSERT( m_pPreviewEntity == nullptr );
 
+        // Create animation component
+        m_pAnimationComponent = KRG::New<AnimationClipPlayerComponent>( StringID( "Animation Component" ) );
+        m_pAnimationComponent->SetAnimation( m_pResource.GetResourceID() );
+
+        // Create entity
+        m_pPreviewEntity = KRG::New<Entity>( StringID( "Preview" ) );
+        m_pPreviewEntity->CreateSystem<AnimationSystem>();
+        m_pPreviewEntity->AddComponent( m_pAnimationComponent );
+
+        // Create the mesh component
+        CreatePreviewMeshComponent();
+
+        //-------------------------------------------------------------------------
+
+        AddEntityToWorld( m_pPreviewEntity );
+    }
+
+    void AnimationClipWorkspace::CreatePreviewMeshComponent()
+    {
+        if ( m_pPreviewEntity == nullptr )
+        {
+            return;
+        }
+
         // Load resource descriptor for skeleton to get the preview mesh
         auto pAnimClipDescriptor = GetDescriptorAs<AnimationClipResourceDescriptor>();
         if ( pAnimClipDescriptor->m_pSkeleton.IsValid() )
         {
             FileSystem::Path const resourceDescPath = GetFileSystemPath( pAnimClipDescriptor->m_pSkeleton.GetResourcePath() );
             SkeletonResourceDescriptor resourceDesc;
-            if ( TryReadResourceDescriptorFromFile( *m_pToolsContext->m_pTypeRegistry, resourceDescPath, resourceDesc ) && resourceDesc.m_previewMesh.IsValid() )
+            if ( Resource::ResourceDescriptor::TryReadFromFile( *m_pToolsContext->m_pTypeRegistry, resourceDescPath, resourceDesc ) && resourceDesc.m_previewMesh.IsValid() )
             {
                 // Create a preview mesh component
                 m_pMeshComponent = KRG::New<Render::SkeletalMeshComponent>( StringID( "Mesh Component" ) );
@@ -97,38 +147,19 @@ namespace KRG::Animation
             }
         }
 
-        //-------------------------------------------------------------------------
-
-        // Create animation component
-        m_pAnimationComponent = KRG::New<AnimationClipPlayerComponent>( StringID( "Animation Component" ) );
-        m_pAnimationComponent->SetAnimation( m_pResource.GetResourceID() );
-
-        //-------------------------------------------------------------------------
-
-        m_pPreviewEntity = KRG::New<Entity>( StringID( "Preview" ) );
-        m_pPreviewEntity->CreateSystem<AnimationSystem>();
-        m_pPreviewEntity->AddComponent( m_pAnimationComponent );
-
         if ( m_pMeshComponent != nullptr )
         {
             m_pPreviewEntity->AddComponent( m_pMeshComponent );
         }
-
-        AddEntityToWorld( m_pPreviewEntity );
     }
 
     void AnimationClipWorkspace::BeginHotReload( TVector<Resource::ResourceRequesterID> const& usersToBeReloaded, TVector<ResourceID> const& resourcesToBeReloaded )
     {
         TResourceWorkspace<AnimationClip>::BeginHotReload( usersToBeReloaded, resourcesToBeReloaded );
 
-        // If someone messed with this resource outside of this editor - destroy the event editor!
+        // If someone messed with this resource outside of this editor
         if ( m_pDescriptor == nullptr )
         {
-            if ( m_pEventEditor != nullptr )
-            {
-                KRG::Delete( m_pEventEditor );
-            }
-
             m_propertyGrid.SetTypeToEdit( nullptr );
         }
 
@@ -146,9 +177,9 @@ namespace KRG::Animation
     {
         TResourceWorkspace<AnimationClip>::EndHotReload();
 
-        if ( m_pPreviewEntity == nullptr )
+        if ( m_pMeshComponent == nullptr )
         {
-            CreatePreviewEntity();
+            CreatePreviewMeshComponent();
         }
     }
 
@@ -158,11 +189,7 @@ namespace KRG::Animation
     {
         if ( IsResourceLoaded() )
         {
-            // Lazy init of the event editor - since we need to wait for the resource to be loaded
-            if ( m_pEventEditor == nullptr )
-            {
-                m_pEventEditor = KRG::New<EventEditor>( *m_pToolsContext->m_pTypeRegistry, m_descriptorPath, m_pResource->GetNumFrames(), m_pResource->GetFPS() );
-            }
+            m_eventEditor.SetAnimationLengthAndFPS( m_pResource->GetNumFrames(), m_pResource->GetFPS() );
 
             // Update position
             //-------------------------------------------------------------------------
@@ -198,7 +225,7 @@ namespace KRG::Animation
 
         //-------------------------------------------------------------------------
 
-        DrawDescriptorWindow( context, pWindowClass );
+        DrawDescriptorEditorWindow( context, pWindowClass );
 
         ImGui::SetNextWindowClass( pWindowClass );
         DrawTrackDataWindow( context );
@@ -233,16 +260,23 @@ namespace KRG::Animation
 
         ImGui::Indent();
 
-        ImVec4 const color = ImGuiX::ConvertColor( Colors::Yellow );
-        ImGui::TextColored( color, "Avg Linear Velocity: %.2f m/s", m_pResource->GetAverageLinearVelocity() );
-        ImGui::TextColored( color, "Avg Angular Velocity: %.2f r/s", m_pResource->GetAverageAngularVelocity().ToFloat() );
-        ImGui::TextColored( color, "Distance Covered: %.2fm", m_pResource->GetTotalRootMotionDelta().GetTranslation().GetLength3() );
-
-        if ( m_pEventEditor != nullptr )
+        auto PrintAnimDetails = [this] ( Color color )
         {
-            ImGui::TextColored( color, "Frame: %.f/%d", m_pEventEditor->GetPlayheadPositionAsPercentage().ToFloat() * m_pResource->GetNumFrames(), m_pResource->GetNumFrames() );
-            ImGui::TextColored( color, "Time: %.2fs/%0.2fs", m_pEventEditor->GetPlayheadPositionAsPercentage().ToFloat() * m_pResource->GetDuration(), m_pResource->GetDuration().ToFloat() );
-        }
+            ImGuiX::ScopedFont const sf( ImGuiX::Font::SmallBold, color );
+            ImGui::Text( "Avg Linear Velocity: %.2f m/s", m_pResource->GetAverageLinearVelocity() );
+            ImGui::Text( "Avg Angular Velocity: %.2f r/s", m_pResource->GetAverageAngularVelocity().ToFloat() );
+            ImGui::Text( "Distance Covered: %.2fm", m_pResource->GetTotalRootMotionDelta().GetTranslation().GetLength3() );
+            ImGui::Text( "Frame: %.f/%d", m_eventEditor.GetPlayheadPositionAsPercentage().ToFloat() * m_pResource->GetNumFrames(), m_pResource->GetNumFrames() );
+            ImGui::Text( "Time: %.2fs/%0.2fs", m_eventEditor.GetPlayheadPositionAsPercentage().ToFloat() * m_pResource->GetDuration(), m_pResource->GetDuration().ToFloat() );
+        };
+
+        ImVec2 const cursorPos = ImGui::GetCursorPos();
+        ImGui::SetCursorPos( cursorPos + ImVec2( 0, 1 ) );
+        ImGui::Indent( 1 );
+        PrintAnimDetails( Colors::Black );
+        ImGui::Unindent( 1 );
+        ImGui::SetCursorPos( cursorPos );
+        PrintAnimDetails( Colors::Yellow );
 
         ImGui::Unindent();
     }
@@ -270,16 +304,16 @@ namespace KRG::Animation
                 // Track editor and property grid
                 //-------------------------------------------------------------------------
 
-                m_pEventEditor->UpdateAndDraw( context, m_pAnimationComponent );
+                m_eventEditor.UpdateAndDraw( context, m_pAnimationComponent );
 
                 // Transfer dirty state from property grid
                 if ( m_propertyGrid.IsDirty() )
                 {
-                    m_pEventEditor->MarkDirty();
+                    m_eventEditor.MarkDirty();
                 }
 
                 // Handle selection changes
-                auto const& selectedItems = m_pEventEditor->GetSelectedItems();
+                auto const& selectedItems = m_eventEditor.GetSelectedItems();
                 if ( !selectedItems.empty() )
                 {
                     auto pAnimEventItem = static_cast<EventItem*>( selectedItems.back() );
@@ -345,6 +379,8 @@ namespace KRG::Animation
         ImGui::End();
     }
 
+    //-------------------------------------------------------------------------
+
     bool AnimationClipWorkspace::IsDirty() const
     {
         if ( TResourceWorkspace<AnimationClip>::IsDirty() )
@@ -352,12 +388,7 @@ namespace KRG::Animation
             return true;
         }
 
-        if ( m_pEventEditor != nullptr && m_pEventEditor->IsDirty() )
-        {
-            return m_pEventEditor->IsDirty();
-        }
-
-        return false;
+        return m_eventEditor.IsDirty();
     }
 
     bool AnimationClipWorkspace::Save()
@@ -367,12 +398,17 @@ namespace KRG::Animation
             return false;
         }
 
-        if ( m_pEventEditor != nullptr && !m_pEventEditor->RequestSave() )
-        {
-            return false;
-        }
-
         m_propertyGrid.ClearDirty();
         return true;
+    }
+
+    void AnimationClipWorkspace::SerializeCustomDescriptorData( TypeSystem::TypeRegistry const& typeRegistry, RapidJsonValue const& descriptorObjectValue )
+    {
+        m_eventEditor.Serialize( typeRegistry, descriptorObjectValue );
+    }
+
+    void AnimationClipWorkspace::SerializeCustomDescriptorData( TypeSystem::TypeRegistry const& typeRegistry, RapidJsonWriter& writer )
+    {
+        static_cast<Timeline::TimelineEditor&>( m_eventEditor ).Serialize( typeRegistry, writer );
     }
 }

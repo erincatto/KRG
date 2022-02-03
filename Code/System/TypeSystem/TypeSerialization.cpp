@@ -437,13 +437,16 @@ namespace KRG::TypeSystem::Serialization
 
     struct NativeTypeWriter
     {
-        static void WriteType( TypeRegistry const& typeRegistry, RapidJsonWriter& writer, String& scratchBuffer, TypeID typeID, IRegisteredType const* pTypeInstance )
+        static void WriteType( TypeRegistry const& typeRegistry, RapidJsonWriter& writer, String& scratchBuffer, TypeID typeID, IRegisteredType const* pTypeInstance, bool createJsonObject = true )
         {
             KRG_ASSERT( !IsCoreType( typeID ) );
             auto const pTypeInfo = typeRegistry.GetTypeInfo( typeID );
             KRG_ASSERT( pTypeInfo != nullptr );
 
-            writer.StartObject();
+            if ( createJsonObject )
+            {
+                writer.StartObject();
+            }
 
             // Every type has to have a type ID
             writer.Key( s_typeIDKey );
@@ -499,7 +502,10 @@ namespace KRG::TypeSystem::Serialization
                 }
             }
 
-            writer.EndObject();
+            if ( createJsonObject )
+            {
+                writer.EndObject();
+            }
         }
 
         static void WriteProperty( TypeRegistry const& typeRegistry, RapidJsonWriter& writer, String& scratchBuffer, PropertyInfo const& propertyInfo, void const* pPropertyInstance )
@@ -521,6 +527,13 @@ namespace KRG::TypeSystem::Serialization
         String scratchBuffer;
         scratchBuffer.reserve( 255 );
         NativeTypeWriter::WriteType( typeRegistry, writer, scratchBuffer, pTypeInstance->GetTypeID(), pTypeInstance );
+    }
+
+    void WriteNativeTypeContents( TypeRegistry const& typeRegistry, IRegisteredType const* pTypeInstance, RapidJsonWriter& writer )
+    {
+        String scratchBuffer;
+        scratchBuffer.reserve( 255 );
+        NativeTypeWriter::WriteType( typeRegistry, writer, scratchBuffer, pTypeInstance->GetTypeID(), pTypeInstance, false );
     }
 
     void WriteNativeTypeToString( TypeRegistry const& typeRegistry, IRegisteredType const* pTypeInstance, String& outString )

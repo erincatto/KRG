@@ -9,15 +9,29 @@
 
 namespace KRG::Animation
 {
-    EventEditor::EventEditor( TypeSystem::TypeRegistry const& typeRegistry, FileSystem::Path const& descriptorPath, uint32 numFrames, float FPS )
-        : TimelineEditor( IntRange( 0, numFrames ) )
-        , m_typeRegistry( typeRegistry )
-        , m_descriptorPath( descriptorPath )
-        , m_FPS( FPS )
+    EventEditor::EventEditor( TypeSystem::TypeRegistry const& typeRegistry )
+        : TimelineEditor( IntRange( 0, 30 ) )
         , m_eventTypes( typeRegistry.GetAllDerivedTypes( Event::GetStaticTypeID(), false, false, true ) )
+    {}
+
+    void EventEditor::Reset()
     {
-        KRG_ASSERT( m_FPS > 0.0f );
-        LoadEventData();
+        ClearSelection();
+        m_trackContainer.Reset();
+    }
+
+    void EventEditor::SetAnimationLengthAndFPS( uint32 numFrames, float FPS )
+    {
+        KRG_ASSERT( numFrames > 0.0f );
+        KRG_ASSERT( FPS > 0.0f );
+
+        if ( m_timeRange.m_end != (int32) numFrames || m_FPS != FPS )
+        {
+            SetTimeRange( IntRange( 0, numFrames ) );
+
+            m_FPS = FPS;
+            UpdateTimelineTrackFPS();
+        }
     }
 
     //-------------------------------------------------------------------------
@@ -68,7 +82,7 @@ namespace KRG::Animation
             if ( !pDefaultEventInstance->AllowMultipleTracks() )
             {
                 // Check if a track of this type already exists
-                for ( auto pTrack : m_trackContainer )
+                for ( auto pTrack : m_trackContainer.GetTracks() )
                 {
                     auto pAnimTrack = static_cast<EventTrack*>( pTrack );
                     if ( pAnimTrack->GetEventTypeInfo() == pDefaultEventInstance->GetTypeInfo() )
@@ -127,44 +141,38 @@ namespace KRG::Animation
 
     //-------------------------------------------------------------------------
 
-    void EventEditor::LoadEventData()
+    bool EventEditor::Serialize( TypeSystem::TypeRegistry const& typeRegistry, RapidJsonValue const& objectValue )
     {
-        ClearSelection();
-        m_trackContainer.Reset();
-
-        //-------------------------------------------------------------------------
-
-        JsonReader typeReader;
-        if ( !typeReader.ReadFromFile( m_descriptorPath ) )
+        if ( !TimelineEditor::Serialize( typeRegistry, objectValue ) )
         {
-            KRG_LOG_ERROR( "AnimationTools", "Failed to read resource descriptor file: %s", m_descriptorPath.c_str() );
-            return;
-        }
-
-        // Check if there is event data
-        auto const& document = typeReader.GetDocument();
-        auto trackDataIter = document.FindMember( EventTrack::s_eventTrackContainerKey );
-        if ( trackDataIter == document.MemberEnd() )
-        {
-            return;
-        }
-
-        auto const& eventDataValueObject = trackDataIter->value;
-        if ( !eventDataValueObject.IsArray() )
-        {
-            KRG_LOG_ERROR( "AnimationTools", "Malformed event track data" );
-            return;
-        }
-
-        if ( !m_trackContainer.Load( m_typeRegistry, eventDataValueObject ) )
-        {
-            KRG_LOG_ERROR( "AnimationTools", "Malformed event track file: %s", m_descriptorPath.c_str() );
-            return;
+            return false;
         }
 
         //-------------------------------------------------------------------------
 
         int32 numSyncTracks = 0;
+        for ( auto pTrack : m_trackContainer.m_tracks )
+        {
+            auto pEventTrack = reinterpret_cast<EventTrack*>( pTrack );
+            if ( pEventTrack->m_isSyncTrack )
+            {
+                numSyncTracks++;
+
+                // If we have more than one sync track, clear the rest
+                if ( numSyncTracks > 1 )
+                {
+                    pEventTrack->m_isSyncTrack = false;
+                }
+            }
+        }
+
+        UpdateTimelineTrackFPS();
+
+        return true;
+    }
+
+    void EventEditor::UpdateTimelineTrackFPS()
+    {
         for ( auto pTrack : m_trackContainer.m_tracks )
         {
             auto pEventTrack = reinterpret_cast<EventTrack*>( pTrack );
@@ -175,59 +183,6 @@ namespace KRG::Animation
                 auto pEventItem = Cast<EventItem>( pItem );
                 pEventItem->m_animFrameRate = m_FPS;
             }
-
-            if ( pEventTrack->m_isSyncTrack )
-            {
-                numSyncTracks++;
-                
-                // If we have more than one sync track, clear the rest
-                if ( numSyncTracks > 1 )
-                {
-                    pEventTrack->m_isSyncTrack = false;
-                }
-            }
         }
-    }
-
-    bool EventEditor::RequestSave()
-    {
-        JsonReader jsonReader;
-        if ( !jsonReader.ReadFromFile( m_descriptorPath ) )
-        {
-            KRG_LOG_ERROR( "AnimationTools", "Failed to read resource descriptor file: %s", m_descriptorPath.c_str() );
-            return false;
-        }
-
-        auto const& document = jsonReader.GetDocument();
-
-        //-------------------------------------------------------------------------
-
-        // Serialize the event data
-        JsonWriter eventDataWriter;
-
-        auto pWriter = eventDataWriter.GetWriter();
-        pWriter->StartObject();
-
-        // Write descriptor data
-        for ( auto itr = document.MemberBegin(); itr != document.MemberEnd(); ++itr )
-        {
-            if ( itr->name == EventTrack::s_eventTrackContainerKey )
-            {
-                continue;
-            }
-
-            pWriter->Key( itr->name.GetString() );
-            itr->value.Accept( *pWriter );
-        }
-
-        // Write event data
-        pWriter->Key( EventTrack::s_eventTrackContainerKey );
-        m_trackContainer.Save( m_typeRegistry, *eventDataWriter.GetWriter() );
-
-        pWriter->EndObject();
-
-        // Save descriptor
-        eventDataWriter.WriteToFile( m_descriptorPath );
-        return true;
     }
 }

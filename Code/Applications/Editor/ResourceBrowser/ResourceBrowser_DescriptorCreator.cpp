@@ -92,6 +92,6 @@ namespace KRG
         }
 
         KRG_ASSERT( m_pDescriptor != nullptr );
-        return Resource::WriteResourceDescriptorToFile( *pTypeRegistry, outPath, m_pDescriptor );
+        return Resource::ResourceDescriptor::TryWriteToFile( *pTypeRegistry, outPath, m_pDescriptor );
     }
 }

@@ -60,6 +60,7 @@ namespace KRG::Timeline
 
     inline void TimelineEditor::ItemEditState::Reset()
     {
+        m_isEditing = false;
         m_pTrackForEditedItem = nullptr;
         m_pEditedItem = nullptr;
         m_mode = ItemEditMode::None;
@@ -105,19 +106,39 @@ namespace KRG::Timeline
 
     //-------------------------------------------------------------------------
 
-    void TimelineEditor::DeleteItem( TrackItem* pItem )
+    bool TimelineEditor::Serialize( TypeSystem::TypeRegistry const& typeRegistry, RapidJsonValue const& objectValue )
     {
-        KRG_ASSERT( m_trackContainer.Contains( pItem ) );
+        ClearSelection();
+        m_trackContainer.Reset();
 
-        for ( auto pTrack : m_trackContainer )
+        //-------------------------------------------------------------------------
+
+        auto trackDataIter = objectValue.FindMember( TrackContainer::s_trackContainerKey );
+        if ( trackDataIter == objectValue.MemberEnd() )
         {
-            if ( pTrack->DeleteItem( pItem ) )
-            {
-                break;
-            }
+            return false;
         }
 
-        m_itemEditState.Reset();
+        auto const& eventDataValueObject = trackDataIter->value;
+        if ( !eventDataValueObject.IsArray() )
+        {
+            KRG_LOG_ERROR( "Timeline Editor", "Malformed track data" );
+            return false;
+        }
+
+        if ( !m_trackContainer.Serialize( typeRegistry, eventDataValueObject ) )
+        {
+            KRG_LOG_ERROR( "Timeline Editor", "Failed to read track data" );
+            return false;
+        }
+
+        return true;
+    }
+
+    void TimelineEditor::Serialize( TypeSystem::TypeRegistry const& typeRegistry, RapidJsonWriter& writer )
+    {
+        writer.Key( TrackContainer::s_trackContainerKey );
+        m_trackContainer.Serialize( typeRegistry, writer );
     }
 
     //-------------------------------------------------------------------------
@@ -208,7 +229,7 @@ namespace KRG::Timeline
         {
             for ( auto pTrack : m_selectedTracks )
             {
-                pTrack->CreateItem( m_playheadTime );
+                m_trackContainer.CreateItem( pTrack, m_playheadTime );
             }
         }
         else  if ( ImGui::IsKeyReleased( ImGui::GetKeyIndex( ImGuiKey_Delete ) ) )
@@ -216,10 +237,12 @@ namespace KRG::Timeline
             TVector<TrackItem*> copiedSelectedItems = m_selectedItems;
             ClearSelection();
 
+            m_trackContainer.BeginModification();
             for ( auto pItem : copiedSelectedItems )
             {
-                DeleteItem( pItem );
+                m_trackContainer.DeleteItem( pItem );
             }
+            m_trackContainer.EndModification();
         }
 
         // Item Edition
@@ -232,6 +255,12 @@ namespace KRG::Timeline
             if ( ImGui::IsMouseDragging( ImGuiMouseButton_Left ) )
             {
                 auto pEditedItem = m_itemEditState.m_pEditedItem;
+
+                if ( !m_itemEditState.m_isEditing )
+                {
+                    m_trackContainer.BeginModification();
+                    m_itemEditState.m_isEditing = true;
+                }
 
                 // Calculate valid range for modifications
                 //-------------------------------------------------------------------------
@@ -318,11 +347,16 @@ namespace KRG::Timeline
                         SetPlayheadPosition( editedItemTimeRange.m_end );
                     }
 
-                    pEditedItem->SetTimeRange( editedItemTimeRange );
+                    m_trackContainer.UpdateItemTimeRange( pEditedItem, editedItemTimeRange );
                 }
             }
             else if ( !ImGui::IsMouseDown( ImGuiMouseButton_Left ) )
             {
+                if ( m_itemEditState.m_isEditing )
+                {
+                    m_trackContainer.EndModification();
+                }
+
                 m_itemEditState.Reset();
             }
         }
@@ -424,6 +458,7 @@ namespace KRG::Timeline
     void TimelineEditor::ClearSelection()
     {
         m_selectedItems.clear();
+        m_itemEditState.Reset();
     }
 
     void TimelineEditor::SetSelection( TrackItem* pItem )
@@ -601,7 +636,7 @@ namespace KRG::Timeline
         ImGuiX::ItemTooltip( "Reset View" );
 
         //-------------------------------------------------------------------------
-       // Add tracks button
+        // Add tracks button
         //-------------------------------------------------------------------------
 
         ImVec2 const addTracksButtonSize( 46, -1 );
@@ -806,7 +841,7 @@ namespace KRG::Timeline
         int32 const numTracks = m_trackContainer.GetNumTracks();
         for ( int32 i = 0; i < numTracks; i++ )
         {
-            auto pTrack = m_trackContainer[i];
+            auto pTrack = m_trackContainer.GetTrack( i );
 
             float const trackEndY = trackStartY + g_trackHeight;
 
@@ -910,6 +945,8 @@ namespace KRG::Timeline
 
                     //-------------------------------------------------------------------------
 
+                    ImFont const* pTinyFont = ImGuiX::GetFont( ImGuiX::Font::Tiny );
+
                     if ( pItem->IsImmediateItem() )
                     {
                         float const itemPosX = trackAreaRect.GetTL().x + ( itemTimeRange.m_start - m_viewRange.m_start ) * m_pixelsPerFrame;
@@ -932,8 +969,9 @@ namespace KRG::Timeline
                         pDrawList->AddTriangleFilled( topLeft, topRight, base, GetItemColor( isItemHovered ) );
 
                         InlineString const itemLabel = pItem->GetLabel();
-                        pDrawList->AddText( topRight + ImVec2( 5, 1 ), 0xFF000000, itemLabel.c_str() );
-                        pDrawList->AddText( topRight + ImVec2( 4, 0 ), ImColor( ImGuiX::Style::s_textColor ), itemLabel.c_str() );
+                        pDrawList->AddText( pTinyFont, pTinyFont->FontSize, topRight + ImVec2( 5, 1 ), 0xFF000000, itemLabel.c_str() );
+                        pDrawList->AddText( pTinyFont, pTinyFont->FontSize, topRight + ImVec2( 4, 0 ), ImColor( ImGuiX::Style::s_textColor ), itemLabel.c_str() );
+                        
                     }
                     else
                     {
@@ -971,8 +1009,8 @@ namespace KRG::Timeline
                         pDrawList->AddRectFilled( itemStart, itemEnd, GetItemColor( isItemHovered ), pItem->IsImmediateItem() ? 0.0f : 4.0f);
 
                         InlineString const itemLabel = pItem->GetLabel();
-                        pDrawList->AddText( itemStart + ImVec2( 5, 1 ), 0xFF000000, itemLabel.c_str() );
-                        pDrawList->AddText( itemStart + ImVec2( 4, 0 ), ImColor( ImGuiX::Style::s_textColor ), itemLabel.c_str() );
+                        pDrawList->AddText( pTinyFont, pTinyFont->FontSize, itemStart + ImVec2( 5, 1 ), 0xFF000000, itemLabel.c_str() );
+                        pDrawList->AddText( pTinyFont, pTinyFont->FontSize, itemStart + ImVec2( 4, 0 ), ImColor( ImGuiX::Style::s_textColor ), itemLabel.c_str() );
                     }
                 }
 
@@ -1016,7 +1054,7 @@ namespace KRG::Timeline
                 if ( shouldDeleteItem )
                 {
                     ClearSelection();
-                    DeleteItem( m_contextMenuState.m_pItem );
+                    m_trackContainer.DeleteItem( m_contextMenuState.m_pItem );
                     ImGui::CloseCurrentPopup();
                 }
             }
@@ -1042,7 +1080,7 @@ namespace KRG::Timeline
                         itemStartTime = Math::Floor( itemStartTime );
                     }
 
-                    m_contextMenuState.m_pTrack->CreateItem( itemStartTime );
+                    m_trackContainer.CreateItem( m_contextMenuState.m_pTrack, itemStartTime );
                 }
 
                 bool const shouldDeleteTrack = ImGui::MenuItem( "Delete Track" );

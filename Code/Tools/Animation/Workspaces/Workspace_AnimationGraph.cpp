@@ -428,7 +428,7 @@ namespace KRG::Animation
             InlineString const variationPathStr = GenerateFilePathForVariation( m_graphFilePath, variation.m_ID );
             FileSystem::Path const variationPath( variationPathStr.c_str() );
 
-            WriteResourceDescriptorToFile( *m_pToolsContext->m_pTypeRegistry, variationPath, &resourceDesc );
+            Resource::ResourceDescriptor::TryWriteToFile( *m_pToolsContext->m_pTypeRegistry, variationPath, &resourceDesc );
         }
     }
 
@@ -525,7 +525,7 @@ namespace KRG::Animation
             // Load resource descriptor for skeleton to get the preview mesh
             FileSystem::Path const resourceDescPath = GetFileSystemPath( pVariation->m_pSkeleton.GetResourcePath() );
             SkeletonResourceDescriptor resourceDesc;
-            if ( TryReadResourceDescriptorFromFile( *m_pToolsContext->m_pTypeRegistry, resourceDescPath, resourceDesc ) )
+            if ( Resource::ResourceDescriptor::TryReadFromFile( *m_pToolsContext->m_pTypeRegistry, resourceDescPath, resourceDesc ) )
             {
                 // Create a preview mesh component
                 auto pMeshComponent = KRG::New<Render::SkeletalMeshComponent>( StringID( "Mesh Component" ) );

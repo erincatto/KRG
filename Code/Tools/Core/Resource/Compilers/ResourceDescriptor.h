@@ -15,6 +15,42 @@ namespace KRG::Resource
     {
         KRG_REGISTER_TYPE( ResourceDescriptor );
 
+    public:
+
+        template<typename T>
+        static bool TryReadFromFile( TypeSystem::TypeRegistry const& typeRegistry, FileSystem::Path const& descriptorPath, T& outData )
+        {
+            static_assert( std::is_base_of<ResourceDescriptor, T>::value, "T must be a child of ResourceDescriptor" );
+
+            TypeSystem::Serialization::TypeReader typeReader( typeRegistry );
+            if ( !typeReader.ReadFromFile( descriptorPath ) )
+            {
+                KRG_LOG_ERROR( "Resource", "Failed to read resource descriptor file: %s", descriptorPath.c_str() );
+                return false;
+            }
+
+            if ( !typeReader.ReadType( &outData ) )
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        template<typename T>
+        static bool TryWriteToFile( TypeSystem::TypeRegistry const& typeRegistry, FileSystem::Path const& descriptorPath, T const* pDescriptorData )
+        {
+            static_assert( std::is_base_of<ResourceDescriptor, T>::value, "T must be a child of ResourceDescriptor" );
+
+            KRG_ASSERT( descriptorPath.IsFile() );
+
+            TypeSystem::Serialization::TypeWriter typeWriter( typeRegistry );
+            typeWriter << pDescriptorData;
+            return typeWriter.WriteToFile( descriptorPath );
+        }
+
+    public:
+
         static void ReadCompileDependencies( String const& descriptorFileContents, TVector<ResourcePath>& outDependencies );
 
         virtual ~ResourceDescriptor() = default;
@@ -25,48 +61,4 @@ namespace KRG::Resource
         // What is the compiled resource type for this descriptor - Only needed for user createable descriptors
         virtual ResourceTypeID GetCompiledResourceTypeID() const { return ResourceTypeID(); }
     };
-
-    // Tools only deserialization function
-    //-------------------------------------------------------------------------
-
-    template<typename T>
-    bool TryReadResourceDescriptorFromFile( TypeSystem::TypeRegistry const& typeRegistry, FileSystem::Path const& descriptorPath, T& outData, TFunction<bool( rapidjson::Document const& )> const& customDeserializationFunction = TFunction<bool( rapidjson::Document const& )>() )
-    {
-        static_assert( std::is_base_of<ResourceDescriptor, T>::value, "T must be a child of ResourceDescriptor" );
-
-        TypeSystem::Serialization::TypeReader typeReader( typeRegistry );
-        if ( !typeReader.ReadFromFile( descriptorPath ) )
-        {
-            KRG_LOG_ERROR( "Resource", "Failed to read resource descriptor file: %s", descriptorPath.c_str() );
-            return false;
-        }
-
-        if ( !typeReader.ReadType( &outData ) )
-        {
-            return false;
-        }
-
-        // Allow for custom data serialization in descriptors
-        if ( customDeserializationFunction != nullptr )
-        {
-            if ( !customDeserializationFunction( static_cast<JsonReader&>( typeReader ).GetDocument() ) )
-            {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    template<typename T>
-    bool WriteResourceDescriptorToFile( TypeSystem::TypeRegistry const& typeRegistry, FileSystem::Path const& descriptorPath, T const* pDescriptorData )
-    {
-        static_assert( std::is_base_of<ResourceDescriptor, T>::value, "T must be a child of ResourceDescriptor" );
-
-        KRG_ASSERT( descriptorPath.IsFile() );
-
-        TypeSystem::Serialization::TypeWriter typeWriter( typeRegistry );
-        typeWriter << pDescriptorData;
-        return typeWriter.WriteToFile( descriptorPath );
-    }
 }

@@ -124,7 +124,7 @@ namespace KRG::Animation
         // UI
         //-------------------------------------------------------------------------
 
-        DrawDescriptorWindow( context, pWindowClass );
+        DrawDescriptorEditorWindow( context, pWindowClass );
 
         ImGui::SetNextWindowClass( pWindowClass );
         DrawSkeletonHierarchyWindow( context );

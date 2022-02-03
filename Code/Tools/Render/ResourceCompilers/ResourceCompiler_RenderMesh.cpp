@@ -200,7 +200,7 @@ namespace KRG::Render
     Resource::CompilationResult StaticMeshCompiler::Compile( Resource::CompileContext const& ctx ) const
     {
         StaticMeshResourceDescriptor resourceDescriptor;
-        if ( !ctx.TryReadResourceDescriptor( resourceDescriptor ) )
+        if ( !Resource::ResourceDescriptor::TryReadFromFile( ctx.m_typeRegistry, ctx.m_inputFilePath, resourceDescriptor ) )
         {
             return Error( "Failed to read resource descriptor from input file: %s", ctx.m_inputFilePath.c_str() );
         }
@@ -270,7 +270,7 @@ namespace KRG::Render
     Resource::CompilationResult SkeletalMeshCompiler::Compile( Resource::CompileContext const& ctx ) const
     {
         SkeletalMeshResourceDescriptor resourceDescriptor;
-        if ( !ctx.TryReadResourceDescriptor( resourceDescriptor ) )
+        if ( !Resource::ResourceDescriptor::TryReadFromFile( ctx.m_typeRegistry, ctx.m_inputFilePath, resourceDescriptor ) )
         {
             return Error( "Failed to read resource descriptor from input file: %s", ctx.m_inputFilePath.c_str() );
         }

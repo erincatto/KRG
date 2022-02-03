@@ -445,8 +445,10 @@ namespace KRG::EntityModel
         {
             KRG_ASSERT( FindEntity( pEntity->GetID() ) );
             Threading::RecursiveScopeLock lock( m_mutex );
-            KRG_ASSERT( !VectorContains( m_entitiesCurrentlyLoading, pEntity ) );
-            m_entitiesCurrentlyLoading.emplace_back( pEntity );
+            if ( !VectorContains( m_entitiesCurrentlyLoading, pEntity ) )
+            {
+                m_entitiesCurrentlyLoading.emplace_back( pEntity );
+            }
         }
     }
 

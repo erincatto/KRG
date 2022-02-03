@@ -171,7 +171,7 @@ namespace KRG::Navmesh
             }
 
             Physics::PhysicsMeshResourceDescriptor resourceDescriptor;
-            if ( !TryReadResourceDescriptorFromFile( ctx.m_typeRegistry, descFilePath, resourceDescriptor ) )
+            if ( !Resource::ResourceDescriptor::TryReadFromFile( ctx.m_typeRegistry, ctx.m_inputFilePath, resourceDescriptor ) )
             {
                 return Error( "Failed to read physics mesh resource descriptor from file: %s", descFilePath.c_str() );
             }

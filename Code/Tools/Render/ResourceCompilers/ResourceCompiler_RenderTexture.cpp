@@ -35,7 +35,7 @@ namespace KRG::Render
     Resource::CompilationResult TextureCompiler::CompileTexture( Resource::CompileContext const& ctx ) const
     {
         TextureResourceDescriptor resourceDescriptor;
-        if ( !ctx.TryReadResourceDescriptor( resourceDescriptor ) )
+        if ( !Resource::ResourceDescriptor::TryReadFromFile( ctx.m_typeRegistry, ctx.m_inputFilePath, resourceDescriptor ) )
         {
             return Error( "Failed to read resource descriptor from input file: %s", ctx.m_inputFilePath.c_str() );
         }
@@ -75,7 +75,7 @@ namespace KRG::Render
     Resource::CompilationResult TextureCompiler::CompileCubemapTexture( Resource::CompileContext const& ctx ) const
     {
         CubemapTextureResourceDescriptor resourceDescriptor;
-        if ( !ctx.TryReadResourceDescriptor( resourceDescriptor ) )
+        if ( !Resource::ResourceDescriptor::TryReadFromFile( ctx.m_typeRegistry, ctx.m_inputFilePath, resourceDescriptor ) )
         {
             return Error( "Failed to read resource descriptor from input file: %s", ctx.m_inputFilePath.c_str() );
         }

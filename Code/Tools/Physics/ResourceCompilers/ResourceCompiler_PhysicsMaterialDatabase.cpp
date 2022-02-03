@@ -22,7 +22,7 @@ namespace KRG
         Resource::CompilationResult PhysicsMaterialDatabaseCompiler::Compile( Resource::CompileContext const& ctx ) const
         {
             PhysicsMaterialDatabaseResourceDescriptor resourceDescriptor;
-            if ( !ctx.TryReadResourceDescriptor( resourceDescriptor ) )
+            if ( !Resource::ResourceDescriptor::TryReadFromFile( ctx.m_typeRegistry, ctx.m_inputFilePath, resourceDescriptor ) )
             {
                 return Error( "Failed to read resource descriptor from input file: %s", ctx.m_inputFilePath.c_str() );
             }

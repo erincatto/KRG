@@ -50,6 +50,14 @@ namespace KRG::Timeline
             pItem->ClearDirtyFlag();
         }
     }
+}
+
+//-------------------------------------------------------------------------
+
+namespace KRG::Timeline
+{
+    TEvent<TrackContainer*> TrackContainer::s_onEndModification;
+    TEvent<TrackContainer*> TrackContainer::s_onBeginModification;
 
     //-------------------------------------------------------------------------
 
@@ -63,7 +71,136 @@ namespace KRG::Timeline
         m_isDirty = false;
     }
 
-    bool TrackContainer::Load( TypeSystem::TypeRegistry const& typeRegistry, RapidJsonValue const& dataObjectValue )
+    bool TrackContainer::IsDirty() const
+    {
+        if ( m_isDirty )
+        {
+            return true;
+        }
+
+        for ( auto const pTrack : m_tracks )
+        {
+            if ( pTrack->IsDirty() )
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    void TrackContainer::ClearDirtyFlags()
+    {
+        m_isDirty = false;
+
+        for ( auto pTrack : m_tracks )
+        {
+            pTrack->ClearDirtyFlags();
+        }
+    }
+
+    bool TrackContainer::Contains( Track const* pTrack ) const
+    {
+        return eastl::find( m_tracks.begin(), m_tracks.end(), pTrack ) != m_tracks.end();
+    }
+
+    bool TrackContainer::Contains( TrackItem const* pItem ) const
+    {
+        for ( auto pTrack : m_tracks )
+        {
+            if ( pTrack->Contains( pItem ) )
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    //-------------------------------------------------------------------------
+
+    void TrackContainer::BeginModification()
+    {
+        if ( m_beginModificationCallCount == 0 )
+        {
+            if ( s_onBeginModification.HasBoundUsers() )
+            {
+                s_onBeginModification.Execute( this );
+            }
+        }
+        m_beginModificationCallCount++;
+    }
+
+    void TrackContainer::EndModification()
+    {
+        KRG_ASSERT( m_beginModificationCallCount > 0 );
+        m_beginModificationCallCount--;
+
+        if ( m_beginModificationCallCount == 0 )
+        {
+            if ( s_onEndModification.HasBoundUsers() )
+            {
+                s_onEndModification.Execute( this );
+            }
+        }
+
+        m_isDirty = true;
+    }
+
+    //-------------------------------------------------------------------------
+
+    void TrackContainer::DeleteTrack( Track* pTrack )
+    {
+        KRG_ASSERT( Contains( pTrack ) );
+
+        BeginModification();
+        m_tracks.erase_first( pTrack );
+        KRG::Delete( pTrack );
+        EndModification();
+    }
+
+    void TrackContainer::CreateItem( Track* pTrack, float itemStartTime )
+    {
+        KRG_ASSERT( pTrack != nullptr );
+        KRG_ASSERT( Contains( pTrack ) );
+
+        BeginModification();
+        pTrack->CreateItem( itemStartTime );
+        EndModification();
+    }
+
+    void TrackContainer::UpdateItemTimeRange( TrackItem* pItem, FloatRange const& newTimeRange )
+    {
+        KRG_ASSERT( pItem != nullptr );
+        KRG_ASSERT( Contains( pItem ) );
+        KRG_ASSERT( newTimeRange.IsSetAndValid() );
+
+        BeginModification();
+        pItem->SetTimeRange( newTimeRange );
+        EndModification();
+    }
+
+    void TrackContainer::DeleteItem( TrackItem* pItem )
+    {
+        KRG_ASSERT( pItem != nullptr );
+        KRG_ASSERT( Contains( pItem ) );
+
+        BeginModification();
+
+        for ( auto pTrack : m_tracks )
+        {
+            if ( pTrack->DeleteItem( pItem ) )
+            {
+                break;
+            }
+        }
+
+        EndModification();
+    }
+
+    //-------------------------------------------------------------------------
+
+    bool TrackContainer::Serialize( TypeSystem::TypeRegistry const& typeRegistry, RapidJsonValue const& dataObjectValue )
     {
         auto FreeTrackData = [this] ()
         {
@@ -159,7 +296,7 @@ namespace KRG::Timeline
         return true;
     }
 
-    void TrackContainer::Save( TypeSystem::TypeRegistry const& typeRegistry, RapidJsonWriter& writer )
+    void TrackContainer::Serialize( TypeSystem::TypeRegistry const& typeRegistry, RapidJsonWriter& writer )
     {
         writer.StartArray();
 
@@ -213,59 +350,5 @@ namespace KRG::Timeline
 
         writer.EndArray();
         ClearDirtyFlags();
-    }
-
-    bool TrackContainer::IsDirty() const
-    {
-        if ( m_isDirty )
-        {
-            return true;
-        }
-
-        for ( auto const pTrack : m_tracks )
-        {
-            if ( pTrack->IsDirty() )
-            {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    void TrackContainer::ClearDirtyFlags()
-    {
-        m_isDirty = false;
-
-        for ( auto pTrack : m_tracks )
-        {
-            pTrack->ClearDirtyFlags();
-        }
-    }
-
-    bool TrackContainer::Contains( Track const* pTrack ) const
-    {
-        return eastl::find( m_tracks.begin(), m_tracks.end(), pTrack ) != m_tracks.end();
-    }
-
-    bool TrackContainer::Contains( TrackItem const* pItem ) const
-    {
-        for ( auto pTrack : m_tracks )
-        {
-            if ( pTrack->Contains( pItem ) )
-            {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    void TrackContainer::DeleteTrack( Track* pTrack )
-    {
-        KRG_ASSERT( Contains( pTrack ) );
-        m_tracks.erase_first( pTrack );
-        KRG::Delete( pTrack );
-        m_isDirty = true;
     }
 }

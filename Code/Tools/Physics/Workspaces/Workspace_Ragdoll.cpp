@@ -528,7 +528,7 @@ namespace KRG::Physics
             // Load resource descriptor for skeleton to get the preview mesh
             auto resourceDescPath = GetFileSystemPath( m_pSkeleton.GetResourcePath() );
             Animation::SkeletonResourceDescriptor skeletonResourceDesc;
-            bool const result = TryReadResourceDescriptorFromFile( *m_pToolsContext->m_pTypeRegistry, resourceDescPath, skeletonResourceDesc );
+            bool const result = Resource::ResourceDescriptor::TryReadFromFile( *m_pToolsContext->m_pTypeRegistry, resourceDescPath, skeletonResourceDesc );
             KRG_ASSERT( result );
 
             // Create preview entity
@@ -907,7 +907,7 @@ namespace KRG::Physics
             ImGui::SetNextWindowClass( pWindowClass );
             DrawBodyEditorDetailsWindow( context );
 
-            DrawDescriptorWindow( context, pWindowClass );
+            DrawDescriptorEditorWindow( context, pWindowClass );
         }
         ImGui::EndDisabled();
 

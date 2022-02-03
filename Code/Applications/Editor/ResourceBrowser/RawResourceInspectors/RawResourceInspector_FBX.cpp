@@ -258,7 +258,7 @@ namespace KRG::Resource
             // Skeletons
             //-------------------------------------------------------------------------
 
-            if ( !m_nullSkeletonRoots.empty() )
+            if ( !m_nullSkeletonRoots.empty() || !m_skeletonRoots.empty() )
             {
                 ImGuiX::TextSeparator( "Skeletons", 10, ImGui::GetColumnWidth() );
 

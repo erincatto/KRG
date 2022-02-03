@@ -14,6 +14,7 @@ namespace KRG::Timeline
 {
     class KRG_TOOLS_CORE_API TimelineEditor
     {
+
     protected:
 
         enum class ViewUpdateMode : uint8
@@ -59,6 +60,7 @@ namespace KRG::Timeline
             Track const*            m_pTrackForEditedItem = nullptr;
             TrackItem*              m_pEditedItem = nullptr;
             FloatRange              m_originalTimeRange;
+            bool                    m_isEditing = false;
         };
 
         // The state for the given open context menu
@@ -78,6 +80,8 @@ namespace KRG::Timeline
         TimelineEditor( IntRange const& inTimeRange );
         virtual ~TimelineEditor();
 
+        TrackContainer const* GetTrackContainer() const { return &m_trackContainer; }
+
         inline bool IsPlaying() const { return m_playState == PlayState::Playing; }
         inline bool IsPaused() const { return m_playState == PlayState::Paused; }
 
@@ -86,6 +90,8 @@ namespace KRG::Timeline
 
         inline Percentage GetPlayheadPositionAsPercentage() const { return Percentage( m_playheadTime / m_timeRange.m_end ); }
 
+        inline IntRange GetTimeRange() const { return m_timeRange; }
+
         inline TVector<TrackItem*> const& GetSelectedItems() const { return m_selectedItems; }
         void ClearSelection();
 
@@ -93,8 +99,9 @@ namespace KRG::Timeline
         virtual bool IsDirty() const { return m_trackContainer.IsDirty(); }
         inline void MarkDirty() { m_trackContainer.MarkDirty(); }
 
-        // Request that we save the state
-        virtual bool RequestSave() { return false; }
+        // Serialization
+        virtual bool Serialize( TypeSystem::TypeRegistry const& typeRegistry, RapidJsonValue const& objectValue );
+        virtual void Serialize( TypeSystem::TypeRegistry const& typeRegistry, RapidJsonWriter& writer );
 
     protected:
 
@@ -117,6 +124,9 @@ namespace KRG::Timeline
         // Set the playhead position from a percentage over the time range
         inline void SetPlayheadPositionAsPercentage( Percentage inPercentage ) { m_playheadTime = inPercentage.GetClamped( m_isLoopingEnabled ).ToFloat() * m_timeRange.m_end; }
 
+        virtual void PreChange() {}
+        virtual void PostChange() {}
+
     private:
 
         inline float ConvertPixelsToFrames( float inPixels ) const { return inPixels / m_pixelsPerFrame; }
@@ -125,9 +135,6 @@ namespace KRG::Timeline
         inline void SetViewToEnd() { m_viewUpdateMode = ViewUpdateMode::GoToEnd; }
 
         //-------------------------------------------------------------------------
-
-        // Delete specified item
-        void DeleteItem( TrackItem* pItem );
 
         // Delete specified track
         inline void DeleteTrack( Track* pTrack ) { m_trackContainer.DeleteTrack( pTrack ); }

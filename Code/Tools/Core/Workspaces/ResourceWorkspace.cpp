@@ -24,24 +24,53 @@ namespace KRG
 
         virtual void Undo() override
         {
-            TypeSystem::Serialization::ReadNativeTypeFromString( m_typeRegistry, m_valueBefore, m_pWorkspace->m_pDescriptor );
+            JsonReader typeReader;
+
+            typeReader.ReadFromString( m_valueBefore.c_str() );
+            auto const& document = typeReader.GetDocument();
+            TypeSystem::Serialization::ReadNativeType( m_typeRegistry, document, m_pWorkspace->m_pDescriptor );
+            m_pWorkspace->SerializeCustomDescriptorData( m_typeRegistry, document );
             m_pWorkspace->m_isDirty = true;
         }
 
         virtual void Redo() override
         {
-            TypeSystem::Serialization::ReadNativeTypeFromString( m_typeRegistry, m_valueAfter, m_pWorkspace->m_pDescriptor );
+            JsonReader typeReader;
+
+            typeReader.ReadFromString( m_valueAfter.c_str() );
+            auto const& document = typeReader.GetDocument();
+            TypeSystem::Serialization::ReadNativeType( m_typeRegistry, document, m_pWorkspace->m_pDescriptor );
+            m_pWorkspace->SerializeCustomDescriptorData( m_typeRegistry, document );
             m_pWorkspace->m_isDirty = true;
         }
 
         void SerializeBeforeState()
         {
-            TypeSystem::Serialization::WriteNativeTypeToString( m_typeRegistry, m_pWorkspace->m_pDescriptor, m_valueBefore );
+            JsonWriter writer;
+
+            auto pWriter = writer.GetWriter();
+            pWriter->StartObject();
+            TypeSystem::Serialization::WriteNativeTypeContents( m_typeRegistry, m_pWorkspace->m_pDescriptor, *pWriter );
+            m_pWorkspace->SerializeCustomDescriptorData( m_typeRegistry, *pWriter );
+            pWriter->EndObject();
+
+            m_valueBefore.resize( writer.GetStringBuffer().GetSize() );
+            memcpy( m_valueBefore.data(), writer.GetStringBuffer().GetString(), writer.GetStringBuffer().GetSize() );
         }
 
         void SerializeAfterState()
         {
-            TypeSystem::Serialization::WriteNativeTypeToString( m_typeRegistry, m_pWorkspace->m_pDescriptor, m_valueAfter );
+            JsonWriter writer;
+
+            auto pWriter = writer.GetWriter();
+            pWriter->StartObject();
+            TypeSystem::Serialization::WriteNativeTypeContents( m_typeRegistry, m_pWorkspace->m_pDescriptor, *pWriter );
+            m_pWorkspace->SerializeCustomDescriptorData( m_typeRegistry, *pWriter );
+            pWriter->EndObject();
+
+            m_valueAfter.resize( writer.GetStringBuffer().GetSize() );
+            memcpy( m_valueAfter.data(), writer.GetStringBuffer().GetString(), writer.GetStringBuffer().GetSize() );
+
             m_pWorkspace->m_isDirty = true;
         }
 
@@ -113,16 +142,19 @@ namespace KRG
     void GenericResourceWorkspace::LoadDescriptor()
     {
         KRG_ASSERT( m_pDescriptor == nullptr );
-        TypeSystem::Serialization::TypeReader typeReader( *m_pToolsContext->m_pTypeRegistry );
-        if ( typeReader.ReadFromFile( m_descriptorPath ) )
+
+        JsonReader typeReader;
+        if ( !typeReader.ReadFromFile( m_descriptorPath ) )
         {
-            TypeSystem::TypeDescriptor typeDesc;
-            if ( typeReader.ReadType( typeDesc ) )
-            {
-                m_pDescriptor = typeDesc.CreateTypeInstance<Resource::ResourceDescriptor>( *m_pToolsContext->m_pTypeRegistry );
-                m_descriptorPropertyGrid.SetTypeToEdit( m_pDescriptor );
-            }
+            KRG_LOG_ERROR( "Editor", "Failed to read resource descriptor file: %s", m_descriptorPath.c_str() );
+            return;
         }
+
+        auto const& document = typeReader.GetDocument();
+        m_pDescriptor = Cast<Resource::ResourceDescriptor>( TypeSystem::Serialization::CreateAndReadNativeType( *m_pToolsContext->m_pTypeRegistry, document ) );
+        m_descriptorPropertyGrid.SetTypeToEdit( m_pDescriptor );
+
+        SerializeCustomDescriptorData( *m_pToolsContext->m_pTypeRegistry, document );
     }
 
     void GenericResourceWorkspace::InitializeDockingLayout( ImGuiID dockspaceID ) const
@@ -176,7 +208,7 @@ namespace KRG
         }
     }
 
-    void GenericResourceWorkspace::DrawDescriptorWindow( UpdateContext const& context, ImGuiWindowClass* pWindowClass )
+    void GenericResourceWorkspace::DrawDescriptorEditorWindow( UpdateContext const& context, ImGuiWindowClass* pWindowClass )
     {
         ImGui::SetNextWindowClass( pWindowClass );
         if ( ImGui::Begin( m_descriptorWindowName.c_str() ) )
@@ -197,8 +229,22 @@ namespace KRG
     {
         KRG_ASSERT( m_descriptorID.IsValid() && m_descriptorPath.IsFile() );
         KRG_ASSERT( m_pDescriptor != nullptr );
-        
-        if ( WriteResourceDescriptorToFile( *m_pToolsContext->m_pTypeRegistry, m_descriptorPath, m_pDescriptor ) )
+
+        // Serialize descriptor
+        //-------------------------------------------------------------------------
+
+        JsonWriter descriptorWriter;
+        auto pWriter = descriptorWriter.GetWriter();
+
+        pWriter->StartObject();
+        TypeSystem::Serialization::WriteNativeTypeContents( *m_pToolsContext->m_pTypeRegistry, m_pDescriptor, *pWriter );
+        SerializeCustomDescriptorData( *m_pToolsContext->m_pTypeRegistry, *pWriter );
+        pWriter->EndObject();
+
+        // Save to file
+        //-------------------------------------------------------------------------
+
+        if ( descriptorWriter.WriteToFile( m_descriptorPath ) )
         {
             m_descriptorPropertyGrid.ClearDirty();
             m_isDirty = false;

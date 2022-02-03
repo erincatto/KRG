@@ -39,12 +39,6 @@ namespace KRG::Resource
             }
         }
 
-        template<typename T>
-        inline bool TryReadResourceDescriptor( T& outData, TFunction<bool( rapidjson::Document const& )> const& customDeserializationFunction = TFunction<bool( rapidjson::Document const& )>() ) const
-        {
-            return TryReadResourceDescriptorFromFile( m_typeRegistry, m_inputFilePath, outData, customDeserializationFunction );
-        }
-
     public:
 
         TypeSystem::TypeRegistry const&                 m_typeRegistry;

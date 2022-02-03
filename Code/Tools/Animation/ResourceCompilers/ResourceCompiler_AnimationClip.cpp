@@ -56,7 +56,7 @@ namespace KRG::Animation
         }
 
         SkeletonResourceDescriptor skeletonResourceDescriptor;
-        if ( !TryReadResourceDescriptorFromFile( ctx.m_typeRegistry, skeletonDescriptorFilePath, skeletonResourceDescriptor ) )
+        if ( !Resource::ResourceDescriptor::TryReadFromFile( ctx.m_typeRegistry, skeletonDescriptorFilePath, skeletonResourceDescriptor ) )
         {
             return Error( "Failed to read skeleton resource descriptor from input file: %s", ctx.m_inputFilePath.c_str() );
         }
@@ -362,7 +362,7 @@ namespace KRG::Animation
         }
 
         Timeline::TrackContainer trackContainer;
-        if ( !trackContainer.Load( ctx.m_typeRegistry, eventDataValueObject ) )
+        if ( !trackContainer.Serialize( ctx.m_typeRegistry, eventDataValueObject ) )
         {
             Error( "Malformed event track data" );
             return false;

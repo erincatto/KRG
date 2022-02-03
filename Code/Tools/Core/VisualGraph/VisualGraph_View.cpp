@@ -913,15 +913,15 @@ namespace KRG::VisualGraph
 
     void GraphView::PasteNodes( TypeSystem::TypeRegistry const& typeRegistry, ImVec2 const& canvasPastePosition )
     {
-        JsonReader jsonSerializer;
-        if ( !jsonSerializer.ReadFromString( ImGui::GetClipboardText() ) )
+        JsonReader jsonReader;
+        if ( !jsonReader.ReadFromString( ImGui::GetClipboardText() ) )
         {
             return;
         }
 
         //-------------------------------------------------------------------------
 
-        auto& document = jsonSerializer.GetDocument();
+        auto& document = jsonReader.GetDocument();
 
         auto copiedNodesArrayIter = document.FindMember( s_copiedNodesKey );
         if ( copiedNodesArrayIter == document.MemberEnd() )

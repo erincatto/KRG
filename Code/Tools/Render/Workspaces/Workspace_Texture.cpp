@@ -65,6 +65,6 @@ namespace KRG::Render
 
         //-------------------------------------------------------------------------
 
-        DrawDescriptorWindow( context, pWindowClass );
+        DrawDescriptorEditorWindow( context, pWindowClass );
     }
 }

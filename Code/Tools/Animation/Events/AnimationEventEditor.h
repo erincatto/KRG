@@ -19,21 +19,22 @@ namespace KRG::Animation
     {
     public:
 
-        EventEditor( TypeSystem::TypeRegistry const& typeRegistry, FileSystem::Path const& descriptorPath, uint32 numFrames, float FPS );
+        EventEditor( TypeSystem::TypeRegistry const& typeRegistry );
 
+        void Reset();
+        void SetAnimationLengthAndFPS( uint32 numFrames, float FPS );
         void UpdateAndDraw( UpdateContext const& context, AnimationClipPlayerComponent* pPreviewAnimationComponent );
 
-        virtual bool RequestSave() override;
+        virtual bool Serialize( TypeSystem::TypeRegistry const& typeRegistry, RapidJsonValue const& objectValue ) override;
 
     private:
 
         virtual void DrawAddTracksMenu() override;
 
-        void LoadEventData();
+        void UpdateTimelineTrackFPS();
 
     private:
 
-        TypeSystem::TypeRegistry const&             m_typeRegistry;
         FileSystem::Path const                      m_descriptorPath;
         float                                       m_FPS = 0.0f;
         TVector<TypeSystem::TypeInfo const*>        m_eventTypes;

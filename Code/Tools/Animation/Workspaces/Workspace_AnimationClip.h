@@ -2,6 +2,7 @@
 
 #include "Tools/Core/PropertyGrid/PropertyGrid.h"
 #include "Tools/Core/Workspaces/ResourceWorkspace.h"
+#include "Tools/Animation/Events/AnimationEventEditor.h"
 #include "Engine/Animation/AnimationClip.h"
 
 //-------------------------------------------------------------------------
@@ -23,7 +24,7 @@ namespace KRG::Animation
     public:
 
         AnimationClipWorkspace( ToolsContext const* pToolsContext, EntityWorld* pWorld, ResourceID const& resourceID );
-        virtual ~AnimationClipWorkspace();
+        ~AnimationClipWorkspace();
 
     private:
 
@@ -40,10 +41,14 @@ namespace KRG::Animation
         virtual bool IsDirty() const override;
         virtual bool Save() override;
 
+        virtual void SerializeCustomDescriptorData( TypeSystem::TypeRegistry const& typeRegistry, RapidJsonValue const& descriptorObjectValue ) override;
+        virtual void SerializeCustomDescriptorData( TypeSystem::TypeRegistry const& typeRegistry, RapidJsonWriter& writer ) override;
+
         void DrawTimelineWindow( UpdateContext const& context );
         void DrawTrackDataWindow( UpdateContext const& context );
 
         void CreatePreviewEntity();
+        void CreatePreviewMeshComponent();
 
     private:
 
@@ -54,8 +59,13 @@ namespace KRG::Animation
         Entity*                         m_pPreviewEntity = nullptr;
         AnimationClipPlayerComponent*   m_pAnimationComponent = nullptr;
         Render::SkeletalMeshComponent*  m_pMeshComponent = nullptr;
-        EventEditor*                    m_pEventEditor = nullptr;
+        EventEditor                     m_eventEditor;
         PropertyGrid                    m_propertyGrid;
+        EventBindingID                  m_propertyGridPreEditEventBindingID;
+        EventBindingID                  m_propertyGridPostEditEventBindingID;
+
+        EventBindingID                  m_beginModEventID;
+        EventBindingID                  m_endModEventID;
 
         Transform                       m_characterTransform = Transform::Identity;
         ResourceID                      m_previewMeshOverride;

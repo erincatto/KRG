@@ -24,7 +24,7 @@ namespace KRG::TypeSystem::Serialization
 {
     constexpr static char const* const s_typeIDKey = "TypeID";
 
-    // Descriptors
+    // Type Descriptors
     //-------------------------------------------------------------------------
 
     KRG_SYSTEM_TYPESYSTEM_API bool ReadTypeDescriptorFromJSON( TypeRegistry const& typeRegistry, RapidJsonValue const& typeObjectValue, TypeDescriptor& outDesc );
@@ -39,8 +39,11 @@ namespace KRG::TypeSystem::Serialization
     // Read the data for a native type from JSON - expect a fully created type to be supplied and will override the values
     KRG_SYSTEM_TYPESYSTEM_API bool ReadNativeTypeFromString( TypeRegistry const& typeRegistry, String const& jsonString, IRegisteredType* pTypeInstance );
 
-    // Write the property data for a supplied native type to JSON
+    // Serialize a supplied native type to JSON - creates a new JSON object for this type
     KRG_SYSTEM_TYPESYSTEM_API void WriteNativeType( TypeRegistry const& typeRegistry, IRegisteredType const* pTypeInstance, RapidJsonWriter& writer );
+
+    // Writes out the type ID and property data for a supplied native type to an existing JSON object - Note: This function does not create a new json object!
+    KRG_SYSTEM_TYPESYSTEM_API void WriteNativeTypeContents( TypeRegistry const& typeRegistry, IRegisteredType const* pTypeInstance, RapidJsonWriter& writer );
 
     // Write the property data for a supplied native type to JSON
     KRG_SYSTEM_TYPESYSTEM_API void WriteNativeTypeToString( TypeRegistry const& typeRegistry, IRegisteredType const* pTypeInstance, String& outString );

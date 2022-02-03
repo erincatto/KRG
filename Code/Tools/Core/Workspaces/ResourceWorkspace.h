@@ -6,6 +6,7 @@
 #include "Engine/Core/ToolsUI/Gizmo.h"
 #include "System/TypeSystem/TypeRegistry.h"
 #include "System/Resource/ResourceSystem.h"
+#include "System/Core/ThirdParty/KRG_RapidJson.h"
 
 //-------------------------------------------------------------------------
 
@@ -49,10 +50,14 @@ namespace KRG
         void EndModification();
         void MarkDirty() { m_isDirty = true; }
 
-        void DrawDescriptorWindow( UpdateContext const& context, ImGuiWindowClass* pWindowClass );
+        // Descriptor
+        void DrawDescriptorEditorWindow( UpdateContext const& context, ImGuiWindowClass* pWindowClass );
 
         template<typename T>
         T* GetDescriptorAs() { return Cast<T>( m_pDescriptor ); }
+
+        virtual void SerializeCustomDescriptorData( TypeSystem::TypeRegistry const& typeRegistry, RapidJsonValue const& descriptorObjectValue ) {}
+        virtual void SerializeCustomDescriptorData( TypeSystem::TypeRegistry const& typeRegistry, RapidJsonWriter& writer ) {}
 
         virtual void BeginHotReload( TVector<Resource::ResourceRequesterID> const& usersToBeReloaded, TVector<ResourceID> const& resourcesToBeReloaded ) override;
         virtual void EndHotReload() override;
@@ -60,6 +65,7 @@ namespace KRG
     private:
 
         void LoadDescriptor();
+
 
     protected:
 
