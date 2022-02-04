@@ -1,16 +1,28 @@
 # Kruger Prototype Game Engine
 
+![Kruger Logo](Docs/KRG_Logo.png)
+
 Kruger is a game engine framework, basically an engine without a renderer. It contains a lot of the boilerplate machinery required for resource management, serialization, gameplay, etc. It provides a lot of references for how to potentially build a resource system, basic reflection and a AAA-level animation system. It could be a good framework for building your own renderer or just to experiment with as most of the tedious/annoying/time consuming pieces are already there.
 
 ## Important Note
 
 >This is a prototype engine that I use to mess around with, as such there will be bugs and crashes (primarily with the tooling side). It is meant as a reference or a starter pack not as a production ready tool. Please don't expect me to be actively maintaining it. That said, feel free to flag issues and bugs and I will try to fix them when I have some time.
 
-## Examples
+## Help Needed: Rendering + Examples
 
-There are no examples of any of the tech supplied unfortunately since I do not have any assets that I can release publically. If anyone wants to donate a character model and some animations, I can built and provide examples of the various tools.
+There are no examples of any of the tech supplied unfortunately since I do not have any assets that I can release publically. If anyone wants to donate a character model and some animations, I can build and provide examples of the various tools.
+
+If anyone wants to use KRG to build or experiment with modern rendering, I'd welcome the collaboration. I can provide all the plumbing/engine support needed so you can focus on the pure rendering aspect. It would need to be DX12 though.
 
 ## What's included
+
+|Anim Graph | Ragdoll|
+|---|---|
+|![Kruger Animation Graph](Docs/KRG_AnimGraph.png)|![Kruger Ragdoll](Docs/KRG_Ragdoll.png)|
+
+
+
+
 
 * Basic core of a game engine (serialization, math, string handling, logging, etc...)
 * Libclang based c++ reflection and code-generation
