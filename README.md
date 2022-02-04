@@ -16,11 +16,13 @@ If anyone wants to use KRG to build or experiment with modern rendering, I'd wel
 
 ## What's included
 
-|Anim Graph | Ragdoll|
-|---|---|
+|Resource Pipeline | Basic Editor |
+|:---:|:---:|
+|![Kruger Resource Server](Docs/KRG_ResourceServer.png)|![Kruger Editor](Docs/KRG_Editor.png)|
+
+| Animation Graph | Ragdoll Editor |
+|:---:|:---:|
 |![Kruger Animation Graph](Docs/KRG_AnimGraph.png)|![Kruger Ragdoll](Docs/KRG_Ragdoll.png)|
-
-
 
 
 
