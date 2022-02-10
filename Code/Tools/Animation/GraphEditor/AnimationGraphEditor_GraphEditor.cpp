@@ -635,7 +635,7 @@ namespace KRG::Animation
 
         for ( auto const& resourceToView : m_resourceViewRequests )
         {
-            m_pToolsContext->TryOpenResource( context, resourceToView );
+            m_pToolsContext->TryOpenResource( resourceToView );
         }
     }
 

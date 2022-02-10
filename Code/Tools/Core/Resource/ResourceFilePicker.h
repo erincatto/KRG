@@ -4,6 +4,13 @@
 
 //-------------------------------------------------------------------------
 
+namespace KRG
+{
+    class ToolsContext;
+}
+
+//-------------------------------------------------------------------------
+
 namespace KRG::Resource
 {
     class ResourceDatabase;
@@ -23,7 +30,7 @@ namespace KRG::Resource
 
     public:
 
-        ResourceFilePicker( ResourceDatabase const& database );
+        ResourceFilePicker( ToolsContext const& toolsContext );
 
         // Get the raw resource data path
         FileSystem::Path const& GetRawResourceDirectoryPath() const;
@@ -43,7 +50,7 @@ namespace KRG::Resource
 
     private:
 
-        ResourceDatabase const&         m_database;
+        ToolsContext const&             m_toolsContext;
         char                            m_filterBuffer[256];
         TVector<PickerOption>           m_knownResourceIDs;
         TVector<PickerOption>           m_filteredResourceIDs;

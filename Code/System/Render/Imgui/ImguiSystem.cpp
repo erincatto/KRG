@@ -155,7 +155,8 @@ namespace KRG::ImGuiX
         io.DeltaTime = deltaTime;
 
         Platform::UpdateDisplayInformation();
-        Platform::UpdateMouseInformation();
+        Platform::UpdateInputInformation();
+
         ImGui::NewFrame();
     }
 

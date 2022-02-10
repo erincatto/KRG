@@ -20,6 +20,6 @@
     <Copy SkipUnchangedFiles="True" SourceFiles="$(LLVM_DIR)bin\libclang.dll" DestinationFolder="$(OutDir)" />
   </Target>
   <Target Name="LLVM_CleanDLL" BeforeTargets="Clean">
-    <Delete Files="$(OutDir)libclang.dll" />
+    <Delete TreatErrorsAsWarnings="True" Files="$(OutDir)libclang.dll" />
   </Target>
 </Project>

@@ -572,12 +572,12 @@ namespace KRG
             // Key actions
             //-------------------------------------------------------------------------
 
-            if ( m_selectedPointIdx != InvalidIndex && ImGui::IsKeyPressedMap( ImGuiKey_Delete ) )
+            if ( m_selectedPointIdx != InvalidIndex && ImGui::IsKeyPressed( ImGuiKey_Delete ) )
             {
                 DeletePoint( m_selectedPointIdx );
             }
 
-            if ( ImGui::IsKeyPressedMap( ImGuiKey_Space ) )
+            if ( ImGui::IsKeyPressed( ImGuiKey_Space ) )
             {
                 Float2 const mouseCurvePos = GetCurvePosFromScreenPos( io.MousePos );
                 CreatePoint( mouseCurvePos.m_x, mouseCurvePos.m_y );

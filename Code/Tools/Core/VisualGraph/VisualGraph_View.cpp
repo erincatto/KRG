@@ -1584,16 +1584,16 @@ namespace KRG::VisualGraph
         // These operation require the graph view to be focused!
         if ( m_hasFocus )
         {
-            if ( ImGui::GetIO().KeyCtrl && ImGui::IsKeyPressed( ImGui::GetKeyIndex( ImGuiKey_C ) ) )
+            if ( ImGui::GetIO().KeyCtrl && ImGui::IsKeyPressed( ImGuiKey_C ) )
             {
                 CopySelectedNodes( typeRegistry );
             }
-            else if ( ImGui::GetIO().KeyCtrl && ImGui::IsKeyPressed( ImGui::GetKeyIndex( ImGuiKey_X ) ) )
+            else if ( ImGui::GetIO().KeyCtrl && ImGui::IsKeyPressed( ImGuiKey_X ) )
             {
                 CopySelectedNodes( typeRegistry );
                 DestroySelectedNodes();
             }
-            else if ( ImGui::GetIO().KeyCtrl && ImGui::IsKeyPressed( ImGui::GetKeyIndex( ImGuiKey_V ) ) )
+            else if ( ImGui::GetIO().KeyCtrl && ImGui::IsKeyPressed( ImGuiKey_V ) )
             {
                 ImVec2 pasteLocation( 0.0f, 0.0f );
 
@@ -1609,12 +1609,12 @@ namespace KRG::VisualGraph
                 PasteNodes( typeRegistry, pasteLocation );
             }
 
-            if ( !m_selectedNodes.empty() && ImGui::IsKeyPressed( ImGui::GetKeyIndex( ImGuiKey_Delete ) ) )
+            if ( !m_selectedNodes.empty() && ImGui::IsKeyPressed( ImGuiKey_Delete ) )
             {
                 DestroySelectedNodes();
             }
 
-            if ( ImGui::IsKeyPressed( ImGui::GetKeyIndex( ImGuiKey_Home ) ) )
+            if ( ImGui::IsKeyPressed( ImGuiKey_Home ) )
             {
                 ResetView();
             }

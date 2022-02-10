@@ -466,7 +466,7 @@ namespace KRG
         if ( isFocused )
         {
             auto& IO = ImGui::GetIO();
-            if ( IO.KeyCtrl && ImGui::IsKeyPressed( ImGui::GetKeyIndex( ImGuiKey_Z ) ) )
+            if ( IO.KeyCtrl && ImGui::IsKeyPressed( ImGuiKey_Z ) )
             {
                 if ( pWorkspace->CanUndo() )
                 {
@@ -474,7 +474,7 @@ namespace KRG
                 }
             }
 
-            if ( IO.KeyCtrl && ImGui::IsKeyPressed( ImGui::GetKeyIndex( ImGuiKey_Y ) ) )
+            if ( IO.KeyCtrl && ImGui::IsKeyPressed( ImGuiKey_Y ) )
             {
                 if ( pWorkspace->CanRedo() )
                 {

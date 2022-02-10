@@ -19,6 +19,6 @@
     <Copy SkipUnchangedFiles="True" SourceFiles="$(SQLITE_BIN_DIR)Sqlite.dll" DestinationFolder="$(OutDir)" />
   </Target>
   <Target Name="Sqlite_CleanDLL" BeforeTargets="Clean">
-    <Delete Files="$(OutDir)Sqlite.dll" />
+    <Delete TreatErrorsAsWarnings="True" Files="$(OutDir)Sqlite.dll" />
   </Target>
 </Project>

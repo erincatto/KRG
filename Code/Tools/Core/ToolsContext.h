@@ -4,7 +4,6 @@
 
 namespace KRG
 {
-    class UpdateContext;
     class ResourceID;
     namespace Resource { class ResourceSystem; class ResourceDatabase; }
     namespace TypeSystem { class TypeRegistry; }
@@ -17,7 +16,7 @@ namespace KRG
 
         inline bool IsValid() const { return m_pTypeRegistry != nullptr && m_pResourceDatabase != nullptr && m_pResourceSystem != nullptr; }
 
-        virtual bool TryOpenResource( UpdateContext const& context, ResourceID const& resourceID ) const = 0;
+        virtual void TryOpenResource( ResourceID const& resourceID ) const = 0;
 
     public:
 

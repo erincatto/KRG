@@ -29,7 +29,7 @@ namespace KRG::Animation
 
     public:
 
-        GraphVariationEditor( Resource::ResourceDatabase const* pResourceDatabase, EditorGraphDefinition* pGraphDefinition );
+        GraphVariationEditor( ToolsContext const& toolsContext, EditorGraphDefinition* pGraphDefinition );
 
         void UpdateAndDraw( UpdateContext const& context, ImGuiWindowClass* pWindowClass, char const* pWindowName );
 

@@ -53,7 +53,7 @@ namespace KRG
 
     PropertyGrid::PropertyGrid( ToolsContext const* pToolsContext )
         : m_pToolsContext( pToolsContext )
-        , m_resourcePicker( *pToolsContext->m_pResourceDatabase )
+        , m_resourcePicker( *pToolsContext )
     {
         KRG_ASSERT( m_pToolsContext != nullptr && m_pToolsContext->IsValid() );
     }

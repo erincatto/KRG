@@ -13,7 +13,7 @@ namespace KRG::ImGuiX::Platform
 
     // Called each frame
     void UpdateDisplayInformation();
-    void UpdateMouseInformation();
+    void UpdateInputInformation();
 
     // Returns 0 when the message isnt handled, used to embed into another wnd proc
     KRG_SYSTEM_RENDER_API LRESULT WindowsMessageHandler( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam );

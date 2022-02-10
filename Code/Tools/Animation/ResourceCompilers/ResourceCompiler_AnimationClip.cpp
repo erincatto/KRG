@@ -168,10 +168,13 @@ namespace KRG::Animation
                 Transform const deltaRoot = Transform::DeltaNoScale( animClip.m_rootMotionTrack[i - 1], animClip.m_rootMotionTrack[i] );
                 totalDistance += deltaRoot.GetTranslation().GetLength3();
 
-                // We use the negative world forward since deltas are relative to the identity transform
-                Vector const deltaForward2D = deltaRoot.GetForwardVector().GetNormalized2();
-                Radians const deltaAngle = Math::GetYawAngleBetweenVectors( deltaForward2D, Vector::WorldBackward ).GetClamped360();
-                totalRotation += Math::Abs( (float) deltaAngle );
+                // If we have a rotation delta, accumulate the yaw value
+                if ( !deltaRoot.GetRotation().IsIdentity() )
+                {
+                    Vector const deltaForward2D = deltaRoot.GetForwardVector().GetNormalized2();
+                    Radians const deltaAngle = Math::GetYawAngleBetweenVectors( deltaForward2D, Vector::WorldBackward ).GetClamped360();
+                    totalRotation += Math::Abs( (float) deltaAngle );
+                }
             }
         }
 

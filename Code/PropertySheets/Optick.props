@@ -19,6 +19,6 @@
     <Copy SkipUnchangedFiles="True" SourceFiles="$(OPTICK_LIB_DIR)OptickCore.dll" DestinationFolder="$(OutDir)" />
   </Target>
   <Target Name="Optick_CleanDLL" BeforeTargets="Clean">
-    <Delete Files="$(OutDir)OptickCore.dll" />
+    <Delete TreatErrorsAsWarnings="True" Files="$(OutDir)OptickCore.dll" />
   </Target>
 </Project>

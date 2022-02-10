@@ -64,6 +64,6 @@
     <Copy SkipUnchangedFiles="True" SourceFiles="$(SolutionDir)Code\KRG.ini" DestinationFolder="$(OutDir)" />
   </Target>
   <Target Name="KRG_CleanINI" BeforeTargets="Clean">
-    <Delete Files="$(OutDir)KRG.ini" />
+    <Delete TreatErrorsAsWarnings="True" Files="$(OutDir)KRG.ini" />
   </Target>
 </Project>

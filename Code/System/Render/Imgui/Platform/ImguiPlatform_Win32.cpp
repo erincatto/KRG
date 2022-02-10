@@ -28,6 +28,7 @@ namespace KRG::ImGuiX::Platform
         HWND                        hWnd;
         HWND                        MouseHwnd;
         bool                        MouseTracked = false;
+        int                         MouseButtonsDown = 0;
         WNDCLASSEX                  m_imguiWindowClass;
         ImGuiMouseCursor            LastMouseCursor;
         bool                        WantUpdateHasGamepad = false;
@@ -317,6 +318,168 @@ namespace KRG::ImGuiX::Platform
         return true;
     }
 
+    static void ImGui_ImplWin32_AddKeyEvent( ImGuiKey key, bool down, int native_keycode, int native_scancode = -1 )
+    {
+        ImGuiIO& io = ImGui::GetIO();
+        io.AddKeyEvent( key, down );
+        io.SetKeyEventNativeData( key, native_keycode, native_scancode ); // To support legacy indexing (<1.87 user code)
+        IM_UNUSED( native_scancode );
+    }
+
+    // There is no distinct VK_xxx for keypad enter, instead it is VK_RETURN + KF_EXTENDED, we assign it an arbitrary value to make code more readable (VK_ codes go up to 255)
+    #define IM_VK_KEYPAD_ENTER      (VK_RETURN + 256)
+
+    static bool IsVkDown( int vk )
+    {
+        return ( ::GetKeyState( vk ) & 0x8000 ) != 0;
+    }
+
+    static ImGuiKey ImGui_ImplWin32_VirtualKeyToImGuiKey( WPARAM wParam )
+    {
+        switch ( wParam )
+        {
+            case VK_TAB: return ImGuiKey_Tab;
+            case VK_LEFT: return ImGuiKey_LeftArrow;
+            case VK_RIGHT: return ImGuiKey_RightArrow;
+            case VK_UP: return ImGuiKey_UpArrow;
+            case VK_DOWN: return ImGuiKey_DownArrow;
+            case VK_PRIOR: return ImGuiKey_PageUp;
+            case VK_NEXT: return ImGuiKey_PageDown;
+            case VK_HOME: return ImGuiKey_Home;
+            case VK_END: return ImGuiKey_End;
+            case VK_INSERT: return ImGuiKey_Insert;
+            case VK_DELETE: return ImGuiKey_Delete;
+            case VK_BACK: return ImGuiKey_Backspace;
+            case VK_SPACE: return ImGuiKey_Space;
+            case VK_RETURN: return ImGuiKey_Enter;
+            case VK_ESCAPE: return ImGuiKey_Escape;
+            case VK_OEM_7: return ImGuiKey_Apostrophe;
+            case VK_OEM_COMMA: return ImGuiKey_Comma;
+            case VK_OEM_MINUS: return ImGuiKey_Minus;
+            case VK_OEM_PERIOD: return ImGuiKey_Period;
+            case VK_OEM_2: return ImGuiKey_Slash;
+            case VK_OEM_1: return ImGuiKey_Semicolon;
+            case VK_OEM_PLUS: return ImGuiKey_Equal;
+            case VK_OEM_4: return ImGuiKey_LeftBracket;
+            case VK_OEM_5: return ImGuiKey_Backslash;
+            case VK_OEM_6: return ImGuiKey_RightBracket;
+            case VK_OEM_3: return ImGuiKey_GraveAccent;
+            case VK_CAPITAL: return ImGuiKey_CapsLock;
+            case VK_SCROLL: return ImGuiKey_ScrollLock;
+            case VK_NUMLOCK: return ImGuiKey_NumLock;
+            case VK_SNAPSHOT: return ImGuiKey_PrintScreen;
+            case VK_PAUSE: return ImGuiKey_Pause;
+            case VK_NUMPAD0: return ImGuiKey_Keypad0;
+            case VK_NUMPAD1: return ImGuiKey_Keypad1;
+            case VK_NUMPAD2: return ImGuiKey_Keypad2;
+            case VK_NUMPAD3: return ImGuiKey_Keypad3;
+            case VK_NUMPAD4: return ImGuiKey_Keypad4;
+            case VK_NUMPAD5: return ImGuiKey_Keypad5;
+            case VK_NUMPAD6: return ImGuiKey_Keypad6;
+            case VK_NUMPAD7: return ImGuiKey_Keypad7;
+            case VK_NUMPAD8: return ImGuiKey_Keypad8;
+            case VK_NUMPAD9: return ImGuiKey_Keypad9;
+            case VK_DECIMAL: return ImGuiKey_KeypadDecimal;
+            case VK_DIVIDE: return ImGuiKey_KeypadDivide;
+            case VK_MULTIPLY: return ImGuiKey_KeypadMultiply;
+            case VK_SUBTRACT: return ImGuiKey_KeypadSubtract;
+            case VK_ADD: return ImGuiKey_KeypadAdd;
+            case IM_VK_KEYPAD_ENTER: return ImGuiKey_KeypadEnter;
+            case VK_LSHIFT: return ImGuiKey_LeftShift;
+            case VK_LCONTROL: return ImGuiKey_LeftCtrl;
+            case VK_LMENU: return ImGuiKey_LeftAlt;
+            case VK_LWIN: return ImGuiKey_LeftSuper;
+            case VK_RSHIFT: return ImGuiKey_RightShift;
+            case VK_RCONTROL: return ImGuiKey_RightCtrl;
+            case VK_RMENU: return ImGuiKey_RightAlt;
+            case VK_RWIN: return ImGuiKey_RightSuper;
+            case VK_APPS: return ImGuiKey_Menu;
+            case '0': return ImGuiKey_0;
+            case '1': return ImGuiKey_1;
+            case '2': return ImGuiKey_2;
+            case '3': return ImGuiKey_3;
+            case '4': return ImGuiKey_4;
+            case '5': return ImGuiKey_5;
+            case '6': return ImGuiKey_6;
+            case '7': return ImGuiKey_7;
+            case '8': return ImGuiKey_8;
+            case '9': return ImGuiKey_9;
+            case 'A': return ImGuiKey_A;
+            case 'B': return ImGuiKey_B;
+            case 'C': return ImGuiKey_C;
+            case 'D': return ImGuiKey_D;
+            case 'E': return ImGuiKey_E;
+            case 'F': return ImGuiKey_F;
+            case 'G': return ImGuiKey_G;
+            case 'H': return ImGuiKey_H;
+            case 'I': return ImGuiKey_I;
+            case 'J': return ImGuiKey_J;
+            case 'K': return ImGuiKey_K;
+            case 'L': return ImGuiKey_L;
+            case 'M': return ImGuiKey_M;
+            case 'N': return ImGuiKey_N;
+            case 'O': return ImGuiKey_O;
+            case 'P': return ImGuiKey_P;
+            case 'Q': return ImGuiKey_Q;
+            case 'R': return ImGuiKey_R;
+            case 'S': return ImGuiKey_S;
+            case 'T': return ImGuiKey_T;
+            case 'U': return ImGuiKey_U;
+            case 'V': return ImGuiKey_V;
+            case 'W': return ImGuiKey_W;
+            case 'X': return ImGuiKey_X;
+            case 'Y': return ImGuiKey_Y;
+            case 'Z': return ImGuiKey_Z;
+            case VK_F1: return ImGuiKey_F1;
+            case VK_F2: return ImGuiKey_F2;
+            case VK_F3: return ImGuiKey_F3;
+            case VK_F4: return ImGuiKey_F4;
+            case VK_F5: return ImGuiKey_F5;
+            case VK_F6: return ImGuiKey_F6;
+            case VK_F7: return ImGuiKey_F7;
+            case VK_F8: return ImGuiKey_F8;
+            case VK_F9: return ImGuiKey_F9;
+            case VK_F10: return ImGuiKey_F10;
+            case VK_F11: return ImGuiKey_F11;
+            case VK_F12: return ImGuiKey_F12;
+            default: return ImGuiKey_None;
+        }
+    }
+
+    static void ImGui_ImplWin32_ProcessKeyEventsWorkarounds()
+    {
+        // Left & right Shift keys: when both are pressed together, Windows tend to not generate the WM_KEYUP event for the first released one.
+        if ( ImGui::IsKeyDown( ImGuiKey_LeftShift ) && !IsVkDown( VK_LSHIFT ) )
+        {
+            ImGui_ImplWin32_AddKeyEvent( ImGuiKey_LeftShift, false, VK_LSHIFT );
+        }
+
+        if ( ImGui::IsKeyDown( ImGuiKey_RightShift ) && !IsVkDown( VK_RSHIFT ) )
+        {
+            ImGui_ImplWin32_AddKeyEvent( ImGuiKey_RightShift, false, VK_RSHIFT );
+        }
+
+        // Sometimes WM_KEYUP for Win key is not passed down to the app (e.g. for Win+V on some setups, according to GLFW).
+        if ( ImGui::IsKeyDown( ImGuiKey_LeftSuper ) && !IsVkDown( VK_LWIN ) )
+        {
+            ImGui_ImplWin32_AddKeyEvent( ImGuiKey_LeftSuper, false, VK_LWIN );
+        }
+
+        if ( ImGui::IsKeyDown( ImGuiKey_RightSuper ) && !IsVkDown( VK_RWIN ) )
+        {
+            ImGui_ImplWin32_AddKeyEvent( ImGuiKey_RightSuper, false, VK_RWIN );
+        }
+    }
+
+    static void ImGui_ImplWin32_UpdateKeyModifiers()
+    {
+        ImGuiIO& io = ImGui::GetIO();
+        io.AddKeyEvent( ImGuiKey_ModCtrl, IsVkDown( VK_CONTROL ) );
+        io.AddKeyEvent( ImGuiKey_ModShift, IsVkDown( VK_SHIFT ) );
+        io.AddKeyEvent( ImGuiKey_ModAlt, IsVkDown( VK_MENU ) );
+        io.AddKeyEvent( ImGuiKey_ModSuper, IsVkDown( VK_APPS ) );
+    }
+
     //-------------------------------------------------------------------------
 
     // Returns 0 when the message isnt handled, used to embed into another wnd proc
@@ -337,6 +500,13 @@ namespace KRG::ImGuiX::Platform
                     ::TrackMouseEvent( &tme );
                     pBackendData->MouseTracked = true;
                 }
+
+                POINT mouse_pos = { (LONG) ( (int) (short) LOWORD( lParam ) ), (LONG) ( (int) (short) HIWORD( lParam ) ) };
+                if ( io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable )
+                {
+                    ::ClientToScreen( hwnd, &mouse_pos );
+                }
+                io.AddMousePosEvent( (float) mouse_pos.x, (float) mouse_pos.y );
             }
             break;
 
@@ -347,6 +517,7 @@ namespace KRG::ImGuiX::Platform
                     pBackendData->MouseHwnd = NULL;
                 }
                 pBackendData->MouseTracked = false;
+                io.AddMousePosEvent( -FLT_MAX, -FLT_MAX );
             }
             break;
 
@@ -361,11 +532,13 @@ namespace KRG::ImGuiX::Platform
                 if ( msg == WM_MBUTTONDOWN || msg == WM_MBUTTONDBLCLK ) { button = 2; }
                 if ( msg == WM_XBUTTONDOWN || msg == WM_XBUTTONDBLCLK ) { button = ( GET_XBUTTON_WPARAM( wParam ) == XBUTTON1 ) ? 3 : 4; }
 
-                if ( !ImGui::IsAnyMouseDown() && ::GetCapture() == NULL )
+                if ( pBackendData->MouseButtonsDown == 0 && ::GetCapture() == NULL )
                 {
                     ::SetCapture( hwnd );
                 }
-                io.MouseDown[button] = true;
+
+                pBackendData->MouseButtonsDown |= 1 << button;
+                io.AddMouseButtonEvent( button, true );
             }
             break;
 
@@ -380,23 +553,24 @@ namespace KRG::ImGuiX::Platform
                 if ( msg == WM_MBUTTONUP ) { button = 2; }
                 if ( msg == WM_XBUTTONUP ) { button = ( GET_XBUTTON_WPARAM( wParam ) == XBUTTON1 ) ? 3 : 4; }
 
-                io.MouseDown[button] = false;
-                if ( !ImGui::IsAnyMouseDown() && ::GetCapture() == hwnd )
+                if ( pBackendData->MouseButtonsDown == 0 && ::GetCapture() == NULL )
                 {
                     ::ReleaseCapture();
                 }
+
+                io.AddMouseButtonEvent( button, false );
             }
             break;
 
             case WM_MOUSEWHEEL:
             {
-                io.MouseWheel += (float) GET_WHEEL_DELTA_WPARAM( wParam ) / (float) WHEEL_DELTA;
+                io.AddMouseWheelEvent( 0.0f, (float) GET_WHEEL_DELTA_WPARAM( wParam ) / (float) WHEEL_DELTA );
             }
             break;
 
             case WM_MOUSEHWHEEL:
             {
-                io.MouseWheelH += (float) GET_WHEEL_DELTA_WPARAM( wParam ) / (float) WHEEL_DELTA;
+                io.AddMouseWheelEvent( (float) GET_WHEEL_DELTA_WPARAM( wParam ) / (float) WHEEL_DELTA, 0.0f );
             }
             break;
 
@@ -408,21 +582,42 @@ namespace KRG::ImGuiX::Platform
                 bool const isKeyDown = ( msg == WM_KEYDOWN || msg == WM_SYSKEYDOWN );
                 if ( wParam < 256 )
                 {
-                    io.KeysDown[wParam] = isKeyDown;
-                }
-                if ( wParam == VK_CONTROL )
-                {
-                    io.KeyCtrl = isKeyDown;
-                }
+                    // Submit modifiers
+                    ImGui_ImplWin32_UpdateKeyModifiers();
 
-                if ( wParam == VK_SHIFT )
-                {
-                    io.KeyShift = isKeyDown;
-                }
+                    // Obtain virtual key code
+                    // (keypad enter doesn't have its own... VK_RETURN with KF_EXTENDED flag means keypad enter, see IM_VK_KEYPAD_ENTER definition for details, it is mapped to ImGuiKey_KeyPadEnter.)
+                    int vk = (int) wParam;
+                    if ( ( wParam == VK_RETURN ) && ( HIWORD( lParam ) & KF_EXTENDED ) )
+                    {
+                        vk = IM_VK_KEYPAD_ENTER;
+                    }
 
-                if ( wParam == VK_MENU )
-                {
-                    io.KeyAlt = isKeyDown;
+                    // Submit key event
+                    const ImGuiKey key = ImGui_ImplWin32_VirtualKeyToImGuiKey( vk );
+                    const int scancode = (int) LOBYTE( HIWORD( lParam ) );
+                    if ( key != ImGuiKey_None )
+                    {
+                        ImGui_ImplWin32_AddKeyEvent( key, isKeyDown, vk, scancode );
+                    }
+
+                    // Submit individual left/right modifier events
+                    if ( vk == VK_SHIFT )
+                    {
+                        // Important: Shift keys tend to get stuck when pressed together, missing key-up events are corrected in ImGui_ImplWin32_ProcessKeyEventsWorkarounds()
+                        if ( IsVkDown( VK_LSHIFT ) == isKeyDown ) { ImGui_ImplWin32_AddKeyEvent( ImGuiKey_LeftShift, isKeyDown, VK_LSHIFT, scancode ); }
+                        if ( IsVkDown( VK_RSHIFT ) == isKeyDown ) { ImGui_ImplWin32_AddKeyEvent( ImGuiKey_RightShift, isKeyDown, VK_RSHIFT, scancode ); }
+                    }
+                    else if ( vk == VK_CONTROL )
+                    {
+                        if ( IsVkDown( VK_LCONTROL ) == isKeyDown ) { ImGui_ImplWin32_AddKeyEvent( ImGuiKey_LeftCtrl, isKeyDown, VK_LCONTROL, scancode ); }
+                        if ( IsVkDown( VK_RCONTROL ) == isKeyDown ) { ImGui_ImplWin32_AddKeyEvent( ImGuiKey_RightCtrl, isKeyDown, VK_RCONTROL, scancode ); }
+                    }
+                    else if ( vk == VK_MENU )
+                    {
+                        if ( IsVkDown( VK_LMENU ) == isKeyDown ) { ImGui_ImplWin32_AddKeyEvent( ImGuiKey_LeftAlt, isKeyDown, VK_LMENU, scancode ); }
+                        if ( IsVkDown( VK_RMENU ) == isKeyDown ) { ImGui_ImplWin32_AddKeyEvent( ImGuiKey_RightAlt, isKeyDown, VK_RMENU, scancode ); }
+                    }
                 }
             }
             break;
@@ -524,100 +719,68 @@ namespace KRG::ImGuiX::Platform
 
     //-------------------------------------------------------------------------
 
-    void UpdateMousePosition()
+    void ImGui_ImplWin32_UpdateMouseData()
     {
         ImGuiIO& io = ImGui::GetIO();
         ImGuiBackendDataWin32* pBackendData = reinterpret_cast<ImGuiBackendDataWin32*>( io.BackendPlatformUserData );
+        IM_ASSERT( pBackendData->hWnd != 0 );
 
         //-------------------------------------------------------------------------
 
-        ImVec2 const mouse_pos_prev = io.MousePos;
-        io.MousePos = ImVec2( -FLT_MAX, -FLT_MAX );
-        io.MouseHoveredViewport = 0;
-
-        // Obtain focused and hovered window. We forward mouse input when focused or when hovered (and no other window is capturing)
-        HWND focused_window = ::GetForegroundWindow();
-        HWND hovered_window = pBackendData->MouseHwnd;
-        HWND mouse_window = NULL;
-
-        if ( hovered_window && ( hovered_window == pBackendData->hWnd || ::IsChild( hovered_window, pBackendData->hWnd ) || ImGui::FindViewportByPlatformHandle( (void*) hovered_window ) ) )
-        {
-            mouse_window = hovered_window;
-        }
-        else if ( focused_window && ( focused_window == pBackendData->hWnd || ::IsChild( focused_window, pBackendData->hWnd ) || ImGui::FindViewportByPlatformHandle( (void*) focused_window ) ) )
-        {
-            mouse_window = focused_window;
-        }
-
-        if ( mouse_window == NULL )
-        {
-            return;
-        }
-
-        // Set OS mouse position from Dear ImGui if requested (rarely used, only when ImGuiConfigFlags_NavEnableSetMousePos is enabled by user)
-        // (When multi-viewports are enabled, all Dear ImGui positions are same as OS positions)
-        if ( io.WantSetMousePos )
-        {
-            POINT pos = { (int) mouse_pos_prev.x, (int) mouse_pos_prev.y };
-            if ( ( io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable ) == 0 )
-            {
-                ::ClientToScreen( mouse_window, &pos );
-            }
-            ::SetCursorPos( pos.x, pos.y );
-        }
-
-        // Set imgui mouse position
         POINT mouse_screen_pos;
-        if ( !::GetCursorPos( &mouse_screen_pos ) )
-        {
-            return;
-        }
+        bool has_mouse_screen_pos = ::GetCursorPos( &mouse_screen_pos ) != 0;
 
-        if ( io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable )
+        HWND focused_window = ::GetForegroundWindow();
+        const bool is_app_focused = ( focused_window && ( focused_window == pBackendData->hWnd || ::IsChild( focused_window, pBackendData->hWnd ) || ImGui::FindViewportByPlatformHandle( (void*) focused_window ) ) );
+        if ( is_app_focused )
         {
-            // Multi - viewport mode : mouse position in OS absolute coordinates( io.MousePos is( 0, 0 ) when the mouse is on the upper - left of the primary monitor )
-            // This is the position you can get with ::GetCursorPos() or WM_MOUSEMOVE + ::ClientToScreen(). In theory adding viewport->Pos to a client position would also be the same.
-            io.MousePos = ImVec2( (float) mouse_screen_pos.x, (float) mouse_screen_pos.y );
-        }
-        else
-        {
-            // Single viewport mode: mouse position in client window coordinates (io.MousePos is (0,0) when the mouse is on the upper-left corner of the app window)
-            // This is the position you can get with ::GetCursorPos() + ::ScreenToClient() or WM_MOUSEMOVE.
-            POINT mouse_client_pos = mouse_screen_pos;
-            ::ScreenToClient( pBackendData->hWnd, &mouse_client_pos );
-            io.MousePos = ImVec2( (float) mouse_client_pos.x, (float) mouse_client_pos.y );
-        }
-
-        // (Optional) When using multiple viewports: set io.MouseHoveredViewport to the viewport the OS mouse cursor is hovering.
-        // Important: this information is not easy to provide and many high-level windowing library won't be able to provide it correctly, because
-        // - This is _ignoring_ viewports with the ImGuiViewportFlags_NoInputs flag (pass-through windows).
-        // - This is _regardless_ of whether another viewport is focused or being dragged from.
-        // If ImGuiBackendFlags_HasMouseHoveredViewport is not set by the back-end, imgui will ignore this field and infer the information by relying on the
-        // rectangles and last focused time of every viewports it knows about. It will be unaware of foreign windows that may be sitting between or over your windows.
-        if ( HWND hovered_hwnd = ::WindowFromPoint( mouse_screen_pos ) )
-        {
-            if ( ImGuiViewport* viewport = ImGui::FindViewportByPlatformHandle( (void*) hovered_hwnd ) )
+            // (Optional) Set OS mouse position from Dear ImGui if requested (rarely used, only when ImGuiConfigFlags_NavEnableSetMousePos is enabled by user)
+            // When multi-viewports are enabled, all Dear ImGui positions are same as OS positions.
+            if ( io.WantSetMousePos )
             {
-                if ( ( viewport->Flags & ImGuiViewportFlags_NoInputs ) == 0 ) // FIXME: We still get our NoInputs window with WM_NCHITTEST/HTTRANSPARENT code when decorated?
+                POINT pos = { (int) io.MousePos.x, (int) io.MousePos.y };
+                if ( ( io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable ) == 0 )
                 {
-                    io.MouseHoveredViewport = viewport->ID;
+                    ::ClientToScreen( focused_window, &pos );
+                }
+                ::SetCursorPos( pos.x, pos.y );
+            }
+
+            // (Optional) Fallback to provide mouse position when focused (WM_MOUSEMOVE already provides this when hovered or captured)
+            if ( !io.WantSetMousePos && !pBackendData->MouseTracked && has_mouse_screen_pos )
+            {
+                // Single viewport mode: mouse position in client window coordinates (io.MousePos is (0,0) when the mouse is on the upper-left corner of the app window)
+                // (This is the position you can get with ::GetCursorPos() + ::ScreenToClient() or WM_MOUSEMOVE.)
+                // Multi-viewport mode: mouse position in OS absolute coordinates (io.MousePos is (0,0) when the mouse is on the upper-left of the primary monitor)
+                // (This is the position you can get with ::GetCursorPos() or WM_MOUSEMOVE + ::ClientToScreen(). In theory adding viewport->Pos to a client position would also be the same.)
+                POINT mouse_pos = mouse_screen_pos;
+                if ( !( io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable ) )
+                {
+                    ::ScreenToClient( pBackendData->hWnd, &mouse_pos );
+                }
+                io.AddMousePosEvent( (float) mouse_pos.x, (float) mouse_pos.y );
+            }
+        }
+
+        // (Optional) When using multiple viewports: call io.AddMouseViewportEvent() with the viewport the OS mouse cursor is hovering.
+        // If ImGuiBackendFlags_HasMouseHoveredViewport is not set by the backend, Dear imGui will ignore this field and infer the information using its flawed heuristic.
+        // - [X] Win32 backend correctly ignore viewports with the _NoInputs flag (here using ::WindowFromPoint with WM_NCHITTEST + HTTRANSPARENT in WndProc does that)
+        //       Some backend are not able to handle that correctly. If a backend report an hovered viewport that has the _NoInputs flag (e.g. when dragging a window
+        //       for docking, the viewport has the _NoInputs flag in order to allow us to find the viewport under), then Dear ImGui is forced to ignore the value reported
+        //       by the backend, and use its flawed heuristic to guess the viewport behind.
+        // - [X] Win32 backend correctly reports this regardless of another viewport behind focused and dragged from (we need this to find a useful drag and drop target).
+        ImGuiID mouse_viewport_id = 0;
+        if ( has_mouse_screen_pos )
+        {
+            if ( HWND hovered_hwnd = ::WindowFromPoint( mouse_screen_pos ) )
+            {
+                if ( ImGuiViewport* viewport = ImGui::FindViewportByPlatformHandle( (void*) hovered_hwnd ) )
+                {
+                    mouse_viewport_id = viewport->ID;
                 }
             }
         }
-    }
-
-    void UpdateMouseCursor()
-    {
-        ImGuiIO& io = ImGui::GetIO();
-        ImGuiBackendDataWin32* pBackendData = reinterpret_cast<ImGuiBackendDataWin32*>( io.BackendPlatformUserData );
-
-        // Update OS mouse cursor with the cursor requested by imgui
-        ImGuiMouseCursor mouse_cursor = io.MouseDrawCursor ? ImGuiMouseCursor_None : ImGui::GetMouseCursor();
-        if ( pBackendData->LastMouseCursor != mouse_cursor )
-        {
-            pBackendData->LastMouseCursor = mouse_cursor;
-            ImGui_ImplWin32_UpdateMouseCursor();
-        }
+        io.AddMouseViewportEvent( mouse_viewport_id );
     }
 
     //-------------------------------------------------------------------------
@@ -648,32 +811,6 @@ namespace KRG::ImGuiX::Platform
 
         ImGuiViewport* pMainViewport = ImGui::GetMainViewport();
         pMainViewport->PlatformHandle = pMainViewport->PlatformHandleRaw = (void*) pBackendData->hWnd;
-
-        // Set key mappings
-        //-------------------------------------------------------------------------
-
-        io.KeyMap[ImGuiKey_Tab] = VK_TAB;
-        io.KeyMap[ImGuiKey_LeftArrow] = VK_LEFT;
-        io.KeyMap[ImGuiKey_RightArrow] = VK_RIGHT;
-        io.KeyMap[ImGuiKey_UpArrow] = VK_UP;
-        io.KeyMap[ImGuiKey_DownArrow] = VK_DOWN;
-        io.KeyMap[ImGuiKey_PageUp] = VK_PRIOR;
-        io.KeyMap[ImGuiKey_PageDown] = VK_NEXT;
-        io.KeyMap[ImGuiKey_Home] = VK_HOME;
-        io.KeyMap[ImGuiKey_End] = VK_END;
-        io.KeyMap[ImGuiKey_Insert] = VK_INSERT;
-        io.KeyMap[ImGuiKey_Delete] = VK_DELETE;
-        io.KeyMap[ImGuiKey_Backspace] = VK_BACK;
-        io.KeyMap[ImGuiKey_Space] = VK_SPACE;
-        io.KeyMap[ImGuiKey_Enter] = VK_RETURN;
-        io.KeyMap[ImGuiKey_Escape] = VK_ESCAPE;
-        io.KeyMap[ImGuiKey_KeyPadEnter] = VK_RETURN;
-        io.KeyMap[ImGuiKey_A] = 'A';
-        io.KeyMap[ImGuiKey_C] = 'C';
-        io.KeyMap[ImGuiKey_V] = 'V';
-        io.KeyMap[ImGuiKey_X] = 'X';
-        io.KeyMap[ImGuiKey_Y] = 'Y';
-        io.KeyMap[ImGuiKey_Z] = 'Z';
 
         // Set up platform IO bindings
         //-------------------------------------------------------------------------
@@ -757,10 +894,26 @@ namespace KRG::ImGuiX::Platform
         }
     }
 
-    void UpdateMouseInformation()
+    void UpdateInputInformation()
     {
-        UpdateMousePosition();
-        UpdateMouseCursor();
+        ImGuiIO& io = ImGui::GetIO();
+        ImGuiBackendDataWin32* pBackendData = reinterpret_cast<ImGuiBackendDataWin32*>( io.BackendPlatformUserData );
+
+        //-------------------------------------------------------------------------
+
+        // Update OS mouse position
+        ImGui_ImplWin32_UpdateMouseData();
+
+        // Process workarounds for known Windows key handling issues
+        ImGui_ImplWin32_ProcessKeyEventsWorkarounds();
+
+        // Update OS mouse cursor with the cursor requested by imgui
+        ImGuiMouseCursor mouse_cursor = io.MouseDrawCursor ? ImGuiMouseCursor_None : ImGui::GetMouseCursor();
+        if ( pBackendData->LastMouseCursor != mouse_cursor )
+        {
+            pBackendData->LastMouseCursor = mouse_cursor;
+            ImGui_ImplWin32_UpdateMouseCursor();
+        }
     }
 
     LRESULT WindowsMessageHandler( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam )

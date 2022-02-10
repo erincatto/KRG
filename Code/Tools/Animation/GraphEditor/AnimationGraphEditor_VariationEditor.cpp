@@ -9,9 +9,9 @@
 
 namespace KRG::Animation
 {
-    GraphVariationEditor::GraphVariationEditor( Resource::ResourceDatabase const* pResourceDatabase, EditorGraphDefinition* pGraphDefinition )
+    GraphVariationEditor::GraphVariationEditor( ToolsContext const& toolsContext, EditorGraphDefinition* pGraphDefinition )
         : m_pGraphDefinition( pGraphDefinition )
-        , m_resourcePicker( *pResourceDatabase )
+        , m_resourcePicker( toolsContext )
     {
         KRG_ASSERT( m_pGraphDefinition != nullptr );
 

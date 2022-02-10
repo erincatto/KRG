@@ -467,12 +467,12 @@ namespace KRG::EntityModel
 
         if ( m_isViewportFocused || m_isViewportHovered )
         {
-            if ( ImGui::IsKeyPressed( ImGui::GetKeyIndex( ImGuiKey_Space ) ) )
+            if ( ImGui::IsKeyPressed( ImGuiKey_Space ) )
             {
                 m_gizmo.SwitchToNextMode();
             }
 
-            if ( ImGui::IsKeyPressed( ImGui::GetKeyIndex( ImGuiKey_Delete ) ) )
+            if ( ImGui::IsKeyPressed( ImGuiKey_Delete ) )
             {
                 m_context.DestroySelectedEntities();
             }

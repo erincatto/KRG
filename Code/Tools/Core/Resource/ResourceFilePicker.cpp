@@ -1,6 +1,7 @@
 #include "ResourceFilePicker.h"
 #include "ResourceDatabase.h"
 #include "System/Render/Imgui/ImguiX.h"
+#include "Tools/Core/ToolsContext.h"
 
 //-------------------------------------------------------------------------
 
@@ -18,15 +19,16 @@ namespace KRG::Resource
 
     //-------------------------------------------------------------------------
 
-    ResourceFilePicker::ResourceFilePicker( ResourceDatabase const& database )
-        : m_database( database )
+    ResourceFilePicker::ResourceFilePicker( ToolsContext const& toolsContext )
+        : m_toolsContext( toolsContext )
     {
+        KRG_ASSERT( toolsContext.IsValid() );
         Memory::MemsetZero( m_filterBuffer, 256 * sizeof( char ) );
     }
 
     FileSystem::Path const& ResourceFilePicker::GetRawResourceDirectoryPath() const
     {
-        return m_database.GetRawResourceDirectoryPath();
+        return m_toolsContext.m_pResourceDatabase->GetRawResourceDirectoryPath();
     }
 
     void ResourceFilePicker::RefreshResourceList( ResourceTypeID resourceTypeID )
@@ -35,14 +37,14 @@ namespace KRG::Resource
 
         if ( resourceTypeID.IsValid() )
         {
-            for ( auto const& resourceRecord : m_database.GetAllResourcesOfType( resourceTypeID ) )
+            for ( auto const& resourceRecord : m_toolsContext.m_pResourceDatabase->GetAllResourcesOfType( resourceTypeID ) )
             {
                 m_knownResourceIDs.emplace_back( resourceRecord->m_resourceID.GetResourcePath() );
             }
         }
         else
         {
-            for ( auto const& resourceListPair : m_database.GetAllResources() )
+            for ( auto const& resourceListPair : m_toolsContext.m_pResourceDatabase->GetAllResources() )
             {
                 for ( auto const& resourceRecord : resourceListPair.second )
                 {
@@ -130,9 +132,10 @@ namespace KRG::Resource
         ImGui::SameLine( 0, itemSpacing );
         ImGui::SetNextItemWidth( contentRegionAvailable - ( itemSpacing * 3 ) - ( buttonWidth * 2 ) - resourceTypeWindowWidth );
         ImGui::InputText( "##DataPath", const_cast<char*>( pResourceID->GetResourcePath().c_str() ), pResourceID->GetResourcePath().GetString().length(), ImGuiInputTextFlags_ReadOnly );
+        ImGuiX::ItemTooltip( pResourceID->GetResourcePath().c_str() );
 
         ImGui::SameLine( 0, itemSpacing );
-        if ( ImGui::Button( KRG_ICON_CROSSHAIRS "##Pick", ImVec2( buttonWidth, 0 ) ) )
+        if ( ImGui::Button( KRG_ICON_HAND_POINTER "##Pick", ImVec2( buttonWidth, 0 ) ) )
         {
             ImGui::OpenPopup( "Resource Picker" );
             m_filterBuffer[0] = 0;
@@ -142,10 +145,34 @@ namespace KRG::Resource
         }
 
         ImGui::SameLine( 0, itemSpacing );
-        if ( ImGui::Button( KRG_ICON_TIMES_CIRCLE "##Clear", ImVec2( buttonWidth, 0 ) ) )
+        ImGui::BeginDisabled( !pResourceID->IsValid() );
+        if ( ImGui::Button( KRG_ICON_CARET_DOWN "##Options", ImVec2( buttonWidth, 0 ) ) )
         {
-            m_selectedID.Clear();
-            valueUpdated = true;
+            ImGui::OpenPopup( "##ResourcePickerOptions" );
+        }
+        ImGui::EndDisabled();
+
+        //-------------------------------------------------------------------------
+
+        if( ImGui::BeginPopup( "##ResourcePickerOptions" ) )
+        {
+            if ( ImGui::MenuItem( KRG_ICON_EYE "Open Resource" ) )
+            {
+                m_toolsContext.TryOpenResource( *pResourceID );
+            }
+
+            if ( ImGui::MenuItem( KRG_ICON_COPY "Copy Resource Path" ) )
+            {
+                ImGui::SetClipboardText( pResourceID->GetResourcePath().ToFileSystemPath( m_toolsContext.m_pResourceDatabase->GetRawResourceDirectoryPath() ).c_str() );
+            }
+
+            if ( ImGui::MenuItem( KRG_ICON_ERASER "Clear" ) )
+            {
+                m_selectedID.Clear();
+                valueUpdated = true;
+            }
+
+            ImGui::EndPopup();
         }
 
         ImGui::PopID();

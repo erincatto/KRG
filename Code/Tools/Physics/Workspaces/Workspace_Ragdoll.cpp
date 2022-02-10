@@ -386,7 +386,7 @@ namespace KRG::Physics
         : TResourceWorkspace<RagdollDefinition>( pToolsContext, pWorld, resourceID, shouldLoadResource )
         , m_bodyEditorPropertyGrid( pToolsContext )
         , m_solverSettingsGrid( pToolsContext )
-        , m_resourceFilePicker( *pToolsContext->m_pResourceDatabase )
+        , m_resourceFilePicker( *pToolsContext )
     {
         SetViewportCameraSpeed( 5.0f );
         SetWorldTimeControlsEnabled( true );
@@ -852,7 +852,7 @@ namespace KRG::Physics
 
                 if ( m_isViewportFocused )
                 {
-                    if ( ImGui::IsKeyPressed( ImGui::GetKeyIndex( ImGuiKey_Space ) ) )
+                    if ( ImGui::IsKeyPressed( ImGuiKey_Space ) )
                     {
                         m_gizmo.SwitchToNextMode();
                     }

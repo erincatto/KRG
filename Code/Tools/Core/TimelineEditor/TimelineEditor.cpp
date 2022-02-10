@@ -221,18 +221,18 @@ namespace KRG::Timeline
         // Keyboard
         //-------------------------------------------------------------------------
 
-        if ( ImGui::IsKeyReleased( ImGui::GetKeyIndex( ImGuiKey_Space ) ) )
+        if ( ImGui::IsKeyReleased( ImGuiKey_Space ) )
         {
             SetPlayState( m_playState == PlayState::Playing ? PlayState::Paused : PlayState::Playing );
         }
-        else if ( ImGui::IsKeyReleased( ImGui::GetKeyIndex( ImGuiKey_Enter ) ) )
+        else if ( ImGui::IsKeyReleased( ImGuiKey_Enter ) )
         {
             for ( auto pTrack : m_selectedTracks )
             {
                 m_trackContainer.CreateItem( pTrack, m_playheadTime );
             }
         }
-        else  if ( ImGui::IsKeyReleased( ImGui::GetKeyIndex( ImGuiKey_Delete ) ) )
+        else  if ( ImGui::IsKeyReleased( ImGuiKey_Delete ) )
         {
             TVector<TrackItem*> copiedSelectedItems = m_selectedItems;
             ClearSelection();

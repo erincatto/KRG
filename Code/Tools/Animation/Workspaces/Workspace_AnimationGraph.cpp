@@ -131,7 +131,7 @@ namespace KRG::Animation
         //-------------------------------------------------------------------------
 
         m_pControlParameterEditor = KRG::New<GraphControlParameterEditor>( m_pGraphDefinition );
-        m_pVariationEditor = KRG::New<GraphVariationEditor>( m_pToolsContext->m_pResourceDatabase, m_pGraphDefinition );
+        m_pVariationEditor = KRG::New<GraphVariationEditor>( *m_pToolsContext, m_pGraphDefinition );
         m_pGraphEditor = KRG::New<GraphEditor>( m_pToolsContext, m_pGraphDefinition );
 
         // Bind events

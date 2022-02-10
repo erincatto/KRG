@@ -21,6 +21,6 @@
     <Copy SkipUnchangedFiles="True" Condition="$(NAVPOWER_INCLUDED) == 'True'" SourceFiles="$(NAVPOWER_LIB_DIR)AllNavPowerDll_CMT.dll" DestinationFolder="$(OutDir)" />
   </Target>
   <Target Name="Navpower_CleanDLL" BeforeTargets="Clean">
-    <Delete Condition="$(NAVPOWER_INCLUDED) == 'True'" Files="$(OutDir)AllNavPowerDll_CMT.dll" />
+    <Delete Condition="$(NAVPOWER_INCLUDED) == 'True'" TreatErrorsAsWarnings="True" Files="$(OutDir)AllNavPowerDll_CMT.dll" />
   </Target>
 </Project>

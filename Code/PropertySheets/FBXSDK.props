@@ -20,6 +20,6 @@
     <Copy SkipUnchangedFiles="True" SourceFiles="$(FBX_SDK_LIB_DIR)libfbxsdk.dll" DestinationFolder="$(OutDir)" />
   </Target>
   <Target Name="FBX_CleanDLL" BeforeTargets="Clean">
-    <Delete Files="$(OutDir)libfbxsdk.dll" />
+    <Delete TreatErrorsAsWarnings="True" Files="$(OutDir)libfbxsdk.dll" />
   </Target>
 </Project>

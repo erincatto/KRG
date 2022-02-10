@@ -14,6 +14,7 @@
 
 namespace KRG
 {
+    class UpdateContext;
     class Entity;
     class EntityWorld;
     class EntityWorldUpdateContext;

@@ -76,14 +76,12 @@ namespace KRG
 
         void DestroyWorkspaceInternal( UpdateContext const& context, EditorWorkspace* pWorkspace );
 
-        virtual bool TryOpenResource( UpdateContext const& context, ResourceID const& resourceID ) const override
+        virtual void TryOpenResource( ResourceID const& resourceID ) const override
         {
             if ( resourceID.IsValid() )
             {
-                return const_cast<EditorContext*>( this )->TryCreateWorkspace( context, resourceID );
+                const_cast<EditorContext*>( this )->QueueCreateWorkspace( resourceID );
             }
-
-            return false;
         }
 
     private:

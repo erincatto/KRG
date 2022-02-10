@@ -109,7 +109,7 @@ namespace KRG::EntityModel
                             m_context.SelectEntity( pEntity );
                         }
                     }
-                    else if ( ImGui::IsKeyReleased( ImGui::GetKeyIndex( ImGuiKey_Enter ) ) )
+                    else if ( ImGui::IsKeyReleased( ImGuiKey_Enter ) )
                     {
                         m_context.SelectEntity( pEntity );
                     }

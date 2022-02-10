@@ -24,6 +24,6 @@
     <Copy SkipUnchangedFiles="True" SourceFiles="$(GNS_BIN_DIR)GameNetworkingSockets.dll;$(GNS_BIN_DIR)libcrypto-1_1-x64.dll;$(GNS_BIN_DIR)libprotobuf.dll;$(GNS_BIN_DIR)libssl-1_1-x64.dll" DestinationFolder="$(OutDir)" />
   </Target>
   <Target Name="GNS_CleanDLL" BeforeTargets="Clean">
-    <Delete Files="$(OutDir)GameNetworkingSockets.dll;$(OutDir)libcrypto-1_1-x64.dll;$(OutDir)libprotobuf.dll;$(OutDir)libssl-1_1-x64.dll" />
+    <Delete TreatErrorsAsWarnings="True" Files="$(OutDir)GameNetworkingSockets.dll;$(OutDir)libcrypto-1_1-x64.dll;$(OutDir)libprotobuf.dll;$(OutDir)libssl-1_1-x64.dll" />
   </Target>
 </Project>
