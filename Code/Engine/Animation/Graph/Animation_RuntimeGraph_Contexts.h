@@ -4,7 +4,6 @@
 #include "Animation_RuntimeGraph_Common.h"
 #include "Animation_RuntimeGraph_RootMotionRecorder.h"
 #include "Engine/Animation/AnimationBoneMask.h"
-#include "Engine/Animation/TaskSystem/Animation_TaskSystem.h"
 #include "System/Core/Math/Transform.h"
 #include "System/Core/Time/Time.h"
 
@@ -17,6 +16,8 @@ namespace KRG::Physics { class Scene; }
 namespace KRG::Animation
 {
     class RootMotionRecorder;
+    class TaskSystem;
+    class Pose;
 
     //-------------------------------------------------------------------------
     // Layer Context

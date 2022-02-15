@@ -6,21 +6,21 @@
 
 namespace KRG::Animation
 {
+    #if KRG_DEVELOPMENT_TOOLS
+    enum class TaskSystemDebugMode
+    {
+        Off,
+        FinalPose,
+        PoseTree,
+        DetailedPoseTree
+    };
+    #endif
+
+    //-------------------------------------------------------------------------
+
     class TaskSystem
     {
         friend class AnimationDebugView;
-
-    public:
-
-        #if KRG_DEVELOPMENT_TOOLS
-        enum class DebugMode
-        {
-            Off,
-            FinalPose,
-            PoseTree,
-            DetailedPoseTree
-        };
-        #endif
 
     public:
 
@@ -67,8 +67,8 @@ namespace KRG::Animation
         //-------------------------------------------------------------------------
 
         #if KRG_DEVELOPMENT_TOOLS
-        void SetDebugMode( DebugMode mode );
-        DebugMode GetDebugMode() const { return m_debugMode; }
+        void SetDebugMode( TaskSystemDebugMode mode );
+        TaskSystemDebugMode GetDebugMode() const { return m_debugMode; }
         void DrawDebug( Drawing::DrawContext& drawingContext );
         #endif
 
@@ -91,7 +91,7 @@ namespace KRG::Animation
         bool                            m_hasCodependentPhysicsTasks = false;
 
         #if KRG_DEVELOPMENT_TOOLS
-        DebugMode                       m_debugMode = DebugMode::Off;
+        TaskSystemDebugMode             m_debugMode = TaskSystemDebugMode::Off;
         #endif
     };
 }

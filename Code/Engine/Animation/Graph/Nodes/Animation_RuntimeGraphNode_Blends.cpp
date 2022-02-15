@@ -1,5 +1,6 @@
 #include "Animation_RuntimeGraphNode_Blends.h"
 #include "Engine/Animation/AnimationClip.h"
+#include "Engine/Animation/TaskSystem/Animation_TaskSystem.h"
 #include "Engine/Animation/TaskSystem/Tasks/Animation_Task_Blend.h"
 
 //-------------------------------------------------------------------------

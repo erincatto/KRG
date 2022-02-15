@@ -31,7 +31,7 @@
 #define CEREAL_TYPES_SET_HPP_
 
 #include <cereal/cereal.hpp>
-#include <set>
+#include <EASTL/set.h>
 
 namespace cereal
 {

@@ -1,4 +1,5 @@
 #include "Animation_RuntimeGraphNode_AnimationClip.h"
+#include "Engine/Animation/TaskSystem/Animation_TaskSystem.h"
 #include "Engine/Animation/TaskSystem/Tasks/Animation_Task_DefaultPose.h"
 #include "Engine/Animation/TaskSystem/Tasks/Animation_Task_Sample.h"
 #include "System/Core/Logging/Log.h"

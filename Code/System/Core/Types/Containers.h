@@ -2,42 +2,28 @@
 
 #include "System/Core/Memory/Memory.h"
 #include <EASTL/vector.h>
-#include <EASTL/array.h>
-#include <EASTL/list.h>
-#include <EASTL/set.h>
-#include <EASTL/vector_set.h>
-#include <EASTL/map.h>
-#include <EASTL/queue.h>
-#include <EASTL/deque.h>
-#include <EASTL/hash_map.h>
-#include <EASTL/hash_set.h>
-#include <EASTL/bitset.h>
-#include <EASTL/stack.h>
-#include <EASTL/bitvector.h>
-#include <EASTL/sort.h>
 #include <EASTL/fixed_vector.h>
-#include "EASTL/allocator.h"
+#include <EASTL/array.h>
+#include <EASTL/hash_map.h>
+
+//#include <EASTL/bitset.h>
+//#include <EASTL/stack.h>
+//#include <EASTL/bitvector.h>
+//#include <EASTL/sort.h>
+//#include "EASTL/allocator.h"
 
 //-------------------------------------------------------------------------
 
 namespace KRG
 {
     //-------------------------------------------------------------------------
-    // Type aliases for STL
+    // Most commonly used containers aliases
     //-------------------------------------------------------------------------
 
     template<typename T> using TVector = eastl::vector<T>;
-    template<typename T> using TSortedVector = eastl::vector_set<T>;
     template<typename T, eastl_size_t S> using TInlineVector = eastl::fixed_vector<T, S, true>;
     template<typename T, eastl_size_t S> using TArray = eastl::array<T, S>;
-    template<typename T> using TList = eastl::list<T>;
-    template<typename T> using TSet = eastl::set<T>;
-    template<typename T> using TStack = eastl::stack<T>;
-    template<typename T> using TQueue = eastl::queue<T>;
-    template<typename T> using TDeque = eastl::deque<T>;
-    template<typename T> using TMultiSet = eastl::multiset<T>;
     template<typename K, typename V, typename H = eastl::hash<K>> using THashMap = eastl::hash_map<K, V, H>;
-    template<typename V, typename H = eastl::hash<V>> using THashSet = eastl::hash_set<V, H>;
     template<typename K, typename V> using TPair = eastl::pair<K, V>;
 
     //-------------------------------------------------------------------------

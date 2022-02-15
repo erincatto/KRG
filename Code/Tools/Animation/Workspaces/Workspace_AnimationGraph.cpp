@@ -284,56 +284,56 @@ namespace KRG::Animation
         {
             ImGuiX::TextSeparator( "Root Motion debug" );
 
-            bool const isRootVisualizationOff = m_rootMotionDebugMode == RootMotionRecorder::DebugMode::Off;
+            bool const isRootVisualizationOff = m_rootMotionDebugMode == RootMotionRecorderDebugMode::Off;
             if ( ImGui::RadioButton( "No Visualization", isRootVisualizationOff ) )
             {
-                m_rootMotionDebugMode = RootMotionRecorder::DebugMode::Off;
+                m_rootMotionDebugMode = RootMotionRecorderDebugMode::Off;
             }
 
-            bool const isRootVisualizationOn = m_rootMotionDebugMode == RootMotionRecorder::DebugMode::DrawRoot;
+            bool const isRootVisualizationOn = m_rootMotionDebugMode == RootMotionRecorderDebugMode::DrawRoot;
             if ( ImGui::RadioButton( "Draw Root", isRootVisualizationOn ) )
             {
-                m_rootMotionDebugMode = RootMotionRecorder::DebugMode::DrawRoot;
+                m_rootMotionDebugMode = RootMotionRecorderDebugMode::DrawRoot;
             }
 
-            bool const isRootMotionRecordingEnabled = m_rootMotionDebugMode == RootMotionRecorder::DebugMode::DrawRecordedRootMotion;
+            bool const isRootMotionRecordingEnabled = m_rootMotionDebugMode == RootMotionRecorderDebugMode::DrawRecordedRootMotion;
             if ( ImGui::RadioButton( "Draw Recorded Root Motion", isRootMotionRecordingEnabled ) )
             {
-                m_rootMotionDebugMode = RootMotionRecorder::DebugMode::DrawRecordedRootMotion;
+                m_rootMotionDebugMode = RootMotionRecorderDebugMode::DrawRecordedRootMotion;
             }
 
-            bool const isAdvancedRootMotionRecordingEnabled = m_rootMotionDebugMode == RootMotionRecorder::DebugMode::DrawRecordedRootMotionAdvanced;
+            bool const isAdvancedRootMotionRecordingEnabled = m_rootMotionDebugMode == RootMotionRecorderDebugMode::DrawRecordedRootMotionAdvanced;
             if ( ImGui::RadioButton( "Draw Advanced Recorded Root Motion", isAdvancedRootMotionRecordingEnabled ) )
             {
-                m_rootMotionDebugMode = RootMotionRecorder::DebugMode::DrawRecordedRootMotionAdvanced;
+                m_rootMotionDebugMode = RootMotionRecorderDebugMode::DrawRecordedRootMotionAdvanced;
             }
 
             //-------------------------------------------------------------------------
 
             ImGuiX::TextSeparator( "Pose Debug" );
 
-            bool const isVisualizationOff = m_taskSystemDebugMode == TaskSystem::DebugMode::Off;
+            bool const isVisualizationOff = m_taskSystemDebugMode == TaskSystemDebugMode::Off;
             if ( ImGui::RadioButton( "No Visualization", isVisualizationOff ) )
             {
-                m_taskSystemDebugMode = TaskSystem::DebugMode::Off;
+                m_taskSystemDebugMode = TaskSystemDebugMode::Off;
             }
 
-            bool const isFinalPoseEnabled = m_taskSystemDebugMode == TaskSystem::DebugMode::FinalPose;
+            bool const isFinalPoseEnabled = m_taskSystemDebugMode == TaskSystemDebugMode::FinalPose;
             if ( ImGui::RadioButton( "Final Pose", isFinalPoseEnabled ) )
             {
-                m_taskSystemDebugMode = TaskSystem::DebugMode::FinalPose;
+                m_taskSystemDebugMode = TaskSystemDebugMode::FinalPose;
             }
 
-            bool const isPoseTreeEnabled = m_taskSystemDebugMode == TaskSystem::DebugMode::PoseTree;
+            bool const isPoseTreeEnabled = m_taskSystemDebugMode == TaskSystemDebugMode::PoseTree;
             if ( ImGui::RadioButton( "Pose Tree", isPoseTreeEnabled ) )
             {
-                m_taskSystemDebugMode = TaskSystem::DebugMode::PoseTree;
+                m_taskSystemDebugMode = TaskSystemDebugMode::PoseTree;
             }
 
-            bool const isDetailedPoseTreeEnabled = m_taskSystemDebugMode == TaskSystem::DebugMode::DetailedPoseTree;
+            bool const isDetailedPoseTreeEnabled = m_taskSystemDebugMode == TaskSystemDebugMode::DetailedPoseTree;
             if ( ImGui::RadioButton( "Detailed Pose Tree", isDetailedPoseTreeEnabled ) )
             {
-                m_taskSystemDebugMode = TaskSystem::DebugMode::DetailedPoseTree;
+                m_taskSystemDebugMode = TaskSystemDebugMode::DetailedPoseTree;
             }
 
             //-------------------------------------------------------------------------

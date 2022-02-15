@@ -169,7 +169,7 @@ namespace KRG::Animation
 
     public:
 
-        TaskIndex                       m_taskIdx = InvalidIndex;
+        int8                            m_taskIdx = InvalidIndex;
         Transform                       m_rootMotionDelta = Transform::Identity;
         SampledEventRange               m_sampledEventRange;
     };

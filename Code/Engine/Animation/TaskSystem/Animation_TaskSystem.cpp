@@ -212,10 +212,10 @@ namespace KRG::Animation
     //-------------------------------------------------------------------------
 
     #if KRG_DEVELOPMENT_TOOLS
-    void TaskSystem::SetDebugMode( DebugMode mode )
+    void TaskSystem::SetDebugMode( TaskSystemDebugMode mode )
     {
         m_debugMode = mode;
-        m_posePool.EnableRecording( m_debugMode != DebugMode::Off );
+        m_posePool.EnableRecording( m_debugMode != TaskSystemDebugMode::Off );
     }
 
     void TaskSystem::CalculateTaskOffset( TaskIndex taskIdx, Float2 const& currentOffset, TInlineVector<Float2, 16>& offsets )
@@ -251,7 +251,7 @@ namespace KRG::Animation
 
     void TaskSystem::DrawDebug( Drawing::DrawContext& drawingContext )
     {
-        if ( m_debugMode == DebugMode::Off )
+        if ( m_debugMode == TaskSystemDebugMode::Off )
         {
             return;
         }
@@ -266,7 +266,7 @@ namespace KRG::Animation
 
         //-------------------------------------------------------------------------
 
-        if ( m_debugMode == DebugMode::FinalPose )
+        if ( m_debugMode == TaskSystemDebugMode::FinalPose )
         {
             auto const& pFinalTask = m_tasks.back();
             KRG_ASSERT( pFinalTask->IsComplete() );

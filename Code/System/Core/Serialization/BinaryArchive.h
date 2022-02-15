@@ -1,7 +1,6 @@
 #pragma once
 
 #include "System/Core/_Module/API.h"
-#include "Serialization.h"
 #include "System/Core/Types/Containers.h"
 #include "System/Core/FileSystem/FileSystemPath.h"
 #include "System/Core/Memory/MemoryStreamHelpers.h"
@@ -9,6 +8,7 @@
 #include <ostream>
 
 // Cereal support for common STL types
+#include <cereal/cereal.hpp>
 #include <cereal/types/complex.hpp>
 #include <cereal/types/array.hpp>
 #include <cereal/types/common.hpp>

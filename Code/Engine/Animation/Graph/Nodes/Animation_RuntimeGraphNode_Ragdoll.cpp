@@ -1,4 +1,5 @@
 #include "Animation_RuntimeGraphNode_Ragdoll.h"
+#include "Engine/Animation/TaskSystem/Animation_TaskSystem.h"
 #include "Engine/Animation/TaskSystem/Tasks/Animation_Task_Ragdoll.h"
 #include "Engine/Animation/TaskSystem/Tasks/Animation_Task_DefaultPose.h"
 #include "Engine/Physics/PhysicsRagdoll.h"

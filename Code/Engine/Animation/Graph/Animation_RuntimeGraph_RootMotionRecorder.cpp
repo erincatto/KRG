@@ -12,10 +12,10 @@ namespace KRG::Animation
         m_recordedRootTransforms.reserve( s_recordingBufferSize );
     }
 
-    void RootMotionRecorder::SetDebugMode( DebugMode mode )
+    void RootMotionRecorder::SetDebugMode( RootMotionRecorderDebugMode mode )
     {
         // If we started recording, reset the transform buffers
-        if ( m_debugMode < DebugMode::DrawRecordedRootMotion && mode >= DebugMode::DrawRecordedRootMotion )
+        if ( m_debugMode < RootMotionRecorderDebugMode::DrawRecordedRootMotion && mode >= RootMotionRecorderDebugMode::DrawRecordedRootMotion )
         {
             m_freeBufferIdx = 0;
             m_recordedRootTransforms.clear();
@@ -36,7 +36,7 @@ namespace KRG::Animation
 
         //-------------------------------------------------------------------------
 
-        if ( m_debugMode >= DebugMode::DrawRecordedRootMotion )
+        if ( m_debugMode >= RootMotionRecorderDebugMode::DrawRecordedRootMotion )
         {
             KRG_ASSERT( m_freeBufferIdx < s_recordingBufferSize );
 
@@ -71,13 +71,13 @@ namespace KRG::Animation
 
     void RootMotionRecorder::DrawDebug( Drawing::DrawContext& drawingContext )
     {
-        if ( m_debugMode == DebugMode::DrawRoot )
+        if ( m_debugMode == RootMotionRecorderDebugMode::DrawRoot )
         {
             DrawRootBone( drawingContext, m_endWorldTransform );
         }
-        else if ( m_debugMode == DebugMode::DrawRecordedRootMotion || m_debugMode == DebugMode::DrawRecordedRootMotionAdvanced )
+        else if ( m_debugMode == RootMotionRecorderDebugMode::DrawRecordedRootMotion || m_debugMode == RootMotionRecorderDebugMode::DrawRecordedRootMotionAdvanced )
         {
-            bool const isAdvancedDisplayEnabled = m_debugMode == DebugMode::DrawRecordedRootMotionAdvanced;
+            bool const isAdvancedDisplayEnabled = m_debugMode == RootMotionRecorderDebugMode::DrawRecordedRootMotionAdvanced;
 
             auto DrawSegment = [this, &drawingContext, isAdvancedDisplayEnabled] ( int32 idx0, int32 idx1, int32 c )
             {

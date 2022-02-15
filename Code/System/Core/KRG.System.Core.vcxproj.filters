@@ -1710,6 +1710,7 @@
     <ClInclude Include="Types\Tag.h" />
     <ClInclude Include="ThirdParty\KRG_RapidJson.h" />
     <ClInclude Include="Math\EigenVectors.h" />
+    <ClInclude Include="Types\AdvancedContainers.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ThirdParty\EA\EABase\doc\EABase.html">

@@ -306,6 +306,7 @@
     <ClInclude Include="ThirdParty\stb\stb_rect_pack.h" />
     <ClInclude Include="ThirdParty\stb\stb_truetype.h" />
     <ClInclude Include="Time\TimeStamp.h" />
+    <ClInclude Include="Types\AdvancedContainers.h" />
     <ClInclude Include="Types\Event.h" />
     <ClInclude Include="FileSystem\FileSystemPath.h" />
     <ClInclude Include="FileSystem\FileStreams.h" />

@@ -1,6 +1,7 @@
 #include "OrientationGuide.h"
 #include "System/Render/RenderViewport.h"
 #include "System/Core/Types/Containers.h"
+#include <EASTL/sort.h>
 
 //-------------------------------------------------------------------------
 

@@ -31,7 +31,7 @@
 #define CEREAL_TYPES_LIST_HPP_
 
 #include <cereal/cereal.hpp>
-#include <list>
+#include <EASTL/list.h>
 
 namespace cereal
 {

@@ -6,6 +6,7 @@
 #include "Tools/Animation/GraphEditor/EditorGraph/Animation_EditorGraph_Common.h"
 #include "Tools/Core/Workspaces/ResourceWorkspace.h"
 #include "Engine/Animation/Graph/Animation_RuntimeGraph_Resources.h"
+#include "Engine/Animation/TaskSystem/Animation_TaskSystem.h"
 
 //-------------------------------------------------------------------------
 
@@ -89,7 +90,7 @@ namespace KRG::Animation
         Transform                           m_previewStartTransform = Transform::Identity;
         bool                                m_startPaused = false;
         bool                                m_isPreviewing = false;
-        RootMotionRecorder::DebugMode       m_rootMotionDebugMode = RootMotionRecorder::DebugMode::Off;
-        TaskSystem::DebugMode               m_taskSystemDebugMode = TaskSystem::DebugMode::Off;
+        RootMotionRecorderDebugMode         m_rootMotionDebugMode = RootMotionRecorderDebugMode::Off;
+        TaskSystemDebugMode                 m_taskSystemDebugMode = TaskSystemDebugMode::Off;
     };
 }

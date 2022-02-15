@@ -3,6 +3,7 @@
 #include "NumericRange.h"
 #include "System/Core/Types/Containers.h"
 #include "System/Core/Types/String.h"
+#include <EASTL/sort.h>
 
 //-------------------------------------------------------------------------
 // Interpolation Curve

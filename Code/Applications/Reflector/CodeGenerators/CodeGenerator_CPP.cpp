@@ -264,10 +264,6 @@ namespace KRG::CPP
         m_headerFile << "//-------------------------------------------------------------------------\n";
         m_headerFile << "// This is an auto-generated file - DO NOT edit\n";
         m_headerFile << "//-------------------------------------------------------------------------\n\n";
-        m_headerFile << "#include \"../API.h\"\n";
-        m_headerFile << "#include \"System/TypeSystem/TypeRegistry.h\"\n";
-        m_headerFile << "#include \"System/TypeSystem/ITypeHelper.h\"\n";
-        m_headerFile << "#include \"System/Core/Serialization/Serialization.h\"\n";
         m_headerFile << "#include \"" << hdr.m_filePath.c_str() << "\"\n";
     }
 
@@ -291,8 +287,12 @@ namespace KRG::CPP
         m_moduleFile << "//-------------------------------------------------------------------------\n";
         m_moduleFile << "// This is an auto-generated file - DO NOT edit\n";
         m_moduleFile << "//-------------------------------------------------------------------------\n\n";
-        m_moduleFile << "#include \"" << prj.GetModuleHeaderDesc().m_filePath.c_str() << "\"\n";
+        m_moduleFile << "#include \"../API.h\"\n";
+        m_moduleFile << "#include \"System/TypeSystem/TypeRegistry.h\"\n";
+        m_moduleFile << "#include \"System/TypeSystem/ITypeHelper.h\"\n";
         m_moduleFile << "#include \"System/Resource/ResourceSystem.h\"\n";
+        m_moduleFile << "#include \"" << prj.GetModuleHeaderDesc().m_filePath.c_str() << "\"\n\n";
+        m_moduleFile << "//-------------------------------------------------------------------------\n\n";
 
         //-------------------------------------------------------------------------
         // Includes

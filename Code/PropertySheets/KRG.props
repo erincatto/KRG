@@ -52,7 +52,7 @@
       <LinkIncremental>true</LinkIncremental>
       <LinkTimeCodeGeneration Condition="$(Configuration) != 'Shipping'">Default</LinkTimeCodeGeneration>
       <LinkTimeCodeGeneration Condition="$(Configuration) == 'Shipping'">UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
-      <GenerateDebugInformation>DebugFull</GenerateDebugInformation>
+      <GenerateDebugInformation>DebugFastLink</GenerateDebugInformation>
       <AdditionalOptions>%(AdditionalOptions)</AdditionalOptions>
       <RandomizedBaseAddress Condition="$(Configuration) == 'Debug'">false</RandomizedBaseAddress>
       <CreateHotPatchableImage>Enabled</CreateHotPatchableImage>

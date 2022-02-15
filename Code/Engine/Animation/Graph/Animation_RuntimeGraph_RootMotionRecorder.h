@@ -15,6 +15,16 @@ namespace KRG::Drawing { class DrawContext; }
 #if KRG_DEVELOPMENT_TOOLS
 namespace KRG::Animation
 {
+    enum class RootMotionRecorderDebugMode
+    {
+        Off = 0,
+        DrawRoot,
+        DrawRecordedRootMotion,
+        DrawRecordedRootMotionAdvanced,
+    };
+
+    //-------------------------------------------------------------------------
+
     class RootMotionRecorder
     {
         constexpr static int32 const s_recordingBufferSize = 300;
@@ -49,14 +59,6 @@ namespace KRG::Animation
             Transform                   m_actualTransform;
         };
 
-        enum class DebugMode
-        {
-            Off = 0,
-            DrawRoot,
-            DrawRecordedRootMotion,
-            DrawRecordedRootMotionAdvanced,
-        };
-
     public:
 
         RootMotionRecorder();
@@ -65,8 +67,8 @@ namespace KRG::Animation
         void StartCharacterUpdate( Transform const& characterWorldTransform );
         void EndCharacterUpdate( Transform const& characterWorldTransform );
 
-        void SetDebugMode( DebugMode mode );
-        DebugMode GetDebugMode() const { return m_debugMode; }
+        void SetDebugMode( RootMotionRecorderDebugMode mode );
+        RootMotionRecorderDebugMode GetDebugMode() const { return m_debugMode; }
         void DrawDebug( Drawing::DrawContext& drawingContext );
 
         //-------------------------------------------------------------------------
@@ -123,7 +125,7 @@ namespace KRG::Animation
         Transform                       m_endWorldTransform;
         TVector<RecordedPosition>       m_recordedRootTransforms; // Circular buffer
         int32                           m_freeBufferIdx = 0;
-        DebugMode                       m_debugMode = DebugMode::Off;
+        RootMotionRecorderDebugMode     m_debugMode = RootMotionRecorderDebugMode::Off;
     };
 }
 #endif

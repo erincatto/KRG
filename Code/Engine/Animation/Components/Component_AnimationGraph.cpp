@@ -1,6 +1,7 @@
 #include "Component_AnimationGraph.h"
-#include "System/Animation/AnimationPose.h"
+#include "Engine/Animation/TaskSystem/Animation_TaskSystem.h"
 #include "Engine/Core/Update/UpdateContext.h"
+#include "System/Animation/AnimationPose.h"
 #include "System/Core/Profiling/Profiling.h"
 
 //-------------------------------------------------------------------------
@@ -121,6 +122,26 @@ namespace KRG::Animation
     {
         m_pTaskSystem->DrawDebug( drawingContext );
         m_graphContext.GetRootMotionActionRecorder()->DrawDebug( drawingContext );
+    }
+
+    void AnimationGraphComponent::SetTaskSystemDebugMode( TaskSystemDebugMode mode )
+    {
+        m_pTaskSystem->SetDebugMode( mode );
+    }
+
+    TaskSystemDebugMode AnimationGraphComponent::GetTaskSystemDebugMode() const
+    {
+        return m_pTaskSystem->GetDebugMode();
+    }
+
+    void AnimationGraphComponent::SetRootMotionDebugMode( RootMotionRecorderDebugMode mode )
+    {
+        m_graphContext.GetRootMotionActionRecorder()->SetDebugMode( mode );
+    }
+
+    RootMotionRecorderDebugMode AnimationGraphComponent::GetRootMotionDebugMode() const
+    {
+        return m_graphContext.GetRootMotionActionRecorder()->GetDebugMode();
     }
     #endif
 }

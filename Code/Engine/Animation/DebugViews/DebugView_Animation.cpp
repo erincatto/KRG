@@ -392,30 +392,30 @@ namespace KRG::Animation
 
                 ImGuiX::TextSeparator( "Root Motion debug" );
                 {
-                    RootMotionRecorder::DebugMode const debugMode = pGraphComponent->GetRootMotionDebugMode();
+                    RootMotionRecorderDebugMode const debugMode = pGraphComponent->GetRootMotionDebugMode();
 
-                    bool const isRootVisualizationOff = debugMode == RootMotionRecorder::DebugMode::Off;
+                    bool const isRootVisualizationOff = debugMode == RootMotionRecorderDebugMode::Off;
                     if ( ImGui::RadioButton( "No Visualization##RootMotion", isRootVisualizationOff ) )
                     {
-                        pGraphComponent->SetRootMotionDebugMode( RootMotionRecorder::DebugMode::Off );
+                        pGraphComponent->SetRootMotionDebugMode( RootMotionRecorderDebugMode::Off );
                     }
 
-                    bool const isRootVisualizationOn = debugMode == RootMotionRecorder::DebugMode::DrawRoot;
+                    bool const isRootVisualizationOn = debugMode == RootMotionRecorderDebugMode::DrawRoot;
                     if ( ImGui::RadioButton( "Draw Root", isRootVisualizationOn ) )
                     {
-                        pGraphComponent->SetRootMotionDebugMode( RootMotionRecorder::DebugMode::DrawRoot );
+                        pGraphComponent->SetRootMotionDebugMode( RootMotionRecorderDebugMode::DrawRoot );
                     }
 
-                    bool const isRootMotionRecordingEnabled = debugMode == RootMotionRecorder::DebugMode::DrawRecordedRootMotion;
+                    bool const isRootMotionRecordingEnabled = debugMode == RootMotionRecorderDebugMode::DrawRecordedRootMotion;
                     if ( ImGui::RadioButton( "Draw Recorded Root Motion", isRootMotionRecordingEnabled ) )
                     {
-                        pGraphComponent->SetRootMotionDebugMode( RootMotionRecorder::DebugMode::DrawRecordedRootMotion );
+                        pGraphComponent->SetRootMotionDebugMode( RootMotionRecorderDebugMode::DrawRecordedRootMotion );
                     }
 
-                    bool const isAdvancedRootMotionRecordingEnabled = debugMode == RootMotionRecorder::DebugMode::DrawRecordedRootMotionAdvanced;
+                    bool const isAdvancedRootMotionRecordingEnabled = debugMode == RootMotionRecorderDebugMode::DrawRecordedRootMotionAdvanced;
                     if ( ImGui::RadioButton( "Draw Advanced Recorded Root Motion", isAdvancedRootMotionRecordingEnabled ) )
                     {
-                        pGraphComponent->SetRootMotionDebugMode( RootMotionRecorder::DebugMode::DrawRecordedRootMotionAdvanced );
+                        pGraphComponent->SetRootMotionDebugMode( RootMotionRecorderDebugMode::DrawRecordedRootMotionAdvanced );
                     }
                 }
 
@@ -432,30 +432,30 @@ namespace KRG::Animation
 
                 ImGuiX::TextSeparator( "Pose Debug" );
                 {
-                    TaskSystem::DebugMode const debugMode = pGraphComponent->GetTaskSystemDebugMode();
+                    TaskSystemDebugMode const debugMode = pGraphComponent->GetTaskSystemDebugMode();
 
-                    bool const isVisualizationOff = debugMode == TaskSystem::DebugMode::Off;
+                    bool const isVisualizationOff = debugMode == TaskSystemDebugMode::Off;
                     if ( ImGui::RadioButton( "No Visualization##Tasks", isVisualizationOff ) )
                     {
-                        pGraphComponent->SetTaskSystemDebugMode( TaskSystem::DebugMode::Off );
+                        pGraphComponent->SetTaskSystemDebugMode( TaskSystemDebugMode::Off );
                     }
 
-                    bool const isFinalPoseEnabled = debugMode == TaskSystem::DebugMode::FinalPose;
+                    bool const isFinalPoseEnabled = debugMode == TaskSystemDebugMode::FinalPose;
                     if ( ImGui::RadioButton( "FinalPose", isFinalPoseEnabled ) )
                     {
-                        pGraphComponent->SetTaskSystemDebugMode( TaskSystem::DebugMode::FinalPose );
+                        pGraphComponent->SetTaskSystemDebugMode( TaskSystemDebugMode::FinalPose );
                     }
 
-                    bool const isPoseTreeEnabled = debugMode == TaskSystem::DebugMode::PoseTree;
+                    bool const isPoseTreeEnabled = debugMode == TaskSystemDebugMode::PoseTree;
                     if ( ImGui::RadioButton( "Pose Tree", isPoseTreeEnabled ) )
                     {
-                        pGraphComponent->SetTaskSystemDebugMode( TaskSystem::DebugMode::PoseTree );
+                        pGraphComponent->SetTaskSystemDebugMode( TaskSystemDebugMode::PoseTree );
                     }
 
-                    bool const isDetailedPoseTreeEnabled = debugMode == TaskSystem::DebugMode::DetailedPoseTree;
+                    bool const isDetailedPoseTreeEnabled = debugMode == TaskSystemDebugMode::DetailedPoseTree;
                     if ( ImGui::RadioButton( "Detailed Pose Tree", isDetailedPoseTreeEnabled ) )
                     {
-                        pGraphComponent->SetTaskSystemDebugMode( TaskSystem::DebugMode::DetailedPoseTree );
+                        pGraphComponent->SetTaskSystemDebugMode( TaskSystemDebugMode::DetailedPoseTree );
                     }
                 }
 

@@ -9,6 +9,10 @@
 
 namespace KRG::Animation
 {
+    enum class TaskSystemDebugMode;
+
+    //-------------------------------------------------------------------------
+
     class KRG_ENGINE_ANIMATION_API AnimationGraphComponent final : public EntityComponent
     {
         KRG_REGISTER_ENTITY_COMPONENT( AnimationGraphComponent );
@@ -94,12 +98,12 @@ namespace KRG::Animation
         }
 
         // Task system debug
-        inline void SetTaskSystemDebugMode( TaskSystem::DebugMode mode ) { m_pTaskSystem->SetDebugMode( mode ); }
-        inline TaskSystem::DebugMode GetTaskSystemDebugMode() const { return m_pTaskSystem->GetDebugMode(); }
+        void SetTaskSystemDebugMode( TaskSystemDebugMode mode );
+        TaskSystemDebugMode GetTaskSystemDebugMode() const;
 
         // Root motion debug
-        inline void SetRootMotionDebugMode( RootMotionRecorder::DebugMode mode ) { m_graphContext.GetRootMotionActionRecorder()->SetDebugMode(mode); }
-        inline RootMotionRecorder::DebugMode GetRootMotionDebugMode() const { return m_graphContext.GetRootMotionActionRecorder()->GetDebugMode(); }
+        void SetRootMotionDebugMode( RootMotionRecorderDebugMode mode );
+        RootMotionRecorderDebugMode GetRootMotionDebugMode() const;
 
         // Draw all debug visualizations
         void DrawDebug( Drawing::DrawContext& drawingContext );
