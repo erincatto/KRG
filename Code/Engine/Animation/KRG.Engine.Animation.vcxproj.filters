@@ -106,6 +106,8 @@
     <ClCompile Include="TaskSystem\Tasks\Animation_Task_Ragdoll.cpp" />
     <ClCompile Include="TaskSystem\Tasks\Animation_Task_Sample.cpp" />
     <ClCompile Include="Graph\Animation_RuntimeGraph_RootMotionRecorder.cpp" />
+    <ClCompile Include="Graph\Nodes\Animation_RuntimeGraphNode_Warping.cpp" />
+    <ClCompile Include="Events\AnimationEvent_Warp.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="_Module\API.h">
@@ -182,5 +184,7 @@
     <ClInclude Include="TaskSystem\Tasks\Animation_Task_Ragdoll.h" />
     <ClInclude Include="TaskSystem\Tasks\Animation_Task_Sample.h" />
     <ClInclude Include="Graph\Animation_RuntimeGraph_RootMotionRecorder.h" />
+    <ClInclude Include="Graph\Nodes\Animation_RuntimeGraphNode_Warping.h" />
+    <ClInclude Include="Events\AnimationEvent_Warp.h" />
   </ItemGroup>
 </Project>

@@ -46,6 +46,7 @@ namespace KRG::Resource
 
 //-------------------------------------------------------------------------
 
+// Note: The expected fourCC can only contain lowercase letters and digits
 #define KRG_REGISTER_RESOURCE( typeFourCC, friendlyName ) \
     public: \
         static bool const IsVirtualResource = false;\
@@ -56,6 +57,7 @@ namespace KRG::Resource
         KRG_DEVELOPMENT_TOOLS_LINE_IN_MACRO( virtual char const* GetFriendlyName() const override { return friendlyName; } )\
     private:
 
+// Note: The expected fourCC can only contain lowercase letters and digits
 #define KRG_REGISTER_VIRTUAL_RESOURCE( typeFourCC, friendlyName ) \
     public: \
         static bool const IsVirtualResource = true;\

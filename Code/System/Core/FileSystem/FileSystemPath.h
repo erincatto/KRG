@@ -2,6 +2,7 @@
 
 #include "System/Core/_Module/API.h"
 #include "System/Core/Types/String.h"
+#include "System/Core/Algorithm/Hash.h"
 
 //-------------------------------------------------------------------------
 // File System Path
@@ -87,23 +88,41 @@ namespace KRG::FileSystem
         //-------------------------------------------------------------------------
         // Extensions dont include the "."
 
+        // Does this path have an extension?
         bool HasExtension() const;
 
+        // Case insensitive extension comparison
         bool MatchesExtension( char const* inExtension ) const;
+
+        // Case insensitive extension comparison
         inline bool MatchesExtension( String const& inExtension ) const { return MatchesExtension( inExtension.c_str() ); }
 
+        // Returns a ptr to the extension substr (excluding the '.'). Returns nullptr if there is no extension!
         char const* GetExtension() const;
-        inline TInlineString<6> GetExtensionAsString() const { return TInlineString<6>( GetExtension() ); }
+
+        // Returns the extension for this path (excluding the '.'). Returns an empty string if there is no extension!
+        inline TInlineString<6> GetExtensionAsString() const
+        { 
+            char const* const pExtensionSubstr = GetExtension();
+            return TInlineString<6>( pExtensionSubstr == nullptr ? "" : pExtensionSubstr );
+        }
         
+        // Returns a lowercase version of the extension (excluding the '.') if one exists else returns an empty string
         inline TInlineString<6> GetLowercaseExtensionAsString() const
         {
-            auto ext = TInlineString<6>( GetExtension() );
+            char const* const pExtensionSubstr = GetExtension();
+            TInlineString<6> ext( pExtensionSubstr == nullptr ? "" : pExtensionSubstr );
             ext.make_lower();
             return ext;
         }
 
+        // Replaces the extension (excluding the '.') for this path (will create an extensions if no extension exists)
         void ReplaceExtension( const char* pExtension );
+
+        // Replaces the extension (excluding the '.') for this path (will create an extensions if no extension exists)
         inline void ReplaceExtension( String const& extension ) { ReplaceExtension( extension.c_str() ); }
+
+        // Replaces the extension (excluding the '.') for this path (will create an extensions if no extension exists)
         template<size_t S> void ReplaceExtension( TInlineString<S> const& extension ) { ReplaceExtension( extension.c_str() ); }
 
         // Directories
@@ -138,6 +157,7 @@ namespace KRG::FileSystem
 
     private:
 
+        inline void UpdateHashCode() { m_hashCode = m_fullpath.empty() ? 0 : Hash::GetHash32( m_fullpath ); }
         char const* GetFileNameSubstr() const;
 
     private:

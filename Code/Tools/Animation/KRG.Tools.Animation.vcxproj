@@ -43,6 +43,7 @@
     <ClInclude Include="GraphEditor\EditorGraph\Nodes\Animation_EditorGraphNode_StateConditions.h" />
     <ClInclude Include="GraphEditor\EditorGraph\Nodes\Animation_EditorGraphNode_Targets.h" />
     <ClInclude Include="GraphEditor\EditorGraph\Nodes\Animation_EditorGraphNode_Vectors.h" />
+    <ClInclude Include="GraphEditor\EditorGraph\Nodes\Animation_EditorGraphNode_Warping.h" />
     <ClInclude Include="ResourceCompilers\ResourceCompiler_AnimationClip.h" />
     <ClInclude Include="ResourceCompilers\ResourceCompiler_AnimationGraph.h" />
     <ClInclude Include="ResourceCompilers\ResourceCompiler_AnimationSkeleton.h" />
@@ -84,6 +85,7 @@
     <ClCompile Include="GraphEditor\EditorGraph\Nodes\Animation_EditorGraphNode_StateConditions.cpp" />
     <ClCompile Include="GraphEditor\EditorGraph\Nodes\Animation_EditorGraphNode_Targets.cpp" />
     <ClCompile Include="GraphEditor\EditorGraph\Nodes\Animation_EditorGraphNode_Vectors.cpp" />
+    <ClCompile Include="GraphEditor\EditorGraph\Nodes\Animation_EditorGraphNode_Warping.cpp" />
     <ClCompile Include="ResourceCompilers\ResourceCompiler_AnimationClip.cpp" />
     <ClCompile Include="ResourceCompilers\ResourceCompiler_AnimationGraph.cpp" />
     <ClCompile Include="ResourceCompilers\ResourceCompiler_AnimationSkeleton.cpp" />
@@ -135,18 +137,18 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Shipping|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />

@@ -1,5 +1,6 @@
 #pragma once
-#include "Tools/Animation/GraphEditor/EditorGraph/Animation_EditorGraph_FlowGraph.h"
+
+#include "Animation_EditorGraphNode_AnimationClip.h"
 
 //-------------------------------------------------------------------------
 
@@ -10,6 +11,7 @@ namespace KRG::Animation::GraphNodes
         KRG_REGISTER_TYPE( SelectorConditionEditorNode );
 
         friend class SelectorEditorNode;
+        friend class AnimationClipSelectorEditorNode;
 
     public:
 
@@ -34,10 +36,35 @@ namespace KRG::Animation::GraphNodes
     private:
 
         virtual char const* GetTypeName() const override { return "Selector"; }
-        virtual char const* GetCategory() const override { return "Utility"; }
+        virtual char const* GetCategory() const override { return "Selectors"; }
         virtual TBitFlags<GraphType> GetAllowedParentGraphTypes() const override { return TBitFlags<GraphType>( GraphType::BlendTree ); }
         virtual GraphNodeIndex Compile( EditorGraphCompilationContext& context ) const override;
 
+        virtual bool SupportsDynamicInputPins() const override { return true; }
+        virtual TInlineString<100> GetNewDynamicInputPinName() const override;
+        virtual uint32 GetDynamicInputPinValueType() const override { return (uint32) GraphValueType::Pose; }
+        virtual void OnDynamicPinCreation( UUID pinID ) override;
+        virtual void OnDynamicPinDestruction( UUID pinID ) override;
+    };
+
+    //-------------------------------------------------------------------------
+
+    class AnimationClipSelectorEditorNode final : public AnimationClipReferenceEditorNode
+    {
+        KRG_REGISTER_TYPE( AnimationClipSelectorEditorNode );
+
+    public:
+
+        virtual void Initialize( VisualGraph::BaseGraph* pParent ) override;
+
+    private:
+
+        virtual char const* GetTypeName() const override { return "Animation Clip Selector"; }
+        virtual char const* GetCategory() const override { return "Selectors"; }
+        virtual TBitFlags<GraphType> GetAllowedParentGraphTypes() const override { return TBitFlags<GraphType>( GraphType::BlendTree ); }
+        virtual GraphNodeIndex Compile( EditorGraphCompilationContext& context ) const override;
+
+        virtual bool IsValidConnection( UUID const& inputPinID, Node const* pOutputPinNode, UUID const& outputPinID ) const override;
         virtual bool SupportsDynamicInputPins() const override { return true; }
         virtual TInlineString<100> GetNewDynamicInputPinName() const override;
         virtual uint32 GetDynamicInputPinValueType() const override { return (uint32) GraphValueType::Pose; }

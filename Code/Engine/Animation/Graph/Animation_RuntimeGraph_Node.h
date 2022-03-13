@@ -231,18 +231,6 @@ namespace KRG::Animation
     };
 
     //-------------------------------------------------------------------------
-
-    // An interface to directly access a selected animation, this is needed to ensure certain animation nodes only operate on animations directly
-    class KRG_ENGINE_ANIMATION_API AnimationClipReferenceNode : public PoseNode
-    {
-    public:
-
-        virtual AnimationClip const* GetAnimation() const = 0;
-        virtual void DisableRootMotionSampling() = 0;
-        virtual bool IsLooping() const = 0;
-    };
-
-    //-------------------------------------------------------------------------
     // Value Nodes
     //-------------------------------------------------------------------------
 

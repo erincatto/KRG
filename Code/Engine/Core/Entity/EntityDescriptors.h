@@ -97,7 +97,7 @@ namespace KRG::EntityModel
 {
     class KRG_ENGINE_CORE_API EntityCollectionDescriptor : public Resource::IResource
     {
-        KRG_REGISTER_RESOURCE( 'EC', "Entity Collection" );
+        KRG_REGISTER_RESOURCE( 'ec', "Entity Collection" );
         KRG_SERIALIZE_MEMBERS( m_entityDescriptors, m_entityLookupMap, m_entitySpatialAttachmentInfo );
 
         friend class EntityCollectionLoader;
@@ -251,7 +251,7 @@ namespace KRG::EntityModel
 
     class KRG_ENGINE_CORE_API EntityMapDescriptor final : public EntityCollectionDescriptor
     {
-        KRG_REGISTER_RESOURCE( 'MAP', "Map" );
+        KRG_REGISTER_RESOURCE( 'map', "Map" );
         KRG_SERIALIZE_MEMBERS( KRG_SERIALIZE_BASE( EntityCollectionDescriptor ) );
 
         friend class EntityCollectionCompiler;

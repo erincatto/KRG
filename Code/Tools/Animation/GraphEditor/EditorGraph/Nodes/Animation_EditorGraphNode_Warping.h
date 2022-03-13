@@ -6,42 +6,33 @@
 
 namespace KRG::Animation::GraphNodes
 {
-    class SpeedScaleEditorNode final : public EditorGraphNode
+    class OrientationWarpEditorNode final : public EditorGraphNode
     {
-        KRG_REGISTER_TYPE( SpeedScaleEditorNode );
+        KRG_REGISTER_TYPE( OrientationWarpEditorNode );
 
     public:
 
         virtual void Initialize( VisualGraph::BaseGraph* pParent ) override;
-
-        virtual char const* GetTypeName() const override { return "Speed Scale"; }
-        virtual char const* GetCategory() const override { return "Utility"; }
+        virtual bool IsValidConnection( UUID const& inputPinID, Node const* pOutputPinNode, UUID const& outputPinID ) const override;
+        virtual char const* GetTypeName() const override { return "Orientation Warp"; }
+        virtual char const* GetCategory() const override { return "Motion Warping"; }
         virtual TBitFlags<GraphType> GetAllowedParentGraphTypes() const override { return TBitFlags<GraphType>( GraphType::BlendTree ); }
         virtual GraphNodeIndex Compile( EditorGraphCompilationContext& context ) const override;
-
-    private:
-
-        KRG_EXPOSE FloatRange              m_scaleLimits = FloatRange( 0, 0 );
-        KRG_EXPOSE float                   m_blendTime = 0.2f;
     };
 
     //-------------------------------------------------------------------------
 
-    class VelocityBasedSpeedScaleEditorNode final : public EditorGraphNode
+    class TargetWarpEditorNode final : public EditorGraphNode
     {
-        KRG_REGISTER_TYPE( VelocityBasedSpeedScaleEditorNode );
+        KRG_REGISTER_TYPE( TargetWarpEditorNode );
 
     public:
 
         virtual void Initialize( VisualGraph::BaseGraph* pParent ) override;
-
-        virtual char const* GetTypeName() const override { return "Velocity Based Speed Scale"; }
-        virtual char const* GetCategory() const override { return "Utility"; }
+        virtual bool IsValidConnection( UUID const& inputPinID, Node const* pOutputPinNode, UUID const& outputPinID ) const override;
+        virtual char const* GetTypeName() const override { return "Target Warp"; }
+        virtual char const* GetCategory() const override { return "Motion Warping"; }
         virtual TBitFlags<GraphType> GetAllowedParentGraphTypes() const override { return TBitFlags<GraphType>( GraphType::BlendTree ); }
         virtual GraphNodeIndex Compile( EditorGraphCompilationContext& context ) const override;
-
-    private:
-
-        KRG_EXPOSE float                   m_blendTime = 0.2f;
     };
 }

@@ -1,7 +1,6 @@
 #pragma once
 
-#include "Engine/Animation/Graph/Animation_RuntimeGraph_Node.h"
-#include "System/Core/ThirdParty/cereal/archives/binary.hpp"
+#include "Animation_RuntimeGraphNode_AnimationClip.h"
 
 //-------------------------------------------------------------------------
 
@@ -48,7 +47,7 @@ namespace KRG::Animation::GraphNodes
 
     //-------------------------------------------------------------------------
 
-    class KRG_ENGINE_ANIMATION_API AnimationSelectorNode final : public AnimationClipReferenceNode
+    class KRG_ENGINE_ANIMATION_API AnimationClipSelectorNode final : public AnimationClipReferenceNode
     {
     public:
 

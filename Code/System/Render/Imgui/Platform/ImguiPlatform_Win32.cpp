@@ -553,7 +553,9 @@ namespace KRG::ImGuiX::Platform
                 if ( msg == WM_MBUTTONUP ) { button = 2; }
                 if ( msg == WM_XBUTTONUP ) { button = ( GET_XBUTTON_WPARAM( wParam ) == XBUTTON1 ) ? 3 : 4; }
 
-                if ( pBackendData->MouseButtonsDown == 0 && ::GetCapture() == NULL )
+                pBackendData->MouseButtonsDown &= ~( 1 << button );
+
+                if ( pBackendData->MouseButtonsDown == 0 && ::GetCapture() == hwnd )
                 {
                     ::ReleaseCapture();
                 }

@@ -8,7 +8,7 @@ namespace KRG::Animation::GraphNodes
     {
         KRG_ASSERT( options == GraphNode::Settings::InitOptions::OnlySetPointers );
         auto pNode = CreateNode<PassthroughNode>( nodePtrs, options );
-        SetOptionalNodePtrFromIndex( nodePtrs, m_childNodeIdx, pNode->m_pChildNode );
+        SetNodePtrFromIndex( nodePtrs, m_childNodeIdx, pNode->m_pChildNode );
     }
 
     //-------------------------------------------------------------------------
@@ -28,6 +28,7 @@ namespace KRG::Animation::GraphNodes
     void PassthroughNode::InitializeInternal( GraphContext& context, SyncTrackTime const& initialTime )
     {
         KRG_ASSERT( context.IsValid() );
+        KRG_ASSERT( m_pChildNode != nullptr );
         PoseNode::InitializeInternal( context, initialTime );
 
         //-------------------------------------------------------------------------
@@ -37,25 +38,19 @@ namespace KRG::Animation::GraphNodes
 
         //-------------------------------------------------------------------------
 
-        if ( m_pChildNode != nullptr )
-        {
-            m_pChildNode->Initialize( context, initialTime );
+        m_pChildNode->Initialize( context, initialTime );
 
-            if ( m_pChildNode->IsValid() )
-            {
-                m_duration = m_pChildNode->GetDuration();
-                m_previousTime = m_pChildNode->GetPreviousTime();
-                m_currentTime = m_pChildNode->GetCurrentTime();
-            }
+        if ( m_pChildNode->IsValid() )
+        {
+            m_duration = m_pChildNode->GetDuration();
+            m_previousTime = m_pChildNode->GetPreviousTime();
+            m_currentTime = m_pChildNode->GetCurrentTime();
         }
     }
 
     void PassthroughNode::ShutdownInternal( GraphContext& context )
     {
-        if ( m_pChildNode != nullptr )
-        {
-            m_pChildNode->Shutdown( context );
-        }
+        m_pChildNode->Shutdown( context );
         PoseNode::ShutdownInternal( context );
     }
 
@@ -67,7 +62,7 @@ namespace KRG::Animation::GraphNodes
         GraphPoseNodeResult result;
 
         // Forward child node results
-        if ( IsChildValid() )
+        if ( IsValid() )
         {
             result = m_pChildNode->Update( context );
             m_duration = m_pChildNode->GetDuration();
@@ -90,7 +85,7 @@ namespace KRG::Animation::GraphNodes
         GraphPoseNodeResult result;
 
         // Forward child node results
-        if ( IsChildValid() )
+        if ( IsValid() )
         {
             result = m_pChildNode->Update( context, updateRange );
             m_duration = m_pChildNode->GetDuration();

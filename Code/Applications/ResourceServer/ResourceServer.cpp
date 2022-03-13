@@ -621,6 +621,16 @@ namespace KRG::Resource
 
     bool ResourceServer::IsCompileableResourceType( ResourceTypeID ID ) const
     {
-        return ( ID.IsValid() && m_compilerRegistry.HasCompilerForResourceType( ID ) );
+        if ( !ID.IsValid() )
+        {
+            return false;
+        }
+
+        if ( m_compilerRegistry.IsVirtualResourceType( ID ) )
+        {
+            return false;
+        }
+
+        return m_compilerRegistry.HasCompilerForResourceType( ID );
     }
 }

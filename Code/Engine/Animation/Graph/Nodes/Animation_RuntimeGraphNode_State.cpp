@@ -9,22 +9,45 @@ namespace KRG::Animation::GraphNodes
     void StateNode::Settings::InstantiateNode( TVector<GraphNode*> const& nodePtrs, GraphDataSet const* pDataSet, InitOptions options ) const
     {
         auto pNode = CreateNode<StateNode>( nodePtrs, options );
+        SetOptionalNodePtrFromIndex( nodePtrs, m_childNodeIdx, pNode->m_pChildNode );
         SetOptionalNodePtrFromIndex( nodePtrs, m_layerBoneMaskNodeIdx, pNode->m_pBoneMaskNode );
         SetOptionalNodePtrFromIndex( nodePtrs, m_layerWeightNodeIdx, pNode->m_pLayerWeightNode );
-        PassthroughNode::Settings::InstantiateNode( nodePtrs, pDataSet, GraphNode::Settings::InitOptions::OnlySetPointers );
     }
 
     //-------------------------------------------------------------------------
+
+    SyncTrack const& StateNode::GetSyncTrack() const
+    {
+        if ( IsValid() )
+        {
+            return m_pChildNode->GetSyncTrack();
+        }
+        else
+        {
+            return SyncTrack::s_defaultTrack;
+        }
+    }
 
     void StateNode::InitializeInternal( GraphContext& context, SyncTrackTime const& initialTime )
     {
         KRG_ASSERT( context.IsValid() );
         auto pStateSettings = GetSettings<StateNode>();
 
-        PassthroughNode::InitializeInternal( context, initialTime );
+        PoseNode::InitializeInternal( context, initialTime );
         m_transitionState = TransitionState::None;
         m_elapsedTimeInState = 0.0f;
         m_sampledEventRange = SampledEventRange( context.m_sampledEvents.GetNumEvents() );
+
+        if ( m_pChildNode != nullptr )
+        {
+            m_pChildNode->Initialize( context, initialTime );
+            if ( m_pChildNode->IsValid() )
+            {
+                m_duration = m_pChildNode->GetDuration();
+                m_previousTime = m_pChildNode->GetPreviousTime();
+                m_currentTime = m_pChildNode->GetCurrentTime();
+            }
+        }
 
         if ( m_pBoneMaskNode != nullptr )
         {
@@ -61,8 +84,13 @@ namespace KRG::Animation::GraphNodes
             m_pLayerWeightNode->Shutdown( context );
         }
 
+        if ( m_pChildNode != nullptr )
+        {
+            m_pChildNode->Shutdown( context );
+        }
+
         m_transitionState = TransitionState::None;
-        PassthroughNode::ShutdownInternal( context );
+        PoseNode::ShutdownInternal( context );
     }
 
     void StateNode::StartTransitionIn( GraphContext& context )
@@ -198,9 +226,23 @@ namespace KRG::Animation::GraphNodes
     {
         KRG_ASSERT( context.IsValid() );
 
+        MarkNodeActive( context );
+
         // Update child
         GraphPoseNodeResult result;
-        result = PassthroughNode::Update( context );
+
+        if ( m_pChildNode != nullptr && m_pChildNode->IsValid() )
+        {
+            result = m_pChildNode->Update( context );
+            m_duration = m_pChildNode->GetDuration();
+            m_previousTime = m_pChildNode->GetPreviousTime();
+            m_currentTime = m_pChildNode->GetCurrentTime();
+        }
+        else
+        {
+            result.m_sampledEventRange = SampledEventRange( context.m_sampledEvents.GetNumEvents() );
+        }
+
         m_elapsedTimeInState += context.m_deltaTime;
 
         // Sample graph events ( we need to track the sampled range for this node explicitly )
@@ -218,9 +260,23 @@ namespace KRG::Animation::GraphNodes
     {
         KRG_ASSERT( context.IsValid() );
 
+        MarkNodeActive( context );
+
         // Update child
         GraphPoseNodeResult result;
-        result = PassthroughNode::Update( context, updateRange );
+
+        if ( m_pChildNode != nullptr && m_pChildNode->IsValid() )
+        {
+            result = m_pChildNode->Update( context, updateRange );
+            m_duration = m_pChildNode->GetDuration();
+            m_previousTime = m_pChildNode->GetPreviousTime();
+            m_currentTime = m_pChildNode->GetCurrentTime();
+        }
+        else
+        {
+            result.m_sampledEventRange = SampledEventRange( context.m_sampledEvents.GetNumEvents() );
+        }
+
         m_elapsedTimeInState += context.m_deltaTime;
 
         // Sample graph events ( we need to track the sampled range for this node explicitly )
@@ -240,7 +296,12 @@ namespace KRG::Animation::GraphNodes
 
         if ( IsValid() )
         {
-            PassthroughNode::DeactivateBranch( context );
+            PoseNode::DeactivateBranch( context );
+
+            if ( m_pChildNode != nullptr && m_pChildNode->IsValid() )
+            {
+                m_pChildNode->DeactivateBranch( context );
+            }
 
             // Update all previously sampled events from this state to be from the inactive branch
             for ( auto i = m_sampledEventRange.m_startIdx; i < m_sampledEventRange.m_endIdx; i++ )

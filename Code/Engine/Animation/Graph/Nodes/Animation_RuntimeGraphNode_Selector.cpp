@@ -167,9 +167,9 @@ namespace KRG::Animation::GraphNodes
 
     //-------------------------------------------------------------------------
 
-    void AnimationSelectorNode::Settings::InstantiateNode( TVector<GraphNode*> const& nodePtrs, GraphDataSet const* pDataSet, InitOptions options ) const
+    void AnimationClipSelectorNode::Settings::InstantiateNode( TVector<GraphNode*> const& nodePtrs, GraphDataSet const* pDataSet, InitOptions options ) const
     {
-        auto pNode = CreateNode<AnimationSelectorNode>( nodePtrs, options );
+        auto pNode = CreateNode<AnimationClipSelectorNode>( nodePtrs, options );
 
         for ( auto nodeIdx : m_optionNodeIndices )
         {
@@ -182,7 +182,7 @@ namespace KRG::Animation::GraphNodes
         }
     }
 
-    int32 AnimationSelectorNode::SelectOption( GraphContext& context ) const
+    int32 AnimationClipSelectorNode::SelectOption( GraphContext& context ) const
     {
         KRG_ASSERT( context.IsValid() );
         auto pSettings = GetSettings<SelectorNode>();
@@ -224,7 +224,7 @@ namespace KRG::Animation::GraphNodes
         }
     }
 
-    void AnimationSelectorNode::InitializeInternal( GraphContext& context, SyncTrackTime const& initialTime )
+    void AnimationClipSelectorNode::InitializeInternal( GraphContext& context, SyncTrackTime const& initialTime )
     {
         KRG_ASSERT( context.IsValid() );
         auto pSettings = GetSettings<SelectorNode>();
@@ -256,7 +256,7 @@ namespace KRG::Animation::GraphNodes
         }
     }
 
-    void AnimationSelectorNode::ShutdownInternal( GraphContext& context )
+    void AnimationClipSelectorNode::ShutdownInternal( GraphContext& context )
     {
         KRG_ASSERT( context.IsValid() );
 
@@ -269,7 +269,7 @@ namespace KRG::Animation::GraphNodes
         PoseNode::ShutdownInternal( context );
     }
 
-    GraphPoseNodeResult AnimationSelectorNode::Update( GraphContext& context )
+    GraphPoseNodeResult AnimationClipSelectorNode::Update( GraphContext& context )
     {
         KRG_ASSERT( context.IsValid() );
 
@@ -293,7 +293,7 @@ namespace KRG::Animation::GraphNodes
         return result;
     }
 
-    GraphPoseNodeResult AnimationSelectorNode::Update( GraphContext& context, SyncTrackTimeRange const& updateRange )
+    GraphPoseNodeResult AnimationClipSelectorNode::Update( GraphContext& context, SyncTrackTimeRange const& updateRange )
     {
         KRG_ASSERT( context.IsValid() );
 
@@ -317,7 +317,7 @@ namespace KRG::Animation::GraphNodes
         return result;
     }
 
-    void AnimationSelectorNode::DeactivateBranch( GraphContext& context )
+    void AnimationClipSelectorNode::DeactivateBranch( GraphContext& context )
     {
         if ( IsValid() )
         {
@@ -326,7 +326,7 @@ namespace KRG::Animation::GraphNodes
         }
     }
 
-    AnimationClip const* AnimationSelectorNode::GetAnimation() const
+    AnimationClip const* AnimationClipSelectorNode::GetAnimation() const
     {
         if ( m_pSelectedNode != nullptr )
         {
@@ -336,7 +336,7 @@ namespace KRG::Animation::GraphNodes
         return nullptr;
     }
 
-    void AnimationSelectorNode::DisableRootMotionSampling()
+    void AnimationClipSelectorNode::DisableRootMotionSampling()
     {
         if ( m_pSelectedNode != nullptr )
         {
@@ -344,7 +344,7 @@ namespace KRG::Animation::GraphNodes
         }
     }
 
-    bool AnimationSelectorNode::IsLooping() const
+    bool AnimationClipSelectorNode::IsLooping() const
     {
         if ( m_pSelectedNode != nullptr )
         {

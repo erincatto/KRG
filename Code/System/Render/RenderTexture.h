@@ -54,7 +54,7 @@ namespace KRG::Render
         friend class TextureCompiler;
         friend class TextureLoader;
 
-        KRG_REGISTER_RESOURCE( 'TXTR', "Render Texture" );
+        KRG_REGISTER_RESOURCE( 'txtr', "Render Texture" );
         KRG_SERIALIZE_MEMBERS( m_format, m_rawData );
 
     public:
@@ -107,7 +107,7 @@ namespace KRG::Render
         friend class TextureCompiler;
         friend class TextureLoader;
 
-        KRG_REGISTER_RESOURCE( 'CBMP', "Render Cubemap Texture" );
+        KRG_REGISTER_RESOURCE( 'cbmp', "Render Cubemap Texture" );
         KRG_SERIALIZE_MEMBERS( KRG_SERIALIZE_BASE( Texture ) );
 
     public:

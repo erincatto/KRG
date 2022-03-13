@@ -56,5 +56,6 @@ namespace KRG::Animation::GraphNodes
 
         virtual char const* GetTypeName() const override { return "Velocity Blend"; }
         virtual GraphNodeIndex Compile( EditorGraphCompilationContext& context ) const override;
+        virtual bool IsValidConnection( UUID const& inputPinID, Node const* pOutputPinNode, UUID const& outputPinID ) const override;
     };
 }

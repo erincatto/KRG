@@ -2,6 +2,7 @@
 #include "Engine/Animation/AnimationClip.h"
 #include "Engine/Animation/TaskSystem/Animation_TaskSystem.h"
 #include "Engine/Animation/TaskSystem/Tasks/Animation_Task_Blend.h"
+#include "Animation_RuntimeGraphNode_AnimationClip.h"
 
 //-------------------------------------------------------------------------
 
@@ -433,6 +434,7 @@ namespace KRG::Animation::GraphNodes
             int32 const numSources = (int32) pSettings->m_sourceNodeIndices.size();
             for ( GraphNodeIndex i = 0; i < numSources; i++ )
             {
+                // The editor tooling guarantees that the source nodes are actually clip references!
                 AnimationClip const* pAnimation = static_cast<AnimationClipReferenceNode const*>( m_sourceNodes[i] )->GetAnimation();
                 KRG_ASSERT( pAnimation != nullptr );
                 values.emplace_back( pAnimation->GetAverageLinearVelocity() );

@@ -64,32 +64,35 @@ namespace KRG::FileSystem
 
     Path::Path( String&& path )
         : m_fullpath( GetFullPathString( path.c_str() ) )
-        , m_hashCode( Hash::GetHash32( m_fullpath ) )
     {
         if ( !IsValidPath( m_fullpath ) )
         {
             m_fullpath.clear();
         }
+
+        UpdateHashCode();
     }
 
     Path::Path( String const& path )
          : m_fullpath( GetFullPathString( path.c_str() ) )
-         , m_hashCode( Hash::GetHash32( m_fullpath ) )
      {
          if ( !IsValidPath( m_fullpath ) )
          {
              m_fullpath.clear();
          }
+
+         UpdateHashCode();
      }
 
     Path::Path( char const* pPath )
         : m_fullpath( GetFullPathString( pPath ) )
-        , m_hashCode( Hash::GetHash32( m_fullpath ) )
     {
         if ( !IsValidPath( m_fullpath ) )
         {
             m_fullpath.clear();
         }
+
+        UpdateHashCode();
     }
 
     Path& Path::operator=( Path& rhs )
@@ -132,7 +135,7 @@ namespace KRG::FileSystem
             m_fullpath.clear();
         }
 
-        m_hashCode = Hash::GetHash32( m_fullpath );
+        UpdateHashCode();
         return *this;
     }
 
@@ -246,7 +249,7 @@ namespace KRG::FileSystem
         if ( !IsDirectory() )
         {
             m_fullpath.push_back( s_pathDelimiter );
-            m_hashCode = Hash::GetHash32( m_fullpath );
+            UpdateHashCode();
         }
     }
 
@@ -263,7 +266,7 @@ namespace KRG::FileSystem
         }
 
         m_fullpath.replace( 0, lastDelimiterIdx + 1, newParentDirectory.ToString() );
-        m_hashCode = Hash::GetHash32( m_fullpath );
+        UpdateHashCode();
     }
 
     String Path::GetDirectoryName() const
@@ -317,7 +320,9 @@ namespace KRG::FileSystem
 
     void Path::ReplaceExtension( const char* pExtension )
     {
-        KRG_ASSERT( IsValid() && IsFile() && pExtension != nullptr && pExtension[0] != 0 );
+        KRG_ASSERT( IsValid() && IsFile() && pExtension != nullptr );
+        KRG_ASSERT( pExtension[0] != 0 && pExtension[0] != '.' );
+
         size_t const extIdx = FindExtensionStartIdx( m_fullpath );
         if ( extIdx != String::npos )
         {
@@ -325,8 +330,11 @@ namespace KRG::FileSystem
         }
         else // No extension so just append
         {
+            m_fullpath.append( "." );
             m_fullpath.append( pExtension );
         }
+
+        UpdateHashCode();
     }
 
     char const* Path::GetFileNameSubstr() const

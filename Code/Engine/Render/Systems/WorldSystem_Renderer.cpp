@@ -206,7 +206,7 @@ namespace KRG::Render
         {
             auto pMesh = pMeshComponent->GetMesh();
             KRG_ASSERT( pMesh != nullptr && pMesh->IsValid() );
-            uint32 const meshID = pMesh->GetResourceID().GetID();
+            uint32 const meshID = pMesh->GetResourceID().GetPathID();
 
             auto pMeshGroup = m_skeletalMeshGroups.FindOrAdd( meshID, pMesh );
             pMeshGroup->m_components.emplace_back( pMeshComponent );
@@ -222,7 +222,7 @@ namespace KRG::Render
         // Remove component from mesh group
         if ( pMeshComponent->HasMeshResourceSet() )
         {
-            uint32 const meshID = pMeshComponent->GetMesh()->GetResourceID().GetID();
+            uint32 const meshID = pMeshComponent->GetMesh()->GetResourceID().GetPathID();
             auto pMeshGroup = m_skeletalMeshGroups.Get( meshID );
             pMeshGroup->m_components.erase_first_unsorted( pMeshComponent );
 

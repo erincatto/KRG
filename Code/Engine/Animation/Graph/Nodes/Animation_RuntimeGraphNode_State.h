@@ -6,7 +6,7 @@
 
 namespace KRG::Animation::GraphNodes
 {
-    class KRG_ENGINE_ANIMATION_API StateNode final : public PassthroughNode
+    class KRG_ENGINE_ANIMATION_API StateNode final : public PoseNode
     {
         friend class TransitionNode;
 
@@ -37,10 +37,10 @@ namespace KRG::Animation::GraphNodes
 
         //-------------------------------------------------------------------------
 
-        struct KRG_ENGINE_ANIMATION_API Settings : public PassthroughNode::Settings
+        struct KRG_ENGINE_ANIMATION_API Settings : public PoseNode::Settings
         {
             KRG_REGISTER_TYPE( Settings );
-            KRG_SERIALIZE_GRAPHNODESETTINGS( PassthroughNode::Settings, m_entryEvents, m_executeEvents, m_exitEvents, m_timedRemainingEvents, m_timedElapsedEvents, m_layerBoneMaskNodeIdx, m_layerWeightNodeIdx, m_isOffState );
+            KRG_SERIALIZE_GRAPHNODESETTINGS( PoseNode::Settings, m_childNodeIdx, m_entryEvents, m_executeEvents, m_exitEvents, m_timedRemainingEvents, m_timedElapsedEvents, m_layerBoneMaskNodeIdx, m_layerWeightNodeIdx, m_isOffState );
 
         public:
 
@@ -48,17 +48,21 @@ namespace KRG::Animation::GraphNodes
 
         public:
 
+            GraphNodeIndex                              m_childNodeIdx = InvalidIndex;
             TInlineVector<StringID, 3>                  m_entryEvents;
             TInlineVector<StringID, 3>                  m_executeEvents;
             TInlineVector<StringID, 3>                  m_exitEvents;
             TInlineVector<TimedEvent, 1>                m_timedRemainingEvents;
             TInlineVector<TimedEvent, 1>                m_timedElapsedEvents;
-            GraphNodeIndex                                   m_layerBoneMaskNodeIdx = InvalidIndex;
-            GraphNodeIndex                                   m_layerWeightNodeIdx = InvalidIndex;
+            GraphNodeIndex                              m_layerBoneMaskNodeIdx = InvalidIndex;
+            GraphNodeIndex                              m_layerWeightNodeIdx = InvalidIndex;
             bool                                        m_isOffState = false;
         };
 
     public:
+
+        virtual bool IsValid() const override { return PoseNode::IsValid() && m_pChildNode != nullptr && m_pChildNode->IsValid(); }
+        virtual SyncTrack const& GetSyncTrack() const override;
 
         virtual GraphPoseNodeResult Update( GraphContext& context ) override;
         virtual GraphPoseNodeResult Update( GraphContext& context, SyncTrackTimeRange const& updateRange ) override;
@@ -87,6 +91,7 @@ namespace KRG::Animation::GraphNodes
 
     private:
 
+        PoseNode*                                       m_pChildNode = nullptr;
         SampledEventRange                               m_sampledEventRange;
         BoneMaskValueNode*                              m_pBoneMaskNode = nullptr;
         FloatValueNode*                                 m_pLayerWeightNode = nullptr;

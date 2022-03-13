@@ -54,7 +54,7 @@ namespace KRG::Render
         {
             SkeletalMeshGroup( SkeletalMesh const* pInMesh ) : m_pMesh( pInMesh ) { KRG_ASSERT( pInMesh != nullptr ); }
 
-            inline uint32 GetID() const { return m_pMesh->GetResourceID().GetID(); }
+            inline uint32 GetID() const { return m_pMesh->GetResourceID().GetPathID(); }
 
         public:
 

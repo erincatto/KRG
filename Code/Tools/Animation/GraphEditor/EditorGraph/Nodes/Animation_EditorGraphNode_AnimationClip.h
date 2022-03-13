@@ -27,4 +27,12 @@ namespace KRG::Animation::GraphNodes
         KRG_EXPOSE bool         m_sampleRootMotion = true;
         KRG_EXPOSE bool         m_allowLooping = false;
     };
+
+    //-------------------------------------------------------------------------
+
+    // This is a base class for all nodes that directly reference an animation clip
+    class AnimationClipReferenceEditorNode : public EditorGraphNode
+    {
+        KRG_REGISTER_TYPE( AnimationClipEditorNode );
+    };
 }

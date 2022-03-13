@@ -117,7 +117,7 @@ namespace KRG::TypeSystem::Reflection
 
     //-------------------------------------------------------------------------
 
-    bool ReflectedResourceType::TryParseRegistrationMacroString( String const& registrationStr )
+    bool ReflectedResourceType::TryParseResourceRegistrationMacroString( String const& registrationStr )
     {
         // Generate type ID string and get friendly name
         size_t const resourceIDStartIdx = registrationStr.find( '\'', 0 );
@@ -150,7 +150,12 @@ namespace KRG::TypeSystem::Reflection
         //-------------------------------------------------------------------------
 
         String const resourceTypeIDString = registrationStr.substr( resourceIDStartIdx + 1, resourceIDEndIdx - resourceIDStartIdx - 1 );
+
         m_resourceTypeID = ResourceTypeID( resourceTypeIDString );
+        if ( !m_resourceTypeID.IsValid() )
+        {
+            return false;
+        }
         
         m_friendlyName = registrationStr.substr( resourceFriendlyNameStartIdx + 1, resourceFriendlyNameEndIdx - resourceFriendlyNameStartIdx - 1 );
 

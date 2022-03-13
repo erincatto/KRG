@@ -45,8 +45,8 @@ namespace KRG
         inline ResourceID( String const& path ) : m_path( path ) { OnPathChanged(); }
         inline ResourceID( char const* pPath ) : m_path( pPath ) { OnPathChanged(); }
 
-        inline bool IsValid() const { return m_path.IsValid(); }
-        inline uint32 GetID() const { return m_path.GetID(); }
+        inline bool IsValid() const { return m_type.IsValid(); }
+        inline uint32 GetPathID() const { return m_path.GetID(); }
 
         inline ResourcePath const& GetResourcePath() const { return m_path; }
         inline ResourceTypeID GetResourceTypeID() const { return m_type; }
@@ -88,7 +88,7 @@ namespace eastl
     {
         eastl_size_t operator()( KRG::ResourceID const& ID ) const
         {
-            return ( KRG::uint32 ) ID.GetID();
+            return ( KRG::uint32 ) ID.GetPathID();
         }
     };
 }

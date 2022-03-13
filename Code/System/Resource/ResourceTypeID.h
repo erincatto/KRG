@@ -8,7 +8,7 @@
 // Resource Type ID
 //-------------------------------------------------------------------------
 // Unique ID for a resource - Used for resource look up and dependencies
-// Resource type IDs are uppercase FourCCs i.e. can only contain upper case ASCII letters and digits
+// Resource type IDs are lowercase FourCCs i.e. can only contain lowercase ASCII letters and digits
 
 namespace KRG
 {
@@ -18,8 +18,23 @@ namespace KRG
 
     public:
 
+        // Check if a given string is a valid resource type FourCC (i.e. [1:4] lowercase letters or digits)
+        static bool IsValidResourceFourCC( char const* pStr );
+
+        // Check if a given string is a valid resource type FourCC (i.e. [1:4] lowercase letters or digits)
+        inline static bool IsValidResourceFourCC( String const& str ) { return IsValidResourceFourCC( str.c_str() ); }
+
+        // Check if a given string is a valid resource type FourCC (i.e. [1:4] lowercase letters or digits)
+        template<eastl_size_t S>
+        inline static bool IsValidResourceFourCC( TInlineString<S> const& str ) { return IsValidResourceFourCC( str.c_str() ); }
+
+        // Expensive verification to ensure that a resource type ID FourCC only contains uppercase or numeric chars
+        static bool IsValidResourceFourCC( uint32 fourCC );
+
+    public:
+
         inline ResourceTypeID() : m_ID( 0 ) {}
-        inline ResourceTypeID( uint32 ID ) : m_ID( ID ) { KRG_ASSERT( IsValidFourCC() ); }
+        inline ResourceTypeID( uint32 ID ) : m_ID( ID ) { KRG_ASSERT( IsValidResourceFourCC( m_ID ) ); }
         explicit ResourceTypeID( char const* pStr );
         inline explicit ResourceTypeID( String const& str ) : ResourceTypeID( str.c_str() ) {}
 
@@ -33,7 +48,7 @@ namespace KRG
 
         inline void GetString( char outStr[5] ) const
         {
-            KRG_ASSERT( IsValidFourCC() );
+            KRG_ASSERT( IsValidResourceFourCC( m_ID ) );
 
             int32 idx = 0;
 
@@ -70,48 +85,6 @@ namespace KRG
             str.resize( 5 );
             GetString( str.data() );
             return str;
-        }
-
-    private:
-
-        // Expensive verification to ensure that a resource type ID FourCC only contains uppercase or numeric chars
-        inline bool IsValidFourCC() const
-        {
-            char const str[4] =
-            {
-                (char) ( m_ID >> 24 ),
-                (char) ( ( m_ID & 0x00FF0000 ) >> 16 ),
-                (char) ( ( m_ID & 0x0000FF00 ) >> 8 ),
-                (char) ( ( m_ID & 0x000000FF ) ),
-            };
-
-            // All zero values is not allowed
-            if ( str[0] == 0 && str[1] == 0 && str[2] == 0 && str[3] == 0 )
-            {
-                return false;
-            }
-
-            // Ensure that we dont have a zero value between set values
-            bool nonZeroFound = false;
-            for ( auto i = 0; i < 4; i++ )
-            {
-                if ( str[i] != 0 )
-                {
-                    nonZeroFound = true;
-                }
-
-                if ( str[i] == 0 && nonZeroFound )
-                {
-                    return false;
-                }
-            }
-
-            // Ensure all characters are uppercase ascii or digits
-            return
-                ( str[0] == 0 || std::isupper( str[0] ) || std::isdigit( str[0] ) ) &&
-                ( str[1] == 0 || std::isupper( str[1] ) || std::isdigit( str[1] ) ) &&
-                ( str[2] == 0 || std::isupper( str[2] ) || std::isdigit( str[2] ) ) &&
-                ( str[3] == 0 || std::isupper( str[3] ) || std::isdigit( str[3] ) );
         }
 
     public:

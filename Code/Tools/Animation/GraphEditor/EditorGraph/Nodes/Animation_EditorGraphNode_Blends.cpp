@@ -1,4 +1,5 @@
 #include "Animation_EditorGraphNode_Blends.h"
+#include "Animation_EditorGraphNode_AnimationClip.h"
 #include "Tools/Animation/GraphEditor/EditorGraph/Animation_EditorGraph_Compilation.h"
 
 //-------------------------------------------------------------------------
@@ -154,5 +155,16 @@ namespace KRG::Animation::GraphNodes
         }
 
         return pSettings->m_nodeIdx;
+    }
+
+    bool VelocityBlendEditorNode::IsValidConnection( UUID const& inputPinID, Node const* pOutputPinNode, UUID const& outputPinID ) const
+    {
+        int32 const pinIdx = GetInputPinIndex( inputPinID );
+        if ( pinIdx > 0 )
+        {
+            return IsOfType<AnimationClipEditorNode>( pOutputPinNode ) || IsOfType<AnimationClipReferenceEditorNode>( pOutputPinNode );
+        }
+
+        return EditorGraphNode::IsValidConnection( inputPinID, pOutputPinNode, outputPinID );
     }
 }

@@ -128,7 +128,7 @@ namespace KRG::TypeSystem::Reflection
     struct ReflectedResourceType
     {
         // Fill the resource type ID and the friendly name from the macro registration string
-        bool TryParseRegistrationMacroString( String const& registrationStr );
+        bool TryParseResourceRegistrationMacroString( String const& registrationStr );
 
     public:
 

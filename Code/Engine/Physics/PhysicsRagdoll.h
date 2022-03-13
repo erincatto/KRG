@@ -160,7 +160,7 @@ namespace KRG::Physics
     struct KRG_ENGINE_PHYSICS_API RagdollDefinition : public Resource::IResource, public IRegisteredType
     {
         KRG_SERIALIZE_MEMBERS( m_ID, m_pSkeleton, m_bodies, m_profiles );
-        KRG_REGISTER_TYPE_RESOURCE( 'RGDL', "Physics Ragdoll", RagdollDefinition );
+        KRG_REGISTER_TYPE_RESOURCE( 'rgdl', "Physics Ragdoll", RagdollDefinition );
 
     public:
 

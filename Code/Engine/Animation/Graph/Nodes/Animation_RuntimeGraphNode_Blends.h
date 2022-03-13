@@ -17,8 +17,8 @@ namespace KRG::Animation::GraphNodes
 
             virtual void InstantiateNode( TVector<GraphNode*> const& nodePtrs, GraphDataSet const* pDataSet, InitOptions options ) const override;
 
-            TInlineVector<GraphNodeIndex, 5>             m_sourceNodeIndices;
-            GraphNodeIndex                               m_inputParameterValueNodeIdx = InvalidIndex;
+            TInlineVector<GraphNodeIndex, 5>        m_sourceNodeIndices;
+            GraphNodeIndex                          m_inputParameterValueNodeIdx = InvalidIndex;
             bool                                    m_isSynchronized = false;
         };
 

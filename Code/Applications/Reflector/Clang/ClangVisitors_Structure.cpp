@@ -377,9 +377,9 @@ namespace KRG::TypeSystem::Reflection
                 ReflectedResourceType resource;
                 resource.m_typeID = pContext->GenerateTypeID( fullyQualifiedCursorName );
 
-                if ( !resource.TryParseRegistrationMacroString( macro.m_macroContents ) )
+                if ( !resource.TryParseResourceRegistrationMacroString( macro.m_macroContents ) )
                 {
-                    pContext->LogError( "Invalid macro registration string for resource detected: %s", macro.m_macroContents.c_str() );
+                    pContext->LogError( "Invalid macro registration string for resource detected (only lower case letters allow): %s", macro.m_macroContents.c_str() );
                     return CXChildVisit_Break;
                 }
 

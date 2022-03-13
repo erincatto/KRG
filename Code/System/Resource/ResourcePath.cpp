@@ -1,6 +1,5 @@
 #include "ResourcePath.h"
 #include "System/Core/FileSystem/FileSystem.h"
-#include "System/Core/Algorithm/Hash.h"
 
 //-------------------------------------------------------------------------
 
@@ -133,7 +132,6 @@ namespace KRG
     {
         if ( IsValidPath( m_path ) )
         {
-            m_path.make_lower();
             m_ID = Hash::GetHash32( m_path );
         }
         else
@@ -217,18 +215,19 @@ namespace KRG
         return pathDepth;
     }
 
-    String ResourcePath::GetExtension() const
+    char const* ResourcePath::GetExtension() const
     {
         KRG_ASSERT( IsValid() && IsFile() );
-        String ext;
 
         size_t const extIdx = FindExtensionStartIdx( m_path.c_str() );
         if ( extIdx != String::npos )
         {
-            ext = m_path.substr( extIdx, m_path.length() - extIdx );
+            return &m_path.c_str()[extIdx];
         }
-
-        return ext;
+        else
+        {
+            return nullptr;
+        }
     }
 
     void ResourcePath::ReplaceExtension( const char* pExtension )

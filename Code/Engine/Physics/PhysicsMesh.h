@@ -20,7 +20,7 @@ namespace KRG::Physics
 {
     class KRG_ENGINE_PHYSICS_API PhysicsMesh : public Resource::IResource
     {
-        KRG_REGISTER_RESOURCE( 'PMSH', "Physics Mesh" );
+        KRG_REGISTER_RESOURCE( 'pmsh', "Physics Mesh" );
         friend class PhysicsMeshCompiler;
         friend class PhysicsMeshLoader;
 

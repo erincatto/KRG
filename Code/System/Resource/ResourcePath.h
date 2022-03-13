@@ -6,10 +6,9 @@
 #include "System/Core/Types/String.h"
 
 //-------------------------------------------------------------------------
-// Path relative to the currently set source data directory
+// Resource path
 //-------------------------------------------------------------------------
-// Note: data paths are ALWAYS lowercase
-//-------------------------------------------------------------------------
+// Always relative to the specified data directory
 
 namespace KRG
 {
@@ -81,16 +80,32 @@ namespace KRG
         // Extension
         //-------------------------------------------------------------------------
 
-        // Get the extension for this path (excluding the '.')
-        String GetExtension() const;
+        // Returns the extension for this path (excluding the '.'). Returns an empty string if there is no extension!
+        char const* GetExtension() const;
 
-        // Replaces the extension for this path. Supplied extension must not start with '.'
+        // Returns the extension for this path (excluding the '.'). Returns an empty string if there is no extension!
+        inline TInlineString<6> GetExtensionAsString() const
+        {
+            char const* const pExtensionSubstr = GetExtension();
+            return TInlineString<6>( pExtensionSubstr == nullptr ? "" : pExtensionSubstr );
+        }
+
+        // Returns a lowercase version of the extension (excluding the '.') if one exists else returns an empty string
+        inline TInlineString<6> GetLowercaseExtensionAsString() const
+        {
+            char const* const pExtensionSubstr = GetExtension();
+            TInlineString<6> ext( pExtensionSubstr == nullptr ? "" : pExtensionSubstr );
+            ext.make_lower();
+            return ext;
+        }
+
+        // Replaces the extension (excluding the '.') for this path (will create an extensions if no extension exists)
         void ReplaceExtension( const char* pExtension );
 
-        // Replaces the extension for this path. Supplied extension must not start with '.'
+        // Replaces the extension (excluding the '.') for this path (will create an extensions if no extension exists)
         inline void ReplaceExtension( String const& extension ) { ReplaceExtension( extension.c_str() ); }
 
-        // Replaces the extension for this path. Supplied extension must not start with '.'
+        // Replaces the extension (excluding the '.') for this path (will create an extensions if no extension exists)
         template<size_t S> void ReplaceExtension( TInlineString<S> const& extension ) { ReplaceExtension( extension.c_str() ); }
 
         // Conversion

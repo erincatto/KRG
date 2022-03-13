@@ -38,7 +38,7 @@ namespace KRG::Animation::GraphNodes
         // Adjust the delta time for the child node
         //-------------------------------------------------------------------------
 
-        if ( IsChildValid() )
+        if ( m_pChildNode->IsValid() )
         {
             auto speedScale = 1.0f;
             if ( m_pScaleValueNode != nullptr )
@@ -91,15 +91,15 @@ namespace KRG::Animation::GraphNodes
     void VelocityBasedSpeedScaleNode::Settings::InstantiateNode( TVector<GraphNode*> const& nodePtrs, GraphDataSet const* pDataSet, InitOptions options ) const
     {
         auto pNode = CreateNode<VelocityBasedSpeedScaleNode>( nodePtrs, options );
+        SetNodePtrFromIndex( nodePtrs, m_childNodeIdx, pNode->m_pChildNode );
         SetNodePtrFromIndex( nodePtrs, m_desiredVelocityValueNodeIdx, pNode->m_pDesiredVelocityValueNode );
-        PassthroughNode::Settings::InstantiateNode( nodePtrs, pDataSet, GraphNode::Settings::InitOptions::OnlySetPointers );
     }
 
     void VelocityBasedSpeedScaleNode::InitializeInternal( GraphContext& context, SyncTrackTime const& initialTime )
     {
         KRG_ASSERT( context.IsValid() );
         KRG_ASSERT( m_pDesiredVelocityValueNode != nullptr );
-        PassthroughNode::InitializeInternal( context, initialTime );
+        PoseNode::InitializeInternal( context, initialTime );
         m_pDesiredVelocityValueNode->Initialize( context );
         m_blendWeight = 1.0f;
     }
@@ -109,7 +109,19 @@ namespace KRG::Animation::GraphNodes
         KRG_ASSERT( context.IsValid() );
         KRG_ASSERT( m_pDesiredVelocityValueNode != nullptr );
         m_pDesiredVelocityValueNode->Shutdown( context );
-        PassthroughNode::ShutdownInternal( context );
+        PoseNode::ShutdownInternal( context );
+    }
+
+    SyncTrack const& VelocityBasedSpeedScaleNode::GetSyncTrack() const
+    {
+        if ( IsValid() )
+        {
+            return m_pChildNode->GetSyncTrack();
+        }
+        else
+        {
+            return SyncTrack::s_defaultTrack;
+        }
     }
 
     GraphPoseNodeResult VelocityBasedSpeedScaleNode::Update( GraphContext& context )
@@ -120,7 +132,7 @@ namespace KRG::Animation::GraphNodes
         // Adjust the delta time for the child node
         //-------------------------------------------------------------------------
 
-        if ( IsChildValid() )
+        if ( m_pChildNode->IsValid() )
         {
             auto speedMultiplier = 1.0f;
             if ( m_pDesiredVelocityValueNode != nullptr )
@@ -161,7 +173,20 @@ namespace KRG::Animation::GraphNodes
         // Update the child node
         //-------------------------------------------------------------------------
 
-        GraphPoseNodeResult result = PassthroughNode::Update( context );
+        GraphPoseNodeResult result;
+
+         // Forward child node results
+        if ( IsValid() )
+        {
+            result = m_pChildNode->Update( context );
+            m_duration = m_pChildNode->GetDuration();
+            m_previousTime = m_pChildNode->GetPreviousTime();
+            m_currentTime = m_pChildNode->GetCurrentTime();
+        }
+        else
+        {
+            result.m_sampledEventRange = SampledEventRange( context.m_sampledEvents.GetNumEvents() );
+        }
 
         // Reset the time delta
         //-------------------------------------------------------------------------
@@ -173,6 +198,22 @@ namespace KRG::Animation::GraphNodes
     GraphPoseNodeResult VelocityBasedSpeedScaleNode::Update( GraphContext& context, SyncTrackTimeRange const& updateRange )
     {
         m_blendWeight = ( Math::IsNearZero( GetSettings<VelocityBasedSpeedScaleNode>()->m_blendTime ) ) ? 1.0f : 0.0f;
-        return PassthroughNode::Update( context, updateRange );
+        
+        GraphPoseNodeResult result;
+
+        // Forward child node results
+        if ( IsValid() )
+        {
+            result = m_pChildNode->Update( context, updateRange );
+            m_duration = m_pChildNode->GetDuration();
+            m_previousTime = m_pChildNode->GetPreviousTime();
+            m_currentTime = m_pChildNode->GetCurrentTime();
+        }
+        else
+        {
+            result.m_sampledEventRange = SampledEventRange( context.m_sampledEvents.GetNumEvents() );
+        }
+
+        return result;
     }
 }

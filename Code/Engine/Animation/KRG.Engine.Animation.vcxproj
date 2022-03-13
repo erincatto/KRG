@@ -23,11 +23,13 @@
     <ClInclude Include="AnimationSyncTrack.h" />
     <ClInclude Include="Components\Component_AnimationGraph.h" />
     <ClInclude Include="Components\Component_AnimationClipPlayer.h" />
+    <ClInclude Include="Events\AnimationEvent_Warp.h" />
     <ClInclude Include="DebugViews\DebugView_Animation.h" />
     <ClInclude Include="Events\AnimationEvent_ID.h" />
     <ClInclude Include="Events\AnimationEvent_Foot.h" />
     <ClInclude Include="AnimationTarget.h" />
     <ClInclude Include="AnimationCommon.h" />
+    <ClInclude Include="Graph\Nodes\Animation_RuntimeGraphNode_Warping.h" />
     <ClInclude Include="Graph\Animation_RuntimeGraph_RootMotionRecorder.h" />
     <ClInclude Include="Graph\Nodes\Animation_RuntimeGraphNode_Ragdoll.h" />
     <ClInclude Include="Graph\Animation_RuntimeGraph_Common.h" />
@@ -83,10 +85,12 @@
     <ClCompile Include="AnimationEvent.cpp" />
     <ClCompile Include="Components\Component_AnimationGraph.cpp" />
     <ClCompile Include="Components\Component_AnimationClipPlayer.cpp" />
+    <ClCompile Include="Events\AnimationEvent_Warp.cpp" />
     <ClCompile Include="DebugViews\DebugView_Animation.cpp" />
     <ClCompile Include="Events\AnimationEvent_ID.cpp" />
     <ClCompile Include="Events\AnimationEvent_Foot.cpp" />
     <ClCompile Include="AnimationTarget.cpp" />
+    <ClCompile Include="Graph\Nodes\Animation_RuntimeGraphNode_Warping.cpp" />
     <ClCompile Include="Graph\Animation_RuntimeGraph_RootMotionRecorder.cpp" />
     <ClCompile Include="Graph\Nodes\Animation_RuntimeGraphNode_Ragdoll.cpp" />
     <ClCompile Include="Graph\Animation_RuntimeGraph_Common.cpp" />
@@ -169,18 +173,18 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Shipping|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />

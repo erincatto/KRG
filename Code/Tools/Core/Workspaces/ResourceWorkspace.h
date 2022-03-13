@@ -32,7 +32,7 @@ namespace KRG
 
     protected:
 
-        virtual uint32 GetID() const override { return m_descriptorID.GetID(); }
+        virtual uint32 GetID() const override { return m_descriptorID.GetPathID(); }
         virtual bool HasViewportWindow() const override { return false; }
         virtual void Initialize( UpdateContext const& context ) override;
         virtual void Shutdown( UpdateContext const& context ) override;
@@ -139,7 +139,7 @@ namespace KRG
             }
         }
 
-        virtual uint32 GetID() const override { return m_pResource.GetResourceID().GetID(); }
+        virtual uint32 GetID() const override { return m_pResource.GetResourceID().GetPathID(); }
         virtual bool HasViewportWindow() const override { return true; }
         virtual bool HasViewportToolbar() const { return true; }
 

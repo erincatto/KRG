@@ -63,13 +63,21 @@ namespace KRG
         // Validate selected filename
         //-------------------------------------------------------------------------
 
-        ResourceTypeID const newTypeID( outPath.GetLowercaseExtensionAsString().c_str() );
-        if ( resourceTypeID != newTypeID )
+        auto extStr = outPath.GetLowercaseExtensionAsString();
+        if ( extStr.empty() )
         {
-            InlineString errorString;
-            errorString.sprintf( "Invalid extension provided! You need to have the .%s extension!", resourceTypeIDString.c_str() );
-            pfd::message( "Error", errorString.c_str(), pfd::choice::ok, pfd::icon::error ).result();
-            outPath.Clear();
+            outPath.ReplaceExtension( resourceTypeIDString.c_str() );
+        }
+        else
+        {
+            ResourceTypeID const newTypeID( extStr.c_str() );
+            if ( resourceTypeID != newTypeID )
+            {
+                InlineString errorString;
+                errorString.sprintf( "Invalid extension provided! You need to have the .%s extension!", resourceTypeIDString.c_str() );
+                pfd::message( "Error", errorString.c_str(), pfd::choice::ok, pfd::icon::error ).result();
+                outPath.Clear();
+            }
         }
 
         return outPath;

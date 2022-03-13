@@ -24,7 +24,7 @@ namespace KRG::Animation
 
     class KRG_SYSTEM_ANIMATION_API Skeleton : public Resource::IResource
     {
-        KRG_REGISTER_RESOURCE( 'SKEL', "Animation Skeleton" );
+        KRG_REGISTER_RESOURCE( 'skel', "Animation Skeleton" );
         KRG_SERIALIZE_MEMBERS( m_boneIDs, m_localReferencePose, m_parentIndices, m_boneFlags );
 
         friend class SkeletonCompiler;

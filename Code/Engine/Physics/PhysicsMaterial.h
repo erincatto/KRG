@@ -79,7 +79,7 @@ namespace KRG::Physics
 
     class KRG_ENGINE_PHYSICS_API PhysicsMaterialDatabase final : public Resource::IResource
     {
-        KRG_REGISTER_RESOURCE( 'PMDB', "Physics Material DB" );
+        KRG_REGISTER_RESOURCE( 'pmdb', "Physics Material DB" );
         friend class PhysicsMaterialDatabaseCompiler;
         friend class PhysicsMaterialDatabaseLoader;
 

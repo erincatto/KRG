@@ -102,10 +102,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "6. Property Sheets", "6. Pr
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "KRG.System.Animation", "Code\System\Animation\KRG.System.Animation.vcxproj", "{B976AE91-669B-4ED6-BEB6-6B2A459E60F9}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "7. Todos", "7. Todos", "{B55AC5BF-0153-4FCB-B9E7-2F58B628B51E}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "8. Todos", "8. Todos", "{B55AC5BF-0153-4FCB-B9E7-2F58B628B51E}"
 	ProjectSection(SolutionItems) = preProject
 		ToDo_Engine.md = ToDo_Engine.md
 		ToDo_Rendering.md = ToDo_Rendering.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "7. Ini", "7. Ini", "{8E9AF613-7A92-4B6D-A33D-E1C858BBAD9B}"
+	ProjectSection(SolutionItems) = preProject
+		Code\KRG.ini = Code\KRG.ini
 	EndProjectSection
 EndProject
 Global

@@ -52,12 +52,16 @@
       <LinkIncremental>true</LinkIncremental>
       <LinkTimeCodeGeneration Condition="$(Configuration) != 'Shipping'">Default</LinkTimeCodeGeneration>
       <LinkTimeCodeGeneration Condition="$(Configuration) == 'Shipping'">UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
-      <GenerateDebugInformation>DebugFastLink</GenerateDebugInformation>
-      <AdditionalOptions>%(AdditionalOptions)</AdditionalOptions>
+      <GenerateDebugInformation Condition="$(Configuration) != 'Shipping'">DebugFull</GenerateDebugInformation>
+      <GenerateDebugInformation Condition="$(Configuration) == 'Shipping'">No</GenerateDebugInformation>
       <RandomizedBaseAddress Condition="$(Configuration) == 'Debug'">false</RandomizedBaseAddress>
-      <CreateHotPatchableImage>Enabled</CreateHotPatchableImage>
-      <OptimizeReferences>false</OptimizeReferences>
-      <EnableCOMDATFolding>false</EnableCOMDATFolding>
+      <CreateHotPatchableImage Condition="$(Configuration) != 'Shipping'">Enabled</CreateHotPatchableImage>
+      <CreateHotPatchableImage Condition="$(Configuration) == 'Shipping'">Disabled</CreateHotPatchableImage>
+      <OptimizeReferences Condition="$(Configuration) != 'Shipping'">false</OptimizeReferences>
+      <OptimizeReferences Condition="$(Configuration) == 'Shipping'">true</OptimizeReferences>
+      <EnableCOMDATFolding Condition="$(Configuration) != 'Shipping'">false</EnableCOMDATFolding>
+      <EnableCOMDATFolding Condition="$(Configuration) == 'Shipping'">true</EnableCOMDATFolding>
+      <AdditionalOptions>%(AdditionalOptions)</AdditionalOptions>
     </Link>
   </ItemDefinitionGroup>
   <Target Name="KRG_CopyINI" BeforeTargets="Build">
