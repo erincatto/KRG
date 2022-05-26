@@ -357,7 +357,7 @@ namespace KRG::Animation::GraphNodes
     void ParameterReferenceEditorNode::RefreshParameterReferences( VisualGraph::BaseGraph* pRootGraph )
     {
         KRG_ASSERT( pRootGraph != nullptr && pRootGraph->IsRootGraph() );
-        auto const controlParameters = pRootGraph->FindAllNodesOfType<ControlParameterEditorNode>( VisualGraph::SearchMode::Localized, VisualGraph::SearchTypeMatch::Exact );
+        auto const controlParameters = pRootGraph->FindAllNodesOfType<ControlParameterEditorNode>( VisualGraph::SearchMode::Localized, VisualGraph::SearchTypeMatch::Derived );
         auto const virtualParameters = pRootGraph->FindAllNodesOfType<VirtualParameterEditorNode>( VisualGraph::SearchMode::Localized, VisualGraph::SearchTypeMatch::Exact );
 
         //-------------------------------------------------------------------------

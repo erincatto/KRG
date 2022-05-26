@@ -144,16 +144,19 @@ namespace KRG
 
         if ( m_isSystemLogWindowOpen )
         {
+            ImGui::SetNextWindowClass( &m_editorWindowClass );
             m_isSystemLogWindowOpen = m_systemLogView.Draw( context );
         }
 
         if ( m_isDebugSettingsWindowOpen )
         {
+            ImGui::SetNextWindowClass( &m_editorWindowClass );
             m_isDebugSettingsWindowOpen = SystemDebugView::DrawDebugSettingsView( context );
         }
 
         if ( m_isPhysicsMaterialDatabaseWindowOpen )
         {
+            ImGui::SetNextWindowClass( &m_editorWindowClass );
             m_isPhysicsMaterialDatabaseWindowOpen = Physics::PhysicsDebugView::DrawMaterialDatabaseView( context );
         }
 
@@ -164,77 +167,7 @@ namespace KRG
 
         if ( m_isFontTestWindowOpen )
         {
-            if ( ImGui::Begin( "Font Test", &m_isFontTestWindowOpen ) )
-            {
-                {
-                    ImGuiX::ScopedFont sf( ImGuiX::Font::Small );
-                    ImGui::Text( KRG_ICON_FILE_CHECK"This is a test - Small" );
-                }
-                {
-                    ImGuiX::ScopedFont sf( ImGuiX::Font::SmallBold );
-                    ImGui::Text( KRG_ICON_ALERT"This is a test - Small Bold" );
-                }
-                {
-                    ImGuiX::ScopedFont sf( ImGuiX::Font::Medium );
-                    ImGui::Text( KRG_ICON_FILE_CHECK"This is a test - Medium" );
-                }
-                {
-                    ImGuiX::ScopedFont sf( ImGuiX::Font::MediumBold );
-                    ImGui::Text( KRG_ICON_ALERT"This is a test - Medium Bold" );
-                }
-                {
-                    ImGuiX::ScopedFont sf( ImGuiX::Font::Large );
-                    ImGui::Text( KRG_ICON_FILE_CHECK"This is a test - Large" );
-                }
-                {
-                    ImGuiX::ScopedFont sf( ImGuiX::Font::LargeBold );
-                    ImGui::Text( KRG_ICON_CCTV_OFF"This is a test - Large Bold" );
-                }
-                {
-                    ImGuiX::ScopedFont sf( ImGuiX::Font::Huge );
-                    ImGui::Text( KRG_ICON_FILE_CHECK"This is a test - Huge" );
-                }
-                {
-                    ImGuiX::ScopedFont sf( ImGuiX::Font::HugeBold );
-                    ImGui::Text( KRG_ICON_ALERT"This is a test - Huge Bold" );
-                }
-
-                //-------------------------------------------------------------------------
-
-                {
-                    ImGuiX::ScopedFont sf( ImGuiX::Font::Small );
-                    ImGuiX::ColoredButton( Colors::Green, Colors::White, KRG_ICON_PLUS"ADD" );
-                }
-                {
-                    ImGuiX::ScopedFont sf( ImGuiX::Font::SmallBold );
-                    ImGuiX::ColoredButton( Colors::Green, Colors::White, KRG_ICON_PLUS"ADD" );
-                }
-                {
-                    ImGuiX::ScopedFont sf( ImGuiX::Font::Medium );
-                    ImGuiX::ColoredButton( Colors::Green, Colors::White, KRG_ICON_PLUS"ADD" );
-                }
-                {
-                    ImGuiX::ScopedFont sf( ImGuiX::Font::MediumBold );
-                    ImGuiX::ColoredButton( Colors::Green, Colors::White, KRG_ICON_PLUS"ADD" );
-                }
-                {
-                    ImGuiX::ScopedFont sf( ImGuiX::Font::Large );
-                    ImGuiX::ColoredButton( Colors::Green, Colors::White, KRG_ICON_PLUS"ADD" );
-                }
-                {
-                    ImGuiX::ScopedFont sf( ImGuiX::Font::LargeBold );
-                    ImGuiX::ColoredButton( Colors::Green, Colors::White, KRG_ICON_PLUS"ADD" );
-                }
-                {
-                    ImGuiX::ScopedFont sf( ImGuiX::Font::Huge );
-                    ImGuiX::ColoredButton( Colors::Green, Colors::White, KRG_ICON_PLUS"ADD" );
-                }
-                {
-                    ImGuiX::ScopedFont sf( ImGuiX::Font::HugeBold );
-                    ImGuiX::ColoredButton( Colors::Green, Colors::White, KRG_ICON_PLUS"ADD" );
-                }
-            }
-            ImGui::End();
+            DrawFontTestWindow();
         }
 
         //-------------------------------------------------------------------------
@@ -319,6 +252,150 @@ namespace KRG
 
     //-------------------------------------------------------------------------
 
+    void EditorUI::DrawFontTestWindow()
+    {
+        if ( ImGui::Begin( "Font Test", &m_isFontTestWindowOpen ) )
+        {
+            {
+                ImGuiX::ScopedFont sf( ImGuiX::Font::Small );
+                ImGui::Text( KRG_ICON_FILE_CHECK"This is a test - Small" );
+            }
+            {
+                ImGuiX::ScopedFont sf( ImGuiX::Font::SmallBold );
+                ImGui::Text( KRG_ICON_ALERT"This is a test - Small Bold" );
+            }
+            {
+                ImGuiX::ScopedFont sf( ImGuiX::Font::Medium );
+                ImGui::Text( KRG_ICON_FILE_CHECK"This is a test - Medium" );
+            }
+            {
+                ImGuiX::ScopedFont sf( ImGuiX::Font::MediumBold );
+                ImGui::Text( KRG_ICON_ALERT"This is a test - Medium Bold" );
+            }
+            {
+                ImGuiX::ScopedFont sf( ImGuiX::Font::Large );
+                ImGui::Text( KRG_ICON_FILE_CHECK"This is a test - Large" );
+            }
+            {
+                ImGuiX::ScopedFont sf( ImGuiX::Font::LargeBold );
+                ImGui::Text( KRG_ICON_CCTV_OFF"This is a test - Large Bold" );
+            }
+            {
+                ImGuiX::ScopedFont sf( ImGuiX::Font::Huge );
+                ImGui::Text( KRG_ICON_FILE_CHECK"This is a test - Huge" );
+            }
+            {
+                ImGuiX::ScopedFont sf( ImGuiX::Font::HugeBold );
+                ImGui::Text( KRG_ICON_FILE_CHECK"This is a test - Huge Bold" );
+            }
+
+            //-------------------------------------------------------------------------
+
+            ImGui::NewLine();
+
+            //-------------------------------------------------------------------------
+
+            {
+                ImGuiX::ScopedFont sf( ImGuiX::Font::Small );
+                ImGuiX::ColoredButton( Colors::Green, Colors::White, KRG_ICON_PLUS"ADD" );
+            }
+            {
+                ImGuiX::ScopedFont sf( ImGuiX::Font::SmallBold );
+                ImGuiX::ColoredButton( Colors::Green, Colors::White, KRG_ICON_PLUS"ADD" );
+            }
+            {
+                ImGuiX::ScopedFont sf( ImGuiX::Font::Medium );
+                ImGuiX::ColoredButton( Colors::Green, Colors::White, KRG_ICON_PLUS"ADD" );
+            }
+            {
+                ImGuiX::ScopedFont sf( ImGuiX::Font::MediumBold );
+                ImGuiX::ColoredButton( Colors::Green, Colors::White, KRG_ICON_PLUS"ADD" );
+            }
+            {
+                ImGuiX::ScopedFont sf( ImGuiX::Font::Large );
+                ImGuiX::ColoredButton( Colors::Green, Colors::White, KRG_ICON_PLUS"ADD" );
+            }
+            {
+                ImGuiX::ScopedFont sf( ImGuiX::Font::LargeBold );
+                ImGuiX::ColoredButton( Colors::Green, Colors::White, KRG_ICON_PLUS"ADD" );
+            }
+            {
+                ImGuiX::ScopedFont sf( ImGuiX::Font::Huge );
+                ImGuiX::ColoredButton( Colors::Green, Colors::White, KRG_ICON_PLUS"ADD" );
+            }
+            {
+                ImGuiX::ScopedFont sf( ImGuiX::Font::HugeBold );
+                ImGuiX::ColoredButton( Colors::Green, Colors::White, KRG_ICON_PLUS"ADD" );
+            }
+
+            //-------------------------------------------------------------------------
+
+            ImGui::NewLine();
+
+            //-------------------------------------------------------------------------
+            
+            {
+                ImGuiX::ScopedFont sf( ImGuiX::Font::Small );
+                ImGui::Button( KRG_ICON_HAIR_DRYER );
+                ImGui::SameLine();
+                ImGui::Button( KRG_ICON_Z_WAVE );
+                ImGui::SameLine();
+                ImGui::Button( KRG_ICON_KANGAROO );
+                ImGui::SameLine();
+                ImGui::Button( KRG_ICON_YIN_YANG );
+            }
+
+            {
+                ImGuiX::ScopedFont sf( ImGuiX::Font::Medium );
+                ImGui::Button( KRG_ICON_HAIR_DRYER );
+                ImGui::SameLine();
+                ImGui::Button( KRG_ICON_Z_WAVE );
+                ImGui::SameLine();
+                ImGui::Button( KRG_ICON_KANGAROO );
+                ImGui::SameLine();
+                ImGui::Button( KRG_ICON_YIN_YANG );
+            }
+
+            {
+                ImGuiX::ScopedFont sf( ImGuiX::Font::Large );
+                ImGui::Button( KRG_ICON_HAIR_DRYER );
+                ImGui::SameLine();
+                ImGui::Button( KRG_ICON_Z_WAVE );
+                ImGui::SameLine();
+                ImGui::Button( KRG_ICON_KANGAROO );
+                ImGui::SameLine();
+                ImGui::Button( KRG_ICON_YIN_YANG );
+            }
+
+            {
+                ImGuiX::ScopedFont sf( ImGuiX::Font::Huge );
+                ImGui::Button( KRG_ICON_HAIR_DRYER );
+                ImGui::SameLine();
+                ImGui::Button( KRG_ICON_Z_WAVE );
+                ImGui::SameLine();
+                ImGui::Button( KRG_ICON_KANGAROO );
+                ImGui::SameLine();
+                ImGui::Button( KRG_ICON_YIN_YANG );
+            }
+
+            //-------------------------------------------------------------------------
+
+            ImGuiX::IconButton( KRG_ICON_KANGAROO, "Test", Colors::PaleGreen, ImVec2( 100, 0 ) );
+
+            ImGuiX::IconButton( KRG_ICON_HOME, "Home", Colors::RoyalBlue, ImVec2( 100, 0 ) );
+
+            ImGuiX::IconButton( KRG_ICON_MOVIE_PLAY, "Play", Colors::LightPink, ImVec2( 100, 0 ) );
+
+            ImGuiX::ColoredIconButton( Colors::Green, Colors::White, Colors::Yellow, KRG_ICON_KANGAROO, "Test", ImVec2( 100, 0 ) );
+
+            ImGuiX::FlatIconButton( KRG_ICON_HOME, "Home", Colors::RoyalBlue, ImVec2( 100, 0 ) );
+
+        }
+        ImGui::End();
+    }
+
+    //-------------------------------------------------------------------------
+
     void EditorUI::DrawMainMenu( UpdateContext const& context )
     {
         ImVec2 const menuDimensions = ImGui::GetContentRegionMax();
@@ -343,31 +420,6 @@ namespace KRG
 
         if ( ImGui::BeginMenu( "System" ) )
         {
-            if ( ImGui::BeginMenu( "Frame Rate Limiter" ) )
-            {
-                bool noLimit = !context.HasFrameRateLimit();
-                if ( ImGui::MenuItem( "None", nullptr, &noLimit ) )
-                {
-                    const_cast<UpdateContext&>( context ).SetFrameRateLimit( 0.0f );
-                }
-
-                bool is30FPS = context.HasFrameRateLimit() && context.GetFrameRateLimit() == 30.0f;
-                if ( ImGui::MenuItem( "30 FPS", nullptr, &is30FPS ) )
-                {
-                    const_cast<UpdateContext&>( context ).SetFrameRateLimit( 30.0f );
-                }
-
-                bool is60FPS = context.HasFrameRateLimit() && context.GetFrameRateLimit() == 60.0f;
-                if ( ImGui::MenuItem( "60 FPS", nullptr, &is60FPS ) )
-                {
-                    const_cast<UpdateContext&>( context ).SetFrameRateLimit( 60.0f );
-                }
-
-                ImGui::EndMenu();
-            }
-
-            ImGui::Separator();
-
             ImGui::MenuItem( "Debug Settings", nullptr, &m_isDebugSettingsWindowOpen );
             ImGui::MenuItem( "System Log", nullptr, &m_isSystemLogWindowOpen );
 
@@ -380,15 +432,54 @@ namespace KRG
         }
 
         //-------------------------------------------------------------------------
-        // Draw Performance Stats
+        // Draw Frame Limiter and Performance Stats
         //-------------------------------------------------------------------------
 
         float const currentFPS = 1.0f / context.GetDeltaTime();
         float const allocatedMemory = Memory::GetTotalAllocatedMemory() / 1024.0f / 1024.0f;
 
-        TInlineString<100> const perfStats( TInlineString<100>::CtorSprintf(), "FPS: %3.0f | MEM: %.2fMB", currentFPS, allocatedMemory );
-        ImGui::SameLine( menuDimensions.x - 8 - ImGui::CalcTextSize( perfStats.c_str() ).x );
+        TInlineString<100> const perfStats( TInlineString<100>::CtorSprintf(), "FPS: %3.0f", currentFPS );
+        TInlineString<100> const memStats( TInlineString<100>::CtorSprintf(), "MEM: %.2fMB", allocatedMemory );
+
+        float const itemSpacing = ImGui::GetStyle().ItemSpacing.x;
+        float const frameLimiterSize = 30;
+        float const perfStatsSize = 64;
+        float const memStatsSize = ImGui::CalcTextSize( memStats.c_str() ).x;
+
+        float const memStatsOffset = menuDimensions.x - ( itemSpacing * 2 ) - memStatsSize;
+        float const perfStatsOffset = memStatsOffset - perfStatsSize;
+        float const frameLimiterOffset = perfStatsOffset - frameLimiterSize;
+
+        ImGui::SameLine( frameLimiterOffset, 0 );
+
+        if ( ImGui::BeginMenu( KRG_ICON_CAR_SPEED_LIMITER ) )
+        {
+            bool noLimit = !context.HasFrameRateLimit();
+            if ( ImGui::MenuItem( "None", nullptr, &noLimit ) )
+            {
+                const_cast<UpdateContext&>( context ).SetFrameRateLimit( 0.0f );
+            }
+
+            bool is30FPS = context.HasFrameRateLimit() && context.GetFrameRateLimit() == 30.0f;
+            if ( ImGui::MenuItem( "30 FPS", nullptr, &is30FPS ) )
+            {
+                const_cast<UpdateContext&>( context ).SetFrameRateLimit( 30.0f );
+            }
+
+            bool is60FPS = context.HasFrameRateLimit() && context.GetFrameRateLimit() == 60.0f;
+            if ( ImGui::MenuItem( "60 FPS", nullptr, &is60FPS ) )
+            {
+                const_cast<UpdateContext&>( context ).SetFrameRateLimit( 60.0f );
+            }
+
+            ImGui::EndMenu();
+        }
+
+        ImGui::SameLine( perfStatsOffset );
         ImGui::Text( perfStats.c_str() );
+
+        ImGui::SameLine( memStatsOffset );
+        ImGui::Text( memStats.c_str() );
     }
 
     bool EditorUI::DrawWorkspaceWindow( UpdateContext const& context, EditorWorkspace* pWorkspace )

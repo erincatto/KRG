@@ -92,6 +92,13 @@ namespace KRG::Animation
             ResetToDefaultState();
         }
 
+        //-------------------------------------------------------------------------
+
+        if ( serializationSuccessful )
+        {
+            ParameterReferenceEditorNode::RefreshParameterReferences( m_pRootGraph );
+        }
+
         return serializationSuccessful;
     }
 

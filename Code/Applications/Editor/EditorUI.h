@@ -36,6 +36,10 @@ namespace KRG
 
     private:
 
+        void DrawFontTestWindow();
+
+    private:
+
         EditorContext                       m_context;
         ImGuiWindowClass                    m_editorWindowClass;
 

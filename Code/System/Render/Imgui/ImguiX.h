@@ -111,6 +111,15 @@ namespace KRG::ImGuiX
         }
     }
 
+    // Draw a button with an explicit icon
+    KRG_SYSTEM_RENDER_API bool IconButton( char const* pIcon, char const* pLabel, ImVec4 const& iconColor = Style::s_textColor, ImVec2 const& size = ImVec2( 0, 0 ) );
+
+    // Draw a button with an explicit icon
+    inline bool IconButton( char const* pIcon, char const* pLabel, Color const& iconColor = Color( (uint32) Style::s_textColor ), ImVec2 const& size = ImVec2( 0, 0 ) )
+    {
+        return IconButton( pIcon, pLabel, ConvertColor( iconColor ).Value, size );
+    }
+
     // Draw a colored button
     KRG_SYSTEM_RENDER_API bool ColoredButton( ImColor const& backgroundColor, ImColor const& foregroundColor, char const* label, ImVec2 const& size = ImVec2( 0, 0 ) );
 
@@ -120,8 +129,26 @@ namespace KRG::ImGuiX
         return ColoredButton( ConvertColor( backgroundColor ), ConvertColor( foregroundColor ), label, size );
     }
 
+    // Draw a colored icon button
+    KRG_SYSTEM_RENDER_API bool ColoredIconButton( ImColor const& backgroundColor, ImColor const& foregroundColor, ImVec4 const& iconColor, char const* pIcon, char const* label, ImVec2 const& size = ImVec2( 0, 0 ) );
+
+    // Draw a colored icon button
+    inline bool ColoredIconButton( Color backgroundColor, Color foregroundColor, Color iconColor, char const* pIcon, char const* label, ImVec2 const& size = ImVec2( 0, 0 ) )
+    {
+        return ColoredIconButton( ConvertColor( backgroundColor ), ConvertColor( foregroundColor ), ConvertColor( iconColor ), pIcon, label, size );
+    }
+
     // Draws a flat button - a button with no background
     KRG_SYSTEM_RENDER_API bool FlatButton( char const* label, ImVec2 const& size = ImVec2( 0, 0 ) );
+
+    // Draw a colored icon button
+    KRG_SYSTEM_RENDER_API bool FlatIconButton( char const* pIcon, char const* pLabel, ImVec4 const& iconColor = Style::s_textColor, ImVec2 const& size = ImVec2( 0, 0 ) );
+
+    // Draw a colored icon button
+    inline bool FlatIconButton( char const* pIcon, char const* pLabel, Color iconColor = Color( (uint32) Style::s_textColor ), ImVec2 const& size = ImVec2( 0, 0 ) )
+    {
+        return FlatIconButton( pIcon, pLabel, ConvertColor( iconColor ).Value, size );
+    }
 
     // Draw an arrow between two points
     KRG_SYSTEM_RENDER_API void DrawArrow( ImDrawList* pDrawList, ImVec2 const& arrowStart, ImVec2 const& arrowEnd, ImU32 col, float arrowWidth, float arrowHeadWidth = 5.0f );

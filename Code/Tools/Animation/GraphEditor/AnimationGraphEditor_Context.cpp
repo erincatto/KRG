@@ -42,7 +42,6 @@ namespace KRG::Animation
             auto pRootGraph = GetRootGraph();
             m_controlParameters = pRootGraph->FindAllNodesOfType<ControlParameterEditorNode>( VisualGraph::SearchMode::Localized, VisualGraph::SearchTypeMatch::Derived );
             m_virtualParameters = pRootGraph->FindAllNodesOfType<VirtualParameterEditorNode>( VisualGraph::SearchMode::Localized, VisualGraph::SearchTypeMatch::Exact );
-            ParameterReferenceEditorNode::RefreshParameterReferences( pRootGraph );
             return true;
         }
 
@@ -294,7 +293,7 @@ namespace KRG::Animation
 
     void GraphEditorContext::NavigateTo( UUID const& nodeID )
     {
-        auto const pFoundNode = m_editorGraph.GetRootGraph()->FindNode( nodeID );
+        auto const pFoundNode = m_editorGraph.GetRootGraph()->FindNode( nodeID, true );
         NavigateTo( pFoundNode );
     }
 

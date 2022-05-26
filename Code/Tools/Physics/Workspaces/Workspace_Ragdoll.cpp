@@ -652,6 +652,8 @@ namespace KRG::Physics
 
             ImGui::MenuItem( "Show Body Axes", nullptr, &m_drawBodyAxes );
 
+            ImGui::MenuItem( "Show Only Selected Bodies", nullptr, &m_isolateSelectedBody );
+
             //-------------------------------------------------------------------------
 
             ImGuiX::TextSeparator( "Authoring" );
@@ -675,7 +677,6 @@ namespace KRG::Physics
                 CorrectInvalidSettings();
             }
 
-            ImGui::Checkbox( "Isolate Selected Bodies", &m_isolateSelectedBody );
             ImGui::EndMenu();
         }
         ImGui::EndDisabled();

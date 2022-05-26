@@ -91,8 +91,9 @@ namespace KRG::ImGuiX
 
         ImFontConfig iconFontConfig;
         iconFontConfig.FontDataOwnedByAtlas = false;
-        iconFontConfig.FontBuilderFlags = ImGuiFreeTypeBuilderFlags_NoAutoHint | ImGuiFreeTypeBuilderFlags_LoadColor | ImGuiFreeTypeBuilderFlags_Bitmap;
+        iconFontConfig.FontBuilderFlags = ImGuiFreeTypeBuilderFlags_LoadColor | ImGuiFreeTypeBuilderFlags_Bitmap;
         iconFontConfig.MergeMode = true;
+        iconFontConfig.PixelSnapH = true;
         iconFontConfig.RasterizerMultiply = 1.5f;
 
         auto CreateFont = [&] ( TVector<Byte>& fontData, float fontSize, float iconFontSize, Font fontID, char const* pName, ImVec2 const& glyphOffset = ImVec2( 0, 0 ) )
@@ -102,20 +103,21 @@ namespace KRG::ImGuiX
             SystemFonts::s_fonts[(uint8) fontID] = pFont;
 
             iconFontConfig.GlyphOffset = glyphOffset;
+            iconFontConfig.GlyphMinAdvanceX = iconFontSize;
             io.Fonts->AddFontFromMemoryTTF( iconFontData.data(), (int32) iconFontData.size(), iconFontSize, &iconFontConfig, icons_ranges );
         };
 
-        CreateFont( fontData, 14, 18, Font::Small, "Small", ImVec2( 0, 3 ) );
-        CreateFont( boldFontData, 14, 18, Font::SmallBold, "Small Bold", ImVec2( 0, 3 ) );
+        CreateFont( fontData, 14, 16, Font::Small, "Small", ImVec2( 0, 2 ) );
+        CreateFont( boldFontData, 14, 16, Font::SmallBold, "Small Bold", ImVec2( 0, 2 ) );
 
-        CreateFont( fontData, 16, 20, Font::Medium, "Medium", ImVec2( 0, 3 ) );
-        CreateFont( boldFontData, 16, 20, Font::MediumBold, "Medium Bold", ImVec2( 0, 3 ) );
+        CreateFont( fontData, 16, 18, Font::Medium, "Medium", ImVec2( 0, 2 ) );
+        CreateFont( boldFontData, 16, 18, Font::MediumBold, "Medium Bold", ImVec2( 0, 2 ) );
 
-        CreateFont( fontData, 18, 22, Font::Large, "Large", ImVec2( 0, 4 ) );
-        CreateFont( boldFontData, 18, 22, Font::LargeBold, "Large Bold", ImVec2( 0, 4 ) );
+        CreateFont( fontData, 24, 24, Font::Large, "Large", ImVec2( 0, 2 ) );
+        CreateFont( boldFontData, 24, 24, Font::LargeBold, "Large Bold", ImVec2( 0, 2 ) );
 
-        CreateFont( fontData, 36, 40, Font::Huge, "Huge", ImVec2( 0, 4 ) );
-        CreateFont( boldFontData, 36, 40, Font::HugeBold, "Huge Bold", ImVec2( 0, 4 ) );
+        CreateFont( fontData, 36, 36, Font::Huge, "Huge", ImVec2( 0, 2 ) );
+        CreateFont( boldFontData, 36, 36, Font::HugeBold, "Huge Bold", ImVec2( 0, 2 ) );
 
         // Build font atlas
         //-------------------------------------------------------------------------

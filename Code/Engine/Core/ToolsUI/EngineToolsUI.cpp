@@ -147,16 +147,19 @@ namespace KRG
 
             TInlineString<10> const warningsStr( TInlineString<10>::CtorSprintf(), KRG_ICON_ALERT" %d", Log::GetNumWarnings() );
             TInlineString<10> const errorsStr( TInlineString<10>::CtorSprintf(), KRG_ICON_ALERT_OCTAGON" %d", Log::GetNumErrors() );
-            TInlineString<40> const perfStatsStr( TInlineString<40>::CtorSprintf(), "FPS: %3.0f Mem: %.2fMB", currentFPS, allocatedMemory );
+            TInlineString<40> const perfStatsStr( TInlineString<40>::CtorSprintf(), "FPS: %3.0f", currentFPS );
+            TInlineString<40> const memStatsStr( TInlineString<40>::CtorSprintf(), "MEM: %.2fMB", allocatedMemory );
 
             ImVec2 const warningsTextSize = ImGui::CalcTextSize( warningsStr.c_str() );
             ImVec2 const errorTextSize = ImGui::CalcTextSize( errorsStr.c_str() );
-            ImVec2 const perfStatsTextSize = ImVec2( 150, 0 ) ;
+            ImVec2 const memStatsTextSize = ImGui::CalcTextSize( memStatsStr.c_str() );
+            ImVec2 const perfStatsTextSize = ImVec2( 64, 0 ) ;
 
             float const itemSpacing = ImGui::GetStyle().ItemSpacing.x;
             float const framePadding = ImGui::GetStyle().FramePadding.x;
-            float const perfStatsOffset = totalAvailableSpace.x - perfStatsTextSize.x - ( itemSpacing * 2 );
-            float const warningsAndErrorsOffset = perfStatsOffset - warningsTextSize.x - errorTextSize.x - ( itemSpacing * 3 ) - ( framePadding * 4 );
+            float const memStatsOffset = totalAvailableSpace.x - memStatsTextSize.x - ( itemSpacing );
+            float const perfStatsOffset = memStatsOffset - perfStatsTextSize.x;
+            float const warningsAndErrorsOffset = perfStatsOffset - warningsTextSize.x - errorTextSize.x - ( itemSpacing * 6 ) - ( framePadding * 4 );
             float const frameLimiterOffset = warningsAndErrorsOffset - 30;
             float const debugCameraOffset = frameLimiterOffset - 30;
 
@@ -266,8 +269,11 @@ namespace KRG
             // Draw Performance Stats
             //-------------------------------------------------------------------------
 
-            ImGui::SameLine( 0, 8 );
+            ImGui::SameLine( perfStatsOffset );
             ImGui::Text( perfStatsStr.c_str() );
+
+            ImGui::SameLine( memStatsOffset );
+            ImGui::Text( memStatsStr.c_str() );
 
             ImGui::EndMenuBar();
         }

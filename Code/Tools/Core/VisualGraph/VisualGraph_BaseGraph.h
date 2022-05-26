@@ -262,13 +262,34 @@ namespace KRG::VisualGraph
         //-------------------------------------------------------------------------
 
         // Find a specific node in the graph
-        inline BaseNode* FindNode( UUID const& nodeID ) const
+        inline BaseNode* FindNode( UUID const& nodeID, bool checkRecursively = false ) const
         {
             for ( auto pNode : m_nodes )
             {
                 if ( pNode->GetID() == nodeID )
                 {
                     return pNode;
+                }
+
+                if ( checkRecursively )
+                {
+                    if ( pNode->HasChildGraph() )
+                    {
+                        auto pFoundNode = pNode->GetChildGraph()->FindNode( nodeID, checkRecursively );
+                        if ( pFoundNode != nullptr )
+                        {
+                            return pFoundNode;
+                        }
+                    }
+
+                    if ( pNode->HasSecondaryGraph() )
+                    {
+                        auto pFoundNode = pNode->GetSecondaryGraph()->FindNode( nodeID, checkRecursively );
+                        if ( pFoundNode != nullptr )
+                        {
+                            return pFoundNode;
+                        }
+                    }
                 }
             }
 

@@ -83,7 +83,7 @@ namespace KRG::ImGuiX
 
         colors[ImGuiCol_Button] = s_itemColorSemiDark;
         colors[ImGuiCol_ButtonHovered] = s_itemColorMedium;
-        colors[ImGuiCol_ButtonActive] = s_itemColorMedium;
+        colors[ImGuiCol_ButtonActive] = s_itemColorSemiLight;
 
         colors[ImGuiCol_CheckMark] = s_itemColorLight;
         colors[ImGuiCol_SliderGrab] = s_itemColorMedium;

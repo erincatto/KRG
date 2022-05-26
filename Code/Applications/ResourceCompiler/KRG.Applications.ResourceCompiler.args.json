@@ -8,7 +8,7 @@
     },
     {
       "Id": "0b678507-48c0-40c8-a404-d2016c5236d9",
-      "Command": "-compile data://keen/player_run_F.anim"
+      "Command": "-compile data://ai/aigraph_default.agv"
     },
     {
       "Id": "d91fbd26-4929-44b6-b0df-9f8a6e46a845",
