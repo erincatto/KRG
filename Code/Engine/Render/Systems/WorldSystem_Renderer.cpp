@@ -170,6 +170,13 @@ namespace KRG::Render
 
         if ( pMeshComponent->HasMeshResourceSet() )
         {
+            // Remove from any transform update lists
+            int32 const staticMobilityTransformListIdx = VectorFindIndex( m_staticMobilityTransformUpdateList, pMeshComponent );
+            if ( staticMobilityTransformListIdx != InvalidIndex )
+            {
+                m_staticMobilityTransformUpdateList.erase_unsorted( m_staticMobilityTransformUpdateList.begin() + staticMobilityTransformListIdx );
+            }
+
             // Get the real mobility of the component
             Mobility realMobility = pMeshComponent->GetMobility();
             int32 const mobilityListIdx = VectorFindIndex( m_mobilityUpdateList, pMeshComponent );
@@ -287,6 +294,8 @@ namespace KRG::Render
             m_staticMobilityTree.RemoveBox( pMeshComponent );
             m_staticMobilityTree.InsertBox( pMeshComponent->GetWorldBounds().GetAABB(), pMeshComponent );
         }
+
+        m_staticMobilityTransformUpdateList.clear();
 
         //-------------------------------------------------------------------------
         // Culling

@@ -14,7 +14,7 @@ namespace KRG
 
     //-------------------------------------------------------------------------
 
-    float FloatCurve::Evaluate( float parameter )
+    float FloatCurve::Evaluate( float parameter ) const
     {
         float result = 0;
 
@@ -52,7 +52,7 @@ namespace KRG
         }
         else // Outside curve range
         {
-            if ( parameter <= parameterRange.m_start )
+            if ( parameter <= parameterRange.m_begin )
             {
                 result = m_points[0].m_value;
             }
@@ -68,13 +68,11 @@ namespace KRG
     void FloatCurve::AddPoint( float parameter, float value, float inTangent, float outTangent )
     {
         m_points.push_back( { parameter, value, inTangent, outTangent } );
+        SortPoints();
 
         #if KRG_DEVELOPMENT_TOOLS
-        // We need a unique ID for the curve editor
-        m_points.back().m_ID = ++s_pointIdentifierGenerator;
+        RegeneratePointIDs();
         #endif
-
-        SortPoints();
     }
 
     void FloatCurve::EditPoint( int32 pointIdx, float parameter, float value )
@@ -107,6 +105,10 @@ namespace KRG
         KRG_ASSERT( pointIdx >= 0 && pointIdx < GetNumPoints() );
 
         m_points.erase( m_points.begin() + pointIdx );
+
+        #if KRG_DEVELOPMENT_TOOLS
+        RegeneratePointIDs();
+        #endif
     }
 
     //-------------------------------------------------------------------------
@@ -131,6 +133,16 @@ namespace KRG
 
         return true;
     }
+
+    #if KRG_DEVELOPMENT_TOOLS
+    void FloatCurve::RegeneratePointIDs()
+    {
+        for ( auto& point : m_points )
+        {
+            point.m_ID = ++s_pointIdentifierGenerator;
+        }
+    }
+    #endif
 
     bool FloatCurve::FromString( String const& inStr, FloatCurve& outCurve )
     {
@@ -169,15 +181,14 @@ namespace KRG
 
             if ( pCaret[0] != ',' ) { return false; }
             p.m_tangentMode = (TangentMode) std::strtoul( ++pCaret, &pCaret, 0 );
-
-            //-------------------------------------------------------------------------
-
-            #if KRG_DEVELOPMENT_TOOLS
-            p.m_ID = ++s_pointIdentifierGenerator;
-            #endif
         }
 
         outCurve.SortPoints();
+
+        #if KRG_DEVELOPMENT_TOOLS
+        outCurve.RegeneratePointIDs();
+        #endif
+
         return true;
     }
 

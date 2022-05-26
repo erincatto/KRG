@@ -1,9 +1,8 @@
 #include "AnimationGraphEditor_GraphEditor.h"
+#include "AnimationGraphEditor_Context.h"
 #include "EditorGraph/Animation_EditorGraph_Definition.h"
 #include "Tools/Core/Resource/ResourceDatabase.h"
-#include "Engine/Physics/PhysicsRagdoll.h"
 #include "Engine/Core/Update/UpdateContext.h"
-#include "System/TypeSystem/TypeRegistry.h"
 #include "EditorGraph/Nodes/Animation_EditorGraphNode_AnimationClip.h"
 #include "EditorGraph/Nodes/Animation_EditorGraphNode_Ragdoll.h"
 
@@ -36,22 +35,22 @@ namespace KRG::Animation
         }
         else // Flow Graph
         {
-            auto pGraphDefinition = m_graphEditor.GetGraphDefinition();
+            auto& editorContext = m_graphEditor.m_editorContext;
             auto pFlowEditorGraph = static_cast<FlowGraph*>( m_pGraph );
 
             //-------------------------------------------------------------------------
 
             if ( ImGui::BeginMenu( "Control Parameters" ) )
             {
-                TInlineVector<ControlParameterEditorNode*, 20> sortedControlParameters = pGraphDefinition->GetControlParameters();
+                TInlineVector<ControlParameterEditorNode*, 20> sortedControlParameters = editorContext.GetControlParameters();
                 eastl::sort( sortedControlParameters.begin(), sortedControlParameters.end(), [] ( ControlParameterEditorNode* const& pA, ControlParameterEditorNode* const& pB ) { return strcmp( pA->GetDisplayName(), pB->GetDisplayName() ) < 0; } );
 
-                TInlineVector<VirtualParameterEditorNode*, 20> sortedVirtualParameters = pGraphDefinition->GetVirtualParameters();
+                TInlineVector<VirtualParameterEditorNode*, 20> sortedVirtualParameters = editorContext.GetVirtualParameters();
                 eastl::sort( sortedVirtualParameters.begin(), sortedVirtualParameters.end(), [] ( VirtualParameterEditorNode* const& pA, VirtualParameterEditorNode* const& pB ) { return strcmp( pA->GetDisplayName(), pB->GetDisplayName() ) < 0; } );
 
                 //-------------------------------------------------------------------------
 
-                if ( pGraphDefinition->GetControlParameters().empty() && pGraphDefinition->GetVirtualParameters().empty() )
+                if ( editorContext.GetControlParameters().empty() && editorContext.GetVirtualParameters().empty() )
                 {
                     ImGui::Text( "No Parameters" );
                 }
@@ -92,7 +91,7 @@ namespace KRG::Animation
 
             //-------------------------------------------------------------------------
 
-            DrawNodeTypeCategoryContextMenu( m_contextMenuState.m_mouseCanvasPos, pFlowEditorGraph, m_graphEditor.GetCategorizedNodeTypes() );
+            DrawNodeTypeCategoryContextMenu( m_contextMenuState.m_mouseCanvasPos, pFlowEditorGraph, editorContext.GetCategorizedNodeTypes() );
         }
     }
 
@@ -225,7 +224,7 @@ namespace KRG::Animation
         }
         else if ( auto pDataSlotNode = TryCast<DataSlotEditorNode>( pNode ) )
         {
-            ResourceID const resourceID = pDataSlotNode->GetResourceID( m_graphEditor.m_pGraphDefinition->GetVariationHierarchy(), m_graphEditor.m_pGraphDefinition->GetSelectedVariationID() );
+            ResourceID const resourceID = pDataSlotNode->GetResourceID( m_graphEditor.m_editorContext.GetVariationHierarchy(), m_graphEditor.m_editorContext.GetSelectedVariationID() );
             if ( resourceID.IsValid() )
             {
                 m_graphEditor.m_resourceViewRequests.emplace_back( resourceID );
@@ -249,14 +248,14 @@ namespace KRG::Animation
                 // Draw entry state marker
                 if ( pStateNode->GetID() == pEditorGraph->GetDefaultEntryStateID() )
                 {
-                    ctx.m_pDrawList->AddText( nodeRect.Min + ctx.m_windowRect.Min - iconOffset, ImGuiX::ConvertColor( Colors::LimeGreen ), KRG_ICON_ASTERISK );
+                    ctx.m_pDrawList->AddText( nodeRect.Min + ctx.m_windowRect.Min - iconOffset, ImGuiX::ConvertColor( Colors::LimeGreen ), KRG_ICON_ARROW_DOWN_CIRCLE );
                     iconOffset.x -= iconSize.x + 4.0f;
                 }
 
                 // Draw global transition marker
                 if ( pEditorGraph->HasGlobalTransitionForState( pStateNode->GetID() ) )
                 {
-                    ctx.m_pDrawList->AddText( nodeRect.Min + ctx.m_windowRect.Min - iconOffset, ImGuiX::ConvertColor( Colors::OrangeRed ), KRG_ICON_BOLT );
+                    ctx.m_pDrawList->AddText( nodeRect.Min + ctx.m_windowRect.Min - iconOffset, ImGuiX::ConvertColor( Colors::OrangeRed ), KRG_ICON_LIGHTNING_BOLT_CIRCLE );
                 }
             }
         }
@@ -268,6 +267,9 @@ namespace KRG::Animation
         {
             return;
         }
+
+        auto& editorContext = m_graphEditor.m_editorContext;
+        auto const* pToolsContext = editorContext.GetToolsContext();
 
         // Handle dropped resources
         //-------------------------------------------------------------------------
@@ -282,7 +284,7 @@ namespace KRG::Animation
             InlineString payloadStr = (char*) payload->Data;
 
             ResourceID const resourceID( payloadStr.c_str() );
-            if ( !resourceID.IsValid() || !m_graphEditor.m_pToolsContext->m_pResourceDatabase->DoesResourceExist(resourceID) )
+            if ( !resourceID.IsValid() || !pToolsContext->m_pResourceDatabase->DoesResourceExist(resourceID) )
             {
                 return;
             }
@@ -300,13 +302,14 @@ namespace KRG::Animation
                 return;
             }
 
-            auto pGraphDefinition = m_graphEditor.GetGraphDefinition();
+            auto pGraphDefinition = editorContext.GetGraphDefinition();
             auto pFlowEditorGraph = static_cast<FlowGraph*>( m_pGraph );
 
             if( isAnimationClipResource )
             {
                 VisualGraph::ScopedGraphModification sgm( m_pGraph );
                 auto pNode = pFlowEditorGraph->CreateNode<AnimationClipEditorNode>();
+                pNode->SetSlotName( resourceID.GetFileNameWithoutExtension() );
                 pNode->SetDefaultResourceID( resourceID );
                 pNode->SetCanvasPosition( mouseCanvasPos );
                 return;
@@ -315,6 +318,7 @@ namespace KRG::Animation
             {
                 VisualGraph::ScopedGraphModification sgm( m_pGraph );
                 auto pNode = pFlowEditorGraph->CreateNode<PoweredRagdollEditorNode>();
+                pNode->SetSlotName( resourceID.GetFileNameWithoutExtension() );
                 pNode->SetDefaultResourceID( resourceID );
                 pNode->SetCanvasPosition( mouseCanvasPos );
                 return;
@@ -338,10 +342,10 @@ namespace KRG::Animation
 
             InlineString payloadStr = (char*) payload->Data;
 
-            auto pGraphDefinition = m_graphEditor.GetGraphDefinition();
+            auto pGraphDefinition = editorContext.GetGraphDefinition();
             auto pFlowEditorGraph = static_cast<FlowGraph*>( m_pGraph );
 
-            for ( auto pControlParameter : pGraphDefinition->GetControlParameters() )
+            for ( auto pControlParameter : editorContext.GetControlParameters() )
             {
                 if ( payloadStr == pControlParameter->GetDisplayName() )
                 {
@@ -352,7 +356,7 @@ namespace KRG::Animation
                 }
             }
 
-            for ( auto pVirtualParameter : pGraphDefinition->GetVirtualParameters() )
+            for ( auto pVirtualParameter : editorContext.GetVirtualParameters() )
             {
                 if ( payloadStr == pVirtualParameter->GetDisplayName() )
                 {
@@ -367,50 +371,15 @@ namespace KRG::Animation
 
     //-------------------------------------------------------------------------
 
-    GraphEditor::GraphEditor( ToolsContext const* pToolsContext, EditorGraphDefinition* pGraphDefinition )
-        : m_pToolsContext( pToolsContext )
-        , m_pGraphDefinition( pGraphDefinition )
+    GraphEditor::GraphEditor(GraphEditorContext& editorContext )
+        : m_editorContext( editorContext )
         , m_primaryGraphView( *this )
         , m_secondaryGraphView( *this )
-    {
-        KRG_ASSERT( m_pToolsContext != nullptr && m_pToolsContext->IsValid() );
-        KRG_ASSERT( pGraphDefinition != nullptr );
-
-        // Create DB of all node types
-        //-------------------------------------------------------------------------
-
-        m_registeredNodeTypes = pToolsContext->m_pTypeRegistry->GetAllDerivedTypes( EditorGraphNode::GetStaticTypeID(), false, false, true );
-
-        for ( auto pNodeType : m_registeredNodeTypes )
-        {
-            auto pDefaultNode = Cast<EditorGraphNode const>( pNodeType->m_pTypeHelper->GetDefaultTypeInstancePtr() );
-            if ( pDefaultNode->IsUserCreatable() )
-            {
-                m_categorizedNodeTypes.AddItem( pDefaultNode->GetCategory(), pDefaultNode->GetTypeName(), pNodeType );
-            }
-        }
-
-        // Show Root Graph
-        //-------------------------------------------------------------------------
-
-        NavigateTo( pGraphDefinition->GetRootGraph() );
-    }
-
-    TVector<VisualGraph::SelectedNode> const& GraphEditor::GetSelectedNodes() const
-    {
-        static TVector<VisualGraph::SelectedNode> const emptySelection;
-
-        if ( m_pFocusedGraphView != nullptr )
-        {
-            return m_pFocusedGraphView->GetSelectedNodes();
-        }
-
-        return emptySelection;
-    }
+    {}
 
     void GraphEditor::OnUndoRedo()
     {
-        auto pFoundGraph = m_pGraphDefinition->GetRootGraph()->FindPrimaryGraph( m_primaryViewGraphID );
+        auto pFoundGraph = m_editorContext.GetRootGraph()->FindPrimaryGraph( m_primaryViewGraphID );
         if ( pFoundGraph != nullptr )
         {
             if ( m_primaryGraphView.GetViewedGraph() != pFoundGraph )
@@ -422,7 +391,7 @@ namespace KRG::Animation
         }
         else
         {
-            NavigateTo( m_pGraphDefinition->GetRootGraph() );
+            NavigateTo( m_editorContext.GetRootGraph() );
         }
     }
 
@@ -502,11 +471,12 @@ namespace KRG::Animation
             ImGui::PushStyleVar( ImGuiStyleVar_ItemSpacing, ImVec2( 4, 1 ) );
             if( ImGui::BeginChild( "NavBar", ImVec2( ImGui::GetContentRegionAvail().x, 24 ), false, ImGuiWindowFlags_AlwaysUseWindowPadding ) )
             {
+                ImGuiX::ScopedFont const sf( ImGuiX::Font::SmallBold );
                 ImVec2 const navBarDimensions = ImGui::GetContentRegionAvail();
 
-                if ( ImGuiX::ColoredButton( Colors::Green, Colors::White, KRG_ICON_HOME"##GoHome", ImVec2( 18, -1 ) ) )
+                if ( ImGuiX::ColoredButton( Colors::Green, Colors::White, KRG_ICON_HOME"##GoHome", ImVec2( 22, -1 ) ) )
                 {
-                    NavigateTo( m_pGraphDefinition->GetRootGraph() );
+                    NavigateTo( m_editorContext.GetRootGraph() );
                 }
                 ImGuiX::ItemTooltip( "Go to root graph" );
 
@@ -515,7 +485,7 @@ namespace KRG::Animation
                 TInlineVector<VisualGraph::BaseGraph*,10> pathToRoot;
 
                 auto pGraph = m_primaryGraphView.GetViewedGraph();
-                while ( pGraph != nullptr && pGraph != m_pGraphDefinition->GetRootGraph() )
+                while ( pGraph != nullptr && pGraph != m_editorContext.GetRootGraph() )
                 {
                     pathToRoot.emplace_back( pGraph );
                     if ( pGraph->GetParentNode() != nullptr )
@@ -547,13 +517,11 @@ namespace KRG::Animation
 
                 if ( m_primaryGraphView.IsViewingStateMachineGraph() )
                 {
-                    constexpr static float const buttonWidth = 80;
-
-                    ImGuiX::ScopedFont const sf( ImGuiX::Font::SmallBold );
+                    constexpr static float const buttonWidth = 64;
 
                     ImGui::SameLine( navBarDimensions.x - buttonWidth * 2 - 22, 0 );
                     ImGui::AlignTextToFramePadding();
-                    if ( ImGuiX::ColoredButton( Colors::Green, Colors::White, KRG_ICON_SIGN_IN_ALT" Entry", ImVec2( buttonWidth, -1 ) ) )
+                    if ( ImGuiX::ColoredButton( Colors::Green, Colors::White, KRG_ICON_DOOR_OPEN" Entry", ImVec2( buttonWidth, -1 ) ) )
                     {
                         auto pSM = Cast<StateMachineGraph>( m_primaryGraphView.GetViewedGraph() );
                         NavigateTo( pSM->GetEntryStateOverrideConduit() );
@@ -561,7 +529,7 @@ namespace KRG::Animation
                     ImGuiX::ItemTooltip( "Entry State Overrides" );
 
                     ImGui::SameLine( 0, -1 );
-                    if ( ImGuiX::ColoredButton( Colors::OrangeRed, Colors::White, KRG_ICON_BOLT"Global", ImVec2( buttonWidth, -1 ) ) )
+                    if ( ImGuiX::ColoredButton( Colors::OrangeRed, Colors::White, KRG_ICON_LIGHTNING_BOLT"Global", ImVec2( buttonWidth, -1 ) ) )
                     {
                         auto pSM = Cast<StateMachineGraph>( m_primaryGraphView.GetViewedGraph() );
                         NavigateTo( pSM->GetGlobalTransitionConduit() );
@@ -576,7 +544,7 @@ namespace KRG::Animation
                 }
 
                 // Reset view
-                if ( ImGuiX::ColoredButton( Colors::Gray, Colors::White, KRG_ICON_SEARCH"##ResetView", ImVec2( 18, -1 ) ) )
+                if ( ImGuiX::ColoredButton( Colors::Gray, Colors::White, KRG_ICON_IMAGE_FILTER_CENTER_FOCUS"##ResetView", ImVec2( 20, -1 ) ) )
                 {
                     m_primaryGraphView.ResetView();
                 }
@@ -589,6 +557,11 @@ namespace KRG::Animation
             //-------------------------------------------------------------------------
 
             m_primaryGraphView.UpdateAndDraw( *pTypeRegistry, m_primaryGraphViewHeight, pDebugContext );
+
+            if ( m_primaryGraphView.HasSelectionChangedThisFrame() )
+            {
+                m_editorContext.SetSelectedNodes( m_primaryGraphView.GetSelectedNodes() );
+            }
 
             // Splitter
             //-------------------------------------------------------------------------
@@ -618,6 +591,11 @@ namespace KRG::Animation
             UpdateSecondaryViewState();
             m_secondaryGraphView.UpdateAndDraw( *pTypeRegistry, 0.0f, pDebugContext );
 
+            if ( m_secondaryGraphView.HasSelectionChangedThisFrame() )
+            {
+                m_editorContext.SetSelectedNodes( m_secondaryGraphView.GetSelectedNodes() );
+            }
+
             //-------------------------------------------------------------------------
 
             ImGui::PopStyleVar();
@@ -635,7 +613,7 @@ namespace KRG::Animation
 
         for ( auto const& resourceToView : m_resourceViewRequests )
         {
-            m_pToolsContext->TryOpenResource( resourceToView );
+            m_editorContext.GetToolsContext()->TryOpenResource( resourceToView );
         }
     }
 
@@ -662,11 +640,5 @@ namespace KRG::Animation
         {
             m_pFocusedGraphView = pCurrentlyFocusedGraphView;
         }
-    }
-
-    void GraphEditor::ClearSelection()
-    {
-        m_primaryGraphView.ClearSelection();
-        m_secondaryGraphView.ClearSelection();
     }
 }

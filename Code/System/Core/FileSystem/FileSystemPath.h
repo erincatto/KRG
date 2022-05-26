@@ -1,39 +1,31 @@
 #pragma once
 
-#include "System/Core/_Module/API.h"
-#include "System/Core/Types/String.h"
+#include "FileSystem.h"
 #include "System/Core/Algorithm/Hash.h"
 
 //-------------------------------------------------------------------------
 // File System Path
 //-------------------------------------------------------------------------
 // A helper to abstract and perform some file system path operations
-// Not the smartest thing in the world, and has some limitations made for performance
+// Has a fair amount of limitations that have been made for performance reasons
 //
-// For directory paths, the only robust methods to distinguish between a file and a directory path is to end with a path delimiter, 
-// So any path that do not end in the path delimiter are assumed to be files.
+// For directory paths, the only robust methods to distinguish between a file and a directory path string is to end with a path delimiter
+// So any path that do not end in the path delimiter are assumed to be files
+//
+// On case-insensitive file systems, paths are forced to be lowercase
 
 namespace KRG::FileSystem
 {
     class KRG_SYSTEM_CORE_API Path
     {
-        friend KRG_SYSTEM_CORE_API void EnsureCorrectPathStringFormat( Path& filePath );
-
-    public:
-
-        // Platform specific path delimiter
-        static char const s_pathDelimiter;
-
-        // Platform specific path conversion
-        static String GetFullPathString( char const* pPath );
 
     public:
 
         Path() = default;
         Path( Path&& path ) { *this = std::move( path ); }
-        Path( Path const& path ) : m_fullpath( path.m_fullpath ), m_hashCode( path.m_hashCode ) {}
-        Path( String&& path );
-        Path( String const& path );
+        Path( Path const& path ) : m_fullpath( path.m_fullpath ), m_hashCode( path.m_hashCode ), m_isDirectoryPath( path.m_isDirectoryPath ) {}
+        Path( String&& path ) : Path( path.c_str() ) {}
+        Path( String const& path ) : Path( path.c_str() ) {}
         Path( char const* pPath );
 
         Path& operator=( Path& rhs );
@@ -45,8 +37,41 @@ namespace KRG::FileSystem
         inline String const& GetFullPath() const { return m_fullpath; }
         inline void Clear() { m_fullpath.clear(); m_hashCode = 0; }
 
+        // Queries
+        //-------------------------------------------------------------------------
+
+        // Checks the file system to check if the file/directory exists
+        inline bool Exists() const
+        {
+            KRG_ASSERT( IsValid() );
+            return m_isDirectoryPath ? IsExistingDirectory( m_fullpath.c_str() ) : IsExistingFile( m_fullpath.c_str() ); 
+        }
+
+        // Checks the file system to check if the file/directory is read-only
+        inline bool IsReadOnly() const
+        {
+            KRG_ASSERT( IsValid() );
+            return FileSystem::IsReadOnly( m_fullpath.c_str() );
+        }
+
+        // Check if this path is under a specific directory
+        bool IsUnderDirectory( Path const& parentDirectory ) const;
+
+        // Get the directory depth for this path e.g. D:\Foo\Bar\Moo.txt = 2
+        int32 GetDirectoryDepth() const;
+
+        // Get the full path depth for this path e.g. D:\Foo\Bar\Moo.txt = 3
+        int32 GetPathDepth() const;
+
         // Basic Operations
         //-------------------------------------------------------------------------
+
+        // This function will check the actual filesystem and ensure that the path string has the correct format whether its a file or a directory
+        // Note: this is not the cheapest function so avoid calling at runtime
+        void EnsureCorrectPathStringFormat();
+
+        // Ensures that the directory exists (uses the parent directory for file paths)
+        bool EnsureDirectoryExists() const;
 
         // Append a string to the end of the path. Optional specify if we should add a path delimiter at the end of the appended string
         Path& Append( char const* pPathString, bool asDirectory = false );
@@ -59,12 +84,6 @@ namespace KRG::FileSystem
         inline Path& operator+=( String const& pathString ) { return Append( pathString.c_str() ); }
         inline Path operator+( String const& pathString ) const { return Path( m_fullpath ).Append( pathString.c_str() ); }
 
-        // Get the directory depth for this path e.g. D:\Foo\Bar\Moo.txt = 2
-        int32 GetDirectoryDepth() const;
-
-        // Get the full path depth for this path e.g. D:\Foo\Bar\Moo.txt = 3
-        int32 GetPathDepth() const;
-
         // Splits the path into multiple strings e.g. D:\Foo\Bar\Moo.txt -> { D:, Foo, Bar, Moo.txt }
         TInlineVector<String, 10> Split() const;
 
@@ -76,12 +95,20 @@ namespace KRG::FileSystem
         // NOTE! These functions just operate on the string path and infer information from it, they dont check the actual file system
 
         // This will return true if the path string doesnt end with a path delimiter
-        inline bool IsFile() const { KRG_ASSERT( IsValid() ); return m_fullpath[m_fullpath.length() - 1] != s_pathDelimiter; }
+        // NOTE! Does not actually verify if the path is a file
+        inline bool IsFilePath() const { KRG_ASSERT( IsValid() ); return !m_isDirectoryPath; }
 
-        inline String GetFileName() const { return String( GetFileNameSubstr() ); }
+        // Returns the filename as provided
+        // Note: The casing might be incorrect on windows. If you want the correct case for the filename, please use the GetFilenameWithCorrectCase function.
+        inline String GetFilename() const { return String( GetFilenameSubstr() ); }
+
+        // Check if the filename including extension is equal to the supplied string
         bool IsFilenameEqual( char const* pString ) const;
+
+        // Check if the filename including extension is equal to the supplied string
         inline bool IsFilenameEqual( String const& pString ) const { KRG_ASSERT( !pString.empty() ); return IsFilenameEqual( pString.c_str() ); }
 
+        // Get the filename for this path without the extension ( only valid to call on file paths )
         String GetFileNameWithoutExtension() const;
 
         // Extensions
@@ -102,11 +129,11 @@ namespace KRG::FileSystem
 
         // Returns the extension for this path (excluding the '.'). Returns an empty string if there is no extension!
         inline TInlineString<6> GetExtensionAsString() const
-        { 
+        {
             char const* const pExtensionSubstr = GetExtension();
             return TInlineString<6>( pExtensionSubstr == nullptr ? "" : pExtensionSubstr );
         }
-        
+
         // Returns a lowercase version of the extension (excluding the '.') if one exists else returns an empty string
         inline TInlineString<6> GetLowercaseExtensionAsString() const
         {
@@ -130,14 +157,19 @@ namespace KRG::FileSystem
         // NOTE! These functions just operate on the string path and infer information from it, they dont check the actual file system
 
         // This will return true if the path string ends with a path delimiter
-        inline bool IsDirectory() const { KRG_ASSERT( IsValid() ); return ( m_fullpath[m_fullpath.length() - 1] == s_pathDelimiter ); }
+        // NOTE! Does not actually verify if the path is a directory
+        inline bool IsDirectoryPath() const { KRG_ASSERT( IsValid() ); return m_isDirectoryPath; }
 
         // This will ensure that this path ends in a path delimiter
-        void MakeDirectory();
+        void MakeIntoDirectoryPath();
 
+        // Gets the parent directory for this path
         Path GetParentDirectory() const;
+
+        // Gets the directory name, only valid to call on directory paths
         String GetDirectoryName() const;
-        bool IsUnderDirectory( Path const& parentDirectory ) const;
+
+        // Replace the parent directory of this path to another one ( i.e. rebase the path )
         void ReplaceParentDirectory( Path const& newParentDirectory );
 
         // Conversion
@@ -157,14 +189,55 @@ namespace KRG::FileSystem
 
     private:
 
-        inline void UpdateHashCode() { m_hashCode = m_fullpath.empty() ? 0 : Hash::GetHash32( m_fullpath ); }
-        char const* GetFileNameSubstr() const;
+        inline void UpdatePathInternals()
+        {
+            if ( m_fullpath.empty() )
+            {
+                m_hashCode = 0;
+                m_isDirectoryPath = false;
+            }
+            else
+            {
+                m_hashCode = Hash::GetHash32( m_fullpath );
+                m_isDirectoryPath = m_fullpath[m_fullpath.length() - 1] == Settings::s_pathDelimiter;
+            }
+        }
+
+        char const* GetFilenameSubstr() const;
 
     private:
 
         String      m_fullpath;
         uint32      m_hashCode = 0;
+        bool        m_isDirectoryPath = false;
     };
+}
+
+//-------------------------------------------------------------------------
+// Path Helpers
+//-------------------------------------------------------------------------
+
+namespace KRG::FileSystem
+{
+    KRG_FORCE_INLINE uint64 GetFileModifiedTime( Path const& filePath )
+    {
+        return GetFileModifiedTime( filePath.c_str() );
+    }
+
+    KRG_FORCE_INLINE bool EraseFile( Path const& filePath )
+    {
+        KRG_ASSERT( filePath.IsFilePath() );
+        return EraseFile( filePath.c_str() );
+    }
+
+    KRG_FORCE_INLINE bool LoadFile( Path const& filePath, TVector<Byte>& fileData )
+    {
+        KRG_ASSERT( filePath.IsFilePath() );
+        return LoadFile( filePath.c_str(), fileData );
+    }
+
+    KRG_FORCE_INLINE bool CreateDir( Path const& path ) { KRG_ASSERT( path.IsDirectoryPath() ); return CreateDir( path.c_str() ); }
+    KRG_FORCE_INLINE bool EraseDir( Path const& path ){ KRG_ASSERT( path.IsDirectoryPath() ); return EraseDir( path.c_str() ); }
 }
 
 //-------------------------------------------------------------------------

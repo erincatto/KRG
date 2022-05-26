@@ -12,7 +12,7 @@ namespace KRG::Animation::GraphNodes
         CreateInputPin( "Float", GraphValueType::Float );
     }
 
-    GraphNodeIndex FloatRemapEditorNode::Compile( EditorGraphCompilationContext& context ) const
+    GraphNodeIndex FloatRemapEditorNode::Compile( GraphCompilationContext& context ) const
     {
         FloatRemapNode::Settings* pSettings = nullptr;
         NodeCompilationState const state = context.GetSettings<FloatRemapNode>( this, pSettings );
@@ -47,7 +47,7 @@ namespace KRG::Animation::GraphNodes
 
     void FloatRemapEditorNode::DrawInfoText( VisualGraph::DrawContext const& ctx )
     {
-        ImGui::Text( "[%.2f, %.2f] to [%.2f, %.2f]", m_inputRange.m_start, m_inputRange.m_end, m_outputRange.m_start, m_outputRange.m_end );
+        ImGui::Text( "[%.2f, %.2f] to [%.2f, %.2f]", m_inputRange.m_begin, m_inputRange.m_end, m_outputRange.m_begin, m_outputRange.m_end );
     }
 
     //-------------------------------------------------------------------------
@@ -59,7 +59,7 @@ namespace KRG::Animation::GraphNodes
         CreateInputPin( "Float", GraphValueType::Float );
     }
 
-    GraphNodeIndex FloatClampEditorNode::Compile( EditorGraphCompilationContext& context ) const
+    GraphNodeIndex FloatClampEditorNode::Compile( GraphCompilationContext& context ) const
     {
         FloatClampNode::Settings* pSettings = nullptr;
         NodeCompilationState const state = context.GetSettings<FloatClampNode>( this, pSettings );
@@ -100,7 +100,7 @@ namespace KRG::Animation::GraphNodes
         CreateInputPin( "Float", GraphValueType::Float );
     }
 
-    GraphNodeIndex FloatAbsEditorNode::Compile( EditorGraphCompilationContext& context ) const
+    GraphNodeIndex FloatAbsEditorNode::Compile( GraphCompilationContext& context ) const
     {
         FloatAbsNode::Settings* pSettings = nullptr;
         NodeCompilationState const state = context.GetSettings<FloatAbsNode>( this, pSettings );
@@ -137,7 +137,7 @@ namespace KRG::Animation::GraphNodes
         CreateInputPin( "Float", GraphValueType::Float );
     }
 
-    GraphNodeIndex FloatEaseEditorNode::Compile( EditorGraphCompilationContext& context ) const
+    GraphNodeIndex FloatEaseEditorNode::Compile( GraphCompilationContext& context ) const
     {
         FloatEaseNode::Settings* pSettings = nullptr;
         NodeCompilationState const state = context.GetSettings<FloatEaseNode>( this, pSettings );
@@ -173,6 +173,47 @@ namespace KRG::Animation::GraphNodes
 
     //-------------------------------------------------------------------------
 
+    void FloatCurveEditorNode::Initialize( VisualGraph::BaseGraph* pParent )
+    {
+        EditorGraphNode::Initialize( pParent );
+        CreateOutputPin( "Result", GraphValueType::Float, true );
+        CreateInputPin( "Float", GraphValueType::Float );
+    }
+
+    GraphNodeIndex FloatCurveEditorNode::Compile( GraphCompilationContext& context ) const
+    {
+        FloatCurveNode::Settings* pSettings = nullptr;
+        NodeCompilationState const state = context.GetSettings<FloatCurveNode>( this, pSettings );
+        if ( state == NodeCompilationState::NeedCompilation )
+        {
+            auto pInputNode = GetConnectedInputNode<EditorGraphNode>( 0 );
+            if ( pInputNode != nullptr )
+            {
+                GraphNodeIndex const compiledNodeIdx = pInputNode->Compile( context );
+                if ( compiledNodeIdx != InvalidIndex )
+                {
+                    pSettings->m_inputValueNodeIdx = compiledNodeIdx;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                context.LogError( this, "Disconnected input pin!" );
+                return false;
+            }
+
+            //-------------------------------------------------------------------------
+
+            pSettings->m_curve = m_curve;
+        }
+        return pSettings->m_nodeIdx;
+    }
+
+    //-------------------------------------------------------------------------
+
     void FloatMathEditorNode::Initialize( VisualGraph::BaseGraph* pParent )
     {
         EditorGraphNode::Initialize( pParent );
@@ -181,7 +222,7 @@ namespace KRG::Animation::GraphNodes
         CreateInputPin( "B (Optional)", GraphValueType::Float );
     }
 
-    GraphNodeIndex FloatMathEditorNode::Compile( EditorGraphCompilationContext& context ) const
+    GraphNodeIndex FloatMathEditorNode::Compile( GraphCompilationContext& context ) const
     {
         FloatMathNode::Settings* pSettings = nullptr;
         NodeCompilationState const state = context.GetSettings<FloatMathNode>( this, pSettings );
@@ -240,7 +281,7 @@ namespace KRG::Animation::GraphNodes
         CreateInputPin( "Float", GraphValueType::Float );
     }
 
-    GraphNodeIndex FloatComparisonEditorNode::Compile( EditorGraphCompilationContext& context ) const
+    GraphNodeIndex FloatComparisonEditorNode::Compile( GraphCompilationContext& context ) const
     {
         FloatComparisonNode::Settings* pSettings = nullptr;
         NodeCompilationState const state = context.GetSettings<FloatComparisonNode>( this, pSettings );
@@ -297,7 +338,7 @@ namespace KRG::Animation::GraphNodes
         CreateInputPin( "Float", GraphValueType::Float );
     }
 
-    GraphNodeIndex FloatRangeComparisonEditorNode::Compile( EditorGraphCompilationContext& context ) const
+    GraphNodeIndex FloatRangeComparisonEditorNode::Compile( GraphCompilationContext& context ) const
     {
         FloatRangeComparisonNode::Settings* pSettings = nullptr;
         NodeCompilationState const state = context.GetSettings<FloatRangeComparisonNode>( this, pSettings );
@@ -334,11 +375,11 @@ namespace KRG::Animation::GraphNodes
     {
         if ( m_isInclusiveCheck )
         {
-            ImGui::Text( "%.2f <= X <= %.2f", m_range.m_start, m_range.m_end );
+            ImGui::Text( "%.2f <= X <= %.2f", m_range.m_begin, m_range.m_end );
         }
         else
         {
-            ImGui::Text( "%.2f < X < %.2f", m_range.m_start, m_range.m_end );
+            ImGui::Text( "%.2f < X < %.2f", m_range.m_begin, m_range.m_end );
         }
     }
 
@@ -353,7 +394,7 @@ namespace KRG::Animation::GraphNodes
         CreateInputPin( "If False", GraphValueType::Float );
     }
 
-    GraphNodeIndex FloatSwitchEditorNode::Compile( EditorGraphCompilationContext& context ) const
+    GraphNodeIndex FloatSwitchEditorNode::Compile( GraphCompilationContext& context ) const
     {
         FloatSwitchNode::Settings* pSettings = nullptr;
         NodeCompilationState const state = context.GetSettings<FloatSwitchNode>( this, pSettings );
@@ -408,6 +449,43 @@ namespace KRG::Animation::GraphNodes
                 if ( compiledNodeIdx != InvalidIndex )
                 {
                     pSettings->m_falseValueNodeIdx = compiledNodeIdx;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                context.LogError( this, "Disconnected input pin!" );
+                return false;
+            }
+        }
+        return pSettings->m_nodeIdx;
+    }
+
+    //-------------------------------------------------------------------------
+
+    void FloatReverseDirectionEditorNode::Initialize( VisualGraph::BaseGraph* pParent )
+    {
+        EditorGraphNode::Initialize( pParent );
+        CreateOutputPin( "Result", GraphValueType::Float, true );
+        CreateInputPin( "Float", GraphValueType::Float );
+    }
+
+    GraphNodeIndex FloatReverseDirectionEditorNode::Compile( GraphCompilationContext& context ) const
+    {
+        FloatReverseDirectionNode::Settings* pSettings = nullptr;
+        NodeCompilationState const state = context.GetSettings<FloatReverseDirectionNode>( this, pSettings );
+        if ( state == NodeCompilationState::NeedCompilation )
+        {
+            auto pInputNode = GetConnectedInputNode<EditorGraphNode>( 0 );
+            if ( pInputNode != nullptr )
+            {
+                GraphNodeIndex const compiledNodeIdx = pInputNode->Compile( context );
+                if ( compiledNodeIdx != InvalidIndex )
+                {
+                    pSettings->m_inputValueNodeIdx = compiledNodeIdx;
                 }
                 else
                 {

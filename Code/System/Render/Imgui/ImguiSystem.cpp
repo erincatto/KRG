@@ -4,13 +4,14 @@
 #include "ImguiFont.h"
 #include "ImguiStyle.h"
 #include "System/Render/Fonts/FontDecompressor.h"
-#include "System/Render/Fonts/FontData_Roboto.h"
-#include "System/Render/Fonts/FontData_FontAwesome5.h"
+#include "System/Render/Fonts/FontData_Lexend.h"
+#include "System/Render/Fonts/FontData_MaterialDesign.h"
 
 //-------------------------------------------------------------------------
 
 #if _WIN32
 #include "Platform/ImguiPlatform_Win32.h"
+#include "misc/freetype/imgui_freetype.h"
 #endif
 
 //-------------------------------------------------------------------------
@@ -75,55 +76,46 @@ namespace KRG::ImGuiX
         //-------------------------------------------------------------------------
 
         TVector<Byte> fontData, boldFontData;
-        Fonts::GetDecompressedFontData( Fonts::Roboto::Regular::GetData(), fontData );
-        Fonts::GetDecompressedFontData( Fonts::Roboto::Bold::GetData(), boldFontData );
+        Fonts::GetDecompressedFontData( Fonts::Lexend::Regular::GetData(), fontData );
+        Fonts::GetDecompressedFontData( Fonts::Lexend::Bold::GetData(), boldFontData );
 
-        TVector<Byte> iconFontCompressedData, iconFontData;
-        ImWchar const icons_ranges[] = { KRG_ICON_MIN_FA, KRG_ICON_MAX_FA, 0 };
-        Fonts::FontAwesome5::GetFontCompressedData( iconFontCompressedData );
-        Fonts::GetDecompressedFontData( iconFontCompressedData.data(), iconFontData );
+        ImWchar const icons_ranges[] = { KRG_ICONRANGE_MIN, KRG_ICONRANGE_MAX, 0 };
+        TVector<Byte> iconFontData;
+        Fonts::GetDecompressedFontData( (Byte const*) Fonts::MaterialDesignIcons::GetData(), iconFontData );
 
         // Base font configs
         //-------------------------------------------------------------------------
 
         ImFontConfig fontConfig;
         fontConfig.FontDataOwnedByAtlas = false;
-        fontConfig.OversampleH = 4;
-        fontConfig.OversampleV = 4;
 
         ImFontConfig iconFontConfig;
         iconFontConfig.FontDataOwnedByAtlas = false;
+        iconFontConfig.FontBuilderFlags = ImGuiFreeTypeBuilderFlags_NoAutoHint | ImGuiFreeTypeBuilderFlags_LoadColor | ImGuiFreeTypeBuilderFlags_Bitmap;
         iconFontConfig.MergeMode = true;
-        iconFontConfig.OversampleH = 1;
-        iconFontConfig.OversampleV = 1;
-        iconFontConfig.PixelSnapH = true;
         iconFontConfig.RasterizerMultiply = 1.5f;
 
-        auto CreateFont = [&] ( TVector<Byte>& fontData, float fontSize, float iconFontSize, Font fontID, char const* pName, float glyphAdvanceOffset = 3, ImVec2 const& glyphOffset = ImVec2( 0, 0 ) )
+        auto CreateFont = [&] ( TVector<Byte>& fontData, float fontSize, float iconFontSize, Font fontID, char const* pName, ImVec2 const& glyphOffset = ImVec2( 0, 0 ) )
         {
             Printf( fontConfig.Name, 40, pName );
             ImFont* pFont = io.Fonts->AddFontFromMemoryTTF( fontData.data(), (int32) fontData.size(), fontSize, &fontConfig );
             SystemFonts::s_fonts[(uint8) fontID] = pFont;
 
             iconFontConfig.GlyphOffset = glyphOffset;
-            iconFontConfig.GlyphMinAdvanceX = iconFontConfig.GlyphMaxAdvanceX = fontSize + glyphAdvanceOffset;
             io.Fonts->AddFontFromMemoryTTF( iconFontData.data(), (int32) iconFontData.size(), iconFontSize, &iconFontConfig, icons_ranges );
         };
 
-        CreateFont( fontData, 12, 12, Font::Tiny, "Tiny", 3, ImVec2( -2, 1 ) );
-        CreateFont( boldFontData, 13, 12, Font::TinyBold, "Tiny Bold", 3, ImVec2( -2, 1 ) );
+        CreateFont( fontData, 14, 18, Font::Small, "Small", ImVec2( 0, 3 ) );
+        CreateFont( boldFontData, 14, 18, Font::SmallBold, "Small Bold", ImVec2( 0, 3 ) );
 
-        CreateFont( fontData, 15, 15, Font::Small, "Small", 3, ImVec2( -1, 1 ) );
-        CreateFont( boldFontData, 15, 15, Font::SmallBold, "Small Bold", 3, ImVec2( -1, 1 ) );
+        CreateFont( fontData, 16, 20, Font::Medium, "Medium", ImVec2( 0, 3 ) );
+        CreateFont( boldFontData, 16, 20, Font::MediumBold, "Medium Bold", ImVec2( 0, 3 ) );
 
-        CreateFont( fontData, 17, 15, Font::Medium, "Medium", 3, ImVec2( -1, 1 ) );
-        CreateFont( boldFontData, 17, 15, Font::MediumBold, "Medium Bold", 3, ImVec2( -1, 1 ) );
+        CreateFont( fontData, 18, 22, Font::Large, "Large", ImVec2( 0, 4 ) );
+        CreateFont( boldFontData, 18, 22, Font::LargeBold, "Large Bold", ImVec2( 0, 4 ) );
 
-        CreateFont( fontData, 21, 18, Font::Large, "Large", 3, ImVec2( -2, 1 ) );
-        CreateFont( boldFontData, 21, 18, Font::LargeBold, "Large Bold", 3, ImVec2( -2, 1 ) );
-
-        CreateFont( fontData, 36, 32, Font::Huge, "Huge", 3, ImVec2( -2, 2 ) );
-        CreateFont( boldFontData, 36, 32, Font::HugeBold, "Huge Bold", 3, ImVec2( -2, 2 ) );
+        CreateFont( fontData, 36, 40, Font::Huge, "Huge", ImVec2( 0, 4 ) );
+        CreateFont( boldFontData, 36, 40, Font::HugeBold, "Huge Bold", ImVec2( 0, 4 ) );
 
         // Build font atlas
         //-------------------------------------------------------------------------
@@ -132,8 +124,6 @@ namespace KRG::ImGuiX
         KRG_ASSERT( io.Fonts->IsBuilt() );
 
         #if KRG_DEVELOPMENT_TOOLS
-        KRG_ASSERT( SystemFonts::s_fonts[(uint8) Font::Tiny]->IsLoaded() );
-        KRG_ASSERT( SystemFonts::s_fonts[(uint8) Font::TinyBold]->IsLoaded() );
         KRG_ASSERT( SystemFonts::s_fonts[(uint8) Font::Small]->IsLoaded() );
         KRG_ASSERT( SystemFonts::s_fonts[(uint8) Font::SmallBold]->IsLoaded() );
         KRG_ASSERT( SystemFonts::s_fonts[(uint8) Font::Medium]->IsLoaded() );
@@ -144,7 +134,7 @@ namespace KRG::ImGuiX
         KRG_ASSERT( SystemFonts::s_fonts[(uint8) Font::HugeBold]->IsLoaded() );
         #endif
 
-        io.FontDefault = SystemFonts::s_fonts[(uint8) Font::Small];
+        io.FontDefault = SystemFonts::s_fonts[(uint8) Font::Medium];
     }
 
     //-------------------------------------------------------------------------

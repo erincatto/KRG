@@ -1,6 +1,5 @@
 #pragma once
 #include "Animation_EditorGraph_FlowGraph.h"
-#include "Engine/Animation/Graph/Animation_RuntimeGraph_Resources.h"
 #include "System/Core/Logging/Log.h"
 
 //-------------------------------------------------------------------------
@@ -15,48 +14,50 @@ namespace KRG::Animation
 
     //-------------------------------------------------------------------------
 
-    class EditorGraphCompilationContext : public GraphDefinition
+    struct NodeCompilationLogEntry
     {
-        friend class AnimationGraphCompiler;
-        friend class EditorGraphDefinition;
+        NodeCompilationLogEntry( Log::Severity severity, UUID const& nodeID, String const& message )
+            : m_message( message )
+            , m_nodeID( nodeID )
+            , m_severity( severity )
+        {}
+
+        String              m_message;
+        UUID                m_nodeID;
+        Log::Severity       m_severity;
+    };
+
+    //-------------------------------------------------------------------------
+
+    class GraphCompilationContext
+    {
+        friend class GraphDefinitionCompiler;
 
     public:
 
-        struct LogEntry
-        {
-            LogEntry( Log::Severity severity, UUID const& nodeID, String const& message )
-                : m_message( message )
-                , m_nodeID( nodeID )
-                , m_severity( severity )
-            {}
+        GraphCompilationContext();
+        ~GraphCompilationContext();
 
-            String              m_message;
-            UUID                m_nodeID;
-            Log::Severity       m_severity;
-        };
+        void Reset();
 
-    public:
+        // Logging
+        //-------------------------------------------------------------------------
 
-        EditorGraphCompilationContext();
-        ~EditorGraphCompilationContext();
-
-        inline TVector<LogEntry> const& GetLog() const { return m_log; }
-
-        inline THashMap<UUID, GraphNodeIndex> GetIDToIndexMap() const { return m_nodeToIndexMap; }
-
-        void LogMessage( VisualGraph::BaseNode const* pNode, String const& message ) { m_log.emplace_back( LogEntry( Log::Severity::Message, pNode->GetID(), message ) ); }
-        void LogWarning( VisualGraph::BaseNode const* pNode, String const& message ) { m_log.emplace_back( LogEntry( Log::Severity::Warning, pNode->GetID(), message ) ); }
-        void LogError( VisualGraph::BaseNode const* pNode, String const& message ) { m_log.emplace_back( LogEntry( Log::Severity::Error, pNode->GetID(), message ) ); }
+        void LogMessage( VisualGraph::BaseNode const* pNode, String const& message ) { m_log.emplace_back( NodeCompilationLogEntry( Log::Severity::Message, pNode->GetID(), message ) ); }
+        void LogWarning( VisualGraph::BaseNode const* pNode, String const& message ) { m_log.emplace_back( NodeCompilationLogEntry( Log::Severity::Warning, pNode->GetID(), message ) ); }
+        void LogError( VisualGraph::BaseNode const* pNode, String const& message ) { m_log.emplace_back( NodeCompilationLogEntry( Log::Severity::Error, pNode->GetID(), message ) ); }
 
         // General Compilation
         //-------------------------------------------------------------------------
+
+        inline THashMap<UUID, GraphNodeIndex> GetIDToIndexMap() const { return m_nodeIDToIndexMap; }
 
         // Try to get the runtime settings for a node in the graph, will return whether this node was already compiled or still needs compilation
         template<typename T>
         NodeCompilationState GetSettings( VisualGraph::BaseNode const* pNode, typename T::Settings*& pOutSettings )
         {
-            auto foundIter = m_nodeToIndexMap.find( pNode->GetID() );
-            if ( foundIter != m_nodeToIndexMap.end() )
+            auto foundIter = m_nodeIDToIndexMap.find( pNode->GetID() );
+            if ( foundIter != m_nodeIDToIndexMap.end() )
             {
                 pOutSettings = (T::Settings*) m_nodeSettings[foundIter->second];
                 return NodeCompilationState::AlreadyCompiled;
@@ -71,7 +72,7 @@ namespace KRG::Animation
             pOutSettings->m_nodeIdx = GraphNodeIndex( m_nodeSettings.size() - 1 );
 
             // Add to map
-            m_nodeToIndexMap.insert( TPair<UUID, GraphNodeIndex>( pNode->GetID(), pOutSettings->m_nodeIdx ) );
+            m_nodeIDToIndexMap.insert( TPair<UUID, GraphNodeIndex>( pNode->GetID(), pOutSettings->m_nodeIdx ) );
 
             // Add to persistent nodes list
             auto pFlowNode = TryCast<GraphNodes::EditorGraphNode>( pNode );
@@ -81,10 +82,10 @@ namespace KRG::Animation
             }
 
             // Update instance requirements
-            m_instanceRequiredAlignment = Math::Max( m_instanceRequiredAlignment, (uint32) alignof( T ) );
+            m_graphInstanceRequiredAlignment = Math::Max( m_graphInstanceRequiredAlignment, ( uint32 ) alignof( T ) );
             size_t const requiredPadding = Memory::CalculatePaddingForAlignment( m_currentNodeMemoryOffset, alignof( T ) );
             m_currentNodeMemoryOffset += uint32( sizeof( T ) + requiredPadding );
-            m_instanceNodeStartOffsets.emplace_back( m_currentNodeMemoryOffset );
+            m_nodeMemoryOffsets.emplace_back( m_currentNodeMemoryOffset );
 
             return NodeCompilationState::NeedCompilation;
         }
@@ -123,10 +124,10 @@ namespace KRG::Animation
             return m_conduitSourceStateCompiledNodeIdx != InvalidIndex;
         }
 
-        inline GraphNodeIndex GetConduitSourceStateIndex() const 
+        inline GraphNodeIndex GetConduitSourceStateIndex() const
         {
             KRG_ASSERT( m_conduitSourceStateCompiledNodeIdx != InvalidIndex );
-            return m_conduitSourceStateCompiledNodeIdx; 
+            return m_conduitSourceStateCompiledNodeIdx;
         }
 
         // Start compilation of a transition conduit
@@ -157,20 +158,48 @@ namespace KRG::Animation
             return m_transitionDuration;
         }
 
-        // Serialization
-        //-------------------------------------------------------------------------
-
-        void SerializeSettings( cereal::BinaryOutputArchive& settingsArchive );
-
     private:
 
-        THashMap<UUID, GraphNodeIndex>          m_nodeToIndexMap;
+        TVector<NodeCompilationLogEntry>        m_log;
+        THashMap<UUID, GraphNodeIndex>          m_nodeIDToIndexMap;
+        TVector<GraphNodeIndex>                 m_persistentNodeIndices;
         TVector<String>                         m_compiledNodePaths;
+        TVector<GraphNode::Settings*>           m_nodeSettings;
+        TVector<uint32>                         m_nodeMemoryOffsets;
         uint32                                  m_currentNodeMemoryOffset = 0;
-        TVector<LogEntry>                       m_log;
+        uint32                                  m_graphInstanceRequiredAlignment = alignof( bool );
+
         TVector<UUID>                           m_registeredDataSlots;
         GraphNodeIndex                          m_conduitSourceStateCompiledNodeIdx = InvalidIndex;
         Seconds                                 m_transitionDuration = 0;
         GraphNodeIndex                          m_transitionDurationOverrideIdx = InvalidIndex;
+    };
+}
+
+//-------------------------------------------------------------------------
+
+namespace KRG::Animation
+{
+    class EditorGraphDefinition;
+    class GraphDefinition;
+
+    //-------------------------------------------------------------------------
+
+    class GraphDefinitionCompiler
+    {
+
+    public:
+
+        bool CompileGraph( EditorGraphDefinition const& editorGraph );
+
+        inline GraphDefinition const* GetCompiledGraph() const { return &m_runtimeGraph; }
+        inline TVector<NodeCompilationLogEntry> const& GetLog() const { return m_context.m_log; }
+        inline TVector<UUID> const& GetRegisteredDataSlots() const { return m_context.m_registeredDataSlots; }
+        inline THashMap<UUID, GraphNodeIndex> const& GetIDToIndexMap() const { return m_context.m_nodeIDToIndexMap; }
+
+    private:
+
+        GraphDefinition             m_runtimeGraph;
+        GraphCompilationContext     m_context;
     };
 }

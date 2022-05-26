@@ -51,10 +51,6 @@ namespace KRG::Animation
 
     public:
 
-        constexpr static char const* s_eventTrackContainerKey = "EventTracks";
-
-    public:
-
         EventTrack() = default;
 
         inline TypeSystem::TypeInfo const* GetEventTypeInfo() const { return m_pEventTypeInfo; }

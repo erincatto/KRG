@@ -1,5 +1,7 @@
 #include "AnimationGraphEditor_ControlParameterEditor.h"
+#include "AnimationGraphEditor_Context.h"
 #include "EditorGraph/Animation_EditorGraph_Definition.h"
+#include "EditorGraph/Nodes/Animation_EditorGraphNode_ControlParameters.h"
 #include "Engine/Animation/Components/Component_AnimationGraph.h"
 #include "Tools/Core/Helpers/CategoryTree.h"
 
@@ -42,7 +44,13 @@ namespace KRG::Animation
 
     struct FloatParameterState : public GraphControlParameterEditor::ParameterPreviewState
     {
-        using ParameterPreviewState::ParameterPreviewState;
+        FloatParameterState( GraphNodes::ControlParameterEditorNode* pParameter )
+            : ParameterPreviewState( pParameter )
+        {
+            auto pFloatParameter = Cast<GraphNodes::FloatControlParameterEditorNode>( pParameter );
+            m_min = pFloatParameter->GetPreviewRangeMin();
+            m_max = pFloatParameter->GetPreviewRangeMax();
+        }
 
         virtual void DrawPreviewEditor( DebugContext* pDebugContext ) override
         {
@@ -220,7 +228,7 @@ namespace KRG::Animation
                         ImGui::TableNextColumn();
                         ImGui::AlignTextToFramePadding();
                         {
-                            ImGuiX::ScopedFont sf( ImGuiX::Font::Tiny );
+                            ImGuiX::ScopedFont sf( ImGuiX::Font::Small );
                             ImGui::Text( "Bone ID" );
                         }
 
@@ -234,7 +242,7 @@ namespace KRG::Animation
                         ImGui::TableNextColumn();
                         ImGui::AlignTextToFramePadding();
                         {
-                            ImGuiX::ScopedFont sf( ImGuiX::Font::Tiny );
+                            ImGuiX::ScopedFont sf( ImGuiX::Font::Small );
                             ImGui::Text( "Offset R" );
                         }
 
@@ -251,7 +259,7 @@ namespace KRG::Animation
                         ImGui::AlignTextToFramePadding();
 
                         {
-                            ImGuiX::ScopedFont sf( ImGuiX::Font::Tiny );
+                            ImGuiX::ScopedFont sf( ImGuiX::Font::Small );
                             ImGui::Text( "Offset T" );
                         }
 
@@ -315,8 +323,8 @@ namespace KRG::Animation
 
     //-------------------------------------------------------------------------
 
-    GraphControlParameterEditor::GraphControlParameterEditor( EditorGraphDefinition* pGraphDefinition )
-        : m_pGraphDefinition( pGraphDefinition )
+    GraphControlParameterEditor::GraphControlParameterEditor( GraphEditorContext& editorContext )
+        : m_editorContext( editorContext )
     {}
 
     GraphControlParameterEditor::~GraphControlParameterEditor()
@@ -382,32 +390,32 @@ namespace KRG::Animation
 
             if ( ImGui::MenuItem( "Control Parameter - Bool" ) )
             {
-                m_pGraphDefinition->CreateControlParameter( GraphValueType::Bool );
+                m_editorContext.CreateControlParameter( GraphValueType::Bool );
             }
 
             if ( ImGui::MenuItem( "Control Parameter - ID" ) )
             {
-                m_pGraphDefinition->CreateControlParameter( GraphValueType::ID );
+                m_editorContext.CreateControlParameter( GraphValueType::ID );
             }
 
             if ( ImGui::MenuItem( "Control Parameter - Int" ) )
             {
-                m_pGraphDefinition->CreateControlParameter( GraphValueType::Int );
+                m_editorContext.CreateControlParameter( GraphValueType::Int );
             }
 
             if ( ImGui::MenuItem( "Control Parameter - Float" ) )
             {
-                m_pGraphDefinition->CreateControlParameter( GraphValueType::Float );
+                m_editorContext.CreateControlParameter( GraphValueType::Float );
             }
 
             if ( ImGui::MenuItem( "Control Parameter - Vector" ) )
             {
-                m_pGraphDefinition->CreateControlParameter( GraphValueType::Vector );
+                m_editorContext.CreateControlParameter( GraphValueType::Vector );
             }
 
             if ( ImGui::MenuItem( "Control Parameter - Target" ) )
             {
-                m_pGraphDefinition->CreateControlParameter( GraphValueType::Target );
+                m_editorContext.CreateControlParameter( GraphValueType::Target );
             }
 
             //-------------------------------------------------------------------------
@@ -416,37 +424,37 @@ namespace KRG::Animation
 
             if ( ImGui::MenuItem( "Virtual Parameter - Bool" ) )
             {
-                m_pGraphDefinition->CreateVirtualParameter( GraphValueType::Bool );
+                m_editorContext.CreateVirtualParameter( GraphValueType::Bool );
             }
 
             if ( ImGui::MenuItem( "Virtual Parameter - ID" ) )
             {
-                m_pGraphDefinition->CreateVirtualParameter( GraphValueType::ID );
+                m_editorContext.CreateVirtualParameter( GraphValueType::ID );
             }
 
             if ( ImGui::MenuItem( "Virtual Parameter - Int" ) )
             {
-                m_pGraphDefinition->CreateVirtualParameter( GraphValueType::Int );
+                m_editorContext.CreateVirtualParameter( GraphValueType::Int );
             }
 
             if ( ImGui::MenuItem( "Virtual Parameter - Float" ) )
             {
-                m_pGraphDefinition->CreateVirtualParameter( GraphValueType::Float );
+                m_editorContext.CreateVirtualParameter( GraphValueType::Float );
             }
 
             if ( ImGui::MenuItem( "Virtual Parameter - Vector" ) )
             {
-                m_pGraphDefinition->CreateVirtualParameter( GraphValueType::Vector );
+                m_editorContext.CreateVirtualParameter( GraphValueType::Vector );
             }
 
             if ( ImGui::MenuItem( "Virtual Parameter - Target" ) )
             {
-                m_pGraphDefinition->CreateVirtualParameter( GraphValueType::Target );
+                m_editorContext.CreateVirtualParameter( GraphValueType::Target );
             }
 
             if ( ImGui::MenuItem( "Virtual Parameter - Bone Mask" ) )
             {
-                m_pGraphDefinition->CreateVirtualParameter( GraphValueType::BoneMask );
+                m_editorContext.CreateVirtualParameter( GraphValueType::BoneMask );
             }
 
             ImGui::EndPopup();
@@ -488,13 +496,13 @@ namespace KRG::Animation
 
                 if ( ImGui::Button( "Ok", ImVec2( 50, 0 ) ) || updateConfirmed )
                 {
-                    if ( auto pControlParameter = m_pGraphDefinition->FindControlParameter( m_currentOperationParameterID ) )
+                    if ( auto pControlParameter = m_editorContext.FindControlParameter( m_currentOperationParameterID ) )
                     {
-                        m_pGraphDefinition->RenameControlParameter( m_currentOperationParameterID, m_parameterNameBuffer, m_parameterCategoryBuffer );
+                        m_editorContext.RenameControlParameter( m_currentOperationParameterID, m_parameterNameBuffer, m_parameterCategoryBuffer );
                     }
-                    else if ( auto pVirtualParameter = m_pGraphDefinition->FindVirtualParameter( m_currentOperationParameterID ) )
+                    else if ( auto pVirtualParameter = m_editorContext.FindVirtualParameter( m_currentOperationParameterID ) )
                     {
-                        m_pGraphDefinition->RenameVirtualParameter( m_currentOperationParameterID, m_parameterNameBuffer, m_parameterCategoryBuffer );
+                        m_editorContext.RenameVirtualParameter( m_currentOperationParameterID, m_parameterNameBuffer, m_parameterCategoryBuffer );
                     }
                     else
                     {
@@ -532,13 +540,13 @@ namespace KRG::Animation
 
                 if ( ImGui::Button( "Yes", ImVec2( 30, 0 ) ) )
                 {
-                    if ( auto pControlParameter = m_pGraphDefinition->FindControlParameter( m_currentOperationParameterID ) )
+                    if ( auto pControlParameter = m_editorContext.FindControlParameter( m_currentOperationParameterID ) )
                     {
-                        m_pGraphDefinition->DestroyControlParameter( m_currentOperationParameterID );
+                        m_editorContext.DestroyControlParameter( m_currentOperationParameterID );
                     }
-                    else if ( auto pVirtualParameter = m_pGraphDefinition->FindVirtualParameter( m_currentOperationParameterID ) )
+                    else if ( auto pVirtualParameter = m_editorContext.FindVirtualParameter( m_currentOperationParameterID ) )
                     {
-                        m_pGraphDefinition->DestroyVirtualParameter( m_currentOperationParameterID );
+                        m_editorContext.DestroyVirtualParameter( m_currentOperationParameterID );
                     }
                     else
                     {
@@ -571,12 +579,12 @@ namespace KRG::Animation
     {
         CategoryTree<GraphNodes::EditorGraphNode*> parameterTree;
 
-        for ( auto pControlParameter : m_pGraphDefinition->GetControlParameters() )
+        for ( auto pControlParameter : m_editorContext.GetControlParameters() )
         {
             parameterTree.AddItem( pControlParameter->GetParameterCategory(), pControlParameter->GetDisplayName(), pControlParameter );
         }
 
-        for ( auto pVirtualParameter : m_pGraphDefinition->GetVirtualParameters() )
+        for ( auto pVirtualParameter : m_editorContext.GetVirtualParameters() )
         {
             parameterTree.AddItem( pVirtualParameter->GetParameterCategory(), pVirtualParameter->GetDisplayName(), pVirtualParameter );
         }
@@ -587,6 +595,8 @@ namespace KRG::Animation
 
         //-------------------------------------------------------------------------
 
+        constexpr float const iconWidth = 20;
+
         auto DrawCategoryRow = [] ( String const& categoryName )
         {
             ImGui::TableNextRow();
@@ -595,17 +605,45 @@ namespace KRG::Animation
             ImGui::Text( categoryName.c_str() );
         };
 
-        auto DrawControlParameterRow = [this] ( GraphNodes::ControlParameterEditorNode* pControlParameter )
+        auto DrawControlParameterRow = [this, iconWidth] ( GraphNodes::ControlParameterEditorNode* pControlParameter )
         {
             ImGui::PushID( pControlParameter );
-            ImGui::PushStyleColor( ImGuiCol_Text, (ImVec4) pControlParameter->GetNodeTitleColor() );
+            ImGuiX::ScopedFont sf( ImGuiX::Font::Small );
+
+            //-------------------------------------------------------------------------
 
             ImGui::TableNextRow();
             ImGui::TableNextColumn();
 
             ImGui::AlignTextToFramePadding();
             ImGui::Indent();
-            ImGui::Selectable( pControlParameter->GetDisplayName() );
+
+            ImGui::PushStyleColor( ImGuiCol_Text, (ImVec4) pControlParameter->GetNodeTitleColor() );
+            ImGui::Text( KRG_ICON_ALPHA_C_BOX );
+            ImGui::SameLine();
+            if ( ImGui::Selectable( pControlParameter->GetDisplayName() ) )
+            {
+                m_editorContext.SetSelectedNodes( { VisualGraph::SelectedNode( pControlParameter ) } );
+            }
+            ImGui::PopStyleColor();
+
+            // Context menu
+            if ( ImGui::BeginPopupContextItem( "Test" ) )
+            {
+                if ( ImGui::MenuItem( KRG_ICON_RENAME_BOX" Rename" ) )
+                {
+                    StartParameterRename( pControlParameter->GetID() );
+                }
+
+                if ( ImGui::MenuItem( KRG_ICON_DELETE" Delete" ) )
+                {
+                    StartParameterDelete( pControlParameter->GetID() );
+                }
+
+                ImGui::EndPopup();
+            }
+
+            // Drag and drop
             if ( ImGui::BeginDragDropSource() )
             {
                 ImGui::SetDragDropPayload( "AnimGraphParameter", pControlParameter->GetDisplayName(), strlen( pControlParameter->GetDisplayName() ) + 1 );
@@ -614,40 +652,57 @@ namespace KRG::Animation
             }
             ImGui::Unindent();
 
+            //-------------------------------------------------------------------------
+
             ImGui::TableNextColumn();
+            ImGui::PushStyleColor( ImGuiCol_Text, (ImVec4) pControlParameter->GetNodeTitleColor() );
             ImGui::Text( GetNameForValueType( pControlParameter->GetValueType() ) );
-
             ImGui::PopStyleColor();
-
-            ImGui::TableNextColumn();
-            ImGui::Dummy( ImVec2( 19, 0 ) );
-            ImGui::SameLine( 0, 0 );
-            if ( ImGui::Button( KRG_ICON_SPELL_CHECK, ImVec2( 19, 0 ) ) )
-            {
-                StartParameterRename( pControlParameter->GetID() );
-            }
-            ImGuiX::ItemTooltip( "Rename Parameter" );
-
-            ImGui::SameLine( 0, 0 );
-            if ( ImGui::Button( KRG_ICON_TRASH, ImVec2( 19, 0 ) ) )
-            {
-                StartParameterDelete( pControlParameter->GetID() );
-            }
-            ImGuiX::ItemTooltip( "Delete Parameter" );
 
             ImGui::PopID();
         };
 
-        auto DrawVirtualParameterRow = [this] ( GraphNodes::VirtualParameterEditorNode* pVirtualParameter )
+        auto DrawVirtualParameterRow = [this, iconWidth] ( GraphNodes::VirtualParameterEditorNode* pVirtualParameter )
         {
             ImGui::PushID( pVirtualParameter );
-            ImGui::PushStyleColor( ImGuiCol_Text, (ImVec4) pVirtualParameter->GetNodeTitleColor() );
+            ImGuiX::ScopedFont sf( ImGuiX::Font::Small );
 
             ImGui::TableNextRow();
             ImGui::TableNextColumn();
+
             ImGui::AlignTextToFramePadding();
             ImGui::Indent();
+            
+            ImGui::PushStyleColor( ImGuiCol_Text, (ImVec4) pVirtualParameter->GetNodeTitleColor() );
+            ImGui::Text( KRG_ICON_ALPHA_V_BOX );
+            ImGui::SameLine();
             ImGui::Selectable( pVirtualParameter->GetDisplayName() );
+            ImGui::PopStyleColor();
+
+            // Context menu
+            if ( ImGui::BeginPopupContextItem( "Test" ) )
+            {
+                if ( ImGui::MenuItem( KRG_ICON_PLAYLIST_EDIT" Edit" ) )
+                {
+                    m_pVirtualParamaterToEdit = pVirtualParameter;
+                }
+
+                ImGui::Separator();
+
+                if ( ImGui::MenuItem( KRG_ICON_RENAME_BOX" Rename" ) )
+                {
+                    StartParameterRename( pVirtualParameter->GetID() );
+                }
+
+                if ( ImGui::MenuItem( KRG_ICON_DELETE" Delete" ) )
+                {
+                    StartParameterDelete( pVirtualParameter->GetID() );
+                }
+
+                ImGui::EndPopup();
+            }
+            
+            // Drag and drop
             if ( ImGui::BeginDragDropSource() )
             {
                 ImGui::SetDragDropPayload( "AnimGraphParameter", pVirtualParameter->GetDisplayName(), strlen( pVirtualParameter->GetDisplayName() ) + 1 );
@@ -657,30 +712,9 @@ namespace KRG::Animation
             ImGui::Unindent();
 
             ImGui::TableNextColumn();
+            ImGui::PushStyleColor( ImGuiCol_Text, (ImVec4) pVirtualParameter->GetNodeTitleColor() );
             ImGui::Text( GetNameForValueType( pVirtualParameter->GetValueType() ) );
-
             ImGui::PopStyleColor();
-
-            ImGui::TableNextColumn();
-            if ( ImGui::Button( KRG_ICON_EDIT, ImVec2( 19, 0 ) ) )
-            {
-                m_pVirtualParamaterToEdit = pVirtualParameter;
-            }
-            ImGuiX::ItemTooltip( "Show Virtual Parameter Graph" );
-
-            ImGui::SameLine( 0, 0 );
-            if ( ImGui::Button( KRG_ICON_SPELL_CHECK, ImVec2( 19, 0 ) ) )
-            {
-                StartParameterRename( pVirtualParameter->GetID() );
-            }
-            ImGuiX::ItemTooltip( "Rename Parameter" );
-
-            ImGui::SameLine( 0, 0 );
-            if ( ImGui::Button( KRG_ICON_TRASH, ImVec2( 19, 0 ) ) )
-            {
-                StartParameterDelete( pVirtualParameter->GetID() );
-            }
-            ImGuiX::ItemTooltip( "Delete Parameter" );
 
             ImGui::PopID();
         };
@@ -691,11 +725,10 @@ namespace KRG::Animation
         ImGui::PushStyleColor( ImGuiCol_HeaderHovered, ImGuiX::Style::s_backgroundColorLight.Value );
         ImGui::PushStyleColor( ImGuiCol_Button, ImVec4( 0, 0, 0, 0 ) );
 
-        if ( ImGui::BeginTable( "CPT", 3, 0 ) )
+        if ( ImGui::BeginTable( "CPT", 2, 0 ) )
         {
             ImGui::TableSetupColumn( "##Name", ImGuiTableColumnFlags_WidthStretch );
             ImGui::TableSetupColumn( "##Type", ImGuiTableColumnFlags_WidthFixed | ImGuiTableColumnFlags_NoResize, 40 );
-            ImGui::TableSetupColumn( "##Controls", ImGuiTableColumnFlags_WidthFixed | ImGuiTableColumnFlags_NoResize, 60 );
 
             //-------------------------------------------------------------------------
 
@@ -741,6 +774,8 @@ namespace KRG::Animation
     void GraphControlParameterEditor::DrawParameterPreviewControls( DebugContext* pDebugContext )
     {
         KRG_ASSERT( pDebugContext != nullptr );
+
+        ImGuiX::ScopedFont const sf( ImGuiX::Font::Small );
 
         //-------------------------------------------------------------------------
 
@@ -818,10 +853,10 @@ namespace KRG::Animation
 
     void GraphControlParameterEditor::CreatePreviewStates()
     {
-        int32 const numParameters = m_pGraphDefinition->GetNumControlParameters();
+        int32 const numParameters = m_editorContext.GetNumControlParameters();
         for ( int32 i = 0; i < numParameters; i++ )
         {
-            auto pControlParameter = m_pGraphDefinition->GetControlParameters()[i];
+            auto pControlParameter = m_editorContext.GetControlParameters()[i];
             switch ( pControlParameter->GetValueType() )
             {
                 case GraphValueType::Bool:
@@ -881,12 +916,12 @@ namespace KRG::Animation
         m_currentOperationParameterID = parameterID;
         m_activeOperation = OperationType::Rename;
 
-        if ( auto pControlParameter = m_pGraphDefinition->FindControlParameter( parameterID ) )
+        if ( auto pControlParameter = m_editorContext.FindControlParameter( parameterID ) )
         {
             strncpy_s( m_parameterNameBuffer, pControlParameter->GetDisplayName(), 255 );
             strncpy_s( m_parameterCategoryBuffer, pControlParameter->GetParameterCategory().c_str(), 255);
         }
-        else if ( auto pVirtualParameter = m_pGraphDefinition->FindVirtualParameter( parameterID ) )
+        else if ( auto pVirtualParameter = m_editorContext.FindVirtualParameter( parameterID ) )
         {
             strncpy_s( m_parameterNameBuffer, pVirtualParameter->GetDisplayName(), 255 );
             strncpy_s( m_parameterCategoryBuffer, pControlParameter->GetParameterCategory().c_str(), 255 );

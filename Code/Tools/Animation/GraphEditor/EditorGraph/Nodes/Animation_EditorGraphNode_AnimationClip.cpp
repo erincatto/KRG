@@ -13,7 +13,7 @@ namespace KRG::Animation::GraphNodes
         CreateInputPin( "Play In Reverse", GraphValueType::Bool );
     }
 
-    GraphNodeIndex AnimationClipEditorNode::Compile( EditorGraphCompilationContext& context ) const
+    GraphNodeIndex AnimationClipEditorNode::Compile( GraphCompilationContext& context ) const
     {
         AnimationClipNode::Settings* pSettings = nullptr;
         NodeCompilationState const state = context.GetSettings<AnimationClipNode>( this, pSettings );

@@ -71,7 +71,7 @@ namespace KRG::EntityModel
 
     //-------------------------------------------------------------------------
 
-    void EntityEditorBaseWorkspace::OnUndoRedo( UndoStack::Operation operation, IUndoableAction const* pAction )
+    void EntityEditorBaseWorkspace::PostUndoRedo( UndoStack::Operation operation, IUndoableAction const* pAction )
     {
         m_context.OnUndoRedo( operation, pAction );
     }
@@ -192,20 +192,20 @@ namespace KRG::EntityModel
 
     //-------------------------------------------------------------------------
 
-    void EntityEditorBaseWorkspace::DrawViewportToolbar( UpdateContext const& context, Render::Viewport const* pViewport )
+    void EntityEditorBaseWorkspace::DrawViewportToolbarItems( UpdateContext const& context, Render::Viewport const* pViewport )
     {
-        constexpr float const buttonWidth = 16;
+        constexpr float const buttonWidth = 20;
 
-        if ( BeginViewportToolbarGroup( "SpatialControls", ImVec2( 90, 23 ) ) )
+        if ( BeginViewportToolbarGroup( "SpatialControls", ImVec2( 106, 0 ) ) )
         {
-            TInlineString<10> const coordinateSpaceSwitcherLabel( TInlineString<10>::CtorSprintf(), "%s##CoordinateSpace", m_gizmo.IsInWorldSpace() ? KRG_ICON_GLOBE_AFRICA : KRG_ICON_MAP_MARKER_ALT );
+            TInlineString<10> const coordinateSpaceSwitcherLabel( TInlineString<10>::CtorSprintf(), "%s##CoordinateSpace", m_gizmo.IsInWorldSpace() ? KRG_ICON_EARTH : KRG_ICON_MAP_MARKER );
             if ( ImGui::Selectable( coordinateSpaceSwitcherLabel.c_str(), false, 0, ImVec2( buttonWidth, 0 ) ) )
             {
                 m_gizmo.SetCoordinateSystemSpace( m_gizmo.IsInWorldSpace() ? CoordinateSpace::Local : CoordinateSpace::World );
             }
             ImGuiX::ItemTooltip( "Current Mode: %s", m_gizmo.IsInWorldSpace() ? "World Space" : "Local Space" );
 
-            ImGuiX::VerticalSeparator( ImVec2( 9, -1 ), ImGuiX::Style::s_itemColorLight );
+            ImGuiX::VerticalSeparator( ImVec2( 11, -1 ), ImGuiX::Style::s_itemColorLight );
 
             //-------------------------------------------------------------------------
 
@@ -213,7 +213,7 @@ namespace KRG::EntityModel
             bool r = m_gizmo.GetMode() == ImGuiX::Gizmo::GizmoMode::Rotation;
             bool s = m_gizmo.GetMode() == ImGuiX::Gizmo::GizmoMode::Scale;
 
-            if ( ImGui::Selectable( KRG_ICON_ARROWS_ALT, t, 0, ImVec2( buttonWidth, 0 ) ) )
+            if ( ImGui::Selectable( KRG_ICON_AXIS_ARROW, t, 0, ImVec2( buttonWidth, 0 ) ) )
             {
                 m_gizmo.SwitchMode( ImGuiX::Gizmo::GizmoMode::Translation );
             }
@@ -221,7 +221,7 @@ namespace KRG::EntityModel
 
             ImGui::SameLine();
 
-            if ( ImGui::Selectable( KRG_ICON_SYNC_ALT, r, 0, ImVec2( buttonWidth, 0 ) ) )
+            if ( ImGui::Selectable( KRG_ICON_ROTATE_ORBIT, r, 0, ImVec2( buttonWidth, 0 ) ) )
             {
                 m_gizmo.SwitchMode( ImGuiX::Gizmo::GizmoMode::Rotation );
             }
@@ -229,7 +229,7 @@ namespace KRG::EntityModel
 
             ImGui::SameLine();
 
-            if ( ImGui::Selectable( KRG_ICON_EXPAND, s, 0, ImVec2( buttonWidth, 0 ) ) )
+            if ( ImGui::Selectable( KRG_ICON_ARROW_TOP_RIGHT_BOTTOM_LEFT, s, 0, ImVec2( buttonWidth, 0 ) ) )
             {
                 m_gizmo.SwitchMode( ImGuiX::Gizmo::GizmoMode::Scale );
             }
@@ -239,9 +239,9 @@ namespace KRG::EntityModel
 
         //-------------------------------------------------------------------------
 
-        ImGui::SetNextItemWidth( 46 );
+        ImGui::SetNextItemWidth( 48 );
         ImGui::PushStyleVar( ImGuiStyleVar_WindowPadding, ImVec2( 4.0f, 4.0f ) );
-        if ( ImGui::BeginCombo( "##MapEditorOptions", KRG_ICON_COG, ImGuiComboFlags_HeightLarge ) )
+        if ( ImGui::BeginCombo( "##MapEditorOptions", KRG_ICON_TUNE, ImGuiComboFlags_HeightLarge ) )
         {
             ImGuiX::TextSeparator( "Physics" );
 
@@ -269,9 +269,9 @@ namespace KRG::EntityModel
         //-------------------------------------------------------------------------
 
         ImGui::SameLine();
-        ImGui::SetNextItemWidth( 46 );
+        ImGui::SetNextItemWidth( 48 );
         ImGui::PushStyleVar( ImGuiStyleVar_WindowPadding, ImVec2( 4.0f, 4.0f ) );
-        if ( ImGui::BeginCombo( "##Volumes", KRG_ICON_CUBE, ImGuiComboFlags_HeightLarge ) )
+        if ( ImGui::BeginCombo( "##Volumes", KRG_ICON_CUBE_OUTLINE, ImGuiComboFlags_HeightLarge ) )
         {
             for ( auto pVolumeTypeInfo : m_volumeTypes )
             {
@@ -351,7 +351,7 @@ namespace KRG::EntityModel
         {
             auto pSpawnComponent = const_cast<AI::AISpawnComponent*>( pComponent );
             bool const isSelected = m_context.HasSingleSelectedComponent() && m_context.IsSelected( pComponent );
-            if ( DrawComponentWorldIcon( pSpawnComponent, KRG_ICON_USER_SECRET, isSelected ) )
+            if ( DrawComponentWorldIcon( pSpawnComponent, KRG_ICON_ROBOT, isSelected ) )
             {
                 auto pEntity = pEditedMap->FindEntity( pSpawnComponent->GetEntityID() );
                 m_context.SelectEntity( pEntity );

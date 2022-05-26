@@ -44,7 +44,7 @@ namespace KRG::Player
         }
 
         Vector const movementInputs = ctx.m_pInputState->GetControllerState()->GetLeftAnalogStickValue();
-        bool const isSlideAvailable = !movementInputs.IsNearZero2() && !ctx.m_pPlayerComponent->m_CrouchFlag && stickWasTapped;
+        bool const isSlideAvailable = !movementInputs.IsNearZero2() && !ctx.m_pPlayerComponent->m_crouchFlag && stickWasTapped;
         if( isSlideAvailable )
         {
             auto const pControllerState = ctx.m_pInputState->GetControllerState();
@@ -68,7 +68,7 @@ namespace KRG::Player
             #endif
 
             ctx.m_pPlayerComponent->m_sprintFlag = false;
-            ctx.m_pPlayerComponent->m_CrouchFlag = true;
+            ctx.m_pPlayerComponent->m_crouchFlag = true;
 
             return true;
         }

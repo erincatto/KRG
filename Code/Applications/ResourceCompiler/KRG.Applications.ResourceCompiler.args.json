@@ -3,6 +3,18 @@
   "Id": "bbcf3423-e4b4-4cdd-8a97-c6c390bacc23",
   "Items": [
     {
+      "Id": "64a5e0c2-5f6b-47a3-830e-c72791a32202",
+      "Command": "-compile data://physics/physicsmaterials.pmdb"
+    },
+    {
+      "Id": "0b678507-48c0-40c8-a404-d2016c5236d9",
+      "Command": "-compile data://keen/player_run_F.anim"
+    },
+    {
+      "Id": "d91fbd26-4929-44b6-b0df-9f8a6e46a845",
+      "Command": "-compile data://keen/Player_Test_Attack.smsh"
+    },
+    {
       "Id": "dab7d779-e844-4589-bd58-3d6a7cd54969",
       "Command": "Entity",
       "Items": [

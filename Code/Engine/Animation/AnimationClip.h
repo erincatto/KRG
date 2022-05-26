@@ -3,11 +3,10 @@
 #include "_Module/API.h"
 #include "AnimationSyncTrack.h"
 #include "AnimationEvent.h"
-#include "AnimationFrameTime.h"
+#include "AnimationRootMotion.h"
 #include "System/Animation/AnimationSkeleton.h"
 #include "System/Resource/ResourcePtr.h"
 #include "System/Core/Math/NumericRange.h"
-#include "System/Core/Types/Percentage.h"
 #include "System/Core/Time/Time.h"
 #include "System/Core/Algorithm/Quantization.h"
 
@@ -78,7 +77,7 @@ namespace KRG::Animation
     class KRG_ENGINE_ANIMATION_API AnimationClip : public Resource::IResource
     {
         KRG_REGISTER_RESOURCE( 'anim', "Animation Clip" );
-        KRG_SERIALIZE_MEMBERS( m_pSkeleton, m_numFrames, m_duration, m_compressedPoseData, m_trackCompressionSettings, m_rootMotionTrack, m_averageLinearVelocity, m_averageAngularVelocity, m_totalRootMotionDelta, m_isAdditive );
+        KRG_SERIALIZE_MEMBERS( m_pSkeleton, m_numFrames, m_duration, m_compressedPoseData, m_trackCompressionSettings, m_rootMotion, m_isAdditive );
 
         friend class AnimationClipCompiler;
         friend class AnimationClipLoader;
@@ -126,7 +125,8 @@ namespace KRG::Animation
         inline Seconds GetTime( uint32 frame ) const { return Seconds( GetPercentageThrough( frame ).ToFloat() * m_duration ); }
         inline Percentage GetPercentageThrough( uint32 frame ) const { return Percentage( ( (float) frame ) / m_numFrames ); }
         FrameTime GetFrameTime( Percentage const percentageThrough ) const;
-        SyncTrack const& GetSyncTrack() const{ return m_syncTrack; }
+        FrameTime GetFrameTime( Seconds const timeThroughAnimation ) const { return GetFrameTime( Percentage( timeThroughAnimation / m_duration ) ); }
+        inline SyncTrack const& GetSyncTrack() const{ return m_syncTrack; }
 
         // Pose
         //-------------------------------------------------------------------------
@@ -141,40 +141,11 @@ namespace KRG::Animation
         Transform GetGlobalSpaceTransform( int32 boneIdx, FrameTime const& frameTime ) const;
         inline Transform GetGlobalSpaceTransform( int32 boneIdx, Percentage percentageThrough ) const{ return GetGlobalSpaceTransform( boneIdx, GetFrameTime( percentageThrough ) ); }
 
-        // Root motion
-        //-------------------------------------------------------------------------
-
-        Transform GetRootTransform( FrameTime const& frameTime ) const;
-
-        inline Transform GetRootTransform( Percentage percentageThrough ) const
-        { 
-            KRG_ASSERT( percentageThrough >= 0 && percentageThrough <= 1.0f );
-            return GetRootTransform( GetFrameTime( percentageThrough ) ); 
-        }
-
-        // Get the delta for the root motion for the given time range. Handle's looping but assumes only a single loop occurred!
-        inline Transform GetRootMotionDelta( Percentage fromTime, Percentage toTime ) const;
-
-        // Get the delta for the root motion for the given time range. DOES NOT SUPPORT LOOPING!
-        inline Transform GetRootMotionDeltaNoLooping( Percentage fromTime, Percentage toTime ) const;
-
-        // Get the average linear velocity of the root for this animation
-        inline float GetAverageLinearVelocity() const { return m_averageLinearVelocity; }
-
-        // Get the average angular velocity (in the X/Y plane) of the root for this animation
-        inline Radians GetAverageAngularVelocity() const { return m_averageAngularVelocity; }
-
-        // Get the total root motion delta for this animation
-        inline Transform const& GetTotalRootMotionDelta() const { return m_totalRootMotionDelta; }
-
-        // Get the distance traveled by this animation
-        inline Vector const& GetDisplacementDelta() const { return m_totalRootMotionDelta.GetTranslation(); }
-
-        // Get the rotation delta for this animation
-        inline Quaternion const& GetRotationDelta() const { return m_totalRootMotionDelta.GetRotation(); }
-
         // Events
         //-------------------------------------------------------------------------
+
+        // Get all the events for this animation
+        inline TVector<Event*> const& GetEvents() const { return m_events; }
 
         // Get all the events for the specified range. This function will append the results to the output array. Handle's looping but assumes only a single loop occurred!
         inline void GetEventsForRange( Seconds fromTime, Seconds toTime, TInlineVector<Event const*, 10>& outEvents ) const;
@@ -190,12 +161,38 @@ namespace KRG::Animation
             GetEventsForRange( m_duration * fromTime, m_duration * toTime, outEvents );
         }
 
-        // Debug
+        // Root motion
         //-------------------------------------------------------------------------
 
-        #if KRG_DEVELOPMENT_TOOLS
-        void DrawRootMotionPath( Drawing::DrawContext& ctx, Transform const& worldTransform ) const;
-        #endif
+        // Get the raw root motion data
+        KRG_FORCE_INLINE RootMotionData const& GetRootMotion() const { return m_rootMotion; }
+
+        // Get the root transform at the given frame time
+        KRG_FORCE_INLINE Transform GetRootTransform( FrameTime const& frameTime ) const { return m_rootMotion.GetTransform( frameTime ); }
+
+        // Get the root transform at the given percentage
+        KRG_FORCE_INLINE Transform GetRootTransform( Percentage percentageThrough ) const { return m_rootMotion.GetTransform( percentageThrough ); }
+
+        // Get the delta for the root motion for the given time range. Handle's looping but assumes only a single loop occurred!
+        KRG_FORCE_INLINE Transform GetRootMotionDelta( Percentage fromTime, Percentage toTime ) const { return m_rootMotion.GetDelta( fromTime, toTime ); }
+
+        // Get the delta for the root motion for the given time range. DOES NOT SUPPORT LOOPING!
+        KRG_FORCE_INLINE Transform GetRootMotionDeltaNoLooping( Percentage fromTime, Percentage toTime ) const { return m_rootMotion.GetDeltaNoLooping( fromTime, toTime ); }
+
+        // Get the average linear velocity of the root for this animation
+        KRG_FORCE_INLINE float GetAverageLinearVelocity() const { return m_rootMotion.m_averageLinearVelocity; }
+
+        // Get the average angular velocity (in the X/Y plane) of the root for this animation
+        KRG_FORCE_INLINE Radians GetAverageAngularVelocity() const { return m_rootMotion.m_averageAngularVelocity; }
+
+        // Get the total root motion delta for this animation
+        KRG_FORCE_INLINE Transform const& GetTotalRootMotionDelta() const { return m_rootMotion.m_totalDelta; }
+
+        // Get the distance traveled by this animation
+        KRG_FORCE_INLINE Vector const& GetDisplacementDelta() const { return m_rootMotion.m_totalDelta.GetTranslation(); }
+
+        // Get the rotation delta for this animation
+        KRG_FORCE_INLINE Quaternion const& GetRotationDelta() const { return m_rootMotion.m_totalDelta.GetRotation(); }
 
     private:
 
@@ -210,14 +207,9 @@ namespace KRG::Animation
         Seconds                                 m_duration = 0.0f;
         TVector<uint16>                         m_compressedPoseData;
         TVector<TrackCompressionSettings>       m_trackCompressionSettings;
-        TVector<Transform>                      m_rootMotionTrack;
         TVector<Event*>                         m_events;
         SyncTrack                               m_syncTrack;
-
-        // Animation features
-        float                                   m_averageLinearVelocity = 0.0f; // In m/s
-        Radians                                 m_averageAngularVelocity = 0.0f; // In rad/s, only on the X/Y plane
-        Transform                               m_totalRootMotionDelta;
+        RootMotionData                          m_rootMotion;
         bool                                    m_isAdditive = false;
     };
 }
@@ -403,32 +395,6 @@ namespace KRG::Animation
         //-------------------------------------------------------------------------
 
         return pTrackData;
-    }
-
-    //-------------------------------------------------------------------------
-
-    inline Transform AnimationClip::GetRootMotionDeltaNoLooping( Percentage fromTime, Percentage toTime ) const
-    {
-        Transform const startTransform = GetRootTransform( fromTime );
-        Transform const endTransform = GetRootTransform( toTime );
-        return Transform::DeltaNoScale( startTransform, endTransform );
-    }
-
-    KRG_FORCE_INLINE Transform AnimationClip::GetRootMotionDelta( Percentage fromTime, Percentage toTime ) const
-    {
-        Transform delta( NoInit );
-        if ( fromTime <= toTime )
-        {
-            delta = GetRootMotionDeltaNoLooping( fromTime, toTime );
-        }
-        else
-        {
-            Transform const preLoopDelta = GetRootMotionDeltaNoLooping( fromTime, 1.0f );
-            Transform const postLoopDelta = GetRootMotionDeltaNoLooping( 0.0f, toTime );
-            delta = postLoopDelta * preLoopDelta;
-        }
-
-        return delta;
     }
 
     //-------------------------------------------------------------------------

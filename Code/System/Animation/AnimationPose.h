@@ -16,6 +16,7 @@ namespace KRG::Animation
     class KRG_SYSTEM_ANIMATION_API Pose
     {
         friend class Blender;
+        friend class AnimationClip;
 
     public:
 
@@ -80,24 +81,29 @@ namespace KRG::Animation
         {
             KRG_ASSERT( boneIdx < GetNumBones() && boneIdx >= 0 );
             m_localTransforms[boneIdx] = transform;
+            MarkAsValidPose();
         }
 
         inline void SetRotation( int32 boneIdx, Quaternion const& rotation )
         {
             KRG_ASSERT( boneIdx < GetNumBones() && boneIdx >= 0 );
             m_localTransforms[boneIdx].SetRotation( rotation );
+            MarkAsValidPose();
         }
 
         inline void SetTranslation( int32 boneIdx, Float3 const& translation )
         {
             KRG_ASSERT( boneIdx < GetNumBones() && boneIdx >= 0 );
             m_localTransforms[boneIdx].SetTranslation( translation );
+            MarkAsValidPose();
         }
 
+        // Set the scale for a given bone, note will change pose state to "Pose" if not already set
         inline void SetScale( int32 boneIdx, Float3 const& scale )
         {
             KRG_ASSERT( boneIdx < GetNumBones() && boneIdx >= 0 );
             m_localTransforms[boneIdx].SetScale( scale );
+            MarkAsValidPose();
         }
 
         // Global Transform Cache
@@ -122,6 +128,14 @@ namespace KRG::Animation
 
         void SetToReferencePose( bool setGlobalPose );
         void SetToZeroPose( bool setGlobalPose );
+
+        KRG_FORCE_INLINE void MarkAsValidPose()
+        {
+            if ( m_state != State::Pose && m_state != State::AdditivePose )
+            {
+                m_state = State::Pose;
+            }
+        }
 
     private:
 

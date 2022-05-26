@@ -113,7 +113,7 @@ namespace KRG::RawAssets
                                 Float3 normal;
                                 cgltf_accessor_read_float( primitive.attributes[a].data, i, &normal.m_x, 3 );
                                 geometrySection.m_vertices[i].m_normal = ctx.ApplyUpAxisCorrection( Vector( normal ) );
-                                geometrySection.m_vertices[i].m_position.m_w = 1.0f;
+                                geometrySection.m_vertices[i].m_position.m_w = 0.0f;
                             }
                         }
                         break;

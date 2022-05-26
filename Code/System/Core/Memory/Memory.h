@@ -2,7 +2,6 @@
 
 #include "System/Core/_Module/API.h"
 #include "System/Core/Types/IntegralTypes.h"
-#include <algorithm>
 #include <malloc.h>
 
 //-------------------------------------------------------------------------

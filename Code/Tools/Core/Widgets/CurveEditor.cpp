@@ -17,6 +17,7 @@ namespace KRG
     CurveEditor::CurveEditor( FloatCurve& curve )
         : m_curve( curve )
     {
+        m_curve.RegeneratePointIDs();
         ViewEntireCurve();
     }
 
@@ -82,12 +83,12 @@ namespace KRG
             float const parameterRangeLength = m_horizontalViewRange.GetLength();
             if ( Math::IsNearZero( parameterRangeLength ) )
             {
-                m_horizontalViewRange.m_start -= s_fitViewExtraMarginPercentage * m_horizontalViewRange.m_start;
-                m_horizontalViewRange.m_end += s_fitViewExtraMarginPercentage * m_horizontalViewRange.m_start;
+                m_horizontalViewRange.m_begin -= 0.5f;
+                m_horizontalViewRange.m_end += 0.5f;
             }
             else
             {
-                m_horizontalViewRange.m_start -= parameterRangeLength * s_fitViewExtraMarginPercentage;
+                m_horizontalViewRange.m_begin -= parameterRangeLength * s_fitViewExtraMarginPercentage;
                 m_horizontalViewRange.m_end += parameterRangeLength * s_fitViewExtraMarginPercentage;
             }
         }
@@ -110,7 +111,7 @@ namespace KRG
             m_verticalViewRange = FloatRange( m_curve.Evaluate( 0.0f ) );
             for ( auto i = 1; i < numPointsToEvaluate; i++ )
             {
-                float const t = parameterRange.m_start + ( i * stepT );
+                float const t = parameterRange.m_begin + ( i * stepT );
                 m_verticalViewRange.GrowRange( m_curve.Evaluate( t ) );
             }
 
@@ -118,12 +119,12 @@ namespace KRG
             float const valueRangeLength = m_verticalViewRange.GetLength();
             if ( Math::IsNearZero( valueRangeLength ) )
             {
-                m_verticalViewRange.m_start -= s_fitViewExtraMarginPercentage * m_verticalViewRange.m_start;
-                m_verticalViewRange.m_end += s_fitViewExtraMarginPercentage * m_verticalViewRange.m_start;
+                m_verticalViewRange.m_begin -= 0.5f;
+                m_verticalViewRange.m_end += 0.5f;
             }
             else
             {
-                m_verticalViewRange.m_start -= valueRangeLength * s_fitViewExtraMarginPercentage;
+                m_verticalViewRange.m_begin -= valueRangeLength * s_fitViewExtraMarginPercentage;
                 m_verticalViewRange.m_end += valueRangeLength * s_fitViewExtraMarginPercentage;
             }
         }
@@ -138,7 +139,7 @@ namespace KRG
         // View Controls
         //-------------------------------------------------------------------------
 
-        if ( ImGui::Button( KRG_ICON_ARROWS_ALT ) )
+        if ( ImGui::Button( KRG_ICON_EXPAND_ALL ) )
         {
             ViewEntireCurve();
         }
@@ -146,7 +147,7 @@ namespace KRG
 
         ImGui::SameLine();
 
-        if ( ImGui::Button( KRG_ICON_ARROWS_ALT_H ) )
+        if ( ImGui::Button( KRG_ICON_UNFOLD_MORE_HORIZONTAL ) )
         {
             ViewEntireHorizontalRange();
         }
@@ -154,7 +155,7 @@ namespace KRG
 
         ImGui::SameLine();
 
-        if ( ImGui::Button( KRG_ICON_ARROWS_ALT_V ) )
+        if ( ImGui::Button( KRG_ICON_UNFOLD_MORE_VERTICAL ) )
         {
             ViewEntireVerticalRange();
         }
@@ -196,7 +197,7 @@ namespace KRG
             legendString.sprintf( "%.2f", legendValue );
 
             {
-                ImGuiX::ScopedFont sf( ImGuiX::Font::Tiny );
+                ImGuiX::ScopedFont sf( ImGuiX::Font::Small );
                 Float2 const textSize = ImGui::CalcTextSize( legendString.c_str() );
                 m_pDrawList->AddText( ImVec2( lineStart.m_x - ( textSize.m_x / 2 ), lineEnd.m_y ), 0xFFFFFFFF, legendString.c_str() );
             }
@@ -213,7 +214,7 @@ namespace KRG
             legendString.sprintf( "%.2f", legendValue );
 
             {
-                ImGuiX::ScopedFont sf( ImGuiX::Font::Tiny );
+                ImGuiX::ScopedFont sf( ImGuiX::Font::Small );
                 Float2 const textSize = ImGui::CalcTextSize( legendString.c_str() );
                 m_pDrawList->AddText( ImVec2( lineEnd.m_x, lineEnd.m_y - ( textSize.m_y / 2 ) ), 0xFFFFFFFF, legendString.c_str() );
             }
@@ -228,7 +229,7 @@ namespace KRG
         TVector<ImVec2> curvePoints;
         for ( auto i = 0; i < numPointsToDraw; i++ )
         {
-            float const t = m_horizontalViewRange.m_start + ( i * stepT );
+            float const t = m_horizontalViewRange.m_begin + ( i * stepT );
             Float2 curvePoint( t, m_curve.Evaluate( t ) );
             curvePoint.m_x = m_curveCanvasStart.m_x + ( m_horizontalViewRange.GetPercentageThrough( curvePoint.m_x ) * m_curveCanvasWidth );
             curvePoint.m_y = m_curveCanvasEnd.m_y - ( m_verticalViewRange.GetPercentageThrough( curvePoint.m_y ) * m_curveCanvasHeight );
@@ -542,7 +543,7 @@ namespace KRG
                     float const mp = m_horizontalViewRange.GetMidpoint();
                     float const rl = m_horizontalViewRange.GetLength();
                     float const nhl = ( rl * ( 1 - scale ) ) / 2;
-                    m_horizontalViewRange.m_start = mp - nhl;
+                    m_horizontalViewRange.m_begin = mp - nhl;
                     m_horizontalViewRange.m_end = mp + nhl;
                 }
 
@@ -552,7 +553,7 @@ namespace KRG
                     float const mp = m_verticalViewRange.GetMidpoint();
                     float const rl = m_verticalViewRange.GetLength();
                     float const nhl = ( rl * ( 1 - scale ) ) / 2;
-                    m_verticalViewRange.m_start = mp - nhl;
+                    m_verticalViewRange.m_begin = mp - nhl;
                     m_verticalViewRange.m_end = mp + nhl;
                 }
             }

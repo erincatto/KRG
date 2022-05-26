@@ -8,7 +8,6 @@
 namespace KRG::Animation
 {
     class EditorGraphDefinition;
-    class EditorGraphCompilationContext;
 
     //-------------------------------------------------------------------------
 
@@ -23,8 +22,8 @@ namespace KRG::Animation
 
     private:
 
-        Resource::CompilationResult CompileDefinition( Resource::CompileContext const& ctx ) const;
-        Resource::CompilationResult CompileVariation( Resource::CompileContext const& ctx ) const;
-        bool GenerateVirtualDataSetResource( Resource::CompileContext const& ctx, EditorGraphDefinition const& editorGraph, EditorGraphCompilationContext const& compilationContext, StringID const& variationID, ResourcePath const& dataSetPath ) const;
+        Resource::CompilationResult CompileGraphDefinition( Resource::CompileContext const& ctx ) const;
+        Resource::CompilationResult CompileGraphVariation( Resource::CompileContext const& ctx ) const;
+        bool GenerateVirtualDataSetResource( Resource::CompileContext const& ctx, EditorGraphDefinition const& editorGraph, TVector<UUID> const& registeredDataSlots, StringID const& variationID, ResourcePath const& dataSetPath ) const;
     };
 }

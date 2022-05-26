@@ -31,7 +31,7 @@ namespace KRG::Animation
         ImVec2 const playbackBarTopLeft = ImGui::GetCursorScreenPos();
         ImVec2 const playbackBarBottomRight = playbackBarTopLeft + playbackBarSize;
 
-        Percentage const percentageThroughTrack = debugInfo.m_pSyncTrack->GetPercentageThrough( debugInfo.m_currentSyncTime );
+        Percentage const percentageThroughTrack = debugInfo.m_currentTime.GetNormalizedTime();
         float const pixelOffsetForPercentageThrough = Math::Floor( playbackBarSize.x * percentageThroughTrack );
 
         //-------------------------------------------------------------------------

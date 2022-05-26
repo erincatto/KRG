@@ -106,7 +106,7 @@ namespace KRG
 
         #if KRG_DEVELOPMENT_TOOLS
         ImGuiX::ImguiSystem*                            m_pImguiSystem = nullptr;
-        ImGuiX::IToolsUI*                                 m_pToolsUI = nullptr;
+        ImGuiX::IToolsUI*                               m_pToolsUI = nullptr;
         #endif
 
         // Application data

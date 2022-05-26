@@ -145,19 +145,20 @@ namespace KRG
             float const currentFPS = 1.0f / context.GetDeltaTime();
             float const allocatedMemory = Memory::GetTotalAllocatedMemory() / 1024.0f / 1024.0f;
 
-            TInlineString<10> const warningsStr( TInlineString<10>::CtorSprintf(), KRG_ICON_QUESTION_CIRCLE" %d", Log::GetNumWarnings() );
-            TInlineString<10> const errorsStr( TInlineString<10>::CtorSprintf(), KRG_ICON_EXCLAMATION_CIRCLE" %d", Log::GetNumErrors() );
+            TInlineString<10> const warningsStr( TInlineString<10>::CtorSprintf(), KRG_ICON_ALERT" %d", Log::GetNumWarnings() );
+            TInlineString<10> const errorsStr( TInlineString<10>::CtorSprintf(), KRG_ICON_ALERT_OCTAGON" %d", Log::GetNumErrors() );
             TInlineString<40> const perfStatsStr( TInlineString<40>::CtorSprintf(), "FPS: %3.0f Mem: %.2fMB", currentFPS, allocatedMemory );
 
             ImVec2 const warningsTextSize = ImGui::CalcTextSize( warningsStr.c_str() );
             ImVec2 const errorTextSize = ImGui::CalcTextSize( errorsStr.c_str() );
-            ImVec2 const perfStatsTextSize = ImGui::CalcTextSize( perfStatsStr.c_str() );
+            ImVec2 const perfStatsTextSize = ImVec2( 150, 0 ) ;
 
             float const itemSpacing = ImGui::GetStyle().ItemSpacing.x;
             float const framePadding = ImGui::GetStyle().FramePadding.x;
             float const perfStatsOffset = totalAvailableSpace.x - perfStatsTextSize.x - ( itemSpacing * 2 );
             float const warningsAndErrorsOffset = perfStatsOffset - warningsTextSize.x - errorTextSize.x - ( itemSpacing * 3 ) - ( framePadding * 4 );
-            float const debugCameraOffset = warningsAndErrorsOffset - 30;
+            float const frameLimiterOffset = warningsAndErrorsOffset - 30;
+            float const debugCameraOffset = frameLimiterOffset - 30;
 
             //-------------------------------------------------------------------------
 
@@ -166,7 +167,7 @@ namespace KRG
             ImGui::PopStyleColor();
             if ( drawDebugMenu )
             {
-                if ( ImGui::MenuItem( KRG_ICON_SLIDERS_H" Show Debug Settings", nullptr, &m_isDebugSettingsWindowOpen ) )
+                if ( ImGui::MenuItem( KRG_ICON_TUNE" Show Debug Settings", nullptr, &m_isDebugSettingsWindowOpen ) )
                 {
                     m_isDebugSettingsWindowOpen = true;
                 }
@@ -193,17 +194,44 @@ namespace KRG
             bool const debugCamEnabled = pPlayerManager->GetDebugMode() == PlayerManager::DebugMode::OnlyDebugCamera;
             if ( debugCamEnabled )
             {
-                if ( ImGuiX::FlatButton( KRG_ICON_VIDEO"##DisableDebugCam" ) )
+                if ( ImGuiX::FlatButton( KRG_ICON_CCTV"##DisableDebugCam" ) )
                 {
                     pPlayerManager->SetDebugMode( PlayerManager::DebugMode::PlayerWithDebugCamera );
                 }
             }
             else
             {
-                if ( ImGuiX::FlatButton( KRG_ICON_VIDEO_SLASH"##EnableDebugCam") )
+                if ( ImGuiX::FlatButton( KRG_ICON_CCTV_OFF"##EnableDebugCam") )
                 {
                     pPlayerManager->SetDebugMode( PlayerManager::DebugMode::OnlyDebugCamera );
                 }
+            }
+
+            ImGui::SameLine( frameLimiterOffset, 0 );
+
+            ImGuiX::VerticalSeparator();
+
+            if ( ImGui::BeginMenu( KRG_ICON_CAR_SPEED_LIMITER ) )
+            {
+                bool noLimit = !context.HasFrameRateLimit();
+                if ( ImGui::MenuItem( "None", nullptr, &noLimit ) )
+                {
+                    const_cast<UpdateContext&>( context ).SetFrameRateLimit( 0.0f );
+                }
+
+                bool is30FPS = context.HasFrameRateLimit() && context.GetFrameRateLimit() == 30.0f;
+                if ( ImGui::MenuItem( "30 FPS", nullptr, &is30FPS ) )
+                {
+                    const_cast<UpdateContext&>( context ).SetFrameRateLimit( 30.0f );
+                }
+
+                bool is60FPS = context.HasFrameRateLimit() && context.GetFrameRateLimit() == 60.0f;
+                if ( ImGui::MenuItem( "60 FPS", nullptr, &is60FPS ) )
+                {
+                    const_cast<UpdateContext&>( context ).SetFrameRateLimit( 60.0f );
+                }
+
+                ImGui::EndMenu();
             }
 
             // Log
@@ -211,6 +239,7 @@ namespace KRG
 
             ImGuiX::VerticalSeparator();
 
+            ImGui::PushStyleColor( ImGuiCol_Text, ImGuiX::ConvertColor( Colors::Yellow ).Value );
             if ( ImGuiX::FlatButton( warningsStr.c_str() ) )
             {
                 m_isLogWindowOpen = true;
@@ -218,9 +247,11 @@ namespace KRG
                 m_systemLogView.m_showLogWarnings = true;
                 m_systemLogView.m_showLogErrors = false;
             }
+            ImGui::PopStyleColor();
 
             ImGuiX::VerticalSeparator();
 
+            ImGui::PushStyleColor( ImGuiCol_Text, ImGuiX::ConvertColor( Colors::Red ).Value );
             if ( ImGuiX::FlatButton( errorsStr.c_str() ) )
             {
                 m_isLogWindowOpen = true;
@@ -228,6 +259,7 @@ namespace KRG
                 m_systemLogView.m_showLogWarnings = false;
                 m_systemLogView.m_showLogErrors = true;
             }
+            ImGui::PopStyleColor();
 
             ImGuiX::VerticalSeparator();
 

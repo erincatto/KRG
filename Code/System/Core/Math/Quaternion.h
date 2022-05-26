@@ -301,22 +301,22 @@ namespace KRG
     inline Vector Quaternion::RotateVector( Vector const& vector ) const
     {
         Quaternion const A( Vector::Select( Vector::Select1110, vector, Vector::Select1110 ) );
-        Quaternion const Result = GetConjugate() * A;
-        return ( Result * *this ).AsVector();
+        Quaternion const result = GetConjugate() * A;
+        return ( result * *this ).AsVector();
     }
 
     inline Vector Quaternion::RotateVectorInverse( Vector const& vector ) const
     {
         Quaternion const A( Vector::Select( Vector::Select1110, vector, Vector::Select1110 ) );
-        Quaternion const Result = *this * A;
-        return ( Result * GetConjugate() ).AsVector();
+        Quaternion const result = *this * A;
+        return ( result * GetConjugate() ).AsVector();
     }
 
     inline Quaternion Quaternion::operator*( Quaternion const& rhs ) const
     {
-        static const __m128 ControlWZYX = { 1.0f,-1.0f, 1.0f,-1.0f };
-        static const __m128 ControlZWXY = { 1.0f, 1.0f,-1.0f,-1.0f };
-        static const __m128 ControlYXWZ = { -1.0f, 1.0f, 1.0f,-1.0f };
+        static const __m128 controlWZYX = { 1.0f,-1.0f, 1.0f,-1.0f };
+        static const __m128 controlZWXY = { 1.0f, 1.0f,-1.0f,-1.0f };
+        static const __m128 controlYXWZ = { -1.0f, 1.0f, 1.0f,-1.0f };
 
         // Copy to SSE registers and use as few as possible for x86
         __m128 Q2X = rhs;
@@ -337,17 +337,17 @@ namespace KRG
         Q2X = _mm_mul_ps( Q2X, Q1Shuffle );
         Q1Shuffle = _mm_shuffle_ps( Q1Shuffle, Q1Shuffle, _MM_SHUFFLE( 2, 3, 0, 1 ) );
         // Flip the signs on m_y and m_z
-        Q2X = _mm_mul_ps( Q2X, ControlWZYX );
+        Q2X = _mm_mul_ps( Q2X, controlWZYX );
         // Mul by Q1ZWXY
         Q2Y = _mm_mul_ps( Q2Y, Q1Shuffle );
         Q1Shuffle = _mm_shuffle_ps( Q1Shuffle, Q1Shuffle, _MM_SHUFFLE( 0, 1, 2, 3 ) );
         // Flip the signs on m_z and m_w
-        Q2Y = _mm_mul_ps( Q2Y, ControlZWXY );
+        Q2Y = _mm_mul_ps( Q2Y, controlZWXY );
         // Mul by Q1YXWZ
         Q2Z = _mm_mul_ps( Q2Z, Q1Shuffle );
         vResult = _mm_add_ps( vResult, Q2X );
         // Flip the signs on m_x and m_w
-        Q2Z = _mm_mul_ps( Q2Z, ControlYXWZ );
+        Q2Z = _mm_mul_ps( Q2Z, controlYXWZ );
         Q2Y = _mm_add_ps( Q2Y, Q2Z );
         vResult = _mm_add_ps( vResult, Q2Y );
 
@@ -382,34 +382,34 @@ namespace KRG
 
         Vector const VecT( T );
 
-        Vector CosOmega = Quaternion::Dot( from, to );
+        Vector cosOmega = Quaternion::Dot( from, to );
 
-        Vector Control = CosOmega.LessThan( Vector::Zero );
-        Vector Sign = Vector::Select( Vector::One, Vector::NegativeOne, Control );
+        Vector control = cosOmega.LessThan( Vector::Zero );
+        Vector sign = Vector::Select( Vector::One, Vector::NegativeOne, control );
 
-        CosOmega = _mm_mul_ps( CosOmega, Sign );
-        Control = CosOmega.LessThan( oneMinusEpsilon );
+        cosOmega = _mm_mul_ps( cosOmega, sign );
+        control = cosOmega.LessThan( oneMinusEpsilon );
 
-        Vector SinOmega = _mm_mul_ps( CosOmega, CosOmega );
-        SinOmega = _mm_sub_ps( Vector::One, SinOmega );
-        SinOmega = _mm_sqrt_ps( SinOmega );
+        Vector sinOmega = _mm_mul_ps( cosOmega, cosOmega );
+        sinOmega = _mm_sub_ps( Vector::One, sinOmega );
+        sinOmega = _mm_sqrt_ps( sinOmega );
 
-        Vector Omega = Vector::ATan2( SinOmega, CosOmega );
+        Vector omega = Vector::ATan2( sinOmega, cosOmega );
 
         Vector V01 = _mm_shuffle_ps( VecT, VecT, _MM_SHUFFLE( 2, 3, 0, 1 ) );
         V01 = _mm_and_ps( V01, SIMD::g_maskXY00 );
         V01 = _mm_xor_ps( V01, maskSign );
         V01 = _mm_add_ps( Vector::UnitX, V01 );
 
-        Vector S0 = _mm_mul_ps( V01, Omega );
+        Vector S0 = _mm_mul_ps( V01, omega );
         S0 = Vector::Sin( S0 );
-        S0 = _mm_div_ps( S0, SinOmega );
-        S0 = Vector::Select( V01, S0, Control );
+        S0 = _mm_div_ps( S0, sinOmega );
+        S0 = Vector::Select( V01, S0, control );
 
         Vector S1 = S0.GetSplatY();
         S0 = S0.GetSplatX();
 
-        S1 = _mm_mul_ps( S1, Sign );
+        S1 = _mm_mul_ps( S1, sign );
         Vector result = _mm_mul_ps( from, S0 );
         S1 = _mm_mul_ps( S1, to );
         result = _mm_add_ps( result, S1 );

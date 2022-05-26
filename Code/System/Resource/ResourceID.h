@@ -8,6 +8,8 @@
 // Unique ID for a resource - Used for resource look up and dependencies
 //-------------------------------------------------------------------------
 // Resource ID's are the same as data paths except we extract the resource type from the extension
+// Resource Type ID are generated from the lowercase extension of the resource path
+//
 // e.g. data://directory/someResource.mesh ->  ResourceTypeID = 'mesh'
 //-------------------------------------------------------------------------
 

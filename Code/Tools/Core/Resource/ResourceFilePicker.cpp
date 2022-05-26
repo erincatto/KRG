@@ -107,7 +107,7 @@ namespace KRG::Resource
         ImGui::PushStyleVar( ImGuiStyleVar_WindowPadding, ImVec2( 2, 2 ) );
         ImGui::BeginChild( "IDLabel", ImVec2( resourceTypeWindowWidth, 18 ), true, ImGuiWindowFlags_AlwaysUseWindowPadding | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse );
         {
-            ImGuiX::ScopedFont const sf( ImGuiX::Font::TinyBold );
+            ImGuiX::ScopedFont const sf( ImGuiX::Font::SmallBold );
             if ( pResourceID->IsValid() )
             {
                 ImVec2 const textSize = ImGui::CalcTextSize( pResourceID->GetResourceTypeID().ToString().c_str());
@@ -135,7 +135,7 @@ namespace KRG::Resource
         ImGuiX::ItemTooltip( pResourceID->GetResourcePath().c_str() );
 
         ImGui::SameLine( 0, itemSpacing );
-        if ( ImGui::Button( KRG_ICON_HAND_POINTER "##Pick", ImVec2( buttonWidth, 0 ) ) )
+        if ( ImGui::Button( KRG_ICON_EYEDROPPER "##Pick", ImVec2( buttonWidth, 0 ) ) )
         {
             ImGui::OpenPopup( "Resource Picker" );
             m_filterBuffer[0] = 0;
@@ -146,7 +146,7 @@ namespace KRG::Resource
 
         ImGui::SameLine( 0, itemSpacing );
         ImGui::BeginDisabled( !pResourceID->IsValid() );
-        if ( ImGui::Button( KRG_ICON_CARET_DOWN "##Options", ImVec2( buttonWidth, 0 ) ) )
+        if ( ImGui::Button( KRG_ICON_MENU_DOWN "##Options", ImVec2( buttonWidth, 0 ) ) )
         {
             ImGui::OpenPopup( "##ResourcePickerOptions" );
         }
@@ -161,7 +161,7 @@ namespace KRG::Resource
                 m_toolsContext.TryOpenResource( *pResourceID );
             }
 
-            if ( ImGui::MenuItem( KRG_ICON_COPY "Copy Resource Path" ) )
+            if ( ImGui::MenuItem( KRG_ICON_CONTENT_COPY "Copy Resource Path" ) )
             {
                 ImGui::SetClipboardText( pResourceID->GetResourcePath().ToFileSystemPath( m_toolsContext.m_pResourceDatabase->GetRawResourceDirectoryPath() ).c_str() );
             }
@@ -229,7 +229,7 @@ namespace KRG::Resource
             }
 
             ImGui::SameLine();
-            if ( ImGui::Button( KRG_ICON_TIMES_CIRCLE "##Clear Filter", ImVec2( 22, 0 ) ) )
+            if ( ImGui::Button( KRG_ICON_CLOSE_CIRCLE_OUTLINE "##Clear Filter", ImVec2( 22, 0 ) ) )
             {
                 m_filterBuffer[0] = 0;
                 filterUpdated = true;

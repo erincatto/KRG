@@ -6,12 +6,6 @@
 #include <EASTL/array.h>
 #include <EASTL/hash_map.h>
 
-//#include <EASTL/bitset.h>
-//#include <EASTL/stack.h>
-//#include <EASTL/bitvector.h>
-//#include <EASTL/sort.h>
-//#include "EASTL/allocator.h"
-
 //-------------------------------------------------------------------------
 
 namespace KRG

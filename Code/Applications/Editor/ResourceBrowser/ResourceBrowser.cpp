@@ -3,8 +3,9 @@
 #include "ResourceBrowser_DescriptorCreator.h"
 #include "Tools/Core/FileSystem/FileSystemHelpers.h"
 #include "Tools/Core/Resource/Compilers/ResourceDescriptor.h"
-#include "System/Core/Profiling/Profiling.h"
 #include "Tools/Core/ThirdParty/pfd/portable-file-dialogs.h"
+#include "System/Core/FileSystem/FileSystemUtils.h"
+#include "System/Core/Profiling/Profiling.h"
 
 //-------------------------------------------------------------------------
 
@@ -28,7 +29,7 @@ namespace KRG
             , m_path( path )
             , m_resourcePath( resourcePath )
             , m_resourceTypeID( resourceTypeID )
-            , m_type( path.IsFile() ? Type::File : Type::Directory )
+            , m_type( path.IsFilePath() ? Type::File : Type::Directory )
         {
             KRG_ASSERT( m_path.IsValid() );
             KRG_ASSERT( m_resourcePath.IsValid() );
@@ -160,10 +161,10 @@ namespace KRG
 
             // Check if this is a registered resource
             ResourceTypeID resourceTypeID;
-            char const * pExtension = path.GetExtension();
-            if ( strlen( pExtension ) <= 4 )
+            auto const extension = path.GetLowercaseExtensionAsString();
+            if ( extension.length() <= 4 )
             {
-                resourceTypeID = ResourceTypeID( pExtension );
+                resourceTypeID = ResourceTypeID( extension.c_str() );
                 if ( !m_editorContext.GetTypeRegistry()->IsRegisteredResourceType( resourceTypeID ) )
                 {
                     resourceTypeID = ResourceTypeID();
@@ -171,7 +172,7 @@ namespace KRG
             }
 
             // Create file item
-            parentItem.CreateChild<ResourceBrowserTreeItem>( path.GetFileName().c_str(), path, ResourcePath::FromFileSystemPath( m_editorContext.GetRawResourceDirectory(), path ), resourceTypeID );
+            parentItem.CreateChild<ResourceBrowserTreeItem>( path.GetFilename().c_str(), path, ResourcePath::FromFileSystemPath( m_editorContext.GetRawResourceDirectory(), path ), resourceTypeID );
         }
 
         UpdateVisibility();
@@ -317,7 +318,7 @@ namespace KRG
         }
 
         ImGui::SameLine();
-        if ( ImGui::Button( KRG_ICON_TIMES_CIRCLE "##Clear Filter", ImVec2( buttonWidth, 0 ) ) )
+        if ( ImGui::Button( KRG_ICON_CLOSE_CIRCLE "##Clear Filter", ImVec2( buttonWidth, 0 ) ) )
         {
             m_nameFilterBuffer[0] = 0;
             shouldUpdateVisibility = true;
@@ -396,7 +397,7 @@ namespace KRG
 
     TreeListViewItem& ResourceBrowser::FindOrCreateParentForItem( FileSystem::Path const& path )
     {
-        KRG_ASSERT( path.IsFile() );
+        KRG_ASSERT( path.IsFilePath() );
 
         TreeListViewItem* pCurrentItem = &m_rootItem;
         FileSystem::Path directoryPath = m_editorContext.GetRawResourceDirectory();
@@ -453,7 +454,7 @@ namespace KRG
         // Directory options
         //-------------------------------------------------------------------------
 
-        if ( pResourceItem->GetFilePath().IsDirectory() )
+        if ( pResourceItem->GetFilePath().IsDirectoryPath() )
         {
             ImGui::Separator();
 
@@ -467,11 +468,11 @@ namespace KRG
         // File options
         //-------------------------------------------------------------------------
 
-        if ( pResourceItem->GetFilePath().IsFile() )
+        if ( pResourceItem->GetFilePath().IsFilePath() )
         {
             ImGui::Separator();
 
-            if ( ImGui::MenuItem( KRG_ICON_EXCLAMATION_TRIANGLE" Delete" ) )
+            if ( ImGui::MenuItem( KRG_ICON_ALERT_OCTAGON" Delete" ) )
             {
                 m_showDeleteConfirmationDialog = true;
             }
@@ -517,7 +518,7 @@ namespace KRG
 
     void ResourceBrowser::DrawCreateNewDescriptorMenu( FileSystem::Path const& path )
     {
-        KRG_ASSERT( path.IsDirectory() );
+        KRG_ASSERT( path.IsDirectoryPath() );
 
         TypeSystem::TypeRegistry const* pTypeRegistry = m_editorContext.GetTypeRegistry();
         TVector<TypeSystem::TypeInfo const*> descriptorTypeInfos = pTypeRegistry->GetAllDerivedTypes( Resource::ResourceDescriptor::GetStaticTypeID(), false, false );

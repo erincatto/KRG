@@ -272,7 +272,7 @@ namespace KRG::Timeline
 
                 // Set time range
                 FloatRange itemTimeRange;
-                itemTimeRange.m_start = (float) startTimeDataIter->value.GetDouble();
+                itemTimeRange.m_begin = (float) startTimeDataIter->value.GetDouble();
                 itemTimeRange.m_end = (float) endTimeDataIter->value.GetDouble();
                 pItem->InitializeTimeRange( itemTimeRange );
             }
@@ -329,7 +329,7 @@ namespace KRG::Timeline
 
                         auto const& itemTimeRange = pItem->GetTimeRange();
                         writer.Key( "StartTime" );
-                        writer.Double( itemTimeRange.m_start );
+                        writer.Double( itemTimeRange.m_begin );
 
                         writer.Key( "EndTime" );
                         writer.Double( itemTimeRange.m_end );

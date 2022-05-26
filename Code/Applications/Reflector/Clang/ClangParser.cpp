@@ -30,7 +30,7 @@ namespace KRG
 
                 std::ofstream reflectorFileStream;
                 FileSystem::Path const reflectorHeader = m_reflectionDataPath + "Reflector.h";
-                FileSystem::EnsurePathExists( reflectorHeader );
+                reflectorHeader.EnsureDirectoryExists();
                 reflectorFileStream.open( reflectorHeader.c_str(), std::ios::out | std::ios::trunc );
                 KRG_ASSERT( !reflectorFileStream.fail() );
 

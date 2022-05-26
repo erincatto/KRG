@@ -42,7 +42,7 @@ namespace KRG::Render
         ImGui::DockBuilderDockWindow( m_descriptorWindowName.c_str(), bottomDockID );
     }
 
-    void StaticMeshWorkspace::DrawViewportToolbar( UpdateContext const& context, Render::Viewport const* pViewport )
+    void StaticMeshWorkspace::DrawViewportToolbarItems( UpdateContext const& context, Render::Viewport const* pViewport )
     {
         ImGui::SetNextItemWidth( 46 );
         if ( ImGui::BeginCombo( "##AnimOptions", KRG_ICON_COG, ImGuiComboFlags_HeightLarge ) )

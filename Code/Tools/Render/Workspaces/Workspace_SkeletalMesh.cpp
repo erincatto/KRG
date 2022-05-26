@@ -73,7 +73,7 @@ namespace KRG::Render
         ImGui::DockBuilderDockWindow( m_detailsWindowName.c_str(), leftBottomDockID );
     }
 
-    void SkeletalMeshWorkspace::DrawViewportToolbar( UpdateContext const& context, Render::Viewport const* pViewport )
+    void SkeletalMeshWorkspace::DrawViewportToolbarItems( UpdateContext const& context, Render::Viewport const* pViewport )
     {
         if ( !IsResourceLoaded() )
         {

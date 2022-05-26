@@ -255,7 +255,7 @@ namespace KRG::Animation::GraphNodes
         //-------------------------------------------------------------------------
 
         CalculateBlendWeight();
-        RegisterPoseTasksAndUpdateDisplacement( context, options.m_sourceNodeResult, targetNodeResult, result );
+        RegisterPoseTasksAndUpdateRootMotion( context, options.m_sourceNodeResult, targetNodeResult, result );
 
         // Update internal time and events
         //-------------------------------------------------------------------------
@@ -475,7 +475,7 @@ namespace KRG::Animation::GraphNodes
         #endif
     }
 
-    void TransitionNode::RegisterPoseTasksAndUpdateDisplacement( GraphContext& context, GraphPoseNodeResult const& sourceResult, GraphPoseNodeResult const& targetResult, GraphPoseNodeResult& outResult )
+    void TransitionNode::RegisterPoseTasksAndUpdateRootMotion( GraphContext& context, GraphPoseNodeResult const& sourceResult, GraphPoseNodeResult const& targetResult, GraphPoseNodeResult& outResult )
     {
         auto pSettings = GetSettings<TransitionNode>();
 
@@ -636,7 +636,7 @@ namespace KRG::Animation::GraphNodes
         // Register Blend tasks and update displacements
         //-------------------------------------------------------------------------
 
-        RegisterPoseTasksAndUpdateDisplacement( context, sourceNodeResult, targetNodeResult, result );
+        RegisterPoseTasksAndUpdateRootMotion( context, sourceNodeResult, targetNodeResult, result );
 
         // Update internal time and events
         //-------------------------------------------------------------------------
@@ -786,13 +786,13 @@ namespace KRG::Animation::GraphNodes
         // Register Blend tasks and update displacements
         //-------------------------------------------------------------------------
 
-        RegisterPoseTasksAndUpdateDisplacement( context, sourceNodeResult, targetNodeResult, result );
+        RegisterPoseTasksAndUpdateRootMotion( context, sourceNodeResult, targetNodeResult, result );
 
         // Update internal time and events
         //-------------------------------------------------------------------------
 
-        m_previousTime = m_syncTrack.GetPercentageThrough( sourceUpdateRange.m_startTime );
-        m_currentTime = m_syncTrack.GetPercentageThrough( sourceUpdateRange.m_endTime );
+        m_previousTime = m_syncTrack.GetPercentageThrough( updateRange.m_startTime );
+        m_currentTime = m_syncTrack.GetPercentageThrough( updateRange.m_endTime );
         result.m_sampledEventRange = CombineAndUpdateEvents( context.m_sampledEvents, sourceNodeResult.m_sampledEventRange, targetNodeResult.m_sampledEventRange, m_blendWeight );
         UpdateLayerContext( context, sourceLayerCtx, targetLayerCtx );
 

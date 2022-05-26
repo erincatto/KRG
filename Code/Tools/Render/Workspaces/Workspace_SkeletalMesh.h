@@ -39,7 +39,7 @@ namespace KRG::Render
         virtual void UpdateWorkspace( UpdateContext const& context, ImGuiWindowClass* pWindowClass ) override;
 
         virtual bool HasViewportToolbar() const override { return true; }
-        virtual void DrawViewportToolbar( UpdateContext const& context, Render::Viewport const* pViewport ) override;
+        virtual void DrawViewportToolbarItems( UpdateContext const& context, Render::Viewport const* pViewport ) override;
 
         void CreateSkeletonTree();
         void DestroySkeletonTree();

@@ -13,7 +13,6 @@ namespace KRG
     class EntityComponent;
     namespace Physics { class CharacterComponent; class Scene; }
     namespace Navmesh { class NavmeshWorldSystem; }
-    namespace Animation { class GraphController; }
 }
 
 //-------------------------------------------------------------------------
@@ -22,6 +21,7 @@ namespace KRG::AI
 {
     class AIComponent;
     class CharacterPhysicsController;
+    class AnimationController;
 
     //-------------------------------------------------------------------------
     // The context for all AI behaviors
@@ -70,7 +70,7 @@ namespace KRG::AI
         AIComponent*                                m_pAIComponent = nullptr;
         Physics::CharacterComponent*                m_pCharacter = nullptr;
         CharacterPhysicsController*                 m_pCharacterController = nullptr;
-        Animation::GraphController*                 m_pAnimationController = nullptr;
+        AnimationController*                        m_pAnimationController = nullptr;
         TInlineVector<EntityComponent*, 10>         m_components;
     };
 

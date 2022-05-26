@@ -1,8 +1,10 @@
 #pragma once
 
+#include "Tools/Animation/GraphEditor/AnimationGraphEditor_Context.h"
 #include "Tools/Animation/GraphEditor/AnimationGraphEditor_ControlParameterEditor.h"
 #include "Tools/Animation/GraphEditor/AnimationGraphEditor_GraphEditor.h"
 #include "Tools/Animation/GraphEditor/AnimationGraphEditor_VariationEditor.h"
+#include "Tools/Animation/GraphEditor/AnimationGraphEditor_CompilationLog.h"
 #include "Tools/Animation/GraphEditor/EditorGraph/Animation_EditorGraph_Common.h"
 #include "Tools/Core/Workspaces/ResourceWorkspace.h"
 #include "Engine/Animation/Graph/Animation_RuntimeGraph_Resources.h"
@@ -39,10 +41,11 @@ namespace KRG::Animation
         virtual void InitializeDockingLayout( ImGuiID dockspaceID ) const override;
         virtual void UpdateWorld( EntityWorldUpdateContext const& updateContext ) override;
 
-        virtual bool HasViewportToolbar() const override { return true; }
-        virtual void DrawViewportToolbar( UpdateContext const& context, Render::Viewport const* pViewport ) override;
+        virtual bool HasViewportToolbarTimeControls() const override { return true; }
+        virtual void DrawWorkspaceToolbarItems( UpdateContext const& context ) override;
         virtual void UpdateWorkspace( UpdateContext const& context, ImGuiWindowClass* pWindowClass ) override;
-        virtual void OnUndoRedo( UndoStack::Operation operation, IUndoableAction const* pAction ) override;
+        virtual void PreUndoRedo( UndoStack::Operation operation ) override;
+        virtual void PostUndoRedo( UndoStack::Operation operation, IUndoableAction const* pAction ) override;
         virtual bool IsDirty() const override;
         virtual bool AlwaysAllowSaving() const override { return true; }
         virtual bool Save() override;
@@ -56,6 +59,7 @@ namespace KRG::Animation
         void StartPreview( UpdateContext const& context );
         void StopPreview();
 
+        void SetFirstFrameParameterValues( UpdateContext const& context );
         void DrawDebuggerWindow( UpdateContext const& context );
 
     private:
@@ -64,21 +68,26 @@ namespace KRG::Animation
         String                              m_graphViewWindowName;
         String                              m_propertyGridWindowName;
         String                              m_variationEditorWindowName;
+        String                              m_graphCompilationLogWindowName;
         String                              m_debuggerWindowName;
 
-        GraphControlParameterEditor*        m_pControlParameterEditor = nullptr;
-        GraphVariationEditor*               m_pVariationEditor = nullptr;
-        GraphEditor*                        m_pGraphEditor = nullptr;
+        GraphEditorContext                  m_graphEditorContext;
+        GraphControlParameterEditor         m_controlParameterEditor = GraphControlParameterEditor( m_graphEditorContext );
+        GraphVariationEditor                m_variationEditor = GraphVariationEditor( m_graphEditorContext );
+        GraphEditor                         m_graphEditor = GraphEditor( m_graphEditorContext );
+        GraphCompilationLog                 m_graphCompilationLog = GraphCompilationLog( m_graphEditorContext );
         PropertyGrid                        m_propertyGrid;
 
         EventBindingID                      m_rootGraphBeginModificationBindingID;
         EventBindingID                      m_rootGraphEndModificationBindingID;
         EventBindingID                      m_preEditEventBindingID;
         EventBindingID                      m_postEditEventBindingID;
+        EventBindingID                      m_navigateToNodeEventBindingID;
+        EventBindingID                      m_navigateToGraphEventBindingID;
 
         GraphUndoableAction*                m_pActiveUndoableAction = nullptr;
+        UUID                                m_selectedNodePreUndoRedo;
 
-        EditorGraphDefinition*              m_pGraphDefinition = nullptr;
         FileSystem::Path                    m_graphFilePath;
         StringID                            m_selectedVariationID = GraphVariation::DefaultVariationID;
 
@@ -92,5 +101,6 @@ namespace KRG::Animation
         bool                                m_isPreviewing = false;
         RootMotionRecorderDebugMode         m_rootMotionDebugMode = RootMotionRecorderDebugMode::Off;
         TaskSystemDebugMode                 m_taskSystemDebugMode = TaskSystemDebugMode::Off;
+        bool                                m_isFirstPreviewFrame = false;
     };
 }

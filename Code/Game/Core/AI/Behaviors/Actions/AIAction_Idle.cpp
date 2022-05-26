@@ -1,7 +1,8 @@
 #include "AIAction_Idle.h"
 #include "Game/Core/AI/Behaviors/AIBehavior.h"
+#include "Game/Core/AI/AIAnimationController.h"
 #include "Game/Core/AI/GraphControllers/AIGraphController_Locomotion.h"
-#include "System/Core/Math/Math.h"
+#include "System/Core/Math/MathRandom.h"
 
 //-------------------------------------------------------------------------
 
@@ -9,6 +10,10 @@ namespace KRG::AI
 {
     void IdleAction::Start( BehaviorContext const& ctx )
     {
+        ctx.m_pAnimationController->SetCharacterState( CharacterAnimationState::Locomotion );
+
+        //-------------------------------------------------------------------------
+
         auto pLocomotionController = ctx.m_pAnimationController->GetSubGraphController<LocomotionGraphController>();
         pLocomotionController->SetIdle();
 

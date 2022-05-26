@@ -14,7 +14,7 @@ namespace KRG::Animation::GraphNodes
         CreateInputPin( "And", GraphValueType::Bool );
     }
 
-    GraphNodeIndex AndEditorNode::Compile( EditorGraphCompilationContext& context ) const
+    GraphNodeIndex AndEditorNode::Compile( GraphCompilationContext& context ) const
     {
         AndNode::Settings* pSettings = nullptr;
         NodeCompilationState const state = context.GetSettings<AndNode>( this, pSettings );
@@ -60,7 +60,7 @@ namespace KRG::Animation::GraphNodes
         CreateInputPin( "Or", GraphValueType::Bool );
     }
 
-    GraphNodeIndex OrEditorNode::Compile( EditorGraphCompilationContext& context ) const
+    GraphNodeIndex OrEditorNode::Compile( GraphCompilationContext& context ) const
     {
         OrNode::Settings* pSettings = nullptr;
         NodeCompilationState const state = context.GetSettings<OrNode>( this, pSettings );
@@ -105,7 +105,7 @@ namespace KRG::Animation::GraphNodes
         CreateInputPin( "Not", GraphValueType::Bool );
     }
 
-    GraphNodeIndex NotEditorNode::Compile( EditorGraphCompilationContext& context ) const
+    GraphNodeIndex NotEditorNode::Compile( GraphCompilationContext& context ) const
     {
         NotNode::Settings* pSettings = nullptr;
         NodeCompilationState const state = context.GetSettings<NotNode>( this, pSettings );

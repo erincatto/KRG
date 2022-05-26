@@ -137,10 +137,7 @@ namespace KRG::Animation::GraphNodes
         {
             m_previousTime = GetSyncTrack().GetPercentageThrough( updateRange.m_startTime );
             m_currentTime = GetSyncTrack().GetPercentageThrough( updateRange.m_endTime );
-            if ( m_currentTime < m_previousTime )
-            {
-                m_loopCount++;
-            }
+            m_loopCount = 0;
         }
 
         //-------------------------------------------------------------------------

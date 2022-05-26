@@ -6,9 +6,11 @@
 #include "System/Core/Types/String.h"
 
 //-------------------------------------------------------------------------
-// Resource path
+// Resource Path
 //-------------------------------------------------------------------------
-// Always relative to the specified data directory
+// Always relative to the data directory (data://)
+// Note!!!  Resource paths are case-insensitive. 
+//          It is up to users on case sensitive file systems to ensure that there wont be two files that a resource path can resolve to
 
 namespace KRG
 {
@@ -59,7 +61,7 @@ namespace KRG
         // Path info
         //-------------------------------------------------------------------------
 
-        // returns the filename with all the 'extensions' removed (i.e. file.final.png -> file )
+        // Returns the filename with all the 'extensions' removed (i.e. file.final.png -> file )
         String GetFileNameWithoutExtension() const;
 
         // Get the containing directory path for this path
@@ -72,10 +74,10 @@ namespace KRG
         int32 GetPathDepth() const;
 
         // Is this a file path
-        inline bool IsFile() const { KRG_ASSERT( IsValid() ); return m_path[m_path.length() - 1] != s_pathDelimiter; }
+        inline bool IsFile() const { KRG_ASSERT( IsValid() ); return m_path.back() != s_pathDelimiter; }
 
         // Is this a directory path
-        inline bool IsDirectory() const { KRG_ASSERT( IsValid() ); return ( m_path[m_path.length() - 1] == s_pathDelimiter ); }
+        inline bool IsDirectory() const { KRG_ASSERT( IsValid() ); return ( m_path.back() == s_pathDelimiter ); }
 
         // Extension
         //-------------------------------------------------------------------------

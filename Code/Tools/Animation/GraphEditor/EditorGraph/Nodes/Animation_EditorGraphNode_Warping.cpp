@@ -15,7 +15,7 @@ namespace KRG::Animation::GraphNodes
         CreateInputPin( "Angle Offset", GraphValueType::Float );
     }
 
-    GraphNodeIndex OrientationWarpEditorNode::Compile( EditorGraphCompilationContext& context ) const
+    GraphNodeIndex OrientationWarpEditorNode::Compile( GraphCompilationContext& context ) const
     {
         OrientationWarpNode::Settings* pSettings = nullptr;
         NodeCompilationState const state = context.GetSettings<OrientationWarpNode>( this, pSettings );
@@ -82,10 +82,10 @@ namespace KRG::Animation::GraphNodes
         EditorGraphNode::Initialize( pParent );
         CreateOutputPin( "Result", GraphValueType::Pose, true );
         CreateInputPin( "Input", GraphValueType::Pose );
-        CreateInputPin( "Target", GraphValueType::Target );
+        CreateInputPin( "World Target", GraphValueType::Target );
     }
 
-    GraphNodeIndex TargetWarpEditorNode::Compile( EditorGraphCompilationContext& context ) const
+    GraphNodeIndex TargetWarpEditorNode::Compile( GraphCompilationContext& context ) const
     {
         TargetWarpNode::Settings* pSettings = nullptr;
         NodeCompilationState const state = context.GetSettings<TargetWarpNode>( this, pSettings );
@@ -131,6 +131,13 @@ namespace KRG::Animation::GraphNodes
                 return false;
             }
         }
+
+        //-------------------------------------------------------------------------
+
+        pSettings->m_allowTargetUpdate = m_allowTargetUpdate;
+        pSettings->m_samplingMode = m_samplingMode;
+        pSettings->m_samplingPositionErrorThreshold = m_samplingPositionErrorThreshold;
+
         return pSettings->m_nodeIdx;
     }
 

@@ -21,18 +21,18 @@ namespace KRG::Animation
         auto const resourceTypeID = ctx.m_resourceID.GetResourceTypeID();
         if ( resourceTypeID == GraphDefinition::GetStaticResourceTypeID() )
         {
-            return CompileDefinition( ctx );
+            return CompileGraphDefinition( ctx );
         }
         else if ( resourceTypeID == GraphVariation::GetStaticResourceTypeID() )
         {
-            return CompileVariation( ctx );
+            return CompileGraphVariation( ctx );
         }
 
         KRG_UNREACHABLE_CODE();
         return CompilationFailed( ctx );
     }
 
-    Resource::CompilationResult AnimationGraphCompiler::CompileDefinition( Resource::CompileContext const& ctx ) const
+    Resource::CompilationResult AnimationGraphCompiler::CompileGraphDefinition( Resource::CompileContext const& ctx ) const
     {
         JsonReader jsonReader;
         if ( !jsonReader.ReadFromFile( ctx.m_inputFilePath ) )
@@ -49,11 +49,11 @@ namespace KRG::Animation
         // Compile
         //-------------------------------------------------------------------------
 
-        EditorGraphCompilationContext context;
-        if ( !editorGraph.Compile( context ) )
+        GraphDefinitionCompiler definitionCompiler;
+        if ( !definitionCompiler.CompileGraph( editorGraph ) )
         {
             // Dump log
-            for ( auto const& logEntry : context.GetLog() )
+            for ( auto const& logEntry : definitionCompiler.GetLog() )
             {
                 if ( logEntry.m_severity == Log::Severity::Error )
                 {
@@ -72,28 +72,25 @@ namespace KRG::Animation
             return Resource::CompilationResult::Failure;
         }
 
-        // The last offset is actual the required memory
-        context.m_instanceRequiredMemory = context.m_instanceNodeStartOffsets.back();
-        context.m_instanceNodeStartOffsets.pop_back();
-
         // Serialize
         //-------------------------------------------------------------------------
 
-        FileSystem::EnsurePathExists( ctx.m_outputFilePath );
+        auto pRuntimeGraph = definitionCompiler.GetCompiledGraph();
+
         Serialization::BinaryFileArchive archive( Serialization::Mode::Write, ctx.m_outputFilePath );
         if ( archive.IsValid() )
         {
             archive << Resource::ResourceHeader( s_version, GraphDefinition::GetStaticResourceTypeID() );
-            archive << context;
+            archive << *pRuntimeGraph;
             
-            // Node paths
+            // Serialize node paths only in non-shipping builds
             #if !KRG_CONFIGURATION_SHIPPING
-            archive << context.m_compiledNodePaths;
+            archive << pRuntimeGraph->m_nodePaths;
             #endif
 
             // Node settings type descs
             TypeSystem::TypeDescriptorCollection settingsTypeDescriptors;
-            for ( auto pSettings : context.m_nodeSettings )
+            for ( auto pSettings : pRuntimeGraph->m_nodeSettings )
             {
                 settingsTypeDescriptors.m_descriptors.emplace_back( TypeSystem::TypeDescriptor( ctx.m_typeRegistry, pSettings ) );
             }
@@ -101,7 +98,7 @@ namespace KRG::Animation
 
             // Node settings data
             cereal::BinaryOutputArchive& settingsArchive = *archive.GetOutputArchive();
-            for ( auto pSettings : context.m_nodeSettings )
+            for ( auto pSettings : pRuntimeGraph->m_nodeSettings )
             {
                 pSettings->Save( settingsArchive );
             }
@@ -114,7 +111,7 @@ namespace KRG::Animation
         }
     }
 
-    Resource::CompilationResult AnimationGraphCompiler::CompileVariation( Resource::CompileContext const& ctx ) const
+    Resource::CompilationResult AnimationGraphCompiler::CompileGraphVariation( Resource::CompileContext const& ctx ) const
     {
         GraphVariationResourceDescriptor resourceDescriptor;
         if ( !Resource::ResourceDescriptor::TryReadFromFile( ctx.m_typeRegistry, ctx.m_inputFilePath, resourceDescriptor ) )
@@ -137,14 +134,14 @@ namespace KRG::Animation
             return Error( "Failed to read animation graph file: %s", ctx.m_inputFilePath.c_str() );
         }
 
-        EditorGraphDefinition toolsGraph;
-        if ( !toolsGraph.LoadFromJson( ctx.m_typeRegistry, jsonReader.GetDocument() ) )
+        EditorGraphDefinition editorGraph;
+        if ( !editorGraph.LoadFromJson( ctx.m_typeRegistry, jsonReader.GetDocument() ) )
         {
             return Error( "Malformed animation graph file: %s", ctx.m_inputFilePath.c_str() );
         }
 
         StringID const variationID = resourceDescriptor.m_variationID.IsValid() ? resourceDescriptor.m_variationID : GraphVariation::DefaultVariationID;
-        if ( !toolsGraph.IsValidVariation( variationID ) )
+        if ( !editorGraph.IsValidVariation( variationID ) )
         {
             return Error( "Invalid variation requested: %s", variationID.c_str() );
         }
@@ -153,11 +150,12 @@ namespace KRG::Animation
         //-------------------------------------------------------------------------
         // We need to compile the graph to get the order of the data slots
 
-        EditorGraphCompilationContext context;
-        if ( !toolsGraph.Compile( context ) )
+        GraphDefinitionCompiler definitionCompiler;
+
+        if ( !definitionCompiler.CompileGraph( editorGraph ) )
         {
             // Dump log
-            for ( auto const& logEntry : context.GetLog() )
+            for ( auto const& logEntry : definitionCompiler.GetLog() )
             {
                 if ( logEntry.m_severity == Log::Severity::Error )
                 {
@@ -186,7 +184,7 @@ namespace KRG::Animation
         dataSetFilePath.Append( dataSetFileName );
         ResourcePath const dataSetPath = ResourcePath::FromFileSystemPath( ctx.m_rawResourceDirectoryPath, dataSetFilePath );
 
-        if ( !GenerateVirtualDataSetResource( ctx, toolsGraph, context, variationID, dataSetPath ) )
+        if ( !GenerateVirtualDataSetResource( ctx, editorGraph, definitionCompiler.GetRegisteredDataSlots(), variationID, dataSetPath ) )
         {
             return Error( "Failed to create data set: %s", dataSetPath.c_str() );
         }
@@ -200,7 +198,6 @@ namespace KRG::Animation
 
         //-------------------------------------------------------------------------
 
-        FileSystem::EnsurePathExists( ctx.m_outputFilePath );
         Serialization::BinaryFileArchive archive( Serialization::Mode::Write, ctx.m_outputFilePath );
         if ( archive.IsValid() )
         {
@@ -221,8 +218,10 @@ namespace KRG::Animation
 
     //-------------------------------------------------------------------------
 
-    bool AnimationGraphCompiler::GenerateVirtualDataSetResource( Resource::CompileContext const& ctx, EditorGraphDefinition const& editorGraph, EditorGraphCompilationContext const& compilationContext, StringID const& variationID, ResourcePath const& dataSetPath ) const
+    bool AnimationGraphCompiler::GenerateVirtualDataSetResource( Resource::CompileContext const& ctx, EditorGraphDefinition const& editorGraph, TVector<UUID> const& registeredDataSlots, StringID const& variationID, ResourcePath const& dataSetPath ) const
     {
+        auto pRootGraph = editorGraph.GetRootGraph();
+
         GraphDataSet dataSet;
         dataSet.m_variationID = variationID;
 
@@ -246,15 +245,15 @@ namespace KRG::Animation
         //-------------------------------------------------------------------------
 
         THashMap<UUID, GraphNodes::DataSlotEditorNode const*> dataSlotLookupMap;
-        auto const& dataSlotNodes = editorGraph.GetAllDataSlotNodes();
+        auto const& dataSlotNodes = pRootGraph->FindAllNodesOfType<GraphNodes::DataSlotEditorNode>( VisualGraph::SearchMode::Recursive, VisualGraph::SearchTypeMatch::Derived );
         for ( auto pSlotNode : dataSlotNodes )
         {
             dataSlotLookupMap.insert( TPair<UUID, GraphNodes::DataSlotEditorNode const*>( pSlotNode->GetID(), pSlotNode ) );
         }
 
-        dataSet.m_resources.reserve( compilationContext.m_registeredDataSlots.size() );
+        dataSet.m_resources.reserve( registeredDataSlots.size() );
 
-        for ( auto const& dataSlotID : compilationContext.m_registeredDataSlots )
+        for ( auto const& dataSlotID : registeredDataSlots )
         {
             auto iter = dataSlotLookupMap.find( dataSlotID );
             if ( iter == dataSlotLookupMap.end() )
@@ -272,7 +271,7 @@ namespace KRG::Animation
         //-------------------------------------------------------------------------
 
         FileSystem::Path const dataSetOutputPath = dataSetPath.ToFileSystemPath( ctx.m_compiledResourceDirectoryPath );
-        FileSystem::EnsurePathExists( dataSetOutputPath );
+
         Serialization::BinaryFileArchive archive( Serialization::Mode::Write, dataSetOutputPath );
         if ( archive.IsValid() )
         {

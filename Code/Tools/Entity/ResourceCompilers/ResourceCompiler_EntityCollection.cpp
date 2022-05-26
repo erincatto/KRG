@@ -52,7 +52,6 @@ namespace KRG::EntityModel
         // Serialize
         //-------------------------------------------------------------------------
 
-        FileSystem::EnsurePathExists( ctx.m_outputFilePath );
         KRG::Serialization::BinaryFileArchive archive( KRG::Serialization::Mode::Write, ctx.m_outputFilePath );
         if ( archive.IsValid() )
         {
@@ -142,7 +141,6 @@ namespace KRG::EntityModel
         // Serialize
         //-------------------------------------------------------------------------
 
-        FileSystem::EnsurePathExists( ctx.m_outputFilePath );
         KRG::Serialization::BinaryFileArchive archive( KRG::Serialization::Mode::Write, ctx.m_outputFilePath );
         if ( archive.IsValid() )
         {

@@ -22,7 +22,7 @@ namespace KRG::Animation::GraphNodes
 
     protected:
 
-        bool CompileParameterAndSourceNodes( EditorGraphCompilationContext& context, ParameterizedBlendNode::Settings* pSettings ) const;
+        bool CompileParameterAndSourceNodes( GraphCompilationContext& context, ParameterizedBlendNode::Settings* pSettings ) const;
 
     protected:
 
@@ -38,7 +38,7 @@ namespace KRG::Animation::GraphNodes
         virtual void Initialize( VisualGraph::BaseGraph* pParent ) override;
 
         virtual char const* GetTypeName() const override { return "Ranged Blend"; }
-        virtual GraphNodeIndex Compile( EditorGraphCompilationContext& context ) const override;
+        virtual GraphNodeIndex Compile( GraphCompilationContext& context ) const override;
         virtual bool DrawPinControls( VisualGraph::Flow::Pin const& pin ) override;
         virtual void OnDynamicPinCreation( UUID pinID ) override;
         virtual void OnDynamicPinDestruction( UUID pinID ) override;
@@ -55,7 +55,7 @@ namespace KRG::Animation::GraphNodes
         KRG_REGISTER_TYPE( VelocityBlendEditorNode );
 
         virtual char const* GetTypeName() const override { return "Velocity Blend"; }
-        virtual GraphNodeIndex Compile( EditorGraphCompilationContext& context ) const override;
+        virtual GraphNodeIndex Compile( GraphCompilationContext& context ) const override;
         virtual bool IsValidConnection( UUID const& inputPinID, Node const* pOutputPinNode, UUID const& outputPinID ) const override;
     };
 }

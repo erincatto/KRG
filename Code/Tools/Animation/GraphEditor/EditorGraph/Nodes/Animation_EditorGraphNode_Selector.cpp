@@ -32,7 +32,7 @@ namespace KRG::Animation::GraphNodes
         SetSecondaryGraph( pConditionGraph );
     }
 
-    GraphNodeIndex SelectorEditorNode::Compile( EditorGraphCompilationContext& context ) const
+    GraphNodeIndex SelectorEditorNode::Compile( GraphCompilationContext& context ) const
     {
         SelectorNode::Settings* pSettings = nullptr;
         NodeCompilationState const state = context.GetSettings<SelectorNode>( this, pSettings );
@@ -174,7 +174,7 @@ namespace KRG::Animation::GraphNodes
         SetSecondaryGraph( pConditionGraph );
     }
 
-    GraphNodeIndex AnimationClipSelectorEditorNode::Compile( EditorGraphCompilationContext& context ) const
+    GraphNodeIndex AnimationClipSelectorEditorNode::Compile( GraphCompilationContext& context ) const
     {
         AnimationClipSelectorNode::Settings* pSettings = nullptr;
         NodeCompilationState const state = context.GetSettings<AnimationClipSelectorNode>( this, pSettings );

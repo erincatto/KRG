@@ -636,7 +636,7 @@ namespace KRG::TypeSystem
             //-------------------------------------------------------------------------
 
             ImGui::SameLine( 0, ImGui::GetStyle().ItemSpacing.x );
-            if ( ImGui::Button( KRG_ICON_ANGLE_DOWN "##ClampShortest", ImVec2( g_iconButtonWidth, 0 ) ) )
+            if ( ImGui::Button( KRG_ICON_ANGLE_ACUTE "##ClampShortest", ImVec2( g_iconButtonWidth, 0 ) ) )
             {
                 m_valueInDegrees_imgui = Degrees( m_valueInDegrees_imgui ).GetClamped180().ToFloat();
                 valueChanged = true;
@@ -644,7 +644,7 @@ namespace KRG::TypeSystem
             ImGuiX::ItemTooltip( "Clamp to Shortest Rotation [-180 : 180]" );
 
             ImGui::SameLine( 0, ImGui::GetStyle().ItemSpacing.x );
-            if ( ImGui::Button( KRG_ICON_ANGLE_DOUBLE_DOWN "##ClampFull", ImVec2( g_iconButtonWidth, 0 ) ) )
+            if ( ImGui::Button( KRG_ICON_ANGLE_OBTUSE "##ClampFull", ImVec2( g_iconButtonWidth, 0 ) ) )
             {
                 m_valueInDegrees_imgui = Degrees( m_valueInDegrees_imgui ).GetClamped360().ToFloat();
                 valueChanged = true;
@@ -883,7 +883,7 @@ namespace KRG::TypeSystem
             //-------------------------------------------------------------------------
 
             ImGui::SameLine( 0, ImGui::GetStyle().ItemSpacing.x );
-            if ( ImGui::Button( KRG_ICON_ANGLE_DOWN "##ClampPercentage", ImVec2( g_iconButtonWidth, 0 ) ) )
+            if ( ImGui::Button( KRG_ICON_PERCENT"##ClampPercentage", ImVec2( g_iconButtonWidth, 0 ) ) )
             {
                 m_value_imgui = ( Percentage( m_value_imgui / 100 ).GetClamped( true ) ).ToFloat() * 100;
                 valueChanged = true;
@@ -1149,7 +1149,7 @@ namespace KRG::TypeSystem
                 }
 
                 ImGui::SameLine( 0, ImGui::GetStyle().ItemSpacing.x );
-                if ( ImGui::Button( KRG_ICON_TIMES_CIRCLE "##Clear", ImVec2( g_iconButtonWidth, 0 ) ) )
+                if ( ImGui::Button( KRG_ICON_CLOSE_CIRCLE"##Clear", ImVec2( g_iconButtonWidth, 0 ) ) )
                 {
                     m_value_imgui.Clear();
                     valueChanged = true;
@@ -1557,7 +1557,7 @@ namespace KRG::TypeSystem
 
             ImGui::SetNextItemWidth( -1 );
             {
-                ImGuiX::ScopedFont const sf( ImGuiX::Font::TinyBold );
+                ImGuiX::ScopedFont const sf( ImGuiX::Font::SmallBold );
                 ImGui::TextColored( Colors::LightGreen.ToFloat4(), m_IDString.data() );
             }
 
@@ -1713,7 +1713,7 @@ namespace KRG::TypeSystem
             bool valueUpdated = false;
 
             ImGui::SetNextItemWidth( inputWidth );
-            ImGui::InputScalar( "##min", ImGuiDataType_S32, &m_value_imgui.m_start, 0, 0 );
+            ImGui::InputScalar( "##min", ImGuiDataType_S32, &m_value_imgui.m_begin, 0, 0 );
             if ( ImGui::IsItemDeactivatedAfterEdit() )
             {
                 valueUpdated = true;
@@ -1783,9 +1783,10 @@ namespace KRG::TypeSystem
             bool valueUpdated = false;
 
             ImGui::SetNextItemWidth( inputWidth );
-            ImGui::InputFloat( "##min", &m_value_imgui.m_start, 0, 0, "%.3f", 0 );
+            ImGui::InputFloat( "##min", &m_value_imgui.m_begin, 0, 0, "%.3f", 0 );
             if ( ImGui::IsItemDeactivatedAfterEdit() )
             {
+                m_value_imgui.m_begin = Math::Min( m_value_imgui.m_begin, m_value_imgui.m_end );
                 valueUpdated = true;
             }
 
@@ -1797,6 +1798,7 @@ namespace KRG::TypeSystem
             ImGui::InputFloat( "##max", &m_value_imgui.m_end, 0, 0, "%.3f", 0 );
             if ( ImGui::IsItemDeactivatedAfterEdit() )
             {
+                m_value_imgui.m_end = Math::Max( m_value_imgui.m_begin, m_value_imgui.m_end );
                 valueUpdated = true;
             }
 
@@ -1858,7 +1860,7 @@ namespace KRG::TypeSystem
             //-------------------------------------------------------------------------
 
             ImGui::SameLine( 0, ImGui::GetStyle().ItemSpacing.x );
-            if ( ImGui::Button( KRG_ICON_EDIT"##OpenCurveEditor" ) )
+            if ( ImGui::Button( KRG_ICON_PLAYLIST_EDIT"##OpenCurveEditor" ) )
             {
                 ImGui::OpenPopup( "CurveEditor" );
             }
@@ -1885,7 +1887,10 @@ namespace KRG::TypeSystem
 
         virtual void ResetWorkingCopy() override
         {
-            m_value_cached = m_value_imgui = *reinterpret_cast<FloatCurve*>( m_pPropertyInstance );
+            auto const& originalCurve = *reinterpret_cast<FloatCurve*>( m_pPropertyInstance );
+            m_value_cached = m_value_imgui = originalCurve;
+
+            m_editor.OnCurveExternallyUpdated();
             m_editor.ResetView();
         }
 
@@ -1895,6 +1900,7 @@ namespace KRG::TypeSystem
             if ( actualValue != m_value_cached )
             {
                 m_value_cached = m_value_imgui = actualValue;
+                m_editor.OnCurveExternallyUpdated();
             }
         }
 

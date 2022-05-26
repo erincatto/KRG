@@ -3,6 +3,7 @@
 #include "../_Module/API.h"
 #include "System/Core/Math/Math.h"
 #include "System/Core/Math/NumericRange.h"
+#include "System/Core/Types/Containers.h"
 #include "System/Core/Types/String.h"
 #include "System/Core/Types/BitFlags.h"
 #include "System/Core/Threading/Threading.h"

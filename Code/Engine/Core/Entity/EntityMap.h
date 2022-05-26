@@ -207,18 +207,18 @@ namespace KRG
             Threading::RecursiveMutex                   m_mutex;
             TResourcePtr<EntityMapDescriptor>           m_pMapDesc;
             TVector<Entity*>                            m_entities;
-            THashMap<EntityID, Entity*>                 m_entityIDLookupMap;
+            THashMap<EntityID, Entity*>                 m_entityIDLookupMap; // All activated entities in the map
             TVector<Entity*>                            m_entitiesCurrentlyLoading;
             TInlineVector<Entity*, 5>                   m_entitiesToAdd;
             TInlineVector<RemovalRequest, 5>            m_entitiesToRemove;
-            Status                                      m_status = Status::Unloaded;
             EventBindingID                              m_entityUpdateEventBindingID;
+            Status                                      m_status = Status::Unloaded;
             bool                                        m_isUnloadRequested = false;
             bool                                        m_isMapInstantiated = false;
             bool const                                  m_isTransientMap = false; // If this is set, then this is a transient map i.e.created and managed at runtime and not loaded from disk
 
             #if KRG_DEVELOPMENT_TOOLS
-            THashMap<StringID, Entity*>                 m_entityNameLookupMap;
+            THashMap<StringID, Entity*>                 m_entityNameLookupMap; // All entities that have attempted to load
             TVector<Entity*>                            m_entitiesToHotReload;
             TVector<Entity*>                            m_editedEntities;
             #endif

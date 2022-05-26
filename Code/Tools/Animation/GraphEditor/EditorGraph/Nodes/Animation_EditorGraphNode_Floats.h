@@ -17,13 +17,13 @@ namespace KRG::Animation::GraphNodes
         virtual char const* GetTypeName() const override { return "Float Remap"; }
         virtual char const* GetCategory() const override { return "Values/Float"; }
         virtual TBitFlags<GraphType> GetAllowedParentGraphTypes() const override { return TBitFlags<GraphType>( GraphType::BlendTree, GraphType::ValueTree, GraphType::TransitionTree ); }
-        virtual GraphNodeIndex Compile( EditorGraphCompilationContext& context ) const override;
+        virtual GraphNodeIndex Compile( GraphCompilationContext& context ) const override;
         virtual void DrawInfoText( VisualGraph::DrawContext const& ctx ) override;
 
     public:
 
-        KRG_EXPOSE FloatRange                  m_inputRange = FloatRange( 0.0f );
-        KRG_EXPOSE FloatRange                  m_outputRange = FloatRange( 0.0f );
+        KRG_EXPOSE FloatRemapNode::RemapRange  m_inputRange;
+        KRG_EXPOSE FloatRemapNode::RemapRange  m_outputRange;
     };
 
     //-------------------------------------------------------------------------
@@ -39,11 +39,11 @@ namespace KRG::Animation::GraphNodes
         virtual char const* GetTypeName() const override { return "Float Clamp"; }
         virtual char const* GetCategory() const override { return "Values/Float"; }
         virtual TBitFlags<GraphType> GetAllowedParentGraphTypes() const override { return TBitFlags<GraphType>( GraphType::BlendTree, GraphType::ValueTree, GraphType::TransitionTree ); }
-        virtual GraphNodeIndex Compile( EditorGraphCompilationContext& context ) const override;
+        virtual GraphNodeIndex Compile( GraphCompilationContext& context ) const override;
 
     public:
 
-        KRG_EXPOSE FloatRange                  m_clampRange = FloatRange( 0 );
+        KRG_EXPOSE FloatRange                   m_clampRange = FloatRange( 0 );
     };
 
     //-------------------------------------------------------------------------
@@ -59,7 +59,7 @@ namespace KRG::Animation::GraphNodes
         virtual char const* GetTypeName() const override { return "Float Abs"; }
         virtual char const* GetCategory() const override { return "Values/Float"; }
         virtual TBitFlags<GraphType> GetAllowedParentGraphTypes() const override { return TBitFlags<GraphType>( GraphType::BlendTree, GraphType::ValueTree, GraphType::TransitionTree ); }
-        virtual GraphNodeIndex Compile( EditorGraphCompilationContext& context ) const override;
+        virtual GraphNodeIndex Compile( GraphCompilationContext& context ) const override;
     };
 
     //-------------------------------------------------------------------------
@@ -75,13 +75,33 @@ namespace KRG::Animation::GraphNodes
         virtual char const* GetTypeName() const override { return "Float Ease"; }
         virtual char const* GetCategory() const override { return "Values/Float"; }
         virtual TBitFlags<GraphType> GetAllowedParentGraphTypes() const override { return TBitFlags<GraphType>( GraphType::BlendTree, GraphType::ValueTree, GraphType::TransitionTree ); }
-        virtual GraphNodeIndex Compile( EditorGraphCompilationContext& context ) const override;
+        virtual GraphNodeIndex Compile( GraphCompilationContext& context ) const override;
 
     public:
 
         KRG_EXPOSE Math::Easing::Type          m_easingType = Math::Easing::Type::Linear;
         KRG_EXPOSE float                       m_easeTime = 1.0f;
         KRG_EXPOSE float                       m_initialValue = -1.0f;
+    };
+
+    //-------------------------------------------------------------------------
+
+    class FloatCurveEditorNode final : public EditorGraphNode
+    {
+        KRG_REGISTER_TYPE( FloatCurveEditorNode );
+
+    public:
+
+        virtual void Initialize( VisualGraph::BaseGraph* pParent ) override;
+
+        virtual char const* GetTypeName() const override { return "Float Curve"; }
+        virtual char const* GetCategory() const override { return "Values/Float"; }
+        virtual TBitFlags<GraphType> GetAllowedParentGraphTypes() const override { return TBitFlags<GraphType>( GraphType::BlendTree, GraphType::ValueTree, GraphType::TransitionTree ); }
+        virtual GraphNodeIndex Compile( GraphCompilationContext& context ) const override;
+
+    public:
+
+        KRG_EXPOSE FloatCurve                   m_curve;
     };
 
     //-------------------------------------------------------------------------
@@ -97,7 +117,7 @@ namespace KRG::Animation::GraphNodes
         virtual char const* GetTypeName() const override { return "Float Math"; }
         virtual char const* GetCategory() const override { return "Values/Float"; }
         virtual TBitFlags<GraphType> GetAllowedParentGraphTypes() const override { return TBitFlags<GraphType>( GraphType::BlendTree, GraphType::ValueTree, GraphType::TransitionTree ); }
-        virtual GraphNodeIndex Compile( EditorGraphCompilationContext& context ) const override;
+        virtual GraphNodeIndex Compile( GraphCompilationContext& context ) const override;
 
     public:
 
@@ -119,7 +139,7 @@ namespace KRG::Animation::GraphNodes
         virtual char const* GetTypeName() const override { return "Float Comparison"; }
         virtual char const* GetCategory() const override { return "Values/Float"; }
         virtual TBitFlags<GraphType> GetAllowedParentGraphTypes() const override { return TBitFlags<GraphType>( GraphType::BlendTree, GraphType::ValueTree, GraphType::TransitionTree ); }
-        virtual GraphNodeIndex Compile( EditorGraphCompilationContext& context ) const override;
+        virtual GraphNodeIndex Compile( GraphCompilationContext& context ) const override;
         virtual void DrawInfoText( VisualGraph::DrawContext const& ctx ) override;
 
     private:
@@ -142,7 +162,7 @@ namespace KRG::Animation::GraphNodes
         virtual char const* GetTypeName() const override { return "Float Range Check"; }
         virtual char const* GetCategory() const override { return "Values/Float"; }
         virtual TBitFlags<GraphType> GetAllowedParentGraphTypes() const override { return TBitFlags<GraphType>( GraphType::BlendTree, GraphType::ValueTree, GraphType::TransitionTree ); }
-        virtual GraphNodeIndex Compile( EditorGraphCompilationContext& context ) const override;
+        virtual GraphNodeIndex Compile( GraphCompilationContext& context ) const override;
         virtual void DrawInfoText( VisualGraph::DrawContext const& ctx ) override;
 
     private:
@@ -164,6 +184,22 @@ namespace KRG::Animation::GraphNodes
         virtual char const* GetTypeName() const override { return "Float Switch"; }
         virtual char const* GetCategory() const override { return "Values/Float"; }
         virtual TBitFlags<GraphType> GetAllowedParentGraphTypes() const override { return TBitFlags<GraphType>( GraphType::BlendTree, GraphType::ValueTree, GraphType::TransitionTree ); }
-        virtual GraphNodeIndex Compile( EditorGraphCompilationContext& context ) const override;
+        virtual GraphNodeIndex Compile( GraphCompilationContext& context ) const override;
+    };
+
+    //-------------------------------------------------------------------------
+
+    class FloatReverseDirectionEditorNode final : public EditorGraphNode
+    {
+        KRG_REGISTER_TYPE( FloatReverseDirectionEditorNode );
+
+    public:
+
+        virtual void Initialize( VisualGraph::BaseGraph* pParent ) override;
+
+        virtual char const* GetTypeName() const override { return "Float Reverse Direction"; }
+        virtual char const* GetCategory() const override { return "Values/Float"; }
+        virtual TBitFlags<GraphType> GetAllowedParentGraphTypes() const override { return TBitFlags<GraphType>( GraphType::BlendTree, GraphType::ValueTree, GraphType::TransitionTree ); }
+        virtual GraphNodeIndex Compile( GraphCompilationContext& context ) const override;
     };
 }

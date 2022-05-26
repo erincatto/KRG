@@ -132,7 +132,7 @@ namespace KRG::Render
             inline float GetDescent() const { return m_descent; }
             inline float GetLineGap() const { return m_lineGap; }
             inline IntRange GetValidGlyphRange() const { return IntRange( 0x20, 0xFF ); }
-            inline int32 GetGlyphIndex( char c ) const { KRG_ASSERT( GetValidGlyphRange().ContainsInclusive( c ) ); return c - GetValidGlyphRange().m_start; }
+            inline int32 GetGlyphIndex( char c ) const { KRG_ASSERT( GetValidGlyphRange().ContainsInclusive( c ) ); return c - GetValidGlyphRange().m_begin; }
             inline DebugFontGlyph const& GetGlyph( int32 glyphIdx ) const { return m_glyphs[glyphIdx]; }
 
         public:

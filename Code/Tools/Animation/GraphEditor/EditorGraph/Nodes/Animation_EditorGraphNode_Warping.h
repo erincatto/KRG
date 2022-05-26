@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Tools/Animation/GraphEditor/EditorGraph/Animation_EditorGraph_FlowGraph.h"
+#include "Engine/Animation/Graph/Nodes/Animation_RuntimeGraphNode_Warping.h"
 
 //-------------------------------------------------------------------------
 
@@ -17,7 +18,7 @@ namespace KRG::Animation::GraphNodes
         virtual char const* GetTypeName() const override { return "Orientation Warp"; }
         virtual char const* GetCategory() const override { return "Motion Warping"; }
         virtual TBitFlags<GraphType> GetAllowedParentGraphTypes() const override { return TBitFlags<GraphType>( GraphType::BlendTree ); }
-        virtual GraphNodeIndex Compile( EditorGraphCompilationContext& context ) const override;
+        virtual GraphNodeIndex Compile( GraphCompilationContext& context ) const override;
     };
 
     //-------------------------------------------------------------------------
@@ -33,6 +34,12 @@ namespace KRG::Animation::GraphNodes
         virtual char const* GetTypeName() const override { return "Target Warp"; }
         virtual char const* GetCategory() const override { return "Motion Warping"; }
         virtual TBitFlags<GraphType> GetAllowedParentGraphTypes() const override { return TBitFlags<GraphType>( GraphType::BlendTree ); }
-        virtual GraphNodeIndex Compile( EditorGraphCompilationContext& context ) const override;
+        virtual GraphNodeIndex Compile( GraphCompilationContext& context ) const override;
+
+    private:
+
+        KRG_EXPOSE bool                             m_allowTargetUpdate = false;
+        KRG_EXPOSE TargetWarpNode::SamplingMode     m_samplingMode;
+        KRG_EXPOSE float                            m_samplingPositionErrorThreshold = 0.05f;
     };
 }

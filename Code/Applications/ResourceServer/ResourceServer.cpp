@@ -226,7 +226,7 @@ namespace KRG::Resource
 
     void ResourceServer::OnFileModified( FileSystem::Path const& filePath )
     {
-        KRG_ASSERT( filePath.IsValid() && filePath.IsFile() );
+        KRG_ASSERT( filePath.IsValid() && filePath.IsFilePath() );
 
         ResourcePath resourcePath = ResourcePath::FromFileSystemPath( m_pSettings->m_rawResourcePath, filePath );
         if ( !resourcePath.IsValid() )
@@ -311,7 +311,7 @@ namespace KRG::Resource
 
                 if ( pRequest->m_status != CompilationRequest::Status::Failed )
                 {
-                    if ( !FileSystem::EnsurePathExists( pRequest->m_destinationFile ) )
+                    if ( !pRequest->m_destinationFile.EnsureDirectoryExists() )
                     {
                         pRequest->m_log.sprintf( "Error: Destination path (%s) doesnt exist!", pRequest->m_destinationFile.GetParentDirectory().c_str() );
                         pRequest->m_status = CompilationRequest::Status::Failed;

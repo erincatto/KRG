@@ -151,6 +151,12 @@ namespace KRG::Animation::GraphNodes
 
     //-------------------------------------------------------------------------
 
+    void DataSlotEditorNode::Initialize( VisualGraph::BaseGraph* pParent )
+    {
+        EditorGraphNode::Initialize( pParent );
+        m_name = GetDefaultSlotName();
+    }
+
     bool DataSlotEditorNode::AreSlotValuesValid() const
     {
         if ( m_defaultResourceID.GetResourceTypeID() != GetSlotResourceTypeID() )
@@ -328,7 +334,7 @@ namespace KRG::Animation::GraphNodes
         CreateInputPin( "Out", m_valueType );
     }
 
-    GraphNodeIndex ResultEditorNode::Compile( EditorGraphCompilationContext& context ) const
+    GraphNodeIndex ResultEditorNode::Compile( GraphCompilationContext& context ) const
     {
         // Get connected node and compile it
         auto pConnectedNode = GetConnectedInputNode<EditorGraphNode>( 0 );
@@ -408,20 +414,13 @@ namespace KRG::Animation::GraphNodes
 
     //-------------------------------------------------------------------------
 
-    ControlParameterEditorNode::ControlParameterEditorNode( String const& name, GraphValueType type )
+    ControlParameterEditorNode::ControlParameterEditorNode( String const& name )
         : m_name( name )
-        , m_type( type )
     {
         KRG_ASSERT( !m_name.empty() );
     }
 
-    void ControlParameterEditorNode::Initialize( VisualGraph::BaseGraph* pParentGraph )
-    {
-        EditorGraphNode::Initialize( pParentGraph );
-        CreateOutputPin( "Value", m_type, true );
-    }
-
-    GraphNodeIndex ControlParameterEditorNode::Compile( EditorGraphCompilationContext& context ) const
+    GraphNodeIndex ControlParameterEditorNode::Compile( GraphCompilationContext& context ) const
     {
         switch ( GetValueType() )
         {
@@ -486,6 +485,13 @@ namespace KRG::Animation::GraphNodes
         return InvalidIndex;
     }
 
+    void ControlParameterEditorNode::Rename( String const& name, String const& category )
+    {
+        VisualGraph::ScopedNodeModification snm( this );
+        m_name = name;
+        m_parameterCategory = category;
+    }
+
     //-------------------------------------------------------------------------
 
     VirtualParameterEditorNode::VirtualParameterEditorNode( String const& name, GraphValueType type )
@@ -506,7 +512,7 @@ namespace KRG::Animation::GraphNodes
         SetChildGraph( pParameterGraph );
     }
 
-    GraphNodeIndex VirtualParameterEditorNode::Compile( EditorGraphCompilationContext& context ) const
+    GraphNodeIndex VirtualParameterEditorNode::Compile( GraphCompilationContext& context ) const
     {
         auto const resultNodes = GetChildGraph()->FindAllNodesOfType<ResultEditorNode>();
         KRG_ASSERT( resultNodes.size() == 1 );
@@ -519,6 +525,13 @@ namespace KRG::Animation::GraphNodes
         }
 
         return resultNodes[0]->GetConnectedInputNode<EditorGraphNode>( 0 )->Compile( context );
+    }
+
+    void VirtualParameterEditorNode::Rename( String const& name, String const& category )
+    {
+        VisualGraph::ScopedNodeModification snm( this );
+        m_name = name;
+        m_parameterCategory = category;
     }
 
     //-------------------------------------------------------------------------
@@ -545,7 +558,7 @@ namespace KRG::Animation::GraphNodes
         CreateOutputPin( "Value", m_pParameter->GetValueType(), true );
     }
 
-    GraphNodeIndex ParameterReferenceEditorNode::Compile( EditorGraphCompilationContext& context ) const
+    GraphNodeIndex ParameterReferenceEditorNode::Compile( GraphCompilationContext& context ) const
     {
         return m_pParameter->Compile( context );
     }

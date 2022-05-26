@@ -110,13 +110,22 @@ namespace KRG::Animation
     SyncTrackTime SyncTrack::GetTime( Percentage const percentage, bool withOffset ) const
     {
         int32 const numSyncEvents = (int32) m_syncEvents.size();
+        KRG_ASSERT( numSyncEvents > 0 );
 
+        SyncTrackTime time;
+
+        // Handle the end of an animation in a special manner since we want to return the last event at 100% instead of the first at 0%
+        if ( percentage == 1.0f )
+        {
+            time.m_eventIdx = numSyncEvents - 1;
+            time.m_percentageThrough = 1.0f;
+            return time;
+        }
+
+        // Calculate the normalized percentage through the animation
         int32 loopCount = 0;
         Percentage percentageThrough = 0.0f;
         percentage.GetLoopCountAndNormalizedTime( loopCount, percentageThrough );
-
-        KRG_ASSERT( numSyncEvents > 0 );
-        SyncTrackTime time;
 
         // If the playback percent is before the start of the first event
         if ( percentageThrough < m_syncEvents[0].m_startTime )
@@ -125,20 +134,20 @@ namespace KRG::Animation
             time.m_eventIdx = (uint32) numSyncEvents - 1;
             KRG_ASSERT( m_syncEvents[time.m_eventIdx].m_duration > Math::Epsilon );
 
-            float const EventDelta = m_syncEvents[0].m_startTime - percentageThrough;
-            time.m_percentageThrough = ( (float) m_syncEvents.back().m_duration - EventDelta ) / m_syncEvents.back().m_duration;
+            float const eventDelta = m_syncEvents[0].m_startTime - percentageThrough;
+            time.m_percentageThrough = ( (float) m_syncEvents.back().m_duration - eventDelta ) / m_syncEvents.back().m_duration;
         }
         else // Search the sync track for the event and percent
         {
-            for ( auto Idx = 0; Idx < numSyncEvents; Idx++ )
+            for ( auto syncEventIdx = 0; syncEventIdx < numSyncEvents; syncEventIdx++ )
             {
                 // Find the first event whose end time (i.e. start time of next event) is greater than the playback percent
-                if ( ( m_syncEvents[Idx].m_startTime + m_syncEvents[Idx].m_duration ) >= percentageThrough )
+                if ( ( m_syncEvents[syncEventIdx].m_startTime + m_syncEvents[syncEventIdx].m_duration ) >= percentageThrough )
                 {
-                    KRG_ASSERT( m_syncEvents[Idx].m_duration > Math::Epsilon );
+                    KRG_ASSERT( m_syncEvents[syncEventIdx].m_duration > Math::Epsilon );
 
-                    time.m_eventIdx = Idx;
-                    time.m_percentageThrough = ( percentageThrough - m_syncEvents[Idx].m_startTime ) / m_syncEvents[Idx].m_duration;
+                    time.m_eventIdx = syncEventIdx;
+                    time.m_percentageThrough = ( percentageThrough - m_syncEvents[syncEventIdx].m_startTime ) / m_syncEvents[syncEventIdx].m_duration;
 
                     // Handle looping sequences
                     while ( time.m_percentageThrough > 1.0f )
@@ -160,6 +169,7 @@ namespace KRG::Animation
         // Adjust sync track position to take account the offset
         int32 const offset = withOffset ? m_startEventOffset : 0;
         time.m_eventIdx = ClampIndexToTrack( time.m_eventIdx - offset );
+
         return time;
     }
 
@@ -214,7 +224,7 @@ namespace KRG::Animation
         }
         else // Calculate the multi-event/looped distance
         {
-            // calculate the distance to the end of the start event
+            // Calculate the distance to the end of the start event
             syncTimeDistance = ( 1.0f - startTime.m_percentageThrough );
 
             int32 eventIdx = startTime.m_eventIdx + 1;

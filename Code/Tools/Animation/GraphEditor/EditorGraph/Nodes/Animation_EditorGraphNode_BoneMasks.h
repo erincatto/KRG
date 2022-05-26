@@ -26,7 +26,7 @@ namespace KRG::Animation::GraphNodes
         virtual char const* GetTypeName() const override { return "Bone Mask"; }
         virtual char const* GetCategory() const override { return "Values/Bone Mask"; }
         virtual TBitFlags<GraphType> GetAllowedParentGraphTypes() const override { return TBitFlags<GraphType>( GraphType::ValueTree, GraphType::TransitionTree ); }
-        virtual GraphNodeIndex Compile( EditorGraphCompilationContext& context ) const override;
+        virtual GraphNodeIndex Compile( GraphCompilationContext& context ) const override;
 
     private:
 
@@ -47,7 +47,7 @@ namespace KRG::Animation::GraphNodes
         virtual char const* GetTypeName() const override { return "Bone Mask Blend"; }
         virtual char const* GetCategory() const override { return "Values/Bone Mask"; }
         virtual TBitFlags<GraphType> GetAllowedParentGraphTypes() const override { return TBitFlags<GraphType>( GraphType::ValueTree, GraphType::TransitionTree ); }
-        virtual GraphNodeIndex Compile( EditorGraphCompilationContext& context ) const override;
+        virtual GraphNodeIndex Compile( GraphCompilationContext& context ) const override;
     };
 
     //-------------------------------------------------------------------------
@@ -68,7 +68,7 @@ namespace KRG::Animation::GraphNodes
         virtual TInlineString<100> GetNewDynamicInputPinName() const override { return "Mask"; }
         virtual uint32 GetDynamicInputPinValueType() const override { return (uint32) GraphValueType::BoneMask; }
 
-        virtual GraphNodeIndex Compile( EditorGraphCompilationContext& context ) const override;
+        virtual GraphNodeIndex Compile( GraphCompilationContext& context ) const override;
 
     private:
 

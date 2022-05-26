@@ -45,6 +45,9 @@ namespace KRG
 
         CurveEditor( FloatCurve& curve );
 
+        // Call this to notify the curve editor that the curve has been externally updated
+        void OnCurveExternallyUpdated() { m_curve.RegeneratePointIDs(); }
+
         // Resets the view and clears the selection 
         void ResetView() { ViewEntireCurve(); m_selectedPointIdx = InvalidIndex; }
 

@@ -38,7 +38,7 @@ namespace KRG::FileSystem
 
         struct FileModificationEvent
         {
-            FileModificationEvent( FileSystem::Path const& path ) : m_path( path ) { KRG_ASSERT( path.IsValid() && path.IsFile() ); }
+            FileModificationEvent( FileSystem::Path const& path ) : m_path( path ) { KRG_ASSERT( path.IsValid() && path.IsFilePath() ); }
 
             FileSystem::Path                            m_path;
             Milliseconds                                m_startTime = PlatformClock::GetTimeInMilliseconds();

@@ -2,6 +2,7 @@
 
 #include "System/Core/_Module/API.h"
 #include "System/Core/Serialization/Serialization.h"
+#include "System/Core/Memory/Memory.h"
 #include "String.h"
 
 //-------------------------------------------------------------------------

@@ -9,7 +9,7 @@
 namespace KRG::Animation
 {
     class EditorGraphDefinition;
-    class EditorGraphCompilationContext;
+    class GraphCompilationContext;
 
     //-------------------------------------------------------------------------
 

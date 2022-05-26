@@ -44,6 +44,15 @@ namespace KRG::Animation
         inline Percentage GetPercentageThrough() const { return m_percentageThrough; }
         inline bool IsExactlyAtKeyFrame() const { return m_percentageThrough == 0.0f; }
 
+        // Get the nearest frame index to the current time (basically acts as a round)
+        inline uint32 GetNearestFrameIndex() const { return m_frameIndex + (uint32) Math::Round( m_percentageThrough.ToFloat() ); }
+
+        // Get the lower bound frame index for the current time
+        inline uint32 GetLowerBoundFrameIndex() const { return m_frameIndex; }
+
+        // Get the upper bound frame index for the current time
+        inline uint32 GetUpperBoundFrameIndex() const { return m_frameIndex + 1; }
+
         inline float ToFloat() const { return m_percentageThrough.ToFloat() + m_frameIndex; }
 
         inline Seconds GetTimeInSeconds( Seconds frameLength ) const { KRG_ASSERT( frameLength > 0.0f );  return ToFloat() * frameLength; }
@@ -65,8 +74,8 @@ namespace KRG::Animation
 
     private:
 
-        uint32             m_frameIndex = 0;
-        Percentage      m_percentageThrough = Percentage( 0.0f );
+        uint32              m_frameIndex = 0;
+        Percentage          m_percentageThrough = Percentage( 0.0f );
     };
 
     //-------------------------------------------------------------------------

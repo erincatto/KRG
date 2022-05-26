@@ -2,7 +2,7 @@
 #include "EntityEditor_Context.h"
 #include "Engine/Core/Entity/EntityMap.h"
 #include "System/Render/Imgui/ImguiX.h"
-#include "System/Core/Math/Math.h"
+#include "System/Core/Math/MathRandom.h"
 #include "Engine/Core/Entity/Entity.h"
 
 //-------------------------------------------------------------------------

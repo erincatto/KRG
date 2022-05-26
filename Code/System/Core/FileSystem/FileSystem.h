@@ -2,79 +2,78 @@
 
 #include "System/Core/_Module/API.h"
 #include "System/Core/Types/String.h"
-#include "FileSystemPath.h"
+#include "System/Core/Types/Containers.h"
 
 //-------------------------------------------------------------------------
 
 namespace KRG::FileSystem
 {
-    // Raw functions
+    struct KRG_SYSTEM_CORE_API Settings
+    {
+        static char const s_pathDelimiter;
+    };
+
+    // General functions
     //-------------------------------------------------------------------------
 
+    // Converts a file path (relative, short, etc...) to a full path
+    KRG_SYSTEM_CORE_API bool GetFullPathString( char const* pPath, String& outPath );
+
+    // Converts a file path (relative, short, etc...) to a full path
+    KRG_FORCE_INLINE String GetFullPathString( char const* pPath )
+    {
+        String fullPath;
+        GetFullPathString( pPath, fullPath );
+        return fullPath;
+    }
+
+    // Gets the path with the correct case - only relevant for case-insensitive platforms
+    // Note: This is an expensive function that will create a file handle so be careful
+    KRG_SYSTEM_CORE_API bool GetCorrectCaseForPath( char const* pPath, String& outPath );
+
+    // Does the path point to an existing file/directory
     KRG_SYSTEM_CORE_API bool Exists( char const* pPath );
-    KRG_SYSTEM_CORE_API bool IsFile( char const* pPath );
-    KRG_SYSTEM_CORE_API bool IsDirectory( char const* pPath );
 
-    inline bool Exists( String const& filePath ) { return Exists( filePath.c_str() ); }
-    inline bool IsFile( String const& filePath ) { return IsFile( filePath.c_str() ); }
-    inline bool IsDirectory( String const& filePath ) { return IsDirectory( filePath.c_str() ); }
+    // Does the path point to an existing file/directory
+    KRG_FORCE_INLINE bool Exists( String const& filePath ) { return Exists( filePath.c_str() ); }
 
-    // Path functions
+    // Is this file directory read only
+    KRG_SYSTEM_CORE_API bool IsReadOnly( char const* pPath );
+
+    // File functions
     //-------------------------------------------------------------------------
     // These function also perform additional validation based on the path type
 
-    KRG_SYSTEM_CORE_API bool Exists( Path const& filePath );
-    KRG_SYSTEM_CORE_API bool EnsurePathExists( Path const& path );
+    // Does the path refer to an existing file
+    KRG_SYSTEM_CORE_API bool IsExistingFile( char const* pPath );
 
-    KRG_SYSTEM_CORE_API bool IsFileReadOnly( Path const& filePath );
-    KRG_SYSTEM_CORE_API uint64 GetFileModifiedTime( Path const& filePath );
-    KRG_SYSTEM_CORE_API bool EraseFile( Path const& filePath );
-    KRG_SYSTEM_CORE_API bool LoadFile( Path const& filePath, TVector<Byte>& fileData );
+    // Does the path refer to an existing file
+    KRG_FORCE_INLINE bool IsExistingFile( String const& filePath ) { return IsExistingFile( filePath.c_str() ); }
+
+    KRG_SYSTEM_CORE_API bool IsFileReadOnly( char const* filePath );
+    KRG_FORCE_INLINE bool IsFileReadOnly( String const& filePath ) { return IsFileReadOnly( filePath.c_str() ); }
+
+    KRG_SYSTEM_CORE_API uint64 GetFileModifiedTime( char const* filePath );
+    KRG_FORCE_INLINE uint64 GetFileModifiedTime( String const& filePath ) { return GetFileModifiedTime( filePath.c_str() ); }
     
-    KRG_SYSTEM_CORE_API bool CreateDir( Path const& path );
-    KRG_SYSTEM_CORE_API bool EraseDir( Path const& path );
+    KRG_SYSTEM_CORE_API bool EraseFile( char const* filePath );
+    KRG_FORCE_INLINE bool EraseFile( String const& filePath ) { return EraseFile( filePath.c_str() ); }
 
-    // This function will check the actual filesystem and ensure that the path string has the correct format whether its a file or a directory
-    // Note: this is not the cheapest function.
-    KRG_SYSTEM_CORE_API void EnsureCorrectPathStringFormat( Path& filePath );
-}
+    KRG_SYSTEM_CORE_API bool LoadFile( char const* filePath, TVector<Byte>& fileData );
+    KRG_FORCE_INLINE bool LoadFile( String const& filePath, TVector<Byte>& fileData ) { return LoadFile( filePath.c_str(), fileData ); }
+    
+    // Directory Functions
+    //-------------------------------------------------------------------------
 
-//-------------------------------------------------------------------------
-// Directory functions
-//-------------------------------------------------------------------------
+    // Does the path refer to an existing directory
+    KRG_SYSTEM_CORE_API bool IsExistingDirectory( char const* pPath );
 
-namespace KRG::FileSystem
-{
-    // What should we return
-    enum class DirectoryReaderOutput
-    {
-        All,
-        OnlyFiles,
-        OnlyDirectories
-    };
+    // Does the path refer to an existing directory
+    KRG_FORCE_INLINE bool IsExistingDirectory( String const& filePath ) { return IsExistingDirectory( filePath.c_str() ); }
 
-    // Should we expand sub-directories when reading contents?
-    enum class DirectoryReaderMode
-    {
-        Expand,
-        DontExpand,
-    };
+    KRG_SYSTEM_CORE_API bool CreateDir( char const* path );
+    KRG_FORCE_INLINE bool CreateDir( String const& path ) { return CreateDir( path.c_str() ); }
 
-    // Get the contents of a specified directory
-    // The extension filter is a list of extensions including the period e.g. extensionfilter = { ".txt", ".exe" }
-    KRG_SYSTEM_CORE_API bool GetDirectoryContents( Path const& directoryPath, TVector<Path>& contents, DirectoryReaderOutput output = DirectoryReaderOutput::All, DirectoryReaderMode mode = DirectoryReaderMode::Expand, TVector<String> const& extensionFilters = TVector<String>() );
-
-    // Get the contents of a specified directory
-    // All paths will be matched against the supplied regex expression
-    // WARNING!!! THIS IS VERY SLOW
-    KRG_SYSTEM_CORE_API bool GetDirectoryContents( Path const& directoryPath, char const* const pRegexExpression, TVector<Path>& contents, DirectoryReaderOutput output = DirectoryReaderOutput::All, DirectoryReaderMode mode = DirectoryReaderMode::Expand );
-}
-
-//-------------------------------------------------------------------------
-// Miscellaneous functions
-//-------------------------------------------------------------------------
-
-namespace KRG::FileSystem
-{
-    KRG_SYSTEM_CORE_API Path GetCurrentProcessPath();
+    KRG_SYSTEM_CORE_API bool EraseDir( char const* path );
+    KRG_FORCE_INLINE bool EraseDir( String const& path ) { return EraseDir( path.c_str() ); }
 }

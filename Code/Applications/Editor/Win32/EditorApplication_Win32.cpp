@@ -5,7 +5,7 @@
 #include "Applications/Shared/cmdParser/krg_cmdparser.h"
 #include "Applications/Shared/Win32/SharedHelpers_Win32.h"
 #include "System/Input/InputSystem.h"
-#include "System/Core/FileSystem/FileSystem.h"
+#include "System/Core/FileSystem/FileSystemUtils.h"
 #include "System/Core/Time/Timers.h"
 #include <tchar.h>
 #include <windows.h>
@@ -101,7 +101,7 @@ namespace KRG
     bool EditorApplication::ApplicationLoop()
     {
         // Uncomment for live editing of ImguiTheme
-        ImGuiX::Style::Apply();
+        //ImGuiX::Style::Apply();
         return m_editorEngine.Update();
     }
 

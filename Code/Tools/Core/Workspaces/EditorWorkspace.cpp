@@ -47,118 +47,43 @@ namespace KRG
         m_workspaceWindowID.sprintf( "%s###window%u", m_displayName.c_str(), GetID() );
     }
 
-    void EditorWorkspace::DrawDefaultToolbarItems()
+    void EditorWorkspace::DrawWorkspaceToolbar( UpdateContext const& context )
     {
-        bool const isSavingAllowed = AlwaysAllowSaving() || IsDirty();
-
-        ImGui::BeginDisabled( !isSavingAllowed );
-        if ( ImGui::MenuItem( KRG_ICON_SAVE"Save" ) )
+        if ( HasWorkspaceToolbarDefaultItems() )
         {
-            Save();
-        }
-        ImGui::EndDisabled();
+            bool const isSavingAllowed = AlwaysAllowSaving() || IsDirty();
 
-        ImGui::BeginDisabled( !CanUndo() );
-        if ( ImGui::MenuItem( KRG_ICON_UNDO"Undo" ) )
-        {
-            Undo();
-        }
-        ImGui::EndDisabled();
+            ImGui::BeginDisabled( !isSavingAllowed );
+            if ( ImGui::MenuItem( KRG_ICON_CONTENT_SAVE"##Save" ) )
+            {
+                Save();
+            }
+            ImGuiX::ItemTooltip( "Save" );
+            ImGui::EndDisabled();
 
-        ImGui::BeginDisabled( !CanRedo() );
-        if ( ImGui::MenuItem( KRG_ICON_REDO"Redo" ) )
-        {
-            Redo();
+            ImGui::BeginDisabled( !CanUndo() );
+            if ( ImGui::MenuItem( KRG_ICON_UNDO"##Undo" ) )
+            {
+                Undo();
+            }
+            ImGuiX::ItemTooltip( "Undo" );
+            ImGui::EndDisabled();
+
+            ImGui::BeginDisabled( !CanRedo() );
+            if ( ImGui::MenuItem( KRG_ICON_REDO"##Redo" ) )
+            {
+                Redo();
+            }
+            ImGuiX::ItemTooltip( "Redo" );
+            ImGui::EndDisabled();
         }
-        ImGui::EndDisabled();
+
+        //-------------------------------------------------------------------------
+
+        DrawWorkspaceToolbarItems( context );
     }
 
     //-------------------------------------------------------------------------
-
-    void EditorWorkspace::DrawDefaultViewportToolbarItems()
-    {
-        ImGui::SetNextItemWidth( 46 );
-        ImGui::PushStyleVar( ImGuiStyleVar_WindowPadding, ImVec2( 5, 5 ) );
-        if ( ImGui::BeginCombo( "##RenderingOptions", KRG_ICON_EYE, ImGuiComboFlags_HeightLarge ) )
-        {
-            Render::RenderDebugView::DrawRenderVisualizationModesMenu( GetWorld() );
-            ImGui::EndCombo();
-        }
-        ImGuiX::ItemTooltip( "Render Modes" );
-        ImGui::PopStyleVar();
-        ImGui::SameLine();
-
-        //-------------------------------------------------------------------------
-
-        ImGui::SetNextItemWidth( 46 );
-        ImGui::PushStyleVar( ImGuiStyleVar_WindowPadding, ImVec2( 5, 5 ) );
-        if ( ImGui::BeginCombo( "##CameraOptions", KRG_ICON_CAMERA, ImGuiComboFlags_HeightLarge ) )
-        {
-            CameraDebugView::DrawDebugCameraOptions( GetWorld() );
-
-            ImGui::EndCombo();
-        }
-        ImGuiX::ItemTooltip( "Camera Options" );
-        ImGui::PopStyleVar();
-        ImGui::SameLine();
-
-        //-------------------------------------------------------------------------
-
-        if ( m_allowWorldTimeControl )
-        {
-            if ( BeginViewportToolbarGroup( "TimeControls", ImVec2( 174, 0 ), ImVec2( 2, 1 ) ) )
-            {
-                ImGuiX::ScopedFont sf( ImGuiX::Font::Tiny );
-
-                // Play/Pause
-                if ( m_pWorld->IsPaused() )
-                {
-                    if ( ImGui::Button( KRG_ICON_PLAY"##ResumeWorld" ) )
-                    {
-                        SetWorldPaused( false );
-                    }
-                    ImGuiX::ItemTooltip( "Pause" );
-                }
-                else
-                {
-                    if ( ImGui::Button( KRG_ICON_PAUSE"##PauseWorld" ) )
-                    {
-                        SetWorldPaused( true );
-                    }
-                    ImGuiX::ItemTooltip( "Pause" );
-                }
-
-                // Step
-                ImGui::SameLine( 0, 0 );
-                ImGui::BeginDisabled( !m_pWorld->IsPaused() );
-                if ( ImGui::Button( KRG_ICON_STEP_FORWARD"##StepFrame" ) )
-                {
-                    m_pWorld->RequestTimeStep();
-                }
-                ImGuiX::ItemTooltip( "Step Frame" );
-                ImGui::EndDisabled();
-
-                // Slider
-                ImGui::SameLine( 0, 0 );
-                ImGui::SetNextItemWidth( 100 );
-                float newTimeScale = m_worldTimeScale;
-                if ( ImGui::SliderFloat( "##TimeScale", &newTimeScale, 0.1f, 3.5f, "%.2f", ImGuiSliderFlags_NoInput ) )
-                {
-                    SetWorldTimeScale( newTimeScale );
-                }
-                ImGuiX::ItemTooltip( "Time Scale" );
-
-                // Reset
-                ImGui::SameLine( 0, 0 );
-                if ( ImGui::Button( KRG_ICON_UNDO"##ResetTimeScale" ) )
-                {
-                    ResetWorldTimeScale();
-                }
-                ImGuiX::ItemTooltip( "Reset TimeScale" );
-            }
-            EndViewportToolbarGroup();
-        }
-    }
 
     bool EditorWorkspace::BeginViewportToolbarGroup( char const* pGroupID, ImVec2 groupSize, ImVec2 const& padding )
     {
@@ -189,6 +114,99 @@ namespace KRG
         ImGui::PopStyleColor( 5 );
 
         ImGui::SameLine();
+    }
+
+    void EditorWorkspace::DrawViewportToolbar( UpdateContext const& context, Render::Viewport const* pViewport )
+    {
+        ImGui::SetNextItemWidth( 48 );
+        ImGui::PushStyleVar( ImGuiStyleVar_WindowPadding, ImVec2( 5, 5 ) );
+        if ( ImGui::BeginCombo( "##RenderingOptions", KRG_ICON_EYE, ImGuiComboFlags_HeightLarge ) )
+        {
+            Render::RenderDebugView::DrawRenderVisualizationModesMenu( GetWorld() );
+            ImGui::EndCombo();
+        }
+        ImGuiX::ItemTooltip( "Render Modes" );
+        ImGui::PopStyleVar();
+        ImGui::SameLine();
+
+        //-------------------------------------------------------------------------
+
+        ImGui::SetNextItemWidth( 48 );
+        ImGui::PushStyleVar( ImGuiStyleVar_WindowPadding, ImVec2( 5, 5 ) );
+        if ( ImGui::BeginCombo( "##CameraOptions", KRG_ICON_CCTV, ImGuiComboFlags_HeightLarge ) )
+        {
+            CameraDebugView::DrawDebugCameraOptions( GetWorld() );
+
+            ImGui::EndCombo();
+        }
+        ImGuiX::ItemTooltip( "Camera Options" );
+        ImGui::PopStyleVar();
+        ImGui::SameLine();
+
+        //-------------------------------------------------------------------------
+
+        if ( HasViewportToolbarTimeControls() )
+        {
+            if ( BeginViewportToolbarGroup( "TimeControls", ImVec2( 200, 0 ), ImVec2( 2, 1 ) ) )
+            {
+                ImGuiX::ScopedFont sf( ImGuiX::Font::Small );
+
+                ImGui::PushStyleVar( ImGuiStyleVar_FramePadding, ImVec2( 0, 3 ) );
+
+                // Play/Pause
+                if ( m_pWorld->IsPaused() )
+                {
+                    if ( ImGui::Button( KRG_ICON_PLAY"##ResumeWorld", ImVec2( 20, 0 ) ) )
+                    {
+                        SetWorldPaused( false );
+                    }
+                    ImGuiX::ItemTooltip( "Pause" );
+                }
+                else
+                {
+                    if ( ImGui::Button( KRG_ICON_PAUSE"##PauseWorld", ImVec2( 20, 0 ) ) )
+                    {
+                        SetWorldPaused( true );
+                    }
+                    ImGuiX::ItemTooltip( "Pause" );
+                }
+
+                // Step
+                ImGui::SameLine( 0, 0 );
+                ImGui::BeginDisabled( !m_pWorld->IsPaused() );
+                if ( ImGui::Button( KRG_ICON_STEP_FORWARD"##StepFrame", ImVec2( 20, 0 ) ) )
+                {
+                    m_pWorld->RequestTimeStep();
+                }
+                ImGuiX::ItemTooltip( "Step Frame" );
+                ImGui::EndDisabled();
+
+                // Slider
+                ImGui::SameLine( 0, 0 );
+                ImGui::SetNextItemWidth( 136 );
+                float newTimeScale = m_worldTimeScale;
+                if ( ImGui::SliderFloat( "##TimeScale", &newTimeScale, 0.1f, 3.5f, "%.2f", ImGuiSliderFlags_NoInput ) )
+                {
+                    SetWorldTimeScale( newTimeScale );
+                }
+                ImGuiX::ItemTooltip( "Time Scale" );
+
+                // Reset
+                ImGui::SameLine( 0, 0 );
+                if ( ImGui::Button( KRG_ICON_UPDATE"##ResetTimeScale", ImVec2( 20, 0 ) ) )
+                {
+                    ResetWorldTimeScale();
+                }
+                ImGuiX::ItemTooltip( "Reset TimeScale" );
+
+                ImGui::PopStyleVar();
+            }
+            EndViewportToolbarGroup();
+        }
+
+        //-------------------------------------------------------------------------
+
+        DrawViewportToolbarItems( context, pViewport );
     }
 
     //-------------------------------------------------------------------------
@@ -265,7 +283,6 @@ namespace KRG
             if ( HasViewportToolbar() )
             {
                 ImGui::SetCursorPos( ImGui::GetWindowContentRegionMin() + ImGui::GetStyle().ItemSpacing );
-                DrawDefaultViewportToolbarItems();
                 DrawViewportToolbar( context, pViewport );
             }
 

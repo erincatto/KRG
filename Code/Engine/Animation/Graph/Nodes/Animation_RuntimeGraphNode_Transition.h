@@ -100,7 +100,7 @@ namespace KRG::Animation::GraphNodes
         void UpdateCachedPoseBufferIDState( GraphContext& context );
         void TransferAdditionalPoseBufferIDs( TInlineVector<UUID, 2>& outInheritedCachedPoseBufferIDs );
 
-        void RegisterPoseTasksAndUpdateDisplacement( GraphContext& context, GraphPoseNodeResult const& sourceResult, GraphPoseNodeResult const& targetResult, GraphPoseNodeResult& outResult );
+        void RegisterPoseTasksAndUpdateRootMotion( GraphContext& context, GraphPoseNodeResult const& sourceResult, GraphPoseNodeResult const& targetResult, GraphPoseNodeResult& outResult );
 
         inline void CalculateBlendWeight()
         {

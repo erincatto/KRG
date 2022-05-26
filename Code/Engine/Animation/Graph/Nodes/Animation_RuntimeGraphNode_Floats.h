@@ -10,6 +10,14 @@ namespace KRG::Animation::GraphNodes
     {
     public:
 
+        struct KRG_ENGINE_ANIMATION_API RemapRange : public IRegisteredType
+        {
+            KRG_REGISTER_TYPE( RemapRange );
+
+            float                       m_begin = 0;
+            float                       m_end = 0;
+        };
+
         struct KRG_ENGINE_ANIMATION_API Settings final : public FloatValueNode::Settings
         {
             KRG_REGISTER_TYPE( Settings );
@@ -18,8 +26,8 @@ namespace KRG::Animation::GraphNodes
             virtual void InstantiateNode( TVector<GraphNode*> const& nodePtrs, GraphDataSet const* pDataSet, InitOptions options ) const override;
 
             GraphNodeIndex              m_inputValueNodeIdx = InvalidIndex;
-            FloatRange                  m_inputRange = FloatRange( 0.0f );
-            FloatRange                  m_outputRange = FloatRange( 0.0f );
+            RemapRange                  m_inputRange;
+            RemapRange                  m_outputRange;
         };
 
     private:
@@ -100,7 +108,7 @@ namespace KRG::Animation::GraphNodes
         struct KRG_ENGINE_ANIMATION_API Settings final : public FloatValueNode::Settings
         {
             KRG_REGISTER_TYPE( Settings );
-            KRG_SERIALIZE_GRAPHNODESETTINGS( FloatValueNode::Settings, m_inputValueNodeIdx, m_easingType, m_easeTime );
+            KRG_SERIALIZE_GRAPHNODESETTINGS( FloatValueNode::Settings, m_inputValueNodeIdx, m_easeTime, m_initalValue, m_easingType, m_easeTime );
 
             virtual void InstantiateNode( TVector<GraphNode*> const& nodePtrs, GraphDataSet const* pDataSet, InitOptions options ) const override;
 
@@ -122,6 +130,36 @@ namespace KRG::Animation::GraphNodes
         FloatRange                      m_easeRange = FloatRange( 0.0f );
         float                           m_currentValue = 0.0f;
         float                           m_currentEaseTime = 0.0f;
+    };
+
+    //-------------------------------------------------------------------------
+
+    class KRG_ENGINE_ANIMATION_API FloatCurveNode final : public FloatValueNode
+    {
+    public:
+
+        struct KRG_ENGINE_ANIMATION_API Settings final : public FloatValueNode::Settings
+        {
+            KRG_REGISTER_TYPE( Settings );
+            KRG_SERIALIZE_GRAPHNODESETTINGS( FloatValueNode::Settings, m_inputValueNodeIdx, m_curve );
+
+            virtual void InstantiateNode( TVector<GraphNode*> const& nodePtrs, GraphDataSet const* pDataSet, InitOptions options ) const override;
+
+            GraphNodeIndex              m_inputValueNodeIdx = InvalidIndex;
+            FloatCurve                  m_curve;
+        };
+
+    private:
+
+        virtual void InitializeInternal( GraphContext& context ) override;
+        virtual void ShutdownInternal( GraphContext& context ) override;
+        virtual void GetValueInternal( GraphContext& context, void* pOutValue ) override;
+
+    private:
+
+        FloatValueNode*                 m_pInputValueNode = nullptr;
+        float                           m_currentValue = 0.0f;
+        FloatCurve                      m_curve;
     };
 
     //-------------------------------------------------------------------------
@@ -191,8 +229,8 @@ namespace KRG::Animation::GraphNodes
 
             virtual void InstantiateNode( TVector<GraphNode*> const& nodePtrs, GraphDataSet const* pDataSet, InitOptions options ) const override;
 
-            GraphNodeIndex                               m_inputValueNodeIdx = InvalidIndex;
-            GraphNodeIndex                               m_comparandValueNodeIdx = InvalidIndex;
+            GraphNodeIndex                          m_inputValueNodeIdx = InvalidIndex;
+            GraphNodeIndex                          m_comparandValueNodeIdx = InvalidIndex;
             Comparison                              m_comparison = Comparison::GreaterThanEqual;
             float                                   m_epsilon = 0.0f;
             float                                   m_comparisonValue = 0.0f;
@@ -225,7 +263,7 @@ namespace KRG::Animation::GraphNodes
             virtual void InstantiateNode( TVector<GraphNode*> const& nodePtrs, GraphDataSet const* pDataSet, InitOptions options ) const override;
 
             FloatRange                              m_range;
-            GraphNodeIndex                               m_inputValueNodeIdx = InvalidIndex;
+            GraphNodeIndex                          m_inputValueNodeIdx = InvalidIndex;
             bool                                    m_isInclusiveCheck = true;
         };
 
@@ -270,6 +308,34 @@ namespace KRG::Animation::GraphNodes
         BoolValueNode*                  m_pSwitchValueNode = nullptr;
         FloatValueNode*                 m_pTrueValueNode = nullptr;
         FloatValueNode*                 m_pFalseValueNode = nullptr;
+        float                           m_value = 0.0f;
+    };
+
+    //-------------------------------------------------------------------------
+
+    class KRG_ENGINE_ANIMATION_API FloatReverseDirectionNode final : public FloatValueNode
+    {
+    public:
+
+        struct KRG_ENGINE_ANIMATION_API Settings final : public FloatValueNode::Settings
+        {
+            KRG_REGISTER_TYPE( Settings );
+            KRG_SERIALIZE_GRAPHNODESETTINGS( FloatValueNode::Settings, m_inputValueNodeIdx );
+
+            virtual void InstantiateNode( TVector<GraphNode*> const& nodePtrs, GraphDataSet const* pDataSet, InitOptions options ) const override;
+
+            GraphNodeIndex              m_inputValueNodeIdx = InvalidIndex;
+        };
+
+    private:
+
+        virtual void InitializeInternal( GraphContext& context ) override;
+        virtual void ShutdownInternal( GraphContext& context ) override;
+        virtual void GetValueInternal( GraphContext& context, void* pOutValue ) override;
+
+    private:
+
+        FloatValueNode*                 m_pInputValueNode = nullptr;
         float                           m_value = 0.0f;
     };
 }

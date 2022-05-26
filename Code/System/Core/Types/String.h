@@ -1,7 +1,7 @@
 #pragma once
 
 #include "System/Core/_Module/API.h"
-#include "Containers.h"
+#include "IntegralTypes.h"
 #include <EASTL/string.h>
 #include <EASTL/fixed_string.h>
 #include <cstdio>
@@ -152,61 +152,14 @@ namespace KRG
 
         //-------------------------------------------------------------------------
 
-        inline uint32 StrToU32( String const& str )
-        {
-            char* pEnd;
-            auto result = strtoul( str.c_str(), &pEnd, 10 );
-            KRG_ASSERT( pEnd != nullptr );
-            return result;
-        }
-
-        inline uint64 StrToU64( String const& str )
-        {
-            char* pEnd;
-            auto result = strtoull( str.c_str(), &pEnd, 10 );
-            KRG_ASSERT( pEnd != nullptr );
-            return result;
-        }
-
-        inline int32 StrToS32( String const& str )
-        {
-            char* pEnd;
-            auto result = strtol( str.c_str(), &pEnd, 10 );
-            KRG_ASSERT( pEnd != nullptr );
-            return result;
-        }
-
-        inline int64 StrToS64( String const& str )
-        {
-            char* pEnd;
-            auto result = strtoll( str.c_str(), &pEnd, 10 );
-            KRG_ASSERT( pEnd != nullptr );
-            return result;
-        }
-
-        inline float StrToF32( String const& str )
-        {
-            char* pEnd;
-            auto result = strtof( str.c_str(), &pEnd );
-            KRG_ASSERT( pEnd != nullptr );
-            return result;
-        }
-
-        inline double StrToF64( String const& str )
-        {
-            char* pEnd;
-            auto result = strtod( str.c_str(), &pEnd );
-            KRG_ASSERT( pEnd != nullptr );
-            return result;
-        }
-
-        //-------------------------------------------------------------------------
-
-         // Is this a valid hex character (0-9 & A-F)
+        // Is this a valid hex character (0-9 & A-F)
         inline bool IsValidHexChar( char ch )
         {
             return (bool) isxdigit( ch );
         }
+
+        KRG_SYSTEM_CORE_API int32 CompareInsensitive( char const* pStr0, char const* pStr1 );
+        KRG_SYSTEM_CORE_API int32 CompareInsensitive( char const* pStr0, char const* pStr1, size_t n );
 
         //-------------------------------------------------------------------------
 

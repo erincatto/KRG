@@ -7,7 +7,7 @@ namespace KRG
 {
     static size_t FindExtensionStartIdx( String const& path )
     {
-        size_t const pathDelimiterIdx = path.find_last_of( FileSystem::Path::s_pathDelimiter );
+        size_t const pathDelimiterIdx = path.find_last_of( ResourcePath::s_pathDelimiter );
 
         size_t idx = path.rfind( '.' );
         size_t prevIdx = idx;
@@ -37,7 +37,7 @@ namespace KRG
             return false;
         }
 
-        if ( strncmp( ResourcePath::s_pathPrefix, pPath, s_pathPrefixLength ) != 0 )
+        if ( StringUtils::CompareInsensitive( ResourcePath::s_pathPrefix, pPath, s_pathPrefixLength ) != 0 )
         {
             return false;
         }
@@ -52,7 +52,7 @@ namespace KRG
 
     ResourcePath ResourcePath::FromFileSystemPath( FileSystem::Path const& rawResourceDirectoryPath, FileSystem::Path const& filePath )
     {
-        KRG_ASSERT( rawResourceDirectoryPath.IsValid() && rawResourceDirectoryPath.IsDirectory() && filePath.IsValid() );
+        KRG_ASSERT( rawResourceDirectoryPath.IsValid() && rawResourceDirectoryPath.IsDirectoryPath() && filePath.IsValid() );
 
         ResourcePath path;
 
@@ -60,7 +60,7 @@ namespace KRG
         {
             String tempPath = ResourcePath::s_pathPrefix;
             tempPath.append( filePath.GetString().substr( rawResourceDirectoryPath.Length() ) );
-            eastl::replace( tempPath.begin(), tempPath.end(), FileSystem::Path::s_pathDelimiter, ResourcePath::s_pathDelimiter );
+            eastl::replace( tempPath.begin(), tempPath.end(), FileSystem::Settings::s_pathDelimiter, ResourcePath::s_pathDelimiter );
             path = ResourcePath( tempPath );
         }
 
@@ -69,13 +69,16 @@ namespace KRG
 
     FileSystem::Path ResourcePath::ToFileSystemPath( FileSystem::Path const& rawResourceDirectoryPath, ResourcePath const& resourcePath )
     {
-        KRG_ASSERT( rawResourceDirectoryPath.IsValid() && rawResourceDirectoryPath.IsDirectory() && resourcePath.IsValid() );
+        KRG_ASSERT( rawResourceDirectoryPath.IsValid() && rawResourceDirectoryPath.IsDirectoryPath() && resourcePath.IsValid() );
 
         // Replace slashes and remove prefix
-        String tempPath = resourcePath.m_path;
-        eastl::replace( tempPath.begin(), tempPath.end(), ResourcePath::s_pathDelimiter, FileSystem::Path::s_pathDelimiter );
-        tempPath = resourcePath.m_path.substr( 7 );
-        return FileSystem::Path( rawResourceDirectoryPath + tempPath );
+        String tempPath( rawResourceDirectoryPath );
+        tempPath += resourcePath.m_path.substr( 7 );
+        eastl::replace( tempPath.begin(), tempPath.end(), ResourcePath::s_pathDelimiter, FileSystem::Settings::s_pathDelimiter );
+
+        FileSystem::GetCorrectCaseForPath( tempPath.c_str(), tempPath );
+
+        return FileSystem::Path( tempPath );
     }
 
     //-------------------------------------------------------------------------
@@ -132,7 +135,8 @@ namespace KRG
     {
         if ( IsValidPath( m_path ) )
         {
-            m_ID = Hash::GetHash32( m_path );
+            m_path.make_lower();
+            m_ID = Hash::GetHash32( m_path.c_str() );
         }
         else
         {
@@ -144,6 +148,7 @@ namespace KRG
     String ResourcePath::GetFileNameWithoutExtension() const
     {
         KRG_ASSERT( IsValid() && IsFile() );
+
         auto filenameStartIdx = m_path.find_last_of( s_pathDelimiter );
         KRG_ASSERT( filenameStartIdx != String::npos );
         filenameStartIdx++;

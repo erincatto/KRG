@@ -46,7 +46,7 @@ namespace KRG::Animation
             for ( auto boneIdx = 0; boneIdx < numBones; boneIdx++ )
             {
                 pTrackData = ReadCompressedTrackKeyFrame( pTrackData, m_trackCompressionSettings[boneIdx], frameTime.GetFrameIndex(), boneTransform );
-                pOutPose->SetTransform( boneIdx, boneTransform );
+                pOutPose->m_localTransforms[boneIdx] = boneTransform;
             }
         }
         else // Read interpolated anim pose
@@ -55,37 +55,12 @@ namespace KRG::Animation
             for ( auto boneIdx = 0; boneIdx < numBones; boneIdx++ )
             {
                 pTrackData = ReadCompressedTrackTransform( pTrackData, m_trackCompressionSettings[boneIdx], frameTime, boneTransform );
-                pOutPose->SetTransform( boneIdx, boneTransform );
-            }
-        }
-    }
-
-    Transform AnimationClip::GetRootTransform( FrameTime const& frameTime ) const
-    {
-        KRG_ASSERT( IsValid() );
-        KRG_ASSERT( frameTime.GetFrameIndex() < m_numFrames );
-
-        Transform displacementTransform;
-
-        if ( m_rootMotionTrack.empty() )
-        {
-            displacementTransform = Transform::Identity;
-        }
-        else
-        {
-            if ( frameTime.IsExactlyAtKeyFrame() )
-            {
-                displacementTransform = m_rootMotionTrack[frameTime.GetFrameIndex()];
-            }
-            else // Read interpolated transform
-            {
-                Transform const& frameStartTransform = m_rootMotionTrack[frameTime.GetFrameIndex()];
-                Transform const& frameEndTransform = m_rootMotionTrack[frameTime.GetFrameIndex() + 1];
-                displacementTransform = Transform::Slerp( frameStartTransform, frameEndTransform, frameTime.GetPercentageThrough() );
+                pOutPose->m_localTransforms[boneIdx] = boneTransform;
             }
         }
 
-        return displacementTransform;
+        // Flag the pose as being set
+        pOutPose->m_state = m_isAdditive ? Pose::State::AdditivePose : Pose::State::Pose;
     }
 
     Transform AnimationClip::GetLocalSpaceTransform( int32 boneIdx, FrameTime const& frameTime ) const
@@ -185,31 +160,4 @@ namespace KRG::Animation
 
         return globalTransform;
     }
-
-    //-------------------------------------------------------------------------
-
-    #if KRG_DEVELOPMENT_TOOLS
-    void AnimationClip::DrawRootMotionPath( Drawing::DrawContext& ctx, Transform const& worldTransform ) const
-    {
-        constexpr static float const axisSize = 0.02f;
-        constexpr static float const axisThickness = 2.0f;
-
-        if ( m_rootMotionTrack.empty() )
-        {
-            return;
-        }
-
-        auto previousWorldRootMotionTransform = m_rootMotionTrack[0] * worldTransform;
-        ctx.DrawAxis( previousWorldRootMotionTransform, axisSize );
-
-        auto const numTransforms = m_rootMotionTrack.size();
-        for ( auto i = 1; i < numTransforms; i++ )
-        {
-            auto const worldRootMotionTransform = m_rootMotionTrack[i] * worldTransform;
-            ctx.DrawLine( previousWorldRootMotionTransform.GetTranslation(), worldRootMotionTransform.GetTranslation(), ( i % 2 == 0 ) ? Colors::Yellow : Colors::HotPink, 2.5f );
-            ctx.DrawAxis( worldRootMotionTransform, axisSize, axisThickness );
-            previousWorldRootMotionTransform = worldRootMotionTransform;
-        }
-    }
-    #endif
 }

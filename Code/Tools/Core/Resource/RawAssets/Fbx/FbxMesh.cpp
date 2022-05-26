@@ -145,7 +145,13 @@ namespace KRG
                 // Find all meshes in the sceneCtx
                 //-------------------------------------------------------------------------
 
-                TInlineVector<FbxMesh*, 20> meshes;
+                struct FoundMesh
+                {
+                    FbxMesh* m_pMesh ;
+                    bool isSkinned;
+                };
+
+                TInlineVector<FoundMesh, 20> meshes;
                 auto numGeometries = sceneCtx.m_pScene->GetGeometryCount();
 
                 if ( numGeometries == 0 )
@@ -160,7 +166,7 @@ namespace KRG
                     if ( pGeometry->Is<FbxMesh>() )
                     {
                         FbxMesh* pMesh = static_cast<FbxMesh*>( pGeometry );
-                        meshes.push_back( pMesh );
+                        meshes.push_back( { pMesh, pMesh->GetDeformerCount(FbxDeformer::eSkin) > 0 } );
                     }
                 }
 
@@ -168,8 +174,15 @@ namespace KRG
                 // Note: this needs to be done in two passes since these operations reorder the geometries in the sceneCtx and pScene->GetGeometry( x ) doesnt return what you expect
                 bool meshFound = false;
                 TVector<TVector<uint32>> controlPointVertexMapping;
-                for ( auto pMesh : meshes )
+                for ( auto foundMesh : meshes )
                 {
+                    if ( rawMesh.m_isSkeletalMesh && !foundMesh.isSkinned )
+                    {
+                        continue;
+                    }
+
+                    auto pMesh = foundMesh.m_pMesh;
+
                     // If we've specified a specific mesh name to compile, skip all other meshes
                     if ( !nameOfMeshToCompile.empty() )
                     {

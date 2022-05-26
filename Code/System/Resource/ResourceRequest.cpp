@@ -276,7 +276,7 @@ namespace KRG::Resource
 
         {
             KRG_PROFILE_SCOPE_IO( "Read File" );
-            KRG_PROFILE_TAG( "filename", m_rawResourcePath.GetFileName().c_str() );
+            KRG_PROFILE_TAG( "filename", m_rawResourcePath.GetFilename().c_str() );
 
             if ( !FileSystem::LoadFile( m_rawResourcePath, m_rawResourceData ) )
             {

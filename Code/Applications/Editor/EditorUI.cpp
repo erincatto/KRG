@@ -167,13 +167,40 @@ namespace KRG
             if ( ImGui::Begin( "Font Test", &m_isFontTestWindowOpen ) )
             {
                 {
-                    ImGuiX::ScopedFont sf( ImGuiX::Font::Tiny );
-                    ImGuiX::ColoredButton( Colors::Green, Colors::White, KRG_ICON_PLUS"ADD" );
+                    ImGuiX::ScopedFont sf( ImGuiX::Font::Small );
+                    ImGui::Text( KRG_ICON_FILE_CHECK"This is a test - Small" );
                 }
                 {
-                    ImGuiX::ScopedFont sf( ImGuiX::Font::TinyBold );
-                    ImGuiX::ColoredButton( Colors::Green, Colors::White, KRG_ICON_PLUS"ADD" );
+                    ImGuiX::ScopedFont sf( ImGuiX::Font::SmallBold );
+                    ImGui::Text( KRG_ICON_ALERT"This is a test - Small Bold" );
                 }
+                {
+                    ImGuiX::ScopedFont sf( ImGuiX::Font::Medium );
+                    ImGui::Text( KRG_ICON_FILE_CHECK"This is a test - Medium" );
+                }
+                {
+                    ImGuiX::ScopedFont sf( ImGuiX::Font::MediumBold );
+                    ImGui::Text( KRG_ICON_ALERT"This is a test - Medium Bold" );
+                }
+                {
+                    ImGuiX::ScopedFont sf( ImGuiX::Font::Large );
+                    ImGui::Text( KRG_ICON_FILE_CHECK"This is a test - Large" );
+                }
+                {
+                    ImGuiX::ScopedFont sf( ImGuiX::Font::LargeBold );
+                    ImGui::Text( KRG_ICON_CCTV_OFF"This is a test - Large Bold" );
+                }
+                {
+                    ImGuiX::ScopedFont sf( ImGuiX::Font::Huge );
+                    ImGui::Text( KRG_ICON_FILE_CHECK"This is a test - Huge" );
+                }
+                {
+                    ImGuiX::ScopedFont sf( ImGuiX::Font::HugeBold );
+                    ImGui::Text( KRG_ICON_ALERT"This is a test - Huge Bold" );
+                }
+
+                //-------------------------------------------------------------------------
+
                 {
                     ImGuiX::ScopedFont sf( ImGuiX::Font::Small );
                     ImGuiX::ColoredButton( Colors::Green, Colors::White, KRG_ICON_PLUS"ADD" );
@@ -316,6 +343,31 @@ namespace KRG
 
         if ( ImGui::BeginMenu( "System" ) )
         {
+            if ( ImGui::BeginMenu( "Frame Rate Limiter" ) )
+            {
+                bool noLimit = !context.HasFrameRateLimit();
+                if ( ImGui::MenuItem( "None", nullptr, &noLimit ) )
+                {
+                    const_cast<UpdateContext&>( context ).SetFrameRateLimit( 0.0f );
+                }
+
+                bool is30FPS = context.HasFrameRateLimit() && context.GetFrameRateLimit() == 30.0f;
+                if ( ImGui::MenuItem( "30 FPS", nullptr, &is30FPS ) )
+                {
+                    const_cast<UpdateContext&>( context ).SetFrameRateLimit( 30.0f );
+                }
+
+                bool is60FPS = context.HasFrameRateLimit() && context.GetFrameRateLimit() == 60.0f;
+                if ( ImGui::MenuItem( "60 FPS", nullptr, &is60FPS ) )
+                {
+                    const_cast<UpdateContext&>( context ).SetFrameRateLimit( 60.0f );
+                }
+
+                ImGui::EndMenu();
+            }
+
+            ImGui::Separator();
+
             ImGui::MenuItem( "Debug Settings", nullptr, &m_isDebugSettingsWindowOpen );
             ImGui::MenuItem( "System Log", nullptr, &m_isSystemLogWindowOpen );
 
@@ -326,31 +378,6 @@ namespace KRG
 
             ImGui::EndMenu();
         }
-
-        //-------------------------------------------------------------------------
-        // Game Preview
-        //-------------------------------------------------------------------------
-
-        ImGui::BeginDisabled( !m_context.IsGamePreviewAllowed() );
-        if ( m_context.IsGamePreviewRunning() )
-        {
-            char const * const stopPreviewStr = KRG_ICON_STOP" Stop Game Preview";
-            ImGui::SameLine( menuDimensions.x / 2 - ImGui::CalcTextSize( stopPreviewStr ).x / 2 );
-            if ( ImGui::MenuItem( stopPreviewStr ) )
-            {
-                m_context.StopGamePreview( context );
-            }
-        }
-        else
-        {
-            char const * const startPreviewStr = KRG_ICON_PLAY" Preview Game";
-            ImGui::SameLine( menuDimensions.x / 2 - ImGui::CalcTextSize( startPreviewStr ).x / 2 );
-            if ( ImGui::MenuItem( startPreviewStr ) )
-            {
-                m_context.StartGamePreview( context );
-            }
-        }
-        ImGui::EndDisabled();
 
         //-------------------------------------------------------------------------
         // Draw Performance Stats

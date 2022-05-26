@@ -2,6 +2,7 @@
 #include "ImguiPlatform_Win32.h"
 #include "imgui.h"
 #include "System/Core/Platform/PlatformHelpers_Win32.h"
+#include "System/Core/Memory/Memory.h"
 #include <tchar.h>
 
 //-------------------------------------------------------------------------

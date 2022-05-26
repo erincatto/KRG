@@ -20,6 +20,7 @@
     <ClInclude Include="AnimationClip.h" />
     <ClInclude Include="AnimationEvent.h" />
     <ClInclude Include="AnimationFrameTime.h" />
+    <ClInclude Include="AnimationRootMotion.h" />
     <ClInclude Include="AnimationSyncTrack.h" />
     <ClInclude Include="Components\Component_AnimationGraph.h" />
     <ClInclude Include="Components\Component_AnimationClipPlayer.h" />
@@ -29,6 +30,7 @@
     <ClInclude Include="Events\AnimationEvent_Foot.h" />
     <ClInclude Include="AnimationTarget.h" />
     <ClInclude Include="AnimationCommon.h" />
+    <ClInclude Include="Graph\Nodes\Animation_RuntimeGraphNode_CachedValues.h" />
     <ClInclude Include="Graph\Nodes\Animation_RuntimeGraphNode_Warping.h" />
     <ClInclude Include="Graph\Animation_RuntimeGraph_RootMotionRecorder.h" />
     <ClInclude Include="Graph\Nodes\Animation_RuntimeGraphNode_Ragdoll.h" />
@@ -81,6 +83,7 @@
     <ClCompile Include="AnimationBoneMask.cpp" />
     <ClCompile Include="AnimationClip.cpp" />
     <ClCompile Include="AnimationFrameTime.cpp" />
+    <ClCompile Include="AnimationRootMotion.cpp" />
     <ClCompile Include="AnimationSyncTrack.cpp" />
     <ClCompile Include="AnimationEvent.cpp" />
     <ClCompile Include="Components\Component_AnimationGraph.cpp" />
@@ -90,6 +93,7 @@
     <ClCompile Include="Events\AnimationEvent_ID.cpp" />
     <ClCompile Include="Events\AnimationEvent_Foot.cpp" />
     <ClCompile Include="AnimationTarget.cpp" />
+    <ClCompile Include="Graph\Nodes\Animation_RuntimeGraphNode_CachedValues.cpp" />
     <ClCompile Include="Graph\Nodes\Animation_RuntimeGraphNode_Warping.cpp" />
     <ClCompile Include="Graph\Animation_RuntimeGraph_RootMotionRecorder.cpp" />
     <ClCompile Include="Graph\Nodes\Animation_RuntimeGraphNode_Ragdoll.cpp" />

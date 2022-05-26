@@ -234,7 +234,6 @@ namespace KRG::Render
         // Serialize
         //-------------------------------------------------------------------------
 
-        FileSystem::EnsurePathExists( ctx.m_outputFilePath );
         Serialization::BinaryFileArchive archive( Serialization::Mode::Write, ctx.m_outputFilePath );
         if ( archive.IsValid() )
         {
@@ -308,7 +307,6 @@ namespace KRG::Render
         // Serialize
         //-------------------------------------------------------------------------
 
-        FileSystem::EnsurePathExists( ctx.m_outputFilePath );
         Serialization::BinaryFileArchive archive( Serialization::Mode::Write, ctx.m_outputFilePath );
         if ( archive.IsValid() )
         {

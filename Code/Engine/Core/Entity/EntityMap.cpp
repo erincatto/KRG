@@ -169,6 +169,9 @@ namespace KRG::EntityModel
     {
         KRG_ASSERT( pEntity != nullptr && pEntity->m_mapID == m_ID );
 
+        // Lock the map
+        Threading::RecursiveScopeLock lock( m_mutex );
+
         // Remove from lookup map
         auto nameLookupIter = m_entityNameLookupMap.find( pEntity->m_name );
         KRG_ASSERT( nameLookupIter != m_entityNameLookupMap.end() );
@@ -227,7 +230,6 @@ namespace KRG::EntityModel
         Threading::RecursiveScopeLock lock( m_mutex );
 
         pEntity->m_mapID = m_ID;
-        AddEntityToLookupMaps( pEntity );
         m_entitiesToAdd.emplace_back( pEntity );
     }
 
@@ -258,6 +260,16 @@ namespace KRG::EntityModel
                 KRG_UNREACHABLE_CODE();
             }
         }
+
+        //-------------------------------------------------------------------------
+
+        KRG_ASSERT( pEntityToRemove != nullptr );
+
+        #if KRG_DEVELOPMENT_TOOLS
+        InlineString const newNameStr( InlineString::CtorSprintf(), "%s - ToBeRemoved", pEntityToRemove->GetName().c_str() );
+        StringID const newNameID( newNameStr.c_str() );
+        RenameEntity( pEntityToRemove, newNameID );
+        #endif
 
         return pEntityToRemove;
     }
@@ -291,6 +303,16 @@ namespace KRG::EntityModel
                 KRG_UNREACHABLE_CODE();
             }
         }
+
+        //-------------------------------------------------------------------------
+
+        KRG_ASSERT( pEntityToDestroy != nullptr );
+
+        #if KRG_DEVELOPMENT_TOOLS
+        InlineString const newNameStr( InlineString::CtorSprintf(), "%s - ToBeDestroyed", pEntityToDestroy->GetName().c_str() );
+        StringID const newNameID( newNameStr.c_str() );
+        RenameEntity( pEntityToDestroy, newNameID );
+        #endif
     }
 
     void EntityMap::DestroyAllEntities()
@@ -536,24 +558,18 @@ namespace KRG::EntityModel
         {
             if ( m_pMapDesc->IsValid() )
             {
-                // Create entities
+                // Create all required entities
                 TVector<Entity*> const createdEntities = m_pMapDesc.GetPtr()->InstantiateCollection( loadingContext.m_pTaskSystem, *loadingContext.m_pTypeRegistry );
 
-                // Add and load all entities
+                // Reserve memory for new entities in internal structures
                 m_entities.reserve( m_entities.size() + createdEntities.size() );
                 m_entityIDLookupMap.reserve( m_entityIDLookupMap.size() + createdEntities.size() );
                 m_entitiesCurrentlyLoading.reserve( m_entitiesCurrentlyLoading.size() + m_pMapDesc.GetPtr()->GetNumEntityDescriptors() );
-
+                
+                // Add entities
                 for ( auto pEntity : createdEntities )
                 {
-                    pEntity->m_mapID = m_ID;
-                    m_entities.emplace_back( pEntity );
-                    AddEntityToLookupMaps( pEntity );
-
-                    // Request load
-                    pEntity->LoadComponents( loadingContext );
-                    KRG_ASSERT( !VectorContains( m_entitiesCurrentlyLoading, pEntity ) );
-                    m_entitiesCurrentlyLoading.emplace_back( pEntity );
+                    AddEntity( pEntity );
                 }
 
                 m_isMapInstantiated = true;
@@ -585,29 +601,6 @@ namespace KRG::EntityModel
         m_editedEntities.clear();
         #endif
 
-        // Addition
-        //-------------------------------------------------------------------------
-
-        // Wait until we have a collection to add the entities too since the map might still be loading
-        if ( m_isMapInstantiated )
-        {
-            // Add entities to the collection and request load
-            for ( auto pEntityToAdd : m_entitiesToAdd )
-            {
-                // Ensure that the entity to add, is not already part of a collection and that it's deactivated
-                KRG_ASSERT( pEntityToAdd != nullptr && pEntityToAdd->m_mapID == m_ID && !pEntityToAdd->IsActivated() );
-                KRG_ASSERT( ContainsEntity( pEntityToAdd->m_ID ) );
-
-                m_entities.push_back( pEntityToAdd );
-
-                pEntityToAdd->LoadComponents( loadingContext );
-                KRG_ASSERT( !VectorContains( m_entitiesCurrentlyLoading, pEntityToAdd ) );
-                m_entitiesCurrentlyLoading.emplace_back( pEntityToAdd );
-            }
-
-            m_entitiesToAdd.clear();
-        }
-
         // Removal
         //-------------------------------------------------------------------------
 
@@ -623,14 +616,16 @@ namespace KRG::EntityModel
                 pEntityToRemove->Deactivate( activationContext );
                 continue;
             }
-            else // Remove from loading list as we might still be loaded this entity
+            else // Remove from loading list as we might still be loading this entity
             {
                 m_entitiesCurrentlyLoading.erase_first_unsorted( pEntityToRemove );
+
+                // Remove from all internal maps
+                RemoveEntityFromLookupMaps( pEntityToRemove );
 
                 // Unload components and remove from collection
                 pEntityToRemove->UnloadComponents( loadingContext );
                 pEntityToRemove->m_mapID.Clear();
-                RemoveEntityFromLookupMaps( pEntityToRemove );
                 m_entities.erase_first( pEntityToRemove );
 
                 // Destroy the entity if this is a destruction request
@@ -642,6 +637,31 @@ namespace KRG::EntityModel
                 // Remove the request from the list
                 m_entitiesToRemove.erase_unsorted( m_entitiesToRemove.begin() + i );
             }
+        }
+
+        // Addition
+        //-------------------------------------------------------------------------
+
+        // Wait until we have a collection to add the entities too since the map might still be loading
+        if ( m_isMapInstantiated )
+        {
+            // Add entities to the collection and request load
+            for ( auto pEntityToAdd : m_entitiesToAdd )
+            {
+                // Ensure that the entity to add, is not already part of a collection and that it's deactivated
+                KRG_ASSERT( pEntityToAdd != nullptr && pEntityToAdd->m_mapID == m_ID && !pEntityToAdd->IsActivated() );
+
+                // Request component load
+                pEntityToAdd->LoadComponents( loadingContext );
+                KRG_ASSERT( !VectorContains( m_entitiesCurrentlyLoading, pEntityToAdd ) );
+                m_entitiesCurrentlyLoading.emplace_back( pEntityToAdd );
+
+                // Add entity to internal structures
+                m_entities.push_back( pEntityToAdd );
+                AddEntityToLookupMaps( pEntityToAdd );
+            }
+
+            m_entitiesToAdd.clear();
         }
     }
 

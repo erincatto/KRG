@@ -47,11 +47,14 @@ namespace KRG
         if ( m_path.IsValid() )
         {
             auto const pExtension = m_path.GetExtension();
-            m_type = ResourceTypeID( pExtension );
+            if (pExtension != nullptr)
+            {
+                m_type = ResourceTypeID( pExtension );
+                return;
+            }
         }
-        else // Invalidate this resource ID
-        {
-            m_type = ResourceTypeID();
-        }
+
+        // Invalidate this resource ID
+        m_type = ResourceTypeID();
     }
 }

@@ -80,17 +80,7 @@ namespace KRG::Animation::GraphNodes
         {
             MarkNodeActive( context );
             float const inputValue = m_pInputValueNode->GetValue<float>( context );
-            Percentage const percentageThroughInputRange( pSettings->m_inputRange.GetPercentageThroughClamped( inputValue ) );
-
-            if ( pSettings->m_outputRange.IsValid() )
-            {
-                m_value = pSettings->m_outputRange.GetValueForPercentageThroughClamped( percentageThroughInputRange );
-            }
-            else
-            {
-                FloatRange const validRange( pSettings->m_outputRange.m_end, pSettings->m_outputRange.m_start );
-                m_value = validRange.GetValueForPercentageThroughClamped( 1.0f - percentageThroughInputRange );
-            }
+            m_value = Math::RemapRangeClamped( inputValue, pSettings->m_inputRange.m_begin, pSettings->m_inputRange.m_end, pSettings->m_outputRange.m_begin, pSettings->m_outputRange.m_end );
         }
 
         *reinterpret_cast<float*>( pOutValue ) = m_value;
@@ -221,7 +211,7 @@ namespace KRG::Animation::GraphNodes
                 if ( inputTargetValue != m_easeRange.m_end )
                 {
                     m_easeRange.m_end = inputTargetValue;
-                    m_easeRange.m_start = m_currentValue;
+                    m_easeRange.m_begin = m_currentValue;
                     m_currentEaseTime = 0;
                 }
 
@@ -231,8 +221,46 @@ namespace KRG::Animation::GraphNodes
                 // Calculate the new value, based on the percentage through the blend calculated by the easing function
                 float const T = Math::Clamp( m_currentEaseTime / pSettings->m_easeTime, 0.0f, 1.0f );
                 float const blendValue = Math::Easing::EvaluateEasingFunction( pSettings->m_easingType, T ) * m_easeRange.GetLength();
-                m_currentValue = m_easeRange.m_start + blendValue;
+                m_currentValue = m_easeRange.m_begin + blendValue;
             }
+        }
+
+        *reinterpret_cast<float*>( pOutValue ) = m_currentValue;
+    }
+
+    //-------------------------------------------------------------------------
+
+    void FloatCurveNode::Settings::InstantiateNode( TVector<GraphNode*> const& nodePtrs, GraphDataSet const* pDataSet, InitOptions options ) const
+    {
+        auto pNode = CreateNode<FloatCurveNode>( nodePtrs, options );
+        SetNodePtrFromIndex( nodePtrs, m_inputValueNodeIdx, pNode->m_pInputValueNode );
+    }
+
+    void FloatCurveNode::InitializeInternal( GraphContext& context )
+    {
+        KRG_ASSERT( context.IsValid() && m_pInputValueNode != nullptr );
+        FloatValueNode::InitializeInternal( context );
+        m_pInputValueNode->Initialize( context );
+    }
+
+    void FloatCurveNode::ShutdownInternal( GraphContext& context )
+    {
+        KRG_ASSERT( context.IsValid() && m_pInputValueNode != nullptr );
+        m_pInputValueNode->Shutdown( context );
+        FloatValueNode::ShutdownInternal( context );
+    }
+
+    void FloatCurveNode::GetValueInternal( GraphContext& context, void* pOutValue )
+    {
+        KRG_ASSERT( context.IsValid() && m_pInputValueNode != nullptr );
+        auto pSettings = GetSettings<FloatCurveNode>();
+
+        if ( !WasUpdated( context ) )
+        {
+            MarkNodeActive( context );
+
+            float const inputTargetValue = m_pInputValueNode->GetValue<float>( context );
+            m_currentValue = pSettings->m_curve.Evaluate( inputTargetValue );
         }
 
         *reinterpret_cast<float*>( pOutValue ) = m_currentValue;
@@ -453,5 +481,49 @@ namespace KRG::Animation::GraphNodes
         }
 
         *( (bool*) pOutValue ) = m_result;
+    }
+
+    //-------------------------------------------------------------------------
+
+    void FloatReverseDirectionNode::Settings::InstantiateNode( TVector<GraphNode*> const& nodePtrs, GraphDataSet const* pDataSet, InitOptions options ) const
+    {
+        auto pNode = CreateNode<FloatReverseDirectionNode>( nodePtrs, options );
+        SetNodePtrFromIndex( nodePtrs, m_inputValueNodeIdx, pNode->m_pInputValueNode );
+    }
+
+    void FloatReverseDirectionNode::InitializeInternal( GraphContext& context )
+    {
+        KRG_ASSERT( context.IsValid() && m_pInputValueNode != nullptr );
+        FloatValueNode::InitializeInternal( context );
+        m_pInputValueNode->Initialize( context );
+    }
+
+    void FloatReverseDirectionNode::ShutdownInternal( GraphContext& context )
+    {
+        KRG_ASSERT( context.IsValid() && m_pInputValueNode != nullptr );
+        m_pInputValueNode->Shutdown( context );
+        FloatValueNode::ShutdownInternal( context );
+    }
+
+    void FloatReverseDirectionNode::GetValueInternal( GraphContext& context, void* pOutValue )
+    {
+        KRG_ASSERT( context.IsValid() && m_pInputValueNode != nullptr );
+
+        if ( !WasUpdated( context ) )
+        {
+            MarkNodeActive( context );
+            float const inputValue = m_pInputValueNode->GetValue<float>( context );
+            
+            if ( inputValue < 0.0f )
+            {
+                m_value = -180.0f -inputValue;
+            }
+            else
+            {
+                m_value = 180.0f - inputValue;
+            }
+        }
+
+        *reinterpret_cast<float*>( pOutValue ) = m_value;
     }
 }

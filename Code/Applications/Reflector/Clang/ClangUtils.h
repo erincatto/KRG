@@ -6,7 +6,7 @@
 #include <clang/AST/Type.h>
 #include <clang-c/Index.h>
 
-#include "System/Core/FileSystem/FileSystem.h"
+#include "System/Core/FileSystem/FileSystemPath.h"
 
 //-------------------------------------------------------------------------
 
@@ -43,6 +43,7 @@ namespace KRG
         }
 
         void GetDiagnostics( CXTranslationUnit& TU, TVector<String>& diagnostics );
+
         FileSystem::Path GetHeaderPathForCursor( CXCursor cr );
 
         //-------------------------------------------------------------------------

@@ -51,9 +51,9 @@ namespace KRG::Timeline
         // Get the length of the item in timeline units
         inline float GetLength() const { return GetTimeRange().GetLength(); }
 
-        inline bool IsImmediateItem() const { return GetTimeRange().m_start == GetTimeRange().m_end; }
+        inline bool IsImmediateItem() const { return GetTimeRange().m_begin == GetTimeRange().m_end; }
 
-        inline bool IsDurationItem() const { return GetTimeRange().m_start != GetTimeRange().m_end; }
+        inline bool IsDurationItem() const { return GetTimeRange().m_begin != GetTimeRange().m_end; }
 
         // Context menu
         //-------------------------------------------------------------------------

@@ -5,7 +5,7 @@
 #include "Applications/Shared/ApplicationGlobalState.h"
 #include "Applications/Shared/cmdParser/krg_cmdparser.h"
 #include "System/Core/Logging/Log.h"
-#include "System/Core/FileSystem/FileSystem.h"
+#include "System/Core/FileSystem/FileSystemUtils.h"
 #include "System/Core/Time/Timers.h"
 #include "System/Core/Algorithm/TopologicalSort.h"
 
@@ -86,7 +86,7 @@ namespace KRG::TypeSystem::Reflection
 
     bool Reflector::ParseSolution( FileSystem::Path const& slnPath )
     {
-        if ( !slnPath.IsValid() || slnPath.IsDirectory() || !slnPath.MatchesExtension( "sln" ) )
+        if ( !slnPath.IsValid() || slnPath.IsDirectoryPath() || !slnPath.MatchesExtension( "sln" ) )
         {
             return LogError( "Invalid solution file name: %s", slnPath.c_str() );
         }

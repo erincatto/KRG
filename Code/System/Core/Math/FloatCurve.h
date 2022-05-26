@@ -52,7 +52,7 @@ namespace KRG
             TangentMode     m_tangentMode = TangentMode::Free;
 
             #if KRG_DEVELOPMENT_TOOLS
-            uint16          m_ID;
+            uint16          m_ID; // Not serialized, runtime generated through edit operations
             #endif
         };
 
@@ -77,7 +77,7 @@ namespace KRG
 
         // Evaluate the curve and return the value for the specified input parameter
         // If the parameter supplied is outside the parameter range the value returned will be that of the nearest extremity point
-        float Evaluate( float parameter );
+        float Evaluate( float parameter ) const;
 
         // Curve manipulation
         //-------------------------------------------------------------------------
@@ -89,6 +89,10 @@ namespace KRG
         void SetPointInTangent( int32 pointIdx, float tangent );
         void RemovePoint( int32 pointIdx );
         void Clear() { m_points.clear(); }
+
+        #if KRG_DEVELOPMENT_TOOLS
+        void RegeneratePointIDs();
+        #endif
 
         // Serialization
         //-------------------------------------------------------------------------

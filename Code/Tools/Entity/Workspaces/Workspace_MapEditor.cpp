@@ -179,15 +179,43 @@ namespace KRG::EntityModel
 
     //-------------------------------------------------------------------------
 
-    void EntityMapEditor::OnGamePreviewStarted()
+    void EntityMapEditor::DrawWorkspaceToolbarItems( UpdateContext const& context )
+    {
+        ImVec2 const menuDimensions = ImGui::GetContentRegionMax();
+
+        ImGui::BeginDisabled( !HasLoadedMap() );
+        if ( m_isGamePreviewRunning )
+        {
+            char const * const stopPreviewStr = KRG_ICON_STOP" Stop Game Preview";
+            ImGui::SameLine( menuDimensions.x / 2 - ImGui::CalcTextSize( stopPreviewStr ).x / 2 );
+            if ( ImGui::MenuItem( stopPreviewStr ) )
+            {
+                m_gamePreviewStopRequested.Execute( context );
+            }
+        }
+        else
+        {
+            char const * const startPreviewStr = KRG_ICON_PLAY" Preview Game";
+            ImGui::SameLine( menuDimensions.x / 2 - ImGui::CalcTextSize( startPreviewStr ).x / 2 );
+            if ( ImGui::MenuItem( startPreviewStr ) )
+            {
+                m_gamePreviewStartRequested.Execute( context );
+            }
+        }
+        ImGui::EndDisabled();
+    }
+
+    //-------------------------------------------------------------------------
+
+    void EntityMapEditor::NotifyGamePreviewStarted()
     {
         m_pWorld->SuspendUpdates();
         m_isGamePreviewRunning = true;
     }
 
-    void EntityMapEditor::OnGamePreviewEnded()
+    void EntityMapEditor::NotifyGamePreviewEnded()
     {
-        m_isGamePreviewRunning = false;
         m_pWorld->ResumeUpdates();
+        m_isGamePreviewRunning = false;
     }
 }

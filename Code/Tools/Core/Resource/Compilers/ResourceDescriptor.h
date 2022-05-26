@@ -42,7 +42,7 @@ namespace KRG::Resource
         {
             static_assert( std::is_base_of<ResourceDescriptor, T>::value, "T must be a child of ResourceDescriptor" );
 
-            KRG_ASSERT( descriptorPath.IsFile() );
+            KRG_ASSERT( descriptorPath.IsFilePath() );
 
             TypeSystem::Serialization::TypeWriter typeWriter( typeRegistry );
             typeWriter << pDescriptorData;

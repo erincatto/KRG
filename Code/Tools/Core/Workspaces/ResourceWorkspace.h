@@ -38,10 +38,10 @@ namespace KRG
         virtual void Shutdown( UpdateContext const& context ) override;
         virtual void InitializeDockingLayout( ImGuiID dockspaceID ) const override;
         virtual void UpdateWorkspace( UpdateContext const& context, ImGuiWindowClass* pWindowClass ) override;
-        virtual void DrawWorkspaceToolbar( UpdateContext const& context );
+        virtual void DrawWorkspaceToolbarItems( UpdateContext const& context );
         virtual bool IsDirty() const override { return m_isDirty; }
         virtual bool Save() override;
-        virtual void OnUndoRedo( UndoStack::Operation operation, IUndoableAction const* pAction ) override { m_descriptorPropertyGrid.MarkDirty(); }
+        virtual void PostUndoRedo( UndoStack::Operation operation, IUndoableAction const* pAction ) override { m_descriptorPropertyGrid.MarkDirty(); }
 
         // Undo/Redo
         void PreEdit( PropertyEditInfo const& info );

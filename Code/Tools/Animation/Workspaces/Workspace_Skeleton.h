@@ -48,9 +48,6 @@ namespace KRG::Animation
         virtual void EndHotReload() override;
         virtual void InitializeDockingLayout( ImGuiID dockspaceID ) const override;
         virtual void UpdateWorkspace( UpdateContext const& context, ImGuiWindowClass* pWindowClass ) override;
-        
-        virtual bool HasViewportToolbar() const override { return true; }
-        virtual void DrawViewportToolbar( UpdateContext const& context, Render::Viewport const* pViewport ) override;
 
         void DrawDetailsWindow( UpdateContext const& context );
         void DrawSkeletonHierarchyWindow( UpdateContext const& context );

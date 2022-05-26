@@ -14,7 +14,7 @@ namespace KRG::Animation::GraphNodes
         CreateInputPin( "Scale", GraphValueType::Float );
     }
 
-    GraphNodeIndex SpeedScaleEditorNode::Compile( EditorGraphCompilationContext& context ) const
+    GraphNodeIndex SpeedScaleEditorNode::Compile( GraphCompilationContext& context ) const
     {
         SpeedScaleNode::Settings* pSettings = nullptr;
         NodeCompilationState const state = context.GetSettings<SpeedScaleNode>( this, pSettings );
@@ -73,12 +73,12 @@ namespace KRG::Animation::GraphNodes
     void VelocityBasedSpeedScaleEditorNode::Initialize( VisualGraph::BaseGraph* pParent )
     {
         EditorGraphNode::Initialize( pParent );
-        CreateOutputPin( "Result", GraphValueType::Float, true );
+        CreateOutputPin( "Result", GraphValueType::Pose, true );
         CreateInputPin( "Input", GraphValueType::Pose );
         CreateInputPin( "Scale", GraphValueType::Float );
     }
 
-    GraphNodeIndex VelocityBasedSpeedScaleEditorNode::Compile( EditorGraphCompilationContext& context ) const
+    GraphNodeIndex VelocityBasedSpeedScaleEditorNode::Compile( GraphCompilationContext& context ) const
     {
         VelocityBasedSpeedScaleNode::Settings* pSettings = nullptr;
         NodeCompilationState const state = context.GetSettings<VelocityBasedSpeedScaleNode>( this, pSettings );

@@ -775,8 +775,14 @@ namespace KRG::TypeSystem::Conversion
                 case CoreTypeID::TypeID:
                 {
                     char const* pStr = reinterpret_cast<TypeID const*>( pValue )->ToStringID().c_str();
-                    KRG_ASSERT( pStr != nullptr );
-                    strValue = pStr;
+                    if (pStr != nullptr)
+                    {
+                        strValue = pStr;
+                    }
+                    else
+                    {
+                        strValue.clear();
+                    }
                 }
                 break;
 
@@ -923,14 +929,14 @@ namespace KRG::TypeSystem::Conversion
                 case CoreTypeID::IntRange:
                 {
                     IntRange const* pRange = reinterpret_cast<IntRange const*>( pValue );
-                    IntArrayToString( &pRange->m_start, 3, strValue );
+                    IntArrayToString( &pRange->m_begin, 3, strValue );
                 }
                 break;
 
                 case CoreTypeID::FloatRange:
                 {
                     FloatRange const* pRange = reinterpret_cast<FloatRange const*>( pValue );
-                    FloatArrayToString( &pRange->m_start, 3, strValue );
+                    FloatArrayToString( &pRange->m_begin, 3, strValue );
                 }
                 break;
 

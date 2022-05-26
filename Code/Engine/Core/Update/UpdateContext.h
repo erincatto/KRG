@@ -25,6 +25,12 @@ namespace KRG
         template<typename T> 
         KRG_FORCE_INLINE T* GetSystem() const { return m_pSystemRegistry->GetSystem<T>(); }
 
+        // Frame rate limiter
+        inline bool HasFrameRateLimit() const { return m_frameRateLimitFPS > 0; }
+        inline void SetFrameRateLimit( float FPS ) { m_frameRateLimitFPS = Math::Max( 0.0f, FPS ); }
+        inline float GetFrameRateLimit() const { KRG_ASSERT( HasFrameRateLimit() ); return m_frameRateLimitFPS; }
+        inline Milliseconds GetLimitedFrameTime() const { KRG_ASSERT( HasFrameRateLimit() ); return Milliseconds( 1000 ) / m_frameRateLimitFPS; }
+
     protected:
 
         // Set the time delta for this update
@@ -41,6 +47,7 @@ namespace KRG
 
         Seconds                                     m_deltaTime = 1.0f / 60.0f;
         uint64                                      m_frameID = 0;
+        float                                       m_frameRateLimitFPS = 0.0f;
         UpdateStage                                 m_stage = UpdateStage::FrameStart;
         SystemRegistry*                             m_pSystemRegistry = nullptr;
     };

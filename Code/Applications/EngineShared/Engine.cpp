@@ -533,14 +533,16 @@ namespace KRG
         }
         #endif
 
-        // Hacky frame limiter
-        //constexpr float const minFrameTime = 1000.0f / 30;
-        /*constexpr float const minFrameTime = 1000.0f / 60;
-        if ( deltaTime < minFrameTime )
+        // Frame rate limiter
+        if ( m_updateContext.HasFrameRateLimit() )
         {
-            Threading::Sleep( minFrameTime - deltaTime );
-            deltaTime = minFrameTime;
-        }*/
+            float const minimumFrameTime = m_updateContext.GetLimitedFrameTime();
+            if ( deltaTime < minimumFrameTime )
+            {
+                Threading::Sleep( minimumFrameTime - deltaTime );
+                deltaTime = minimumFrameTime;
+            }
+        }
 
         m_updateContext.UpdateDeltaTime( deltaTime );
         EngineClock::Update( deltaTime );

@@ -1,5 +1,6 @@
 #pragma once
 #include "System/Core/Types/UUID.h"
+#include "System/Core/Types/Containers.h"
 
 //-------------------------------------------------------------------------
 
@@ -10,10 +11,10 @@ namespace KRG { class UpdateContext; }
 
 namespace KRG::Animation
 {
-    class EditorGraphDefinition;
+    class GraphEditorContext;
     struct DebugContext;
 
-    namespace GraphNodes 
+    namespace GraphNodes
     {
         class ControlParameterEditorNode;
         class VirtualParameterEditorNode;
@@ -46,7 +47,7 @@ namespace KRG::Animation
 
     public:
 
-        GraphControlParameterEditor( EditorGraphDefinition* pGraphDefinition );
+        GraphControlParameterEditor( GraphEditorContext& editorContext );
         ~GraphControlParameterEditor();
 
         // Draw the control parameter editor, returns true if there is a request the calling code needs to fulfill i.e. navigation
@@ -70,7 +71,7 @@ namespace KRG::Animation
 
     private:
 
-        EditorGraphDefinition*                          m_pGraphDefinition = nullptr;
+        GraphEditorContext&                             m_editorContext;
         GraphNodes::VirtualParameterEditorNode*         m_pVirtualParamaterToEdit = nullptr;
         UUID                                            m_currentOperationParameterID;
         OperationType                                   m_activeOperation;

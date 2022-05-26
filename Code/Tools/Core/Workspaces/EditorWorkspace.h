@@ -65,8 +65,14 @@ namespace KRG
         // Does this workspace have a toolbar?
         virtual bool HasWorkspaceToolbar() const { return true; }
 
+        // Does this workspace's viewport have the default items (save/undo/redo)?
+        virtual bool HasWorkspaceToolbarDefaultItems() const { return true; }
+
         // Does this workspace's viewport have a toolbar?
         virtual bool HasViewportToolbar() const { return false; }
+
+        // Should we draw the time control widget in the viewport toolbar
+        virtual bool HasViewportToolbarTimeControls() const { return false; }
 
         // Does this workspace's viewport have a orientation guide drawn?
         virtual bool HasViewportOrientationGuide() const { return true; }
@@ -94,21 +100,22 @@ namespace KRG
         virtual void InitializeDockingLayout( ImGuiID dockspaceID ) const = 0;
 
         // Draw any toolbar buttons that this workspace needs
-        virtual void DrawWorkspaceToolbar( UpdateContext const& context ) { DrawDefaultToolbarItems(); }
+        virtual void DrawWorkspaceToolbarItems( UpdateContext const& context ) {}
+
+        // Draws the workspace toolbar menu
+        void DrawWorkspaceToolbar( UpdateContext const& context );
 
         // Called within the context of a large overlay window allowing you to draw helpers and widgets over a viewport
         virtual void DrawViewportOverlayElements( UpdateContext const& context, Render::Viewport const* pViewport ) {}
 
         // Draw the viewport toolbar
-        virtual void DrawViewportToolbar( UpdateContext const& context, Render::Viewport const* pViewport ) {}
+        virtual void DrawViewportToolbarItems( UpdateContext const& context, Render::Viewport const* pViewport ) {}
 
         // Draw the viewport for this workspace
         bool DrawViewport( UpdateContext const& context, ViewportInfo const& viewportInfo, ImGuiWindowClass* pWindowClass );
 
         // Preview World Functions
         //-------------------------------------------------------------------------
-
-        void SetWorldTimeControlsEnabled( bool timeControlsEnabled ) { m_allowWorldTimeControl = timeControlsEnabled; }
 
         void SetViewportCameraSpeed( float cameraSpeed );
 
@@ -124,12 +131,13 @@ namespace KRG
         //-------------------------------------------------------------------------
 
         // Called whenever we execute an undo or redo action
-        virtual void OnUndoRedo( UndoStack::Operation operation, IUndoableAction const* pAction ) {}
+        virtual void PreUndoRedo( UndoStack::Operation operation ) {}
+        virtual void PostUndoRedo( UndoStack::Operation operation, IUndoableAction const* pAction ) {}
 
         inline bool CanUndo() { return m_undoStack.CanUndo(); }
-        inline void Undo() { auto pAction = m_undoStack.Undo(); OnUndoRedo( UndoStack::Operation::Undo, pAction ); }
+        inline void Undo() { PreUndoRedo( UndoStack::Operation::Undo ); auto pAction = m_undoStack.Undo(); PostUndoRedo( UndoStack::Operation::Undo, pAction ); }
         inline bool CanRedo() { return m_undoStack.CanRedo(); }
-        inline void Redo() { auto pAction = m_undoStack.Redo(); OnUndoRedo( UndoStack::Operation::Redo, pAction ); }
+        inline void Redo() { PreUndoRedo( UndoStack::Operation::Redo ); auto pAction = m_undoStack.Redo(); PostUndoRedo( UndoStack::Operation::Redo, pAction ); }
 
         // Saving and Dirty state
         //-------------------------------------------------------------------------
@@ -164,11 +172,8 @@ namespace KRG
         // Set the workspace tab-title
         void SetDisplayName( String const& name );
 
-        // Draw the default workspace toolbar menu items (save, undo, redo, etc...)
-        void DrawDefaultToolbarItems();
-
-        // Draw the default workspace toolbar menu items (rendering options, camera, etc...)
-        void DrawDefaultViewportToolbarItems();
+        // Draws the viewport toolbar
+        void DrawViewportToolbar( UpdateContext const& context, Render::Viewport const* pViewport );
 
         // Begin a toolbar group
         bool BeginViewportToolbarGroup( char const* pGroupID, ImVec2 groupSize, ImVec2 const& padding = ImVec2( 4.0f, 4.0f ) );
@@ -238,7 +243,6 @@ namespace KRG
     private:
 
         // Time controls
-        bool                                        m_allowWorldTimeControl = false;
         float                                       m_worldTimeScale = 1.0f;
 
         // Hot-reloading

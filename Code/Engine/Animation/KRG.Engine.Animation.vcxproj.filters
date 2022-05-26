@@ -108,6 +108,8 @@
     <ClCompile Include="Graph\Animation_RuntimeGraph_RootMotionRecorder.cpp" />
     <ClCompile Include="Graph\Nodes\Animation_RuntimeGraphNode_Warping.cpp" />
     <ClCompile Include="Events\AnimationEvent_Warp.cpp" />
+    <ClCompile Include="AnimationRootMotion.cpp" />
+    <ClCompile Include="Graph\Nodes\Animation_RuntimeGraphNode_CachedValues.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="_Module\API.h">
@@ -186,5 +188,7 @@
     <ClInclude Include="Graph\Animation_RuntimeGraph_RootMotionRecorder.h" />
     <ClInclude Include="Graph\Nodes\Animation_RuntimeGraphNode_Warping.h" />
     <ClInclude Include="Events\AnimationEvent_Warp.h" />
+    <ClInclude Include="AnimationRootMotion.h" />
+    <ClInclude Include="Graph\Nodes\Animation_RuntimeGraphNode_CachedValues.h" />
   </ItemGroup>
 </Project>

@@ -3,7 +3,7 @@
 #include "System/Render/RenderSettings.h"
 #include "System/Core/Logging/Log.h"
 #include "System/Core/Time/Timers.h"
-#include "System/Core/FileSystem/FileSystem.h"
+#include "System/Core/FileSystem/FileSystemUtils.h"
 #include "System/Render/Imgui/Platform/ImguiPlatform_win32.h"
 #include <tchar.h>
 

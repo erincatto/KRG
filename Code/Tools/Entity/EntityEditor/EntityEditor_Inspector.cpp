@@ -175,7 +175,7 @@ namespace KRG::EntityModel
             }
 
             ImGui::SameLine( ImGui::GetContentRegionAvail().x + ImGui::GetStyle().ItemSpacing.x - 22, 0 );
-            if ( ImGui::Button( KRG_ICON_EDIT, ImVec2( 22, 0 ) ) )
+            if ( ImGui::Button( KRG_ICON_PLAYLIST_EDIT, ImVec2( 22, 0 ) ) )
             {
                 m_context.SelectEntity( m_pEntity );
                 ClearSelection();
@@ -517,7 +517,7 @@ namespace KRG::EntityModel
             }
 
             ImGui::SameLine();
-            if ( ImGui::Button( KRG_ICON_TIMES_CIRCLE "##Clear Filter", ImVec2( 22, 0 ) ) )
+            if ( ImGui::Button( KRG_ICON_CLOSE_CIRCLE "##Clear Filter", ImVec2( 22, 0 ) ) )
             {
                 m_filterBuffer[0] = 0;
                 filterUpdated = true;

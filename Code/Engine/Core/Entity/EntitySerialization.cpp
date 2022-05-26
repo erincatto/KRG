@@ -702,7 +702,7 @@ namespace KRG::EntityModel::Serialization
         // Write to disk
         //-------------------------------------------------------------------------
 
-        FileSystem::EnsurePathExists( outFilePath );
+        outFilePath.EnsureDirectoryExists();
 
         FILE* fp = fopen( outFilePath.c_str(), "w" );
         if ( fp == nullptr )

@@ -85,10 +85,17 @@ namespace KRG
         TInlineString<5> const resourceTypeIDString = resourceTypeID.ToString();
         TypeSystem::ResourceInfo const* pResourceInfo = pTypeRegistry->GetResourceInfoForResourceType( resourceTypeID );
 
-        FileSystem::Path const outPath = SaveDialog( resourceTypeID, m_startingPath, pResourceInfo->m_friendlyName );
+        FileSystem::Path outPath = SaveDialog( resourceTypeID, m_startingPath, pResourceInfo->m_friendlyName );
         if ( !outPath.IsValid() )
         {
             return false;
+        }
+
+        // Ensure that the extension matches the expected type
+        auto const extension = outPath.GetExtensionAsString();
+        if ( extension != resourceTypeIDString.c_str() )
+        {
+            outPath.ReplaceExtension( resourceTypeIDString.c_str() );
         }
 
         KRG_ASSERT( m_pDescriptor != nullptr );

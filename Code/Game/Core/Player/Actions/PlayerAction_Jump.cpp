@@ -104,7 +104,7 @@ namespace KRG::Player
         {
             m_jumpTimer.Update( ctx.GetDeltaTime() );
 
-            float deltaHeight = ctx.m_pPlayerComponent->jumpCurve.Evaluate( m_jumpTimer.GetElapsedTimeSeconds() / jumpTime ) * ( m_isChargedJumpReady ? g_bigJumpDistance : g_smallJumpDistance ) - m_previousHeight;
+            float deltaHeight = ctx.m_pPlayerComponent->m_jumpCurve.Evaluate( m_jumpTimer.GetElapsedTimeSeconds() / jumpTime ) * ( m_isChargedJumpReady ? g_bigJumpDistance : g_smallJumpDistance ) - m_previousHeight;
             float verticalVelocity = deltaHeight / ctx.GetDeltaTime();
             m_previousHeight += deltaHeight;
 

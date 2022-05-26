@@ -99,6 +99,20 @@ namespace KRG::Animation
 
         AnimationClip animData;
         animData.m_pSkeleton = resourceDescriptor.m_pSkeleton;
+
+        if ( resourceDescriptor.m_hackedImport )
+        {
+            for ( auto& t : pRawAnimation->GetTrackData()[0].m_transforms )
+            {
+                const_cast<Transform&>( t ) = Transform( Quaternion( EulerAngles( Degrees( -90 ), 0, 0 ) ) ) * t;
+            }
+
+            for ( auto& t : pRawAnimation->GetRootMotion() )
+            {
+                const_cast<Transform&>( t ) = Transform( Quaternion( EulerAngles( Degrees( 90 ), 0, 0 ) ) ) * t;
+            }
+        }
+
         TransferAndCompressAnimationData( *pRawAnimation, animData );
 
         // Handle events
@@ -113,7 +127,6 @@ namespace KRG::Animation
         // Serialize animation data
         //-------------------------------------------------------------------------
 
-        FileSystem::EnsurePathExists( ctx.m_outputFilePath );
         Serialization::BinaryFileArchive archive( Serialization::Mode::Write, ctx.m_outputFilePath );
         if ( archive.IsValid() )
         {
@@ -147,12 +160,12 @@ namespace KRG::Animation
         auto const& rawTrackData = rawAnimData.GetTrackData();
         int32 const numBones = rawAnimData.GetNumBones();
 
-        // Transfer basic anim data
+        // Transfer basic animation data
         //-------------------------------------------------------------------------
 
         animClip.m_numFrames = rawAnimData.GetNumFrames();
         animClip.m_duration = ( animClip.IsSingleFrameAnimation() ) ? 0.0f : rawAnimData.GetDuration();
-        animClip.m_rootMotionTrack = rawAnimData.GetRootMotion();
+        animClip.m_rootMotion.m_transforms = rawAnimData.GetRootMotion();
 
         // Calculate root motion extra data
         //-------------------------------------------------------------------------
@@ -165,7 +178,7 @@ namespace KRG::Animation
             // Track deltas
             if ( i > 0 )
             {
-                Transform const deltaRoot = Transform::DeltaNoScale( animClip.m_rootMotionTrack[i - 1], animClip.m_rootMotionTrack[i] );
+                Transform const deltaRoot = Transform::DeltaNoScale( animClip.m_rootMotion.m_transforms[i - 1], animClip.m_rootMotion.m_transforms[i] );
                 totalDistance += deltaRoot.GetTranslation().GetLength3();
 
                 // If we have a rotation delta, accumulate the yaw value
@@ -178,9 +191,9 @@ namespace KRG::Animation
             }
         }
 
-        animClip.m_totalRootMotionDelta = Transform::DeltaNoScale( animClip.m_rootMotionTrack.front(), animClip.m_rootMotionTrack.back() );
-        animClip.m_averageLinearVelocity = totalDistance / animClip.GetDuration();
-        animClip.m_averageAngularVelocity = totalRotation / animClip.GetDuration();
+        animClip.m_rootMotion.m_totalDelta = Transform::DeltaNoScale( animClip.m_rootMotion.m_transforms.front(), animClip.m_rootMotion.m_transforms.back() );
+        animClip.m_rootMotion.m_averageLinearVelocity = totalDistance / animClip.GetDuration();
+        animClip.m_rootMotion.m_averageAngularVelocity = totalRotation / animClip.GetDuration();
 
         // Compress raw data
         //-------------------------------------------------------------------------
@@ -235,9 +248,9 @@ namespace KRG::Animation
             }
             else
             {
-                trackSettings.m_translationRangeX = { rawTranslationValueRangeX.m_start, Math::IsNearZero( rawTranslationValueRangeLengthX ) ? defaultQuantizationRangeLength : rawTranslationValueRangeLengthX };
-                trackSettings.m_translationRangeY = { rawTranslationValueRangeY.m_start, Math::IsNearZero( rawTranslationValueRangeLengthY ) ? defaultQuantizationRangeLength : rawTranslationValueRangeLengthY };
-                trackSettings.m_translationRangeZ = { rawTranslationValueRangeZ.m_start, Math::IsNearZero( rawTranslationValueRangeLengthZ ) ? defaultQuantizationRangeLength : rawTranslationValueRangeLengthZ };
+                trackSettings.m_translationRangeX = { rawTranslationValueRangeX.m_begin, Math::IsNearZero( rawTranslationValueRangeLengthX ) ? defaultQuantizationRangeLength : rawTranslationValueRangeLengthX };
+                trackSettings.m_translationRangeY = { rawTranslationValueRangeY.m_begin, Math::IsNearZero( rawTranslationValueRangeLengthY ) ? defaultQuantizationRangeLength : rawTranslationValueRangeLengthY };
+                trackSettings.m_translationRangeZ = { rawTranslationValueRangeZ.m_begin, Math::IsNearZero( rawTranslationValueRangeLengthZ ) ? defaultQuantizationRangeLength : rawTranslationValueRangeLengthZ };
             }
 
             //-------------------------------------------------------------------------
@@ -298,9 +311,9 @@ namespace KRG::Animation
             }
             else
             {
-                trackSettings.m_scaleRangeX = { rawScaleValueRangeX.m_start, Math::IsNearZero( rawScaleValueRangeLengthX ) ? defaultQuantizationRangeLength : rawScaleValueRangeLengthX };
-                trackSettings.m_scaleRangeY = { rawScaleValueRangeY.m_start, Math::IsNearZero( rawScaleValueRangeLengthY ) ? defaultQuantizationRangeLength : rawScaleValueRangeLengthY };
-                trackSettings.m_scaleRangeZ = { rawScaleValueRangeZ.m_start, Math::IsNearZero( rawScaleValueRangeLengthZ ) ? defaultQuantizationRangeLength : rawScaleValueRangeLengthZ };
+                trackSettings.m_scaleRangeX = { rawScaleValueRangeX.m_begin, Math::IsNearZero( rawScaleValueRangeLengthX ) ? defaultQuantizationRangeLength : rawScaleValueRangeLengthX };
+                trackSettings.m_scaleRangeY = { rawScaleValueRangeY.m_begin, Math::IsNearZero( rawScaleValueRangeLengthY ) ? defaultQuantizationRangeLength : rawScaleValueRangeLengthY };
+                trackSettings.m_scaleRangeZ = { rawScaleValueRangeZ.m_begin, Math::IsNearZero( rawScaleValueRangeLengthZ ) ? defaultQuantizationRangeLength : rawScaleValueRangeLengthZ };
             }
 
             //-------------------------------------------------------------------------
@@ -351,7 +364,7 @@ namespace KRG::Animation
         //-------------------------------------------------------------------------
 
         // Check if there is potential additional event data
-        auto trackDataIter = document.FindMember( EventTrack::s_eventTrackContainerKey );
+        auto trackDataIter = document.FindMember( Timeline::TrackContainer::s_trackContainerKey );
         if ( trackDataIter == document.MemberEnd() )
         {
             return true;
@@ -405,11 +418,11 @@ namespace KRG::Animation
                     Warning( "Event extend outside the valid animation time range, event will be clamped to animation range" );
 
                     FloatRange clampedRange = pEvent->GetTimeRange();
-                    clampedRange.m_start = animationTimeRange.GetClampedValue( clampedRange.m_start );
+                    clampedRange.m_begin = animationTimeRange.GetClampedValue( clampedRange.m_begin );
                     clampedRange.m_end = animationTimeRange.GetClampedValue( clampedRange.m_end );
                     KRG_ASSERT( clampedRange.IsSetAndValid() );
 
-                    pEvent->m_startTime = clampedRange.m_start;
+                    pEvent->m_startTime = clampedRange.m_begin;
                     pEvent->m_duration = clampedRange.GetLength();
                 }
 

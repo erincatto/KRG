@@ -8,13 +8,13 @@ namespace KRG::Animation::GraphNodes
 {
     void PoweredRagdollEditorNode::Initialize( VisualGraph::BaseGraph* pParent )
     {
-        EditorGraphNode::Initialize( pParent );
+        DataSlotEditorNode::Initialize( pParent );
         CreateOutputPin( "Result", GraphValueType::Pose, true );
         CreateInputPin( "Input", GraphValueType::Pose );
         CreateInputPin( "Physics Blend Weight", GraphValueType::Float );
     }
 
-    GraphNodeIndex PoweredRagdollEditorNode::Compile( EditorGraphCompilationContext& context ) const
+    GraphNodeIndex PoweredRagdollEditorNode::Compile( GraphCompilationContext& context ) const
     {
         PoweredRagdollNode::Settings* pSettings = nullptr;
         NodeCompilationState const state = context.GetSettings<PoweredRagdollNode>( this, pSettings );

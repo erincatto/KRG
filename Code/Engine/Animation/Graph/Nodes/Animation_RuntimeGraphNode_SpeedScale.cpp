@@ -102,12 +102,29 @@ namespace KRG::Animation::GraphNodes
         PoseNode::InitializeInternal( context, initialTime );
         m_pDesiredVelocityValueNode->Initialize( context );
         m_blendWeight = 1.0f;
+
+        //-------------------------------------------------------------------------
+
+        m_previousTime = m_currentTime = 0.0f;
+        m_duration = 1.0f;
+
+        //-------------------------------------------------------------------------
+
+        m_pChildNode->Initialize(context, initialTime);
+
+        if (m_pChildNode->IsValid())
+        {
+            m_duration = m_pChildNode->GetDuration();
+            m_previousTime = m_pChildNode->GetPreviousTime();
+            m_currentTime = m_pChildNode->GetCurrentTime();
+        }
     }
 
     void VelocityBasedSpeedScaleNode::ShutdownInternal( GraphContext& context )
     {
         KRG_ASSERT( context.IsValid() );
         KRG_ASSERT( m_pDesiredVelocityValueNode != nullptr );
+        m_pChildNode->Shutdown(context);
         m_pDesiredVelocityValueNode->Shutdown( context );
         PoseNode::ShutdownInternal( context );
     }
@@ -175,7 +192,7 @@ namespace KRG::Animation::GraphNodes
 
         GraphPoseNodeResult result;
 
-         // Forward child node results
+        // Forward child node results
         if ( IsValid() )
         {
             result = m_pChildNode->Update( context );

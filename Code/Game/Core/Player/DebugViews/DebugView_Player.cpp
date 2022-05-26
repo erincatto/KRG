@@ -154,7 +154,7 @@ namespace KRG::Player
                                 ImGui::TextColored( color, "%s", pOverlayAction->GetName() );
 
                                 ImGui::TableSetColumnIndex( 1 );
-                                ImGui::TextColored( color, pOverlayAction->IsActive() ? KRG_ICON_CHECK : KRG_ICON_TIMES );
+                                ImGui::TextColored( color, pOverlayAction->IsActive() ? KRG_ICON_CHECK : KRG_ICON_CLOSE );
                             }
 
                             ImGui::EndTable();
@@ -317,10 +317,10 @@ namespace KRG::Player
         {
             ImGuiX::ScopedFont sf( ImGuiX::Font::Medium );
 
-            ImVec2 const crosshairSize = ImGui::CalcTextSize( KRG_ICON_CIRCLE_NOTCH );
+            ImVec2 const crosshairSize = ImGui::CalcTextSize( KRG_ICON_CROSSHAIRS );
             ImVec2 const crosshairCursorPos( windowCenter - ( crosshairSize / 2 ) );
             ImGui::SetCursorPos( crosshairCursorPos );
-            ImGui::Text( KRG_ICON_CIRCLE_NOTCH );
+            ImGui::Text( KRG_ICON_CROSSHAIRS );
         }
 
         {

@@ -16,7 +16,7 @@ namespace KRG::Animation::GraphNodes
         virtual char const* GetTypeName() const override { return "Root Motion Override"; }
         virtual char const* GetCategory() const override { return "Utility"; }
         virtual TBitFlags<GraphType> GetAllowedParentGraphTypes() const override { return TBitFlags<GraphType>( GraphType::BlendTree ); }
-        virtual GraphNodeIndex Compile( EditorGraphCompilationContext& context ) const override;
+        virtual GraphNodeIndex Compile( GraphCompilationContext& context ) const override;
 
     private:
 

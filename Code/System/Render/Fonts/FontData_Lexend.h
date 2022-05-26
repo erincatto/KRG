@@ -4,7 +4,7 @@
 
 //-------------------------------------------------------------------------
 
-namespace KRG::Fonts::Roboto
+namespace KRG::Fonts::Lexend
 {
     namespace Regular
     {

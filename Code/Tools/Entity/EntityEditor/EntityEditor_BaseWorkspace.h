@@ -26,13 +26,13 @@ namespace KRG::EntityModel
         virtual bool HasViewportToolbar() const override { return true; }
         virtual void InitializeDockingLayout( ImGuiID dockspaceID ) const override;
         virtual void UpdateWorkspace( UpdateContext const& context, ImGuiWindowClass* pWindowClass ) override;
-        virtual void DrawViewportToolbar( UpdateContext const& context, Render::Viewport const* pViewport ) override;
+        virtual void DrawViewportToolbarItems( UpdateContext const& context, Render::Viewport const* pViewport ) override;
         virtual void DrawViewportOverlayElements( UpdateContext const& context, Render::Viewport const* pViewport ) override;
         virtual bool IsDirty() const override{ return false; } // TODO
         virtual bool AlwaysAllowSaving() const override { return true; }
         virtual void OnMousePick( Render::PickingID pickingID ) override;
         virtual void OnDragAndDrop( Render::Viewport* pViewport ) override;
-        virtual void OnUndoRedo( UndoStack::Operation operation, IUndoableAction const* pAction ) override;
+        virtual void PostUndoRedo( UndoStack::Operation operation, IUndoableAction const* pAction ) override;
 
         // Called whenever we have a valid resource being dropped into the viewport, users can override to provide custom handling
         virtual void DropResourceInMap( ResourceID const& resourceID, Vector const& worldPosition );

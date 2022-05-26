@@ -17,8 +17,9 @@ namespace KRG::Animation::GraphNodes
         virtual char const* GetTypeName() const override { return "Powered Ragdoll"; }
         virtual char const* GetCategory() const override { return "Physics"; }
         virtual TBitFlags<GraphType> GetAllowedParentGraphTypes() const override { return TBitFlags<GraphType>( GraphType::BlendTree ); }
-        virtual GraphNodeIndex Compile( EditorGraphCompilationContext& context ) const override;
+        virtual GraphNodeIndex Compile( GraphCompilationContext& context ) const override;
 
+        virtual char const* const GetDefaultSlotName() const override { return "Ragdoll"; }
         virtual ResourceTypeID GetSlotResourceTypeID() const override { return Physics::RagdollDefinition::GetStaticResourceTypeID(); }
 
     private:

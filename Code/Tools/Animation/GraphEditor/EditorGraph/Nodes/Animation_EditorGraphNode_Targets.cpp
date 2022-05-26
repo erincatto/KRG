@@ -12,7 +12,7 @@ namespace KRG::Animation::GraphNodes
         CreateInputPin( "Target", GraphValueType::Target );
     }
 
-    GraphNodeIndex IsTargetSetEditorNode::Compile( EditorGraphCompilationContext& context ) const
+    GraphNodeIndex IsTargetSetEditorNode::Compile( GraphCompilationContext& context ) const
     {
         IsTargetSetNode::Settings* pSettings = nullptr;
         NodeCompilationState const state = context.GetSettings<IsTargetSetNode>( this, pSettings );
@@ -49,7 +49,7 @@ namespace KRG::Animation::GraphNodes
         CreateInputPin( "Target", GraphValueType::Target );
     }
 
-    GraphNodeIndex TargetInfoEditorNode::Compile( EditorGraphCompilationContext& context ) const
+    GraphNodeIndex TargetInfoEditorNode::Compile( GraphCompilationContext& context ) const
     {
         TargetInfoNode::Settings* pSettings = nullptr;
         NodeCompilationState const state = context.GetSettings<TargetInfoNode>( this, pSettings );
@@ -160,7 +160,7 @@ namespace KRG::Animation::GraphNodes
         CreateInputPin( "Target", GraphValueType::Target );
     }
 
-    GraphNodeIndex TargetOffsetEditorNode::Compile( EditorGraphCompilationContext& context ) const
+    GraphNodeIndex TargetOffsetEditorNode::Compile( GraphCompilationContext& context ) const
     {
         TargetOffsetNode::Settings* pSettings = nullptr;
         NodeCompilationState const state = context.GetSettings<TargetOffsetNode>( this, pSettings );

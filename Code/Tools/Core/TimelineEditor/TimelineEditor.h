@@ -86,7 +86,10 @@ namespace KRG::Timeline
         inline bool IsPaused() const { return m_playState == PlayState::Paused; }
 
         inline bool IsLoopingEnabled() const { return m_isLoopingEnabled; }
+        inline void SetLooping( bool enabled ) { m_isLoopingEnabled = enabled; }
+
         inline bool IsFrameSnappingEnabled() const { return m_isFrameSnappingEnabled; }
+        inline void SetFrameSnapping( bool enabled ) { m_isFrameSnappingEnabled = enabled; }
 
         inline Percentage GetPlayheadPositionAsPercentage() const { return Percentage( m_playheadTime / m_timeRange.m_end ); }
 
@@ -109,8 +112,8 @@ namespace KRG::Timeline
         // that handles the side-effects of the draw e.g. play head position update, track changes, etc...
         void Draw();
 
-        inline FloatRange GetTimeRangeAsFloatRange() const{ return FloatRange( float( m_timeRange.m_start ), float( m_timeRange.m_end ) ); }
-        inline FloatRange GetViewRangeAsFloatRange() const{ return FloatRange( float( m_viewRange.m_start ), float( m_viewRange.m_end ) ); }
+        inline FloatRange GetTimeRangeAsFloatRange() const{ return FloatRange( float( m_timeRange.m_begin ), float( m_timeRange.m_end ) ); }
+        inline FloatRange GetViewRangeAsFloatRange() const{ return FloatRange( float( m_viewRange.m_begin ), float( m_viewRange.m_end ) ); }
 
         inline void SetTimeRange( IntRange const& inRange ) { KRG_ASSERT( inRange.IsSetAndValid() ); m_timeRange = inRange; }
         inline void SetViewRange( IntRange const& inRange ) { KRG_ASSERT( inRange.IsSetAndValid() ); m_viewRange = inRange; }

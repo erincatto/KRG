@@ -36,9 +36,9 @@ namespace KRG::TypeSystem::Reflection
 
     bool ReflectionDatabase::Connect( FileSystem::Path const& databasePath, bool readOnlyAccess, bool useMutex )
     {
-        KRG_ASSERT( databasePath.IsFile() );
+        KRG_ASSERT( databasePath.IsFilePath() );
 
-        FileSystem::EnsurePathExists( databasePath );
+        databasePath.EnsureDirectoryExists();
 
         int32 sqlFlags = 0;
 
@@ -589,11 +589,13 @@ namespace KRG::TypeSystem::Reflection
 
     bool ReflectionDatabase::WriteDatabase( FileSystem::Path const& databasePath )
     {
+        KRG_ASSERT( databasePath.IsFilePath() );
+
         char* pErrorMessage = nullptr;
         char statement[s_defaultStatementBufferSize] = { 0 };
         int result = 0;
 
-        FileSystem::EnsurePathExists( databasePath.GetParentDirectory() );
+        databasePath.EnsureDirectoryExists();
         if ( !Connect( databasePath, false ) )
         {
             return false;

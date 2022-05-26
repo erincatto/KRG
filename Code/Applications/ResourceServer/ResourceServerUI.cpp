@@ -164,14 +164,14 @@ namespace KRG::Resource
                             case CompilationRequest::Status::SucceededWithWarnings:
                             {
                                 itemColor = Colors::Yellow.ToFloat4();
-                                ImGui::TextColored( itemColor, KRG_ICON_EXCLAMATION_TRIANGLE );
+                                ImGui::TextColored( itemColor, KRG_ICON_ALERT );
                             }
                             break;
 
                             case CompilationRequest::Status::Failed:
                             {
                                 itemColor = Colors::Red.ToFloat4();
-                                ImGui::TextColored( itemColor, KRG_ICON_TIMES );
+                                ImGui::TextColored( itemColor, KRG_ICON_ALERT_OCTAGON );
                             }
                             break;
 
@@ -261,7 +261,7 @@ namespace KRG::Resource
 
                 ImGui::BeginDisabled( !hasSelectedItem );
                 ImGui::SameLine();
-                if( ImGui::Button( KRG_ICON_COPY "Copy Args", ImVec2( buttonWidth, 0 ) ) )
+                if( ImGui::Button( KRG_ICON_CONTENT_COPY "Copy Args", ImVec2( buttonWidth, 0 ) ) )
                 {
                     String path( "-compile " );
                     path += m_pSelectedCompletedRequest->GetCompilerArgs();
@@ -281,7 +281,7 @@ namespace KRG::Resource
                 }
 
                 ImGui::SameLine();
-                if ( ImGui::Button( KRG_ICON_FILE_ARCHIVE "Compiled File", ImVec2( buttonWidth, 0 ) ) )
+                if ( ImGui::Button( KRG_ICON_FILE_CHECK "Compiled File", ImVec2( buttonWidth, 0 ) ) )
                 {
                     FileSystem::OpenInExplorer( m_pSelectedCompletedRequest->GetDestinationFilePath() );
                 }
@@ -289,7 +289,7 @@ namespace KRG::Resource
                 ImGui::EndDisabled();
 
                 ImGui::SameLine();
-                if ( ImGui::Button( KRG_ICON_TRASH "Clear History", ImVec2( buttonWidth, 0 ) ) )
+                if ( ImGui::Button( KRG_ICON_DELETE "Clear History", ImVec2( buttonWidth, 0 ) ) )
                 {
                     m_pResourceServer->RequestCleanupOfCompletedRequests();
                 }

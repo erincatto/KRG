@@ -38,7 +38,11 @@ namespace KRG::Animation
         // This function will change the graph and data-set used! Note: this can only be called for unloaded components
         void SetGraphVariation( ResourceID graphResourceID );
 
+        // Graph evaluation
         //-------------------------------------------------------------------------
+
+        // This function will reset the current graph state
+        void ResetGraphState();
 
         // This function will evaluate the graph and produce the desired root motion delta for the character
         void EvaluateGraph( Seconds deltaTime, Transform const& characterWorldTransform, Physics::Scene* pPhysicsScene );

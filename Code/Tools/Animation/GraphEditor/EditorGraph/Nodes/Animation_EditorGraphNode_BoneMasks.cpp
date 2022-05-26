@@ -12,7 +12,7 @@ namespace KRG::Animation::GraphNodes
         CreateOutputPin( "Bone Mask", GraphValueType::BoneMask, true );
     }
 
-    GraphNodeIndex BoneMaskEditorNode::Compile( EditorGraphCompilationContext& context ) const
+    GraphNodeIndex BoneMaskEditorNode::Compile( GraphCompilationContext& context ) const
     {
         BoneMaskNode::Settings* pSettings = nullptr;
         NodeCompilationState const state = context.GetSettings<BoneMaskNode>( this, pSettings );
@@ -38,7 +38,7 @@ namespace KRG::Animation::GraphNodes
         CreateInputPin( "Target", GraphValueType::BoneMask );
     }
 
-    GraphNodeIndex BoneMaskBlendEditorNode::Compile( EditorGraphCompilationContext& context ) const
+    GraphNodeIndex BoneMaskBlendEditorNode::Compile( GraphCompilationContext& context ) const
     {
         BoneMaskBlendNode::Settings* pSettings = nullptr;
         NodeCompilationState const state = context.GetSettings<BoneMaskBlendNode>( this, pSettings );
@@ -119,7 +119,7 @@ namespace KRG::Animation::GraphNodes
         CreateInputPin( "Mask 0", GraphValueType::BoneMask );
     }
 
-    GraphNodeIndex BoneMaskSelectorEditorNode::Compile( EditorGraphCompilationContext& context ) const
+    GraphNodeIndex BoneMaskSelectorEditorNode::Compile( GraphCompilationContext& context ) const
     {
         BoneMaskSelectorNode::Settings* pSettings = nullptr;
         NodeCompilationState const state = context.GetSettings<BoneMaskSelectorNode>( this, pSettings );

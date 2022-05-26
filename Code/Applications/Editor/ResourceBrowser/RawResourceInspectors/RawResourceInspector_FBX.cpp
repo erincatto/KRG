@@ -57,6 +57,7 @@ namespace KRG::Resource
                 FbxMesh* pMesh = static_cast<FbxMesh*>( pGeometry );
 
                 auto& meshInfo = m_meshes.emplace_back();
+                StringID t( pMesh->GetNode()->GetNameWithNameSpacePrefix() );
                 meshInfo.m_nameID = StringID( pMesh->GetNode()->GetName() );
                 meshInfo.m_isSkinned = pMesh->GetDeformerCount( FbxDeformer::eSkin ) > 0;
             }
@@ -180,7 +181,7 @@ namespace KRG::Resource
                 ImGuiX::TextSeparator( "Static Meshes", 10, ImGui::GetColumnWidth() );
 
                 bool const isCombinedMeshSelected = ( m_selectedItemType == InfoType::StaticMesh ) && !m_selectedItemID.IsValid();
-                if ( ImGui::Selectable( KRG_ICON_CUBES" Combined Static Mesh", isCombinedMeshSelected, ImGuiSelectableFlags_DontClosePopups ) )
+                if ( ImGui::Selectable( KRG_ICON_HOME_GROUP" Combined Static Mesh", isCombinedMeshSelected, ImGuiSelectableFlags_DontClosePopups ) )
                 {
                     m_selectedItemType = InfoType::StaticMesh;
                     m_selectedItemID = StringID();
@@ -189,7 +190,7 @@ namespace KRG::Resource
 
                 for ( auto const& meshInfo : m_meshes )
                 {
-                    tmpString.sprintf( KRG_ICON_CUBE" %s##StaticMesh", meshInfo.m_nameID.c_str() );
+                    tmpString.sprintf( KRG_ICON_HOME" %s##StaticMesh", meshInfo.m_nameID.c_str() );
                     bool isSelected = ( m_selectedItemType == InfoType::StaticMesh ) && meshInfo.m_nameID == m_selectedItemID;
                     if ( ImGui::Selectable( tmpString.c_str(), isSelected, ImGuiSelectableFlags_DontClosePopups ) )
                     {
@@ -204,7 +205,7 @@ namespace KRG::Resource
                 ImGuiX::TextSeparator( "Physics Meshes", 10, ImGui::GetColumnWidth() );
 
                 bool const isCombinedPhysicsMeshSelected = ( m_selectedItemType == InfoType::PhysicsMesh ) && !m_selectedItemID.IsValid();
-                if ( ImGui::Selectable( KRG_ICON_CUBES" Combined Physics Mesh", isCombinedPhysicsMeshSelected, ImGuiSelectableFlags_DontClosePopups ) )
+                if ( ImGui::Selectable( KRG_ICON_HOME_GROUP" Combined Physics Mesh", isCombinedPhysicsMeshSelected, ImGuiSelectableFlags_DontClosePopups ) )
                 {
                     m_selectedItemType = InfoType::PhysicsMesh;
                     m_selectedItemID = StringID();
@@ -229,7 +230,7 @@ namespace KRG::Resource
                 ImGuiX::TextSeparator( "Skeletal Meshes", 10, ImGui::GetColumnWidth() );
 
                 bool const isCombinedSkeletalMeshSelected = ( m_selectedItemType == InfoType::SkeletalMesh ) && !m_selectedItemID.IsValid();
-                if ( ImGui::Selectable( KRG_ICON_CUBES" Combined Skeletal Mesh", isCombinedSkeletalMeshSelected, ImGuiSelectableFlags_DontClosePopups ) )
+                if ( ImGui::Selectable( KRG_ICON_ACCOUNT_GROUP" Combined Skeletal Mesh", isCombinedSkeletalMeshSelected, ImGuiSelectableFlags_DontClosePopups ) )
                 {
                     m_selectedItemType = InfoType::SkeletalMesh;
                     m_selectedItemID = StringID();
@@ -243,7 +244,7 @@ namespace KRG::Resource
                         continue;
                     }
 
-                    tmpString.sprintf( KRG_ICON_USER" %s", meshInfo.m_nameID.c_str() );
+                    tmpString.sprintf( KRG_ICON_ACCOUNT" %s", meshInfo.m_nameID.c_str() );
                     bool isSelected = ( m_selectedItemType == InfoType::SkeletalMesh ) && meshInfo.m_nameID == m_selectedItemID;
                     if ( ImGui::Selectable( tmpString.c_str(), isSelected, ImGuiSelectableFlags_DontClosePopups ) )
                     {
@@ -277,7 +278,7 @@ namespace KRG::Resource
                     ImGui::Indent();
                     for ( auto const& childSkeletonRoot : skeletonRoot.m_childSkeletons )
                     {
-                        tmpString.sprintf( KRG_ICON_MALE" %s", childSkeletonRoot.m_nameID.c_str() );
+                        tmpString.sprintf( KRG_ICON_SKULL" %s", childSkeletonRoot.m_nameID.c_str() );
 
                         isSelected = ( m_selectedItemType == InfoType::Skeleton ) && childSkeletonRoot.m_nameID == m_selectedItemID;
                         if ( ImGui::Selectable( tmpString.c_str(), isSelected, ImGuiSelectableFlags_DontClosePopups ) )
@@ -292,7 +293,7 @@ namespace KRG::Resource
 
                 for ( auto const& skeletonRoot : m_skeletonRoots )
                 {
-                    tmpString.sprintf( KRG_ICON_MALE" %s", skeletonRoot.m_nameID.c_str() );
+                    tmpString.sprintf( KRG_ICON_SKULL" %s", skeletonRoot.m_nameID.c_str() );
 
                     bool isSelected = ( m_selectedItemType == InfoType::Skeleton ) && skeletonRoot.m_nameID == m_selectedItemID;
                     if ( ImGui::Selectable( tmpString.c_str(), isSelected, ImGuiSelectableFlags_DontClosePopups ) )

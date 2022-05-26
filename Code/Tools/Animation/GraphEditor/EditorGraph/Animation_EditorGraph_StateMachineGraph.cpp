@@ -141,7 +141,7 @@ namespace KRG::Animation::GraphNodes
     {
         {
             ImGuiX::ScopedFont font( ImGuiX::Font::Large, Colors::Red );
-            ImGui::Text( KRG_ICON_TIMES );
+            ImGui::Text( KRG_ICON_CLOSE_CIRCLE );
         }
 
         StateBaseEditorNode::DrawExtraControls( ctx );
@@ -458,7 +458,7 @@ namespace KRG::Animation::GraphNodes
         SetChildGraph( KRG::New<StateMachineGraph>() );
     }
 
-    GraphNodeIndex StateMachineEditorNode::Compile( EditorGraphCompilationContext& context ) const
+    GraphNodeIndex StateMachineEditorNode::Compile( GraphCompilationContext& context ) const
     {
         StateMachineNode::Settings* pSettings = nullptr;
         NodeCompilationState const state = context.GetSettings<StateMachineNode>( this, pSettings );
@@ -638,7 +638,7 @@ namespace KRG::Animation::GraphNodes
         return pSettings->m_nodeIdx;
     }
 
-    GraphNodeIndex StateMachineEditorNode::CompileState( EditorGraphCompilationContext& context, StateBaseEditorNode const* pBaseStateNode ) const
+    GraphNodeIndex StateMachineEditorNode::CompileState( GraphCompilationContext& context, StateBaseEditorNode const* pBaseStateNode ) const
     {
         KRG_ASSERT( pBaseStateNode != nullptr );
 
@@ -717,7 +717,7 @@ namespace KRG::Animation::GraphNodes
         return pSettings->m_nodeIdx;
     }
 
-    GraphNodeIndex StateMachineEditorNode::CompileTransition( EditorGraphCompilationContext& context, TransitionEditorNode const* pTransitionNode, GraphNodeIndex targetStateNodeIdx ) const
+    GraphNodeIndex StateMachineEditorNode::CompileTransition( GraphCompilationContext& context, TransitionEditorNode const* pTransitionNode, GraphNodeIndex targetStateNodeIdx ) const
     {
         KRG_ASSERT( pTransitionNode != nullptr );
         TransitionNode::Settings* pSettings = nullptr;

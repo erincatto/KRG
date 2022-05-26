@@ -2,6 +2,7 @@
 
 #include "System/Core/_Module/API.h"
 #include "System/Core/Types/String.h"
+#include "System/Core/Types/Containers.h"
 
 //-----------------------------------------------------------------------------
 
@@ -81,6 +82,12 @@ namespace KRG::Hash
         return XXHash::GetHash32( string.c_str(), string.length() );
     }
 
+    template<size_t S>
+    KRG_FORCE_INLINE uint32 GetHash32( TInlineString<S> const& string )
+    {
+        return XXHash::GetHash32( string.c_str(), string.length() );
+    }
+
     KRG_FORCE_INLINE uint32 GetHash32( char const* pString )
     {
         return XXHash::GetHash32( pString, strlen( pString ) );
@@ -92,6 +99,12 @@ namespace KRG::Hash
     }
 
     KRG_FORCE_INLINE uint64 GetHash64( String const& string )
+    {
+        return XXHash::GetHash64( string.c_str(), string.length() );
+    }
+
+    template<size_t S>
+    KRG_FORCE_INLINE uint64 GetHash64( TInlineString<S> const& string )
     {
         return XXHash::GetHash64( string.c_str(), string.length() );
     }

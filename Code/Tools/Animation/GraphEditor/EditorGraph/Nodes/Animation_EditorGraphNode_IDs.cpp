@@ -12,7 +12,7 @@ namespace KRG::Animation::GraphNodes
         CreateInputPin( "ID", GraphValueType::ID );
     }
 
-    GraphNodeIndex IDComparisonEditorNode::Compile( EditorGraphCompilationContext& context ) const
+    GraphNodeIndex IDComparisonEditorNode::Compile( GraphCompilationContext& context ) const
     {
         IDComparisonNode::Settings* pSettings = nullptr;
         NodeCompilationState const state = context.GetSettings<IDComparisonNode>( this, pSettings );
@@ -88,7 +88,7 @@ namespace KRG::Animation::GraphNodes
         CreateInputPin( "ID", GraphValueType::ID );
     }
 
-    GraphNodeIndex IDToFloatEditorNode::Compile( EditorGraphCompilationContext& context ) const
+    GraphNodeIndex IDToFloatEditorNode::Compile( GraphCompilationContext& context ) const
     {
         IDToFloatNode::Settings* pSettings = nullptr;
         NodeCompilationState const state = context.GetSettings<IDToFloatNode>( this, pSettings );

@@ -38,7 +38,7 @@ namespace KRG::Animation::GraphNodes
         virtual char const* GetTypeName() const override { return "Selector"; }
         virtual char const* GetCategory() const override { return "Selectors"; }
         virtual TBitFlags<GraphType> GetAllowedParentGraphTypes() const override { return TBitFlags<GraphType>( GraphType::BlendTree ); }
-        virtual GraphNodeIndex Compile( EditorGraphCompilationContext& context ) const override;
+        virtual GraphNodeIndex Compile( GraphCompilationContext& context ) const override;
 
         virtual bool SupportsDynamicInputPins() const override { return true; }
         virtual TInlineString<100> GetNewDynamicInputPinName() const override;
@@ -62,7 +62,7 @@ namespace KRG::Animation::GraphNodes
         virtual char const* GetTypeName() const override { return "Animation Clip Selector"; }
         virtual char const* GetCategory() const override { return "Selectors"; }
         virtual TBitFlags<GraphType> GetAllowedParentGraphTypes() const override { return TBitFlags<GraphType>( GraphType::BlendTree ); }
-        virtual GraphNodeIndex Compile( EditorGraphCompilationContext& context ) const override;
+        virtual GraphNodeIndex Compile( GraphCompilationContext& context ) const override;
 
         virtual bool IsValidConnection( UUID const& inputPinID, Node const* pOutputPinNode, UUID const& outputPinID ) const override;
         virtual bool SupportsDynamicInputPins() const override { return true; }

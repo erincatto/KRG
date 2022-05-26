@@ -30,7 +30,7 @@ namespace KRG::Animation::GraphNodes
 
             inline bool operator<( BlendRange const& rhs ) const
             {
-                return m_parameterValueRange.m_start < rhs.m_parameterValueRange.m_start;
+                return m_parameterValueRange.m_begin < rhs.m_parameterValueRange.m_begin;
             }
 
             int16                                   m_inputIdx0 = InvalidIndex;

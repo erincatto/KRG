@@ -17,11 +17,11 @@ namespace KRG::Animation::GraphNodes
         virtual char const* GetTypeName() const override { return "Speed Scale"; }
         virtual char const* GetCategory() const override { return "Utility"; }
         virtual TBitFlags<GraphType> GetAllowedParentGraphTypes() const override { return TBitFlags<GraphType>( GraphType::BlendTree ); }
-        virtual GraphNodeIndex Compile( EditorGraphCompilationContext& context ) const override;
+        virtual GraphNodeIndex Compile( GraphCompilationContext& context ) const override;
 
     private:
 
-        KRG_EXPOSE FloatRange              m_scaleLimits = FloatRange( 0, 0 );
+        KRG_EXPOSE FloatRange              m_scaleLimits = FloatRange( 0.01f, 10.0f );
         KRG_EXPOSE float                   m_blendTime = 0.2f;
     };
 
@@ -38,7 +38,7 @@ namespace KRG::Animation::GraphNodes
         virtual char const* GetTypeName() const override { return "Velocity Based Speed Scale"; }
         virtual char const* GetCategory() const override { return "Utility"; }
         virtual TBitFlags<GraphType> GetAllowedParentGraphTypes() const override { return TBitFlags<GraphType>( GraphType::BlendTree ); }
-        virtual GraphNodeIndex Compile( EditorGraphCompilationContext& context ) const override;
+        virtual GraphNodeIndex Compile( GraphCompilationContext& context ) const override;
 
     private:
 

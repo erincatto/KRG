@@ -11,7 +11,7 @@ namespace KRG::Animation::GraphNodes
         CreateOutputPin( "Result", GraphValueType::Bool, true );
     }
 
-    GraphNodeIndex GenericEventConditionEditorNode::Compile( EditorGraphCompilationContext& context ) const
+    GraphNodeIndex GenericEventConditionEditorNode::Compile( GraphCompilationContext& context ) const
     {
         GenericEventConditionNode::Settings* pSettings = nullptr;
         NodeCompilationState const state = context.GetSettings<GenericEventConditionNode>( this, pSettings );
@@ -86,7 +86,7 @@ namespace KRG::Animation::GraphNodes
         CreateOutputPin( "Result", GraphValueType::Float, true );
     }
 
-    GraphNodeIndex GenericEventPercentageThroughEditorNode::Compile( EditorGraphCompilationContext& context ) const
+    GraphNodeIndex GenericEventPercentageThroughEditorNode::Compile( GraphCompilationContext& context ) const
     {
         GenericEventPercentageThroughNode::Settings* pSettings = nullptr;
         NodeCompilationState const state = context.GetSettings<GenericEventPercentageThroughNode>( this, pSettings );
@@ -113,7 +113,7 @@ namespace KRG::Animation::GraphNodes
         CreateOutputPin( "Result", GraphValueType::Bool, true );
     }
 
-    GraphNodeIndex FootEventConditionEditorNode::Compile( EditorGraphCompilationContext& context ) const
+    GraphNodeIndex FootEventConditionEditorNode::Compile( GraphCompilationContext& context ) const
     {
         FootEventConditionNode::Settings* pSettings = nullptr;
         NodeCompilationState const state = context.GetSettings<FootEventConditionNode>( this, pSettings );
@@ -134,7 +134,7 @@ namespace KRG::Animation::GraphNodes
         CreateOutputPin( "Result", GraphValueType::Float, true );
     }
 
-    GraphNodeIndex FootstepEventPercentageThroughEditorNode::Compile( EditorGraphCompilationContext& context ) const
+    GraphNodeIndex FootstepEventPercentageThroughEditorNode::Compile( GraphCompilationContext& context ) const
     {
         FootstepEventPercentageThroughNode::Settings* pSettings = nullptr;
         NodeCompilationState const state = context.GetSettings<FootstepEventPercentageThroughNode>( this, pSettings );
@@ -155,7 +155,7 @@ namespace KRG::Animation::GraphNodes
         CreateOutputPin( "Result", GraphValueType::Float, true );
     }
 
-    GraphNodeIndex SyncEventConditionEditorNode::Compile( EditorGraphCompilationContext& context ) const
+    GraphNodeIndex SyncEventConditionEditorNode::Compile( GraphCompilationContext& context ) const
     {
         SyncEventConditionNode::Settings* pSettings = nullptr;
         NodeCompilationState const state = context.GetSettings<SyncEventConditionNode>( this, pSettings );
@@ -176,7 +176,7 @@ namespace KRG::Animation::GraphNodes
         CreateOutputPin( "Result", GraphValueType::Float, true );
     }
 
-    GraphNodeIndex CurrentSyncEventEditorNode::Compile( EditorGraphCompilationContext& context ) const
+    GraphNodeIndex CurrentSyncEventEditorNode::Compile( GraphCompilationContext& context ) const
     {
         CurrentSyncEventNode::Settings* pSettings = nullptr;
         NodeCompilationState const state = context.GetSettings<CurrentSyncEventNode>( this, pSettings );

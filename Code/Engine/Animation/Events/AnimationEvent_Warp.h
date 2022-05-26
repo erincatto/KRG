@@ -25,6 +25,8 @@ namespace KRG::Animation
     public:
 
         inline Type GetAllowedWarping() const { return m_type; }
+        inline bool IsRotationAllowed() const { return m_type != Type::Translation; }
+        inline bool IsTranslationAllowed() const { return m_type != Type::Rotation; }
 
         #if KRG_DEVELOPMENT_TOOLS
         virtual char const* GetEventName() const override { return "Warp"; }

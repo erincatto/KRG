@@ -14,16 +14,16 @@ namespace KRG::Animation::GraphNodes
 
         virtual void Initialize( VisualGraph::BaseGraph* pParent ) override;
 
-        virtual char const* GetDisplayName() const override { return m_name.c_str(); }
         virtual char const* GetTypeName() const override { return "Animation Clip"; }
         virtual char const* GetCategory() const override { return "Animation"; }
         virtual TBitFlags<GraphType> GetAllowedParentGraphTypes() const override { return TBitFlags<GraphType>( GraphType::BlendTree ); }
-        virtual GraphNodeIndex Compile( EditorGraphCompilationContext& context ) const override;
+        virtual GraphNodeIndex Compile( GraphCompilationContext& context ) const override;
+
+        virtual char const* const GetDefaultSlotName() const override { return "Animation"; }
         virtual ResourceTypeID GetSlotResourceTypeID() const override { return AnimationClip::GetStaticResourceTypeID(); }
 
     private:
 
-        KRG_EXPOSE String       m_name = "Animation";
         KRG_EXPOSE bool         m_sampleRootMotion = true;
         KRG_EXPOSE bool         m_allowLooping = false;
     };

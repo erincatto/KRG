@@ -51,10 +51,21 @@ namespace KRG
         m_pMapEditor = KRG::New<EntityModel::EntityMapEditor>( this, pMapEditorWorld );
         m_pMapEditor->Initialize( context );
         m_workspaces.emplace_back( m_pMapEditor );
+
+        // Create bindings to start/stop game preview
+        m_gamePreviewStartedEventBindingID = m_pMapEditor->OnGamePreviewStartRequested().Bind( [this] ( UpdateContext const& context ) { StartGamePreview( context ); } );
+        m_gamePreviewStoppedEventBindingID = m_pMapEditor->OnGamePreviewStopRequested().Bind( [this] ( UpdateContext const& context ) { StopGamePreview( context ); } );
     }
 
     void EditorContext::Shutdown( UpdateContext const& context )
     {
+        m_pGamePreviewer = nullptr;
+
+        KRG_ASSERT( m_pMapEditor != nullptr );
+        m_pMapEditor->OnGamePreviewStartRequested().Unbind( m_gamePreviewStartedEventBindingID );
+        m_pMapEditor->OnGamePreviewStopRequested().Unbind( m_gamePreviewStoppedEventBindingID );
+        m_pMapEditor = nullptr;
+
         while( !m_workspaces.empty() )
         {
             DestroyWorkspaceInternal( context, m_workspaces[0] );
@@ -206,7 +217,7 @@ namespace KRG
         // Clear the game previewer workspace ptr if we just destroyed it
         if ( isGamePreviewerWorkspace )
         {
-            m_pMapEditor->OnGamePreviewEnded();
+            m_pMapEditor->NotifyGamePreviewEnded();
             m_pGamePreviewer = nullptr;
         }
 
@@ -287,11 +298,6 @@ namespace KRG
 
     //-------------------------------------------------------------------------
 
-    bool EditorContext::IsGamePreviewAllowed() const
-    {
-        return m_pMapEditor->HasLoadedMap();
-    }
-
     void EditorContext::StartGamePreview( UpdateContext const& context )
     {
         KRG_ASSERT( !IsGamePreviewRunning() );
@@ -303,13 +309,12 @@ namespace KRG
         m_pGamePreviewer->LoadMapToPreview( m_pMapEditor->GetLoadedMap() );
         m_workspaces.emplace_back( m_pGamePreviewer );
 
-        m_pMapEditor->OnGamePreviewStarted();
+        m_pMapEditor->NotifyGamePreviewStarted();
     }
 
     void EditorContext::StopGamePreview( UpdateContext const& context )
     {
         KRG_ASSERT( IsGamePreviewRunning() );
-        DestroyWorkspace( context, m_pGamePreviewer );
-        m_pGamePreviewer = nullptr;
+        QueueDestroyWorkspace( m_pGamePreviewer );
     }
 }

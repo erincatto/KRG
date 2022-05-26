@@ -30,9 +30,9 @@ namespace KRG::Animation
             // Deserialize debug node paths
             //-------------------------------------------------------------------------
 
-            //#if !KRG_SHIPPING
+            #if !KRG_CONFIGURATION_SHIPPING
             archive >> pGraphDef->m_nodePaths;
-            //#endif
+            #endif
 
             // Create Settings
             //-------------------------------------------------------------------------
@@ -117,6 +117,7 @@ namespace KRG::Animation
 
         if ( resourceTypeID == GraphDefinition::GetStaticResourceTypeID() )
         {
+            // Release settings memory
             auto pGraphDef = pResourceRecord->GetResourceData<GraphDefinition>();
             if ( pGraphDef != nullptr )
             {

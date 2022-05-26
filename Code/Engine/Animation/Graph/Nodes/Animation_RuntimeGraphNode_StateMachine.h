@@ -28,7 +28,7 @@ namespace KRG::Animation::GraphNodes
 
             GraphNodeIndex                                          m_stateNodeIdx = InvalidIndex;
             GraphNodeIndex                                          m_entryConditionNodeIdx = InvalidIndex;
-            TInlineVector<TransitionSettings,5>                     m_transitionSettings;
+            TInlineVector<TransitionSettings, 5>                    m_transitionSettings;
         };
 
         //-------------------------------------------------------------------------

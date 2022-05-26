@@ -54,7 +54,7 @@ namespace KRG::Animation::GraphNodes
         virtual uint32 GetDynamicInputPinValueType() const override { return (uint32) GraphValueType::Unknown; }
         virtual void OnDynamicPinDestruction( UUID pinID ) override;
 
-        virtual GraphNodeIndex Compile( EditorGraphCompilationContext& context ) const override;
+        virtual GraphNodeIndex Compile( GraphCompilationContext& context ) const override;
 
     private:
 

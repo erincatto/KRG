@@ -37,6 +37,7 @@ namespace KRG::Animation
 
         inline Seconds GetStartTime() const { return m_startTime; }
         inline Seconds GetDuration() const { return m_duration; }
+        inline Seconds GetEndTime() const { KRG_ASSERT( IsDurationEvent() ); return m_startTime + m_duration; }
         inline bool IsImmediateEvent() const { return m_duration == 0; }
         inline bool IsDurationEvent() const { return m_duration > 0; }
 

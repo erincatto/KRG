@@ -1,4 +1,5 @@
 #include "FileSystemPath.h"
+#include "FileSystem.h"
 #include "System/Core/Math/Math.h"
 #include "System/Core/Algorithm/Hash.h"
 
@@ -6,10 +7,10 @@
 
 namespace KRG::FileSystem
 {
-    static bool IsValidPath( String const& pathString )
+    static bool IsValidPath( char const* pPathString )
     {
         // TODO: path validation
-        return !pathString.empty();
+        return pPathString != nullptr && strlen( pPathString ) > 0;
     }
 
     //-------------------------------------------------------------------------
@@ -28,7 +29,7 @@ namespace KRG::FileSystem
         // If we have the path delimiter and it is after our last period, then there's no extension
         //-------------------------------------------------------------------------
 
-        size_t const pathDelimiterIdx = path.find_last_of( Path::s_pathDelimiter );
+        size_t const pathDelimiterIdx = path.find_last_of( Settings::s_pathDelimiter );
         if ( pathDelimiterIdx > extensionIdx )
         {
             extensionIdx = String::npos;
@@ -54,51 +55,26 @@ namespace KRG::FileSystem
         return extensionIdx;
     }
 
-    bool Path::IsFilenameEqual( char const* pString ) const
-    {
-        KRG_ASSERT( pString != nullptr );
-        return strcmp( GetFileNameSubstr(), pString ) == 0;
-    }
-
     //-------------------------------------------------------------------------
 
-    Path::Path( String&& path )
-        : m_fullpath( GetFullPathString( path.c_str() ) )
-    {
-        if ( !IsValidPath( m_fullpath ) )
-        {
-            m_fullpath.clear();
-        }
-
-        UpdateHashCode();
-    }
-
-    Path::Path( String const& path )
-         : m_fullpath( GetFullPathString( path.c_str() ) )
-     {
-         if ( !IsValidPath( m_fullpath ) )
-         {
-             m_fullpath.clear();
-         }
-
-         UpdateHashCode();
-     }
-
     Path::Path( char const* pPath )
-        : m_fullpath( GetFullPathString( pPath ) )
     {
-        if ( !IsValidPath( m_fullpath ) )
+        if ( IsValidPath( pPath ) )
         {
-            m_fullpath.clear();
+            if ( !GetFullPathString( pPath, m_fullpath ) )
+            {
+                m_fullpath.clear();
+            }
         }
 
-        UpdateHashCode();
+        UpdatePathInternals();
     }
 
     Path& Path::operator=( Path& rhs )
     {
         m_fullpath = rhs.m_fullpath;
         m_hashCode = rhs.m_hashCode;
+        m_isDirectoryPath = rhs.m_isDirectoryPath;
         return *this;
     }
 
@@ -106,6 +82,7 @@ namespace KRG::FileSystem
     {
         m_fullpath = rhs.m_fullpath;
         m_hashCode = rhs.m_hashCode;
+        m_isDirectoryPath = rhs.m_isDirectoryPath;
         return *this;
     }
 
@@ -113,7 +90,54 @@ namespace KRG::FileSystem
     {
         m_fullpath.swap( rhs.m_fullpath );
         m_hashCode = rhs.m_hashCode;
+        m_isDirectoryPath = rhs.m_isDirectoryPath;
         return *this;
+    }
+
+    //-------------------------------------------------------------------------
+
+    bool Path::IsUnderDirectory( Path const& parentDirectory ) const
+    {
+        if ( m_fullpath.length() < parentDirectory.m_fullpath.length() )
+        {
+            return false;
+        }
+
+        int32 const result = String::comparei( m_fullpath.begin(), m_fullpath.begin() + parentDirectory.m_fullpath.length(), parentDirectory.m_fullpath.begin(), parentDirectory.m_fullpath.end() );
+        return result == 0;
+    }
+
+    bool Path::EnsureDirectoryExists() const
+    {
+        if ( !Exists() )
+        {
+            if ( IsDirectoryPath() )
+            {
+                return CreateDir( m_fullpath );
+            }
+            else
+            {
+                return CreateDir( GetParentDirectory() );
+            }
+        }
+
+        return true;
+    }
+
+    void Path::ReplaceParentDirectory( Path const& newParentDirectory )
+    {
+        KRG_ASSERT( IsValid() );
+
+        size_t lastDelimiterIdx = m_fullpath.rfind( Settings::s_pathDelimiter );
+
+        // Handle directory paths
+        if ( lastDelimiterIdx == m_fullpath.length() - 1 )
+        {
+            lastDelimiterIdx = m_fullpath.rfind( Settings::s_pathDelimiter, lastDelimiterIdx - 1 );
+        }
+
+        m_fullpath.replace( 0, lastDelimiterIdx + 1, newParentDirectory.ToString() );
+        UpdatePathInternals();
     }
 
     //-------------------------------------------------------------------------
@@ -125,17 +149,17 @@ namespace KRG::FileSystem
         m_fullpath += pPathString;
         m_fullpath = GetFullPathString( m_fullpath.c_str() );
 
-        if ( asDirectory && !IsDirectory() )
+        if ( asDirectory && !IsDirectoryPath() )
         {
-            m_fullpath += s_pathDelimiter;
+            m_fullpath += Settings::s_pathDelimiter;
         }
 
-        if ( !IsValidPath( m_fullpath ) )
+        if ( !IsValidPath( m_fullpath.c_str() ) )
         {
             m_fullpath.clear();
         }
 
-        UpdateHashCode();
+        UpdatePathInternals();
         return *this;
     }
 
@@ -144,14 +168,14 @@ namespace KRG::FileSystem
         TInlineVector<String, 10> split;
 
         size_t previousDelimiterIdx = 0;
-        size_t currentDelimiterIdx = m_fullpath.find( s_pathDelimiter );
+        size_t currentDelimiterIdx = m_fullpath.find( Settings::s_pathDelimiter );
         while ( currentDelimiterIdx != String::npos )
         {
             KRG_ASSERT( currentDelimiterIdx > previousDelimiterIdx );
             split.emplace_back( m_fullpath.substr( previousDelimiterIdx, currentDelimiterIdx - previousDelimiterIdx ) );
 
             previousDelimiterIdx = currentDelimiterIdx + 1;
-            currentDelimiterIdx = m_fullpath.find( s_pathDelimiter, previousDelimiterIdx );
+            currentDelimiterIdx = m_fullpath.find( Settings::s_pathDelimiter, previousDelimiterIdx );
         }
 
         return split;
@@ -183,11 +207,11 @@ namespace KRG::FileSystem
 
         if ( IsValid() )
         {
-            size_t delimiterIdx = m_fullpath.find( s_pathDelimiter );
+            size_t delimiterIdx = m_fullpath.find( Settings::s_pathDelimiter );
             while ( delimiterIdx != String::npos )
             {
                 dirDepth++;
-                delimiterIdx = m_fullpath.find( s_pathDelimiter, delimiterIdx + 1 );
+                delimiterIdx = m_fullpath.find( Settings::s_pathDelimiter, delimiterIdx + 1 );
             }
         }
 
@@ -198,7 +222,7 @@ namespace KRG::FileSystem
     {
         int32 pathDepth = GetDirectoryDepth();
 
-        if ( IsFile() )
+        if ( IsFilePath() )
         {
             pathDepth++;
         }
@@ -208,16 +232,24 @@ namespace KRG::FileSystem
 
     //-------------------------------------------------------------------------
 
+    bool Path::IsFilenameEqual( char const* pString ) const
+    {
+        KRG_ASSERT( pString != nullptr );
+        return strcmp( GetFilenameSubstr(), pString ) == 0;
+    }
+
+    //-------------------------------------------------------------------------
+
     Path Path::GetParentDirectory() const
     {
         KRG_ASSERT( IsValid() );
 
-        size_t lastDelimiterIdx = m_fullpath.rfind( s_pathDelimiter );
+        size_t lastDelimiterIdx = m_fullpath.rfind( Settings::s_pathDelimiter );
 
         // Handle directory paths
         if ( lastDelimiterIdx == m_fullpath.length() - 1 )
         {
-            lastDelimiterIdx = m_fullpath.rfind( s_pathDelimiter, lastDelimiterIdx - 1 );
+            lastDelimiterIdx = m_fullpath.rfind( Settings::s_pathDelimiter, lastDelimiterIdx - 1 );
         }
 
         //-------------------------------------------------------------------------
@@ -233,50 +265,23 @@ namespace KRG::FileSystem
         return parentPath;
     }
 
-    bool Path::IsUnderDirectory( Path const& parentDirectory ) const
+    void Path::MakeIntoDirectoryPath()
     {
-        if ( m_fullpath.length() < parentDirectory.m_fullpath.length() )
+        if ( !IsDirectoryPath() )
         {
-            return false;
+            m_fullpath.push_back( Settings::s_pathDelimiter );
+            UpdatePathInternals();
         }
-
-        int32 const result = String::comparei( m_fullpath.begin(), m_fullpath.begin() + parentDirectory.m_fullpath.length(), parentDirectory.m_fullpath.begin(), parentDirectory.m_fullpath.end() );
-        return result == 0;
-    }
-
-    void Path::MakeDirectory()
-    {
-        if ( !IsDirectory() )
-        {
-            m_fullpath.push_back( s_pathDelimiter );
-            UpdateHashCode();
-        }
-    }
-
-    void Path::ReplaceParentDirectory( Path const& newParentDirectory )
-    {
-        KRG_ASSERT( IsValid() );
-
-        size_t lastDelimiterIdx = m_fullpath.rfind( s_pathDelimiter );
-
-        // Handle directory paths
-        if ( lastDelimiterIdx == m_fullpath.length() - 1 )
-        {
-            lastDelimiterIdx = m_fullpath.rfind( s_pathDelimiter, lastDelimiterIdx - 1 );
-        }
-
-        m_fullpath.replace( 0, lastDelimiterIdx + 1, newParentDirectory.ToString() );
-        UpdateHashCode();
     }
 
     String Path::GetDirectoryName() const
     {
-        KRG_ASSERT( IsValid() && IsDirectory() );
+        KRG_ASSERT( IsValid() && IsDirectoryPath() );
 
-        size_t idx = m_fullpath.rfind( s_pathDelimiter );
+        size_t idx = m_fullpath.rfind( Settings::s_pathDelimiter );
         KRG_ASSERT( idx != String::npos );
 
-        idx = m_fullpath.rfind( s_pathDelimiter, Math::Max( size_t( 0 ), idx - 1 ) );
+        idx = m_fullpath.rfind( Settings::s_pathDelimiter, Math::Max( size_t( 0 ), idx - 1 ) );
         if ( idx == String::npos )
         {
             return String();
@@ -306,7 +311,7 @@ namespace KRG::FileSystem
 
     char const* Path::GetExtension() const
     {
-        KRG_ASSERT( IsValid() && IsFile() );
+        KRG_ASSERT( IsValid() && IsFilePath() );
         size_t const extIdx = FindExtensionStartIdx( m_fullpath );
         if ( extIdx != String::npos )
         {
@@ -320,7 +325,7 @@ namespace KRG::FileSystem
 
     void Path::ReplaceExtension( const char* pExtension )
     {
-        KRG_ASSERT( IsValid() && IsFile() && pExtension != nullptr );
+        KRG_ASSERT( IsValid() && IsFilePath() && pExtension != nullptr );
         KRG_ASSERT( pExtension[0] != 0 && pExtension[0] != '.' );
 
         size_t const extIdx = FindExtensionStartIdx( m_fullpath );
@@ -334,13 +339,13 @@ namespace KRG::FileSystem
             m_fullpath.append( pExtension );
         }
 
-        UpdateHashCode();
+        UpdatePathInternals();
     }
 
-    char const* Path::GetFileNameSubstr() const
+    char const* Path::GetFilenameSubstr() const
     {
-        KRG_ASSERT( IsValid() && IsFile() );
-        auto idx = m_fullpath.find_last_of( s_pathDelimiter );
+        KRG_ASSERT( IsValid() && IsFilePath() );
+        auto idx = m_fullpath.find_last_of( Settings::s_pathDelimiter );
         KRG_ASSERT( idx != String::npos );
 
         idx++;
@@ -349,8 +354,8 @@ namespace KRG::FileSystem
 
     String Path::GetFileNameWithoutExtension() const
     {
-        KRG_ASSERT( IsValid() && IsFile() );
-        auto filenameStartIdx = m_fullpath.find_last_of( s_pathDelimiter );
+        KRG_ASSERT( IsValid() && IsFilePath() );
+        auto filenameStartIdx = m_fullpath.find_last_of( Settings::s_pathDelimiter );
         KRG_ASSERT( filenameStartIdx != String::npos );
         filenameStartIdx++;
 

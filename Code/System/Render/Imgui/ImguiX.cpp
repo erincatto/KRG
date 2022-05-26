@@ -137,7 +137,7 @@ namespace KRG::ImGuiX
         ImGui::SameLine( 0, 0 );
 
         auto const availableRegion = ImGui::GetContentRegionAvail();
-        ImVec2 seperatorSize( size.x <= 0 ? ( ImGui::GetStyle().ItemSpacing.x ) + 1 : size.x, size.y <= 0 ? availableRegion.y : size.y);
+        ImVec2 seperatorSize( size.x <= 0 ? ( ImGui::GetStyle().ItemSpacing.x * 2 ) + 1 : size.x, size.y <= 0 ? availableRegion.y : size.y);
         if ( Math::IsEven( (int32) seperatorSize.x ) )
         {
             seperatorSize.x += 1;
@@ -301,7 +301,7 @@ namespace KRG::ImGuiX
 namespace KRG::ImGuiX
 {
     constexpr static float const g_labelWidth = 14.0f;
-    constexpr static float const g_labelHeight = 23.0f;
+    constexpr static float const g_labelHeight = 24.0f;
 
     static bool BeginElementFrame( char const* pLabel, float labelWidth, ImVec2 const& size, ImVec4 backgroundColor)
     {

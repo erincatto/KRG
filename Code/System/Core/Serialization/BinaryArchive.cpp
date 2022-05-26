@@ -12,7 +12,7 @@ namespace KRG
             : m_filePath( filePath )
             , m_mode( mode )
         {
-            KRG_ASSERT( m_filePath.IsFile() );
+            KRG_ASSERT( m_filePath.IsFilePath() );
 
             if ( mode == Mode::Read )
             {
@@ -27,6 +27,8 @@ namespace KRG
             }
             else // Write
             {
+                filePath.EnsureDirectoryExists();
+
                 auto pFileStream = KRG::New<std::ofstream>();
                 pFileStream->open( m_filePath, std::ios::out | std::ios::trunc | std::ios::binary );
                 m_pStream = pFileStream;

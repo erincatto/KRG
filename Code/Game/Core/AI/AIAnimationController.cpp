@@ -5,10 +5,24 @@
 
 namespace KRG::AI
 {
-    AIAnimationController::AIAnimationController( Animation::AnimationGraphComponent* pGraphComponent, Render::SkeletalMeshComponent* pMeshComponent )
+    AnimationController::AnimationController( Animation::AnimationGraphComponent* pGraphComponent, Render::SkeletalMeshComponent* pMeshComponent )
         : Animation::GraphController( pGraphComponent, pMeshComponent )
     {
         m_subGraphControllers.emplace_back( KRG::New<LocomotionGraphController>( pGraphComponent, pMeshComponent ) );
         m_characterStateParam.TryBind( this );
+    }
+
+    void AnimationController::SetCharacterState( CharacterAnimationState state )
+    {
+        static StringID const characterStates[(uint8) CharacterAnimationState::NumStates] =
+        {
+            StringID( "Locomotion" ),
+            StringID( "Falling" ),
+            StringID( "Ability" ),
+            StringID( "DebugMode" ),
+        };
+
+        KRG_ASSERT( state < CharacterAnimationState::NumStates );
+        m_characterStateParam.Set( this, characterStates[(uint8) state] );
     }
 }

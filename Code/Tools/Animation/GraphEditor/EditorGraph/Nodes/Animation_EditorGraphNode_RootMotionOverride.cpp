@@ -17,7 +17,7 @@ namespace KRG::Animation::GraphNodes
         CreateInputPin( "Angular Velocity Limit (Optional)", GraphValueType::Float );
     }
 
-    GraphNodeIndex RootMotionOverrideEditorNode::Compile( EditorGraphCompilationContext& context ) const
+    GraphNodeIndex RootMotionOverrideEditorNode::Compile( GraphCompilationContext& context ) const
     {
         RootMotionOverrideNode::Settings* pSettings = nullptr;
         NodeCompilationState const state = context.GetSettings<RootMotionOverrideNode>( this, pSettings );

@@ -42,10 +42,6 @@ namespace KRG
         inline GamePreviewer* GetGamePreviewWorkspace() const { return m_pGamePreviewer; }
 
         inline bool IsGamePreviewRunning() const { return m_pGamePreviewer != nullptr; }
-        bool IsGamePreviewAllowed() const;
-
-        void StartGamePreview( UpdateContext const& context );
-        void StopGamePreview( UpdateContext const& context );
 
         // Workspaces
         //-------------------------------------------------------------------------
@@ -74,6 +70,9 @@ namespace KRG
         EditorWorkspace* FindResourceWorkspace( ResourceID const& resourceID ) const;
         EditorWorkspace* FindResourceWorkspace( uint32 workspaceID ) const;
 
+        void StartGamePreview( UpdateContext const& context );
+        void StopGamePreview( UpdateContext const& context );
+
         void DestroyWorkspaceInternal( UpdateContext const& context, EditorWorkspace* pWorkspace );
 
         virtual void TryOpenResource( ResourceID const& resourceID ) const override
@@ -94,5 +93,7 @@ namespace KRG
         TVector<EditorWorkspace*>           m_workspaces;
         TVector<ResourceID>                 m_workspaceCreationRequests;
         TVector<EditorWorkspace*>           m_workspaceDestructionRequests;
+        EventBindingID                      m_gamePreviewStartedEventBindingID;
+        EventBindingID                      m_gamePreviewStoppedEventBindingID;
     };
 }

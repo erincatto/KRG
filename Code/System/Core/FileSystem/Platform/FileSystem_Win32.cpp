@@ -7,57 +7,190 @@
 #include <shlwapi.h>
 #include <shlobj.h>
 #include <shellapi.h>
-
-
 #include <fstream>
-#include "../Time/Timers.h"
-#include "../Logging/Log.h"
+#include <filesystem>
 
 //-------------------------------------------------------------------------
 
 namespace KRG::FileSystem
 {
-    char const Path::s_pathDelimiter = '\\';
+    char const Settings::s_pathDelimiter = '\\';
 
     //-------------------------------------------------------------------------
 
-    String Path::GetFullPathString( char const* pPath )
+    bool GetFullPathString( char const* pPath, String& outPath )
     {
-        char fullpath[256] = { 0 };
-
         if ( pPath != nullptr && pPath[0] != 0 )
         {
             // Warning: this function is slow, so use sparingly
-            DWORD length = GetFullPathNameA( pPath, 256, fullpath, nullptr );
-            KRG_ASSERT( length != 0 && length != 255 );
+            outPath.reserve( MAX_PATH );
+            DWORD const length = GetFullPathNameA( pPath, MAX_PATH, outPath.data(), nullptr);
+            KRG_ASSERT( length != 0 && length != MAX_PATH );
+            outPath.force_size( length );
 
             // Ensure directory paths have the final slash appended
-            DWORD const result = GetFileAttributesA( fullpath );
-            if ( result != INVALID_FILE_ATTRIBUTES && ( result & FILE_ATTRIBUTE_DIRECTORY ) && fullpath[length - 1] != Path::s_pathDelimiter )
+            DWORD const result = GetFileAttributesA( outPath.c_str() );
+            if ( result != INVALID_FILE_ATTRIBUTES && ( result & FILE_ATTRIBUTE_DIRECTORY ) && outPath[length - 1] != Settings::s_pathDelimiter )
             {
-                fullpath[length] = Path::s_pathDelimiter;
-                fullpath[length + 1] = 0;
+                outPath += Settings::s_pathDelimiter;
             }
+
+            return true;
         }
 
-        return String( fullpath );
+        return false;
+    }
+
+    bool GetCorrectCaseForPath( char const* pPath, String& outPath )
+    {
+        bool failed = false;
+
+        HANDLE hFile = CreateFile( pPath, GENERIC_READ, FILE_SHARE_READ, nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr );
+        if ( hFile != INVALID_HANDLE_VALUE )
+        {
+            char buffer[MAX_PATH];
+            DWORD dwRet = GetFinalPathNameByHandle( hFile, buffer, MAX_PATH, FILE_NAME_NORMALIZED );
+            if ( dwRet < MAX_PATH )
+            {
+                outPath = buffer + 4;
+            }
+            else
+            {
+                failed = true;
+            }
+
+            CloseHandle( hFile );
+        }
+        else // Invalid handle i.e. file doesnt exist
+        {
+            failed = true;
+        }
+
+        //-------------------------------------------------------------------------
+
+        if ( failed )
+        {
+            outPath = pPath;
+        }
+
+        //-------------------------------------------------------------------------
+
+        return !failed;
     }
 
     //-------------------------------------------------------------------------
 
-    Path GetCurrentProcessPath()
+    bool Exists( char const* pPath )
     {
-        return Path( Platform::Win32::GetCurrentModulePath() ).GetParentDirectory();
+        DWORD dwAttrib = GetFileAttributes( pPath );
+        return ( dwAttrib != INVALID_FILE_ATTRIBUTES );
+    }
+
+    bool IsReadOnly( char const* pPath )
+    {
+        DWORD dwAttrib = GetFileAttributes( pPath );
+        return ( dwAttrib != INVALID_FILE_ATTRIBUTES && ( dwAttrib & FILE_ATTRIBUTE_READONLY ) );
+    }
+
+    bool IsExistingFile( char const* pPath )
+    {
+        DWORD dwAttrib = GetFileAttributes( pPath );
+        return ( dwAttrib != INVALID_FILE_ATTRIBUTES && !( dwAttrib & FILE_ATTRIBUTE_DIRECTORY ) );
+    }
+
+    bool IsExistingDirectory( char const* pPath )
+    {
+        DWORD dwAttrib = GetFileAttributes( pPath );
+        return ( dwAttrib != INVALID_FILE_ATTRIBUTES && ( dwAttrib & FILE_ATTRIBUTE_DIRECTORY ) );
+    }
+
+    bool IsFileReadOnly( char const* pPath )
+    {
+        DWORD dwAttrib = GetFileAttributes( pPath );
+        return ( dwAttrib != INVALID_FILE_ATTRIBUTES && !( dwAttrib & FILE_ATTRIBUTE_DIRECTORY ) && ( dwAttrib & FILE_ATTRIBUTE_READONLY ) );
+    }
+
+    uint64 GetFileModifiedTime( char const* path )
+    {
+        ULARGE_INTEGER fileWriteTime;
+        fileWriteTime.QuadPart = 0;
+
+        WIN32_FIND_DATAA findData;
+        HANDLE hFind = FindFirstFileA( path, &findData );
+        if ( hFind != INVALID_HANDLE_VALUE )
+        {
+            fileWriteTime.LowPart = findData.ftLastWriteTime.dwLowDateTime;
+            fileWriteTime.HighPart = findData.ftLastWriteTime.dwHighDateTime;
+            FindClose( hFind );
+        }
+
+        return fileWriteTime.QuadPart;
     }
 
     //-------------------------------------------------------------------------
 
-    bool LoadFile( Path const& path, TVector<Byte>& fileData )
+    bool CreateDir( char const* path )
     {
-        KRG_ASSERT( path.IsFile() );
+        // TODO: replace with appropriate windows call
+        std::error_code ec;
+        std::filesystem::create_directories( path, ec );
+        return ec.value() == 0;
+    }
+
+    bool EraseDir( char const* path )
+    {
+        // TODO: replace with appropriate windows call
+        std::error_code ec;
+        auto const result = std::filesystem::remove_all( path, ec );
+        return ec.value() == 0;
+    }
+
+    bool EraseFile( char const* path )
+    {
+        return DeleteFile( path );
+    }
+
+    //-------------------------------------------------------------------------
+
+    void GetDirectoryContents( char const* pDirectoryPath, TVector<String>& contents, const char* pFileFilter )
+    {
+        KRG_ASSERT( pDirectoryPath != nullptr );
+        size_t const directoryPathLength = strlen( pDirectoryPath );
+        KRG_ASSERT( directoryPathLength > 0 );
+
+        HANDLE hFind;
+        WIN32_FIND_DATAA findFileData;
+
+        // Create search path
+        size_t const filterLength = strlen( pFileFilter );
+        KRG_ASSERT( filterLength + directoryPathLength < 256 );
+        char searchParam[256] = { 0 };
+        memcpy( searchParam, pDirectoryPath, directoryPathLength );
+        memcpy( &searchParam[directoryPathLength], pFileFilter, strlen( pFileFilter ) );
+
+        // Search directory - Case-insensitive
+        hFind = ::FindFirstFileExA( searchParam, FindExInfoStandard, &findFileData, FindExSearchNameMatch, nullptr, 0 );
+        if ( hFind != INVALID_HANDLE_VALUE )
+        {
+            do
+            {
+                if ( !( findFileData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY ) )
+                {
+                    contents.emplace_back( String::CtorSprintf(), "%s%s", pDirectoryPath, findFileData.cFileName );
+                }
+            } while ( ::FindNextFileA( hFind, &findFileData ) );
+            ::FindClose( hFind );
+        }
+    }
+
+    //-------------------------------------------------------------------------
+
+    bool LoadFile( char const* pPath, TVector<Byte>& fileData )
+    {
+        KRG_ASSERT( pPath != nullptr );
 
         // Open file handle
-        HANDLE hFile = CreateFile( path.c_str(), GENERIC_READ, FILE_SHARE_READ, nullptr, OPEN_EXISTING, FILE_FLAG_SEQUENTIAL_SCAN, nullptr );
+        HANDLE hFile = CreateFile( pPath, GENERIC_READ, FILE_SHARE_READ, nullptr, OPEN_EXISTING, FILE_FLAG_SEQUENTIAL_SCAN | FILE_FLAG_POSIX_SEMANTICS, nullptr );
         if ( hFile == INVALID_HANDLE_VALUE )
         {
             return false;

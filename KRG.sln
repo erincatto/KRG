@@ -86,6 +86,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "6. Property Sheets", "6. Pr
 		Code\PropertySheets\DirectXTex.props = Code\PropertySheets\DirectXTex.props
 		Code\PropertySheets\EA.props = Code\PropertySheets\EA.props
 		Code\PropertySheets\FBXSDK.props = Code\PropertySheets\FBXSDK.props
+		Code\PropertySheets\FreeType.props = Code\PropertySheets\FreeType.props
 		Code\PropertySheets\GameNetworkingSockets.props = Code\PropertySheets\GameNetworkingSockets.props
 		Code\PropertySheets\Imgui.props = Code\PropertySheets\Imgui.props
 		Code\PropertySheets\KRG.props = Code\PropertySheets\KRG.props
@@ -114,18 +115,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "7. Ini", "7. Ini", "{8E9AF6
 	EndProjectSection
 EndProject
 Global
-	GlobalSection(SharedMSBuildProjectFiles) = preSolution
-		Code\Applications\Shared\KRG.Applications.Shared.vcxitems*{15e4867a-f174-4f2a-a7c1-99cc6376d8d2}*SharedItemsImports = 4
-		Code\Applications\EngineShared\KRG.Applications.EngineShared.vcxitems*{8778c386-a74a-4545-8297-ce68639d4ade}*SharedItemsImports = 4
-		Code\Applications\Shared\KRG.Applications.Shared.vcxitems*{8778c386-a74a-4545-8297-ce68639d4ade}*SharedItemsImports = 4
-		Code\Applications\Shared\KRG.Applications.Shared.vcxitems*{92f52a23-7513-43a0-8299-8fc752d2b401}*SharedItemsImports = 4
-		Code\Applications\Shared\KRG.Applications.Shared.vcxitems*{ac5e982d-b267-4caa-9db7-eda06ad36843}*SharedItemsImports = 9
-		Code\Applications\Shared\KRG.Applications.Shared.vcxitems*{bbcf3423-e4b4-4cdd-8a97-c6c390bacc23}*SharedItemsImports = 4
-		Code\Applications\Shared\KRG.Applications.Shared.vcxitems*{c6d6c2bd-89a1-41f2-b27d-3e87b8b678a5}*SharedItemsImports = 4
-		Code\Applications\EngineShared\KRG.Applications.EngineShared.vcxitems*{d6bdd49c-ef46-4637-844a-4ffdd6a25dc5}*SharedItemsImports = 4
-		Code\Applications\Shared\KRG.Applications.Shared.vcxitems*{d6bdd49c-ef46-4637-844a-4ffdd6a25dc5}*SharedItemsImports = 4
-		Code\Applications\EngineShared\KRG.Applications.EngineShared.vcxitems*{e1b87641-1dba-429e-9f6b-22534d933097}*SharedItemsImports = 9
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
 		Release|x64 = Release|x64
@@ -311,5 +300,17 @@ Global
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9B3C65B2-09F5-4AAD-909C-407AB4B18705}
+	EndGlobalSection
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		Code\Applications\Shared\KRG.Applications.Shared.vcxitems*{15e4867a-f174-4f2a-a7c1-99cc6376d8d2}*SharedItemsImports = 4
+		Code\Applications\EngineShared\KRG.Applications.EngineShared.vcxitems*{8778c386-a74a-4545-8297-ce68639d4ade}*SharedItemsImports = 4
+		Code\Applications\Shared\KRG.Applications.Shared.vcxitems*{8778c386-a74a-4545-8297-ce68639d4ade}*SharedItemsImports = 4
+		Code\Applications\Shared\KRG.Applications.Shared.vcxitems*{92f52a23-7513-43a0-8299-8fc752d2b401}*SharedItemsImports = 4
+		Code\Applications\Shared\KRG.Applications.Shared.vcxitems*{ac5e982d-b267-4caa-9db7-eda06ad36843}*SharedItemsImports = 9
+		Code\Applications\Shared\KRG.Applications.Shared.vcxitems*{bbcf3423-e4b4-4cdd-8a97-c6c390bacc23}*SharedItemsImports = 4
+		Code\Applications\Shared\KRG.Applications.Shared.vcxitems*{c6d6c2bd-89a1-41f2-b27d-3e87b8b678a5}*SharedItemsImports = 4
+		Code\Applications\EngineShared\KRG.Applications.EngineShared.vcxitems*{d6bdd49c-ef46-4637-844a-4ffdd6a25dc5}*SharedItemsImports = 4
+		Code\Applications\Shared\KRG.Applications.Shared.vcxitems*{d6bdd49c-ef46-4637-844a-4ffdd6a25dc5}*SharedItemsImports = 4
+		Code\Applications\EngineShared\KRG.Applications.EngineShared.vcxitems*{e1b87641-1dba-429e-9f6b-22534d933097}*SharedItemsImports = 9
 	EndGlobalSection
 EndGlobal

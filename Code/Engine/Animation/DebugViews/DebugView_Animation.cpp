@@ -261,7 +261,7 @@ namespace KRG::Animation
                 ImGui::TableNextColumn();
                 if ( sampledEvent.IsStateEvent() )
                 {
-                    ImGui::TextColored( Colors::LightGray.ToFloat4(), KRG_ICON_PROJECT_DIAGRAM );
+                    ImGui::TextColored( Colors::LightGray.ToFloat4(), KRG_ICON_GRAPH );
                 }
                 else
                 {
@@ -395,7 +395,7 @@ namespace KRG::Animation
                     RootMotionRecorderDebugMode const debugMode = pGraphComponent->GetRootMotionDebugMode();
 
                     bool const isRootVisualizationOff = debugMode == RootMotionRecorderDebugMode::Off;
-                    if ( ImGui::RadioButton( "No Visualization##RootMotion", isRootVisualizationOff ) )
+                    if ( ImGui::RadioButton( "No Root Motion Visualization##RootMotion", isRootVisualizationOff ) )
                     {
                         pGraphComponent->SetRootMotionDebugMode( RootMotionRecorderDebugMode::Off );
                     }
@@ -435,7 +435,7 @@ namespace KRG::Animation
                     TaskSystemDebugMode const debugMode = pGraphComponent->GetTaskSystemDebugMode();
 
                     bool const isVisualizationOff = debugMode == TaskSystemDebugMode::Off;
-                    if ( ImGui::RadioButton( "No Visualization##Tasks", isVisualizationOff ) )
+                    if ( ImGui::RadioButton( "No Pose Visualization##Tasks", isVisualizationOff ) )
                     {
                         pGraphComponent->SetTaskSystemDebugMode( TaskSystemDebugMode::Off );
                     }

@@ -86,7 +86,6 @@ namespace KRG::Animation
         TaskSystem* const                       m_pTaskSystem = nullptr;
         Skeleton const* const                   m_pSkeleton = nullptr;
         Pose const* const                       m_pPreviousPose = nullptr;
-        Seconds                                 m_deltaTime = 0.0f;
         Transform                               m_worldTransform = Transform::Identity;
         Transform                               m_worldTransformInverse = Transform::Identity;
         SampledEventsBuffer                     m_sampledEvents;
@@ -96,6 +95,7 @@ namespace KRG::Animation
 
         BoneMaskPool                            m_boneMaskPool;
         GraphLayerContext                       m_layerContext;
+        Seconds                                 m_deltaTime = 0.0f;
 
     private:
 

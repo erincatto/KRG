@@ -35,8 +35,9 @@ namespace KRG::Animation
         virtual void InitializeDockingLayout( ImGuiID dockspaceID ) const override;
         virtual void UpdateWorkspace( UpdateContext const& context, ImGuiWindowClass* pWindowClass ) override;
 
-        virtual bool HasViewportToolbar() const override { return true; }
-        virtual void DrawViewportToolbar( UpdateContext const& context, Render::Viewport const* pViewport ) override;
+        virtual bool HasViewportToolbarTimeControls() const override { return true; }
+        virtual void DrawViewportToolbarItems( UpdateContext const& context, Render::Viewport const* pViewport ) override;
+        virtual void DrawWorkspaceToolbarItems( UpdateContext const& context ) override;
 
         virtual bool IsDirty() const override;
         virtual bool Save() override;
@@ -70,5 +71,6 @@ namespace KRG::Animation
         Transform                       m_characterTransform = Transform::Identity;
         ResourceID                      m_previewMeshOverride;
         bool                            m_isRootMotionEnabled = true;
+        bool                            m_isPoseDrawingEnabled = true;
     };
 }

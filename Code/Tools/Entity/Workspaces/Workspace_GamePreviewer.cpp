@@ -73,7 +73,7 @@ namespace KRG
         m_engineToolsUI.DrawOverlayElements( context, pViewport );
     }
 
-    void GamePreviewer::DrawWorkspaceToolbar( UpdateContext const& context )
+    void GamePreviewer::DrawWorkspaceToolbarItems( UpdateContext const& context )
     {
         KRG_ASSERT( context.GetUpdateStage() == UpdateStage::FrameEnd );
         m_engineToolsUI.DrawMenu( context, m_pWorld );

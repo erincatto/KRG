@@ -52,6 +52,7 @@ namespace KRG::Animation
         KRG_REGISTER_RESOURCE( 'ag', "Animation Graph" );
         KRG_SERIALIZE_MEMBERS( m_persistentNodeIndices, m_instanceNodeStartOffsets, m_instanceRequiredMemory, m_instanceRequiredAlignment, m_numControlParameters, m_rootNodeIdx, m_controlParameterIDs );
 
+        friend class GraphDefinitionCompiler;
         friend class AnimationGraphCompiler;
         friend class GraphLoader;
         friend class GraphInstance;
@@ -60,7 +61,7 @@ namespace KRG::Animation
 
         virtual bool IsValid() const override { return m_rootNodeIdx != InvalidIndex; }
 
-        #if KRG_DEVELOPMENT_TOOLS
+        #if !KRG_CONFIGURATION_SHIPPING
         String const& GetNodePath( GraphNodeIndex nodeIdx ) const{ return m_nodePaths[nodeIdx]; }
         #endif
 
@@ -74,10 +75,11 @@ namespace KRG::Animation
         GraphNodeIndex                              m_rootNodeIdx = InvalidIndex;
         TVector<StringID>                           m_controlParameterIDs;
 
-        //#if KRG_DEVELOPMENT_TOOLS
+        #if !KRG_CONFIGURATION_SHIPPING
         TVector<String>                             m_nodePaths;
-        //#endif
+        #endif
 
+        // Node settings are created/destroyed by the animation graph loader
         TVector<GraphNode::Settings*>               m_nodeSettings;
     };
 

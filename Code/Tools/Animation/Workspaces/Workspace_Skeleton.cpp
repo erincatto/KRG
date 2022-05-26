@@ -133,10 +133,6 @@ namespace KRG::Animation
         DrawDetailsWindow( context );
     }
 
-    void SkeletonWorkspace::DrawViewportToolbar( UpdateContext const& context, Render::Viewport const* pViewport )
-    {
-    }
-
     void SkeletonWorkspace::DrawDetailsWindow( UpdateContext const& context )
     {
         ImGui::PushStyleVar( ImGuiStyleVar_WindowPadding, ImVec2( 8, 8 ) );

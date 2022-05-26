@@ -1,7 +1,7 @@
 #pragma once
 
 #include "System/Core/Math/Math.h"
-#include "System/Core/Types/Containers.h"
+#include "EASTL/functional.h"
 
 //-------------------------------------------------------------------------
 

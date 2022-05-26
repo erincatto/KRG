@@ -27,7 +27,7 @@ namespace KRG
         virtual bool HasViewportOrientationGuide() const override { return false; }
         virtual void InitializeDockingLayout( ImGuiID dockspaceID ) const override;
 
-        virtual void DrawWorkspaceToolbar( UpdateContext const& context ) override;
+        virtual void DrawWorkspaceToolbarItems( UpdateContext const& context ) override;
         virtual void UpdateWorkspace( UpdateContext const& context, ImGuiWindowClass* pWindowClass ) override;
         virtual void DrawViewportOverlayElements( UpdateContext const& context, Render::Viewport const* pViewport ) override;
 

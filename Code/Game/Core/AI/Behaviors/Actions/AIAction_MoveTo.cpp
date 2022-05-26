@@ -1,6 +1,7 @@
 #include "AIAction_MoveTo.h"
 #include "Game/Core/AI/Behaviors/AIBehavior.h"
 #include "Game/Core/AI/GraphControllers/AIGraphController_Locomotion.h"
+#include "Game/Core/AI/AIAnimationController.h"
 #include "Engine/Navmesh/Systems/WorldSystem_Navmesh.h"
 #include "Engine/Physics/Components/Component_PhysicsCharacter.h"
 #include "Engine/Navmesh/NavPower.h"
@@ -20,6 +21,10 @@ namespace KRG::AI
 
     void MoveToAction::Start( BehaviorContext const& ctx, Vector const& goalPosition )
     {
+        ctx.m_pAnimationController->SetCharacterState( CharacterAnimationState::Locomotion );
+
+        //-------------------------------------------------------------------------
+
         #if KRG_ENABLE_NAVPOWER
         auto spaceHandle = ctx.m_pNavmeshSystem->GetSpaceHandle();
 

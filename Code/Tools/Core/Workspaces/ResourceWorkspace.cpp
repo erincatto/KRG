@@ -186,7 +186,7 @@ namespace KRG
                 }
 
                 ImGui::BeginDisabled( !m_descriptorPropertyGrid.IsDirty() );
-                if ( ImGuiX::ColoredButton( ImGuiX::ConvertColor( Colors::ForestGreen ), ImGuiX::ConvertColor( Colors::White ), KRG_ICON_SAVE" Save", ImVec2( -1, 0 ) ) )
+                if ( ImGuiX::ColoredButton( ImGuiX::ConvertColor( Colors::ForestGreen ), ImGuiX::ConvertColor( Colors::White ), KRG_ICON_CONTENT_SAVE" Save", ImVec2( -1, 0 ) ) )
                 {
                     Save();
                 }
@@ -198,14 +198,15 @@ namespace KRG
         ImGui::End();
     }
 
-    void GenericResourceWorkspace::DrawWorkspaceToolbar( UpdateContext const& context )
+    void GenericResourceWorkspace::DrawWorkspaceToolbarItems( UpdateContext const& context )
     {
-        EditorWorkspace::DrawWorkspaceToolbar( context );
+        EditorWorkspace::DrawWorkspaceToolbarItems( context );
 
-        if ( ImGui::MenuItem( KRG_ICON_CLONE" Copy Path" ) )
+        if ( ImGui::MenuItem( KRG_ICON_CONTENT_COPY"##Copy Path" ) )
         {
             ImGui::SetClipboardText( m_descriptorID.c_str() );
         }
+        ImGuiX::ItemTooltip( "Copy Resource Path" );
     }
 
     void GenericResourceWorkspace::DrawDescriptorEditorWindow( UpdateContext const& context, ImGuiWindowClass* pWindowClass )
@@ -227,7 +228,7 @@ namespace KRG
 
     bool GenericResourceWorkspace::Save()
     {
-        KRG_ASSERT( m_descriptorID.IsValid() && m_descriptorPath.IsFile() );
+        KRG_ASSERT( m_descriptorID.IsValid() && m_descriptorPath.IsFilePath() );
         KRG_ASSERT( m_pDescriptor != nullptr );
 
         // Serialize descriptor

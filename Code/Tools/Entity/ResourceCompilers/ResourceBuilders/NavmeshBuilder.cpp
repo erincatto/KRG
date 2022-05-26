@@ -92,7 +92,6 @@ namespace KRG::Navmesh
         // Serialize
         //-------------------------------------------------------------------------
 
-        FileSystem::EnsurePathExists( navmeshResourcePath );
         Serialization::BinaryFileArchive archive( Serialization::Mode::Write, navmeshResourcePath );
         if ( archive.IsValid() )
         {

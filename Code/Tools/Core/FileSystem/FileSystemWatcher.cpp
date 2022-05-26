@@ -29,7 +29,7 @@ namespace KRG::FileSystem
     bool FileSystemWatcher::StartWatching( Path const& directoryToWatch )
     {
         KRG_ASSERT( !IsWatching() );
-        KRG_ASSERT( directoryToWatch.IsValid() && directoryToWatch.IsDirectory() );
+        KRG_ASSERT( directoryToWatch.IsValid() && directoryToWatch.IsDirectoryPath() );
 
         // Get directory handle
         //-------------------------------------------------------------------------
@@ -158,7 +158,7 @@ namespace KRG::FileSystem
 
             if ( pNotifyInformation->FileAttributes & FILE_ATTRIBUTE_DIRECTORY )
             {
-                filePath.MakeDirectory();
+                filePath.MakeIntoDirectoryPath();
             }
             return filePath;
         }
@@ -181,7 +181,7 @@ namespace KRG::FileSystem
                 {
                     path = GetFileSystemPath( m_directoryToWatch, pNotify );
 
-                    if ( path.IsDirectory() )
+                    if ( path.IsDirectoryPath() )
                     {
                         for ( auto pChangeHandler : m_changeListeners )
                         {
@@ -202,7 +202,7 @@ namespace KRG::FileSystem
                 {
                     path = GetFileSystemPath( m_directoryToWatch, pNotify );
 
-                    if ( path.IsDirectory() )
+                    if ( path.IsDirectoryPath() )
                     {
                         for ( auto pChangeHandler : m_changeListeners )
                         {
@@ -223,7 +223,7 @@ namespace KRG::FileSystem
                 {
                     path = GetFileSystemPath( m_directoryToWatch, pNotify );
 
-                    if ( path.IsFile() )
+                    if ( path.IsFilePath() )
                     {
                         auto predicate = [] ( FileModificationEvent const& event, Path const& path )
                         {
@@ -253,7 +253,7 @@ namespace KRG::FileSystem
 
                     //-------------------------------------------------------------------------
 
-                    if ( secondPath.IsDirectory() )
+                    if ( secondPath.IsDirectoryPath() )
                     {
                         for ( auto pChangeHandler : m_changeListeners )
                         {

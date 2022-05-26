@@ -7,7 +7,7 @@
 
 namespace KRG::Animation
 {
-    class EditorGraphCompilationContext;
+    class GraphCompilationContext;
     class EditorGraphDefinition;
     class VariationHierarchy;
 
@@ -53,7 +53,7 @@ namespace KRG::Animation
             virtual bool IsPersistentNode() const { return false; }
 
             // Compile this node into its runtime representation. Returns the node index of the compiled node.
-            virtual GraphNodeIndex Compile( EditorGraphCompilationContext& context ) const { return InvalidIndex; }
+            virtual GraphNodeIndex Compile( GraphCompilationContext& context ) const { return InvalidIndex; }
 
         protected:
 
@@ -82,7 +82,19 @@ namespace KRG::Animation
 
         public:
 
+            virtual char const* GetDisplayName() const override { return m_name.c_str(); }
+
+            virtual void Initialize( VisualGraph::BaseGraph* pParent ) override;
+
+            // Slot
+            //-------------------------------------------------------------------------
+
+            virtual char const* const GetDefaultSlotName() const { return "Slot"; }
+
+            void SetSlotName( String const& newName ) { m_name = newName; }
+
             bool AreSlotValuesValid() const;
+
             virtual ResourceTypeID GetSlotResourceTypeID() const { return ResourceTypeID(); }
 
             // This will return the final resolved resource value for this slot
@@ -109,6 +121,7 @@ namespace KRG::Animation
 
         protected:
 
+            KRG_EXPOSE String                       m_name;
             KRG_REGISTER ResourceID                 m_defaultResourceID;
             KRG_REGISTER TVector<OverrideValue>     m_overrides;
         };
@@ -128,7 +141,7 @@ namespace KRG::Animation
             virtual char const* GetCategory() const override { return "Results"; }
             virtual bool IsUserCreatable() const override { return false; }
             virtual TBitFlags<GraphType> GetAllowedParentGraphTypes() const override { return TBitFlags<GraphType>( GraphType::BlendTree, GraphType::ValueTree ); }
-            virtual GraphNodeIndex Compile( EditorGraphCompilationContext& context ) const override;
+            virtual GraphNodeIndex Compile( GraphCompilationContext& context ) const override;
 
         private:
 
@@ -142,7 +155,7 @@ namespace KRG::Animation
 
     namespace GraphNodes
     {
-        class ControlParameterEditorNode final : public EditorGraphNode
+        class ControlParameterEditorNode : public EditorGraphNode
         {
             KRG_REGISTER_TYPE( ControlParameterEditorNode );
             friend EditorGraphDefinition;
@@ -150,26 +163,27 @@ namespace KRG::Animation
         public:
 
             ControlParameterEditorNode() = default;
-            ControlParameterEditorNode( String const& name, GraphValueType type );
+            ControlParameterEditorNode( String const& name );
+
+            inline String const& GetParameterName() const { return m_name; }
+            void Rename( String const& name, String const& category );
 
             inline StringID GetParameterID() const { return StringID( m_name ); }
             inline String const& GetParameterCategory() const { return m_parameterCategory; }
 
-            virtual void Initialize( VisualGraph::BaseGraph* pParentGraph ) override;
             virtual bool IsVisibleNode() const override { return false; }
             virtual char const* GetDisplayName() const override { return m_name.c_str(); }
             virtual char const* GetTypeName() const override { return "Parameter"; }
             virtual char const* GetCategory() const override { return "Control Parameters"; }
             virtual bool IsUserCreatable() const override { return false; }
             virtual TBitFlags<GraphType> GetAllowedParentGraphTypes() const override { return TBitFlags<GraphType>( GraphType::BlendTree, GraphType::ValueTree, GraphType::TransitionTree ); }
-            virtual GraphNodeIndex Compile( EditorGraphCompilationContext& context ) const override;
+            virtual GraphNodeIndex Compile( GraphCompilationContext& context ) const override;
             virtual bool IsPersistentNode() const override { return true; }
 
         private:
 
             KRG_REGISTER String                     m_name;
             KRG_REGISTER String                     m_parameterCategory;
-            KRG_REGISTER GraphValueType             m_type = GraphValueType::Float;
         };
 
         //-------------------------------------------------------------------------
@@ -184,6 +198,9 @@ namespace KRG::Animation
             VirtualParameterEditorNode() = default;
             VirtualParameterEditorNode( String const& name, GraphValueType type );
 
+            inline String const& GetParameterName() const { return m_name; }
+            void Rename( String const& name, String const& category );
+
             inline String const& GetParameterCategory() const { return m_parameterCategory; }
 
             virtual void Initialize( VisualGraph::BaseGraph* pParentGraph ) override;
@@ -193,7 +210,7 @@ namespace KRG::Animation
             virtual char const* GetCategory() const override { return "Virtual Parameters"; }
             virtual bool IsUserCreatable() const override { return false; }
             virtual TBitFlags<GraphType> GetAllowedParentGraphTypes() const override { return TBitFlags<GraphType>( GraphType::BlendTree, GraphType::ValueTree, GraphType::TransitionTree ); }
-            virtual GraphNodeIndex Compile( EditorGraphCompilationContext& context ) const override;
+            virtual GraphNodeIndex Compile( GraphCompilationContext& context ) const override;
 
         private:
 
@@ -237,7 +254,7 @@ namespace KRG::Animation
             virtual bool IsUserCreatable() const override { return true; }
             virtual bool IsDestroyable() const override { return true; }
             virtual TBitFlags<GraphType> GetAllowedParentGraphTypes() const override { return TBitFlags<GraphType>( GraphType::BlendTree, GraphType::ValueTree, GraphType::TransitionTree ); }
-            virtual GraphNodeIndex Compile( EditorGraphCompilationContext& context ) const override;
+            virtual GraphNodeIndex Compile( GraphCompilationContext& context ) const override;
 
         private:
 

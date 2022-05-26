@@ -7,7 +7,7 @@
 #include "Applications/Shared/cmdParser/krg_cmdparser.h"
 #include "System/Resource/ResourceSettings.h"
 #include "System/Core/Settings/SettingsRegistry.h"
-#include "System/Core/FileSystem/FileSystem.h"
+#include "System/Core/FileSystem/FileSystemUtils.h"
 #include "System/Core/Logging/Log.h"
 
 #include <windows.h>
@@ -113,8 +113,8 @@ int main( int argc, char* argv[] )
     // File Paths
     //-------------------------------------------------------------------------
 
-    FileSystem::EnsurePathExists( settings.m_rawResourcePath);
-    FileSystem::EnsurePathExists( settings.m_compiledResourcePath );
+    settings.m_rawResourcePath.EnsureDirectoryExists();
+    settings.m_compiledResourcePath.EnsureDirectoryExists();
 
     // Create tools modules and register compilers
     //-------------------------------------------------------------------------

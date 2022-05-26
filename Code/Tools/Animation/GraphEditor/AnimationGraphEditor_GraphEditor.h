@@ -1,4 +1,5 @@
 #pragma once
+#include "AnimationGraphEditor_Context.h"
 #include "Tools/Core/VisualGraph/VisualGraph_View.h"
 #include "Tools/Core/Helpers/CategoryTree.h"
 #include "Tools/Core/ToolsContext.h"
@@ -11,7 +12,6 @@ namespace KRG::Resource { class ResourceDatabase; }
 namespace KRG::Animation
 {
     class FlowGraph;
-    class EditorGraphDefinition;
     struct DebugContext;
 }
 
@@ -52,19 +52,14 @@ namespace KRG::Animation
 
         public:
 
-            GraphEditor&            m_graphEditor;
-            bool                    m_selectionChanged = false;
-            bool                    m_wasFocused = false;
+            GraphEditor&                                m_graphEditor;
+            bool                                        m_selectionChanged = false;
+            bool                                        m_wasFocused = false;
         };
 
     public:
 
-        GraphEditor( ToolsContext const* pToolsContext, EditorGraphDefinition* pGraphDefinition );
-
-        // Graph information
-        EditorGraphDefinition* GetGraphDefinition() { return m_pGraphDefinition; }
-        EditorGraphDefinition const* GetGraphDefinition() const { return m_pGraphDefinition; }
-        inline Category<TypeSystem::TypeInfo const*> const& GetCategorizedNodeTypes() const { return m_categorizedNodeTypes.GetRootCategory(); }
+        GraphEditor( GraphEditorContext& editorContext );
 
         // Update
         void UpdateAndDraw( UpdateContext const& context, DebugContext* pDebugContext, ImGuiWindowClass* pWindowClass, char const* pWindowName );
@@ -74,10 +69,6 @@ namespace KRG::Animation
         void NavigateTo( VisualGraph::BaseNode* pNode );
         void NavigateTo( VisualGraph::BaseGraph* pGraph );
 
-        // Selection
-        TVector<VisualGraph::SelectedNode> const& GetSelectedNodes() const;
-        void ClearSelection();
-
     private:
 
         void UpdateSecondaryViewState();
@@ -85,10 +76,7 @@ namespace KRG::Animation
 
     private:
 
-        ToolsContext const*                             m_pToolsContext = nullptr;
-        EditorGraphDefinition*                          m_pGraphDefinition = nullptr;
-        TVector<TypeSystem::TypeInfo const*>            m_registeredNodeTypes;
-        CategoryTree<TypeSystem::TypeInfo const*>       m_categorizedNodeTypes;
+        GraphEditorContext&                             m_editorContext;
         float                                           m_primaryGraphViewHeight = 300;
 
         GraphView                                       m_primaryGraphView;

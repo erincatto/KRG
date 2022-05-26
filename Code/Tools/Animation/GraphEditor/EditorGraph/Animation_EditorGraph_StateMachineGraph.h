@@ -323,12 +323,12 @@ namespace KRG::Animation
             virtual ImColor GetNodeTitleColor() const override { return ImGuiX::ConvertColor( Colors::CornflowerBlue ); }
 
             virtual TBitFlags<GraphType> GetAllowedParentGraphTypes() const override { return TBitFlags<GraphType>( GraphType::BlendTree ); }
-            virtual GraphNodeIndex Compile( EditorGraphCompilationContext& context ) const override;
+            virtual GraphNodeIndex Compile( GraphCompilationContext& context ) const override;
 
         private:
 
-            GraphNodeIndex CompileState( EditorGraphCompilationContext& context, StateBaseEditorNode const* pBaseStateNode ) const;
-            GraphNodeIndex CompileTransition( EditorGraphCompilationContext& context, TransitionEditorNode const* pTransitionNode, GraphNodeIndex targetStateNodeIdx ) const;
+            GraphNodeIndex CompileState( GraphCompilationContext& context, StateBaseEditorNode const* pBaseStateNode ) const;
+            GraphNodeIndex CompileTransition( GraphCompilationContext& context, TransitionEditorNode const* pTransitionNode, GraphNodeIndex targetStateNodeIdx ) const;
 
         private:
 

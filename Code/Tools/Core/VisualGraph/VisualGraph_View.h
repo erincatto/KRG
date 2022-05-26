@@ -125,7 +125,7 @@ namespace KRG::VisualGraph
         //-------------------------------------------------------------------------
 
         // This returns whether any selection changes occurred this update, will be cleared on each call to draw
-        inline bool HasSelectionChanged() const { return m_selectionChanged; }
+        inline bool HasSelectionChangedThisFrame() const { return m_selectionChanged; }
 
         inline void SelectNode( BaseNode const* pNode );
         inline bool HasSelectedNodes() const { return !m_selectedNodes.empty(); }

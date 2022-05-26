@@ -8,7 +8,7 @@ namespace KRG::VisualGraph
     constexpr static float const g_transitionArrowOffset = 4.0f;
     constexpr static float const g_spacingBetweenTitleAndNodeContents = 6.0f;
     constexpr static float const g_pinRadius = 5.0f;
-    constexpr static float const g_pinSelectionExtraRadius = 5.0f;
+    constexpr static float const g_pinSelectionExtraRadius = 10.0f;
     constexpr static float const g_spacingBetweenInputOutputPins = 16.0f;
 
     //-------------------------------------------------------------------------
@@ -246,9 +246,12 @@ namespace KRG::VisualGraph
 
             //-------------------------------------------------------------------------
 
-            ImGui::BeginGroup();
-            pNode->DrawExtraControls( ctx );
-            ImGui::EndGroup();
+            {
+                ImGuiX::ScopedFont const sf( ImGuiX::Font::Small );
+                ImGui::BeginGroup();
+                pNode->DrawExtraControls( ctx );
+                ImGui::EndGroup();
+            }
 
             ImVec2 const extraControlsRectSize = ImGui::GetItemRectSize();
             newNodeSize.x = Math::Max( newNodeSize.x, extraControlsRectSize.x );
@@ -391,7 +394,7 @@ namespace KRG::VisualGraph
                 if ( isPinHovered )
                 {
                     pNode->m_pHoveredPin = &pNode->m_inputPins[i];
-                    pinColor = ImGuiX::AdjustColorBrightness( pinColor, 1.25f );
+                    pinColor = ImGuiX::AdjustColorBrightness( pinColor, 1.55f );
                 }
 
                 // Draw pin
@@ -532,13 +535,17 @@ namespace KRG::VisualGraph
 
             //-------------------------------------------------------------------------
 
-            DrawFlowNodePins( ctx, pNode, newNodeSize );
+            {
+                ImGuiX::ScopedFont const sf( ImGuiX::Font::Small );
 
-            //-------------------------------------------------------------------------
+                DrawFlowNodePins( ctx, pNode, newNodeSize );
 
-            ImGui::BeginGroup();
-            pNode->DrawExtraControls( ctx );
-            ImGui::EndGroup();
+                //-------------------------------------------------------------------------
+
+                ImGui::BeginGroup();
+                pNode->DrawExtraControls( ctx );
+                ImGui::EndGroup();
+            }
 
             ImVec2 const extraControlsRectSize = ImGui::GetItemRectSize();
             newNodeSize.x = Math::Max( newNodeSize.x, extraControlsRectSize.x );
@@ -774,7 +781,7 @@ namespace KRG::VisualGraph
         KRG_ASSERT( !IsNodeSelected( pNodeToAdd ) );
 
         TVector<SelectedNode> oldSelection;
-        oldSelection.swap( m_selectedNodes );
+        oldSelection = m_selectedNodes;
         m_selectedNodes.emplace_back( pNodeToAdd );
         OnSelectionChangedInternal( oldSelection, m_selectedNodes );
     }
@@ -1074,7 +1081,6 @@ namespace KRG::VisualGraph
         KRG_ASSERT( m_dragState.m_mode == DragMode::None );
         m_dragState.m_mode = DragMode::Selection;
         m_dragState.m_startValue = ImGui::GetMousePos();
-        GetViewedGraph()->BeginModification();
     }
 
     void GraphView::OnDragSelection( DrawContext const& ctx )
@@ -1108,7 +1114,6 @@ namespace KRG::VisualGraph
 
         UpdateSelection( eastl::move( newSelection ) );
         m_dragState.Reset();
-        GetViewedGraph()->EndModification();
     }
 
     //-------------------------------------------------------------------------

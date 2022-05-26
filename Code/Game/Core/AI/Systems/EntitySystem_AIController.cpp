@@ -22,7 +22,7 @@ namespace KRG::AI
 
         if ( m_pAnimGraphComponent != nullptr && m_pCharacterMeshComponent != nullptr )
         {
-            m_behaviorContext.m_pAnimationController = KRG::New<AIAnimationController>( m_pAnimGraphComponent, m_pCharacterMeshComponent );
+            m_behaviorContext.m_pAnimationController = KRG::New<AnimationController>( m_pAnimGraphComponent, m_pCharacterMeshComponent );
         }
     }
 

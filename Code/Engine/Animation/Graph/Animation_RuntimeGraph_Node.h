@@ -211,9 +211,14 @@ namespace KRG::Animation
         // Deactivate a previous active branch, this is needed when trigger transitions
         virtual void DeactivateBranch( GraphContext& context ) { KRG_ASSERT( context.m_branchState == BranchState::Inactive && IsNodeActive( context ) ); }
 
+        //-------------------------------------------------------------------------
+
         #if KRG_DEVELOPMENT_TOOLS
         // Get the current state of the node
         PoseNodeDebugInfo GetDebugInfo() const;
+
+        // Perform debug drawing for the pose node
+        virtual void DrawDebug( Drawing::DrawContext& drawCtx, GraphContext& graphContext ) {}
         #endif
 
     private:

@@ -16,7 +16,7 @@ namespace KRG::Animation::GraphNodes
         CreateInputPin( "Input", GraphValueType::Pose );
     }
 
-    bool ParameterizedBlendEditorNode::CompileParameterAndSourceNodes( EditorGraphCompilationContext& context, ParameterizedBlendNode::Settings* pSettings ) const
+    bool ParameterizedBlendEditorNode::CompileParameterAndSourceNodes( GraphCompilationContext& context, ParameterizedBlendNode::Settings* pSettings ) const
     {
         // Parameter
         //-------------------------------------------------------------------------
@@ -83,7 +83,7 @@ namespace KRG::Animation::GraphNodes
         m_parameterValues.emplace_back( 1.0f );
     }
 
-    GraphNodeIndex RangedBlendEditorNode::Compile( EditorGraphCompilationContext & context ) const
+    GraphNodeIndex RangedBlendEditorNode::Compile( GraphCompilationContext & context ) const
     {
         RangedBlendNode::Settings* pSettings = nullptr;
         NodeCompilationState const state = context.GetSettings<RangedBlendNode>( this, pSettings );
@@ -142,7 +142,7 @@ namespace KRG::Animation::GraphNodes
 
     //-------------------------------------------------------------------------
 
-    GraphNodeIndex VelocityBlendEditorNode::Compile( EditorGraphCompilationContext& context ) const
+    GraphNodeIndex VelocityBlendEditorNode::Compile( GraphCompilationContext& context ) const
     {
         VelocityBlendNode::Settings* pSettings = nullptr;
         NodeCompilationState const state = context.GetSettings<VelocityBlendNode>( this, pSettings );

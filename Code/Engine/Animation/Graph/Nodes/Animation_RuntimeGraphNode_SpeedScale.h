@@ -53,7 +53,7 @@ namespace KRG::Animation::GraphNodes
         struct KRG_ENGINE_ANIMATION_API Settings final : public PoseNode::Settings
         {
             KRG_REGISTER_TYPE( Settings );
-            KRG_SERIALIZE_GRAPHNODESETTINGS( PoseNode::Settings, m_desiredVelocityValueNodeIdx, m_blendTime );
+            KRG_SERIALIZE_GRAPHNODESETTINGS( PoseNode::Settings, m_childNodeIdx, m_desiredVelocityValueNodeIdx, m_blendTime );
 
             virtual void InstantiateNode( TVector<GraphNode*> const& nodePtrs, GraphDataSet const* pDataSet, InitOptions options ) const override;
 
@@ -66,6 +66,7 @@ namespace KRG::Animation::GraphNodes
 
         virtual void InitializeInternal( GraphContext& context, SyncTrackTime const& initialTime ) override;
         virtual void ShutdownInternal( GraphContext& context ) override;
+        virtual bool IsValid() const override { return PoseNode::IsValid() && m_pChildNode->IsValid(); }
         virtual SyncTrack const& GetSyncTrack() const override;
         virtual GraphPoseNodeResult Update( GraphContext& context ) override;
         virtual GraphPoseNodeResult Update( GraphContext& context, SyncTrackTimeRange const& updateRange ) override;

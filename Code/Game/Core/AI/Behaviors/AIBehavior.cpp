@@ -1,7 +1,6 @@
 #include "AIBehavior.h"
-#include "Engine/Animation/Graph/Animation_RuntimeGraph_Controller.h"
+#include "Game/Core/AI/AIAnimationController.h"
 #include "Engine/Physics/Components/Component_PhysicsCharacter.h"
-#include "Game/Core/Player/Components/Component_MainPlayer.h"
 
 //-------------------------------------------------------------------------
 

@@ -294,7 +294,7 @@
     <ClCompile Include="FileSystem\FileStreams.cpp">
       <Filter>FileSystem</Filter>
     </ClCompile>
-    <ClCompile Include="FileSystem\FileSystem.cpp">
+    <ClCompile Include="FileSystem\FileSystemUtils.cpp">
       <Filter>FileSystem</Filter>
     </ClCompile>
     <ClCompile Include="FileSystem\Platform\FileSystem_Win32.cpp">
@@ -364,6 +364,9 @@
     <ClCompile Include="Math\FloatCurve.cpp" />
     <ClCompile Include="Types\Tag.cpp" />
     <ClCompile Include="ThirdParty\KRG_RapidJson.cpp" />
+    <ClCompile Include="Math\MathRandom.cpp" />
+    <ClCompile Include="FileSystem\Platform\FileSystemPath_Win32.cpp" />
+    <ClCompile Include="FileSystem\Platform\FileSystemUtils_Win32.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Math\Transform.h">
@@ -1711,6 +1714,8 @@
     <ClInclude Include="ThirdParty\KRG_RapidJson.h" />
     <ClInclude Include="Math\EigenVectors.h" />
     <ClInclude Include="Types\AdvancedContainers.h" />
+    <ClInclude Include="Math\MathRandom.h" />
+    <ClInclude Include="FileSystem\FileSystemUtils.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ThirdParty\EA\EABase\doc\EABase.html">

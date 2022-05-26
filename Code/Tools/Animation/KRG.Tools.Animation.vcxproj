@@ -15,11 +15,15 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="GraphEditor\AnimationGraphEditor_Context.h" />
     <ClInclude Include="GraphEditor\AnimationGraphEditor_ControlParameterEditor.h" />
     <ClInclude Include="GraphEditor\AnimationGraphEditor_GraphEditor.h" />
     <ClInclude Include="GraphEditor\AnimationGraphEditor_VariationEditor.h" />
     <ClInclude Include="Events\AnimationEventEditor.h" />
     <ClInclude Include="Events\AnimationEventData.h" />
+    <ClInclude Include="GraphEditor\AnimationGraphEditor_CompilationLog.h" />
+    <ClInclude Include="GraphEditor\EditorGraph\Nodes\Animation_EditorGraphNode_CachedValues.h" />
+    <ClInclude Include="GraphEditor\EditorGraph\Nodes\Animation_EditorGraphNode_ControlParameters.h" />
     <ClInclude Include="GraphEditor\EditorGraph\Nodes\Animation_EditorGraphNode_Ragdoll.h" />
     <ClInclude Include="GraphEditor\EditorGraph\Animation_EditorGraph_Common.h" />
     <ClInclude Include="GraphEditor\EditorGraph\Animation_EditorGraph_Compilation.h" />
@@ -57,11 +61,15 @@
     <ClInclude Include="_Module\Module.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="GraphEditor\AnimationGraphEditor_Context.cpp" />
     <ClCompile Include="GraphEditor\AnimationGraphEditor_ControlParameterEditor.cpp" />
     <ClCompile Include="GraphEditor\AnimationGraphEditor_GraphEditor.cpp" />
     <ClCompile Include="GraphEditor\AnimationGraphEditor_VariationEditor.cpp" />
     <ClCompile Include="Events\AnimationEventData.cpp" />
     <ClCompile Include="Events\AnimationEventEditor.cpp" />
+    <ClCompile Include="GraphEditor\AnimationGraphEditor_CompilationLog.cpp" />
+    <ClCompile Include="GraphEditor\EditorGraph\Nodes\Animation_EditorGraphNode_CachedValues.cpp" />
+    <ClCompile Include="GraphEditor\EditorGraph\Nodes\Animation_EditorGraphNode_ControlParameters.cpp" />
     <ClCompile Include="GraphEditor\EditorGraph\Nodes\Animation_EditorGraphNode_Ragdoll.cpp" />
     <ClCompile Include="GraphEditor\EditorGraph\Animation_EditorGraph_Common.cpp" />
     <ClCompile Include="GraphEditor\EditorGraph\Animation_EditorGraph_Compilation.cpp" />

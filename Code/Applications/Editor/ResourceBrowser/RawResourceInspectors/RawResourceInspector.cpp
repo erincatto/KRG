@@ -16,8 +16,8 @@ namespace KRG::Resource
         , m_filePath( filePath )
         , m_propertyGrid( pToolsContext )
     {
-        KRG_ASSERT( m_rawResourceDirectory.IsDirectory() && FileSystem::Exists( m_rawResourceDirectory ) );
-        KRG_ASSERT( filePath.IsFile() && FileSystem::Exists( filePath ) );
+        KRG_ASSERT( m_rawResourceDirectory.IsDirectoryPath() && FileSystem::Exists( m_rawResourceDirectory ) );
+        KRG_ASSERT( filePath.IsFilePath() && FileSystem::Exists( filePath ) );
     }
 
     RawResourceInspector::~RawResourceInspector()
@@ -87,7 +87,7 @@ namespace KRG::Resource
         pfd::save_file saveDialog( "Save Resource Descriptor", newDescriptorPath.c_str(), { "Descriptor", filter.c_str() } );
         newDescriptorPath = saveDialog.result().c_str();
 
-        if ( !newDescriptorPath.IsValid() || !newDescriptorPath.IsFile() )
+        if ( !newDescriptorPath.IsValid() || !newDescriptorPath.IsFilePath() )
         {
             return false;
         }

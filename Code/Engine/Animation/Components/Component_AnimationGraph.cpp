@@ -75,6 +75,12 @@ namespace KRG::Animation
         return m_pGraphVariation->GetSkeleton();
     }
 
+    void AnimationGraphComponent::ResetGraphState()
+    {
+        KRG_ASSERT( m_pGraphInstance->IsInitialized() );
+        m_pGraphInstance->Reset( m_graphContext );
+    }
+
     void AnimationGraphComponent::EvaluateGraph( Seconds deltaTime, Transform const& characterWorldTransform, Physics::Scene* pPhysicsScene )
     {
         KRG_PROFILE_FUNCTION_ANIMATION();

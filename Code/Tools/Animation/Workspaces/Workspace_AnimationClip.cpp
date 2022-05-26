@@ -45,6 +45,8 @@ namespace KRG::Animation
             EndModification();
         };
 
+        m_eventEditor.SetLooping( true );
+
         m_beginModEventID = Timeline::TrackContainer::s_onBeginModification.Bind( OnBeginMod );
         m_endModEventID = Timeline::TrackContainer::s_onEndModification.Bind( OnEndMod );
 
@@ -213,14 +215,16 @@ namespace KRG::Animation
             //-------------------------------------------------------------------------
 
             auto drawingCtx = GetDrawingContext();
+            m_pResource->GetRootMotion().DrawDebug( drawingCtx, Transform::Identity );
 
-            Pose const* pPose = m_pAnimationComponent->GetPose();
-            if ( pPose != nullptr )
+            if ( m_isPoseDrawingEnabled )
             {
-                drawingCtx.Draw( *pPose, m_characterTransform );
+                Pose const* pPose = m_pAnimationComponent->GetPose();
+                if ( pPose != nullptr )
+                {
+                    drawingCtx.Draw( *pPose, m_characterTransform );
+                }
             }
-
-            m_pResource->DrawRootMotionPath( drawingCtx, Transform::Identity );
         }
 
         //-------------------------------------------------------------------------
@@ -241,7 +245,7 @@ namespace KRG::Animation
         ImGui::End();
     }
 
-    void AnimationClipWorkspace::DrawViewportToolbar( UpdateContext const& context, Render::Viewport const* pViewport )
+    void AnimationClipWorkspace::DrawViewportToolbarItems( UpdateContext const& context, Render::Viewport const* pViewport )
     {
         if ( !IsResourceLoaded() )
         {
@@ -250,14 +254,7 @@ namespace KRG::Animation
 
         //-------------------------------------------------------------------------
 
-        ImGui::SetNextItemWidth( 46 );
-        if ( ImGui::BeginCombo( "##AnimOptions", KRG_ICON_COG, ImGuiComboFlags_HeightLarge ) )
-        {
-            ImGui::MenuItem( "Root Motion", nullptr, &m_isRootMotionEnabled );
-
-            ImGui::EndCombo();
-        }
-
+        ImGui::NewLine();
         ImGui::Indent();
 
         auto PrintAnimDetails = [this] ( Color color )
@@ -279,6 +276,17 @@ namespace KRG::Animation
         PrintAnimDetails( Colors::Yellow );
 
         ImGui::Unindent();
+    }
+
+    void AnimationClipWorkspace::DrawWorkspaceToolbarItems( UpdateContext const& context )
+    {
+        if ( ImGui::BeginMenu( KRG_ICON_COG" Debug Options" ) )
+        {
+            ImGui::Checkbox( "Root Motion Enabled", &m_isRootMotionEnabled );
+            ImGui::Checkbox( "Draw Bone Pose", &m_isPoseDrawingEnabled );
+
+            ImGui::EndMenu();
+        }
     }
 
     void AnimationClipWorkspace::DrawTimelineWindow( UpdateContext const& context )

@@ -55,7 +55,7 @@ namespace KRG::Animation
         KRG_ASSERT( m_animFrameRate != 0 && m_pEvent != nullptr );
 
         // Convert to seconds
-        float const startTime = inRange.m_start / m_animFrameRate;
+        float const startTime = inRange.m_begin / m_animFrameRate;
         float const duration = inRange.GetLength() / m_animFrameRate;
         EventManipulator::SetEventTime( m_pEvent, startTime, duration );
     }

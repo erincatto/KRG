@@ -84,6 +84,10 @@
     <ClCompile Include="GraphEditor\EditorGraph\Nodes\Animation_EditorGraphNode_Vectors.cpp" />
     <ClCompile Include="GraphEditor\EditorGraph\Nodes\Animation_EditorGraphNode_Ragdoll.cpp" />
     <ClCompile Include="GraphEditor\EditorGraph\Nodes\Animation_EditorGraphNode_Warping.cpp" />
+    <ClCompile Include="GraphEditor\EditorGraph\Nodes\Animation_EditorGraphNode_CachedValues.cpp" />
+    <ClCompile Include="GraphEditor\EditorGraph\Nodes\Animation_EditorGraphNode_ControlParameters.cpp" />
+    <ClCompile Include="GraphEditor\AnimationGraphEditor_Context.cpp" />
+    <ClCompile Include="GraphEditor\AnimationGraphEditor_CompilationLog.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ResourceCompilers\ResourceCompiler_AnimationClip.h">
@@ -146,5 +150,9 @@
     <ClInclude Include="GraphEditor\EditorGraph\Nodes\Animation_EditorGraphNode_Targets.h" />
     <ClInclude Include="GraphEditor\EditorGraph\Nodes\Animation_EditorGraphNode_Ragdoll.h" />
     <ClInclude Include="GraphEditor\EditorGraph\Nodes\Animation_EditorGraphNode_Warping.h" />
+    <ClInclude Include="GraphEditor\EditorGraph\Nodes\Animation_EditorGraphNode_CachedValues.h" />
+    <ClInclude Include="GraphEditor\EditorGraph\Nodes\Animation_EditorGraphNode_ControlParameters.h" />
+    <ClInclude Include="GraphEditor\AnimationGraphEditor_Context.h" />
+    <ClInclude Include="GraphEditor\AnimationGraphEditor_CompilationLog.h" />
   </ItemGroup>
 </Project>

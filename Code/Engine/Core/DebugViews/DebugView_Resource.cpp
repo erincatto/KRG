@@ -155,24 +155,10 @@ namespace KRG::Resource
                 //-------------------------------------------------------------------------
 
                 auto const& resourceRecords = pResourceSystem->m_resourceRecords;
-
-                ImGuiListClipper clipper;
-                clipper.Begin( (int32) resourceRecords.size() );
-                bool isFirstStep = true;
-                while ( clipper.Step() )
+                for ( auto const& recordTuple : resourceRecords )
                 {
-                    int32 i = -1;
-                    for ( auto const& recordTuple : pResourceSystem->m_resourceRecords )
-                    {
-                        i++;
-                        if ( i < clipper.DisplayStart || i >= clipper.DisplayEnd )
-                        {
-                            continue;
-                        }
-
-                        ResourceRecord const* pRecord = recordTuple.second;
-                        DrawRow( pRecord );
-                    }
+                    ResourceRecord const* pRecord = recordTuple.second;
+                    DrawRow( pRecord );
                 }
 
                 ImGui::EndTable();

@@ -12,7 +12,7 @@ namespace KRG::Animation::GraphNodes
         CreateInputPin( "Vector", GraphValueType::Vector );
     }
 
-    GraphNodeIndex VectorInfoEditorNode::Compile( EditorGraphCompilationContext& context ) const
+    GraphNodeIndex VectorInfoEditorNode::Compile( GraphCompilationContext& context ) const
     {
         VectorInfoNode::Settings* pSettings = nullptr;
         NodeCompilationState const state = context.GetSettings<VectorInfoNode>( this, pSettings );
@@ -53,7 +53,7 @@ namespace KRG::Animation::GraphNodes
         CreateInputPin( "Vector", GraphValueType::Vector );
     }
 
-    GraphNodeIndex VectorNegateEditorNode::Compile( EditorGraphCompilationContext& context ) const
+    GraphNodeIndex VectorNegateEditorNode::Compile( GraphCompilationContext& context ) const
     {
         VectorNegateNode::Settings* pSettings = nullptr;
         NodeCompilationState const state = context.GetSettings<VectorNegateNode>( this, pSettings );

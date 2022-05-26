@@ -323,7 +323,7 @@ namespace KRG::Animation::GraphNodes
                 {
                     auto const taskMarker = context.m_pTaskSystem->GetCurrentTaskIndexMarker();
                     GraphPoseNodeResult const updateResult = static_cast<PoseNode*>( pSourceNode )->Update( context );
-                    context.m_sampledEvents.UpdateWeights( updateResult.m_sampledEventRange, 0.0f );
+                    context.m_sampledEvents.UpdateWeights( updateResult.m_sampledEventRange, 0.0f ); // Add ignored flag
                     context.m_pTaskSystem->RollbackToTaskIndexMarker( taskMarker );
                 }
             }

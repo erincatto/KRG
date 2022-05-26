@@ -389,7 +389,6 @@ namespace KRG::Physics
         , m_resourceFilePicker( *pToolsContext )
     {
         SetViewportCameraSpeed( 5.0f );
-        SetWorldTimeControlsEnabled( true );
 
         //-------------------------------------------------------------------------
 
@@ -468,9 +467,9 @@ namespace KRG::Physics
         ImGui::DockBuilderDockWindow( m_previewControlsWindowName.c_str(), rightDockID );
     }
 
-    void RagdollWorkspace::OnUndoRedo( UndoStack::Operation operation, IUndoableAction const* pAction )
+    void RagdollWorkspace::PostUndoRedo( UndoStack::Operation operation, IUndoableAction const* pAction )
     {
-        TResourceWorkspace<RagdollDefinition>::OnUndoRedo( operation, pAction );
+        TResourceWorkspace<RagdollDefinition>::PostUndoRedo( operation, pAction );
         SetActiveProfile( m_activeProfileID );
     }
 
@@ -600,12 +599,61 @@ namespace KRG::Physics
 
     //-------------------------------------------------------------------------
 
-    void RagdollWorkspace::DrawWorkspaceToolbar( UpdateContext const& context )
+    void RagdollWorkspace::DrawWorkspaceToolbarItems( UpdateContext const& context )
     {
-        TResourceWorkspace<RagdollDefinition>::DrawWorkspaceToolbar( context );
+        ImGuiX::VerticalSeparator( ImVec2( 15, -1 ) );
 
-        if ( ImGui::BeginMenu( "Ragdoll" ) )
+        auto pRagdollDefinition = GetRagdollDefinition();
+        ImVec2 const menuDimensions = ImGui::GetContentRegionMax();
+
+        if ( IsPreviewing() )
         {
+            char const * const stopPreviewStr = KRG_ICON_STOP" Stop Preview";
+            ImGui::SameLine( menuDimensions.x / 2 - ImGui::CalcTextSize( stopPreviewStr ).x / 2 );
+            if ( ImGui::MenuItem( stopPreviewStr ) )
+            {
+                StopPreview();
+            }
+        }
+        else
+        {
+            ImGui::BeginDisabled( !pRagdollDefinition->IsValid() && m_pMeshComponent != nullptr );
+            char const * const startPreviewStr = KRG_ICON_PLAY" Preview Ragdoll";
+            ImGui::SameLine( menuDimensions.x / 2 - ImGui::CalcTextSize( startPreviewStr ).x / 2 );
+            if ( ImGui::MenuItem( startPreviewStr ) )
+            {
+                StartPreview( context );
+            }
+            ImGui::EndDisabled();
+        }
+
+        // Gap
+        //-------------------------------------------------------------------------
+
+        float const availableX = ImGui::GetContentRegionAvail().x;
+        if ( availableX > 280 )
+        {
+            ImGui::Dummy( ImVec2( availableX - 280, 0 ) );
+        }
+        else
+        {
+            ImGuiX::VerticalSeparator();
+        }
+
+        // Editing Options
+        //-------------------------------------------------------------------------
+
+        ImGui::BeginDisabled( IsPreviewing() );
+        if ( ImGui::BeginMenu( KRG_ICON_ACCOUNT_WRENCH" Editing Options" ) )
+        {
+            ImGuiX::TextSeparator( "Visualization" );
+
+            ImGui::MenuItem( "Show Skeleton", nullptr, &m_drawSkeleton );
+
+            ImGui::MenuItem( "Show Body Axes", nullptr, &m_drawBodyAxes );
+
+            //-------------------------------------------------------------------------
+
             ImGuiX::TextSeparator( "Authoring" );
 
             if ( ImGui::MenuItem( "Autogenerate Bodies + joints" ) )
@@ -618,6 +666,8 @@ namespace KRG::Physics
                 AutogenerateBodyWeights();
             }
 
+            //-------------------------------------------------------------------------
+
             ImGuiX::TextSeparator( "Fix" );
 
             if ( ImGui::MenuItem( "Fix invalid settings" ) )
@@ -625,45 +675,19 @@ namespace KRG::Physics
                 CorrectInvalidSettings();
             }
 
+            ImGui::Checkbox( "Isolate Selected Bodies", &m_isolateSelectedBody );
             ImGui::EndMenu();
         }
-    }
+        ImGui::EndDisabled();
 
-    void RagdollWorkspace::DrawViewportToolbar( UpdateContext const& context, Render::Viewport const* pViewport )
-    {
-        ImGui::SetNextItemWidth( 46 );
-        ImGui::PushStyleVar( ImGuiStyleVar_WindowPadding, ImVec2( 4.0f, 4.0f ) );
-        if ( ImGui::BeginCombo( "##RagdollOptions", KRG_ICON_COG, ImGuiComboFlags_HeightLarge ) )
-        {
-            ImGui::MenuItem( "Show Skeleton", nullptr, &m_drawSkeleton );
-            ImGui::MenuItem( "Show Body Axes", nullptr, &m_drawBodyAxes );
-            ImGui::EndCombo();
-        }
-        ImGui::PopStyleVar();
-
+        // Preview Options
         //-------------------------------------------------------------------------
 
-        if ( !IsPreviewing() )
+        if ( ImGui::BeginMenu( KRG_ICON_TELEVISION_PLAY" Preview Options" ) )
         {
-            if ( BeginViewportToolbarGroup( "Editing Options", ImVec2( 140, 0 ) ) )
-            {
-                ImGui::PushStyleVar( ImGuiStyleVar_FramePadding, ImVec2( 0, 0 ) );
-                ImGui::Checkbox( "Isolate Selected", &m_isolateSelectedBody );
-                ImGui::PopStyleVar();
-            }
-            EndViewportToolbarGroup();
-        }
-        else
-        {
-            if ( BeginViewportToolbarGroup( "Preview Options", ImVec2( 230, 0 ) ) )
-            {
-                ImGui::PushStyleVar( ImGuiStyleVar_FramePadding, ImVec2( 0, 0 ) );
-                ImGui::Checkbox( "Draw Ragdoll", &m_drawRagdoll );
-                ImGui::SameLine( 0, 4 );
-                ImGui::Checkbox( "Draw Anim Pose", &m_drawAnimationPose );
-                ImGui::PopStyleVar();
-            }
-            EndViewportToolbarGroup();
+            ImGui::MenuItem( "Draw Ragdoll", nullptr, &m_drawRagdoll );
+            ImGui::MenuItem( "Draw Anim Pose", nullptr, &m_drawAnimationPose );
+            ImGui::EndMenu();
         }
     }
 
@@ -1257,7 +1281,7 @@ namespace KRG::Physics
         ImGui::BeginDisabled( IsPreviewing() );
 
         ImGui::SameLine();
-        if ( ImGuiX::ColoredButton( Colors::RoyalBlue, Colors::White, KRG_ICON_EDIT"##Rename", ImVec2( renameButtonWidth, 0 ) ) )
+        if ( ImGuiX::ColoredButton( Colors::RoyalBlue, Colors::White, KRG_ICON_FORM_TEXTBOX"##Rename", ImVec2( renameButtonWidth, 0 ) ) )
         {
             Printf( m_profileNameBuffer, 256, m_activeProfileID.c_str() );
             m_originalPrenameID = m_activeProfileID;
@@ -1355,7 +1379,7 @@ namespace KRG::Physics
         KRG_ASSERT( pProfile != nullptr );
         auto pRagdollDefinition = GetRagdollDefinition();
 
-        ImGuiX::ScopedFont sf( ImGuiX::Font::Tiny );
+        ImGuiX::ScopedFont sf( ImGuiX::Font::Small );
         if ( ImGui::BeginTable( "BodySettingsTable", 9, ImGuiTableFlags_BordersInnerV ) )
         {
             ImGui::TableSetupColumn( "Root Body", ImGuiTableColumnFlags_WidthFixed, 120 );
@@ -1527,7 +1551,7 @@ namespace KRG::Physics
         KRG_ASSERT( pProfile != nullptr );
         auto pRagdollDefinition = GetRagdollDefinition();
 
-        ImGuiX::ScopedFont sf( ImGuiX::Font::Tiny );
+        ImGuiX::ScopedFont sf( ImGuiX::Font::Small );
         if ( ImGui::BeginTable( "BodySettingsTable", 19, ImGuiTableFlags_BordersInnerV ) )
         {
             ImGui::TableSetupColumn( "Body", ImGuiTableColumnFlags_WidthFixed, 120 );
@@ -2114,7 +2138,7 @@ namespace KRG::Physics
 
         //-------------------------------------------------------------------------
 
-        ImGuiX::ScopedFont sf( ImGuiX::Font::Tiny );
+        ImGuiX::ScopedFont sf( ImGuiX::Font::Small );
         if ( ImGui::BeginTable( "MaterialSettingsTable", 6, ImGuiTableFlags_BordersInnerV ) )
         {
             ImGui::TableSetupColumn( "Body", ImGuiTableColumnFlags_WidthFixed, 120 );

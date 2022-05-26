@@ -1,5 +1,5 @@
 #include "ResourceDatabase.h"
-#include "System/Core/FileSystem/FileSystem.h"
+#include "System/Core/FileSystem/FileSystemUtils.h"
 #include "System/TypeSystem/TypeRegistry.h"
 
 //-------------------------------------------------------------------------
@@ -191,7 +191,7 @@ namespace KRG::Resource
 
     ResourceDatabase::Directory* ResourceDatabase::FindDirectory( FileSystem::Path const& dirPathToFind )
     {
-        KRG_ASSERT( dirPathToFind.IsDirectory() );
+        KRG_ASSERT( dirPathToFind.IsDirectoryPath() );
 
         Directory* pCurrentDir = &m_rootDir;
         FileSystem::Path directoryPath = m_rawResourceDirPath;
@@ -226,7 +226,7 @@ namespace KRG::Resource
 
     ResourceDatabase::Directory* ResourceDatabase::FindOrCreateDirectory( FileSystem::Path const& dirPathToFind )
     {
-        KRG_ASSERT( dirPathToFind.IsDirectory() );
+        KRG_ASSERT( dirPathToFind.IsDirectoryPath() );
 
         Directory* pCurrentDir = &m_rootDir;
         FileSystem::Path directoryPath = m_rawResourceDirPath;
@@ -265,9 +265,12 @@ namespace KRG::Resource
 
     void ResourceDatabase::AddFileRecord( FileSystem::Path const& path )
     {
+        auto const resourcePath = ResourcePath::FromFileSystemPath(m_rawResourceDirPath, path);
+        KRG_ASSERT( resourcePath.IsFile() );
+
         auto pNewEntry = KRG::New<ResourceEntry>();
         pNewEntry->m_filePath = path;
-        pNewEntry->m_resourceID = ResourcePath::FromFileSystemPath( m_rawResourceDirPath, path );
+        pNewEntry->m_resourceID = resourcePath;
 
         // Add to directory list
         Directory* pDirectory = FindOrCreateDirectory( path.GetParentDirectory() );
@@ -359,8 +362,8 @@ namespace KRG::Resource
 
     void ResourceDatabase::OnDirectoryRenamed( FileSystem::Path const& oldPath, FileSystem::Path const& newPath )
     {
-        KRG_ASSERT( oldPath.IsDirectory() );
-        KRG_ASSERT( newPath.IsDirectory() );
+        KRG_ASSERT( oldPath.IsDirectoryPath() );
+        KRG_ASSERT( newPath.IsDirectoryPath() );
 
         Directory* pDirectory = nullptr;
 

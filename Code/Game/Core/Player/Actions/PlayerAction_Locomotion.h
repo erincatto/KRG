@@ -9,6 +9,15 @@ namespace KRG::Player
 {
     class LocomotionAction final : public Action
     {
+        enum class LocomotionState
+        {
+            Idle,
+            Moving,
+            TurnOnSpot,
+            PlantedTurn,
+            Stopping
+        };
+
     public:
 
         KRG_PLAYER_ACTION_ID( LocomotionAction );
@@ -19,9 +28,23 @@ namespace KRG::Player
 
     private:
 
+        void UpdateIdle( ActionContext const& ctx, Vector const& stickInputVector, float stickAmplitude );
+        void UpdateTurnOnSpot( ActionContext const& ctx, Vector const& stickInputVector, float stickAmplitude );
+        void UpdateMoving( ActionContext const& ctx, Vector const& stickInputVector, float stickAmplitude );
+        void UpdateStopping( ActionContext const& ctx, Vector const& stickInputVector, float stickAmplitude );
+
+    private:
+
         ManualCountdownTimer        m_sprintTimer;
         ManualCountdownTimer        m_crouchTimer;
         ManualTimer                 m_slideTimer;
+        ManualCountdownTimer        m_generalTimer;
         bool                        m_crouchToggled = false;
+
+        Vector                      m_desiredHeading = Vector::Zero;
+        Vector                      m_desiredFacing = Vector::WorldForward;
+        Vector                      m_cachedFacing = Vector::Zero;
+        Vector                      m_desiredTurnDirection = Vector::Zero;
+        LocomotionState             m_state = LocomotionState::Idle;
     };
 }

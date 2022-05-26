@@ -6,11 +6,25 @@
 
 namespace KRG::AI
 {
-    class AIAnimationController final : public Animation::GraphController
+    enum class CharacterAnimationState : uint8
+    {
+        Locomotion = 0,
+        Falling,
+        Ability,
+
+        DebugMode,
+        NumStates
+    };
+
+    //-------------------------------------------------------------------------
+
+    class AnimationController final : public Animation::GraphController
     {
     public:
 
-        AIAnimationController( Animation::AnimationGraphComponent* pGraphComponent, Render::SkeletalMeshComponent* pMeshComponent );
+        AnimationController( Animation::AnimationGraphComponent* pGraphComponent, Render::SkeletalMeshComponent* pMeshComponent );
+
+        void SetCharacterState( CharacterAnimationState state );
 
         #if KRG_DEVELOPMENT_TOOLS
         virtual char const* GetName() const { return "AI Graph Controller"; }

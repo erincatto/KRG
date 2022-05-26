@@ -45,9 +45,6 @@
     <ClCompile Include="Fonts\FontData_Proggy.cpp">
       <Filter>Fonts</Filter>
     </ClCompile>
-    <ClCompile Include="Fonts\FontData_Roboto.cpp">
-      <Filter>Fonts</Filter>
-    </ClCompile>
     <ClCompile Include="Fonts\FontDecompressor.cpp">
       <Filter>Fonts</Filter>
     </ClCompile>
@@ -97,13 +94,12 @@
     <ClCompile Include="RenderTexture.cpp" />
     <ClCompile Include="RenderVertexFormats.cpp" />
     <ClCompile Include="RenderViewport.cpp" />
-    <ClCompile Include="Fonts\FontData_FontAwesome5.cpp" />
+    <ClCompile Include="ThirdParty\imgui\misc\freetype\imgui_freetype.cpp" />
+    <ClCompile Include="Fonts\FontData_MaterialDesign.cpp" />
+    <ClCompile Include="Fonts\FontData_Lexend.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Fonts\FontData_Proggy.h">
-      <Filter>Fonts</Filter>
-    </ClInclude>
-    <ClInclude Include="Fonts\FontData_Roboto.h">
       <Filter>Fonts</Filter>
     </ClInclude>
     <ClInclude Include="Fonts\FontDecompressor.h">
@@ -167,7 +163,10 @@
     <ClInclude Include="RenderTexture.h" />
     <ClInclude Include="RenderVertexFormats.h" />
     <ClInclude Include="RenderViewport.h" />
-    <ClInclude Include="Fonts\FontData_FontAwesome5.h" />
+    <ClInclude Include="ThirdParty\imgui\misc\freetype\imgui_freetype.h" />
+    <ClInclude Include="Imgui\MaterialDesignIcons.h" />
+    <ClInclude Include="Fonts\FontData_MaterialDesign.h" />
+    <ClInclude Include="Fonts\FontData_Lexend.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="ThirdParty\imgui\LICENSE.txt">

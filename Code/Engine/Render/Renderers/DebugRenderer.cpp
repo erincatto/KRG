@@ -161,7 +161,7 @@ namespace KRG::Render
     {
         KRG_ASSERT( cmdRange.IsValid() );
 
-        int32 const fontIdx = ( commands[cmdRange.m_start].m_fontSize == FontSmall ) ? 0 : 1;
+        int32 const fontIdx = ( commands[cmdRange.m_begin].m_fontSize == FontSmall ) ? 0 : 1;
 
         //-------------------------------------------------------------------------
 
@@ -175,7 +175,7 @@ namespace KRG::Render
 
         int32 numGlyphsDrawn = 0;
         int32 const numCommands = (int32) cmdRange.GetLength();
-        for ( auto c = cmdRange.m_start; c < cmdRange.m_end; c++ )
+        for ( auto c = cmdRange.m_begin; c < cmdRange.m_end; c++ )
         {
             auto const& cmd = commands[c];
 
@@ -371,14 +371,14 @@ namespace KRG::Render
     {
         uint32 const numCommands = (uint32) commands.size();
         IntRange cmdRange = IntRange( 0, 0 );
-        for ( uint32 i = cmdRange.m_start; i < numCommands; i++ )
+        for ( uint32 i = cmdRange.m_begin; i < numCommands; i++ )
         {
             // If the text sizes differ
-            if ( commands[i].m_fontSize != commands[cmdRange.m_start].m_fontSize )
+            if ( commands[i].m_fontSize != commands[cmdRange.m_begin].m_fontSize )
             {
                 cmdRange.m_end = i;
                 renderFunction( renderContext, viewport, commands, cmdRange );
-                cmdRange.m_start = i;
+                cmdRange.m_begin = i;
             }
 
             if ( i == ( numCommands - 1 ) )

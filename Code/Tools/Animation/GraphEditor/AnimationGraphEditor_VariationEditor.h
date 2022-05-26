@@ -13,7 +13,7 @@ namespace KRG::Resource { class ResourceDatabase; }
 namespace KRG::Animation
 {
     class VariationHierarchy;
-    class EditorGraphDefinition;
+    class GraphEditorContext;
 
     //-------------------------------------------------------------------------
 
@@ -29,14 +29,14 @@ namespace KRG::Animation
 
     public:
 
-        GraphVariationEditor( ToolsContext const& toolsContext, EditorGraphDefinition* pGraphDefinition );
+        GraphVariationEditor( GraphEditorContext& editorContext );
 
         void UpdateAndDraw( UpdateContext const& context, ImGuiWindowClass* pWindowClass, char const* pWindowName );
 
     private:
 
         void DrawVariationTree();
-        void DrawVariationTreeNode( VariationHierarchy& variationHierarchy, StringID variationID );
+        void DrawVariationTreeNode( VariationHierarchy const& variationHierarchy, StringID variationID );
         void DrawOverridesTable();
 
         void StartCreate( StringID variationID );
@@ -46,7 +46,7 @@ namespace KRG::Animation
 
     private:
 
-        EditorGraphDefinition*              m_pGraphDefinition = nullptr;
+        GraphEditorContext&                 m_editorContext;
         StringID                            m_activeOperationVariationID;
         char                                m_buffer[255] = {0};
         Resource::ResourceFilePicker        m_resourcePicker;

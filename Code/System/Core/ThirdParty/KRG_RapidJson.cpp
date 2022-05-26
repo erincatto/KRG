@@ -1,5 +1,5 @@
 #include "KRG_RapidJson.h"
-#include "System/Core/FileSystem/FileSystem.h"
+#include "System/Core/FileSystem/FileSystemPath.h"
 
 //-------------------------------------------------------------------------
 
@@ -15,7 +15,7 @@ namespace KRG
 
     bool JsonReader::ReadFromFile( FileSystem::Path const& filePath )
     {
-        KRG_ASSERT( filePath.IsFile() );
+        KRG_ASSERT( filePath.IsFilePath() );
         Reset();
 
         //-------------------------------------------------------------------------
@@ -95,13 +95,13 @@ namespace KRG
 
     bool JsonWriter::WriteToFile( FileSystem::Path const& outPath )
     {
-        KRG_ASSERT( outPath.IsFile() );
+        KRG_ASSERT( outPath.IsFilePath() );
 
         FinalizeSerializedData();
 
         //-------------------------------------------------------------------------
 
-        FileSystem::EnsurePathExists( outPath );
+        outPath.EnsureDirectoryExists();
 
         FILE* pFile = fopen( outPath, "wb" );
         if ( pFile == nullptr )
