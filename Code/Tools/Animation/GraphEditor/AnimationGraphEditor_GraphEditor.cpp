@@ -1,10 +1,10 @@
 #include "AnimationGraphEditor_GraphEditor.h"
 #include "AnimationGraphEditor_Context.h"
+#include "EditorGraph/Nodes/Animation_EditorGraphNode_AnimationClip.h"
+#include "EditorGraph/Nodes/Animation_EditorGraphNode_Ragdoll.h"
 #include "EditorGraph/Animation_EditorGraph_Definition.h"
 #include "Tools/Core/Resource/ResourceDatabase.h"
 #include "Engine/Core/Update/UpdateContext.h"
-#include "EditorGraph/Nodes/Animation_EditorGraphNode_AnimationClip.h"
-#include "EditorGraph/Nodes/Animation_EditorGraphNode_Ragdoll.h"
 
 //-------------------------------------------------------------------------
 
@@ -566,12 +566,8 @@ namespace KRG::Animation
             // Splitter
             //-------------------------------------------------------------------------
             
-            ImGui::PushStyleColor( ImGuiCol_Button, ImGuiX::Style::s_backgroundColorSemiDark.Value );
-            ImGui::PushStyleColor( ImGuiCol_ButtonHovered, ImGuiX::Style::s_backgroundColorSemiLight.Value );
-            ImGui::PushStyleColor( ImGuiCol_ButtonActive, ImGuiX::Style::s_backgroundColorSemiLight.Value );
             ImGui::PushStyleVar( ImGuiStyleVar_FrameRounding, 0.0f );
             ImGui::Button( "##GraphViewSplitter", ImVec2( -1, 3 ) );
-            ImGui::PopStyleColor(3);
             ImGui::PopStyleVar();
 
             if ( ImGui::IsItemHovered() )

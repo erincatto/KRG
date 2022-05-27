@@ -2,8 +2,8 @@
 #include "AnimationGraphEditor_Context.h"
 #include "EditorGraph/Animation_EditorGraph_Definition.h"
 #include "EditorGraph/Nodes/Animation_EditorGraphNode_ControlParameters.h"
-#include "Engine/Animation/Components/Component_AnimationGraph.h"
 #include "Tools/Core/Helpers/CategoryTree.h"
+#include "Engine/Animation/Components/Component_AnimationGraph.h"
 
 //-------------------------------------------------------------------------
 
@@ -721,10 +721,6 @@ namespace KRG::Animation
 
         //-------------------------------------------------------------------------
 
-        ImGui::PushStyleColor( ImGuiCol_Header, ImGuiX::Style::s_backgroundColorLight.Value );
-        ImGui::PushStyleColor( ImGuiCol_HeaderHovered, ImGuiX::Style::s_backgroundColorLight.Value );
-        ImGui::PushStyleColor( ImGuiCol_Button, ImVec4( 0, 0, 0, 0 ) );
-
         if ( ImGui::BeginTable( "CPT", 2, 0 ) )
         {
             ImGui::TableSetupColumn( "##Name", ImGuiTableColumnFlags_WidthStretch );
@@ -767,8 +763,6 @@ namespace KRG::Animation
 
             ImGui::EndTable();
         }
-
-        ImGui::PopStyleColor( 3 );
     }
 
     void GraphControlParameterEditor::DrawParameterPreviewControls( DebugContext* pDebugContext )

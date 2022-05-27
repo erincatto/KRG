@@ -285,7 +285,7 @@ namespace KRG
     {
         KRG_PROFILE_FUNCTION();
 
-        constexpr static float const buttonWidth = 22;
+        constexpr static float const buttonWidth = 26;
         bool shouldUpdateVisibility = false;
 
         // Text Filter

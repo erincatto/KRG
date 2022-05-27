@@ -4,6 +4,7 @@
 #include "Engine/Core/DebugViews/DebugView_Camera.h"
 #include "Engine/Core/Entity/EntityWorld.h"
 #include "Engine/Core/ToolsUI/OrientationGuide.h"
+#include "System/Render/Imgui/ImguiStyle.h"
 #include "System/Resource/ResourceSystem.h"
 
 //-------------------------------------------------------------------------
@@ -89,11 +90,11 @@ namespace KRG
     {
         ImGui::SameLine();
 
-        ImGui::PushStyleColor( ImGuiCol_ChildBg, ImGuiX::Style::s_backgroundColorSemiLight.Value );
-        ImGui::PushStyleColor( ImGuiCol_Header, ImGuiX::Style::s_itemColorLight.Value );
-        ImGui::PushStyleColor( ImGuiCol_FrameBg, ImGuiX::Style::s_itemColorDark.Value );
-        ImGui::PushStyleColor( ImGuiCol_FrameBgActive, ImGuiX::Style::s_backgroundColorMedium.Value );
-        ImGui::PushStyleColor( ImGuiCol_FrameBgHovered, ImGuiX::Style::s_backgroundColorMedium.Value );
+        ImGui::PushStyleColor( ImGuiCol_ChildBg, ImGuiX::Style::s_colorGray5.Value );
+        ImGui::PushStyleColor( ImGuiCol_Header, ImGuiX::Style::s_colorGray5.Value );
+        ImGui::PushStyleColor( ImGuiCol_FrameBg, ImGuiX::Style::s_colorGray5.Value );
+        ImGui::PushStyleColor( ImGuiCol_FrameBgHovered, ImGuiX::Style::s_colorGray4.Value );
+        ImGui::PushStyleColor( ImGuiCol_FrameBgActive, ImGuiX::Style::s_colorGray3.Value );
 
         ImGui::PushStyleVar( ImGuiStyleVar_WindowPadding, padding );
         ImGui::PushStyleVar( ImGuiStyleVar_ChildRounding, 4.0f );

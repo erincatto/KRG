@@ -11,6 +11,7 @@
 #include "Engine/Animation/AnimationClip.h"
 #include "Engine/Physics/PhysicsMesh.h"
 #include "System/Render/Imgui/ImguiX.h"
+#include "System/Render/Imgui/ImguiStyle.h"
 #include "System/Core/Math/MathStringHelpers.h"
 #include "System/Core/FileSystem/FileSystem.h"
 
@@ -141,7 +142,7 @@ namespace KRG::Resource
     {
         ImGui::PushStyleVar( ImGuiStyleVar_ChildRounding, 4.0f );
         ImGui::PushStyleVar( ImGuiStyleVar_WindowPadding, ImVec2( 8.0f, 4.0f ) );
-        ImGui::PushStyleColor( ImGuiCol_ChildBg, ImGuiX::Style::s_backgroundColorSemiDark.Value );
+        ImGui::PushStyleColor( ImGuiCol_ChildBg, ImGuiX::Style::s_colorGray9.Value );
         if ( ImGui::BeginChild( "Contents", ImVec2( -1, 90 ), false, ImGuiWindowFlags_AlwaysUseWindowPadding ) )
         {
             {
@@ -334,7 +335,7 @@ namespace KRG::Resource
         if ( m_selectedItemType != InfoType::None )
         {
             {
-                ImGuiX::ScopedFont const sf( ImGuiX::Font::LargeBold, ImGuiX::Style::s_selectionAccent );
+                ImGuiX::ScopedFont const sf( ImGuiX::Font::LargeBold, ImGuiX::Style::s_colorAccent1 );
 
                 switch ( m_selectedItemType )
                 {

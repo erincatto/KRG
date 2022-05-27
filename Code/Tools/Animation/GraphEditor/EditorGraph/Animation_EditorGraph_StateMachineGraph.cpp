@@ -1,6 +1,7 @@
 #include "Animation_EditorGraph_StateMachineGraph.h"
 #include "Animation_EditorGraph_Compilation.h"
 #include "Engine/Animation/Graph/Nodes/Animation_RuntimeGraphNode_StateMachine.h"
+#include "System/Render/Imgui/ImguiStyle.h"
 
 //-------------------------------------------------------------------------
 // STATE NODES
@@ -73,7 +74,7 @@ namespace KRG::Animation::GraphNodes
         ImVec2 const originalCursorPos = ImGui::GetCursorScreenPos();
         float const width = Math::Max( GetSize().x, 40.0f );
         ImGui::InvisibleButton( "Spacer", ImVec2( width, 10 ) );
-        ctx.m_pDrawList->AddLine( originalCursorPos + ImVec2( 0, 4 ), originalCursorPos + ImVec2( GetSize().x, 4 ), ImColor( ImGuiX::Style::s_itemColorLight ) );
+        ctx.m_pDrawList->AddLine( originalCursorPos + ImVec2( 0, 4 ), originalCursorPos + ImVec2( GetSize().x, 4 ), ImColor( ImGuiX::Style::s_colorText ) );
 
         // Draw runtime debug info
         //-------------------------------------------------------------------------

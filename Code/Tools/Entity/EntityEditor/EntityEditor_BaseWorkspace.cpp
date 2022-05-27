@@ -205,7 +205,7 @@ namespace KRG::EntityModel
             }
             ImGuiX::ItemTooltip( "Current Mode: %s", m_gizmo.IsInWorldSpace() ? "World Space" : "Local Space" );
 
-            ImGuiX::VerticalSeparator( ImVec2( 11, -1 ), ImGuiX::Style::s_itemColorLight );
+            ImGuiX::VerticalSeparator( ImVec2( 11, -1 ) );
 
             //-------------------------------------------------------------------------
 

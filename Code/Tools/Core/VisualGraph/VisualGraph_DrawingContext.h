@@ -18,7 +18,7 @@ namespace KRG::VisualGraph
         constexpr static uint32 const   s_genericNodeBackgroundColor = IM_COL32( 75, 75, 75, 255 );
         constexpr static uint32 const   s_genericNodeBorderColorSelected = IM_COL32( 255, 255, 255, 255 );
         constexpr static uint32 const   s_genericHoverColor = IM_COL32( 200, 200, 200, 255 );
-        constexpr static uint32 const   s_genericSelectionColor = IM_COL32( 255, 255, 0, 255 );
+        constexpr static uint32 const   s_genericSelectionColor = IM_COL32( 50, 205, 50, 255 );
 
         constexpr static uint32 const   s_connectionColor = IM_COL32( 185, 185, 185, 255 );
         constexpr static uint32 const   s_connectionColorValid = IM_COL32( 0, 255, 0, 255 );
@@ -30,6 +30,7 @@ namespace KRG::VisualGraph
 
         static ImVec2 const             s_graphTitleMargin;
         constexpr static float const    s_gridSpacing = 20;
+        constexpr static float const    s_nodeSelectionBorder = 3.0f;
         constexpr static float const    s_connectionSelectionExtraRadius = 5.0f;
     };
 

@@ -2,6 +2,7 @@
 #include "ResourceDatabase.h"
 #include "System/Render/Imgui/ImguiX.h"
 #include "Tools/Core/ToolsContext.h"
+#include "System/Render/Imgui/ImguiStyle.h"
 
 //-------------------------------------------------------------------------
 
@@ -100,7 +101,7 @@ namespace KRG::Resource
         //-------------------------------------------------------------------------
 
         float const contentRegionAvailable = ImGui::GetContentRegionAvail().x;
-        constexpr float const resourceTypeWindowWidth = 28;
+        constexpr float const resourceTypeWindowWidth = 40;
 
         ImGui::PushID( pResourceID );
         ImGui::PushStyleVar( ImGuiStyleVar_ChildRounding, 3.0f );
@@ -112,7 +113,6 @@ namespace KRG::Resource
             {
                 ImVec2 const textSize = ImGui::CalcTextSize( pResourceID->GetResourceTypeID().ToString().c_str());
                 ImGui::SameLine( 0, ( resourceTypeWindowWidth - textSize.x ) / 2 );
-                ImGui::AlignTextToFramePadding();
                 ImGui::TextColored( Colors::LightPink.ToFloat4(), pResourceID->GetResourceTypeID().ToString().c_str() );
             }
             else
@@ -126,7 +126,7 @@ namespace KRG::Resource
 
         //-------------------------------------------------------------------------
 
-        constexpr float const buttonWidth = 22;
+        constexpr float const buttonWidth = 26;
         float const itemSpacing = ImGui::GetStyle().ItemSpacing.x;
 
         ImGui::SameLine( 0, itemSpacing );
@@ -201,7 +201,7 @@ namespace KRG::Resource
 
             bool filterUpdated = false;
 
-            ImGui::SetNextItemWidth( contentRegionAvailable.x - ImGui::GetStyle().WindowPadding.x - 22 );
+            ImGui::SetNextItemWidth( contentRegionAvailable.x - ImGui::GetStyle().WindowPadding.x - 26 );
             InlineString filterCopy( m_filterBuffer );
             
             if ( m_initializeFocus )
@@ -229,7 +229,7 @@ namespace KRG::Resource
             }
 
             ImGui::SameLine();
-            if ( ImGui::Button( KRG_ICON_CLOSE_CIRCLE_OUTLINE "##Clear Filter", ImVec2( 22, 0 ) ) )
+            if ( ImGui::Button( KRG_ICON_CLOSE_CIRCLE"##Clear Filter", ImVec2( 26, 0 ) ) )
             {
                 m_filterBuffer[0] = 0;
                 filterUpdated = true;
@@ -247,7 +247,6 @@ namespace KRG::Resource
             //-------------------------------------------------------------------------
 
             float const tableHeight = contentRegionAvailable.y - ImGui::GetFrameHeightWithSpacing() - ImGui::GetStyle().ItemSpacing.y;
-            ImGui::PushStyleColor( ImGuiCol_Header, ImGuiX::Style::s_itemColorMedium.Value );
             if ( ImGui::BeginTable( "Resource List", 2, ImGuiTableFlags_NoSavedSettings | ImGuiTableFlags_Borders | ImGuiTableFlags_Resizable | ImGuiTableFlags_ScrollY, ImVec2( contentRegionAvailable.x, tableHeight ) ) )
             {
                 ImGui::TableSetupColumn( "File", ImGuiTableColumnFlags_WidthStretch, 0.65f );
@@ -285,7 +284,6 @@ namespace KRG::Resource
 
                 ImGui::EndTable();
             }
-            ImGui::PopStyleColor();
 
             ImGui::EndPopup();
         }

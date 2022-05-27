@@ -1,4 +1,5 @@
 #include "VisualGraph_View.h"
+#include "System/Render/Imgui/ImguiStyle.h"
 
 //-------------------------------------------------------------------------
 
@@ -210,12 +211,12 @@ namespace KRG::VisualGraph
         {
             ctx.m_pDrawList->AddRectFilled( rectMin, rectMax, nodeBackgroundColor, 3, ImDrawFlags_RoundCornersAll );
             ctx.m_pDrawList->AddRectFilled( rectMin, rectTitleBarMax, nodeTitleColor, 3, ImDrawFlags_RoundCornersTop );
-            ctx.m_pDrawList->AddRect( rectMin, rectMax, pNode->GetNodeBorderColor( ctx, visualState ), 3, ImDrawFlags_RoundCornersAll, 2.0f );
+            ctx.m_pDrawList->AddRect( rectMin, rectMax, pNode->GetNodeBorderColor( ctx, visualState ), 3, ImDrawFlags_RoundCornersAll, VisualSettings::s_nodeSelectionBorder );
         }
         else // Non-state node
         {
             ctx.m_pDrawList->AddRectFilled( rectMin, rectMax, nodeBackgroundColor, 3 );
-            ctx.m_pDrawList->AddRect( rectMin, rectMax, pNode->GetNodeBorderColor( ctx, visualState ), 3, ImDrawFlags_RoundCornersAll, 1.0f );
+            ctx.m_pDrawList->AddRect( rectMin, rectMax, pNode->GetNodeBorderColor( ctx, visualState ), 3, ImDrawFlags_RoundCornersAll, VisualSettings::s_nodeSelectionBorder );
         }
     }
 
@@ -505,7 +506,7 @@ namespace KRG::VisualGraph
             visualState = NodeVisualState::Hovered;
         }
 
-        ctx.m_pDrawList->AddRect( rectMin, rectMax, pNode->GetNodeBorderColor( ctx, visualState ), 3, ImDrawFlags_RoundCornersAll, 2.0f );
+        ctx.m_pDrawList->AddRect( rectMin, rectMax, pNode->GetNodeBorderColor( ctx, visualState ), 3, ImDrawFlags_RoundCornersAll, VisualSettings::s_nodeSelectionBorder );
     }
 
     void GraphView::DrawFlowNode( DrawContext const& ctx, Flow::Node* pNode )

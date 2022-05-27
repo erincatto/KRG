@@ -57,7 +57,7 @@ namespace KRG::Animation
 
         bool const isSelected = m_editorContext.GetSelectedVariationID() == variationID;
 
-        ImGuiX::PushFontAndColor( isSelected ? ImGuiX::Font::SmallBold : ImGuiX::Font::Small, isSelected ? ImGuiX::ConvertColor( Colors::LimeGreen ) : ImGuiX::Style::s_textColor );
+        ImGuiX::PushFontAndColor( isSelected ? ImGuiX::Font::SmallBold : ImGuiX::Font::Small, isSelected ? ImGuiX::ConvertColor( Colors::LimeGreen ) : ImGui::GetStyle().Colors[ImGuiCol_Text] );
         bool const isTreeNodeOpen = ImGui::TreeNode( variationID.c_str() );
         ImGui::PopFont();
         ImGui::PopStyleColor();
@@ -292,7 +292,7 @@ namespace KRG::Animation
             {
                 bool nameChangeConfirmed = false;
 
-                ImGui::PushStyleColor( ImGuiCol_Text, m_editorContext.IsValidVariation( StringID( m_buffer ) ) ? ImGuiX::ConvertColor( Colors::Red ).Value : ImGuiX::Style::s_textColor );
+                ImGui::PushStyleColor( ImGuiCol_Text, m_editorContext.IsValidVariation( StringID( m_buffer ) ) ? ImGuiX::ConvertColor( Colors::Red ).Value : ImGui::GetStyle().Colors[ImGuiCol_Text] );
                 if ( ImGui::InputText( "##VariationName", m_buffer, 255, ImGuiInputTextFlags_EnterReturnsTrue ) )
                 {
                     nameChangeConfirmed = true;
@@ -335,7 +335,7 @@ namespace KRG::Animation
             {
                 bool nameChangeConfirmed = false;
 
-                ImGui::PushStyleColor( ImGuiCol_Text, m_editorContext.IsValidVariation( StringID( m_buffer ) ) ? ImGuiX::ConvertColor( Colors::Red ).Value : ImGuiX::Style::s_textColor );
+                ImGui::PushStyleColor( ImGuiCol_Text, m_editorContext.IsValidVariation( StringID( m_buffer ) ) ? ImGuiX::ConvertColor( Colors::Red ).Value : ImGui::GetStyle().Colors[ImGuiCol_Text] );
                 if ( ImGui::InputText( "##VariationName", m_buffer, 255, ImGuiInputTextFlags_EnterReturnsTrue ) )
                 {
                     nameChangeConfirmed = true;

@@ -1,5 +1,6 @@
 #include "TimelineEditor.h"
 #include "System/Render/Imgui/ImguiX.h" 
+#include "System/Render/Imgui/ImguiStyle.h"
 
 //-------------------------------------------------------------------------
 
@@ -25,7 +26,7 @@ namespace KRG::Timeline
 
     static ImVec4 const g_playheadDefaultColor = ImColor( 0xFF808080 );
     static ImVec4 const g_playheadHoveredColor = Float4( g_playheadDefaultColor ) * 1.20f;
-    static ImVec4 const g_playheadShadowColor = ImColor( 0x1A000000 );
+    static ImVec4 const g_playheadShadowColor = ImColor( 0x44000000 );
     static ImVec4 const g_playheadBorderColor = Float4( g_playheadDefaultColor ) * 1.25f;
     static ImU32 const g_playheadMarkerLineColor( 0x99AAFFAA );
 
@@ -598,7 +599,7 @@ namespace KRG::Timeline
 
         ImGuiX::VerticalSeparator( ImVec2( 9, -1 ) );
 
-        if ( ImGuiX::ColoredButton( ImGuiX::Style::s_itemColorSemiDark, m_isFrameSnappingEnabled ? ImGuiX::Style::s_textColor : ImGuiX::Style::s_textColorDisabled, KRG_ICON_CURSOR_DEFAULT_CLICK"##Snap", buttonSize ) )
+        if ( ImGuiX::ColoredButton( ImVec4( 0, 0, 0, 0 ), m_isFrameSnappingEnabled ? ImGuiX::Style::s_colorText : ImGuiX::Style::s_colorTextDisabled, KRG_ICON_CURSOR_DEFAULT_CLICK"##Snap", buttonSize) )
         {
             m_isFrameSnappingEnabled = !m_isFrameSnappingEnabled;
         }
@@ -983,7 +984,7 @@ namespace KRG::Timeline
 
                         InlineString const itemLabel = pItem->GetLabel();
                         pDrawList->AddText( pTinyFont, pTinyFont->FontSize, topRight + ImVec2( 5, 1 ), 0xFF000000, itemLabel.c_str() );
-                        pDrawList->AddText( pTinyFont, pTinyFont->FontSize, topRight + ImVec2( 4, 0 ), ImColor( ImGuiX::Style::s_textColor ), itemLabel.c_str() );
+                        pDrawList->AddText( pTinyFont, pTinyFont->FontSize, topRight + ImVec2( 4, 0 ), ImColor( ImGuiX::Style::s_colorText ), itemLabel.c_str() );
                         
                     }
                     else
@@ -1023,7 +1024,7 @@ namespace KRG::Timeline
 
                         InlineString const itemLabel = pItem->GetLabel();
                         pDrawList->AddText( pTinyFont, pTinyFont->FontSize, itemStart + ImVec2( 5, 1 ), 0xFF000000, itemLabel.c_str() );
-                        pDrawList->AddText( pTinyFont, pTinyFont->FontSize, itemStart + ImVec2( 4, 0 ), ImColor( ImGuiX::Style::s_textColor ), itemLabel.c_str() );
+                        pDrawList->AddText( pTinyFont, pTinyFont->FontSize, itemStart + ImVec2( 4, 0 ), ImColor( ImGuiX::Style::s_colorText ), itemLabel.c_str() );
                     }
                 }
 

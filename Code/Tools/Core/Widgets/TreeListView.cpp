@@ -1,4 +1,5 @@
 #include "TreeListView.h"
+#include "System/Render/Imgui/ImguiStyle.h"
 
 //-------------------------------------------------------------------------
 
@@ -6,19 +7,19 @@ namespace KRG
 {
     ImVec4 TreeListViewItem::GetDisplayColor( ItemState state ) const
     {
-        ImVec4 color = (ImVec4) ImGuiX::Style::s_textColor;
+        ImVec4 color = (ImVec4) ImGuiX::Style::s_colorText;
 
         switch ( state )
         {
             case ItemState::Selected:
             {
-                color = ImGuiX::Style::s_selectionAccent;
+                color = ImGuiX::Style::s_colorAccent1;
             }
             break;
 
             case ItemState::Active:
             {
-                color = ImGuiX::Style::s_selectionAccentAlt;
+                color = ImGuiX::Style::s_colorAccent0;
             }
             break;
         }
@@ -613,8 +614,6 @@ namespace KRG
             // We only render a single row here (so we dont bust the imgui index buffer limits for a single tree) - At low frame rates this will flicker
             if ( m_estimatedTreeHeight < 0 )
             {
-                ImGui::PushStyleColor( ImGuiCol_Header, ImGuiX::Style::s_itemColorMedium.Value );
-                ImGui::PushStyleColor( ImGuiCol_HeaderHovered, ImGuiX::Style::s_itemColorMedium.Value );
                 if ( ImGui::BeginTable( "TreeViewTable", GetNumExtraColumns() + 1, tableFlags, ImVec2( ImGui::GetContentRegionAvail().x - ImGui::GetStyle().ItemSpacing.x / 2, 0 ) ) )
                 {
                     ImGui::TableSetupColumn( "Label", ImGuiTableColumnFlags_NoHide );
@@ -628,7 +627,6 @@ namespace KRG
 
                     ImGui::EndTable();
                 }
-                ImGui::PopStyleColor( 2 );
 
                 // Draw a dummy to fake the real size so as to not completely reset scrollbar position
                 //-------------------------------------------------------------------------
@@ -669,8 +667,6 @@ namespace KRG
                 ImGui::Dummy( ImVec2( -1, currentVerticalScrollPosition ) );
 
                 // Draw table rows
-                ImGui::PushStyleColor( ImGuiCol_Header, ImGuiX::Style::s_itemColorMedium.Value );
-                ImGui::PushStyleColor( ImGuiCol_HeaderHovered, ImGuiX::Style::s_itemColorSemiLight.Value );
                 if ( ImGui::BeginTable( "Tree View Browser", GetNumExtraColumns() + 1, tableFlags, ImVec2(ImGui::GetContentRegionAvail().x - ImGui::GetStyle().ItemSpacing.x / 2, 0)) )
                 {
                     ImGui::TableSetupColumn( "Label", ImGuiTableColumnFlags_WidthStretch );
@@ -683,7 +679,6 @@ namespace KRG
 
                     ImGui::EndTable();
                 }
-                ImGui::PopStyleColor( 2 );
 
                 // Draw final dummy to maintain scrollbar position
                 ImGui::Dummy( ImVec2( -1, m_estimatedTreeHeight - ImGui::GetCursorPos().y ) );

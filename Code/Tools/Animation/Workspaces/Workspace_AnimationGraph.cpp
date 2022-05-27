@@ -498,11 +498,7 @@ namespace KRG::Animation
         // Compilation failed, stop preview attempt
         if ( !graphCompiledSuccessfully )
         {
-            auto pLogWindow = ImGui::FindWindowByName( m_graphCompilationLogWindowName.c_str() );
-            if ( pLogWindow != nullptr )
-            {
-                ImGui::FocusWindow( pLogWindow );
-            }
+            ImGui::SetWindowFocus( m_graphCompilationLogWindowName.c_str() );
             return;
         }
 

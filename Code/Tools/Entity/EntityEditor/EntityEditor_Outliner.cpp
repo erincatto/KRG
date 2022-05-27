@@ -1,9 +1,10 @@
 #include "EntityEditor_Outliner.h"
 #include "EntityEditor_Context.h"
 #include "Engine/Core/Entity/EntityMap.h"
+#include "Engine/Core/Entity/Entity.h"
 #include "System/Render/Imgui/ImguiX.h"
 #include "System/Core/Math/MathRandom.h"
-#include "Engine/Core/Entity/Entity.h"
+#include "System/Render/Imgui/ImguiStyle.h"
 
 //-------------------------------------------------------------------------
 
@@ -47,6 +48,8 @@ namespace KRG::EntityModel
 
         //-------------------------------------------------------------------------
 
+        ImGuiX::ScopedFont const sf( ImGuiX::Font::Small );
+
         if ( ImGui::BeginChild( "EntityList", ImVec2( -1, 0 ) ) )
         {
             int32 const numEntities = (int32) pMap->GetEntities().size();
@@ -57,7 +60,7 @@ namespace KRG::EntityModel
                 bool const isSelected = m_context.IsSelected( pEntity );
                 if ( isSelected )
                 {
-                    ImGuiX::PushFontAndColor( ImGuiX::Font::SmallBold, ImGuiX::Style::s_selectionAccent );
+                    ImGuiX::PushFontAndColor( ImGuiX::Font::SmallBold, ImGuiX::Style::s_colorAccent1 );
                 }
 
                 String const buttonLabel( String::CtorSprintf(), "%s##%u", pEntity->GetName().c_str(), pEntity->GetID().ToUint64() );
@@ -74,7 +77,7 @@ namespace KRG::EntityModel
                     if ( pEntity->IsSpatialEntity() )
                     {
                         auto drawingCtx = m_context.GetDrawingContext();
-                        drawingCtx.DrawWireBox( pEntity->GetCombinedWorldBounds(), (ImVec4) ImGuiX::Style::s_selectionAccent, 2.0f );
+                        drawingCtx.DrawWireBox( pEntity->GetCombinedWorldBounds(), (ImVec4) ImGuiX::Style::s_colorAccent1, 2.0f );
                     }
 
                     // Left click follows regular selection logic

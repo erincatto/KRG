@@ -2,6 +2,7 @@
 #include "ResourceServer.h"
 #include "Tools/Core/FileSystem/FileSystemHelpers.h"
 #include "System/Render/Imgui/ImguiX.h"
+#include "System/Render/Imgui/ImguiStyle.h"
 #include "System/Core/Types/Color.h"
 
 //-------------------------------------------------------------------------
@@ -90,7 +91,6 @@ namespace KRG::Resource
 
             ImGuiX::ScopedFont const BigScopedFont( ImGuiX::Font::Small );
 
-            ImGui::PushStyleColor( ImGuiCol_Header, ImGuiX::Style::s_itemColorMedium.Value );
             if ( ImGui::BeginTable( "Completed Requests Table", 7, ImGuiTableFlags_Borders | ImGuiTableFlags_Resizable | ImGuiTableFlags_ScrollX | ImGuiTableFlags_ScrollY, ImVec2( 0, tableHeight ) ) )
             {
                 auto const& activeRequests = m_pResourceServer->GetActiveRequests();
@@ -234,7 +234,6 @@ namespace KRG::Resource
 
                 ImGui::EndTable();
             }
-            ImGui::PopStyleColor();
 
             ImGui::Separator();
 

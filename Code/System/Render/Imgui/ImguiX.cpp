@@ -1,4 +1,5 @@
 #include "ImguiX.h"
+#include "ImguiStyle.h"
 
 #if KRG_DEVELOPMENT_TOOLS
 
@@ -6,6 +7,22 @@
 
 namespace KRG::ImGuiX
 {
+    //-------------------------------------------------------------------------
+    // General helpers
+    //-------------------------------------------------------------------------
+
+    void MakeTabVisible( char const* const pWindowName )
+    {
+        KRG_ASSERT( pWindowName != nullptr );
+        ImGuiWindow* pWindow = ImGui::FindWindowByName( pWindowName );
+        if ( pWindow == nullptr || pWindow->DockNode == nullptr || pWindow->DockNode->TabBar == nullptr )
+        {
+            return;
+        }
+
+        pWindow->DockNode->TabBar->NextSelectedTabId = pWindow->ID;
+    }
+
     ImVec2 const& GetClosestPointOnRect( ImRect const& rect, ImVec2 const& inPoint )
     {
         ImVec2 const points[4] =
@@ -39,14 +56,11 @@ namespace KRG::ImGuiX
         KRG_ASSERT( closestPointIdx >= 0 && closestPointIdx < 4 );
         return points[closestPointIdx];
     }
-}
 
-//-------------------------------------------------------------------------
-// Separators
-//-------------------------------------------------------------------------
+    //-------------------------------------------------------------------------
+    // Separators
+    //-------------------------------------------------------------------------
 
-namespace KRG::ImGuiX
-{
     static void CenteredSeparator( float width )
     {
         ImGuiWindow* window = ImGui::GetCurrentWindow();
@@ -153,36 +167,34 @@ namespace KRG::ImGuiX
         ImDrawList* pDrawList = ImGui::GetWindowDrawList();
         pDrawList->AddLine( ImVec2( startPosX, startPosY ), ImVec2( startPosX, endPosY ), separatorColor, 1 );
     }
-}
 
-//-------------------------------------------------------------------------
-// Widgets
-//-------------------------------------------------------------------------
+    //-------------------------------------------------------------------------
+    // Widgets
+    //-------------------------------------------------------------------------
 
-namespace KRG::ImGuiX
-{
-    bool ColoredButton( ImColor const& backgroundColor, ImColor const& foregroundColor, char const* label, ImVec2 const& size )
+    void ItemTooltip( const char* fmt, ... )
     {
-        ImVec4 const hoveredColor = (ImVec4) AdjustColorBrightness( backgroundColor, 1.15f );
-        ImVec4 const activeColor = (ImVec4) AdjustColorBrightness( backgroundColor, 1.25f );
-
-        ImGui::PushStyleColor( ImGuiCol_Button, (ImVec4) backgroundColor );
-        ImGui::PushStyleColor( ImGuiCol_ButtonHovered, hoveredColor );
-        ImGui::PushStyleColor( ImGuiCol_ButtonActive, activeColor );
-        ImGui::PushStyleColor( ImGuiCol_Text, (ImVec4) foregroundColor );
-        bool const result = ImGui::Button( label, size );
-        ImGui::PopStyleColor( 4 );
-
-        return result;
+        ImGui::PushStyleVar( ImGuiStyleVar_WindowPadding, ImVec2( 4, 4 ) );
+        if ( ImGui::IsItemHovered() && GImGui->HoveredIdTimer > Style::s_toolTipDelay )
+        {
+            va_list args;
+            va_start( args, fmt );
+            ImGui::SetTooltipV( fmt, args );
+            va_end( args );
+        }
+        ImGui::PopStyleVar();
     }
 
-    bool FlatButton( char const* label, ImVec2 const& size )
+    void ItemTooltipDelayed( float tooltipDelay, const char* fmt, ... )
     {
-        ImGui::PushStyleColor( ImGuiCol_Button, ImVec4( 0, 0, 0, 0 ) );
-        bool const result = ImGui::Button( label, size );
-        ImGui::PopStyleColor( 1 );
-
-        return result;
+        KRG_ASSERT( tooltipDelay > 0 );
+        if ( ImGui::IsItemHovered() && GImGui->HoveredIdTimer > tooltipDelay )
+        {
+            va_list args;
+            va_start( args, fmt );
+            ImGui::SetTooltipV( fmt, args );
+            va_end( args );
+        }
     }
 
     bool IconButton( char const* pIcon, char const* pLabel, ImVec4 const& iconColor, ImVec2 const& size_arg )
@@ -218,11 +230,35 @@ namespace KRG::ImGuiX
         ImU32 const col = ImGui::GetColorU32( ( held && hovered ) ? ImGuiCol_ButtonActive : hovered ? ImGuiCol_ButtonHovered : ImGuiCol_Button );
         ImGui::RenderNavHighlight( bb, id );
         ImGui::RenderFrame( bb.Min, bb.Max, col, true, style.FrameRounding );
-        ImGui::RenderTextClipped( bb.Min + style.FramePadding + ImVec2( icon_size.x + style.ItemSpacing.x, 0 ), bb.Max - style.FramePadding, pLabel, NULL, &label_size, ImVec2( 0, 0.5f ), &bb);
+        ImGui::RenderTextClipped( bb.Min + style.FramePadding + ImVec2( icon_size.x + style.ItemSpacing.x, 0 ), bb.Max - style.FramePadding, pLabel, NULL, &label_size, ImVec2( 0, 0.5f ), &bb );
 
         pWindow->DrawList->AddText( pos + style.FramePadding, ImGui::GetColorU32( iconColor ), pIcon );
 
         return pressed;
+    }
+
+    bool ColoredButton( ImColor const& backgroundColor, ImColor const& foregroundColor, char const* label, ImVec2 const& size )
+    {
+        ImVec4 const hoveredColor = (ImVec4) AdjustColorBrightness( backgroundColor, 1.15f );
+        ImVec4 const activeColor = (ImVec4) AdjustColorBrightness( backgroundColor, 1.25f );
+
+        ImGui::PushStyleColor( ImGuiCol_Button, (ImVec4) backgroundColor );
+        ImGui::PushStyleColor( ImGuiCol_ButtonHovered, hoveredColor );
+        ImGui::PushStyleColor( ImGuiCol_ButtonActive, activeColor );
+        ImGui::PushStyleColor( ImGuiCol_Text, (ImVec4) foregroundColor );
+        bool const result = ImGui::Button( label, size );
+        ImGui::PopStyleColor( 4 );
+
+        return result;
+    }
+
+    bool FlatButton( char const* label, ImVec2 const& size )
+    {
+        ImGui::PushStyleColor( ImGuiCol_Button, ImVec4( 0, 0, 0, 0 ) );
+        bool const result = ImGui::Button( label, size );
+        ImGui::PopStyleColor( 1 );
+
+        return result;
     }
 
     bool ColoredIconButton( ImColor const& backgroundColor, ImColor const& foregroundColor, ImVec4 const& iconColor, char const* pIcon, char const* pLabel, ImVec2 const& size )
@@ -284,7 +320,7 @@ namespace KRG::ImGuiX
 
         //-------------------------------------------------------------------------
 
-        ImVec4 iconColor = ImGuiX::Style::s_textColor;
+        ImVec4 iconColor = ImGuiX::Style::s_colorText;
         if ( isSelected || iconRect.Contains( ImGui::GetMousePos() - ImGui::GetWindowPos() ) )
         {
             iconColor = selectedColor;
@@ -357,14 +393,11 @@ namespace KRG::ImGuiX
 
         return true;
     }
-}
 
-//-------------------------------------------------------------------------
-// Numeric Helpers
-//-------------------------------------------------------------------------
+    //-------------------------------------------------------------------------
+    // Numeric Helpers
+    //-------------------------------------------------------------------------
 
-namespace KRG::ImGuiX
-{
     constexpr static float const g_labelWidth = 14.0f;
     constexpr static float const g_labelHeight = 24.0f;
 
@@ -715,8 +748,8 @@ namespace KRG::ImGuiX
         Float3 const rotation = t.GetRotation().ToEulerAngles().GetAsDegrees();
 
         ImGui::PushStyleVar( ImGuiStyleVar_CellPadding, ImVec2( 3, 1 ) );
-        ImGui::PushStyleColor( ImGuiCol_TableRowBg, (ImVec4) ImGuiX::Style::s_backgroundColorDark );
-        ImGui::PushStyleColor( ImGuiCol_TableRowBgAlt, (ImVec4) ImGuiX::Style::s_backgroundColorDark );
+        ImGui::PushStyleColor( ImGuiCol_TableRowBg, (ImVec4) ImGuiX::Style::s_colorGray8 );
+        ImGui::PushStyleColor( ImGuiCol_TableRowBgAlt, (ImVec4) ImGuiX::Style::s_colorGray8 );
         if ( ImGui::BeginTable( "Transform", 4, ImGuiTableFlags_RowBg | ImGuiTableFlags_PadOuterX, ImVec2( width, 0 ) ) )
         {
             ImGui::TableSetupColumn( "Label", ImGuiTableColumnFlags_WidthFixed, 45 );
@@ -827,5 +860,4 @@ namespace KRG::ImGuiX
         ImGui::PopStyleVar();
     }
 }
-
 #endif

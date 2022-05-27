@@ -4,6 +4,7 @@
 #include "Engine/Core/Entity/Entity.h"
 #include "Engine/Core/Entity/EntitySystem.h"
 #include "System/TypeSystem/TypeRegistry.h"
+#include "System/Render/Imgui/ImguiStyle.h"
 
 //-------------------------------------------------------------------------
 
@@ -148,10 +149,10 @@ namespace KRG::EntityModel
                 ImGui::Text( "%s", m_pEntity->GetName().c_str() );
             }
 
-            ImGui::SameLine( ImGui::GetContentRegionAvail().x + ImGui::GetStyle().ItemSpacing.x - 76, 0 );
+            ImGui::SameLine( ImGui::GetContentRegionAvail().x + ImGui::GetStyle().ItemSpacing.x - 82, 0 );
             {
                 ImGuiX::ScopedFont sf( ImGuiX::Font::SmallBold );
-                if ( ImGuiX::ColoredButton( Colors::Green, Colors::White, KRG_ICON_PLUS"ADD", ImVec2( 50, 0 ) ) )
+                if ( ImGuiX::ColoredButton( Colors::Green, Colors::White, KRG_ICON_PLUS"ADD", ImVec2( 50, 26 ) ) )
                 {
                     ImGui::OpenPopup( "Choose Add Filter" );
                 }
@@ -174,8 +175,8 @@ namespace KRG::EntityModel
                 ImGuiX::ItemTooltip( "Add Component/System" );
             }
 
-            ImGui::SameLine( ImGui::GetContentRegionAvail().x + ImGui::GetStyle().ItemSpacing.x - 22, 0 );
-            if ( ImGui::Button( KRG_ICON_PLAYLIST_EDIT, ImVec2( 22, 0 ) ) )
+            ImGui::SameLine( ImGui::GetContentRegionAvail().x + ImGui::GetStyle().ItemSpacing.x - 28, 0 );
+            if ( ImGui::Button( KRG_ICON_PLAYLIST_EDIT, ImVec2( 26, 26 ) ) )
             {
                 m_context.SelectEntity( m_pEntity );
                 ClearSelection();
@@ -488,7 +489,7 @@ namespace KRG::EntityModel
 
             bool filterUpdated = false;
 
-            ImGui::SetNextItemWidth( contentRegionAvailable.x - ImGui::GetStyle().WindowPadding.x - 22 );
+            ImGui::SetNextItemWidth( contentRegionAvailable.x - ImGui::GetStyle().WindowPadding.x - 26 );
             InlineString filterCopy( m_filterBuffer );
 
             if ( m_initializeFocus )
@@ -517,7 +518,7 @@ namespace KRG::EntityModel
             }
 
             ImGui::SameLine();
-            if ( ImGui::Button( KRG_ICON_CLOSE_CIRCLE "##Clear Filter", ImVec2( 22, 0 ) ) )
+            if ( ImGui::Button( KRG_ICON_CLOSE_CIRCLE "##Clear Filter", ImVec2( 26, 0 ) ) )
             {
                 m_filterBuffer[0] = 0;
                 filterUpdated = true;
@@ -567,7 +568,6 @@ namespace KRG::EntityModel
             //-------------------------------------------------------------------------
 
             float const tableHeight = contentRegionAvailable.y - ImGui::GetFrameHeightWithSpacing() - ImGui::GetStyle().ItemSpacing.y;
-            ImGui::PushStyleColor( ImGuiCol_Header, ImGuiX::Style::s_itemColorMedium.Value );
             if ( ImGui::BeginTable( "Options List", 1, ImGuiTableFlags_NoSavedSettings | ImGuiTableFlags_Borders | ImGuiTableFlags_Resizable | ImGuiTableFlags_ScrollY, ImVec2( contentRegionAvailable.x, tableHeight ) ) )
             {
                 ImGui::TableSetupColumn( "Type", ImGuiTableColumnFlags_WidthStretch, 1.0f );

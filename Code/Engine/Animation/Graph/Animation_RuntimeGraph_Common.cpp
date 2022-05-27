@@ -9,14 +9,14 @@ namespace KRG::Animation
         static const Color colors[9] =
         {
             Colors::GhostWhite,
-            Colors::Yellow,
+            Colors::PaleGreen,
             Colors::Orange,
             Colors::Violet,
-            Colors::CornflowerBlue,
+            Colors::PaleVioletRed,
             Colors::DeepSkyBlue,
             Colors::Cyan,
-            Colors::HoneyDew,
-            Colors::LimeGreen,
+            Colors::PeachPuff,
+            Colors::GreenYellow,
         };
 
         return colors[(uint8) type];

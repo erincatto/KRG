@@ -14,24 +14,23 @@ namespace KRG::ImGuiX
     public:
 
         // Core imgui colors
-        static ImColor const s_backgroundColorLight;
-        static ImColor const s_backgroundColorSemiLight;
-        static ImColor const s_backgroundColorMedium;
-        static ImColor const s_backgroundColorSemiDark;
-        static ImColor const s_backgroundColorDark;
+        static ImColor const s_colorGray0;
+        static ImColor const s_colorGray1;
+        static ImColor const s_colorGray2;
+        static ImColor const s_colorGray3;
+        static ImColor const s_colorGray4;
+        static ImColor const s_colorGray5;
+        static ImColor const s_colorGray6;
+        static ImColor const s_colorGray7;
+        static ImColor const s_colorGray8;
+        static ImColor const s_colorGray9;
 
-        static ImColor const s_itemColorLight;
-        static ImColor const s_itemColorSemiLight;
-        static ImColor const s_itemColorMedium;
-        static ImColor const s_itemColorSemiDark;
-        static ImColor const s_itemColorDark;
+        static ImColor const s_colorText;
+        static ImColor const s_colorTextDisabled;
 
-        static ImColor const s_textColor;
-        static ImColor const s_textColorDisabled;
-
-        // Accents
-        static ImColor const s_selectionAccent;
-        static ImColor const s_selectionAccentAlt;
+        static ImColor const s_colorAccent0;
+        static ImColor const s_colorAccent1;
+        static ImColor const s_colorAccent2;
 
         // Additional tool colors
         static ImColor const s_gridBackgroundColor;
@@ -39,6 +38,7 @@ namespace KRG::ImGuiX
         static ImColor const s_selectionBoxOutlineColor;
         static ImColor const s_selectionBoxFillColor;
 
+        // Misc settings
         constexpr static float const s_toolTipDelay = 0.4f;
 
     public:

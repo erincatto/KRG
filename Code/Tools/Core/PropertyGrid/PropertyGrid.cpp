@@ -34,21 +34,6 @@ namespace KRG
         PropertyEditInfo                    m_eventInfo;
     };
 
-    namespace ImGuiX
-    {
-        static bool FlatButtonColored( ImVec4 const& foregroundColor, char const* label, ImVec2 const& size = ImVec2( 0, 0 ) )
-        {
-            ImGui::PushStyleVar( ImGuiStyleVar_FramePadding, ImVec2( 3, 3 ) );
-            ImGui::PushStyleColor( ImGuiCol_Button, 0 );
-            ImGui::PushStyleColor( ImGuiCol_Text, foregroundColor );
-            bool const result = ImGui::Button( label, size );
-            ImGui::PopStyleColor( 2 );
-            ImGui::PopStyleVar( 1 );
-
-            return result;
-        }
-    }
-
     //-------------------------------------------------------------------------
 
     PropertyGrid::PropertyGrid( ToolsContext const* pToolsContext )
@@ -196,16 +181,20 @@ namespace KRG
 
         bool showContents = false;
 
-        if ( propertyInfo.IsStructureProperty() )
         {
-            if ( ImGui::TreeNodeEx( propertyName.c_str(), ImGuiTreeNodeFlags_SpanFullWidth ) )
+            ImGuiX::ScopedFont const sf( ImGuiX::Font::Small );
+
+            if ( propertyInfo.IsStructureProperty() )
             {
-                showContents = true;
+                if ( ImGui::TreeNodeEx( propertyName.c_str(), ImGuiTreeNodeFlags_SpanFullWidth ) )
+                {
+                    showContents = true;
+                }
             }
-        }
-        else
-        {
-            ImGui::Text( propertyName.c_str() );
+            else
+            {
+                ImGui::Text( propertyName.c_str() );
+            }
         }
 
         //-------------------------------------------------------------------------
@@ -331,9 +320,12 @@ namespace KRG
         ImGui::AlignTextToFramePadding();
 
         bool showContents = false;
-        if ( ImGui::TreeNodeEx( propertyInfo.m_friendlyName.c_str(), ImGuiTreeNodeFlags_None ) )
         {
-            showContents = true;
+            ImGuiX::ScopedFont const sf( ImGuiX::Font::Small );
+            if ( ImGui::TreeNodeEx( propertyInfo.m_friendlyName.c_str(), ImGuiTreeNodeFlags_None ) )
+            {
+                showContents = true;
+            }
         }
 
         // Editor

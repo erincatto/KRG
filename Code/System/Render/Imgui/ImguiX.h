@@ -2,7 +2,6 @@
 
 #include "System/Render/_Module/API.h"
 #include "ImguiFont.h"
-#include "ImguiStyle.h"
 #include "imgui.h"
 #include "imgui_internal.h"
 #include "System/Core/Math/Transform.h"
@@ -50,17 +49,7 @@ namespace KRG::ImGuiX
     // General helpers
     //-------------------------------------------------------------------------
 
-    inline void MakeTabVisible( char const* const pWindowName )
-    {
-        KRG_ASSERT( pWindowName != nullptr );
-        ImGuiWindow* pWindow = ImGui::FindWindowByName( pWindowName );
-        if ( pWindow == nullptr || pWindow->DockNode == nullptr || pWindow->DockNode->TabBar == nullptr )
-        {
-            return;
-        }
-
-        pWindow->DockNode->TabBar->NextSelectedTabId = pWindow->ID;
-    }
+    KRG_SYSTEM_RENDER_API void MakeTabVisible( char const* const pWindowName );
 
     KRG_SYSTEM_RENDER_API ImVec2 const& GetClosestPointOnRect( ImRect const& rect, ImVec2 const& inPoint );
 
@@ -85,37 +74,16 @@ namespace KRG::ImGuiX
     //-------------------------------------------------------------------------
 
     // Draw a tooltip for the immediately preceding item
-    inline void ItemTooltip( const char* fmt, ... )
-    {
-        ImGui::PushStyleVar( ImGuiStyleVar_WindowPadding, ImVec2( 4, 4 ) );
-        if ( ImGui::IsItemHovered() && GImGui->HoveredIdTimer > Style::s_toolTipDelay )
-        {
-            va_list args;
-            va_start( args, fmt );
-            ImGui::SetTooltipV( fmt, args );
-            va_end( args );
-        }
-        ImGui::PopStyleVar();
-    }
+    KRG_SYSTEM_RENDER_API void ItemTooltip( const char* fmt, ... );
 
     // Draw a tooltip with a custom hover delay for the immediately preceding item
-    inline void ItemTooltipDelayed( float tooltipDelay, const char* fmt, ... )
-    {
-        KRG_ASSERT( tooltipDelay > 0 );
-        if ( ImGui::IsItemHovered() && GImGui->HoveredIdTimer > tooltipDelay )
-        {
-            va_list args;
-            va_start( args, fmt );
-            ImGui::SetTooltipV( fmt, args );
-            va_end( args );
-        }
-    }
+    KRG_SYSTEM_RENDER_API void ItemTooltipDelayed( float tooltipDelay, const char* fmt, ... );
 
     // Draw a button with an explicit icon
-    KRG_SYSTEM_RENDER_API bool IconButton( char const* pIcon, char const* pLabel, ImVec4 const& iconColor = Style::s_textColor, ImVec2 const& size = ImVec2( 0, 0 ) );
+    KRG_SYSTEM_RENDER_API bool IconButton( char const* pIcon, char const* pLabel, ImVec4 const& iconColor = ImGui::GetStyle().Colors[ImGuiCol_Text], ImVec2 const& size = ImVec2( 0, 0 ) );
 
     // Draw a button with an explicit icon
-    inline bool IconButton( char const* pIcon, char const* pLabel, Color const& iconColor = Color( (uint32) Style::s_textColor ), ImVec2 const& size = ImVec2( 0, 0 ) )
+    KRG_FORCE_INLINE bool IconButton( char const* pIcon, char const* pLabel, Color const& iconColor = Color( ImGui::GetStyle().Colors[ImGuiCol_Text] ), ImVec2 const& size = ImVec2( 0, 0 ) )
     {
         return IconButton( pIcon, pLabel, ConvertColor( iconColor ).Value, size );
     }
@@ -124,7 +92,7 @@ namespace KRG::ImGuiX
     KRG_SYSTEM_RENDER_API bool ColoredButton( ImColor const& backgroundColor, ImColor const& foregroundColor, char const* label, ImVec2 const& size = ImVec2( 0, 0 ) );
 
     // Draw a colored button
-    inline bool ColoredButton( Color backgroundColor, Color foregroundColor, char const* label, ImVec2 const& size = ImVec2( 0, 0 ) )
+    KRG_FORCE_INLINE bool ColoredButton( Color backgroundColor, Color foregroundColor, char const* label, ImVec2 const& size = ImVec2( 0, 0 ) )
     {
         return ColoredButton( ConvertColor( backgroundColor ), ConvertColor( foregroundColor ), label, size );
     }
@@ -133,7 +101,7 @@ namespace KRG::ImGuiX
     KRG_SYSTEM_RENDER_API bool ColoredIconButton( ImColor const& backgroundColor, ImColor const& foregroundColor, ImVec4 const& iconColor, char const* pIcon, char const* label, ImVec2 const& size = ImVec2( 0, 0 ) );
 
     // Draw a colored icon button
-    inline bool ColoredIconButton( Color backgroundColor, Color foregroundColor, Color iconColor, char const* pIcon, char const* label, ImVec2 const& size = ImVec2( 0, 0 ) )
+    KRG_FORCE_INLINE bool ColoredIconButton( Color backgroundColor, Color foregroundColor, Color iconColor, char const* pIcon, char const* label, ImVec2 const& size = ImVec2( 0, 0 ) )
     {
         return ColoredIconButton( ConvertColor( backgroundColor ), ConvertColor( foregroundColor ), ConvertColor( iconColor ), pIcon, label, size );
     }
@@ -141,11 +109,24 @@ namespace KRG::ImGuiX
     // Draws a flat button - a button with no background
     KRG_SYSTEM_RENDER_API bool FlatButton( char const* label, ImVec2 const& size = ImVec2( 0, 0 ) );
 
-    // Draw a colored icon button
-    KRG_SYSTEM_RENDER_API bool FlatIconButton( char const* pIcon, char const* pLabel, ImVec4 const& iconColor = Style::s_textColor, ImVec2 const& size = ImVec2( 0, 0 ) );
+    // Draws a flat button - with a custom text color
+    KRG_FORCE_INLINE bool FlatButtonColored( ImVec4 const& foregroundColor, char const* label, ImVec2 const& size = ImVec2( 0, 0 ) )
+    {
+        ImGui::PushStyleVar( ImGuiStyleVar_FramePadding, ImVec2( 3, 3 ) );
+        ImGui::PushStyleColor( ImGuiCol_Button, 0 );
+        ImGui::PushStyleColor( ImGuiCol_Text, foregroundColor );
+        bool const result = ImGui::Button( label, size );
+        ImGui::PopStyleColor( 2 );
+        ImGui::PopStyleVar( 1 );
+
+        return result;
+    }
 
     // Draw a colored icon button
-    inline bool FlatIconButton( char const* pIcon, char const* pLabel, Color iconColor = Color( (uint32) Style::s_textColor ), ImVec2 const& size = ImVec2( 0, 0 ) )
+    KRG_SYSTEM_RENDER_API bool FlatIconButton( char const* pIcon, char const* pLabel, ImVec4 const& iconColor = ImGui::GetStyle().Colors[ImGuiCol_Text], ImVec2 const& size = ImVec2( 0, 0 ) );
+
+    // Draw a colored icon button
+    KRG_FORCE_INLINE bool FlatIconButton( char const* pIcon, char const* pLabel, Color iconColor = Color( ImGui::GetStyle().Colors[ImGuiCol_Text] ), ImVec2 const& size = ImVec2( 0, 0 ) )
     {
         return FlatIconButton( pIcon, pLabel, ConvertColor( iconColor ).Value, size );
     }
@@ -157,7 +138,7 @@ namespace KRG::ImGuiX
     KRG_SYSTEM_RENDER_API bool DrawOverlayIcon( ImVec2 const& iconPos, char icon[4], void* iconID, bool isSelected = false, ImColor const& selectedColor = ImGui::GetStyle().Colors[ImGuiCol_ButtonActive] );
 
     // Draw a basic spinner
-    KRG_SYSTEM_RENDER_API bool DrawSpinner( char const* pLabel, ImColor const& color = Style::s_textColor, float radius = 6.0f, float thickness = 3.0f );
+    KRG_SYSTEM_RENDER_API bool DrawSpinner( char const* pLabel, ImColor const& color = ImGui::GetStyle().Colors[ImGuiCol_Text], float radius = 6.0f, float thickness = 3.0f );
 
     //-------------------------------------------------------------------------
     // Numeric Widgets

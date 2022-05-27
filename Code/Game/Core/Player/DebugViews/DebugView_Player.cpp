@@ -146,7 +146,7 @@ namespace KRG::Player
 
                             for ( auto pOverlayAction : pStateMachine->m_overlayActions )
                             {
-                                ImVec4 const color = pOverlayAction->IsActive() ? Colors::LimeGreen.ToFloat4() : (ImVec4) ImGuiX::Style::s_textColor;
+                                ImVec4 const color = pOverlayAction->IsActive() ? Colors::LimeGreen.ToFloat4() : ImGui::GetStyle().Colors[ImGuiCol_Text];
 
                                 ImGui::TableNextRow();
 

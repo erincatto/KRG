@@ -1,6 +1,7 @@
 #include "CurveEditor.h"
 #include "System/Render/Imgui/ImguiX.h"
 #include "System/Core/Math/Curves.h"
+#include "System/Render/Imgui/ImguiStyle.h"
 
 //-------------------------------------------------------------------------
 
