@@ -59,7 +59,7 @@ namespace KRG::ImGuiX
 
     void ImguiSystem::Shutdown()
     {
-        for ( int i = 0; i < (int8) Font::NumFonts; i++ )
+        for ( int i = 0; i < (int8_t) Font::NumFonts; i++ )
         {
             SystemFonts::s_fonts[i] = nullptr;
         }
@@ -75,13 +75,13 @@ namespace KRG::ImGuiX
         // Decompress fonts
         //-------------------------------------------------------------------------
 
-        TVector<Byte> fontData, boldFontData;
+        TVector<uint8_t> fontData, boldFontData;
         Fonts::GetDecompressedFontData( Fonts::Lexend::Regular::GetData(), fontData );
         Fonts::GetDecompressedFontData( Fonts::Lexend::Bold::GetData(), boldFontData );
 
         ImWchar const icons_ranges[] = { KRG_ICONRANGE_MIN, KRG_ICONRANGE_MAX, 0 };
-        TVector<Byte> iconFontData;
-        Fonts::GetDecompressedFontData( (Byte const*) Fonts::MaterialDesignIcons::GetData(), iconFontData );
+        TVector<uint8_t> iconFontData;
+        Fonts::GetDecompressedFontData( (uint8_t const*) Fonts::MaterialDesignIcons::GetData(), iconFontData );
 
         // Base font configs
         //-------------------------------------------------------------------------
@@ -96,15 +96,15 @@ namespace KRG::ImGuiX
         iconFontConfig.PixelSnapH = true;
         iconFontConfig.RasterizerMultiply = 1.5f;
 
-        auto CreateFont = [&] ( TVector<Byte>& fontData, float fontSize, float iconFontSize, Font fontID, char const* pName, ImVec2 const& glyphOffset = ImVec2( 0, 0 ) )
+        auto CreateFont = [&] ( TVector<uint8_t>& fontData, float fontSize, float iconFontSize, Font fontID, char const* pName, ImVec2 const& glyphOffset = ImVec2( 0, 0 ) )
         {
             Printf( fontConfig.Name, 40, pName );
-            ImFont* pFont = io.Fonts->AddFontFromMemoryTTF( fontData.data(), (int32) fontData.size(), fontSize, &fontConfig );
-            SystemFonts::s_fonts[(uint8) fontID] = pFont;
+            ImFont* pFont = io.Fonts->AddFontFromMemoryTTF( fontData.data(), (int32_t) fontData.size(), fontSize, &fontConfig );
+            SystemFonts::s_fonts[(uint8_t) fontID] = pFont;
 
             iconFontConfig.GlyphOffset = glyphOffset;
             iconFontConfig.GlyphMinAdvanceX = iconFontSize;
-            io.Fonts->AddFontFromMemoryTTF( iconFontData.data(), (int32) iconFontData.size(), iconFontSize, &iconFontConfig, icons_ranges );
+            io.Fonts->AddFontFromMemoryTTF( iconFontData.data(), (int32_t) iconFontData.size(), iconFontSize, &iconFontConfig, icons_ranges );
         };
 
         CreateFont( fontData, 14, 16, Font::Small, "Small", ImVec2( 0, 2 ) );
@@ -126,17 +126,17 @@ namespace KRG::ImGuiX
         KRG_ASSERT( io.Fonts->IsBuilt() );
 
         #if KRG_DEVELOPMENT_TOOLS
-        KRG_ASSERT( SystemFonts::s_fonts[(uint8) Font::Small]->IsLoaded() );
-        KRG_ASSERT( SystemFonts::s_fonts[(uint8) Font::SmallBold]->IsLoaded() );
-        KRG_ASSERT( SystemFonts::s_fonts[(uint8) Font::Medium]->IsLoaded() );
-        KRG_ASSERT( SystemFonts::s_fonts[(uint8) Font::MediumBold]->IsLoaded() );
-        KRG_ASSERT( SystemFonts::s_fonts[(uint8) Font::Large]->IsLoaded() );
-        KRG_ASSERT( SystemFonts::s_fonts[(uint8) Font::LargeBold]->IsLoaded() );
-        KRG_ASSERT( SystemFonts::s_fonts[(uint8) Font::Huge]->IsLoaded() );
-        KRG_ASSERT( SystemFonts::s_fonts[(uint8) Font::HugeBold]->IsLoaded() );
+        KRG_ASSERT( SystemFonts::s_fonts[(uint8_t) Font::Small]->IsLoaded() );
+        KRG_ASSERT( SystemFonts::s_fonts[(uint8_t) Font::SmallBold]->IsLoaded() );
+        KRG_ASSERT( SystemFonts::s_fonts[(uint8_t) Font::Medium]->IsLoaded() );
+        KRG_ASSERT( SystemFonts::s_fonts[(uint8_t) Font::MediumBold]->IsLoaded() );
+        KRG_ASSERT( SystemFonts::s_fonts[(uint8_t) Font::Large]->IsLoaded() );
+        KRG_ASSERT( SystemFonts::s_fonts[(uint8_t) Font::LargeBold]->IsLoaded() );
+        KRG_ASSERT( SystemFonts::s_fonts[(uint8_t) Font::Huge]->IsLoaded() );
+        KRG_ASSERT( SystemFonts::s_fonts[(uint8_t) Font::HugeBold]->IsLoaded() );
         #endif
 
-        io.FontDefault = SystemFonts::s_fonts[(uint8) Font::Medium];
+        io.FontDefault = SystemFonts::s_fonts[(uint8_t) Font::Medium];
     }
 
     //-------------------------------------------------------------------------

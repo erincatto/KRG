@@ -107,17 +107,17 @@ namespace KRG::Animation
     struct SampledEventRange
     {
         SampledEventRange() = default;
-        KRG_FORCE_INLINE SampledEventRange( int16 index ) : m_startIdx( index ), m_endIdx( index ) {}
-        KRG_FORCE_INLINE SampledEventRange( int16 startIndex, int16 endIndex ) : m_startIdx( startIndex ), m_endIdx( endIndex ) {}
+        KRG_FORCE_INLINE SampledEventRange( int16_t index ) : m_startIdx( index ), m_endIdx( index ) {}
+        KRG_FORCE_INLINE SampledEventRange( int16_t startIndex, int16_t endIndex ) : m_startIdx( startIndex ), m_endIdx( endIndex ) {}
 
         KRG_FORCE_INLINE bool IsValid() const { return m_startIdx != InvalidIndex && m_endIdx >= m_startIdx; }
-        KRG_FORCE_INLINE int32 GetLength() const { return m_endIdx - m_startIdx; }
+        KRG_FORCE_INLINE int32_t GetLength() const { return m_endIdx - m_startIdx; }
         KRG_FORCE_INLINE void Reset() { m_startIdx = m_endIdx = InvalidIndex; }
 
     public:
 
-        int16                               m_startIdx = InvalidIndex;
-        int16                               m_endIdx = InvalidIndex;
+        int16_t                               m_startIdx = InvalidIndex;
+        int16_t                               m_endIdx = InvalidIndex;
     };
 
     //-------------------------------------------------------------------------
@@ -132,7 +132,7 @@ namespace KRG::Animation
 
         inline TVector<SampledEvent> const& GetEvents() const { return m_events; }
 
-        inline int16 GetNumEvents() const { return (int16) m_events.size(); }
+        inline int16_t GetNumEvents() const { return (int16_t) m_events.size(); }
 
         // Is the supplied range valid for the current state of the buffer?
         inline bool IsValidRange( SampledEventRange range ) const
@@ -151,7 +151,7 @@ namespace KRG::Animation
         inline void UpdateWeights( SampledEventRange range, float weightMultiplier )
         {
             KRG_ASSERT( range.m_startIdx >= 0 && range.m_endIdx <= m_events.size() );
-            for ( int16 i = range.m_startIdx; i < range.m_endIdx; i++ )
+            for ( int16_t i = range.m_startIdx; i < range.m_endIdx; i++ )
             {
                 m_events[i].m_weight *= weightMultiplier;
             }
@@ -161,7 +161,7 @@ namespace KRG::Animation
         inline void SetFlag( SampledEventRange range, SampledEvent::Flags flag )
         {
             KRG_ASSERT( range.m_startIdx >= 0 && range.m_endIdx < m_events.size() );
-            for ( int16 i = range.m_startIdx; i < range.m_endIdx; i++ )
+            for ( int16_t i = range.m_startIdx; i < range.m_endIdx; i++ )
             {
                 m_events[i].m_flags.SetFlag( flag );
             }
@@ -188,7 +188,7 @@ namespace KRG::Animation
         {
             KRG_ASSERT( range.m_startIdx >= 0 && range.m_endIdx < m_events.size() );
 
-            for ( int32 i = range.m_startIdx; i < range.m_endIdx; i++ )
+            for ( int32_t i = range.m_startIdx; i < range.m_endIdx; i++ )
             {
                 auto& event = m_events[i];
 
@@ -215,7 +215,7 @@ namespace KRG::Animation
         {
             KRG_ASSERT( range.m_startIdx >= 0 && range.m_endIdx < m_events.size() );
 
-            for ( int32 i = range.m_startIdx; i < range.m_endIdx; i++ )
+            for ( int32_t i = range.m_startIdx; i < range.m_endIdx; i++ )
             {
                 auto& event = m_events[i];
 
@@ -240,12 +240,12 @@ namespace KRG::Animation
 
         inline bool ContainsStateEvent( StringID ID, bool onlyFromActiveBranch = false ) const
         {
-            return ContainsStateEvent( SampledEventRange( 0, (int16) m_events.size() ), ID, onlyFromActiveBranch );
+            return ContainsStateEvent( SampledEventRange( 0, (int16_t) m_events.size() ), ID, onlyFromActiveBranch );
         }
 
         inline bool ContainsSpecificStateEvent( StringID ID, SampledEvent::Flags flag, bool onlyFromActiveBranch = false ) const
         {
-            return ContainsSpecificStateEvent( SampledEventRange( 0, (int16) m_events.size() ), ID, flag, onlyFromActiveBranch );
+            return ContainsSpecificStateEvent( SampledEventRange( 0, (int16_t) m_events.size() ), ID, flag, onlyFromActiveBranch );
         }
 
         // Operators
@@ -255,8 +255,8 @@ namespace KRG::Animation
         KRG_FORCE_INLINE TVector<SampledEvent>::iterator end() { return m_events.end(); }
         KRG_FORCE_INLINE TVector<SampledEvent>::const_iterator begin() const { return m_events.begin(); }
         KRG_FORCE_INLINE TVector<SampledEvent>::const_iterator end() const{ return m_events.end(); }
-        KRG_FORCE_INLINE SampledEvent& operator[]( uint32 i ) { KRG_ASSERT( i < m_events.size() ); return m_events[i]; }
-        KRG_FORCE_INLINE SampledEvent const& operator[]( uint32 i ) const { KRG_ASSERT( i < m_events.size() ); return m_events[i]; }
+        KRG_FORCE_INLINE SampledEvent& operator[]( uint32_t i ) { KRG_ASSERT( i < m_events.size() ); return m_events[i]; }
+        KRG_FORCE_INLINE SampledEvent const& operator[]( uint32_t i ) const { KRG_ASSERT( i < m_events.size() ); return m_events[i]; }
 
     public:
 

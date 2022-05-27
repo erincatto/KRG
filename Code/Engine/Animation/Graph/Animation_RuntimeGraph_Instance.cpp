@@ -16,7 +16,7 @@ namespace KRG::Animation
         size_t const numNodes = pGraphDef->m_instanceNodeStartOffsets.size();
         KRG_ASSERT( pGraphDef->m_nodeSettings.size() == numNodes );
 
-        m_pAllocatedInstanceMemory = reinterpret_cast<Byte*>( KRG::Alloc( pGraphDef->m_instanceRequiredMemory, pGraphDef->m_instanceRequiredAlignment ) );
+        m_pAllocatedInstanceMemory = reinterpret_cast<uint8_t*>( KRG::Alloc( pGraphDef->m_instanceRequiredMemory, pGraphDef->m_instanceRequiredAlignment ) );
 
         m_nodes.reserve( numNodes );
         for( auto const& nodeOffset : pGraphDef->m_instanceNodeStartOffsets )

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "System/Core/Types/IntegralTypes.h"
+#include "System/Core/KRG.h"
 #include "System/TypeSystem/TypeRegistrationMacros.h"
 
 //-------------------------------------------------------------------------
@@ -18,7 +18,7 @@
 namespace KRG::Physics
 {
     // Max allowed enum value of 32
-    enum class Layers : uint8
+    enum class Layers : uint8_t
     {
         KRG_REGISTER_ENUM
 
@@ -32,10 +32,10 @@ namespace KRG::Physics
     //-------------------------------------------------------------------------
 
     template<typename... Args>
-    constexpr uint32 CreateLayerMask( Args&&... args )
+    constexpr uint32_t CreateLayerMask( Args&&... args )
     {
-        uint32 layerMask = 0;
-        ( ( layerMask |= 1u << (uint8) args ), ... );
+        uint32_t layerMask = 0;
+        ( ( layerMask |= 1u << (uint8_t) args ), ... );
         return layerMask;
     }
 }

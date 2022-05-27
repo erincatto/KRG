@@ -1,6 +1,6 @@
 #pragma once
 
-#include "System/Core/Types/IntegralTypes.h"
+#include "System/Core/KRG.h"
 
 //-------------------------------------------------------------------------
 

@@ -3,7 +3,6 @@
 #include "System/Core/_Module/API.h"
 #include "System/Core/Math/Math.h"
 #include "System/Core/Serialization/Serialization.h"
-#include "EASTL/chrono.h"
 
 //-------------------------------------------------------------------------
 
@@ -215,14 +214,14 @@ namespace KRG
     public:
 
         Nanoseconds() : m_value( 0 ) {}
-        Nanoseconds( uint64 time ) : m_value( time ) {}
+        Nanoseconds( uint64_t time ) : m_value( time ) {}
         explicit Nanoseconds( Nanoseconds const& time ) : m_value( time.m_value ) {}
 
-        inline Nanoseconds& operator= ( uint64 time ) { m_value = time; return *this; }
+        inline Nanoseconds& operator= ( uint64_t time ) { m_value = time; return *this; }
         inline Nanoseconds& operator= ( Nanoseconds time ) { m_value = time.m_value; return *this; }
 
-        inline operator uint64() const { return m_value; }
-        inline uint64 ToU64() const { return m_value; }
+        inline operator uint64_t() const { return m_value; }
+        inline uint64_t ToU64() const { return m_value; }
         explicit operator Microseconds() const;
         inline explicit operator Milliseconds() const { return Milliseconds( operator Microseconds() ); }
         inline explicit operator Seconds() const { return Seconds( operator Microseconds() ); }
@@ -231,21 +230,21 @@ namespace KRG
         inline Milliseconds ToMilliseconds() const { return operator Milliseconds(); }
         inline Seconds ToSeconds() const { return operator Seconds(); }
 
-        inline Nanoseconds operator+ ( uint64 const time ) const { return Nanoseconds( m_value + time ); }
+        inline Nanoseconds operator+ ( uint64_t const time ) const { return Nanoseconds( m_value + time ); }
         inline Nanoseconds operator+ ( Nanoseconds const time ) const { return Nanoseconds( m_value + time.m_value ); }
 
-        inline Nanoseconds operator- ( uint64 const time ) const { return Nanoseconds( m_value - time ); }
+        inline Nanoseconds operator- ( uint64_t const time ) const { return Nanoseconds( m_value - time ); }
         inline Nanoseconds operator- ( Nanoseconds const time ) const { return Nanoseconds( m_value - time.m_value ); }
 
-        inline Nanoseconds& operator+= ( uint64 const time ) { m_value += time; return *this; };
+        inline Nanoseconds& operator+= ( uint64_t const time ) { m_value += time; return *this; };
         inline Nanoseconds& operator+= ( Nanoseconds const time ) { m_value += time.m_value; return *this; };
 
-        inline Nanoseconds& operator-= ( uint64 const time ) { m_value -= time; return *this; }
+        inline Nanoseconds& operator-= ( uint64_t const time ) { m_value -= time; return *this; }
         inline Nanoseconds& operator-= ( Nanoseconds const time ) { m_value -= time.m_value; return *this; }
 
     private:
 
-        uint64 m_value;
+        uint64_t m_value;
     };
 
     //-------------------------------------------------------------------------
@@ -257,7 +256,7 @@ namespace KRG
     inline Microseconds::Microseconds( Seconds time ) : m_value( time.m_value * 1000000 ) {}
     inline Microseconds& Microseconds::operator= ( Milliseconds time ) { m_value = time.m_value * 1000; return *this; }
     inline Microseconds& Microseconds::operator= ( Seconds time ) { m_value = time.m_value * 1000000; return *this; }
-    inline Microseconds::operator Nanoseconds() const { return Nanoseconds( uint64( double( m_value ) * 1000 ) ); }
+    inline Microseconds::operator Nanoseconds() const { return Nanoseconds( uint64_t( double( m_value ) * 1000 ) ); }
     inline Microseconds::operator Milliseconds() const { return Milliseconds( m_value / 1000 ); }
     inline Microseconds::operator Seconds() const { return Seconds( m_value / 1000000 ); }
     inline Nanoseconds Microseconds::ToNanoseconds() const { return operator Nanoseconds(); }
@@ -271,7 +270,7 @@ namespace KRG
     inline Milliseconds::Milliseconds( Seconds time ) : m_value( time.m_value * 1000 ) {}
     inline Milliseconds& Milliseconds::operator= ( Microseconds time ) { m_value = time.m_value / 1000; return *this; }
     inline Milliseconds& Milliseconds::operator= ( Seconds time ) { m_value = time.m_value * 1000; return *this; }
-    inline Milliseconds::operator Nanoseconds() const { return Nanoseconds( uint64( double( m_value ) * 1e+6 ) ); }
+    inline Milliseconds::operator Nanoseconds() const { return Nanoseconds( uint64_t( double( m_value ) * 1e+6 ) ); }
     inline Milliseconds::operator Microseconds() const { return Microseconds( m_value * 1000 ); }
     inline Milliseconds::operator Seconds() const { return Seconds( m_value / 1000 ); }
     inline Nanoseconds Milliseconds::ToNanoseconds() const { return operator Nanoseconds(); }
@@ -285,7 +284,7 @@ namespace KRG
     inline Seconds::Seconds( Milliseconds time ) : m_value( time.m_value / 1000 ) {}
     inline Seconds& Seconds::operator= ( Microseconds time ) { m_value = time.m_value / 1000000; return *this; }
     inline Seconds& Seconds::operator= ( Milliseconds time ) { m_value = time.m_value / 1000; return *this; }
-    inline Seconds::operator Nanoseconds() const { return Nanoseconds( uint64( double(m_value) / 1e+9 ) ); }
+    inline Seconds::operator Nanoseconds() const { return Nanoseconds( uint64_t( double(m_value) / 1e+9 ) ); }
     inline Seconds::operator Microseconds() const { return Microseconds( m_value * 1000000 ); }
     inline Seconds::operator Milliseconds() const { return Milliseconds( m_value * 1000 ); }
     inline Nanoseconds Seconds::ToNanoseconds() const { return operator Nanoseconds(); }

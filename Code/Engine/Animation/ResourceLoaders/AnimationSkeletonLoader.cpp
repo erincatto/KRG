@@ -23,13 +23,13 @@ namespace KRG::Animation
         // Calculate global reference pose
         //-------------------------------------------------------------------------
 
-        int32 const numBones = pSkeleton->GetNumBones();
+        int32_t const numBones = pSkeleton->GetNumBones();
         pSkeleton->m_globalReferencePose.resize( numBones );
 
         pSkeleton->m_globalReferencePose[0] = pSkeleton->m_localReferencePose[0];
         for ( auto boneIdx = 1; boneIdx < numBones; boneIdx++ )
         {
-            int32 const parentIdx = pSkeleton->GetParentBoneIndex( boneIdx );
+            int32_t const parentIdx = pSkeleton->GetParentBoneIndex( boneIdx );
             pSkeleton->m_globalReferencePose[boneIdx] = pSkeleton->m_localReferencePose[boneIdx] * pSkeleton->m_globalReferencePose[parentIdx];
         }
 

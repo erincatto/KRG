@@ -19,7 +19,7 @@ namespace KRG::Animation
             Colors::GreenYellow,
         };
 
-        return colors[(uint8) type];
+        return colors[(uint8_t) type];
     }
 
     char const* GetNameForValueType( GraphValueType type )

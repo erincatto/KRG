@@ -21,7 +21,7 @@ namespace KRG::Player
 
         struct LogEntry
         {
-            LogEntry( uint64 frameID, char const* pActionName, LoggedStatus status, bool isBaseAction = true )
+            LogEntry( uint64_t frameID, char const* pActionName, LoggedStatus status, bool isBaseAction = true )
                 : m_frameID( frameID )
                 , m_pActionName( pActionName )
                 , m_status( status )
@@ -30,7 +30,7 @@ namespace KRG::Player
                 KRG_ASSERT( status != LoggedStatus::None && pActionName != nullptr );
             }
 
-            uint64          m_frameID;
+            uint64_t          m_frameID;
             char const*     m_pActionName;
             LoggedStatus    m_status;
             bool            m_isBaseAction;
@@ -42,7 +42,7 @@ namespace KRG::Player
         // List of all the state machine states
         //-------------------------------------------------------------------------
 
-        enum ActionID : int8
+        enum ActionID : int8_t
         {
             InvalidAction = -1,
             Locomotion = 0,
@@ -61,7 +61,7 @@ namespace KRG::Player
 
         struct Transition
         {
-            enum class Availability : uint8
+            enum class Availability : uint8_t
             {
                 Always,
                 OnlyOnCompleted

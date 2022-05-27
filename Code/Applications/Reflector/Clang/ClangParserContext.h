@@ -49,7 +49,7 @@ namespace KRG::TypeSystem::Reflection
 
     public:
 
-        uint32              m_position;
+        uint32_t              m_position;
         ReflectionMacro     m_type;
         String              m_macroContents;
     };
@@ -58,7 +58,7 @@ namespace KRG::TypeSystem::Reflection
 
     struct RegisteredPropertyMacro
     {
-        RegisteredPropertyMacro( HeaderID ID, uint32 line, bool isExposed = false )
+        RegisteredPropertyMacro( HeaderID ID, uint32_t line, bool isExposed = false )
             : m_headerID( ID )
             , m_lineNumber( line )
             , m_isExposed( isExposed )
@@ -77,7 +77,7 @@ namespace KRG::TypeSystem::Reflection
     public:
 
         HeaderID            m_headerID;
-        uint32              m_lineNumber;
+        uint32_t              m_lineNumber;
         bool                m_isExposed = false;
     };
 

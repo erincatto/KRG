@@ -28,10 +28,10 @@ namespace KRG
                 KRG_SERIALIZE_MEMBERS( m_ID, m_slot );
 
                 ResourceBinding() : m_slot( 0 ) {}
-                ResourceBinding( uint32 ID, uint32 slot ) : m_ID( ID ), m_slot( slot ) {}
+                ResourceBinding( uint32_t ID, uint32_t slot ) : m_ID( ID ), m_slot( slot ) {}
 
-                uint32                 m_ID;
-                uint32                 m_slot;
+                uint32_t                 m_ID;
+                uint32_t                 m_slot;
             };
 
         public:
@@ -41,8 +41,8 @@ namespace KRG
             inline PipelineStage GetPipelineStage() const { return m_pipelineStage; }
 
             inline ShaderHandle const& GetShaderHandle() const { return m_shaderHandle; }
-            inline uint32 GetNumConstBuffers() const { return (uint32) m_cbuffers.size(); }
-            inline RenderBuffer const& GetConstBuffer( uint32 i ) const { KRG_ASSERT( i < m_cbuffers.size() ); return m_cbuffers[i]; }
+            inline uint32_t GetNumConstBuffers() const { return (uint32_t) m_cbuffers.size(); }
+            inline RenderBuffer const& GetConstBuffer( uint32_t i ) const { KRG_ASSERT( i < m_cbuffers.size() ); return m_cbuffers[i]; }
 
             inline bool operator==( Shader const& rhs ) const { return m_shaderHandle.m_pData == rhs.m_shaderHandle.m_pData; }
             inline bool operator!=( Shader const& rhs ) const { return m_shaderHandle.m_pData != rhs.m_shaderHandle.m_pData; }
@@ -50,12 +50,12 @@ namespace KRG
         protected:
 
             Shader( PipelineStage stage );
-            Shader( PipelineStage stage, uint8 const* pByteCode, size_t const byteCodeSize, TVector<RenderBuffer> const& constBuffers );
+            Shader( PipelineStage stage, uint8_t const* pByteCode, size_t const byteCodeSize, TVector<RenderBuffer> const& constBuffers );
 
         protected:
 
             ShaderHandle                        m_shaderHandle;
-            TVector<uint8>                      m_byteCode;
+            TVector<uint8_t>                      m_byteCode;
             TVector<RenderBuffer>               m_cbuffers;
             TVector<ResourceBinding>            m_resourceBindings;
             PipelineStage                       m_pipelineStage;
@@ -70,7 +70,7 @@ namespace KRG
         public:
 
             PixelShader() : Shader( PipelineStage::Pixel ) {}
-            PixelShader( uint8 const* pByteCode, size_t const byteCodeSize, TVector<RenderBuffer> const& constBuffers );
+            PixelShader( uint8_t const* pByteCode, size_t const byteCodeSize, TVector<RenderBuffer> const& constBuffers );
 
             virtual bool IsValid() const override { return m_shaderHandle.IsValid(); }
         };
@@ -84,7 +84,7 @@ namespace KRG
         public:
 
             GeometryShader() : Shader( PipelineStage::Pixel ) {}
-            GeometryShader( uint8 const* pByteCode, size_t const byteCodeSize, TVector<RenderBuffer> const& constBuffers );
+            GeometryShader( uint8_t const* pByteCode, size_t const byteCodeSize, TVector<RenderBuffer> const& constBuffers );
 
             virtual bool IsValid() const override { return m_shaderHandle.IsValid(); }
         };
@@ -103,7 +103,7 @@ namespace KRG
         public:
 
             VertexShader() : Shader( PipelineStage::Vertex ) {}
-            VertexShader( uint8 const* pByteCode, size_t const byteCodeSize, TVector<RenderBuffer> const& constBuffers, VertexLayoutDescriptor const& vertexLayoutDesc );
+            VertexShader( uint8_t const* pByteCode, size_t const byteCodeSize, TVector<RenderBuffer> const& constBuffers, VertexLayoutDescriptor const& vertexLayoutDesc );
 
             virtual bool IsValid() const override { return m_shaderHandle.IsValid(); }
             inline VertexLayoutDescriptor const& GetVertexLayoutDesc() const { return m_vertexLayoutDesc; }
@@ -124,7 +124,7 @@ namespace KRG
         public:
 
             ComputeShader() : Shader( PipelineStage::Compute ) {}
-            ComputeShader( uint8 const* pByteCode, size_t const byteCodeSize, TVector<RenderBuffer> const& constBuffers );
+            ComputeShader( uint8_t const* pByteCode, size_t const byteCodeSize, TVector<RenderBuffer> const& constBuffers );
 
             virtual bool IsValid() const override { return m_shaderHandle.IsValid(); }
         };

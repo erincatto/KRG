@@ -191,9 +191,9 @@ namespace KRG
         return parentPath;
     }
 
-    int32 ResourcePath::GetDirectoryDepth() const
+    int32_t ResourcePath::GetDirectoryDepth() const
     {
-        int32 dirDepth = -1;
+        int32_t dirDepth = -1;
 
         if ( IsValid() )
         {
@@ -208,9 +208,9 @@ namespace KRG
         return dirDepth;
     }
 
-    int32 ResourcePath::GetPathDepth() const
+    int32_t ResourcePath::GetPathDepth() const
     {
-        int32 pathDepth = GetDirectoryDepth();
+        int32_t pathDepth = GetDirectoryDepth();
 
         if ( IsFile() )
         {

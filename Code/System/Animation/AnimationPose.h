@@ -53,7 +53,7 @@ namespace KRG::Animation
 
         //-------------------------------------------------------------------------
 
-        inline int32 GetNumBones() const { return m_pSkeleton->GetNumBones(); }
+        inline int32_t GetNumBones() const { return m_pSkeleton->GetNumBones(); }
         inline Skeleton const* GetSkeleton() const { return m_pSkeleton; }
 
         // Pose state
@@ -71,27 +71,27 @@ namespace KRG::Animation
 
         TVector<Transform> const& GetTransforms() const { return m_localTransforms; }
 
-        inline Transform const& GetTransform( int32 boneIdx ) const
+        inline Transform const& GetTransform( int32_t boneIdx ) const
         {
             KRG_ASSERT( boneIdx < GetNumBones() );
             return m_localTransforms[boneIdx];
         }
 
-        inline void SetTransform( int32 boneIdx, Transform const& transform )
+        inline void SetTransform( int32_t boneIdx, Transform const& transform )
         {
             KRG_ASSERT( boneIdx < GetNumBones() && boneIdx >= 0 );
             m_localTransforms[boneIdx] = transform;
             MarkAsValidPose();
         }
 
-        inline void SetRotation( int32 boneIdx, Quaternion const& rotation )
+        inline void SetRotation( int32_t boneIdx, Quaternion const& rotation )
         {
             KRG_ASSERT( boneIdx < GetNumBones() && boneIdx >= 0 );
             m_localTransforms[boneIdx].SetRotation( rotation );
             MarkAsValidPose();
         }
 
-        inline void SetTranslation( int32 boneIdx, Float3 const& translation )
+        inline void SetTranslation( int32_t boneIdx, Float3 const& translation )
         {
             KRG_ASSERT( boneIdx < GetNumBones() && boneIdx >= 0 );
             m_localTransforms[boneIdx].SetTranslation( translation );
@@ -99,7 +99,7 @@ namespace KRG::Animation
         }
 
         // Set the scale for a given bone, note will change pose state to "Pose" if not already set
-        inline void SetScale( int32 boneIdx, Float3 const& scale )
+        inline void SetScale( int32_t boneIdx, Float3 const& scale )
         {
             KRG_ASSERT( boneIdx < GetNumBones() && boneIdx >= 0 );
             m_localTransforms[boneIdx].SetScale( scale );
@@ -113,7 +113,7 @@ namespace KRG::Animation
         inline void ClearGlobalTransforms() { m_globalTransforms.clear(); }
         inline TVector<Transform> const& GetGlobalTransforms() const { return m_globalTransforms; }
         void CalculateGlobalTransforms();
-        Transform GetGlobalTransform( int32 boneIdx ) const;
+        Transform GetGlobalTransform( int32_t boneIdx ) const;
 
         // Debug
         //-------------------------------------------------------------------------

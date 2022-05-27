@@ -305,7 +305,7 @@ namespace KRG::Resource
     //static void ReadSkeletonInfo( gltfSceneContext const& sceneCtx, RawAssets::RawAssetInfo& outInfo )
     //{
     //    cgltf_data const* pSceneData = sceneCtx.GetSceneData();
-    //    for ( int32 i = 0; i < pSceneData->skins_count; i++ )
+    //    for ( int32_t i = 0; i < pSceneData->skins_count; i++ )
     //    {
     //        RawAssets::RawSkeletonInfo skeletonInfo;
     //        skeletonInfo.m_name = pSceneData->skins[i].joints[0]->name;

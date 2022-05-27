@@ -5,7 +5,7 @@
 
 namespace KRG::Player
 {
-    enum class CharacterAnimationState : uint8
+    enum class CharacterAnimationState : uint8_t
     {
         Locomotion = 0,
         Falling,

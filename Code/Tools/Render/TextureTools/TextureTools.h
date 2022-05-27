@@ -8,5 +8,5 @@
 namespace KRG::Render
 {
     // Create a DDS texture from the supplied texture
-    bool ConvertTexture( FileSystem::Path const& texturePath, TextureType type, TVector<Byte>& rawData );
+    bool ConvertTexture( FileSystem::Path const& texturePath, TextureType type, TVector<uint8_t>& rawData );
 }

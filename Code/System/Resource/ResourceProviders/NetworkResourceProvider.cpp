@@ -46,7 +46,7 @@ namespace KRG::Resource
 
         //-------------------------------------------------------------------------
 
-        m_messagesToSend.enqueue( Network::IPC::Message( (int32) NetworkMessageID::RequestResource, NetworkResourceRequest( pRequest->GetResourceID() ) ) );
+        m_messagesToSend.enqueue( Network::IPC::Message( (int32_t) NetworkMessageID::RequestResource, NetworkResourceRequest( pRequest->GetResourceID() ) ) );
         m_requests.emplace_back( pRequest );
     }
 

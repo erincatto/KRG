@@ -14,7 +14,7 @@ namespace KRG::Physics
     {
     public:
 
-        PhysXSerializedInputData( TVector<Byte> const& buffer ) : m_buffer( buffer ) {}
+        PhysXSerializedInputData( TVector<uint8_t> const& buffer ) : m_buffer( buffer ) {}
 
     private:
 
@@ -28,7 +28,7 @@ namespace KRG::Physics
 
     private:
 
-        TVector<Byte> const&    m_buffer;
+        TVector<uint8_t> const&    m_buffer;
         size_t                  m_readByteIdx = 0;
     };
 
@@ -54,7 +54,7 @@ namespace KRG::Physics
         archive >> *pPhysicsMesh;
 
         // Deserialize cooked mesh data
-        TVector<Byte> cookedMeshData;
+        TVector<uint8_t> cookedMeshData;
         archive >> cookedMeshData;
 
         PhysXSerializedInputData cooked( cookedMeshData );

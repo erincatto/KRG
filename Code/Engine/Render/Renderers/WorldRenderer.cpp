@@ -33,7 +33,7 @@ namespace KRG::Render
         Math::ViewVolume::VolumeCorners corners = camVolume.GetCorners();
 
         // Translate into light space.
-        for ( int32 i = 0; i < 8; i++ )
+        for ( int32_t i = 0; i < 8; i++ )
         {
             corners.m_points[i] = invLightTransform.TransformPoint( corners.m_points[i] );
         }
@@ -42,7 +42,7 @@ namespace KRG::Render
         Vector cornersMin = Vector::One * FLT_MAX;
         Vector cornersMax = Vector::One * -FLT_MAX;
 
-        for ( int32 i = 0; i < 8; i++ )
+        for ( int32_t i = 0; i < 8; i++ )
         {
             cornersMin = Vector::Min( cornersMin, corners.m_points[i] );
             cornersMax = Vector::Max( cornersMax, corners.m_points[i] );
@@ -789,7 +789,7 @@ namespace KRG::Render
 
         //-------------------------------------------------------------------------
 
-        uint32 lightingFlags = 0;
+        uint32_t lightingFlags = 0;
 
         DirectionalLightComponent* pDirectionalLightComponent = nullptr;
         if ( !pWorldSystem->m_registeredDirectionLightComponents.empty() )
@@ -819,9 +819,9 @@ namespace KRG::Render
             }
         }
 
-        int32 const numPointLights = Math::Min( pWorldSystem->m_registeredPointLightComponents.size(), (int32) s_maxPunctualLights );
-        uint32 lightIndex = 0;
-        for ( int32 i = 0; i < numPointLights; ++i )
+        int32_t const numPointLights = Math::Min( pWorldSystem->m_registeredPointLightComponents.size(), (int32_t) s_maxPunctualLights );
+        uint32_t lightIndex = 0;
+        for ( int32_t i = 0; i < numPointLights; ++i )
         {
             KRG_ASSERT( lightIndex < s_maxPunctualLights );
             PointLightComponent* pPointLightComponent = pWorldSystem->m_registeredPointLightComponents[i];
@@ -833,8 +833,8 @@ namespace KRG::Render
             ++lightIndex;
         }
 
-        int32 const numSpotLights = Math::Min( pWorldSystem->m_registeredSpotLightComponents.size(), (int32) s_maxPunctualLights - numPointLights );
-        for ( int32 i = 0; i < numSpotLights; ++i )
+        int32_t const numSpotLights = Math::Min( pWorldSystem->m_registeredSpotLightComponents.size(), (int32_t) s_maxPunctualLights - numPointLights );
+        for ( int32_t i = 0; i < numSpotLights; ++i )
         {
             KRG_ASSERT( lightIndex < s_maxPunctualLights );
             SpotLightComponent* pSpotLightComponent = pWorldSystem->m_registeredSpotLightComponents[i];
@@ -860,7 +860,7 @@ namespace KRG::Render
         renderData.m_lightData.m_lightingFlags = lightingFlags;
 
         #if KRG_DEVELOPMENT_TOOLS
-        renderData.m_lightData.m_lightingFlags = renderData.m_lightData.m_lightingFlags | ( (int32) pWorldSystem->GetVisualizationMode() << (int32) RendererWorldSystem::VisualizationMode::BitShift );
+        renderData.m_lightData.m_lightingFlags = renderData.m_lightData.m_lightingFlags | ( (int32_t) pWorldSystem->GetVisualizationMode() << (int32_t) RendererWorldSystem::VisualizationMode::BitShift );
         #endif
 
         //-------------------------------------------------------------------------

@@ -66,7 +66,7 @@ namespace KRG::Animation::GraphNodes
 
         virtual bool SupportsDynamicInputPins() const override { return true; }
         virtual TInlineString<100> GetNewDynamicInputPinName() const override { return "Mask"; }
-        virtual uint32 GetDynamicInputPinValueType() const override { return (uint32) GraphValueType::BoneMask; }
+        virtual uint32_t GetDynamicInputPinValueType() const override { return (uint32_t) GraphValueType::BoneMask; }
 
         virtual GraphNodeIndex Compile( GraphCompilationContext& context ) const override;
 

@@ -13,7 +13,7 @@
 #if KRG_DEVELOPMENT_TOOLS
 namespace KRG::Drawing
 {
-    enum DepthTestState : uint8
+    enum DepthTestState : uint8_t
     {
         EnableDepthTest,
         DisableDepthTest
@@ -21,7 +21,7 @@ namespace KRG::Drawing
 
     //-------------------------------------------------------------------------
 
-    enum TextAlignment : uint8
+    enum TextAlignment : uint8_t
     {
         AlignTopLeft = 0,
         AlignTopCenter,
@@ -34,7 +34,7 @@ namespace KRG::Drawing
         AlignBottomRight,
     };
 
-    enum FontSize : uint8
+    enum FontSize : uint8_t
     {
         FontNormal,
         FontSmall

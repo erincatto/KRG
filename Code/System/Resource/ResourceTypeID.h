@@ -29,20 +29,20 @@ namespace KRG
         inline static bool IsValidResourceFourCC( TInlineString<S> const& str ) { return IsValidResourceFourCC( str.c_str() ); }
 
         // Expensive verification to ensure that a resource type ID FourCC only contains uppercase or numeric chars
-        static bool IsValidResourceFourCC( uint32 fourCC );
+        static bool IsValidResourceFourCC( uint32_t fourCC );
 
     public:
 
         inline ResourceTypeID() : m_ID( 0 ) {}
-        inline ResourceTypeID( uint32 ID ) : m_ID( ID ) { KRG_ASSERT( IsValidResourceFourCC( m_ID ) ); }
+        inline ResourceTypeID( uint32_t ID ) : m_ID( ID ) { KRG_ASSERT( IsValidResourceFourCC( m_ID ) ); }
         explicit ResourceTypeID( char const* pStr );
         inline explicit ResourceTypeID( String const& str ) : ResourceTypeID( str.c_str() ) {}
 
         inline bool IsValid() const { return m_ID != 0; }
         void Clear() { m_ID = 0; }
 
-        inline operator uint32() const { return m_ID; }
-        inline operator uint32&() { return m_ID; }
+        inline operator uint32_t() const { return m_ID; }
+        inline operator uint32_t&() { return m_ID; }
 
         //-------------------------------------------------------------------------
 
@@ -50,27 +50,27 @@ namespace KRG
         {
             KRG_ASSERT( IsValidResourceFourCC( m_ID ) );
 
-            int32 idx = 0;
+            int32_t idx = 0;
 
-            outStr[idx] = (uint8) ( m_ID >> 24 );
+            outStr[idx] = (uint8_t) ( m_ID >> 24 );
             if ( outStr[idx] != 0 )
             {
                 idx++;
             }
 
-            outStr[idx] = (uint8) ( ( m_ID & 0x00FF0000 ) >> 16 );
+            outStr[idx] = (uint8_t) ( ( m_ID & 0x00FF0000 ) >> 16 );
             if ( outStr[idx] != 0 )
             {
                 idx++;
             }
 
-            outStr[idx] = (uint8) ( ( m_ID & 0x0000FF00 ) >> 8 );
+            outStr[idx] = (uint8_t) ( ( m_ID & 0x0000FF00 ) >> 8 );
             if ( outStr[idx] != 0 )
             {
                 idx++;
             }
 
-            outStr[idx] = (uint8) ( ( m_ID & 0x000000FF ) );
+            outStr[idx] = (uint8_t) ( ( m_ID & 0x000000FF ) );
             if ( outStr[idx] != 0 )
             {
                 idx++;
@@ -89,7 +89,7 @@ namespace KRG
 
     public:
 
-        uint32                 m_ID;
+        uint32_t                 m_ID;
     };
 }
 
@@ -103,7 +103,7 @@ namespace eastl
     {
         eastl_size_t operator()( KRG::ResourceTypeID const& ID ) const
         {
-            return ( KRG::uint32 ) ID;
+            return ( uint32_t ) ID;
         }
     };
 }

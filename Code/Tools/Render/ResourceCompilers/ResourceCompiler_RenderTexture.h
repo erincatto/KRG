@@ -8,7 +8,7 @@ namespace KRG::Render
 {
     class TextureCompiler : public Resource::Compiler
     {
-        static const int32 s_version = 4;
+        static const int32_t s_version = 4;
 
     public:
 

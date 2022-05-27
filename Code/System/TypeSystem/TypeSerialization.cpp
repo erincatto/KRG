@@ -15,8 +15,8 @@ namespace KRG::TypeSystem::Serialization
         {
             KRG_ASSERT( pArrayPropertyInfo != nullptr && arrayValue.IsArray() );
 
-            int32 const numElements = (int32) arrayValue.Size();
-            for ( int32 i = 0; i < numElements; i++ )
+            int32_t const numElements = (int32_t) arrayValue.Size();
+            for ( int32_t i = 0; i < numElements; i++ )
             {
                 if ( arrayValue[i].IsArray() )
                 {
@@ -228,27 +228,27 @@ namespace KRG::TypeSystem::Serialization
             {
                 if ( propInfo.m_typeID == CoreTypeID::Uint8 )
                 {
-                    SetPropertyValue( pPropertyDataAddress, (uint8) typeValue.GetUint64() );
+                    SetPropertyValue( pPropertyDataAddress, (uint8_t) typeValue.GetUint64() );
                 }
                 else if ( propInfo.m_typeID == CoreTypeID::Int8 )
                 {
-                    SetPropertyValue( pPropertyDataAddress, (int8) typeValue.GetInt64() );
+                    SetPropertyValue( pPropertyDataAddress, (int8_t) typeValue.GetInt64() );
                 }
                 else if ( propInfo.m_typeID == CoreTypeID::Uint16 )
                 {
-                    SetPropertyValue( pPropertyDataAddress, (uint16) typeValue.GetUint64() );
+                    SetPropertyValue( pPropertyDataAddress, (uint16_t) typeValue.GetUint64() );
                 }
                 else if ( propInfo.m_typeID == CoreTypeID::Int16 )
                 {
-                    SetPropertyValue( pPropertyDataAddress, (int16) typeValue.GetInt64() );
+                    SetPropertyValue( pPropertyDataAddress, (int16_t) typeValue.GetInt64() );
                 }
                 else if ( propInfo.m_typeID == CoreTypeID::Uint32 )
                 {
-                    SetPropertyValue( pPropertyDataAddress, (uint32) typeValue.GetUint64() );
+                    SetPropertyValue( pPropertyDataAddress, (uint32_t) typeValue.GetUint64() );
                 }
                 else if ( propInfo.m_typeID == CoreTypeID::Int32 )
                 {
-                    SetPropertyValue( pPropertyDataAddress, (int32) typeValue.GetInt64() );
+                    SetPropertyValue( pPropertyDataAddress, (int32_t) typeValue.GetInt64() );
                 }
                 else if ( propInfo.m_typeID == CoreTypeID::Uint64 )
                 {
@@ -339,11 +339,11 @@ namespace KRG::TypeSystem::Serialization
                     {
                         if ( propInfo.m_arraySize < numJSONArrayElements )
                         {
-                            KRG_LOG_ERROR( "TypeSystem", "Static array size mismatch for %s, expected maximum %d elements, encountered %d elements", propInfo.m_size, propInfo.m_size, (int32) numJSONArrayElements );
+                            KRG_LOG_ERROR( "TypeSystem", "Static array size mismatch for %s, expected maximum %d elements, encountered %d elements", propInfo.m_size, propInfo.m_size, (int32_t) numJSONArrayElements );
                             return false;
                         }
 
-                        Byte* pArrayElementAddress = reinterpret_cast<Byte*>( pPropertyDataAddress );
+                        uint8_t* pArrayElementAddress = reinterpret_cast<uint8_t*>( pPropertyDataAddress );
                         for ( auto i = 0; i < numJSONArrayElements; i++ )
                         {
                             if ( !ReadProperty( typeRegistry, jsonArrayValue[i], propInfo, pArrayElementAddress ) )
@@ -363,7 +363,7 @@ namespace KRG::TypeSystem::Serialization
                         }
 
                         // Do the traversal backwards to only allocate once
-                        for ( int32 i = (int32) ( numJSONArrayElements - 1 ); i >= 0; i-- )
+                        for ( int32_t i = (int32_t) ( numJSONArrayElements - 1 ); i >= 0; i-- )
                         {
                             auto pArrayElementAddress = pTypeInfo->m_pTypeHelper->GetArrayElementDataPtr( pTypeData, propInfo.m_ID, i );
                             if ( !ReadProperty( typeRegistry, jsonArrayValue[i], propInfo, pArrayElementAddress ) )
@@ -471,17 +471,17 @@ namespace KRG::TypeSystem::Serialization
                     writer.StartArray();
 
                     size_t numArrayElements = 0;
-                    Byte const* pElementAddress = nullptr;
+                    uint8_t const* pElementAddress = nullptr;
 
                     // Static array
                     if ( propInfo.IsStaticArrayProperty() )
                     {
                         numArrayElements = propInfo.m_size / elementByteSize;
-                        pElementAddress = propInfo.GetPropertyAddress<Byte>( pTypeInstance );
+                        pElementAddress = propInfo.GetPropertyAddress<uint8_t>( pTypeInstance );
                     }
                     else // Dynamic array
                     {
-                        TVector<Byte> const& dynamicArray = *propInfo.GetPropertyAddress< TVector<Byte> >( pTypeInstance );
+                        TVector<uint8_t> const& dynamicArray = *propInfo.GetPropertyAddress< TVector<uint8_t> >( pTypeInstance );
                         size_t const arrayByteSize = dynamicArray.size();
                         numArrayElements = arrayByteSize / elementByteSize;
                         pElementAddress = dynamicArray.data();

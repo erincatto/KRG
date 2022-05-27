@@ -11,8 +11,8 @@ namespace KRG::Encoding
 
     namespace Base64
     {
-        KRG_SYSTEM_CORE_API TVector<Byte> Encode( Byte const* pDataToEncode, size_t dataSize );
-        KRG_SYSTEM_CORE_API TVector<Byte> Decode( Byte const* pDataToDecode, size_t dataSize );
+        KRG_SYSTEM_CORE_API TVector<uint8_t> Encode( uint8_t const* pDataToEncode, size_t dataSize );
+        KRG_SYSTEM_CORE_API TVector<uint8_t> Decode( uint8_t const* pDataToDecode, size_t dataSize );
     }
 
     //-------------------------------------------------------------------------
@@ -21,7 +21,7 @@ namespace KRG::Encoding
 
     namespace Base85
     {
-        KRG_SYSTEM_CORE_API TVector<Byte> Encode( Byte const* pDataToEncode, size_t dataSize );
-        KRG_SYSTEM_CORE_API TVector<Byte> Decode( Byte const* pDataToDecode, size_t dataSize );
+        KRG_SYSTEM_CORE_API TVector<uint8_t> Encode( uint8_t const* pDataToEncode, size_t dataSize );
+        KRG_SYSTEM_CORE_API TVector<uint8_t> Decode( uint8_t const* pDataToDecode, size_t dataSize );
     }
 }

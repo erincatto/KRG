@@ -26,8 +26,8 @@ namespace KRG::RawAssets
             return false;
         }
 
-        int32 const numTexCoords = (int32) m_texCoords.size();
-        for ( int32 i = 0; i < numTexCoords; i++ )
+        int32_t const numTexCoords = (int32_t) m_texCoords.size();
+        for ( int32_t i = 0; i < numTexCoords; i++ )
         {
             if ( m_texCoords[i] != rhs.m_texCoords[i] )
             {

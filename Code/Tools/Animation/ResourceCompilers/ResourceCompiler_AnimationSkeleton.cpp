@@ -45,7 +45,7 @@ namespace KRG::Animation
 
         Skeleton skeleton;
 
-        int32 const numBones = pRawSkeleton->GetNumBones();
+        int32_t const numBones = pRawSkeleton->GetNumBones();
         for ( auto boneIdx = 0; boneIdx < numBones; boneIdx++ )
         {
             auto const& boneData = pRawSkeleton->GetBoneData( boneIdx );

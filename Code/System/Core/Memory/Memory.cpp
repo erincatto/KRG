@@ -137,7 +137,7 @@ namespace KRG
         KRG_ASSERT( KRG::Memory::g_isMemorySystemInitialized );
 
         #if KRG_USE_CUSTOM_ALLOCATOR
-        rpfree( (Byte*) pMemory );
+        rpfree( (uint8_t*) pMemory );
         #elif _WIN32
         _aligned_free( pMemory );
         #endif

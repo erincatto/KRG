@@ -193,12 +193,12 @@ namespace KRG
 
         IntRange() = default;
 
-        inline IntRange( int32 value )
+        inline IntRange( int32_t value )
             : m_begin( value )
             , m_end( value )
         {}
 
-        inline IntRange( int32 min, int32 max )
+        inline IntRange( int32_t min, int32_t max )
             : m_begin( min )
             , m_end( max )
         {
@@ -218,10 +218,10 @@ namespace KRG
         inline bool IsSetAndValid() const { return IsSet() && IsValid(); }
 
         // Get the length of the range
-        inline const int32 GetLength() const { return m_end - m_begin; }
+        inline const int32_t GetLength() const { return m_end - m_begin; }
 
         // Get the midpoint of the range
-        inline const int32 GetMidpoint() const { return m_begin + ( ( m_end - m_begin ) / 2 ); }
+        inline const int32_t GetMidpoint() const { return m_begin + ( ( m_end - m_begin ) / 2 ); }
 
         // Does this range overlap the specified range
         inline bool Overlaps( IntRange const& rhs ) const
@@ -231,7 +231,7 @@ namespace KRG
         }
 
         // Shifts the range by the supplied delta
-        inline void ShiftRange( int32 delta )
+        inline void ShiftRange( int32_t delta )
         {
             m_begin += delta;
             m_end += delta;
@@ -245,7 +245,7 @@ namespace KRG
         }
 
         // Does the range [min, max] contain the specified value
-        inline bool ContainsInclusive( int32 const& v ) const
+        inline bool ContainsInclusive( int32_t const& v ) const
         {
             KRG_ASSERT( IsSetAndValid() );
             return v >= m_begin && v <= m_end;
@@ -259,24 +259,24 @@ namespace KRG
         }
 
         // Does the range (min, max) contain the specified value
-        inline bool ContainsExclusive( int32 const& v ) const
+        inline bool ContainsExclusive( int32_t const& v ) const
         {
             KRG_ASSERT( IsSetAndValid() );
             return v > m_begin && v < m_end;
         }
 
         // Get a value clamped to this range i.e. Clamp to [min, max]
-        inline int32 GetClampedValue( int32 const& v ) const
+        inline int32_t GetClampedValue( int32_t const& v ) const
         {
             KRG_ASSERT( IsSetAndValid() );
             return Math::Clamp( v, m_begin, m_end );
         }
 
         // Get the percentage through this range that specified value lies at. This is not clamped and returns a value between [-FLT_MAX, FLT_MAX]
-        inline Percentage GetPercentageThrough( int32 const& v ) const
+        inline Percentage GetPercentageThrough( int32_t const& v ) const
         {
             KRG_ASSERT( IsSet() );
-            int32 const length = GetLength();
+            int32_t const length = GetLength();
             Percentage percentageThrough = 0.0f;
             if ( length != 0 )
             {
@@ -286,20 +286,20 @@ namespace KRG
         }
 
         // Get the percentage through this range that specified value lies at. This is clamped between [0, 1]
-        inline Percentage GetPercentageThroughClamped( int32 const& v ) const
+        inline Percentage GetPercentageThroughClamped( int32_t const& v ) const
         {
             return GetPercentageThrough( GetClampedValue( v ) );
         }
 
         // Get the value in this range at the specified percentage through. Unclamped so returns [-FLT_MAX, FLT_MAX]
-        inline int32 GetValueForPercentageThrough( Percentage const percentageThrough ) const
+        inline int32_t GetValueForPercentageThrough( Percentage const percentageThrough ) const
         {
             KRG_ASSERT( IsSet() );
             return Math::RoundToInt( ( GetLength() * percentageThrough ) + m_begin );
         }
 
         // Get the value in this range at the specified percentage through. Clamped to [min, max]
-        inline int32 GetValueForPercentageThroughClamped( Percentage const percentageThrough ) const
+        inline int32_t GetValueForPercentageThroughClamped( Percentage const percentageThrough ) const
         {
             return GetValueForPercentageThrough( percentageThrough.GetClamped( false ) );
         }
@@ -311,14 +311,14 @@ namespace KRG
 
             if ( !IsValid() )
             {
-                int32 originalEnd = m_end;
+                int32_t originalEnd = m_end;
                 m_end = m_begin;
                 m_begin = originalEnd;
             }
         }
 
         // Insert a new value into the range and grow it if necessary
-        inline void GrowRange( int32 newValue )
+        inline void GrowRange( int32_t newValue )
         {
             if ( IsSet() )
             {
@@ -360,7 +360,7 @@ namespace KRG
 
     public:
 
-        int32 m_begin = INT_MAX;
-        int32 m_end = INT_MIN;
+        int32_t m_begin = INT_MAX;
+        int32_t m_end = INT_MIN;
     };
 }

@@ -43,7 +43,7 @@ namespace KRG::ImGuiX
 
         // Get closest point
         float lowestDistance = FLT_MAX;
-        int32 closestPointIdx = -1;
+        int32_t closestPointIdx = -1;
         for ( auto i = 0; i < 4; i++ )
         {
             if ( distancesSq[i] < lowestDistance )
@@ -152,7 +152,7 @@ namespace KRG::ImGuiX
 
         auto const availableRegion = ImGui::GetContentRegionAvail();
         ImVec2 seperatorSize( size.x <= 0 ? ( ImGui::GetStyle().ItemSpacing.x * 2 ) + 1 : size.x, size.y <= 0 ? availableRegion.y : size.y);
-        if ( Math::IsEven( (int32) seperatorSize.x ) )
+        if ( Math::IsEven( (int32_t) seperatorSize.x ) )
         {
             seperatorSize.x += 1;
         }

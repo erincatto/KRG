@@ -18,11 +18,11 @@ namespace KRG::Network::IPC
         message.Initialize( pData, size );
     }
 
-    void Client::SendMessages( TFunction<void( void*, uint32 )> const& sendFunction )
+    void Client::SendMessages( TFunction<void( void*, uint32_t )> const& sendFunction )
     {
         for ( auto& msg : m_outgoingMessages )
         {
-            sendFunction( msg.m_data.data(), (uint32) msg.m_data.size() );
+            sendFunction( msg.m_data.data(), (uint32_t) msg.m_data.size() );
         }
 
         m_outgoingMessages.clear();

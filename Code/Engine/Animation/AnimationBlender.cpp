@@ -15,8 +15,8 @@ namespace KRG::Animation
             KRG_ASSERT( pBoneMask->GetNumWeights() == pSourcePose->GetSkeleton()->GetNumBones() );
         }
 
-        int32 const numBones = pResultPose->GetNumBones();
-        for ( int32 boneIdx = 0; boneIdx < numBones; boneIdx++ )
+        int32_t const numBones = pResultPose->GetNumBones();
+        for ( int32_t boneIdx = 0; boneIdx < numBones; boneIdx++ )
         {
             // If the bone has been masked out
             float const boneBlendWeight = BlendWeight::GetBlendWeight( blendWeight, pBoneMask, boneIdx );

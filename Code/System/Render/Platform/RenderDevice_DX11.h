@@ -60,7 +60,7 @@ namespace KRG::Render
 
         // Buffers
         void CreateBuffer( RenderBuffer& buffer, void const* pInitializationData = nullptr );
-        void ResizeBuffer( RenderBuffer& buffer, uint32 newSize );
+        void ResizeBuffer( RenderBuffer& buffer, uint32_t newSize );
         void DestroyBuffer( RenderBuffer& buffer );
 
         // Vertex shader input mappings
@@ -75,9 +75,9 @@ namespace KRG::Render
         void DestroyBlendState( BlendState& state );
 
         // Textures and Sampling
-        void CreateDataTexture( Texture& texture, TextureFormat format, Byte const* rawData, size_t size );
-        inline void CreateDataTexture( Texture& texture, TextureFormat format, TVector<Byte> const& rawData ) { CreateDataTexture( texture, format, rawData.data(), rawData.size() ); }
-        void CreateTexture( Texture& texture, DataFormat format, Int2 dimensions, uint32 usage );
+        void CreateDataTexture( Texture& texture, TextureFormat format, uint8_t const* rawData, size_t size );
+        inline void CreateDataTexture( Texture& texture, TextureFormat format, TVector<uint8_t> const& rawData ) { CreateDataTexture( texture, format, rawData.data(), rawData.size() ); }
+        void CreateTexture( Texture& texture, DataFormat format, Int2 dimensions, uint32_t usage );
         void DestroyTexture( Texture& texture );
 
         void CreateSamplerState( SamplerState& state );
@@ -101,8 +101,8 @@ namespace KRG::Render
         bool CreateDefaultDepthStencilStates();
         void DestroyDefaultDepthStencilStates();
 
-        void CreateRawTexture( Texture& texture, Byte const* pRawData, size_t rawDataSize );
-        void CreateDDSTexture( Texture& texture, Byte const* pRawData, size_t rawDataSize );
+        void CreateRawTexture( Texture& texture, uint8_t const* pRawData, size_t rawDataSize );
+        void CreateDDSTexture( Texture& texture, uint8_t const* pRawData, size_t rawDataSize );
 
     private:
 

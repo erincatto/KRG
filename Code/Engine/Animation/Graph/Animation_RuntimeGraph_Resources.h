@@ -8,7 +8,7 @@
 
 namespace KRG::Animation
 {
-    using DataSetSlotIndex = int16;
+    using DataSetSlotIndex = int16_t;
 
     //-------------------------------------------------------------------------
 
@@ -68,10 +68,10 @@ namespace KRG::Animation
     protected:
 
         TVector<GraphNodeIndex>                     m_persistentNodeIndices;
-        TVector<uint32>                             m_instanceNodeStartOffsets;
-        uint32                                      m_instanceRequiredMemory = 0;
-        uint32                                      m_instanceRequiredAlignment = 0;
-        int32                                       m_numControlParameters = 0;
+        TVector<uint32_t>                             m_instanceNodeStartOffsets;
+        uint32_t                                      m_instanceRequiredMemory = 0;
+        uint32_t                                      m_instanceRequiredAlignment = 0;
+        int32_t                                       m_numControlParameters = 0;
         GraphNodeIndex                              m_rootNodeIdx = InvalidIndex;
         TVector<StringID>                           m_controlParameterIDs;
 

@@ -15,15 +15,15 @@ namespace KRG::Render
         KRG_ASSERT( pWorld != nullptr );
         auto pWorldRendererSystem = pWorld->GetWorldSystem<Render::RendererWorldSystem>();
 
-        int32 debugMode = (int32) pWorldRendererSystem->GetVisualizationMode();
+        int32_t debugMode = (int32_t) pWorldRendererSystem->GetVisualizationMode();
 
         bool stateUpdated = false;
-        stateUpdated |= ImGui::RadioButton( "Render Lighting", &debugMode, (int32) RendererWorldSystem::VisualizationMode::Lighting );
-        stateUpdated |= ImGui::RadioButton( "Render Albedo", &debugMode, (int32) RendererWorldSystem::VisualizationMode::Albedo );
-        stateUpdated |= ImGui::RadioButton( "Render Normals", &debugMode, (int32) RendererWorldSystem::VisualizationMode::Normals );
-        stateUpdated |= ImGui::RadioButton( "Render Metalness", &debugMode, (int32) RendererWorldSystem::VisualizationMode::Metalness );
-        stateUpdated |= ImGui::RadioButton( "Render Roughness", &debugMode, (int32) RendererWorldSystem::VisualizationMode::Roughness );
-        stateUpdated |= ImGui::RadioButton( "Render Ambient Occlusion", &debugMode, (int32) RendererWorldSystem::VisualizationMode::AmbientOcclusion );
+        stateUpdated |= ImGui::RadioButton( "Render Lighting", &debugMode, (int32_t) RendererWorldSystem::VisualizationMode::Lighting );
+        stateUpdated |= ImGui::RadioButton( "Render Albedo", &debugMode, (int32_t) RendererWorldSystem::VisualizationMode::Albedo );
+        stateUpdated |= ImGui::RadioButton( "Render Normals", &debugMode, (int32_t) RendererWorldSystem::VisualizationMode::Normals );
+        stateUpdated |= ImGui::RadioButton( "Render Metalness", &debugMode, (int32_t) RendererWorldSystem::VisualizationMode::Metalness );
+        stateUpdated |= ImGui::RadioButton( "Render Roughness", &debugMode, (int32_t) RendererWorldSystem::VisualizationMode::Roughness );
+        stateUpdated |= ImGui::RadioButton( "Render Ambient Occlusion", &debugMode, (int32_t) RendererWorldSystem::VisualizationMode::AmbientOcclusion );
 
         if ( stateUpdated )
         {

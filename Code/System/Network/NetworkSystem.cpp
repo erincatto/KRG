@@ -11,7 +11,7 @@ namespace KRG::Network
 {
     struct NetworkState
     {
-        int64                                   m_logTimeZero = 0;
+        int64_t                                   m_logTimeZero = 0;
         TInlineVector<ServerConnection*, 2>     m_serverConnections;
         TInlineVector<ClientConnection*, 2>     m_clientConnections;
     };
@@ -60,7 +60,7 @@ namespace KRG::Network
             // Find Server Connection
             //-------------------------------------------------------------------------
 
-            auto FindServerConnection = [] ( ServerConnection const* pConnection, uint32 socketHandle )
+            auto FindServerConnection = [] ( ServerConnection const* pConnection, uint32_t socketHandle )
             {
                 return pConnection->GetSocketHandle() == socketHandle;
             };
@@ -151,7 +151,7 @@ namespace KRG::Network
             // Find Client Connection
             //-------------------------------------------------------------------------
 
-            auto FindClientConnection = [] ( ClientConnection const* pConnection, uint32 connectionHandle )
+            auto FindClientConnection = [] ( ClientConnection const* pConnection, uint32_t connectionHandle )
             {
                 return pConnection->GetClientConnectionID() == connectionHandle;
             };
@@ -229,7 +229,7 @@ namespace KRG::Network
         m_connectedClients.erase_unsorted( clientIter );
     }
 
-    bool ServerConnection::TryStartConnection( uint16 portNumber )
+    bool ServerConnection::TryStartConnection( uint16_t portNumber )
     {
         ISteamNetworkingSockets* pInterface = SteamNetworkingSockets();
         KRG_ASSERT( pInterface != nullptr );
@@ -457,7 +457,7 @@ namespace KRG::Network
             //-------------------------------------------------------------------------
 
             ISteamNetworkingMessage *pIncomingMsg = nullptr;
-            int32 const numMsgs = pInterface->ReceiveMessagesOnPollGroup( pServerConnection->m_pollingGroupHandle, &pIncomingMsg, 1 );
+            int32_t const numMsgs = pInterface->ReceiveMessagesOnPollGroup( pServerConnection->m_pollingGroupHandle, &pIncomingMsg, 1 );
 
             if ( numMsgs < 0 )
             {
@@ -474,7 +474,7 @@ namespace KRG::Network
             // Send
             //-------------------------------------------------------------------------
 
-            auto ServerSendFunction = [pInterface, pServerConnection] ( uint32 connectionHandle, void* pData, uint32 size )
+            auto ServerSendFunction = [pInterface, pServerConnection] ( uint32_t connectionHandle, void* pData, uint32_t size )
             {
                 pInterface->SendMessageToConnection( connectionHandle, pData, size, k_nSteamNetworkingSend_Reliable, nullptr );
             };
@@ -496,7 +496,7 @@ namespace KRG::Network
                 //-------------------------------------------------------------------------
 
                 ISteamNetworkingMessage* pIncomingMsg = nullptr;
-                int32 const numMsgs = pInterface->ReceiveMessagesOnConnection( pClientConnection->m_connectionHandle, &pIncomingMsg, 1 );
+                int32_t const numMsgs = pInterface->ReceiveMessagesOnConnection( pClientConnection->m_connectionHandle, &pIncomingMsg, 1 );
 
                 // Handle invalid connection handle
                 if ( numMsgs < 0 )
@@ -515,7 +515,7 @@ namespace KRG::Network
                 // Send
                 //-------------------------------------------------------------------------
 
-                auto ClientSendFunction = [pInterface, pClientConnection] ( void* pData, uint32 size )
+                auto ClientSendFunction = [pInterface, pClientConnection] ( void* pData, uint32_t size )
                 {
                     pInterface->SendMessageToConnection( pClientConnection->m_connectionHandle, pData, size, k_nSteamNetworkingSend_Reliable, nullptr );
                 };
@@ -527,7 +527,7 @@ namespace KRG::Network
 
     //-------------------------------------------------------------------------
 
-    bool NetworkSystem::StartServerConnection( ServerConnection* pServerConnection, uint16 portNumber )
+    bool NetworkSystem::StartServerConnection( ServerConnection* pServerConnection, uint16_t portNumber )
     {
         KRG_ASSERT( pServerConnection != nullptr && !pServerConnection->IsRunning() );
         if ( pServerConnection->TryStartConnection( portNumber ) )

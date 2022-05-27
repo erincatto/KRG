@@ -18,7 +18,7 @@ namespace KRG::Animation::GraphNodes
         auto CreateEventString = [&] ( TVector<StringID> const& IDs )
         {
             string.clear();
-            for ( int32 i = 0; i < (int32) IDs.size(); i++ )
+            for ( int32_t i = 0; i < (int32_t) IDs.size(); i++ )
             {
                 if ( !IDs[i].IsValid() )
                 {
@@ -37,7 +37,7 @@ namespace KRG::Animation::GraphNodes
         auto CreateTimedEventString = [&] ( TVector<TimedStateEvent> const& events )
         {
             string.clear();
-            for ( int32 i = 0; i < (int32) events.size(); i++ )
+            for ( int32_t i = 0; i < (int32_t) events.size(); i++ )
             {
                 if ( !events[i].m_ID.IsValid() )
                 {
@@ -167,7 +167,7 @@ namespace KRG::Animation::GraphNodes
 
         //-------------------------------------------------------------------------
 
-        int32 const numOriginalInputPins = GetNumInputPins();
+        int32_t const numOriginalInputPins = GetNumInputPins();
 
         TInlineVector<StateBaseEditorNode*, 20> pinsToCreate;
         TInlineVector<UUID, 20> pinsToRemove;
@@ -182,7 +182,7 @@ namespace KRG::Animation::GraphNodes
 
         for ( auto pState : stateNodes )
         {
-            int32 const pinIdx = VectorFindIndex( m_pinToStateMapping, pState->GetID() );
+            int32_t const pinIdx = VectorFindIndex( m_pinToStateMapping, pState->GetID() );
             if ( pinIdx == InvalidIndex )
             {
                 pinsToCreate.emplace_back( pState );
@@ -202,7 +202,7 @@ namespace KRG::Animation::GraphNodes
         {
             if ( pinID.IsValid() )
             {
-                int32 const pinIdx = GetInputPinIndex( pinID );
+                int32_t const pinIdx = GetInputPinIndex( pinID );
                 DestroyInputPin( pinIdx );
                 m_pinToStateMapping.erase( m_pinToStateMapping.begin() + pinIdx );
             }
@@ -411,7 +411,7 @@ namespace KRG::Animation
 
         for ( auto pState : stateNodes )
         {
-            int32 const stateIdx = VectorFindIndex( transitionsToRemove, pState->GetID(), SearchPredicate );
+            int32_t const stateIdx = VectorFindIndex( transitionsToRemove, pState->GetID(), SearchPredicate );
             if ( stateIdx == InvalidIndex )
             {
                 transitionsToCreate.emplace_back( pState );
@@ -473,11 +473,11 @@ namespace KRG::Animation::GraphNodes
 
         auto pStateMachine = Cast<StateMachineGraph>( GetChildGraph() );
         auto stateNodes = pStateMachine->FindAllNodesOfType<StateBaseEditorNode>( VisualGraph::SearchMode::Localized, VisualGraph::SearchTypeMatch::Derived );
-        int32 const numStateNodes = (int32) stateNodes.size();
+        int32_t const numStateNodes = (int32_t) stateNodes.size();
         KRG_ASSERT( numStateNodes >= 1 );
 
         auto conduitNodes = pStateMachine->FindAllNodesOfType<TransitionConduitEditorNode>();
-        int32 const numConduitNodes = (int32) conduitNodes.size();
+        int32_t const numConduitNodes = (int32_t) conduitNodes.size();
 
         auto globalTransitionNodes = pStateMachine->GetGlobalTransitionConduit()->GetSecondaryGraph()->FindAllNodesOfType<GlobalTransitionEditorNode>();
 
@@ -888,7 +888,7 @@ namespace KRG::Animation
 
         //-------------------------------------------------------------------------
 
-        int32 const pinIdx = VectorFindIndex( pConditionNode->m_pinToStateMapping, stateID );
+        int32_t const pinIdx = VectorFindIndex( pConditionNode->m_pinToStateMapping, stateID );
         KRG_ASSERT( pinIdx != InvalidIndex );
         return TryCast<EditorGraphNode const>( pConditionNode->GetConnectedInputNode( pinIdx ) );
     }

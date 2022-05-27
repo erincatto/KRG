@@ -84,7 +84,7 @@ namespace KRG::RawAssets
                 // Set sampling rate and allocate memory
                 pRawAnimation->m_samplingFrameRate = (float) duration.GetFrameRate( mode );
                 float const samplingTimeStep = 1.0f / pRawAnimation->m_samplingFrameRate;
-                pRawAnimation->m_numFrames = (uint32) Math::Floor( pRawAnimation->GetDuration() / samplingTimeStep ) + 1;
+                pRawAnimation->m_numFrames = (uint32_t) Math::Floor( pRawAnimation->GetDuration() / samplingTimeStep ) + 1;
 
                 // Read animation data
                 //-------------------------------------------------------------------------
@@ -101,9 +101,9 @@ namespace KRG::RawAssets
 
         static bool ReadTrackData( Fbx::FbxSceneContext const& sceneCtx, FbxRawAnimation& rawAnimation )
         {
-            int32 const numBones = rawAnimation.m_skeleton.GetNumBones();
+            int32_t const numBones = rawAnimation.m_skeleton.GetNumBones();
             float const samplingTimeStep = 1.0f / rawAnimation.m_samplingFrameRate;
-            uint32 const maxKeys = rawAnimation.m_numFrames * 3;
+            uint32_t const maxKeys = rawAnimation.m_numFrames * 3;
 
             rawAnimation.m_tracks.resize( numBones );
 
@@ -120,7 +120,7 @@ namespace KRG::RawAssets
                 FbxNode* pParentBoneNode = nullptr;
                 if ( boneIdx != 0 )
                 {
-                    int32 const parentBoneIdx = rawAnimation.m_skeleton.GetParentBoneIndex( boneIdx );
+                    int32_t const parentBoneIdx = rawAnimation.m_skeleton.GetParentBoneIndex( boneIdx );
                     KRG_ASSERT( parentBoneIdx != InvalidIndex );
                     StringID const parentBoneName = rawAnimation.m_skeleton.GetBoneName( parentBoneIdx );
                     pParentBoneNode = sceneCtx.m_pScene->FindNodeByName( parentBoneName.c_str() );

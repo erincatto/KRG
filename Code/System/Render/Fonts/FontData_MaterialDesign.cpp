@@ -7102,8 +7102,8 @@ static const char MD_compressed_data_base85[993145+1] =
 
 namespace KRG::Fonts::MaterialDesignIcons
 {
-    Byte const* GetData()
+    uint8_t const* GetData()
     {
-        return (Byte*) MD_compressed_data_base85;
+        return (uint8_t*) MD_compressed_data_base85;
     }
 }

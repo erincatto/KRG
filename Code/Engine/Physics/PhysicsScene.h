@@ -57,7 +57,7 @@ namespace KRG::Physics
         // Ragdoll Factory
         //-------------------------------------------------------------------------
 
-        Ragdoll* CreateRagdoll( RagdollDefinition const* pDefinition, StringID const profileID, uint64 userID );
+        Ragdoll* CreateRagdoll( RagdollDefinition const* pDefinition, StringID const profileID, uint64_t userID );
 
         // Queries
         //-------------------------------------------------------------------------
@@ -378,7 +378,7 @@ namespace KRG::Physics
         physx::PxScene*                                         m_pScene = nullptr;
 
         #if KRG_DEVELOPMENT_TOOLS
-        std::atomic<int32>                                      m_readLockCount = false;        // Assertion helper
+        std::atomic<int32_t>                                      m_readLockCount = false;        // Assertion helper
         std::atomic<bool>                                       m_writeLockAcquired = false;    // Assertion helper
         #endif
     };

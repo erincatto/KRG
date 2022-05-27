@@ -40,7 +40,7 @@ If anyone wants to use Kruger to build or experiment with modern rendering, I'd 
 
 ## Building Kruger
 
-Kruger uses vanilla msbuild for its build system. There are a set of property sheets that control all the build settings for Kruger in the "code/property sheets" folder. Additionally, there are some NMAKE based deployment scripts in the "code/scripts/deploy" folder.
+Kruger uses vanilla msbuild for its build system. There are a set of property sheets that control all the build settings for Kruger in the "code/property sheets" folder.
 
 1. Download the external dependencies (<https://drive.google.com/file/d/1whDvXeZKd3P4nbxTmmukPds4SG3saYra/view?usp=sharing>) and extract into the Kruger external folder ( X:/Path/Kruger/External )
 2. Download and install the FBX SDK (required for editor) - <https://www.autodesk.com/developer-network/platform-technologies/fbx-sdk-2020-2-1>

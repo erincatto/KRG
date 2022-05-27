@@ -17,7 +17,7 @@ namespace KRG::Animation
             KRG_ASSERT( pPose != nullptr );
             auto pSkeleton = pPose->GetSkeleton();
 
-            int32 const boneIdx = pSkeleton->GetBoneIndex( m_boneID );
+            int32_t const boneIdx = pSkeleton->GetBoneIndex( m_boneID );
             if ( boneIdx != InvalidIndex )
             {
                 if ( m_hasOffsets )
@@ -27,7 +27,7 @@ namespace KRG::Animation
                     // Get the local transform and the parent global transform
                     if ( m_isUsingBoneSpaceOffsets )
                     {
-                        int32 const parentBoneIdx = pSkeleton->GetParentBoneIndex( m_boneID );
+                        int32_t const parentBoneIdx = pSkeleton->GetParentBoneIndex( m_boneID );
                         if ( parentBoneIdx != InvalidIndex )
                         {
                             parentTransform = pPose->GetGlobalTransform( parentBoneIdx );

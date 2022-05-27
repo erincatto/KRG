@@ -4,9 +4,9 @@
 
 namespace KRG
 {
-    static uint32 CalculateResourceFourCC( char const* pStr )
+    static uint32_t CalculateResourceFourCC( char const* pStr )
     {
-        uint32 ID = 0;
+        uint32_t ID = 0;
         size_t const numChars = strlen( pStr );
         if ( numChars > 0 && numChars <= 4 )
         {
@@ -18,14 +18,14 @@ namespace KRG
                     break;
                 }
 
-                ID |= (uint32) pStr[x] << ( numChars - 1 - x ) * 8;
+                ID |= (uint32_t) pStr[x] << ( numChars - 1 - x ) * 8;
             }
         }
 
         return ID;
     }
 
-    bool ResourceTypeID::IsValidResourceFourCC( uint32 fourCC )
+    bool ResourceTypeID::IsValidResourceFourCC( uint32_t fourCC )
     {
         char const str[4] =
         {

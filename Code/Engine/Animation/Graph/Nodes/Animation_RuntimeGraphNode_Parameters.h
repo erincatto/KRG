@@ -71,7 +71,7 @@ namespace KRG::Animation::GraphNodes
 
     private:
 
-        int32 m_value = 0;
+        int32_t m_value = 0;
     };
 
     //-------------------------------------------------------------------------

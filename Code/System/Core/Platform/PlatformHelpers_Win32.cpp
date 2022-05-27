@@ -2,17 +2,26 @@
 #include "PlatformHelpers_Win32.h"
 #include "System/Core/Memory/Memory.h"
 
+#ifndef NOMINMAX
+#define NOMINMAX
+#endif
+
+#ifndef WIN32_LEAN_AND_MEAN
+#define WIN32_LEAN_AND_MEAN
+#endif
+
 #include <windows.h>
 #include <tlhelp32.h>
 #include <Psapi.h>
+#include <shellapi.h>
 
 //-------------------------------------------------------------------------
 
 namespace KRG::Platform::Win32
 {
-    uint32 GetProcessID( char const* processName )
+    uint32_t GetProcessID( char const* processName )
     {
-        uint32 processID = 0;
+        uint32_t processID = 0;
         PROCESSENTRY32 entry;
         entry.dwSize = sizeof( PROCESSENTRY32 );
 
@@ -33,7 +42,7 @@ namespace KRG::Platform::Win32
         return processID;
     }
 
-    uint32 StartProcess( char const* exePath, char const* cmdLine )
+    uint32_t StartProcess( char const* exePath, char const* cmdLine )
     {
         PROCESS_INFORMATION processInfo;
         memset( &processInfo, 0, sizeof( processInfo ) );
@@ -64,7 +73,7 @@ namespace KRG::Platform::Win32
         return 0;
     }
 
-    bool KillProcess( uint32 processID )
+    bool KillProcess( uint32_t processID )
     {
         KRG_ASSERT( processID != 0 );
         HANDLE pProcess = OpenProcess( PROCESS_TERMINATE, false, processID );
@@ -76,7 +85,7 @@ namespace KRG::Platform::Win32
         return false;
     }
 
-    String GetProcessPath( uint32 processID )
+    String GetProcessPath( uint32_t processID )
     {
         KRG_ASSERT( processID != 0 );
 
@@ -140,6 +149,13 @@ namespace KRG::Platform::Win32
          }
 
          return String();
+    }
+
+    void OpenInExplorer( char const* path )
+    {
+        KRG_ASSERT( path != nullptr && path[0] != 0 );
+        InlineString cmdLine( InlineString::CtorSprintf(), "/select, %s", path );
+        ShellExecute( 0, NULL, "explorer.exe", cmdLine.c_str(), NULL, SW_SHOWNORMAL );
     }
 }
 #endif

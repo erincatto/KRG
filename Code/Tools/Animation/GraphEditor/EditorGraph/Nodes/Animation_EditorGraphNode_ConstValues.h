@@ -63,7 +63,7 @@ namespace KRG::Animation::GraphNodes
 
     private:
 
-        KRG_EXPOSE int32 m_value;
+        KRG_EXPOSE int32_t m_value;
     };
 
     //-------------------------------------------------------------------------

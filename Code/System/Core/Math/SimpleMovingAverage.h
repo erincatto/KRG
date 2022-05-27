@@ -6,7 +6,7 @@
 
 namespace KRG
 {
-    template<uint32 HistorySize>
+    template<uint32_t HistorySize>
     class SimpleMovingAverage
     {
     public:
@@ -44,6 +44,6 @@ namespace KRG
 
         float                     m_values[HistorySize];
         float                     m_average;
-        int32                     m_nextFreeIdx;
+        int32_t                     m_nextFreeIdx;
     };
 }

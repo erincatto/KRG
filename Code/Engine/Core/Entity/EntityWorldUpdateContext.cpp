@@ -34,7 +34,7 @@ namespace KRG
         KRG_ASSERT( m_deltaTime >= 0.0f );
     }
 
-    IWorldEntitySystem* EntityWorldUpdateContext::GetWorldSystem( uint32 worldSystemID ) const
+    IWorldEntitySystem* EntityWorldUpdateContext::GetWorldSystem( uint32_t worldSystemID ) const
     {
         return m_pWorld->GetWorldSystem( worldSystemID );
     }

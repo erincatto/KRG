@@ -34,7 +34,7 @@ namespace KRG::Animation
 
     StringID VariationHierarchy::GetParentVariationID( StringID variationID ) const
     {
-        int32 const variationIdx = GetVariationIndex( variationID );
+        int32_t const variationIdx = GetVariationIndex( variationID );
         KRG_ASSERT( variationIdx != InvalidIndex );
 
         StringID const parentID = m_variations[variationIdx].m_parentID;
@@ -103,7 +103,7 @@ namespace KRG::Animation
         KRG_ASSERT( variationID != GraphVariation::DefaultVariationID );
 
         // Delete the specified variation
-        int32 const variationIdx = GetVariationIndex( variationID );
+        int32_t const variationIdx = GetVariationIndex( variationID );
         KRG_ASSERT( variationIdx != InvalidIndex );
         m_variations.erase_unsorted( m_variations.begin() + variationIdx );
 
@@ -111,7 +111,7 @@ namespace KRG::Animation
         while ( true )
         {
             bool variationRemoved = false;
-            for ( int32 i = (int32) m_variations.size() - 1; i >= 0; i-- )
+            for ( int32_t i = (int32_t) m_variations.size() - 1; i >= 0; i-- )
             {
                 if ( m_variations[i].m_ID == GraphVariation::DefaultVariationID )
                 {
@@ -151,8 +151,8 @@ namespace KRG::Animation
     {
         writer.StartArray();
 
-        int32 const numVariations = (int32) m_variations.size();
-        for ( int32 i = 0; i < numVariations; i++ )
+        int32_t const numVariations = (int32_t) m_variations.size();
+        for ( int32_t i = 0; i < numVariations; i++ )
         {
             TypeSystem::Serialization::WriteNativeType( typeRegistry, &m_variations[i], writer );
         }

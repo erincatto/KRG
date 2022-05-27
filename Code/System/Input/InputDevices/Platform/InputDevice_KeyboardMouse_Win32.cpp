@@ -15,7 +15,7 @@ namespace KRG
         namespace WindowsKeyMap
         {
             // Virtual key code to KRG keyboard buttons
-            static THashMap<uint32, KeyboardButton> g_keyMappings;
+            static THashMap<uint32_t, KeyboardButton> g_keyMappings;
 
             enum CustomVKeys
             {
@@ -25,7 +25,7 @@ namespace KRG
 
             static bool GetButtonForKeyMessage( WPARAM virtualKey, LPARAM lParam, KeyboardButton& buttonID )
             {
-                uint32 const scanCode = ( lParam & 0x00ff0000 ) >> 16;
+                uint32_t const scanCode = ( lParam & 0x00ff0000 ) >> 16;
                 bool isExtendedBitSet = ( lParam & 0x01000000 ) != 0;
 
                 switch ( virtualKey )
@@ -96,7 +96,7 @@ namespace KRG
 
                 //-------------------------------------------------------------------------
 
-                auto const keyIter = WindowsKeyMap::g_keyMappings.find( (uint32) virtualKey );
+                auto const keyIter = WindowsKeyMap::g_keyMappings.find( (uint32_t) virtualKey );
                 if ( keyIter != WindowsKeyMap::g_keyMappings.end() )
                 {
                     buttonID = keyIter->second;
@@ -250,7 +250,7 @@ namespace KRG
 
         void KeyboardMouseInputDevice::ProcessMessage( GenericMessage const& msg )
         {
-            uint64 const messageID = msg.m_data0;
+            uint64_t const messageID = msg.m_data0;
             uintptr_t const paramW = msg.m_data1;
             uintptr_t const paramL = msg.m_data2;
 
@@ -290,11 +290,11 @@ namespace KRG
 
             else if ( messageID == WM_INPUT )
             {
-                uint32 dbSize = 0;
+                uint32_t dbSize = 0;
                 GetRawInputData( (HRAWINPUT) paramL, RID_INPUT, nullptr, &dbSize, sizeof( RAWINPUTHEADER ) );
 
                 // Allocate stack storage for the input message
-                auto pInputData = KRG_STACK_ARRAY_ALLOC( uint8, dbSize );
+                auto pInputData = KRG_STACK_ARRAY_ALLOC( uint8_t, dbSize );
                 Memory::MemsetZero( pInputData, dbSize );
 
                 // Get raw input data buffer size
@@ -314,13 +314,13 @@ namespace KRG
                     {
                         if ( rawMouse.usButtonFlags & RI_MOUSE_WHEEL )
                         {
-                            int16 wheelDelta = ( (int16) rawMouse.usButtonData ) / WHEEL_DELTA;
+                            int16_t wheelDelta = ( (int16_t) rawMouse.usButtonData ) / WHEEL_DELTA;
                             m_mouseState.m_verticalWheelDelta = wheelDelta;
                         }
 
                         if ( rawMouse.usButtonFlags & RI_MOUSE_HWHEEL )
                         {
-                            int16 wheelDelta = ( (int16) rawMouse.usButtonData ) / WHEEL_DELTA;
+                            int16_t wheelDelta = ( (int16_t) rawMouse.usButtonData ) / WHEEL_DELTA;
                             m_mouseState.m_horizontalWheelDelta = wheelDelta;
                         }
 

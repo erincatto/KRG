@@ -45,12 +45,12 @@ namespace KRG::Animation::GraphNodes
 
     void ControlParameterIntNode::GetValueInternal( GraphContext& context, void* pOutValue )
     {
-        *( (int32*) pOutValue ) = m_value;
+        *( (int32_t*) pOutValue ) = m_value;
     }
 
     void ControlParameterIntNode::SetValueInternal( GraphContext& context, void const* pInValue )
     {
-        m_value = *(int32*) pInValue;
+        m_value = *(int32_t*) pInValue;
     }
 
     //-------------------------------------------------------------------------
@@ -215,7 +215,7 @@ namespace KRG::Animation::GraphNodes
     void VirtualParameterIntNode::GetValueInternal( GraphContext& context, void* pOutValue )
     {
         KRG_ASSERT( m_pChildNode != nullptr );
-        *reinterpret_cast<int32*>( pOutValue ) = m_pChildNode->GetValue<int32>( context );
+        *reinterpret_cast<int32_t*>( pOutValue ) = m_pChildNode->GetValue<int32_t>( context );
     }
 
     //-------------------------------------------------------------------------

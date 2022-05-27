@@ -84,7 +84,7 @@ namespace KRG::RawAssets
 
                 pRawAnimation->m_start = 0.0f;
                 pRawAnimation->m_end = animationDuration;
-                pRawAnimation->m_numFrames = (uint32) numFrames;
+                pRawAnimation->m_numFrames = (uint32_t) numFrames;
                 pRawAnimation->m_samplingFrameRate = animationDuration / numFrames;
 
                 // Read animation transforms
@@ -127,7 +127,7 @@ namespace KRG::RawAssets
                     return;
                 }
 
-                int32 const boneIdx = rawAnimation.m_skeleton.GetBoneIndex( StringID( channel.target_node->name ) );
+                int32_t const boneIdx = rawAnimation.m_skeleton.GetBoneIndex( StringID( channel.target_node->name ) );
                 if ( boneIdx == InvalidIndex )
                 {
                     continue;

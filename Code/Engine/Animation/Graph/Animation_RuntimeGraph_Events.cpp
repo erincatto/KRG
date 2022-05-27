@@ -43,8 +43,8 @@ namespace KRG::Animation
         else // Combine events
         {
             // Sample events for both sources and updated sampled event weights
-            uint32 const numEventsSource0 = eventRange0.GetLength();
-            uint32 const numEventsSource1 = eventRange1.GetLength();
+            uint32_t const numEventsSource0 = eventRange0.GetLength();
+            uint32_t const numEventsSource1 = eventRange1.GetLength();
 
             if ( ( numEventsSource0 + numEventsSource1 ) > 0 )
             {

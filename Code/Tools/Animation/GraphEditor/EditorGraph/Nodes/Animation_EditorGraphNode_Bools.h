@@ -18,7 +18,7 @@ namespace KRG::Animation::GraphNodes
         virtual TBitFlags<GraphType> GetAllowedParentGraphTypes() const override { return TBitFlags<GraphType>( GraphType::BlendTree, GraphType::ValueTree, GraphType::TransitionTree ); }
         virtual bool SupportsDynamicInputPins() const override { return true; }
         virtual TInlineString<100> GetNewDynamicInputPinName() const override { return "And"; }
-        virtual uint32 GetDynamicInputPinValueType() const override { return (uint32) GraphValueType::Bool; }
+        virtual uint32_t GetDynamicInputPinValueType() const override { return (uint32_t) GraphValueType::Bool; }
         virtual GraphNodeIndex Compile( GraphCompilationContext& context ) const override;
     };
 
@@ -37,7 +37,7 @@ namespace KRG::Animation::GraphNodes
         virtual TBitFlags<GraphType> GetAllowedParentGraphTypes() const override { return TBitFlags<GraphType>( GraphType::BlendTree, GraphType::ValueTree, GraphType::TransitionTree ); }
         virtual bool SupportsDynamicInputPins() const override { return true; }
         virtual TInlineString<100> GetNewDynamicInputPinName() const override{ return "Or"; }
-        virtual uint32 GetDynamicInputPinValueType() const override{ return (uint32) GraphValueType::Bool; }
+        virtual uint32_t GetDynamicInputPinValueType() const override{ return (uint32_t) GraphValueType::Bool; }
         virtual GraphNodeIndex Compile( GraphCompilationContext& context ) const override;
     };
 

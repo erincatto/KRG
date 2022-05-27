@@ -46,7 +46,7 @@ namespace KRG::VisualGraph
 
             UUID                    m_ID = UUID::GenerateID();
             String                  m_name;
-            uint32                  m_type; // Generic type that allows user to set custom data be it StringIDs or enum values
+            uint32_t                  m_type; // Generic type that allows user to set custom data be it StringIDs or enum values
             Direction               m_direction;
             ImVec2                  m_screenPosition = ImVec2( 0, 0 ); // Updated each frame (Screen Space)
             ImVec2                  m_size = ImVec2( -1, -1 ); // Updated each frame
@@ -90,16 +90,16 @@ namespace KRG::VisualGraph
             virtual TInlineString<100> GetNewDynamicInputPinName() const { return "Pin"; }
 
             // What's the value type of the dynamic inputs
-            virtual uint32 GetDynamicInputPinValueType() const { return 0; }
+            virtual uint32_t GetDynamicInputPinValueType() const { return 0; }
 
             // Does this node have an output pin
             inline bool HasOutputPin() const { return !m_outputPins.empty(); }
 
             // Get the number of input pins on this node
-            inline int32 GetNumInputPins() const { return (int32) m_inputPins.size(); }
+            inline int32_t GetNumInputPins() const { return (int32_t) m_inputPins.size(); }
 
             // Get the number of input pins on this node
-            inline int32 GetNumOutputPins() const { return (int32) m_outputPins.size(); }
+            inline int32_t GetNumOutputPins() const { return (int32_t) m_outputPins.size(); }
 
             // Get all input pins
             inline TInlineVector<Pin, 4> const& GetInputPins() const { return m_inputPins; }
@@ -114,16 +114,16 @@ namespace KRG::VisualGraph
             inline bool HasOutputPin( UUID const& pinID ) const { return GetOutputPin( pinID ) != nullptr; }
 
             // Get an input pin for this node
-            inline Pin* GetInputPin( int32 pinIdx ) { KRG_ASSERT( pinIdx >= 0 && pinIdx < m_inputPins.size() ); return &m_inputPins[pinIdx]; }
+            inline Pin* GetInputPin( int32_t pinIdx ) { KRG_ASSERT( pinIdx >= 0 && pinIdx < m_inputPins.size() ); return &m_inputPins[pinIdx]; }
 
             // Get an input pin for this node
-            inline Pin const* GetInputPin( int32 pinIdx ) const { KRG_ASSERT( pinIdx >= 0 && pinIdx < m_inputPins.size() ); return &m_inputPins[pinIdx]; }
+            inline Pin const* GetInputPin( int32_t pinIdx ) const { KRG_ASSERT( pinIdx >= 0 && pinIdx < m_inputPins.size() ); return &m_inputPins[pinIdx]; }
 
             // Get an output pin for this node
-            inline Pin* GetOutputPin( int32 pinIdx = 0 ) { KRG_ASSERT( pinIdx >= 0 && pinIdx < m_outputPins.size() ); return &m_outputPins[pinIdx]; }
+            inline Pin* GetOutputPin( int32_t pinIdx = 0 ) { KRG_ASSERT( pinIdx >= 0 && pinIdx < m_outputPins.size() ); return &m_outputPins[pinIdx]; }
 
             // Get an output pin for this node
-            inline Pin const* GetOutputPin( int32 pinIdx = 0 ) const { KRG_ASSERT( pinIdx >= 0 && pinIdx < m_outputPins.size() ); return &m_outputPins[pinIdx]; }
+            inline Pin const* GetOutputPin( int32_t pinIdx = 0 ) const { KRG_ASSERT( pinIdx >= 0 && pinIdx < m_outputPins.size() ); return &m_outputPins[pinIdx]; }
 
             // Get a specific input pin via ID
             inline Pin const* GetInputPin( UUID const& pinID ) const;
@@ -141,18 +141,18 @@ namespace KRG::VisualGraph
             inline bool HasPin( UUID const& pinID ) const { return HasInputPin( pinID ) || HasOutputPin( pinID ); }
 
             // Get the index for a specific input pin via ID
-            int32 GetInputPinIndex( UUID const& pinID ) const;
+            int32_t GetInputPinIndex( UUID const& pinID ) const;
 
             // Get the index for a specific output pin via ID
-            int32 GetOutputPinIndex( UUID const& pinID ) const;
+            int32_t GetOutputPinIndex( UUID const& pinID ) const;
 
             // Connections
             //-------------------------------------------------------------------------
 
-            Flow::Node* GetConnectedInputNode( int32 inputPinIdx ) const;
+            Flow::Node* GetConnectedInputNode( int32_t inputPinIdx ) const;
 
             template<typename T>
-            T* GetConnectedInputNode( int32 inputPinIdx ) const { return TryCast<T>( GetConnectedInputNode( inputPinIdx ) ); }
+            T* GetConnectedInputNode( int32_t inputPinIdx ) const { return TryCast<T>( GetConnectedInputNode( inputPinIdx ) ); }
 
             virtual bool IsValidConnection( UUID const& inputPinID, Node const* pOutputPinNode, UUID const& outputPinID ) const
             {
@@ -190,10 +190,10 @@ namespace KRG::VisualGraph
             // Called just before actually destroying a dynamic pin
             virtual void OnDynamicPinDestruction( UUID pinID ) {}
 
-            void CreateInputPin( char const* pPinName, uint32 valueType );
-            void CreateOutputPin( char const* pPinName, uint32 valueType, bool allowMultipleOutputConnections = false );
-            void DestroyInputPin( int32 pinIdx );
-            void DestroyOutputPin( int32 pinIdx );
+            void CreateInputPin( char const* pPinName, uint32_t valueType );
+            void CreateOutputPin( char const* pPinName, uint32_t valueType, bool allowMultipleOutputConnections = false );
+            void DestroyInputPin( int32_t pinIdx );
+            void DestroyOutputPin( int32_t pinIdx );
             void DestroyPin( UUID const& pinID );
 
             // Serialization

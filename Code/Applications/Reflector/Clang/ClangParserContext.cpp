@@ -32,9 +32,9 @@ namespace KRG::TypeSystem::Reflection
             //-------------------------------------------------------------------------
 
             CXToken* tokens = nullptr;
-            uint32 numTokens = 0;
+            uint32_t numTokens = 0;
             clang_tokenize( translationUnit, sourceRange, &tokens, &numTokens );
-            for ( uint32 n = 0; n < numTokens; n++ )
+            for ( uint32_t n = 0; n < numTokens; n++ )
             {
                 m_macroContents += ClangUtils::GetString( clang_getTokenSpelling( translationUnit, tokens[n] ) );
             }

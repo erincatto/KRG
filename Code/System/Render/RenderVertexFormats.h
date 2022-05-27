@@ -10,7 +10,7 @@
 
 namespace KRG::Render
 {
-    KRG_SYSTEM_RENDER_API uint32 GetDataTypeFormatByteSize( DataFormat format );
+    KRG_SYSTEM_RENDER_API uint32_t GetDataTypeFormatByteSize( DataFormat format );
 
     //-------------------------------------------------------------------------
 
@@ -50,7 +50,7 @@ namespace KRG::Render
 
             ElementDescriptor() = default;
 
-            ElementDescriptor( DataSemantic semantic, DataFormat format, uint16 semanticIndex, uint16 offset ) : m_semantic( semantic )
+            ElementDescriptor( DataSemantic semantic, DataFormat format, uint16_t semanticIndex, uint16_t offset ) : m_semantic( semantic )
                 , m_format( format )
                 , m_semanticIndex( semanticIndex )
                 , m_offset( offset )
@@ -58,8 +58,8 @@ namespace KRG::Render
 
             DataSemantic        m_semantic = DataSemantic::None;
             DataFormat      m_format = DataFormat::Unknown;
-            uint16              m_semanticIndex = 0;
-            uint16              m_offset = 0;
+            uint16_t              m_semanticIndex = 0;
+            uint16_t              m_offset = 0;
         };
 
     public:
@@ -70,7 +70,7 @@ namespace KRG::Render
     public:
 
         TInlineVector<ElementDescriptor, 6>     m_elementDescriptors;
-        uint32                                  m_byteSize = 0;             // The total byte size per vertex
+        uint32_t                                  m_byteSize = 0;             // The total byte size per vertex
     };
 
     //-------------------------------------------------------------------------

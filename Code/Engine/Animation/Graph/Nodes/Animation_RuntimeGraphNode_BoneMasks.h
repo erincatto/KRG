@@ -89,7 +89,7 @@ namespace KRG::Animation::GraphNodes
         };
 
         #if KRG_DEVELOPMENT_TOOLS
-        inline int32 GetSelectedOptionIndex() const { return m_selectedMaskIndex; }
+        inline int32_t GetSelectedOptionIndex() const { return m_selectedMaskIndex; }
         #endif
 
     private:
@@ -98,9 +98,9 @@ namespace KRG::Animation::GraphNodes
         virtual void ShutdownInternal( GraphContext& context ) override;
         virtual void GetValueInternal( GraphContext& context, void* pOutValue ) override;
 
-        BoneMask const* GetBoneMaskForIndex( GraphContext& context, int32 optionIndex ) const;
+        BoneMask const* GetBoneMaskForIndex( GraphContext& context, int32_t optionIndex ) const;
 
-        inline int32 TrySelectMask( GraphContext& context ) const
+        inline int32_t TrySelectMask( GraphContext& context ) const
         {
             return VectorFindIndex( GetSettings<BoneMaskSelectorNode>()->m_parameterValues, m_pParameterValueNode->GetValue<StringID>( context ) );
         }
@@ -110,8 +110,8 @@ namespace KRG::Animation::GraphNodes
         IDValueNode*                                        m_pParameterValueNode = nullptr;
         BoneMaskValueNode*                                  m_pDefaultMaskValueNode = nullptr;
         TInlineVector<BoneMaskValueNode*, 7>                m_boneMaskOptionNodes;
-        int32                                               m_selectedMaskIndex = InvalidIndex;
-        int32                                               m_newMaskIndex = InvalidIndex;
+        int32_t                                               m_selectedMaskIndex = InvalidIndex;
+        int32_t                                               m_newMaskIndex = InvalidIndex;
         BoneMask                                            m_blendedBoneMask;
         Seconds                                             m_currentTimeInBlend = 0;
         bool                                                m_isBlending = false;

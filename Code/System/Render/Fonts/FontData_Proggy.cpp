@@ -179,17 +179,17 @@ namespace KRG::Fonts::Proggy
 {
     namespace Tiny
     {
-        Byte const* GetData()
+        uint8_t const* GetData()
         {
-            return (Byte*) g_proggyTiny_compressed_data_base85;
+            return (uint8_t*) g_proggyTiny_compressed_data_base85;
         }
     }
 
     namespace Clean
     {
-        Byte const* GetData()
+        uint8_t const* GetData()
         {
-            return (Byte*) g_proggyClean_compressed_data_base85;
+            return (uint8_t*) g_proggyClean_compressed_data_base85;
         }
     }
 }

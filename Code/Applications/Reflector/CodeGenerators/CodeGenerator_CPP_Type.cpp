@@ -49,7 +49,7 @@ namespace KRG::CPP
 
     static void GenerateArrayAccessorMethod( std::stringstream& file, ReflectedType const& type )
     {
-        file << "                virtual Byte* GetArrayElementDataPtr( IRegisteredType* pType, uint32 arrayID, size_t arrayIdx ) const override final\n";
+        file << "                virtual uint8_t* GetArrayElementDataPtr( IRegisteredType* pType, uint32_t arrayID, size_t arrayIdx ) const override final\n";
         file << "                {\n";
         file << "                    auto pActualType = reinterpret_cast<" << type.m_namespace.c_str() << type.m_name.c_str() << "*>( pType );\n\n";
 
@@ -68,7 +68,7 @@ namespace KRG::CPP
                 file << "                        {\n";
                 file << "                            pActualType->" << propertyDesc.m_name.c_str() << ".resize( arrayIdx + 1 );\n";
                 file << "                        }\n\n";
-                file << "                        return (Byte*) &pActualType->" << propertyDesc.m_name.c_str() << "[arrayIdx];\n";
+                file << "                        return (uint8_t*) &pActualType->" << propertyDesc.m_name.c_str() << "[arrayIdx];\n";
                 file << "                    }\n";
 
                 if ( propertyDesc.m_isDevOnly )
@@ -87,7 +87,7 @@ namespace KRG::CPP
 
                 file << "                    if ( arrayID == " << propertyDesc.m_propertyID << " )\n";
                 file << "                    {\n";
-                file << "                        return (Byte*) &pActualType->" << propertyDesc.m_name.c_str() << "[arrayIdx];\n";
+                file << "                        return (uint8_t*) &pActualType->" << propertyDesc.m_name.c_str() << "[arrayIdx];\n";
                 file << "                    }\n";
 
                 if ( propertyDesc.m_isDevOnly )
@@ -107,7 +107,7 @@ namespace KRG::CPP
 
     static void GenerateArraySizeMethod( std::stringstream& file, ReflectedType const& type )
     {
-        file << "                virtual size_t GetArraySize( IRegisteredType const* pTypeInstance, uint32 arrayID ) const override final\n";
+        file << "                virtual size_t GetArraySize( IRegisteredType const* pTypeInstance, uint32_t arrayID ) const override final\n";
         file << "                {\n";
         file << "                    auto pActualType = reinterpret_cast<" << type.m_namespace.c_str() << type.m_name.c_str() << " const*>( pTypeInstance );\n\n";
 
@@ -161,7 +161,7 @@ namespace KRG::CPP
 
     static void GenerateArrayElementSizeMethod( std::stringstream& file, ReflectedType const& type )
     {
-        file << "                virtual size_t GetArrayElementSize( uint32 arrayID ) const override final\n";
+        file << "                virtual size_t GetArrayElementSize( uint32_t arrayID ) const override final\n";
         file << "                {\n";
 
         for ( auto& propertyDesc : type.m_properties )
@@ -197,7 +197,7 @@ namespace KRG::CPP
 
     static void GenerateArrayClearMethod( std::stringstream& file, ReflectedType const& type )
     {
-        file << "                virtual void ClearArray( IRegisteredType* pTypeInstance, uint32 arrayID ) const override final\n";
+        file << "                virtual void ClearArray( IRegisteredType* pTypeInstance, uint32_t arrayID ) const override final\n";
         file << "                {\n";
         file << "                    auto pActualType = reinterpret_cast<" << type.m_namespace.c_str() << type.m_name.c_str() << "*>( pTypeInstance );\n\n";
 
@@ -232,7 +232,7 @@ namespace KRG::CPP
 
     static void GenerateAddArrayElementMethod( std::stringstream& file, ReflectedType const& type )
     {
-        file << "                virtual void AddArrayElement( IRegisteredType* pTypeInstance, uint32 arrayID ) const override final\n";
+        file << "                virtual void AddArrayElement( IRegisteredType* pTypeInstance, uint32_t arrayID ) const override final\n";
         file << "                {\n";
         file << "                    auto pActualType = reinterpret_cast<" << type.m_namespace.c_str() << type.m_name.c_str() << "*>( pTypeInstance );\n\n";
 
@@ -267,7 +267,7 @@ namespace KRG::CPP
 
     static void GenerateRemoveArrayElementMethod( std::stringstream& file, ReflectedType const& type )
     {
-        file << "                virtual void RemoveArrayElement( IRegisteredType* pTypeInstance, uint32 arrayID, size_t arrayIdx ) const override final\n";
+        file << "                virtual void RemoveArrayElement( IRegisteredType* pTypeInstance, uint32_t arrayID, size_t arrayIdx ) const override final\n";
         file << "                {\n";
         file << "                    auto pActualType = reinterpret_cast<" << type.m_namespace.c_str() << type.m_name.c_str() << "*>( pTypeInstance );\n\n";
 
@@ -336,7 +336,7 @@ namespace KRG::CPP
 
     static void GenerateIsPropertyEqualMethod( std::stringstream& file, ReflectedType const& type )
     {
-        file << "                virtual bool IsPropertyValueEqual( IRegisteredType const* pTypeInstance, IRegisteredType const* pOtherTypeInstance, uint32 propertyID, int32 arrayIdx = InvalidIndex ) const override final\n";
+        file << "                virtual bool IsPropertyValueEqual( IRegisteredType const* pTypeInstance, IRegisteredType const* pOtherTypeInstance, uint32_t propertyID, int32_t arrayIdx = InvalidIndex ) const override final\n";
         file << "                {\n";
         file << "                    auto pType = reinterpret_cast<" << type.m_namespace.c_str() << type.m_name.c_str() << " const*>( pTypeInstance );\n";
         file << "                    auto pOtherType = reinterpret_cast<" << type.m_namespace.c_str() << type.m_name.c_str() << " const*>( pOtherTypeInstance );\n\n";
@@ -461,7 +461,7 @@ namespace KRG::CPP
 
     static void GenerateSetToDefaultValueMethod( std::stringstream& file, ReflectedType const& type )
     {
-        file << "                virtual void ResetToDefault( IRegisteredType* pTypeInstance, uint32 propertyID ) override final\n";
+        file << "                virtual void ResetToDefault( IRegisteredType* pTypeInstance, uint32_t propertyID ) override final\n";
         file << "                {\n";
         file << "                    auto pDefaultType = reinterpret_cast<" << type.m_namespace.c_str() << type.m_name.c_str() << " const*>( GetDefaultTypeInstancePtr() );\n";
         file << "                    auto pActualType = reinterpret_cast<" << type.m_namespace.c_str() << type.m_name.c_str() << "*>( pTypeInstance );\n\n";
@@ -506,7 +506,7 @@ namespace KRG::CPP
 
     static void GenerateExpectedResourceTypeMethod( std::stringstream& file, ReflectedType const& type )
     {
-        file << "                virtual ResourceTypeID GetExpectedResourceTypeForProperty( IRegisteredType* pType, uint32 propertyID ) const override final\n";
+        file << "                virtual ResourceTypeID GetExpectedResourceTypeForProperty( IRegisteredType* pType, uint32_t propertyID ) const override final\n";
         file << "                {\n";
         file << "                    auto pActualType = reinterpret_cast<" << type.m_namespace.c_str() << type.m_name.c_str() << "*>( pType );\n";
 
@@ -1062,15 +1062,15 @@ namespace KRG::CPP
                 if ( prop.IsDynamicArrayProperty() )
                 {
                     file << "            propertyInfo.m_pDefaultArrayData = pActualDefaultTypeInstance->" << prop.m_name.c_str() << ".data();\n";
-                    file << "            propertyInfo.m_arraySize = (int32) pActualDefaultTypeInstance->" << prop.m_name.c_str() << ".size();\n";
-                    file << "            propertyInfo.m_arrayElementSize = (int32) sizeof( " << prop.m_typeName.c_str() << templateSpecializationString.c_str() << " );\n";
+                    file << "            propertyInfo.m_arraySize = (int32_t) pActualDefaultTypeInstance->" << prop.m_name.c_str() << ".size();\n";
+                    file << "            propertyInfo.m_arrayElementSize = (int32_t) sizeof( " << prop.m_typeName.c_str() << templateSpecializationString.c_str() << " );\n";
                     file << "            propertyInfo.m_size = sizeof( TVector<" << prop.m_typeName.c_str() << templateSpecializationString.c_str() << "> );\n";
                 }
                 else if ( prop.IsStaticArrayProperty() )
                 {
                     file << "            propertyInfo.m_pDefaultArrayData = pActualDefaultTypeInstance->" << prop.m_name.c_str() << ";\n";
                     file << "            propertyInfo.m_arraySize = " << prop.GetArraySize() << ";\n";
-                    file << "            propertyInfo.m_arrayElementSize = (int32) sizeof( " << prop.m_typeName.c_str() << templateSpecializationString.c_str() << " );\n";
+                    file << "            propertyInfo.m_arrayElementSize = (int32_t) sizeof( " << prop.m_typeName.c_str() << templateSpecializationString.c_str() << " );\n";
                     file << "            propertyInfo.m_size = sizeof( " << prop.m_typeName.c_str() << templateSpecializationString.c_str() << " ) * " << prop.GetArraySize() << ";\n";
                 }
                 else
@@ -1080,7 +1080,7 @@ namespace KRG::CPP
 
                 file << "            propertyInfo.m_flags.Set( " << prop.m_flags << " );\n";
                 file << "            m_properties.emplace_back( propertyInfo );\n";
-                file << "            m_propertyMap.insert( TPair<StringID, int32>( propertyInfo.m_ID, int32( m_properties.size() ) - 1 ) );\n";
+                file << "            m_propertyMap.insert( TPair<StringID, int32_t>( propertyInfo.m_ID, int32_t( m_properties.size() ) - 1 ) );\n";
             }
 
             if ( prop.m_isDevOnly )

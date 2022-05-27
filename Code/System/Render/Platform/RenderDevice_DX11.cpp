@@ -97,7 +97,7 @@ namespace KRG::Render
         swapChainDesc.BufferDesc.Height = m_resolution.m_y;
         swapChainDesc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
         swapChainDesc.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
-        swapChainDesc.BufferDesc.RefreshRate.Numerator = (uint32) m_refreshRate;
+        swapChainDesc.BufferDesc.RefreshRate.Numerator = (uint32_t) m_refreshRate;
         swapChainDesc.BufferDesc.RefreshRate.Denominator = 1;
         swapChainDesc.SampleDesc.Count = 1;
         swapChainDesc.SampleDesc.Quality = 0;
@@ -114,7 +114,7 @@ namespace KRG::Render
         // Setup D3D feature levels
         D3D_FEATURE_LEVEL featureLevelsRequested[] = { D3D_FEATURE_LEVEL_11_1, D3D_FEATURE_LEVEL_11_0 };
         D3D_FEATURE_LEVEL featureLevelSupported;
-        uint32 const numLevelsRequested = 2;
+        uint32_t const numLevelsRequested = 2;
 
         // Create the D3D device and swap chain
         IDXGISwapChain* pSwapChain = nullptr;
@@ -526,7 +526,7 @@ namespace KRG::Render
         KRG_ASSERT( buffer.IsValid() );
     }
 
-    void RenderDevice::ResizeBuffer( RenderBuffer& buffer, uint32 newSize )
+    void RenderDevice::ResizeBuffer( RenderBuffer& buffer, uint32_t newSize )
     {
         KRG_ASSERT( buffer.IsValid() && newSize % buffer.m_byteStride == 0 );
 
@@ -558,7 +558,7 @@ namespace KRG::Render
         KRG_FORCE_INLINE static char const* GetNameForSemantic( DataSemantic semantic )
         {
             KRG_ASSERT( semantic < DataSemantic::None );
-            return g_semanticNames[(uint8) semantic];
+            return g_semanticNames[(uint8_t) semantic];
         }
 
         static const DXGI_FORMAT g_formatConversion[(size_t) DataFormat::Count] =
@@ -597,7 +597,7 @@ namespace KRG::Render
         KRG_FORCE_INLINE static DXGI_FORMAT GetDXGIFormat( DataFormat format  )
         {
             KRG_ASSERT( format < DataFormat::Count );
-            return g_formatConversion[(uint8) format];
+            return g_formatConversion[(uint8_t) format];
         }
 
         KRG_FORCE_INLINE static DXGI_FORMAT GetDXGIFormat_SRV_UAV( DataFormat format )
@@ -609,7 +609,7 @@ namespace KRG::Render
                 return DXGI_FORMAT_R32_FLOAT;
             }
 
-            return g_formatConversion[(uint8) format];
+            return g_formatConversion[(uint8_t) format];
         }
 
         KRG_FORCE_INLINE static DXGI_FORMAT GetDXGIFormat_RT_DS( DataFormat format )
@@ -621,7 +621,7 @@ namespace KRG::Render
                 return DXGI_FORMAT_D32_FLOAT;
             }
 
-            return g_formatConversion[(uint8) format];
+            return g_formatConversion[(uint8_t) format];
         }
 
         KRG_FORCE_INLINE static bool IsDepthStencilFormat( DataFormat format )
@@ -808,7 +808,7 @@ namespace KRG::Render
 
     //-------------------------------------------------------------------------
 
-    void RenderDevice::CreateDataTexture( Texture& texture, TextureFormat format, Byte const* pRawData, size_t rawDataSize )
+    void RenderDevice::CreateDataTexture( Texture& texture, TextureFormat format, uint8_t const* pRawData, size_t rawDataSize )
     {
         switch ( format )
         {
@@ -817,7 +817,7 @@ namespace KRG::Render
         }
     }
 
-    void RenderDevice::CreateRawTexture( Texture& texture, Byte const* pRawData, size_t rawDataSize )
+    void RenderDevice::CreateRawTexture( Texture& texture, uint8_t const* pRawData, size_t rawDataSize )
     {
         KRG_ASSERT( IsInitialized() && !texture.IsValid() );
 
@@ -872,7 +872,7 @@ namespace KRG::Render
         texture.m_shaderResourceView.m_pData = pTextureSRV;
     }
 
-    void RenderDevice::CreateDDSTexture( Texture& texture, Byte const* pRawData, size_t rawDataSize )
+    void RenderDevice::CreateDDSTexture( Texture& texture, uint8_t const* pRawData, size_t rawDataSize )
     {
         KRG_ASSERT( IsInitialized() && !texture.IsValid() );
 
@@ -896,7 +896,7 @@ namespace KRG::Render
         texture.m_shaderResourceView.m_pData = pTextureSRV;
     }
 
-    void RenderDevice::CreateTexture( Texture& texture, DataFormat format, Int2 dimensions, uint32 usage )
+    void RenderDevice::CreateTexture( Texture& texture, DataFormat format, Int2 dimensions, uint32_t usage )
     {
         KRG_ASSERT( IsInitialized() && !texture.IsValid() );
 
@@ -1221,7 +1221,7 @@ namespace KRG::Render
             D3D11_MAPPED_SUBRESOURCE msr = {};
             m_immediateContext.m_pDeviceContext->Map( pStagingTexture, 0, D3D11_MAP::D3D11_MAP_READ, 0, &msr );
 
-            uint32* pData = reinterpret_cast<uint32*>( msr.pData );
+            uint32_t* pData = reinterpret_cast<uint32_t*>( msr.pData );
             pickingID.m_0 = pData[1];
             pickingID.m_0 = pickingID.m_0 << 32;
             pickingID.m_0 |= pData[0];

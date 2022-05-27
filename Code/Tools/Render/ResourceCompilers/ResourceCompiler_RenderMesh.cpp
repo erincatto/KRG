@@ -13,7 +13,7 @@
 
 namespace KRG::Render
 {
-    void MeshCompiler::TransferMeshGeometry( RawAssets::RawMesh const& rawMesh, Mesh& mesh, int32 maxBoneInfluences ) const
+    void MeshCompiler::TransferMeshGeometry( RawAssets::RawMesh const& rawMesh, Mesh& mesh, int32_t maxBoneInfluences ) const
     {
         KRG_ASSERT( maxBoneInfluences > 0 && maxBoneInfluences <= 8 );
         KRG_ASSERT( maxBoneInfluences <= 4 );// TEMP HACK - we dont support 8 bones for now
@@ -21,29 +21,29 @@ namespace KRG::Render
         // Merge all mesh geometries into the main vertex and index buffers
         //-------------------------------------------------------------------------
 
-        uint32 numVertices = 0;
-        uint32 numIndices = 0;
+        uint32_t numVertices = 0;
+        uint32_t numIndices = 0;
 
         for ( auto const& geometrySection : rawMesh.GetGeometrySections() )
         {
             // Add sub-mesh record
-            mesh.m_sections.push_back( Mesh::GeometrySection( StringID( geometrySection.m_name ), numIndices, (uint32) geometrySection.m_indices.size() ) );
+            mesh.m_sections.push_back( Mesh::GeometrySection( StringID( geometrySection.m_name ), numIndices, (uint32_t) geometrySection.m_indices.size() ) );
 
             for ( auto idx : geometrySection.m_indices )
             {
                 mesh.m_indices.push_back( numVertices + idx );
             }
 
-            numIndices += (uint32) geometrySection.m_indices.size();
-            numVertices += (uint32) geometrySection.m_vertices.size();
+            numIndices += (uint32_t) geometrySection.m_indices.size();
+            numVertices += (uint32_t) geometrySection.m_vertices.size();
         }
 
         // Copy mesh vertex data
         //-------------------------------------------------------------------------
 
         AABB meshAlignedBounds;
-        int32 vertexSize = 0;
-        int32 vertexBufferSize = 0;
+        int32_t vertexSize = 0;
+        int32_t vertexBufferSize = 0;
 
         if ( rawMesh.IsSkeletalMesh() )
         {
@@ -66,14 +66,14 @@ namespace KRG::Render
                     pVertex->m_UV0 = vert.m_texCoords[0];
                     pVertex->m_UV1 = ( geometrySection.GetNumUVChannels() > 1 ) ? vert.m_texCoords[1] : vert.m_texCoords[0];
 
-                    int32 const numInfluences = (int32) vert.m_boneIndices.size();
+                    int32_t const numInfluences = (int32_t) vert.m_boneIndices.size();
                     KRG_ASSERT( numInfluences <= maxBoneInfluences && vert.m_boneIndices.size() == vert.m_boneWeights.size() );
 
                     pVertex->m_boneIndices = Int4( InvalidIndex, InvalidIndex, InvalidIndex, InvalidIndex );
                     pVertex->m_boneWeights = Float4::Zero;
 
-                    int32 const numWeights = Math::Min( numInfluences, 4 );
-                    for ( int32 i = 0; i < numWeights; i++ )
+                    int32_t const numWeights = Math::Min( numInfluences, 4 );
+                    for ( int32_t i = 0; i < numWeights; i++ )
                     {
                         pVertex->m_boneIndices[i] = vert.m_boneIndices[i];
                         pVertex->m_boneWeights[i] = vert.m_boneWeights[i];
@@ -82,7 +82,7 @@ namespace KRG::Render
                     // Re-enable this when we add back support for 8 bone weights
                     /*pVertex->m_boneIndices1 = Int4( InvalidIndex, InvalidIndex, InvalidIndex, InvalidIndex );
                     pVertex->m_boneWeights1 = Float4::Zero;
-                    for ( int32 i = 4; i < numInfluences; i++ )
+                    for ( int32_t i = 4; i < numInfluences; i++ )
                     {
                         pVertex->m_boneIndices1[i - 4] = vert.m_boneIndices[i];
                         pVertex->m_boneWeights1[i - 4] = vert.m_boneWeights[i];
@@ -134,8 +134,8 @@ namespace KRG::Render
         mesh.m_vertexBuffer.m_type = RenderBuffer::Type::Vertex;
         mesh.m_vertexBuffer.m_usage = RenderBuffer::Usage::GPU_only;
 
-        mesh.m_indexBuffer.m_byteStride = sizeof( uint32 );
-        mesh.m_indexBuffer.m_byteSize = (uint32) mesh.m_indices.size() * sizeof( uint32 );
+        mesh.m_indexBuffer.m_byteStride = sizeof( uint32_t );
+        mesh.m_indexBuffer.m_byteSize = (uint32_t) mesh.m_indices.size() * sizeof( uint32_t );
         mesh.m_indexBuffer.m_type = RenderBuffer::Type::Index;
         mesh.m_indexBuffer.m_usage = RenderBuffer::Usage::GPU_only;
 
@@ -286,7 +286,7 @@ namespace KRG::Render
         }
 
         RawAssets::ReaderContext readerCtx = { [this]( char const* pString ) { Warning( pString ); }, [this] ( char const* pString ) { Error( pString ); } };
-        int32 const maxBoneInfluences = 4;
+        int32_t const maxBoneInfluences = 4;
         TUniquePtr<RawAssets::RawMesh> pRawMesh = RawAssets::ReadSkeletalMesh( readerCtx, meshFilePath, maxBoneInfluences );
         if ( pRawMesh == nullptr )
         {

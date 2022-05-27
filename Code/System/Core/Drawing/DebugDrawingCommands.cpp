@@ -9,7 +9,7 @@ namespace KRG::Drawing
     {
         // NAIVE delete version - profile this
 
-        for ( int32 i = (int32) m_pointCommands.size() - 1; i >= 0; i-- )
+        for ( int32_t i = (int32_t) m_pointCommands.size() - 1; i >= 0; i-- )
         {
             m_pointCommands[i].m_TTL -= deltaTime;
             if ( m_pointCommands[i].m_TTL <= 0.0f )
@@ -18,7 +18,7 @@ namespace KRG::Drawing
             }
         }
 
-        for ( int32 i = (int32) m_lineCommands.size() - 1; i >= 0; i-- )
+        for ( int32_t i = (int32_t) m_lineCommands.size() - 1; i >= 0; i-- )
         {
             m_lineCommands[i].m_TTL -= deltaTime;
             if ( m_lineCommands[i].m_TTL <= 0.0f )
@@ -27,7 +27,7 @@ namespace KRG::Drawing
             }
         }
 
-        for ( int32 i = (int32) m_triangleCommands.size() - 1; i >= 0; i-- )
+        for ( int32_t i = (int32_t) m_triangleCommands.size() - 1; i >= 0; i-- )
         {
             m_triangleCommands[i].m_TTL -= deltaTime;
             if ( m_triangleCommands[i].m_TTL <= 0.0f )
@@ -36,7 +36,7 @@ namespace KRG::Drawing
             }
         }
 
-        for ( int32 i = (int32) m_textCommands.size() - 1; i >= 0; i-- )
+        for ( int32_t i = (int32_t) m_textCommands.size() - 1; i >= 0; i-- )
         {
             m_textCommands[i].m_TTL -= deltaTime;
             if ( m_textCommands[i].m_TTL <= 0.0f )

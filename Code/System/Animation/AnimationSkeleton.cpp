@@ -10,12 +10,12 @@ namespace KRG::Animation
         return !m_boneIDs.empty() && ( m_boneIDs.size() == m_parentIndices.size() ) && ( m_boneIDs.size() == m_localReferencePose.size() );
     }
 
-    Transform Skeleton::GetBoneGlobalTransform( int32 idx ) const
+    Transform Skeleton::GetBoneGlobalTransform( int32_t idx ) const
     {
         KRG_ASSERT( idx >= 0 && idx < m_localReferencePose.size() );
 
         Transform boneGlobalTransform = m_localReferencePose[idx];
-        int32 parentIdx = GetParentBoneIndex( idx );
+        int32_t parentIdx = GetParentBoneIndex( idx );
 
         while ( parentIdx != InvalidIndex )
         {
@@ -26,12 +26,12 @@ namespace KRG::Animation
         return boneGlobalTransform;
     }
 
-    int32 Skeleton::GetFirstChildBoneIndex( int32 boneIdx ) const
+    int32_t Skeleton::GetFirstChildBoneIndex( int32_t boneIdx ) const
     {
-        int32 const numBones = GetNumBones();
+        int32_t const numBones = GetNumBones();
         KRG_ASSERT( IsValidBoneIndex( boneIdx ) );
 
-        int32 childIdx = InvalidIndex;
+        int32_t childIdx = InvalidIndex;
         for ( auto i = boneIdx + 1; i < numBones; i++ )
         {
             if ( m_parentIndices[i] == boneIdx )
@@ -44,14 +44,14 @@ namespace KRG::Animation
         return childIdx;
     }
 
-    bool Skeleton::IsChildBoneOf( int32 parentBoneIdx, int32 childBoneIdx ) const
+    bool Skeleton::IsChildBoneOf( int32_t parentBoneIdx, int32_t childBoneIdx ) const
     {
         KRG_ASSERT( IsValidBoneIndex( parentBoneIdx ) );
         KRG_ASSERT( IsValidBoneIndex( childBoneIdx ) );
 
         bool isChild = false;
 
-        int32 actualParentBoneIdx = GetParentBoneIndex( childBoneIdx );
+        int32_t actualParentBoneIdx = GetParentBoneIndex( childBoneIdx );
         while ( actualParentBoneIdx != InvalidIndex )
         {
             if ( actualParentBoneIdx == parentBoneIdx )

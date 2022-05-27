@@ -111,7 +111,7 @@ namespace KRG::Animation::GraphNodes
     private:
 
         KRG_EXPOSE SyncEventConditionNode::TriggerMode          m_triggerMode = SyncEventConditionNode::TriggerMode::ExactlyAtEventIndex;
-        KRG_EXPOSE int32                                        m_syncEventIdx = InvalidIndex;
+        KRG_EXPOSE int32_t                                        m_syncEventIdx = InvalidIndex;
     };
 
     //-------------------------------------------------------------------------

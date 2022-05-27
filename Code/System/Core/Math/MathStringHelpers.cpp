@@ -16,6 +16,6 @@ namespace KRG::Math
             "-Z",
         };
 
-        return axesStrings[(int32) axis];
+        return axesStrings[(int32_t) axis];
     }
 }

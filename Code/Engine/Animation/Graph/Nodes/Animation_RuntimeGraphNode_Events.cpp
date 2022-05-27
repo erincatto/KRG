@@ -99,7 +99,7 @@ namespace KRG::Animation::GraphNodes
     bool GenericEventConditionNode::AreSearchTagsFound( GraphContext& context ) const
     {
         auto pNodeSettings = GetSettings<GenericEventConditionNode>();
-        int32 const numEventIDs = (int32) pNodeSettings->m_eventIDs.size();
+        int32_t const numEventIDs = (int32_t) pNodeSettings->m_eventIDs.size();
         auto foundIDs = KRG_STACK_ARRAY_ALLOC( bool, numEventIDs );
         Memory::MemsetZero( foundIDs, sizeof( bool ) * numEventIDs );
 

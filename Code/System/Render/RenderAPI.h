@@ -1,12 +1,12 @@
 #pragma once
 
-#include <System/Core/Types/IntegralTypes.h>
+#include <System/Core/KRG.h>
 
 //-------------------------------------------------------------------------
 
 namespace KRG::Render
 {
-    enum class DataSemantic : uint8
+    enum class DataSemantic : uint8_t
     {
         Position = 0,
         Normal,
@@ -20,7 +20,7 @@ namespace KRG::Render
         None,
     };
 
-    enum class DataFormat : uint8
+    enum class DataFormat : uint8_t
     {
         Unknown = 0,
         UInt_R8,
@@ -56,7 +56,7 @@ namespace KRG::Render
         Count,
     };
 
-    enum Usage : uint8
+    enum Usage : uint8_t
     {
         USAGE_UAV = 1 << 0,
         USAGE_SRV = 1 << 1,
@@ -64,7 +64,7 @@ namespace KRG::Render
         USAGE_STAGING = 1 << 3,
     };
 
-    enum class TextureFiltering : uint8
+    enum class TextureFiltering : uint8_t
     {
         MinMagMipPoint = 0,
         MinMagPointMipLinear,
@@ -104,7 +104,7 @@ namespace KRG::Render
         MaximumAnisotropic,
     };
 
-    enum class TextureAddressMode : uint8
+    enum class TextureAddressMode : uint8_t
     {
         Wrap = 0,
         Mirror,
@@ -112,7 +112,7 @@ namespace KRG::Render
         Border,
     };
 
-    enum class Topology : uint8
+    enum class Topology : uint8_t
     {
         PointList = 0,
         LineList,
@@ -123,26 +123,26 @@ namespace KRG::Render
         None,
     };
 
-    enum class WindingMode : uint8
+    enum class WindingMode : uint8_t
     {
         Clockwise = 0,
         CounterClockwise,
     };
 
-    enum class CullMode : uint8
+    enum class CullMode : uint8_t
     {
         BackFace = 0,
         FrontFace,
         None,
     };
 
-    enum class FillMode : uint8
+    enum class FillMode : uint8_t
     {
         Solid = 0,
         Wireframe,
     };
 
-    enum class BlendValue : uint8
+    enum class BlendValue : uint8_t
     {
         Zero = 0,
         One,
@@ -163,7 +163,7 @@ namespace KRG::Render
         InverseSource1Alpha,
     };
 
-    enum class BlendOp : uint8
+    enum class BlendOp : uint8_t
     {
         Add = 0,
         SourceMinusDestination,
@@ -172,14 +172,14 @@ namespace KRG::Render
         Max,
     };
 
-    enum class DepthTestMode : uint8
+    enum class DepthTestMode : uint8_t
     {
         On = 0,
         Off,
         ReadOnly,
     };
 
-    enum class ResourceType : uint8
+    enum class ResourceType : uint8_t
     {
         None,
         Buffer,
@@ -200,7 +200,7 @@ namespace KRG::Render
         numTypes,
     };
 
-    enum class PipelineStage : uint8
+    enum class PipelineStage : uint8_t
     {
         Vertex = 0,
         Geometry,
@@ -214,10 +214,10 @@ namespace KRG::Render
 
     struct ScissorRect
     {
-        int32 m_left;
-        int32 m_top;
-        int32 m_right;
-        int32 m_bottom;
+        int32_t m_left;
+        int32_t m_top;
+        int32_t m_right;
+        int32_t m_bottom;
     };
 
     //-------------------------------------------------------------------------

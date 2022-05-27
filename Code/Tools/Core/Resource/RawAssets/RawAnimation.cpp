@@ -11,8 +11,8 @@ namespace KRG::RawAssets
         // Get all immediate children of the root
         //-------------------------------------------------------------------------
 
-        int32 const numBones = GetNumBones();
-        TVector<int32> immediateChildrenOfRoot;
+        int32_t const numBones = GetNumBones();
+        TVector<int32_t> immediateChildrenOfRoot;
         for ( auto i = 0; i < numBones; i++ )
         {
             if ( m_skeleton.GetParentBoneIndex( i ) == 0 )
@@ -27,7 +27,7 @@ namespace KRG::RawAssets
         TrackData& rootTrackData = m_tracks[0];
         Vector rootMotionOriginOffset = rootTrackData.m_transforms[0].GetTranslation(); // Ensure that the root motion always starts at the origin
 
-        for ( uint32 i = 0; i < m_numFrames; i++ )
+        for ( uint32_t i = 0; i < m_numFrames; i++ )
         {
             // If we detect scaling on the root, log an error and exit
             if ( rootTrackData.m_transforms[i].HasScale() )

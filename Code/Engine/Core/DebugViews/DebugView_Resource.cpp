@@ -184,8 +184,8 @@ namespace KRG::Resource
 
                 //-------------------------------------------------------------------------
 
-                int32 const numEntries = (int32) pResourceSystem->m_history.size();
-                int32 const lastEntryIdx = numEntries - 1;
+                int32_t const numEntries = (int32_t) pResourceSystem->m_history.size();
+                int32_t const lastEntryIdx = numEntries - 1;
 
                 ImGuiListClipper clipper;
                 clipper.Begin( numEntries );

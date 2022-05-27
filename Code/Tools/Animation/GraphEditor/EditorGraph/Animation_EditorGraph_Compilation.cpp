@@ -61,7 +61,7 @@ namespace KRG::Animation
         //-------------------------------------------------------------------------
 
         auto const controlParameters = pRootGraph->FindAllNodesOfType<ControlParameterEditorNode>( VisualGraph::SearchMode::Localized, VisualGraph::SearchTypeMatch::Derived );
-        uint32 const numControlParameters = (uint32) controlParameters.size();
+        uint32_t const numControlParameters = (uint32_t) controlParameters.size();
         for ( auto pParameter : controlParameters )
         {
             if ( pParameter->Compile( m_context ) == InvalidIndex )
@@ -91,7 +91,7 @@ namespace KRG::Animation
         m_context.m_persistentNodeIndices.emplace_back( rootNodeIdx );
 
         // The last offset is actual the required memory
-        uint32 const requiredMemory = m_context.m_nodeMemoryOffsets.back();
+        uint32_t const requiredMemory = m_context.m_nodeMemoryOffsets.back();
         m_context.m_nodeMemoryOffsets.pop_back();
 
         // Fill runtime definition
@@ -105,7 +105,7 @@ namespace KRG::Animation
         m_runtimeGraph.m_numControlParameters = numControlParameters;
         m_runtimeGraph.m_rootNodeIdx = rootNodeIdx;
 
-        for ( uint32 i = 0; i < numControlParameters; i++ )
+        for ( uint32_t i = 0; i < numControlParameters; i++ )
         {
             m_runtimeGraph.m_controlParameterIDs.emplace_back( controlParameters[i]->GetParameterID() );
         }

@@ -18,12 +18,12 @@ namespace KRG
 
     namespace StringUtils
     {
-        int32 CompareInsensitive( char const* pStr0, char const* pStr1 )
+        int32_t CompareInsensitive( char const* pStr0, char const* pStr1 )
         {
             return _stricmp( pStr0, pStr1 );
         }
 
-        int32 CompareInsensitive( char const* pStr0, char const* pStr1, size_t n )
+        int32_t CompareInsensitive( char const* pStr0, char const* pStr1, size_t n )
         {
             return _strnicmp( pStr0, pStr1, n );
         }

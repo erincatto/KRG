@@ -33,9 +33,9 @@ namespace KRG
             return str;
         }
 
-        inline uint32 GetLineNumberForCursor( CXCursor const& cr )
+        inline uint32_t GetLineNumberForCursor( CXCursor const& cr )
         {
-            uint32 line, column, offset;
+            uint32_t line, column, offset;
             CXSourceRange range = clang_getCursorExtent( cr );
             CXSourceLocation start = clang_getRangeStart( range );
             clang_getExpansionLocation( start, nullptr, &line, &column, &offset );

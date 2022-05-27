@@ -59,23 +59,23 @@ namespace KRG::Physics
 
     //-------------------------------------------------------------------------
 
-    void PhysicsRenderer::DrawPoints( RenderContext const& renderContext, Render::Viewport const& viewport, physx::PxDebugPoint const* pPoints, uint32 numPoints )
+    void PhysicsRenderer::DrawPoints( RenderContext const& renderContext, Render::Viewport const& viewport, physx::PxDebugPoint const* pPoints, uint32_t numPoints )
     {
         m_pointRS.SetState( renderContext, viewport );
         renderContext.SetDepthTestMode( DepthTestMode::Off );
         renderContext.SetPrimitiveTopology( Topology::PointList );
 
         auto pData = reinterpret_cast<Drawing::PointCommand*>( m_pointRS.m_stagingVertexData.data() );
-        auto const dataSize = (uint32) m_pointRS.m_stagingVertexData.size();
+        auto const dataSize = (uint32_t) m_pointRS.m_stagingVertexData.size();
 
         //-------------------------------------------------------------------------
 
-        uint32 currentPointIdx = 0;
-        uint32 const numDrawCalls = (uint32) Math::Ceiling( (float) numPoints / DebugPointRenderState::MaxPointsPerDrawCall );
+        uint32_t currentPointIdx = 0;
+        uint32_t const numDrawCalls = (uint32_t) Math::Ceiling( (float) numPoints / DebugPointRenderState::MaxPointsPerDrawCall );
         for ( auto i = 0u; i < numDrawCalls; i++ )
         {
-            uint32 bufferVertexIdx = 0;
-            uint32 const numPointsToDraw = Math::Min( numPoints - currentPointIdx, DebugPointRenderState::MaxPointsPerDrawCall );
+            uint32_t bufferVertexIdx = 0;
+            uint32_t const numPointsToDraw = Math::Min( numPoints - currentPointIdx, DebugPointRenderState::MaxPointsPerDrawCall );
             for ( auto p = 0u; p < numPointsToDraw; p++ )
             {
                 physx::PxDebugPoint const& point = pPoints[currentPointIdx + p];
@@ -91,23 +91,23 @@ namespace KRG::Physics
         }
     }
 
-    void PhysicsRenderer::DrawLines( RenderContext const& renderContext, Render::Viewport const& viewport, physx::PxDebugLine const* pLines, uint32 numLines )
+    void PhysicsRenderer::DrawLines( RenderContext const& renderContext, Render::Viewport const& viewport, physx::PxDebugLine const* pLines, uint32_t numLines )
     {
         m_lineRS.SetState( renderContext, viewport );
         renderContext.SetDepthTestMode( DepthTestMode::Off );
         renderContext.SetPrimitiveTopology( Topology::LineList );
 
         auto pData = reinterpret_cast<Drawing::LineCommand*>( m_lineRS.m_stagingVertexData.data() );
-        auto const dataSize = (uint32) m_lineRS.m_stagingVertexData.size();
+        auto const dataSize = (uint32_t) m_lineRS.m_stagingVertexData.size();
 
         //-------------------------------------------------------------------------
 
-        uint32 currentLineIdx = 0;
-        uint32 const numDrawCalls = (uint32) Math::Ceiling( (float) numLines / DebugLineRenderState::MaxLinesPerDrawCall );
+        uint32_t currentLineIdx = 0;
+        uint32_t const numDrawCalls = (uint32_t) Math::Ceiling( (float) numLines / DebugLineRenderState::MaxLinesPerDrawCall );
         for ( auto i = 0u; i < numDrawCalls; i++ )
         {
-            uint32 bufferVertexIdx = 0;
-            uint32 const numLinesToDraw = Math::Min( numLines - currentLineIdx, DebugLineRenderState::MaxLinesPerDrawCall );
+            uint32_t bufferVertexIdx = 0;
+            uint32_t const numLinesToDraw = Math::Min( numLines - currentLineIdx, DebugLineRenderState::MaxLinesPerDrawCall );
             for ( auto l = 0u; l < numLinesToDraw; l++ )
             {
                 physx::PxDebugLine const& line = pLines[currentLineIdx + l];
@@ -126,23 +126,23 @@ namespace KRG::Physics
         }
     }
 
-    void PhysicsRenderer::DrawTriangles( RenderContext const& renderContext, Render::Viewport const& viewport, physx::PxDebugTriangle const* pTriangles, uint32 numTriangles )
+    void PhysicsRenderer::DrawTriangles( RenderContext const& renderContext, Render::Viewport const& viewport, physx::PxDebugTriangle const* pTriangles, uint32_t numTriangles )
     {
         m_primitiveRS.SetState( renderContext, viewport );
         renderContext.SetDepthTestMode( DepthTestMode::Off );
         renderContext.SetPrimitiveTopology( Topology::TriangleList );
 
         auto pData = reinterpret_cast<Drawing::TriangleCommand*>( m_primitiveRS.m_stagingVertexData.data() );
-        auto const dataSize = (uint32) m_primitiveRS.m_stagingVertexData.size();
+        auto const dataSize = (uint32_t) m_primitiveRS.m_stagingVertexData.size();
 
         //-------------------------------------------------------------------------
 
-        uint32 currentTriangleIdx = 0;
-        uint32 const numDrawCalls = (uint32) Math::Ceiling( (float) numTriangles / DebugPrimitiveRenderState::MaxTrianglesPerDrawCall );
+        uint32_t currentTriangleIdx = 0;
+        uint32_t const numDrawCalls = (uint32_t) Math::Ceiling( (float) numTriangles / DebugPrimitiveRenderState::MaxTrianglesPerDrawCall );
         for ( auto i = 0u; i < numDrawCalls; i++ )
         {
-            uint32 bufferVertexIdx = 0;
-            uint32 const numTrianglesToDraw = Math::Min( numTriangles - currentTriangleIdx, DebugPrimitiveRenderState::MaxTrianglesPerDrawCall );
+            uint32_t bufferVertexIdx = 0;
+            uint32_t const numTrianglesToDraw = Math::Min( numTriangles - currentTriangleIdx, DebugPrimitiveRenderState::MaxTrianglesPerDrawCall );
             for ( auto t = 0u; t < numTrianglesToDraw; t++ )
             {
                 physx::PxDebugTriangle const& tri = pTriangles[currentTriangleIdx + t];
@@ -161,7 +161,7 @@ namespace KRG::Physics
         }
     }
 
-    void PhysicsRenderer::DrawStrings( RenderContext const& renderContext, Render::Viewport const& viewport, physx::PxDebugText const* pStrings, uint32 numStrings )
+    void PhysicsRenderer::DrawStrings( RenderContext const& renderContext, Render::Viewport const& viewport, physx::PxDebugText const* pStrings, uint32_t numStrings )
     {
         m_textRS.SetState( renderContext, viewport );
         renderContext.SetDepthTestMode( DepthTestMode::Off );
@@ -171,10 +171,10 @@ namespace KRG::Physics
         auto pVertexData = KRG_STACK_ARRAY_ALLOC( DebugFontGlyphVertex, DebugTextRenderState::MaxGlyphsPerDrawCall * 4 );
         auto const vertexDataSize = sizeof( DebugFontGlyphVertex ) * DebugTextRenderState::MaxGlyphsPerDrawCall * 4;
 
-        auto pIndexData = KRG_STACK_ARRAY_ALLOC( uint16, DebugTextRenderState::MaxGlyphsPerDrawCall * 6 );
-        auto const indexDataSize = sizeof( uint16 ) * DebugTextRenderState::MaxGlyphsPerDrawCall * 6;
+        auto pIndexData = KRG_STACK_ARRAY_ALLOC( uint16_t, DebugTextRenderState::MaxGlyphsPerDrawCall * 6 );
+        auto const indexDataSize = sizeof( uint16_t ) * DebugTextRenderState::MaxGlyphsPerDrawCall * 6;
 
-        int32 numGlyphsDrawn = 0;
+        int32_t numGlyphsDrawn = 0;
         for ( auto c = 0u; c < numStrings; c++ )
         {
             physx::PxDebugText const& debugText = pStrings[c];
@@ -182,7 +182,7 @@ namespace KRG::Physics
             // Get the glyph string and number of glyphs needed to render it
             //-------------------------------------------------------------------------
 
-            TInlineVector<int32, 100> glyphIndices;
+            TInlineVector<int32_t, 100> glyphIndices;
             m_textRS.m_fontAtlas.GetGlyphsForString( 0, debugText.string, glyphIndices );
 
             size_t glyphCount = glyphIndices.size();
@@ -203,7 +203,7 @@ namespace KRG::Physics
 
             Float2 const textPosTopLeft = viewport.WorldSpaceToScreenSpace( Physics::FromPx( debugText.position ) ) + 0.5f;
             Float4 const color = Physics::FromPxColor( debugText.color );
-            numGlyphsDrawn += m_textRS.m_fontAtlas.WriteGlyphsToBuffer( &pVertexData[numGlyphsDrawn * 4], uint16( numGlyphsDrawn * 4 ), &pIndexData[numGlyphsDrawn * 6], 0, glyphIndices, textPosTopLeft, color );
+            numGlyphsDrawn += m_textRS.m_fontAtlas.WriteGlyphsToBuffer( &pVertexData[numGlyphsDrawn * 4], uint16_t( numGlyphsDrawn * 4 ), &pIndexData[numGlyphsDrawn * 6], 0, glyphIndices, textPosTopLeft, color );
         }
 
         // Draw glyphs
@@ -257,16 +257,16 @@ namespace KRG::Physics
 
         auto const& renderBuffer = pPhysicsSystem->GetPxScene()->getRenderBuffer();
 
-        uint32 const numPoints = renderBuffer.getNbPoints();
+        uint32_t const numPoints = renderBuffer.getNbPoints();
         DrawPoints( renderContext, viewport, renderBuffer.getPoints(), numPoints );
 
-        uint32 const numLines = renderBuffer.getNbLines();
+        uint32_t const numLines = renderBuffer.getNbLines();
         DrawLines( renderContext, viewport, renderBuffer.getLines(), numLines );
 
-        uint32 const numTriangles = renderBuffer.getNbTriangles();
+        uint32_t const numTriangles = renderBuffer.getNbTriangles();
         DrawTriangles( renderContext, viewport, renderBuffer.getTriangles(), numTriangles );
 
-        uint32 const numStrings = renderBuffer.getNbTexts();
+        uint32_t const numStrings = renderBuffer.getNbTexts();
         DrawPoints( renderContext, viewport, renderBuffer.getPoints(), numStrings );
     }
 }

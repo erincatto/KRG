@@ -16,7 +16,7 @@ namespace KRG::Player
 
     void AnimationController::SetCharacterState( CharacterAnimationState state )
     {
-        static StringID const characterStates[(uint8) CharacterAnimationState::NumStates] =
+        static StringID const characterStates[(uint8_t) CharacterAnimationState::NumStates] =
         {
             StringID( "Locomotion" ),
             StringID( "Falling" ),
@@ -25,6 +25,6 @@ namespace KRG::Player
         };
 
         KRG_ASSERT( state < CharacterAnimationState::NumStates );
-        m_characterStateParam.Set( this, characterStates[(uint8) state] );
+        m_characterStateParam.Set( this, characterStates[(uint8_t) state] );
     }
 }

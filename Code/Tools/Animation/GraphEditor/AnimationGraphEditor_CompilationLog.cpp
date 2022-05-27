@@ -12,7 +12,7 @@ namespace KRG::Animation
 
     void GraphCompilationLog::UpdateAndDraw( UpdateContext const& context, DebugContext* pDebugContext, ImGuiWindowClass* pWindowClass, char const* pWindowName )
     {
-        int32 windowFlags = 0;
+        int32_t windowFlags = 0;
         ImGui::PushStyleVar( ImGuiStyleVar_WindowPadding, ImVec2( 4, 4 ) );
         ImGui::SetNextWindowClass( pWindowClass );
         if ( ImGui::Begin( pWindowName, nullptr, windowFlags ) )
@@ -39,7 +39,7 @@ namespace KRG::Animation
                     //-------------------------------------------------------------------------
 
                     ImGuiListClipper clipper;
-                    clipper.Begin( (int32) m_compilationLog.size() );
+                    clipper.Begin( (int32_t) m_compilationLog.size() );
                     while ( clipper.Step() )
                     {
                         for ( int i = clipper.DisplayStart; i < clipper.DisplayEnd; i++ )

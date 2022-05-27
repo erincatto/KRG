@@ -127,7 +127,7 @@ namespace KRG::Physics
         {}
 
         // Create a query specifying the layer mask to use for filtering
-        QueryFilter( uint32 layerMask )
+        QueryFilter( uint32_t layerMask )
             : m_filterData( physx::PxQueryFilterData( physx::PxFilterData( layerMask, 0, 0, 0 ), physx::PxQueryFlag::eDYNAMIC | physx::PxQueryFlag::eSTATIC | physx::PxQueryFlag::ePREFILTER ) )
         {}
 
@@ -135,7 +135,7 @@ namespace KRG::Physics
         //-------------------------------------------------------------------------
         // This allows you to specify what layers this query will be run against (e.g. collide with only the environment or with characters, etc... )
 
-        void SetLayerMask( uint32 layerMask )
+        void SetLayerMask( uint32_t layerMask )
         {
             m_filterData.data.word0 = layerMask;
         }

@@ -1,6 +1,7 @@
 #pragma once
 #include "System/Core/Types/StringID.h"
 #include "System/Core/Serialization/Serialization.h"
+#include "Containers.h"
 
 //-------------------------------------------------------------------------
 // General Tag
@@ -53,7 +54,7 @@ namespace KRG
         {
             auto SortPredicate = [] ( Tag const& a, Tag const& b )
             {
-                for ( int32 i = 0; i < 4; i++ )
+                for ( int32_t i = 0; i < 4; i++ )
                 {
                     if ( a.m_c[i] < b.m_c[i] )
                     {
@@ -134,7 +135,7 @@ namespace KRG
         // Is this tag valid? Categories must be sequentially set for the tag to be valid, you cannot have an invalid ID between valid IDs.
         inline bool IsValid() const
         {
-            uint32 const state = GetTagState();
+            uint32_t const state = GetTagState();
             return state == HasValidCategories_0 || state == HasValidCategories_01 || state == HasValidCategories_012 || state == HasValidCategories_0123;
         }
 
@@ -148,7 +149,7 @@ namespace KRG
         {
             Tag parentTag;
 
-            uint32 const state = GetTagState();
+            uint32_t const state = GetTagState();
             switch ( state )
             {
                 case HasValidCategories_01:
@@ -266,9 +267,9 @@ namespace KRG
 
     private:
 
-        KRG_FORCE_INLINE uint32 GetTagState() const
+        KRG_FORCE_INLINE uint32_t GetTagState() const
         {
-            uint32 v = 0;
+            uint32_t v = 0;
             v |= ( m_c[0].IsValid() ? 1 : 0 );
             v |= ( m_c[1].IsValid() ? 1 : 0 ) << 1;
             v |= ( m_c[2].IsValid() ? 1 : 0 ) << 2;

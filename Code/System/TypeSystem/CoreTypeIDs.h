@@ -84,7 +84,7 @@ namespace KRG::TypeSystem
 
     private:
 
-        static TArray<CoreTypeRecord, (uint8) CoreTypeID::NumTypes>  s_coreTypeRecords;
+        static TArray<CoreTypeRecord, (uint8_t) CoreTypeID::NumTypes>  s_coreTypeRecords;
         static bool                                                 s_areCoreTypeRecordsInitialized;
 
     public:
@@ -99,17 +99,17 @@ namespace KRG::TypeSystem
 
         KRG_FORCE_INLINE static TypeID GetTypeID( CoreTypeID coreType )
         {
-            return s_coreTypeRecords[(uint8) coreType].m_ID;
+            return s_coreTypeRecords[(uint8_t) coreType].m_ID;
         }
 
         KRG_FORCE_INLINE static size_t GetTypeSize( CoreTypeID coreType )
         {
-            return s_coreTypeRecords[(uint8) coreType].m_typeSize;
+            return s_coreTypeRecords[(uint8_t) coreType].m_typeSize;
         }
 
         KRG_FORCE_INLINE static size_t GetTypeAlignment( CoreTypeID coreType )
         {
-            return s_coreTypeRecords[(uint8) coreType].m_typeAlignment;
+            return s_coreTypeRecords[(uint8_t) coreType].m_typeAlignment;
         }
     };
 
@@ -127,14 +127,14 @@ namespace KRG::TypeSystem
     //-------------------------------------------------------------------------
 
     template<> inline bool IsCoreType<bool>() { return true; }
-    template<> inline bool IsCoreType<int8>() { return true; }
-    template<> inline bool IsCoreType<int16>() { return true; }
-    template<> inline bool IsCoreType<int32>() { return true; }
-    template<> inline bool IsCoreType<int64>() { return true; }
-    template<> inline bool IsCoreType<uint8>() { return true; }
-    template<> inline bool IsCoreType<uint16>() { return true; }
-    template<> inline bool IsCoreType<uint32>() { return true; }
-    template<> inline bool IsCoreType<uint64>() { return true; }
+    template<> inline bool IsCoreType<int8_t>() { return true; }
+    template<> inline bool IsCoreType<int16_t>() { return true; }
+    template<> inline bool IsCoreType<int32_t>() { return true; }
+    template<> inline bool IsCoreType<int64_t>() { return true; }
+    template<> inline bool IsCoreType<uint8_t>() { return true; }
+    template<> inline bool IsCoreType<uint16_t>() { return true; }
+    template<> inline bool IsCoreType<uint32_t>() { return true; }
+    template<> inline bool IsCoreType<uint64_t>() { return true; }
     template<> inline bool IsCoreType<float>() { return true; }
     template<> inline bool IsCoreType<double>() { return true; }
     template<> inline bool IsCoreType<UUID>() { return true; }
@@ -175,14 +175,14 @@ namespace KRG::TypeSystem
     template<template<typename> typename C> inline TypeID GetCoreTypeID() { return TypeID(); }
 
     template<> inline TypeID GetCoreTypeID<bool>() { return GetCoreTypeID( CoreTypeID::Bool ); }
-    template<> inline TypeID GetCoreTypeID<int8>() { return GetCoreTypeID( CoreTypeID::Int8 ); }
-    template<> inline TypeID GetCoreTypeID<int16>() { return GetCoreTypeID( CoreTypeID::Int16 ); }
-    template<> inline TypeID GetCoreTypeID<int32>() { return GetCoreTypeID( CoreTypeID::Int32 ); }
-    template<> inline TypeID GetCoreTypeID<int64>() { return GetCoreTypeID( CoreTypeID::Int64 ); }
-    template<> inline TypeID GetCoreTypeID<uint8>() { return GetCoreTypeID( CoreTypeID::Uint8 ); }
-    template<> inline TypeID GetCoreTypeID<uint16>() { return GetCoreTypeID( CoreTypeID::Uint16 ); }
-    template<> inline TypeID GetCoreTypeID<uint32>() { return GetCoreTypeID( CoreTypeID::Uint32 ); }
-    template<> inline TypeID GetCoreTypeID<uint64>() { return GetCoreTypeID( CoreTypeID::Uint64 ); }
+    template<> inline TypeID GetCoreTypeID<int8_t>() { return GetCoreTypeID( CoreTypeID::Int8 ); }
+    template<> inline TypeID GetCoreTypeID<int16_t>() { return GetCoreTypeID( CoreTypeID::Int16 ); }
+    template<> inline TypeID GetCoreTypeID<int32_t>() { return GetCoreTypeID( CoreTypeID::Int32 ); }
+    template<> inline TypeID GetCoreTypeID<int64_t>() { return GetCoreTypeID( CoreTypeID::Int64 ); }
+    template<> inline TypeID GetCoreTypeID<uint8_t>() { return GetCoreTypeID( CoreTypeID::Uint8 ); }
+    template<> inline TypeID GetCoreTypeID<uint16_t>() { return GetCoreTypeID( CoreTypeID::Uint16 ); }
+    template<> inline TypeID GetCoreTypeID<uint32_t>() { return GetCoreTypeID( CoreTypeID::Uint32 ); }
+    template<> inline TypeID GetCoreTypeID<uint64_t>() { return GetCoreTypeID( CoreTypeID::Uint64 ); }
     template<> inline TypeID GetCoreTypeID<float>() { return GetCoreTypeID( CoreTypeID::Float ); }
     template<> inline TypeID GetCoreTypeID<double>() { return GetCoreTypeID( CoreTypeID::Double ); }
     template<> inline TypeID GetCoreTypeID<UUID>() { return GetCoreTypeID( CoreTypeID::UUID ); }

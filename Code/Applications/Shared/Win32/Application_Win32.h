@@ -1,7 +1,7 @@
 #ifdef _WIN32
 #pragma once
 
-#include "System/Core/Types/IntegralTypes.h"
+#include "System/Core/KRG.h"
 #include "System/Core/Types/String.h"
 #include "ApplicationGlobalState.h"
 #include "System/Core/Math/Math.h"
@@ -15,10 +15,10 @@ namespace KRG
     {
     public:
 
-        Win32Application( HINSTANCE hInstance, char const* applicationName, int32 iconResourceID );
+        Win32Application( HINSTANCE hInstance, char const* applicationName, int32_t iconResourceID );
         virtual ~Win32Application();
 
-        int Run( int32 argc, char** argv );
+        int Run( int32_t argc, char** argv );
 
         inline bool IsInitialized() const { return m_initialized; }
         inline void RequestExit() { m_exitRequested = true; }
@@ -37,7 +37,7 @@ namespace KRG
         bool TryCreateWindow();
 
         // This function allows the application to read all commandline settings and load all ini settings. Will be called before initialize.
-        virtual bool ReadSettings( int32 argc, char** argv ) = 0;
+        virtual bool ReadSettings( int32_t argc, char** argv ) = 0;
 
         // These function allows the application to read/write any layout/positioning specific settings it needs
         virtual void WriteLayoutSettings();
@@ -54,7 +54,7 @@ namespace KRG
 
         String const                    m_applicationName;
         String const                    m_applicationNameNoWhitespace;
-        int32                           m_applicationIconResourceID = -1;
+        int32_t                           m_applicationIconResourceID = -1;
         WNDCLASSEX                      m_windowClass;
         HINSTANCE                       m_pInstance = nullptr;
         HWND                            m_windowHandle = nullptr;
@@ -62,7 +62,7 @@ namespace KRG
         MSG                             m_message;
 
         // Custom flags that user applications can set to specify what modes were enabled or what windows were open (saved in the layout.ini)
-        uint64                          m_userFlags = 0; 
+        uint64_t                          m_userFlags = 0; 
 
     private:
 

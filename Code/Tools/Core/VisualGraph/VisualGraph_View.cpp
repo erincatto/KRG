@@ -116,7 +116,7 @@ namespace KRG::VisualGraph
             // Background
             //-------------------------------------------------------------------------
 
-            pDrawList->ChannelsSetCurrent( (uint8) DrawChannel::Background );
+            pDrawList->ChannelsSetCurrent( (uint8_t) DrawChannel::Background );
 
             ImRect const windowRect = pWindow->Rect();
             ImVec2 const windowTL = windowRect.GetTL();
@@ -363,7 +363,7 @@ namespace KRG::VisualGraph
         //-------------------------------------------------------------------------
 
         ImVec2 pinRectSize( 0, 0 );
-        int32 const numPinRows = Math::Max( pNode->GetNumInputPins(), pNode->GetNumOutputPins() );
+        int32_t const numPinRows = Math::Max( pNode->GetNumInputPins(), pNode->GetNumOutputPins() );
         for ( auto i = 0; i < numPinRows; i++ )
         {
             bool const hasInputPin = i < pNode->m_inputPins.size();
@@ -526,7 +526,7 @@ namespace KRG::VisualGraph
         // Draw Node
         //-------------------------------------------------------------------------
 
-        ctx.m_pDrawList->ChannelsSetCurrent( (uint8) DrawChannel::NodeForeground );
+        ctx.m_pDrawList->ChannelsSetCurrent( (uint8_t) DrawChannel::NodeForeground );
 
         ImVec2 newNodeSize( 0, 0 );
         ImGui::SetCursorPos( ImVec2( pNode->m_canvasPosition ) - ctx.m_viewOffset );
@@ -557,7 +557,7 @@ namespace KRG::VisualGraph
         // Draw background
         //-------------------------------------------------------------------------
 
-        ctx.m_pDrawList->ChannelsSetCurrent( (uint8) DrawChannel::NodeBackground );
+        ctx.m_pDrawList->ChannelsSetCurrent( (uint8_t) DrawChannel::NodeBackground );
         DrawFlowNodeBackground( ctx, pNode, newNodeSize );
         pNode->m_size = newNodeSize;
 
@@ -641,7 +641,7 @@ namespace KRG::VisualGraph
                 // Draw connections
                 //-------------------------------------------------------------------------
 
-                drawingContext.m_pDrawList->ChannelsSetCurrent( (uint8) DrawChannel::Connections );
+                drawingContext.m_pDrawList->ChannelsSetCurrent( (uint8_t) DrawChannel::Connections );
 
                 m_hoveredConnectionID.Clear();
                 for ( auto const& connection : pFlowGraph->m_connections )
@@ -706,9 +706,9 @@ namespace KRG::VisualGraph
         }
         else
         {
-            int32 const numNodes = (int32) m_pGraph->m_nodes.size();
+            int32_t const numNodes = (int32_t) m_pGraph->m_nodes.size();
             ImRect totalRect = ImRect( m_pGraph->m_nodes[0]->GetCanvasPosition(), ImVec2( m_pGraph->m_nodes[0]->GetCanvasPosition() ) + m_pGraph->m_nodes[0]->GetSize() );
-            for ( int32 i = 1; i < numNodes; i++ )
+            for ( int32_t i = 1; i < numNodes; i++ )
             {
                 auto pNode = m_pGraph->m_nodes[i];
                 ImRect const nodeRect( pNode->GetCanvasPosition(), ImVec2( pNode->GetCanvasPosition() ) + pNode->GetSize() );
@@ -806,7 +806,7 @@ namespace KRG::VisualGraph
         // Exclude any state machine transitions, as we will end up double deleting them since they are removed if the state is removed
         if ( IsViewingStateMachineGraph() )
         {
-            for ( int32 i = (int32) m_selectedNodes.size() - 1; i >= 0; i-- )
+            for ( int32_t i = (int32_t) m_selectedNodes.size() - 1; i >= 0; i-- )
             {
                 if ( auto pConduit = TryCast<SM::TransitionConduit>( m_selectedNodes[i].m_pNode ) )
                 {
@@ -1024,8 +1024,8 @@ namespace KRG::VisualGraph
         //-------------------------------------------------------------------------
 
         Float2 leftMostNodePosition( FLT_MAX, FLT_MAX );
-        int32 const numPastedNodes = (int32) pastedNodes.size();
-        for ( int32 i = 0; i < numPastedNodes; i++ )
+        int32_t const numPastedNodes = (int32_t) pastedNodes.size();
+        for ( int32_t i = 0; i < numPastedNodes; i++ )
         {
             if ( pastedNodes[i]->GetCanvasPosition().m_x < leftMostNodePosition.m_x )
             {
@@ -1033,7 +1033,7 @@ namespace KRG::VisualGraph
             }
         }
 
-        for ( int32 i = 0; i < numPastedNodes; i++ )
+        for ( int32_t i = 0; i < numPastedNodes; i++ )
         {
             pastedNodes[i]->SetCanvasPosition( pastedNodes[i]->GetCanvasPosition() - leftMostNodePosition + Float2( canvasPastePosition ) );
         }

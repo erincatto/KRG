@@ -17,9 +17,9 @@ namespace KRG::Log
             TVector<LogEntry>               m_logEntries;
             TVector<LogEntry>               m_unhandledWarningsAndErrors;
             Threading::Mutex                m_mutex;
-            int32                           m_fatalErrorIndex = InvalidIndex;
-            int32                           m_numWarnings = 0;
-            int32                           m_numErrors = 0;
+            int32_t                           m_fatalErrorIndex = InvalidIndex;
+            int32_t                           m_numWarnings = 0;
+            int32_t                           m_numErrors = 0;
         };
 
         static LogData*                     g_pLog = nullptr;
@@ -74,7 +74,7 @@ namespace KRG::Log
 
             if ( severity == Severity::FatalError )
             {
-                g_pLog->m_fatalErrorIndex = (int32) g_pLog->m_logEntries.size();
+                g_pLog->m_fatalErrorIndex = (int32_t) g_pLog->m_logEntries.size();
             }
 
             auto& entry = g_pLog->m_logEntries.emplace_back( LogEntry() );
@@ -95,7 +95,7 @@ namespace KRG::Log
             //-------------------------------------------------------------------------
             // This uses a less verbose format, if you want more info look at the saved log
 
-            Printf( msgbuffer, 1024, "[%s][%s][%s] %s", entry.m_timestamp.c_str(), g_severityLabels[(int32) entry.m_severity], entry.m_channel.c_str(), entry.m_message.c_str() );
+            Printf( msgbuffer, 1024, "[%s][%s][%s] %s", entry.m_timestamp.c_str(), g_severityLabels[(int32_t) entry.m_severity], entry.m_channel.c_str(), entry.m_message.c_str() );
 
             // Print to debug trace
             KRG_TRACE_MSG( msgbuffer );
@@ -129,7 +129,7 @@ namespace KRG::Log
         std::lock_guard<std::mutex> lock( g_pLog->m_mutex );
         for ( auto const& entry : g_pLog->m_logEntries )
         {
-            Printf( buffer, 1024, "[%s] %s >>> %s: %s, Source: %s, %i\r\n", entry.m_timestamp.c_str(), entry.m_channel.c_str(), g_severityLabels[(int32) entry.m_severity], entry.m_message.c_str(), entry.m_filename.c_str(), entry.m_lineNumber );
+            Printf( buffer, 1024, "[%s] %s >>> %s: %s, Source: %s, %i\r\n", entry.m_timestamp.c_str(), entry.m_channel.c_str(), g_severityLabels[(int32_t) entry.m_severity], entry.m_message.c_str(), entry.m_filename.c_str(), entry.m_lineNumber );
             logData.append( buffer );
         }
 
@@ -163,13 +163,13 @@ namespace KRG::Log
         return outEntries;
     }
 
-    int32 GetNumWarnings()
+    int32_t GetNumWarnings()
     {
         KRG_ASSERT( IsInitialized() );
         return g_pLog->m_numWarnings;
     }
 
-    int32 GetNumErrors()
+    int32_t GetNumErrors()
     {
         KRG_ASSERT( IsInitialized() );
         return g_pLog->m_numErrors;

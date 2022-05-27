@@ -82,7 +82,7 @@ namespace KRG::Render
 
         if ( m_pMesh.IsValid() && m_pMesh.IsLoaded() )
         {
-            int32 boneIdx = m_pMesh->GetBoneIndex( socketID );
+            int32_t boneIdx = m_pMesh->GetBoneIndex( socketID );
             return boneIdx != InvalidIndex;
         }
 
@@ -106,10 +106,10 @@ namespace KRG::Render
         KRG_ASSERT( !m_animToMeshBoneMap.empty() );
         KRG_ASSERT( pPose != nullptr && pPose->HasGlobalTransforms() );
 
-        int32 const numAnimBones = pPose->GetNumBones();
+        int32_t const numAnimBones = pPose->GetNumBones();
         for ( auto animBoneIdx = 0; animBoneIdx < numAnimBones; animBoneIdx++ )
         {
-            int32 const meshBoneIdx = m_animToMeshBoneMap[animBoneIdx];
+            int32_t const meshBoneIdx = m_animToMeshBoneMap[animBoneIdx];
             if ( meshBoneIdx != InvalidIndex )
             {
                 Transform const boneTransform = pPose->GetGlobalTransform( animBoneIdx );

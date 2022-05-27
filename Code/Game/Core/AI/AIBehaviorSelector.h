@@ -21,7 +21,7 @@ namespace KRG::AI
 
         struct LogEntry
         {
-            LogEntry( uint64 frameID, char const* pName, LoggedStatus status, bool isBaseAction = true )
+            LogEntry( uint64_t frameID, char const* pName, LoggedStatus status, bool isBaseAction = true )
                 : m_frameID( frameID )
                 , m_pBehaviorName( pName )
                 , m_status( status )
@@ -30,7 +30,7 @@ namespace KRG::AI
                 KRG_ASSERT( status != LoggedStatus::None && pName != nullptr );
             }
 
-            uint64          m_frameID;
+            uint64_t          m_frameID;
             char const*     m_pBehaviorName;
             LoggedStatus    m_status;
             bool            m_isBaseAction;

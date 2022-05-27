@@ -37,11 +37,11 @@ namespace KRG::Render
             KRG_SERIALIZE_MEMBERS( m_ID, m_startIndex, m_numIndices );
 
             GeometrySection() = default;
-            GeometrySection( StringID ID, uint32 startIndex, uint32 numIndices );
+            GeometrySection( StringID ID, uint32_t startIndex, uint32_t numIndices );
 
             StringID                        m_ID;
-            uint32                          m_startIndex = 0;
-            uint32                          m_numIndices = 0;
+            uint32_t                          m_startIndex = 0;
+            uint32_t                          m_numIndices = 0;
         };
 
     public:
@@ -55,20 +55,20 @@ namespace KRG::Render
         inline OBB const& GetBounds() const { return m_bounds; }
 
         // Vertices
-        inline TVector<Byte> const& GetVertexData() const { return m_vertices; }
-        inline int32 const GetNumVertices() const { return m_vertexBuffer.m_byteSize / m_vertexBuffer.m_byteStride; }
+        inline TVector<uint8_t> const& GetVertexData() const { return m_vertices; }
+        inline int32_t const GetNumVertices() const { return m_vertexBuffer.m_byteSize / m_vertexBuffer.m_byteStride; }
         inline VertexFormat const& GetVertexFormat() const { return m_vertexBuffer.m_vertexFormat; }
         inline RenderBuffer const& GetVertexBuffer() const { return m_vertexBuffer; }
 
         // Indices
-        inline TVector<uint32> const& GetIndices() const { return m_indices; }
-        inline int32 const GetNumIndices() const { return (int32) m_indices.size(); }
+        inline TVector<uint32_t> const& GetIndices() const { return m_indices; }
+        inline int32_t const GetNumIndices() const { return (int32_t) m_indices.size(); }
         inline RenderBuffer const& GetIndexBuffer() const { return m_indexBuffer; }
 
         // Mesh Sections
         inline TVector<GeometrySection> const& GetSections() const { return m_sections; }
-        inline uint32 GetNumSections() const { return (uint32) m_sections.size(); }
-        inline GeometrySection GetSection( uint32 i ) const { KRG_ASSERT( i < GetNumSections() ); return m_sections[i]; }
+        inline uint32_t GetNumSections() const { return (uint32_t) m_sections.size(); }
+        inline GeometrySection GetSection( uint32_t i ) const { KRG_ASSERT( i < GetNumSections() ); return m_sections[i]; }
 
         // Materials
         TVector<TResourcePtr<Material>> const& GetMaterials() const { return m_materials; }
@@ -80,8 +80,8 @@ namespace KRG::Render
 
     protected:
 
-        TVector<Byte>                       m_vertices;
-        TVector<uint32>                     m_indices;
+        TVector<uint8_t>                       m_vertices;
+        TVector<uint32_t>                     m_indices;
         TVector<GeometrySection>            m_sections;
         TVector<TResourcePtr<Material>>     m_materials;
         VertexBuffer                        m_vertexBuffer;

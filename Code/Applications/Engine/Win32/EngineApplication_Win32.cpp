@@ -25,7 +25,7 @@ namespace KRG
         , m_engine( TFunction<bool( KRG::String const& error )>( [this] ( String const& error )-> bool  { return FatalError( error ); } ) )
     {}
 
-    bool EngineApplication::ReadSettings( int32 argc, char** argv )
+    bool EngineApplication::ReadSettings( int32_t argc, char** argv )
     {
         // Get command line settings
         //-------------------------------------------------------------------------

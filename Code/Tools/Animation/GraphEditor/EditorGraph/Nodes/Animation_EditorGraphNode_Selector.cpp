@@ -38,7 +38,7 @@ namespace KRG::Animation::GraphNodes
         NodeCompilationState const state = context.GetSettings<SelectorNode>( this, pSettings );
         if ( state == NodeCompilationState::NeedCompilation )
         {
-            int32 const numOptions = GetNumInputPins();
+            int32_t const numOptions = GetNumInputPins();
 
             auto conditionNodes = GetSecondaryGraph()->FindAllNodesOfType<SelectorConditionEditorNode>();
             KRG_ASSERT( conditionNodes.size() == 1 );
@@ -101,7 +101,7 @@ namespace KRG::Animation::GraphNodes
 
     TInlineString<100> SelectorEditorNode::GetNewDynamicInputPinName() const
     {
-        int32 const numOptions = GetNumInputPins();
+        int32_t const numOptions = GetNumInputPins();
         TInlineString<100> pinName;
         pinName.sprintf( "Option %d", numOptions - 1 );
         return pinName;
@@ -113,7 +113,7 @@ namespace KRG::Animation::GraphNodes
         KRG_ASSERT( conditionNodes.size() == 1 );
         auto pConditionsNode = conditionNodes[0];
 
-        int32 const numOptions = GetNumInputPins();
+        int32_t const numOptions = GetNumInputPins();
         KRG_ASSERT( pConditionsNode->GetNumInputPins() == numOptions - 1 );
 
         TInlineString<100> pinName;
@@ -127,16 +127,16 @@ namespace KRG::Animation::GraphNodes
         KRG_ASSERT( conditionNodes.size() == 1 );
         auto pConditionsNode = conditionNodes[0];
 
-        int32 const numOptions = GetNumInputPins();
+        int32_t const numOptions = GetNumInputPins();
         KRG_ASSERT( pConditionsNode->GetNumInputPins() == numOptions );
 
-        int32 const pintoBeRemovedIdx = GetInputPinIndex( pinID );
+        int32_t const pintoBeRemovedIdx = GetInputPinIndex( pinID );
         KRG_ASSERT( pintoBeRemovedIdx != InvalidIndex );
 
         // Rename all pins
         //-------------------------------------------------------------------------
 
-        int32 newPinIdx = 2;
+        int32_t newPinIdx = 2;
         for ( auto i = 2; i < numOptions; i++ )
         {
             if ( i == pintoBeRemovedIdx )
@@ -180,7 +180,7 @@ namespace KRG::Animation::GraphNodes
         NodeCompilationState const state = context.GetSettings<AnimationClipSelectorNode>( this, pSettings );
         if ( state == NodeCompilationState::NeedCompilation )
         {
-            int32 const numOptions = GetNumInputPins();
+            int32_t const numOptions = GetNumInputPins();
 
             auto conditionNodes = GetSecondaryGraph()->FindAllNodesOfType<SelectorConditionEditorNode>();
             KRG_ASSERT( conditionNodes.size() == 1 );
@@ -243,7 +243,7 @@ namespace KRG::Animation::GraphNodes
 
     TInlineString<100> AnimationClipSelectorEditorNode::GetNewDynamicInputPinName() const
     {
-        int32 const numOptions = GetNumInputPins();
+        int32_t const numOptions = GetNumInputPins();
         TInlineString<100> pinName;
         pinName.sprintf( "Option %d", numOptions - 1 );
         return pinName;
@@ -255,7 +255,7 @@ namespace KRG::Animation::GraphNodes
         KRG_ASSERT( conditionNodes.size() == 1 );
         auto pConditionsNode = conditionNodes[0];
 
-        int32 const numOptions = GetNumInputPins();
+        int32_t const numOptions = GetNumInputPins();
         KRG_ASSERT( pConditionsNode->GetNumInputPins() == numOptions - 1 );
 
         TInlineString<100> pinName;
@@ -269,16 +269,16 @@ namespace KRG::Animation::GraphNodes
         KRG_ASSERT( conditionNodes.size() == 1 );
         auto pConditionsNode = conditionNodes[0];
 
-        int32 const numOptions = GetNumInputPins();
+        int32_t const numOptions = GetNumInputPins();
         KRG_ASSERT( pConditionsNode->GetNumInputPins() == numOptions );
 
-        int32 const pintoBeRemovedIdx = GetInputPinIndex( pinID );
+        int32_t const pintoBeRemovedIdx = GetInputPinIndex( pinID );
         KRG_ASSERT( pintoBeRemovedIdx != InvalidIndex );
 
         // Rename all pins
         //-------------------------------------------------------------------------
 
-        int32 newPinIdx = 2;
+        int32_t newPinIdx = 2;
         for ( auto i = 2; i < numOptions; i++ )
         {
             if ( i == pintoBeRemovedIdx )
@@ -302,7 +302,7 @@ namespace KRG::Animation::GraphNodes
 
     bool AnimationClipSelectorEditorNode::IsValidConnection( UUID const& inputPinID, Node const* pOutputPinNode, UUID const& outputPinID ) const
     {
-        int32 const pinIdx = GetInputPinIndex( inputPinID );
+        int32_t const pinIdx = GetInputPinIndex( inputPinID );
         if ( pinIdx >= 0 )
         {
             return IsOfType<AnimationClipEditorNode>( pOutputPinNode ) || IsOfType<AnimationClipReferenceEditorNode>( pOutputPinNode );

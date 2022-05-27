@@ -101,18 +101,18 @@ namespace KRG::Animation
 
     void Pose::CalculateGlobalTransforms()
     {
-        int32 const numBones = m_pSkeleton->GetNumBones();
+        int32_t const numBones = m_pSkeleton->GetNumBones();
         m_globalTransforms.resize( numBones );
 
         m_globalTransforms[0] = m_localTransforms[0];
         for ( auto boneIdx = 1; boneIdx < numBones; boneIdx++ )
         {
-            int32 const parentIdx = m_pSkeleton->GetParentBoneIndex( boneIdx );
+            int32_t const parentIdx = m_pSkeleton->GetParentBoneIndex( boneIdx );
             m_globalTransforms[boneIdx] = m_localTransforms[boneIdx] * m_globalTransforms[parentIdx];
         }
     }
 
-    Transform Pose::GetGlobalTransform( int32 boneIdx ) const
+    Transform Pose::GetGlobalTransform( int32_t boneIdx ) const
     {
         KRG_ASSERT( boneIdx < m_pSkeleton->GetNumBones() );
 
@@ -123,11 +123,11 @@ namespace KRG::Animation
         }
         else
         {
-            auto boneParents = KRG_STACK_ARRAY_ALLOC( int32, m_pSkeleton->GetNumBones() );
-            int32 nextEntry = 0;
+            auto boneParents = KRG_STACK_ARRAY_ALLOC( int32_t, m_pSkeleton->GetNumBones() );
+            int32_t nextEntry = 0;
 
             // Get parent list
-            int32 parentIdx = m_pSkeleton->GetParentBoneIndex( boneIdx );
+            int32_t parentIdx = m_pSkeleton->GetParentBoneIndex( boneIdx );
             while ( parentIdx != InvalidIndex )
             {
                 boneParents[nextEntry++] = parentIdx;
@@ -139,12 +139,12 @@ namespace KRG::Animation
             if ( nextEntry > 0 )
             {
                 // Calculate global transform of parent
-                int32 arrayIdx = nextEntry - 1;
+                int32_t arrayIdx = nextEntry - 1;
                 parentIdx = boneParents[arrayIdx--];
                 auto parentGlobalTransform = m_localTransforms[parentIdx];
                 for ( arrayIdx; arrayIdx >= 0; arrayIdx-- )
                 {
-                    int32 const nextIdx = boneParents[arrayIdx];
+                    int32_t const nextIdx = boneParents[arrayIdx];
                     auto const nextTransform = m_localTransforms[nextIdx];
                     parentGlobalTransform = nextTransform * parentGlobalTransform;
                 }

@@ -1464,7 +1464,7 @@ struct TokenHelper<Stack, char> {
              documentStack.template Pop<char>(static_cast<size_t>(10 - (end - buffer)));
         }
         else {
-            char *buffer = documentStack.template Push<char>(1 + 20); // '/' + uint64
+            char *buffer = documentStack.template Push<char>(1 + 20); // '/' + uint64_t
             *buffer++ = '/';
             const char* end = internal::u64toa(index, buffer);
             documentStack.template Pop<char>(static_cast<size_t>(20 - (end - buffer)));

@@ -11,19 +11,19 @@ namespace KRG::VisualGraph
         // Colors
         //-------------------------------------------------------------------------
 
-        constexpr static uint32 const   s_graphTitleColor = IM_COL32( 255, 255, 255, 255 );
+        constexpr static uint32_t const   s_graphTitleColor = IM_COL32( 255, 255, 255, 255 );
 
-        constexpr static uint32 const   s_genericNodeTitleTextColor = IM_COL32( 0, 0, 0, 255 );
-        constexpr static uint32 const   s_genericNodeTitleColor = IM_COL32( 28, 28, 28, 255 );
-        constexpr static uint32 const   s_genericNodeBackgroundColor = IM_COL32( 75, 75, 75, 255 );
-        constexpr static uint32 const   s_genericNodeBorderColorSelected = IM_COL32( 255, 255, 255, 255 );
-        constexpr static uint32 const   s_genericHoverColor = IM_COL32( 200, 200, 200, 255 );
-        constexpr static uint32 const   s_genericSelectionColor = IM_COL32( 50, 205, 50, 255 );
+        constexpr static uint32_t const   s_genericNodeTitleTextColor = IM_COL32( 0, 0, 0, 255 );
+        constexpr static uint32_t const   s_genericNodeTitleColor = IM_COL32( 28, 28, 28, 255 );
+        constexpr static uint32_t const   s_genericNodeBackgroundColor = IM_COL32( 75, 75, 75, 255 );
+        constexpr static uint32_t const   s_genericNodeBorderColorSelected = IM_COL32( 255, 255, 255, 255 );
+        constexpr static uint32_t const   s_genericHoverColor = IM_COL32( 200, 200, 200, 255 );
+        constexpr static uint32_t const   s_genericSelectionColor = IM_COL32( 50, 205, 50, 255 );
 
-        constexpr static uint32 const   s_connectionColor = IM_COL32( 185, 185, 185, 255 );
-        constexpr static uint32 const   s_connectionColorValid = IM_COL32( 0, 255, 0, 255 );
-        constexpr static uint32 const   s_connectionColorInvalid = IM_COL32( 255, 0, 0, 255 );
-        constexpr static uint32 const   s_connectionColorHovered = IM_COL32( 255, 255, 255, 255 );
+        constexpr static uint32_t const   s_connectionColor = IM_COL32( 185, 185, 185, 255 );
+        constexpr static uint32_t const   s_connectionColorValid = IM_COL32( 0, 255, 0, 255 );
+        constexpr static uint32_t const   s_connectionColorInvalid = IM_COL32( 255, 0, 0, 255 );
+        constexpr static uint32_t const   s_connectionColorHovered = IM_COL32( 255, 255, 255, 255 );
 
         // UI
         //-------------------------------------------------------------------------

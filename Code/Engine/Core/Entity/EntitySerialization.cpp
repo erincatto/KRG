@@ -268,13 +268,13 @@ namespace KRG::EntityModel::Serialization
                 // Read component data
                 //-------------------------------------------------------------------------
 
-                int32 const numComponents = (int32) componentsArrayIter->value.Size();
+                int32_t const numComponents = (int32_t) componentsArrayIter->value.Size();
                 KRG_ASSERT( outEntityDesc.m_components.empty() && outEntityDesc.m_numSpatialComponents == 0 );
                 outEntityDesc.m_components.resize( numComponents );
 
                 bool wasRootComponentFound = false;
 
-                for ( int32 i = 0; i < numComponents; i++ )
+                for ( int32_t i = 0; i < numComponents; i++ )
                 {
                     if ( !ReadComponent( ctx, componentsArrayIter->value[i], outEntityDesc.m_components[i] ) )
                     {
@@ -317,7 +317,7 @@ namespace KRG::EntityModel::Serialization
                 //-------------------------------------------------------------------------
                 // As soon as a given component is a singleton all components derived from it are singleton components
 
-                for ( int32 i = 0; i < numComponents; i++ )
+                for ( int32_t i = 0; i < numComponents; i++ )
                 {
                     auto pComponentTypeInfo = ctx.m_typeRegistry.GetTypeInfo( outEntityDesc.m_components[i].m_typeID );
                     if ( pComponentTypeInfo->IsAbstractType() )
@@ -331,7 +331,7 @@ namespace KRG::EntityModel::Serialization
                         continue;
                     }
 
-                    for ( int32 j = 0; j < numComponents; j++ )
+                    for ( int32_t j = 0; j < numComponents; j++ )
                     {
                         if ( i == j )
                         {
@@ -420,9 +420,9 @@ namespace KRG::EntityModel::Serialization
 
         static bool ReadEntityArray( ParsingContext& ctx, RapidJsonValue const& entitiesArrayValue, EntityCollectionDescriptor& outCollection )
         {
-            int32 const numEntities = (int32) entitiesArrayValue.Size();
+            int32_t const numEntities = (int32_t) entitiesArrayValue.Size();
             outCollection.Reserve( numEntities );
-            for ( int32 i = 0; i < numEntities; i++ )
+            for ( int32_t i = 0; i < numEntities; i++ )
             {
                 if ( !entitiesArrayValue[i].IsObject() )
                 {
@@ -501,7 +501,7 @@ namespace KRG::EntityModel::Serialization
         size_t filesize = (size_t) ftell( fp );
         fseek( fp, 0, SEEK_SET );
 
-        TVector<Byte> fileBuffer;
+        TVector<uint8_t> fileBuffer;
         fileBuffer.resize( filesize + 1 );
         size_t readLength = fread( fileBuffer.data(), 1, filesize, fp );
         fileBuffer[readLength] = '\0';

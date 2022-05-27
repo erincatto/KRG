@@ -65,9 +65,9 @@ namespace KRG::Input
         // Controllers
         //-------------------------------------------------------------------------
 
-        uint32 GetNumConnectedControllers() const;
+        uint32_t GetNumConnectedControllers() const;
 
-        inline ControllerInputState const* GetControllerState( uint32 controllerIdx = 0 ) const
+        inline ControllerInputState const* GetControllerState( uint32_t controllerIdx = 0 ) const
         {
             if ( auto pDevice = GetControllerDevice( controllerIdx ) )
             {
@@ -85,7 +85,7 @@ namespace KRG::Input
     private:
 
         KeyboardMouseInputDevice const* GetKeyboardMouseDevice() const;
-        ControllerInputDevice const* GetControllerDevice( uint32 controllerIdx = 0 ) const;
+        ControllerInputDevice const* GetControllerDevice( uint32_t controllerIdx = 0 ) const;
 
     private:
 
@@ -117,7 +117,7 @@ namespace KRG::Input
             return &m_keyboardState;
         }
 
-        KRG_FORCE_INLINE ControllerInputState const* GetControllerState( uint32 controllerIdx = 0 ) const
+        KRG_FORCE_INLINE ControllerInputState const* GetControllerState( uint32_t controllerIdx = 0 ) const
         {
             if ( controllerIdx < m_controllerStates.size() )
             {

@@ -35,14 +35,14 @@ namespace KRG::Animation::GraphNodes
         virtual GraphPoseNodeResult Update( GraphContext& context, SyncTrackTimeRange const& updateRange ) override;
         virtual void DeactivateBranch( GraphContext& context ) override;
 
-        int32 SelectOption( GraphContext& context ) const;
+        int32_t SelectOption( GraphContext& context ) const;
 
     private:
 
         TInlineVector<PoseNode*, 5>                         m_optionNodes;
         TInlineVector<BoolValueNode*, 5>                    m_conditions;
         PoseNode*                                           m_pSelectedNode = nullptr;
-        int32                                               m_selectedOptionIdx = InvalidIndex;
+        int32_t                                               m_selectedOptionIdx = InvalidIndex;
     };
 
     //-------------------------------------------------------------------------
@@ -80,13 +80,13 @@ namespace KRG::Animation::GraphNodes
         virtual void DisableRootMotionSampling() override;
         virtual bool IsLooping() const override;
 
-        int32 SelectOption( GraphContext& context ) const;
+        int32_t SelectOption( GraphContext& context ) const;
 
     private:
 
         TInlineVector<AnimationClipReferenceNode*, 5>       m_optionNodes;
         TInlineVector<BoolValueNode*, 5>                    m_conditions;
         AnimationClipReferenceNode*                         m_pSelectedNode = nullptr;
-        int32                                               m_selectedOptionIdx = InvalidIndex;
+        int32_t                                               m_selectedOptionIdx = InvalidIndex;
     };
 }

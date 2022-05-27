@@ -20,14 +20,14 @@ namespace KRG::TypeSystem
             return iter != m_constants.end();
         }
 
-        inline int64 GetConstantValue( StringID label ) const
+        inline int64_t GetConstantValue( StringID label ) const
         {
             auto const iter = m_constants.find( label );
             KRG_ASSERT( iter != m_constants.end() );
             return iter->second;
         }
 
-        inline bool TryGetConstantValue( StringID label, int64& outValue ) const
+        inline bool TryGetConstantValue( StringID label, int64_t& outValue ) const
         {
             auto const iter = m_constants.find( label );
             if ( iter != m_constants.end() )
@@ -39,7 +39,7 @@ namespace KRG::TypeSystem
             return false;
         }
 
-        inline StringID GetConstantLabel( int64 value ) const
+        inline StringID GetConstantLabel( int64_t value ) const
         {
             for ( auto const& pair : m_constants )
             {
@@ -53,7 +53,7 @@ namespace KRG::TypeSystem
             return StringID();
         }
 
-        inline bool TryGetConstantLabel( int64 value, StringID& outValue ) const
+        inline bool TryGetConstantLabel( int64_t value, StringID& outValue ) const
         {
             for ( auto const& pair : m_constants )
             {
@@ -71,6 +71,6 @@ namespace KRG::TypeSystem
 
         TypeID                                              m_ID;
         CoreTypeID                                          m_underlyingType;
-        THashMap<StringID, int64>                           m_constants;
+        THashMap<StringID, int64_t>                           m_constants;
     };
 }

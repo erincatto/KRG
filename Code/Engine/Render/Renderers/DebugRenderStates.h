@@ -15,7 +15,7 @@ namespace KRG::Render
 
     struct KRG_ENGINE_RENDER_API DebugLineRenderState
     {
-        constexpr static uint32 const MaxLinesPerDrawCall = 100000;
+        constexpr static uint32_t const MaxLinesPerDrawCall = 100000;
 
     public:
 
@@ -32,7 +32,7 @@ namespace KRG::Render
         VertexBuffer                    m_vertexBuffer;
         BlendState                      m_blendState;
         RasterizerState                 m_rasterizerState;
-        TVector<uint8>                  m_stagingVertexData;
+        TVector<uint8_t>                  m_stagingVertexData;
 
         PipelineState                   m_PSO;
     };
@@ -41,7 +41,7 @@ namespace KRG::Render
 
     struct KRG_ENGINE_RENDER_API DebugPointRenderState
     {
-        constexpr static uint32 const MaxPointsPerDrawCall = 100000;
+        constexpr static uint32_t const MaxPointsPerDrawCall = 100000;
 
     public:
 
@@ -58,7 +58,7 @@ namespace KRG::Render
         VertexBuffer                    m_vertexBuffer;
         BlendState                      m_blendState;
         RasterizerState                 m_rasterizerState;
-        TVector<uint8>                  m_stagingVertexData;
+        TVector<uint8_t>                  m_stagingVertexData;
 
         PipelineState                   m_PSO;
     };
@@ -67,7 +67,7 @@ namespace KRG::Render
 
     struct KRG_ENGINE_RENDER_API DebugPrimitiveRenderState
     {
-        constexpr static uint32 const MaxTrianglesPerDrawCall = 100000;
+        constexpr static uint32_t const MaxTrianglesPerDrawCall = 100000;
 
     public:
 
@@ -83,7 +83,7 @@ namespace KRG::Render
         VertexBuffer                    m_vertexBuffer;
         BlendState                      m_blendState;
         RasterizerState                 m_rasterizerState;
-        TVector<uint8>                  m_stagingVertexData;
+        TVector<uint8_t>                  m_stagingVertexData;
 
         PipelineState                   m_PSO;
     };
@@ -105,7 +105,7 @@ namespace KRG::Render
     {
         Float2                          m_pos;
         Float2                          m_texcoord;
-        uint32                          m_color;
+        uint32_t                          m_color;
     };
 
     //-------------------------------------------------------------------------
@@ -117,7 +117,7 @@ namespace KRG::Render
 
         struct FontDesc
         {
-            Byte const*                 m_compressedFontData;
+            uint8_t const*                 m_compressedFontData;
             float                       m_fontSize;
         };
 
@@ -132,8 +132,8 @@ namespace KRG::Render
             inline float GetDescent() const { return m_descent; }
             inline float GetLineGap() const { return m_lineGap; }
             inline IntRange GetValidGlyphRange() const { return IntRange( 0x20, 0xFF ); }
-            inline int32 GetGlyphIndex( char c ) const { KRG_ASSERT( GetValidGlyphRange().ContainsInclusive( c ) ); return c - GetValidGlyphRange().m_begin; }
-            inline DebugFontGlyph const& GetGlyph( int32 glyphIdx ) const { return m_glyphs[glyphIdx]; }
+            inline int32_t GetGlyphIndex( char c ) const { KRG_ASSERT( GetValidGlyphRange().ContainsInclusive( c ) ); return c - GetValidGlyphRange().m_begin; }
+            inline DebugFontGlyph const& GetGlyph( int32_t glyphIdx ) const { return m_glyphs[glyphIdx]; }
 
         public:
 
@@ -146,32 +146,32 @@ namespace KRG::Render
     public:
 
         // Generate a font atlas with the specified fonts
-        bool Generate( FontDesc* pFonts, int32 numFonts );
+        bool Generate( FontDesc* pFonts, int32_t numFonts );
 
         // Returns the 2D dimensions of the atlas data
         inline Int2 GetDimensions() const { return Int2( 512 ); }
 
         // Returns the raw font atlas bitmap data
-        inline Byte const* GetAtlasData() const { return m_atlasData.data(); }
+        inline uint8_t const* GetAtlasData() const { return m_atlasData.data(); }
 
         // Get a list of glyphs indices that correspond to the supplied string
-        void GetGlyphsForString( uint32 fontIdx, TInlineString<24> const& str, TInlineVector<int32, 100>& outGlyphIndices ) const;
+        void GetGlyphsForString( uint32_t fontIdx, TInlineString<24> const& str, TInlineVector<int32_t, 100>& outGlyphIndices ) const;
 
         // Get a list of glyphs indices that correspond to the supplied string
-        void GetGlyphsForString( uint32 fontIdx, char const* pStr, TInlineVector<int32, 100>& outGlyphIndices ) const;
+        void GetGlyphsForString( uint32_t fontIdx, char const* pStr, TInlineVector<int32_t, 100>& outGlyphIndices ) const;
 
         // Get the 2D pixel size of the string if it were rendered
-        Int2 GetTextExtents( uint32 fontIdx, char const* pText ) const;
+        Int2 GetTextExtents( uint32_t fontIdx, char const* pText ) const;
 
         // Fill the supplied vertex and index buffer with the necessary data to render the supplied glyphs
-        uint32 WriteGlyphsToBuffer( DebugFontGlyphVertex* pVertexBuffer, uint16 indexStartOffset, uint16* pIndexBuffer, uint32 fontIdx, TInlineVector<int32, 100> const& glyphIndices, Float2 const& textPosTopLeft, Float4 const& color ) const;
+        uint32_t WriteGlyphsToBuffer( DebugFontGlyphVertex* pVertexBuffer, uint16_t indexStartOffset, uint16_t* pIndexBuffer, uint32_t fontIdx, TInlineVector<int32_t, 100> const& glyphIndices, Float2 const& textPosTopLeft, Float4 const& color ) const;
 
         // Writes a glyph with custom texture coords to the render buffers
-        void WriteCustomGlyphToBuffer( DebugFontGlyphVertex* pVertexBuffer, uint16 indexStartOffset, uint16* pIndexBuffer, uint32 fontIdx, int32 firstGlyphIdx, Float2 const& texCoords, Float2 const& baselinePos, Int2 const& textExtents, int32 pixelPadding, Float4 const& color ) const;
+        void WriteCustomGlyphToBuffer( DebugFontGlyphVertex* pVertexBuffer, uint16_t indexStartOffset, uint16_t* pIndexBuffer, uint32_t fontIdx, int32_t firstGlyphIdx, Float2 const& texCoords, Float2 const& baselinePos, Int2 const& textExtents, int32_t pixelPadding, Float4 const& color ) const;
 
     private:
 
-        TVector<Byte>                   m_atlasData;
+        TVector<uint8_t>                   m_atlasData;
         TInlineVector<FontInfo, 3>      m_fonts;
     };
 
@@ -179,7 +179,7 @@ namespace KRG::Render
 
     struct KRG_ENGINE_RENDER_API DebugTextRenderState
     {
-        constexpr static uint32 const MaxGlyphsPerDrawCall = 10000;
+        constexpr static uint32_t const MaxGlyphsPerDrawCall = 10000;
         static Float4 const ClipSpaceTopLeft;
 
     public:

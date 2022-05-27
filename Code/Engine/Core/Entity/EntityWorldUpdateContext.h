@@ -61,7 +61,7 @@ namespace KRG
     private:
 
         // Threadsafe since these never changed during the lifetime of a world
-        IWorldEntitySystem* GetWorldSystem( uint32 worldSystemID ) const;
+        IWorldEntitySystem* GetWorldSystem( uint32_t worldSystemID ) const;
 
         // Delete any ability to copy this struct
         explicit EntityWorldUpdateContext( EntityWorldUpdateContext const& ) = delete;

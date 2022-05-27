@@ -35,7 +35,7 @@ namespace KRG::Animation::GraphNodes
 
     void ConstIntNode::GetValueInternal( GraphContext& context, void* pOutValue )
     {
-        *( (int32*) pOutValue ) = GetSettings<ConstIntNode>()->m_value;
+        *( (int32_t*) pOutValue ) = GetSettings<ConstIntNode>()->m_value;
     }
 
     //-------------------------------------------------------------------------

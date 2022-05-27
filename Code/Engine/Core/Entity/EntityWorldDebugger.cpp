@@ -61,7 +61,7 @@ namespace KRG
         KRG_ASSERT( !path.empty() );
 
         size_t const numPathLevels = path.size();
-        int32 currentPathLevel = 0;
+        int32_t currentPathLevel = 0;
 
         Menu* pCurrentMenu = this;
         while ( true )

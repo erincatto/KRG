@@ -46,7 +46,7 @@ namespace KRG
 
     private:
 
-        virtual bool ReadSettings( int32 argc, char** argv ) override;
+        virtual bool ReadSettings( int32_t argc, char** argv ) override;
         virtual bool Initialize() override;
         virtual bool Shutdown() override;
 

@@ -16,13 +16,13 @@ namespace KRG::Animation
 
     StringID FootEvent::GetSyncEventID() const
     {
-        return StringID( g_phaseNames[(int32) m_phase] );
+        return StringID( g_phaseNames[(int32_t) m_phase] );
     }
 
     #if KRG_DEVELOPMENT_TOOLS
     InlineString FootEvent::GetDisplayText() const
     {
-        return g_phaseNames[(int32) m_phase];
+        return g_phaseNames[(int32_t) m_phase];
     }
     #endif
 }

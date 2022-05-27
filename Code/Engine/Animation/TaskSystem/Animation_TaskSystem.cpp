@@ -38,7 +38,7 @@ namespace KRG::Animation
     {
         KRG_ASSERT( marker >= 0 && marker <= m_tasks.size() );
 
-        for ( int16 t = (int16) m_tasks.size() - 1; t >= marker; t-- )
+        for ( int16_t t = (int16_t) m_tasks.size() - 1; t >= marker; t-- )
         {
             KRG::Delete( m_tasks[t] );
             m_tasks.erase( m_tasks.begin() + t );
@@ -95,7 +95,7 @@ namespace KRG::Animation
         if ( m_hasPhysicsDependency )
         {
             // Go backwards through the registered task and execute all task chains with a pre-physics requirement
-            auto const numTasks = (int8) m_tasks.size();
+            auto const numTasks = (int8_t) m_tasks.size();
             for ( TaskIndex i = 0; i < numTasks; i++ )
             {
                 if ( m_tasks[i]->GetRequiredUpdateStage() == TaskUpdateStage::PrePhysics )
@@ -112,7 +112,7 @@ namespace KRG::Animation
             if ( m_hasCodependentPhysicsTasks )
             {
                 KRG_LOG_WARNING( "Animation", "Co-dependent physics tasks detected!" );
-                RegisterTask<Tasks::DefaultPoseTask>( (int16) InvalidIndex, Pose::InitialState::ReferencePose );
+                RegisterTask<Tasks::DefaultPoseTask>( (int16_t) InvalidIndex, Pose::InitialState::ReferencePose );
                 m_tasks.back()->Execute( m_taskContext );
             }
             else // Execute pre-physics tasks
@@ -190,7 +190,7 @@ namespace KRG::Animation
 
     void TaskSystem::ExecuteTasks()
     {
-        int16 const numTasks = (int8) m_tasks.size();
+        int16_t const numTasks = (int8_t) m_tasks.size();
         for ( TaskIndex i = 0; i < numTasks; i++ )
         {
             if ( !m_tasks[i]->IsComplete() )
@@ -224,7 +224,7 @@ namespace KRG::Animation
         auto pTask = m_tasks[taskIdx];
         offsets[taskIdx] = currentOffset;
         
-        int32 const numDependencies = pTask->GetNumDependencies();
+        int32_t const numDependencies = pTask->GetNumDependencies();
         if ( numDependencies == 0 )
         {
             // Do nothing
@@ -241,7 +241,7 @@ namespace KRG::Animation
             childOffset += Float2( 0, -1 );
 
             float const childTaskStartOffset = -( numDependencies - 1.0f ) / 2.0f;
-            for ( int32 i = 0; i < numDependencies; i++ )
+            for ( int32_t i = 0; i < numDependencies; i++ )
             {
                 childOffset.m_x = currentOffset.m_x + childTaskStartOffset + i;
                 CalculateTaskOffset( pTask->GetDependencyIndices()[i], childOffset, offsets );
@@ -270,7 +270,7 @@ namespace KRG::Animation
         {
             auto const& pFinalTask = m_tasks.back();
             KRG_ASSERT( pFinalTask->IsComplete() );
-            auto pPoseBuffer = m_posePool.GetRecordedPose( (int8) m_tasks.size() - 1 );
+            auto pPoseBuffer = m_posePool.GetRecordedPose( (int8_t) m_tasks.size() - 1 );
             pPoseBuffer->m_pose.DrawDebug( drawingContext, m_taskContext.m_worldTransform );
             return;
         }
@@ -288,7 +288,7 @@ namespace KRG::Animation
         TInlineVector<Transform, 16> taskTransforms;
         taskTransforms.resize( m_tasks.size(), m_taskContext.m_worldTransform );
 
-        for ( int8 i = (int8) m_tasks.size() - 1; i >= 0; i-- )
+        for ( int8_t i = (int8_t) m_tasks.size() - 1; i >= 0; i-- )
         {
             Vector const offset = ( offsetVectorX * taskTreeOffsets[i].m_x ) + ( offsetVectorY * taskTreeOffsets[i].m_y );
             taskTransforms[i].SetTranslation( m_taskContext.m_worldTransform.GetTranslation() + offset );
@@ -297,7 +297,7 @@ namespace KRG::Animation
         // Draw tree
         //-------------------------------------------------------------------------
 
-        for ( int8 i = (int8) m_tasks.size() - 1; i >= 0; i-- )
+        for ( int8_t i = (int8_t) m_tasks.size() - 1; i >= 0; i-- )
         {
             auto pPoseBuffer = m_posePool.GetRecordedPose( i );
             pPoseBuffer->m_pose.DrawDebug( drawingContext, taskTransforms[i], m_tasks[i]->GetDebugColor() );

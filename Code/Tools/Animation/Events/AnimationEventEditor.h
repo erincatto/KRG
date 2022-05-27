@@ -22,7 +22,7 @@ namespace KRG::Animation
         EventEditor( TypeSystem::TypeRegistry const& typeRegistry );
 
         void Reset();
-        void SetAnimationLengthAndFPS( uint32 numFrames, float FPS );
+        void SetAnimationLengthAndFPS( uint32_t numFrames, float FPS );
         void UpdateAndDraw( UpdateContext const& context, AnimationClipPlayerComponent* pPreviewAnimationComponent );
 
         virtual bool Serialize( TypeSystem::TypeRegistry const& typeRegistry, RapidJsonValue const& objectValue ) override;

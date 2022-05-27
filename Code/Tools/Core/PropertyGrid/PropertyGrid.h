@@ -91,11 +91,11 @@ namespace KRG
 
     private:
 
-        void DrawPropertyRow( TypeSystem::TypeInfo const& typeInfo, IRegisteredType* pTypeInstance, TypeSystem::PropertyInfo const& propertyInfo, Byte* propertyInstance );
-        void DrawValuePropertyRow( TypeSystem::TypeInfo const& typeInfo, IRegisteredType* pTypeInstance, TypeSystem::PropertyInfo const& propertyInfo, Byte* propertyInstance, int32 arrayIdx = InvalidIndex );
-        void DrawArrayPropertyRow( TypeSystem::TypeInfo const& typeInfo, IRegisteredType* pTypeInstance, TypeSystem::PropertyInfo const& propertyInfo, Byte* propertyInstance );
+        void DrawPropertyRow( TypeSystem::TypeInfo const& typeInfo, IRegisteredType* pTypeInstance, TypeSystem::PropertyInfo const& propertyInfo, uint8_t* propertyInstance );
+        void DrawValuePropertyRow( TypeSystem::TypeInfo const& typeInfo, IRegisteredType* pTypeInstance, TypeSystem::PropertyInfo const& propertyInfo, uint8_t* propertyInstance, int32_t arrayIdx = InvalidIndex );
+        void DrawArrayPropertyRow( TypeSystem::TypeInfo const& typeInfo, IRegisteredType* pTypeInstance, TypeSystem::PropertyInfo const& propertyInfo, uint8_t* propertyInstance );
 
-        TypeSystem::PropertyEditor* GetPropertyEditor( TypeSystem::PropertyInfo const& propertyInfo, Byte* pActualPropertyInstance );
+        TypeSystem::PropertyEditor* GetPropertyEditor( TypeSystem::PropertyInfo const& propertyInfo, uint8_t* pActualPropertyInstance );
         void DestroyPropertyEditors();
 
     private:

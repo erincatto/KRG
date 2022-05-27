@@ -38,7 +38,7 @@ namespace KRG::Resource
 
         inline String const& GetErrorMessage() const { return m_errorMessage; }
         inline String const& GetNetworkAddress() const { return m_pSettings->m_resourceServerNetworkAddress; }
-        inline uint16 GetNetworkPort() const { return m_pSettings->m_resourceServerPort; }
+        inline uint16_t GetNetworkPort() const { return m_pSettings->m_resourceServerPort; }
         inline FileSystem::Path const& GetRawResourceDir() const { return m_pSettings->m_rawResourcePath; }
         inline FileSystem::Path const& GetCompiledResourceDir() const { return m_pSettings->m_compiledResourcePath; }
 
@@ -53,21 +53,21 @@ namespace KRG::Resource
         inline void RequestCleanupOfCompletedRequests() { m_cleanupRequested = true; }
 
         // Workers
-        inline int32 GetNumWorkers() const { return (int32) m_workers.size(); }
-        inline ResourceServerWorker::Status GetWorkerStatus( int32 workerIdx ) const { return m_workers[workerIdx]->GetStatus(); }
-        inline ResourceID const& GetCompilationTaskResourceID( int32 workerIdx ) const { return m_workers[workerIdx]->GetRequestResourceID(); }
+        inline int32_t GetNumWorkers() const { return (int32_t) m_workers.size(); }
+        inline ResourceServerWorker::Status GetWorkerStatus( int32_t workerIdx ) const { return m_workers[workerIdx]->GetStatus(); }
+        inline ResourceID const& GetCompilationTaskResourceID( int32_t workerIdx ) const { return m_workers[workerIdx]->GetRequestResourceID(); }
 
         // Clients
-        inline int32 GetNumConnectedClients() const { return m_networkServer.GetNumConnectedClients(); }
-        inline uint32 GetClientID( int32 clientIdx ) const { return m_networkServer.GetConnectedClientInfo( clientIdx ).m_ID; }
-        inline Network::AddressString const& GetConnectedClientAddress( int32 clientIdx ) const { return m_networkServer.GetConnectedClientInfo( clientIdx ).m_address; }
+        inline int32_t GetNumConnectedClients() const { return m_networkServer.GetNumConnectedClients(); }
+        inline uint32_t GetClientID( int32_t clientIdx ) const { return m_networkServer.GetConnectedClientInfo( clientIdx ).m_ID; }
+        inline Network::AddressString const& GetConnectedClientAddress( int32_t clientIdx ) const { return m_networkServer.GetConnectedClientInfo( clientIdx ).m_address; }
 
     private:
 
         void CleanupCompletedRequests();
 
         // Request Actions
-        void ProcessResourceRequest( ResourceID const& resourceID, uint32 clientID = 0, bool forceRecompile = false );
+        void ProcessResourceRequest( ResourceID const& resourceID, uint32_t clientID = 0, bool forceRecompile = false );
         void NotifyClientOnCompletedRequest( CompilationRequest* pRequest );
 
         // Up-to-date system
@@ -88,7 +88,7 @@ namespace KRG::Resource
 
         // Settings
         Settings const*                         m_pSettings = nullptr;
-        uint32                                  m_maxSimultaneousCompilationTasks = 16;
+        uint32_t                                  m_maxSimultaneousCompilationTasks = 16;
 
         // Compilers
         Animation::ToolsModule                  m_animationModule;

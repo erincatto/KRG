@@ -11,7 +11,7 @@
 
 namespace KRG
 {
-    enum class CoordinateSpace : uint8
+    enum class CoordinateSpace : uint8_t
     {
         World,
         Local,
@@ -60,7 +60,7 @@ namespace KRG
 
         inline float* AsFloatArray() { return &m_values[0][0]; }
         inline float const* AsFloatArray() const { return &m_values[0][0]; }
-        inline Vector const& GetRow( uint32 row ) const { return m_rows[row]; }
+        inline Vector const& GetRow( uint32_t row ) const { return m_rows[row]; }
 
         inline Vector const& GetAxisX() const { return m_rows[0]; }
         inline Vector const& GetAxisY() const { return m_rows[1]; }
@@ -141,8 +141,8 @@ namespace KRG
         inline Vector TransformPoint( Vector const& point ) const;      // Out: W=1
         inline Vector ApplyTransform( Vector const& vector ) const;     // Out: W=W
 
-        Vector& operator[]( uint32 i ) { KRG_ASSERT( i < 4 ); return m_rows[i]; }
-        Vector const operator[]( uint32 i ) const { KRG_ASSERT( i < 4 ); return m_rows[i]; }
+        Vector& operator[]( uint32_t i ) { KRG_ASSERT( i < 4 ); return m_rows[i]; }
+        Vector const operator[]( uint32_t i ) const { KRG_ASSERT( i < 4 ); return m_rows[i]; }
 
         inline Matrix operator*( Matrix const& rhs ) const;
         inline Matrix& operator*=( Matrix const& rhs );
@@ -465,7 +465,7 @@ namespace KRG
         else
         {
             // Find the axis with the highest diagonal value
-            int32 axisIdx0 = 0;
+            int32_t axisIdx0 = 0;
             if ( axisY_Y > axisX_X )
             {
                 axisIdx0 = 1;
@@ -476,8 +476,8 @@ namespace KRG
                 axisIdx0 = 2;
             }
 
-            int32 const axisIdx1 = ( axisIdx0 + 1 ) % 3;
-            int32 const axisIdx2 = ( axisIdx1 + 1 ) % 3;
+            int32_t const axisIdx1 = ( axisIdx0 + 1 ) % 3;
+            int32_t const axisIdx2 = ( axisIdx1 + 1 ) % 3;
 
             float const pseudoTrace = 1.0f + m_rows[axisIdx0][axisIdx0] - m_rows[axisIdx1][axisIdx1] - m_rows[axisIdx2][axisIdx2];
             float const inversePseudoTrace = Math::Reciprocal( Math::Sqrt( pseudoTrace ) );

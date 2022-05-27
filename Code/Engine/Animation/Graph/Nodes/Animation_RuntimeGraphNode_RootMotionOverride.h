@@ -11,7 +11,7 @@ namespace KRG::Animation::GraphNodes
     public:
 
         // What elements of the root motion do we wish to override
-        enum class OverrideFlags : uint8
+        enum class OverrideFlags : uint8_t
         {
             HeadingX,
             HeadingY,

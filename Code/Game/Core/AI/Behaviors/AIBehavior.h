@@ -84,7 +84,7 @@ namespace KRG::AI
     {
     public:
 
-        enum class Status : uint8
+        enum class Status : uint8_t
         {
             Running,
             Completed,
@@ -105,14 +105,14 @@ namespace KRG::AI
     {
     public:
 
-        enum class Status : uint8
+        enum class Status : uint8_t
         {
             Running,
             Completed,
             Failed
         };
 
-        enum class StopReason : uint8
+        enum class StopReason : uint8_t
         {
             Completed,
             Interrupted
@@ -123,7 +123,7 @@ namespace KRG::AI
         virtual ~Behavior() = default;
 
         // Get the ID for this action
-        virtual uint32 GetActionID() const = 0;
+        virtual uint32_t GetActionID() const = 0;
 
         // Is this action active
         inline bool IsActive() const { return m_isActive; }
@@ -181,6 +181,6 @@ namespace KRG::AI
 //-------------------------------------------------------------------------
 
 #define KRG_AI_BEHAVIOR_ID( TypeName ) \
-constexpr static uint32 const s_gameplayStateID = Hash::FNV1a::GetHash32( #TypeName ); \
-virtual uint32 GetActionID() const override final { return TypeName::s_gameplayStateID; }\
+constexpr static uint32_t const s_gameplayStateID = Hash::FNV1a::GetHash32( #TypeName ); \
+virtual uint32_t GetActionID() const override final { return TypeName::s_gameplayStateID; }\
 KRG_DEVELOPMENT_TOOLS_LINE_IN_MACRO( char const* GetName() const override final { return #TypeName; } )

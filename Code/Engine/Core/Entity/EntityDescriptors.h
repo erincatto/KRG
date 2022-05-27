@@ -67,11 +67,11 @@ namespace KRG::EntityModel
         inline bool IsSpatialEntity() const { return m_numSpatialComponents > 0; }
         inline bool HasSpatialParent() const { return m_spatialParentName.IsValid(); }
 
-        int32 FindComponentIndex( StringID const& componentName ) const;
+        int32_t FindComponentIndex( StringID const& componentName ) const;
 
         inline ComponentDescriptor const* FindComponent( StringID const& componentName ) const
         {
-            int32 const componentIdx = FindComponentIndex( componentName );
+            int32_t const componentIdx = FindComponentIndex( componentName );
             return ( componentIdx != InvalidIndex ) ? &m_components[componentIdx] : nullptr;
         }
 
@@ -82,7 +82,7 @@ namespace KRG::EntityModel
         StringID                                                    m_attachmentSocketID;
         TInlineVector<SystemDescriptor, 5>                           m_systems;
         TVector<ComponentDescriptor>                                m_components; // Ordered list of components: spatial components are first, followed by regular components
-        int32                                                       m_numSpatialComponents = 0;
+        int32_t                                                       m_numSpatialComponents = 0;
     };
 }
 
@@ -116,8 +116,8 @@ namespace KRG::EntityModel
         {
             KRG_SERIALIZE_MEMBERS( m_entityIdx, m_parentEntityIdx );
 
-            int32                           m_entityIdx = InvalidIndex;
-            int32                           m_parentEntityIdx = InvalidIndex;
+            int32_t                           m_entityIdx = InvalidIndex;
+            int32_t                           m_parentEntityIdx = InvalidIndex;
         };
 
     public:
@@ -137,12 +137,12 @@ namespace KRG::EntityModel
         // Template Creation
         //-------------------------------------------------------------------------
 
-        void Reserve( int32 numEntities );
+        void Reserve( int32_t numEntities );
 
         inline void AddEntity( EntityDescriptor const& entityDesc )
         {
             KRG_ASSERT( entityDesc.IsValid() );
-            m_entityLookupMap.insert( TPair<StringID, int32>( entityDesc.m_name, (int32) m_entityDescriptors.size() ) );
+            m_entityLookupMap.insert( TPair<StringID, int32_t>( entityDesc.m_name, (int32_t) m_entityDescriptors.size() ) );
             m_entityDescriptors.emplace_back( entityDesc );
         }
 
@@ -153,9 +153,9 @@ namespace KRG::EntityModel
         // Entity Access
         //-------------------------------------------------------------------------
 
-        inline int32 GetNumEntityDescriptors() const
+        inline int32_t GetNumEntityDescriptors() const
         {
-            return (int32) m_entityDescriptors.size();
+            return (int32_t) m_entityDescriptors.size();
         }
 
         inline TVector<EntityDescriptor> const& GetEntityDescriptors() const
@@ -183,7 +183,7 @@ namespace KRG::EntityModel
             }
         }
 
-        inline int32 FindEntityIndex( StringID const& entityName ) const
+        inline int32_t FindEntityIndex( StringID const& entityName ) const
         {
             KRG_ASSERT( entityName.IsValid() );
 
@@ -231,7 +231,7 @@ namespace KRG::EntityModel
     protected:
 
         TVector<EntityDescriptor>                                   m_entityDescriptors;
-        THashMap<StringID, int32>                                   m_entityLookupMap;
+        THashMap<StringID, int32_t>                                   m_entityLookupMap;
         TVector<SpatialAttachmentInfo>                              m_entitySpatialAttachmentInfo;
     };
 }

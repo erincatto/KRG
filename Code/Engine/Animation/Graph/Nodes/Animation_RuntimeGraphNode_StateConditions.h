@@ -49,7 +49,7 @@ namespace KRG::Animation::GraphNodes
     {
     public:
 
-        enum class ComparisonType : uint8
+        enum class ComparisonType : uint8_t
         {
             KRG_REGISTER_ENUM
 
@@ -59,7 +59,7 @@ namespace KRG::Animation::GraphNodes
             ElapsedTime,
         };
 
-        enum class Operator : uint8
+        enum class Operator : uint8_t
         {
             KRG_REGISTER_ENUM
 

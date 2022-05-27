@@ -20,7 +20,7 @@ namespace KRG::Resource
         {}
 
         // Explicit ID - generally refers to an entity ID
-        explicit ResourceRequesterID( uint64 ID )
+        explicit ResourceRequesterID( uint64_t ID )
             : m_ID( ID )
         {
             KRG_ASSERT( ID > 0 );
@@ -49,13 +49,13 @@ namespace KRG::Resource
         //-------------------------------------------------------------------------
 
         // Get the requester ID
-        inline uint64 GetID() const { return m_ID; }
+        inline uint64_t GetID() const { return m_ID; }
 
         // Get the ID for the data path for install dependencies, used for reverse look ups
-        inline uint32 GetInstallDependencyResourcePathID() const
+        inline uint32_t GetInstallDependencyResourcePathID() const
         {
             KRG_ASSERT( m_isInstallDependency );
-            return (uint32) m_ID;
+            return (uint32_t) m_ID;
         }
 
         //-------------------------------------------------------------------------
@@ -65,7 +65,7 @@ namespace KRG::Resource
 
     private:
 
-        uint64  m_ID = 0;
+        uint64_t  m_ID = 0;
         bool    m_isInstallDependency = false;
     };
 }

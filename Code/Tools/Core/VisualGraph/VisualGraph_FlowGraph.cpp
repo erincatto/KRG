@@ -30,26 +30,26 @@ namespace KRG::VisualGraph::Flow
         return nullptr;
     }
 
-    int32 Node::GetInputPinIndex( UUID const& pinID ) const
+    int32_t Node::GetInputPinIndex( UUID const& pinID ) const
     {
         for ( auto i = 0; i < m_inputPins.size(); i++ )
         {
             if ( m_inputPins[i].m_ID == pinID )
             {
-                return (int32) i;
+                return (int32_t) i;
             }
         }
 
         return InvalidIndex;
     }
 
-    int32 Node::GetOutputPinIndex( UUID const& pinID ) const
+    int32_t Node::GetOutputPinIndex( UUID const& pinID ) const
     {
         for ( auto i = 0; i < m_outputPins.size(); i++ )
         {
             if ( m_outputPins[i].m_ID == pinID )
             {
-                return (int32) i;
+                return (int32_t) i;
             }
         }
 
@@ -58,7 +58,7 @@ namespace KRG::VisualGraph::Flow
 
     //-------------------------------------------------------------------------
 
-    void Node::CreateInputPin( char const* pPinName, uint32 valueType )
+    void Node::CreateInputPin( char const* pPinName, uint32_t valueType )
     {
         ScopedNodeModification snm( this );
         auto& newPin = m_inputPins.emplace_back( Pin() );
@@ -67,7 +67,7 @@ namespace KRG::VisualGraph::Flow
         newPin.m_direction = Pin::Direction::In;
     }
 
-    void Node::CreateOutputPin( char const* pPinName, uint32 valueType, bool allowMultipleOutputConnections )
+    void Node::CreateOutputPin( char const* pPinName, uint32_t valueType, bool allowMultipleOutputConnections )
     {
         ScopedNodeModification snm( this );
         auto& newPin = m_outputPins.emplace_back( Pin() );
@@ -77,7 +77,7 @@ namespace KRG::VisualGraph::Flow
         newPin.m_allowMultipleOutConnections = allowMultipleOutputConnections;
     }
 
-    void Node::DestroyInputPin( int32 pinIdx )
+    void Node::DestroyInputPin( int32_t pinIdx )
     {
         KRG_ASSERT( pinIdx >= 0 && pinIdx < m_inputPins.size() );
         ScopedNodeModification snm( this );
@@ -85,7 +85,7 @@ namespace KRG::VisualGraph::Flow
         m_inputPins.erase( m_inputPins.begin() + pinIdx );
     }
 
-    void Node::DestroyOutputPin( int32 pinIdx )
+    void Node::DestroyOutputPin( int32_t pinIdx )
     {
         KRG_ASSERT( pinIdx >= 0 && pinIdx < m_outputPins.size() );
         ScopedNodeModification snm( this );
@@ -142,7 +142,7 @@ namespace KRG::VisualGraph::Flow
 
     //-------------------------------------------------------------------------
 
-    Flow::Node* Node::GetConnectedInputNode( int32 inputPinIdx ) const
+    Flow::Node* Node::GetConnectedInputNode( int32_t inputPinIdx ) const
     {
         KRG_ASSERT( inputPinIdx >= 0 && inputPinIdx < m_inputPins.size() );
         KRG_ASSERT( HasParentGraph() );
@@ -363,7 +363,7 @@ namespace KRG::VisualGraph
 
     void FlowGraph::BreakConnection( UUID const& connectionID )
     {
-        for ( int32 i = int32( m_connections.size() ) - 1; i >= 0; i-- )
+        for ( int32_t i = int32_t( m_connections.size() ) - 1; i >= 0; i-- )
         {
             if ( m_connections[i].m_ID == connectionID )
             {
@@ -379,7 +379,7 @@ namespace KRG::VisualGraph
     void FlowGraph::BreakAnyConnectionsForPin( UUID const& pinID )
     {
         ScopedGraphModification sgm( this );
-        for ( int32 i = int32( m_connections.size() ) - 1; i >= 0; i-- )
+        for ( int32_t i = int32_t( m_connections.size() ) - 1; i >= 0; i-- )
         {
             if ( m_connections[i].m_startPinID == pinID || m_connections[i].m_endPinID == pinID )
             {
@@ -393,7 +393,7 @@ namespace KRG::VisualGraph
         KRG_ASSERT( pNode != nullptr );
 
         ScopedGraphModification sgm( this );
-        for ( int32 i = int32( m_connections.size() ) - 1; i >= 0; i-- )
+        for ( int32_t i = int32_t( m_connections.size() ) - 1; i >= 0; i-- )
         {
             if ( m_connections[i].m_pStartNode == pNode || m_connections[i].m_pEndNode == pNode )
             {
@@ -407,7 +407,7 @@ namespace KRG::VisualGraph
         KRG_ASSERT( nodeID.IsValid() );
 
         ScopedGraphModification sgm( this );
-        for ( int32 i = int32( m_connections.size() ) - 1; i >= 0; i-- )
+        for ( int32_t i = int32_t( m_connections.size() ) - 1; i >= 0; i-- )
         {
             if ( m_connections[i].m_pStartNode->GetID() == nodeID || m_connections[i].m_pEndNode->GetID() == nodeID )
             {

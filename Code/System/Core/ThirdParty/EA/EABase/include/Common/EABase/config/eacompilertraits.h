@@ -332,7 +332,7 @@
 	//    EA_ALIGN(32) struct X { int x; int y; } Z;                    struct X { int x; } Z;          Define A as a struct, and align the instance Z on 32.
 	//    struct X { int x EA_PACKED; int y EA_PACKED; };               struct X { int x; int y; };     Pack the x and y members of struct X.
 	//    struct X { int x; int y; } EA_PACKED;                         struct X { int x; int y; };     Pack the members of struct X.
-	//    typedef EA_ALIGNED(int, int16, 16); int16 n16;                typedef int int16; int16 n16;   Define int16 as an int which is aligned on 16.
+	//    typedef EA_ALIGNED(int, int16_t, 16); int16_t n16;                typedef int int16_t; int16_t n16;   Define int16_t as an int which is aligned on 16.
 	//    typedef EA_ALIGNED(X, X16, 16); X16 x16;                      typedef X X16; X16 x16;         Define X16 as an X which is aligned on 16.
 
 	#if !defined(EA_ALIGN_MAX)          // If the user hasn't globally set an alternative value...

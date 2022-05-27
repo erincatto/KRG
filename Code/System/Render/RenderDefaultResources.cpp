@@ -32,10 +32,10 @@ namespace KRG::Render
             // Create default texture
             //-------------------------------------------------------------------------
 
-            TVector<Byte> decodedData = Encoding::Base64::Decode( g_defaultTexturePngBase64Encoded, sizeof( g_defaultTexturePngBase64Encoded ) );
+            TVector<uint8_t> decodedData = Encoding::Base64::Decode( g_defaultTexturePngBase64Encoded, sizeof( g_defaultTexturePngBase64Encoded ) );
 
-            int32 width, height, channels;
-            Byte* pImage = stbi_load_from_memory( decodedData.data(), (int32) decodedData.size(), &width, &height, &channels, 4 );
+            int32_t width, height, channels;
+            uint8_t* pImage = stbi_load_from_memory( decodedData.data(), (int32_t) decodedData.size(), &width, &height, &channels, 4 );
             size_t const imageSize = size_t( width ) * height * channels; // 8 bits per channel
 
             g_pDefaultResources->m_defaultTexture = Texture( Int2( 320, 240 ) );

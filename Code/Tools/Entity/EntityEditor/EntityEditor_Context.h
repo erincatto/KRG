@@ -50,12 +50,12 @@ namespace KRG::EntityModel
         // Selection
         //-------------------------------------------------------------------------
 
-        inline int32 GetNumSelectedEntities() { return (int32) m_selectedEntities.size(); }
+        inline int32_t GetNumSelectedEntities() { return (int32_t) m_selectedEntities.size(); }
         inline bool HasSingleSelectedEntity() const { return m_selectedEntities.size() == 1; }
         inline TVector<Entity*> GetSelectedEntities() { return m_selectedEntities; }
         inline Entity* GetSelectedEntity() const { KRG_ASSERT( HasSingleSelectedEntity() ); return m_selectedEntities[0]; }
 
-        inline int32 GetNumSelectedComponents() { return (int32) m_selectedComponents.size(); }
+        inline int32_t GetNumSelectedComponents() { return (int32_t) m_selectedComponents.size(); }
         inline bool HasSingleSelectedComponent() const { return m_selectedComponents.size() == 1; }
         inline TVector<EntityComponent*> GetSelectedComponents() { return m_selectedComponents; }
         inline EntityComponent* GetSelectedComponent() const { KRG_ASSERT( HasSingleSelectedComponent() ); return m_selectedComponents[0]; }

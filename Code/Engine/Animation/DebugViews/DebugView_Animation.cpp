@@ -19,7 +19,7 @@ namespace KRG::Animation
             ImGui::TableSetupColumn( "Value", ImGuiTableColumnFlags_WidthStretch );
             ImGui::TableHeadersRow();
 
-            int32 const numControlParameters = pGraphComponent->m_pGraphInstance->GetNumControlParameters();
+            int32_t const numControlParameters = pGraphComponent->m_pGraphInstance->GetNumControlParameters();
             for ( GraphNodeIndex i = 0; i < numControlParameters; i++ )
             {
                 StringID const nodeID = pGraphComponent->m_pGraphInstance->GetControlParameterID( i );
@@ -57,7 +57,7 @@ namespace KRG::Animation
 
                     case GraphValueType::Int:
                     {
-                        stringValue.sprintf( "%d", pGraphComponent->m_pGraphInstance->GetControlParameterValue<int32>( pGraphComponent->m_graphContext, i ) );
+                        stringValue.sprintf( "%d", pGraphComponent->m_pGraphInstance->GetControlParameterValue<int32_t>( pGraphComponent->m_graphContext, i ) );
                     }
                     break;
 
@@ -119,7 +119,7 @@ namespace KRG::Animation
         static const char* const stageLabels[] = { "ERROR!", "Pre-Physics", "Post-Physics" };
 
         auto pTask = pTaskSystem->m_tasks[currentTaskIdx];
-        InlineString const rowLabel( InlineString::CtorSprintf(), "%s - %s", stageLabels[(int32) pTask->GetActualUpdateStage()], pTask->GetDebugText().c_str() );
+        InlineString const rowLabel( InlineString::CtorSprintf(), "%s - %s", stageLabels[(int32_t) pTask->GetActualUpdateStage()], pTask->GetDebugText().c_str() );
 
         //String const& nodePath = pGraphComponent->m_pGraphVariation->GetDefinition()->GetNodePath( sampledEvent.GetSourceNodeIndex() );
 
@@ -137,7 +137,7 @@ namespace KRG::Animation
         ImGui::PopStyleColor();
     }
 
-    void AnimationDebugView::DrawRootMotionRow( AnimationGraphComponent* pGraphComponent, RootMotionRecorder* pRootMotionRecorder, int16 currentActionIdx )
+    void AnimationDebugView::DrawRootMotionRow( AnimationGraphComponent* pGraphComponent, RootMotionRecorder* pRootMotionRecorder, int16_t currentActionIdx )
     {
         static char const* const actionTypes[] = { "Error", "Sample", "Modify", "Blend" };
 
@@ -148,7 +148,7 @@ namespace KRG::Animation
         {
             pAction = &pRootMotionRecorder->GetRecordedActions()[currentActionIdx];
             String const& nodePath = pGraphComponent->m_pGraphVariation->GetDefinition()->GetNodePath( pAction->m_nodeIdx );
-            rowLabel.sprintf( "%s - %s", actionTypes[(int32) pAction->m_actionType], nodePath.c_str() );
+            rowLabel.sprintf( "%s - %s", actionTypes[(int32_t) pAction->m_actionType], nodePath.c_str() );
         }
         else
         {
@@ -346,7 +346,7 @@ namespace KRG::Animation
 
     void AnimationDebugView::DestroyDebugSettings( ComponentID ID )
     {
-        for ( int32 i = 0; i < (int32) m_componentDebugSettings.size(); i++ )
+        for ( int32_t i = 0; i < (int32_t) m_componentDebugSettings.size(); i++ )
         {
             if ( m_componentDebugSettings[i].m_ID == ID )
             {
@@ -468,7 +468,7 @@ namespace KRG::Animation
     {
         InlineString title;
 
-        for ( int32 i = (int32) m_componentDebugSettings.size() - 1; i >= 0; i-- )
+        for ( int32_t i = (int32_t) m_componentDebugSettings.size() - 1; i >= 0; i-- )
         {
             bool stopDebug = false;
             auto ppFoundComponent = m_pAnimationWorldSystem->m_graphComponents.FindItem( m_componentDebugSettings[i].m_ID );

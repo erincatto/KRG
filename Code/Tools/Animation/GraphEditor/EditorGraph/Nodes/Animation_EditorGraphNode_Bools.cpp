@@ -20,7 +20,7 @@ namespace KRG::Animation::GraphNodes
         NodeCompilationState const state = context.GetSettings<AndNode>( this, pSettings );
         if ( state == NodeCompilationState::NeedCompilation )
         {
-            int32 const numInputs = GetNumInputPins();
+            int32_t const numInputs = GetNumInputPins();
             for ( auto i = 0; i < numInputs; i++ )
             {
                 // We allow some disconnected pins
@@ -66,7 +66,7 @@ namespace KRG::Animation::GraphNodes
         NodeCompilationState const state = context.GetSettings<OrNode>( this, pSettings );
         if ( state == NodeCompilationState::NeedCompilation )
         {
-            int32 const numInputs = GetNumInputPins();
+            int32_t const numInputs = GetNumInputPins();
             for ( auto i = 0; i < numInputs; i++ )
             {
                 // We allow some disconnected pins

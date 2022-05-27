@@ -21,7 +21,7 @@ namespace KRG::Network::IPC
     private:
 
         virtual void ProcessMessage( void* pData, size_t size ) override;
-        virtual void SendMessages( TFunction<void( void*, uint32 )> const& sendFunction ) override;
+        virtual void SendMessages( TFunction<void( void*, uint32_t )> const& sendFunction ) override;
 
     protected:
 

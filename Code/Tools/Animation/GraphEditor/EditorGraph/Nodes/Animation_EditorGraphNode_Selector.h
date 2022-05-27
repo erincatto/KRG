@@ -42,7 +42,7 @@ namespace KRG::Animation::GraphNodes
 
         virtual bool SupportsDynamicInputPins() const override { return true; }
         virtual TInlineString<100> GetNewDynamicInputPinName() const override;
-        virtual uint32 GetDynamicInputPinValueType() const override { return (uint32) GraphValueType::Pose; }
+        virtual uint32_t GetDynamicInputPinValueType() const override { return (uint32_t) GraphValueType::Pose; }
         virtual void OnDynamicPinCreation( UUID pinID ) override;
         virtual void OnDynamicPinDestruction( UUID pinID ) override;
     };
@@ -67,7 +67,7 @@ namespace KRG::Animation::GraphNodes
         virtual bool IsValidConnection( UUID const& inputPinID, Node const* pOutputPinNode, UUID const& outputPinID ) const override;
         virtual bool SupportsDynamicInputPins() const override { return true; }
         virtual TInlineString<100> GetNewDynamicInputPinName() const override;
-        virtual uint32 GetDynamicInputPinValueType() const override { return (uint32) GraphValueType::Pose; }
+        virtual uint32_t GetDynamicInputPinValueType() const override { return (uint32_t) GraphValueType::Pose; }
         virtual void OnDynamicPinCreation( UUID pinID ) override;
         virtual void OnDynamicPinDestruction( UUID pinID ) override;
     };

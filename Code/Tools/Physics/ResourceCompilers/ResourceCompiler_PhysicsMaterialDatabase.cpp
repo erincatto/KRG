@@ -43,7 +43,7 @@ namespace KRG::Physics
             TypeSystem::Serialization::TypeReader typeReader( ctx.m_typeRegistry );
             if ( typeReader.ReadFromFile( libraryFilePath ) )
             {
-                int32 const numSerializedTypes = typeReader.GetNumSerializedTypes();
+                int32_t const numSerializedTypes = typeReader.GetNumSerializedTypes();
                 if ( numSerializedTypes == 0 )
                 {
                     KRG_LOG_ERROR( "ResourceCompiler", "Empty physics material library encountered: %s", libraryFilePath.c_str() );

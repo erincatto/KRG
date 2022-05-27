@@ -108,7 +108,7 @@ namespace KRG::Animation
             // Draw selected bone
             if ( m_selectedBoneID.IsValid() )
             {
-                int32 const boneIdx = m_pResource->GetBoneIndex( m_selectedBoneID );
+                int32_t const boneIdx = m_pResource->GetBoneIndex( m_selectedBoneID );
                 if ( boneIdx != InvalidIndex )
                 {
                     Transform const globalBoneTransform = m_pResource->GetBoneGlobalTransform( boneIdx );
@@ -140,7 +140,7 @@ namespace KRG::Animation
         {
             if ( m_selectedBoneID.IsValid() )
             {
-                int32 const selectedBoneIdx = m_pResource->GetBoneIndex( m_selectedBoneID );
+                int32_t const selectedBoneIdx = m_pResource->GetBoneIndex( m_selectedBoneID );
                 KRG_ASSERT( selectedBoneIdx != InvalidIndex );
 
                 {
@@ -193,7 +193,7 @@ namespace KRG::Animation
         TVector<BoneInfo*> boneInfos;
 
         // Create all infos
-        int32 const numBones = m_pResource->GetNumBones();
+        int32_t const numBones = m_pResource->GetNumBones();
         for ( auto i = 0; i < numBones; i++ )
         {
             auto& pBoneInfo = boneInfos.emplace_back( KRG::New<BoneInfo>() );
@@ -203,7 +203,7 @@ namespace KRG::Animation
         // Create hierarchy
         for ( auto i = 1; i < numBones; i++ )
         {
-            int32 const parentBoneIdx = m_pResource->GetParentBoneIndex( i );
+            int32_t const parentBoneIdx = m_pResource->GetParentBoneIndex( i );
             KRG_ASSERT( parentBoneIdx != InvalidIndex );
             boneInfos[parentBoneIdx]->m_children.emplace_back( boneInfos[i] );
         }
@@ -226,7 +226,7 @@ namespace KRG::Animation
         StringID const currentBoneID = m_pResource->GetBoneID( pBone->m_boneIdx );
 
         ImGui::SetNextItemOpen( pBone->m_isExpanded );
-        int32 treeNodeFlags = ImGuiTreeNodeFlags_OpenOnDoubleClick;
+        int32_t treeNodeFlags = ImGuiTreeNodeFlags_OpenOnDoubleClick;
 
         if ( pBone->m_children.empty() )
         {

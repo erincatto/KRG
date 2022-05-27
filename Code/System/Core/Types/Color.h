@@ -17,8 +17,8 @@ namespace KRG
     //  Color Abstraction
     //-------------------------------------------------------------------------
     // This is a simply helper to manage colors and the various formats
-    // It assumes little endian systems and a uint32 format as follows: 0xRRGGBBAA
-    // If you need a different uint32 format, there are conversion functions provided
+    // It assumes little endian systems and a uint32_t format as follows: 0xRRGGBBAA
+    // If you need a different uint32_t format, there are conversion functions provided
 
     struct Color
     {
@@ -28,23 +28,23 @@ namespace KRG
         {
             struct ByteColor
             {
-                uint8       m_a;
-                uint8       m_b;
-                uint8       m_g;
-                uint8       m_r;
+                uint8_t       m_a;
+                uint8_t       m_b;
+                uint8_t       m_g;
+                uint8_t       m_r;
             };
 
             ByteColor       m_byteColor;
-            uint32          m_color;
+            uint32_t          m_color;
         };
 
         // Default color is white
         inline Color() : m_color( 0xFFFFFFFF ) {}
 
         // The format is as follows: 0xRRGGBBAA
-        inline Color( uint32 c ) : m_color( c ) {}
+        inline Color( uint32_t c ) : m_color( c ) {}
 
-        inline Color( uint8 r, uint8 g, uint8 b, uint8 a = 255 )
+        inline Color( uint8_t r, uint8_t g, uint8_t b, uint8_t a = 255 )
         {
             m_byteColor.m_r = r;
             m_byteColor.m_g = g;
@@ -54,15 +54,15 @@ namespace KRG
 
         inline Color( Float4 const& c )
         {
-            m_byteColor.m_r = uint8( c[0] * 255 );
-            m_byteColor.m_g = uint8( c[1] * 255 );
-            m_byteColor.m_b = uint8( c[2] * 255 );
-            m_byteColor.m_a = uint8( c[3] * 255 );
+            m_byteColor.m_r = uint8_t( c[0] * 255 );
+            m_byteColor.m_g = uint8_t( c[1] * 255 );
+            m_byteColor.m_b = uint8_t( c[2] * 255 );
+            m_byteColor.m_a = uint8_t( c[3] * 255 );
         }
 
         //-------------------------------------------------------------------------
 
-        inline Color GetAlphaVersion( uint8 newAlpha ) const
+        inline Color GetAlphaVersion( uint8_t newAlpha ) const
         {
             Color newColor = *this;
             newColor.m_byteColor.m_a = newAlpha;
@@ -72,18 +72,18 @@ namespace KRG
         inline Color GetAlphaVersion( float alpha ) const
         {
             float const floatAlpha = Math::Clamp( alpha * 255, 0.0f, 255.0f );
-            return GetAlphaVersion( (uint8) floatAlpha );
+            return GetAlphaVersion( (uint8_t) floatAlpha );
         }
 
         //-------------------------------------------------------------------------
 
-        // Returns a uint32 color with this byte format: 0xRRGGBBAA
-        inline uint32 ToUInt32() const { return m_color; }
+        // Returns a uint32_t color with this byte format: 0xRRGGBBAA
+        inline uint32_t ToUInt32() const { return m_color; }
         
-        // Returns a uint32 color with this byte format: 0xAABBGGRR
-        inline uint32 ToUInt32_ABGR() const
+        // Returns a uint32_t color with this byte format: 0xAABBGGRR
+        inline uint32_t ToUInt32_ABGR() const
         {
-            uint32 outColor = 0;
+            uint32_t outColor = 0;
             outColor |= m_byteColor.m_r;
             outColor |= m_byteColor.m_g << 8;
             outColor |= m_byteColor.m_b << 16;
@@ -91,8 +91,8 @@ namespace KRG
             return outColor; 
         }
 
-        // Returns a uint32 color with this byte format: 0xRRGGBBAA
-        inline operator uint32() const { return ToUInt32(); }
+        // Returns a uint32_t color with this byte format: 0xRRGGBBAA
+        inline operator uint32_t() const { return ToUInt32(); }
 
         //-------------------------------------------------------------------------
 

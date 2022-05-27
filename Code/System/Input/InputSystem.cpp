@@ -84,9 +84,9 @@ namespace KRG::Input
 
     //-------------------------------------------------------------------------
 
-    uint32 InputSystem::GetNumConnectedControllers() const
+    uint32_t InputSystem::GetNumConnectedControllers() const
     {
-        uint32 numControllers = 0;
+        uint32_t numControllers = 0;
         for ( auto pDevice : m_inputDevices )
         {
             if ( pDevice->GetDeviceCategory() == DeviceCategory::Controller )
@@ -102,9 +102,9 @@ namespace KRG::Input
         return numControllers;
     }
 
-    ControllerInputDevice const* InputSystem::GetControllerDevice( uint32 controllerIdx ) const
+    ControllerInputDevice const* InputSystem::GetControllerDevice( uint32_t controllerIdx ) const
     {
-        uint32 currentControllerIdx = 0;
+        uint32_t currentControllerIdx = 0;
         for ( auto pDevice : m_inputDevices )
         {
             if ( pDevice->GetDeviceCategory() == DeviceCategory::Controller )
@@ -132,13 +132,13 @@ namespace KRG::Input
         outReflectedState.m_mouseState.ReflectFrom( deltaTime, timeScale, *GetMouseState() );
         outReflectedState.m_keyboardState.ReflectFrom( deltaTime, timeScale, *GetKeyboardState() );
 
-        int32 const numControllerStates = (int32) GetNumConnectedControllers();
+        int32_t const numControllerStates = (int32_t) GetNumConnectedControllers();
         if ( outReflectedState.m_controllerStates.size() != numControllerStates )
         {
             outReflectedState.m_controllerStates.resize( numControllerStates );
         }
 
-        for ( int32 i = 0; i < numControllerStates; i++ )
+        for ( int32_t i = 0; i < numControllerStates; i++ )
         {
             outReflectedState.m_controllerStates[i].ReflectFrom( deltaTime, timeScale, *GetControllerState( i ) );
         }

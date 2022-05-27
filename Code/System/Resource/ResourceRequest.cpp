@@ -320,9 +320,9 @@ namespace KRG::Resource
         // Create the resource ptrs for the install dependencies and request their load
         // These resource ptrs are temporary and will be clear upon completion of the request
         ResourceRequesterID const installDependencyRequesterID( m_pResourceRecord->GetResourceID() );
-        uint32 const numInstallDependencies = (uint32) m_pResourceRecord->m_installDependencyResourceIDs.size();
+        uint32_t const numInstallDependencies = (uint32_t) m_pResourceRecord->m_installDependencyResourceIDs.size();
         m_pendingInstallDependencies.resize( numInstallDependencies );
-        for ( uint32 i = 0; i < numInstallDependencies; i++ )
+        for ( uint32_t i = 0; i < numInstallDependencies; i++ )
         {
             // Do not use the requester ID for install dependencies! Since they are not explicitly loaded by a specific user!
             // Instead we create a ResourceRequesterID from the depending resource's resourceID
@@ -516,9 +516,9 @@ namespace KRG::Resource
         // Create the resource ptrs for the install dependencies and request the unload
         // These resource ptrs are temporary and will be cleared upon completion of the request
         ResourceRequesterID const installDependencyRequesterID( m_pResourceRecord->GetResourceID() );
-        uint32 const numInstallDependencies = (uint32) m_pResourceRecord->m_installDependencyResourceIDs.size();
+        uint32_t const numInstallDependencies = (uint32_t) m_pResourceRecord->m_installDependencyResourceIDs.size();
         m_pendingInstallDependencies.resize( numInstallDependencies );
-        for ( uint32 i = 0; i < numInstallDependencies; i++ )
+        for ( uint32_t i = 0; i < numInstallDependencies; i++ )
         {
             // Do not use the user ID for install dependencies! Since they are not explicitly loaded by a specific user!
             // Instead we create a ResourceRequesterID from the depending resource's resourceID

@@ -14,7 +14,7 @@ namespace KRG::Resource
     {
     public:
 
-        enum class Status : uint8
+        enum class Status : uint8_t
         {
             Idle,
             Compiling,
@@ -59,7 +59,7 @@ namespace KRG::Resource
 
     private:
 
-        virtual void ExecuteRange( TaskSetPartition range, uint32 threadnum ) override final;
+        virtual void ExecuteRange( TaskSetPartition range, uint32_t threadnum ) override final;
 
     private:
 

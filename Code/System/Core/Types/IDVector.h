@@ -9,10 +9,10 @@
 // e.g 
 //      struct Foo
 //      {
-//          uint32 GetID() const;
+//          uint32_t GetID() const;
 //      };
 //      
-//      TIDVector<uint32, Foo> m_foos;
+//      TIDVector<uint32_t, Foo> m_foos;
 
 struct Foo
 {
@@ -30,8 +30,8 @@ namespace KRG
         //-------------------------------------------------------------------------
 
         TVector<ItemType> const& GetVector() { return m_vector; }
-        ItemType& operator[]( int32 idx ) { return m_vector[idx]; }
-        int32 size() const { return (int32) m_vector.size(); }
+        ItemType& operator[]( int32_t idx ) { return m_vector[idx]; }
+        int32_t size() const { return (int32_t) m_vector.size(); }
         bool empty() const { return m_vector.empty(); }
 
         typename TVector<ItemType>::iterator begin() { return m_vector.begin(); }
@@ -54,9 +54,9 @@ namespace KRG
         {
             IDType const ID = GetItemID( std::is_pointer<ItemType>(), item );
             KRG_ASSERT( m_indexMap.find( ID ) == m_indexMap.end() );
-            int32 const itemIdx = (int32) m_vector.size();
+            int32_t const itemIdx = (int32_t) m_vector.size();
             m_vector.emplace_back( item );
-            m_indexMap.insert( TPair<IDType, int32>( ID, itemIdx ) );
+            m_indexMap.insert( TPair<IDType, int32_t>( ID, itemIdx ) );
             return &m_vector[itemIdx];
         }
 
@@ -65,9 +65,9 @@ namespace KRG
         {
             IDType const ID = GetItemID( std::is_pointer<ItemType>(), item );
             KRG_ASSERT( m_indexMap.find( ID ) == m_indexMap.end() );
-            int32 const itemIdx = (int32) m_vector.size();
+            int32_t const itemIdx = (int32_t) m_vector.size();
             m_vector.emplace_back( eastl::forward<ItemType const>( item ) );
-            m_indexMap.insert( TPair<IDType, int32>( ID, itemIdx ) );
+            m_indexMap.insert( TPair<IDType, int32_t>( ID, itemIdx ) );
             return &m_vector[itemIdx];
         }
 
@@ -76,10 +76,10 @@ namespace KRG
         ItemType* Emplace( IDType const& ID, Args&&... args )
         {
             KRG_ASSERT( m_indexMap.find( ID ) == m_indexMap.end() );
-            int32 const itemIdx = (int32) m_vector.size();
+            int32_t const itemIdx = (int32_t) m_vector.size();
             m_vector.emplace_back( eastl::forward<Args>( args )... );
             KRG_ASSERT( GetLastElementID( std::is_pointer<ItemType>() ) == ID );
-            m_indexMap.insert( TPair<IDType, int32>( ID, itemIdx ) );
+            m_indexMap.insert( TPair<IDType, int32_t>( ID, itemIdx ) );
             return &m_vector[itemIdx];
         }
 
@@ -165,6 +165,6 @@ namespace KRG
     private:
 
         TVector<ItemType>               m_vector;
-        THashMap<IDType, int32>         m_indexMap; // A mapping between the ID type and the item index in the flat array
+        THashMap<IDType, int32_t>         m_indexMap; // A mapping between the ID type and the item index in the flat array
     };
 }

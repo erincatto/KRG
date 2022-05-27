@@ -9,7 +9,7 @@ using namespace physx;
 
 namespace KRG::Physics
 {
-    PxFilterFlags SimulationFilter::Shader( PxFilterObjectAttributes attributes0, PxFilterData filterData0, PxFilterObjectAttributes attributes1, PxFilterData filterData1, PxPairFlags& pairFlags, void const* constantBlock, uint32 constantBlockSize )
+    PxFilterFlags SimulationFilter::Shader( PxFilterObjectAttributes attributes0, PxFilterData filterData0, PxFilterObjectAttributes attributes1, PxFilterData filterData1, PxPairFlags& pairFlags, void const* constantBlock, uint32_t constantBlockSize )
     {
         // Triggers
         //-------------------------------------------------------------------------
@@ -56,9 +56,9 @@ namespace KRG::Physics
             // If these are the same articulation, then check the self-collision rules
             if ( pArticulation0 == pArticulation1 )
             {
-                uint64 const bodyIdx0 = (uint64) pL0->userData;
-                uint64 const bodyIdx1 = (uint64) pL1->userData;
-                if ( !pRagdoll0->ShouldBodiesCollides( (int32) bodyIdx0, (int32) bodyIdx1 ) )
+                uint64_t const bodyIdx0 = (uint64_t) pL0->userData;
+                uint64_t const bodyIdx1 = (uint64_t) pL1->userData;
+                if ( !pRagdoll0->ShouldBodiesCollides( (int32_t) bodyIdx0, (int32_t) bodyIdx1 ) )
                 {
                     return PxFilterFlag::eKILL;
                 }

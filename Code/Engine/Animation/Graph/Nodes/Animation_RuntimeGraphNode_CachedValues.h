@@ -99,7 +99,7 @@ namespace KRG::Animation::GraphNodes
     private:
 
         IntValueNode*               m_pInputValueNode = nullptr;
-        int32                       m_value;
+        int32_t                       m_value;
         bool                        m_hasCachedValue = false;
     };
 

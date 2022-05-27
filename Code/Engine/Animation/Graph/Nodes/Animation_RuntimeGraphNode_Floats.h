@@ -168,7 +168,7 @@ namespace KRG::Animation::GraphNodes
     {
     public:
 
-        enum class Operator : uint8
+        enum class Operator : uint8_t
         {
             KRG_REGISTER_ENUM
 
@@ -211,7 +211,7 @@ namespace KRG::Animation::GraphNodes
     {
     public:
 
-        enum class Comparison : uint8
+        enum class Comparison : uint8_t
         {
             KRG_REGISTER_ENUM
 

@@ -18,12 +18,12 @@ namespace KRG::TypeSystem
         TypeID( String const& type ) : m_ID( type ) {}
         TypeID( char const* pType ) : m_ID( pType ) {}
         TypeID( StringID ID ) : m_ID( ID ) {}
-        TypeID( uint32 ID ) : m_ID( ID ) {}
+        TypeID( uint32_t ID ) : m_ID( ID ) {}
 
         KRG_FORCE_INLINE bool IsValid() const { return m_ID.IsValid(); }
 
-        KRG_FORCE_INLINE operator uint32() const { return m_ID.GetID(); }
-        KRG_FORCE_INLINE uint32 GetID() const { return m_ID.GetID(); }
+        KRG_FORCE_INLINE operator uint32_t() const { return m_ID.GetID(); }
+        KRG_FORCE_INLINE uint32_t GetID() const { return m_ID.GetID(); }
         KRG_FORCE_INLINE StringID ToStringID() const { return m_ID; }
         KRG_FORCE_INLINE char const* c_str() const { return m_ID.c_str(); }
 

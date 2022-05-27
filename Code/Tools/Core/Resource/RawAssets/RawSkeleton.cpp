@@ -12,9 +12,9 @@ namespace KRG::RawAssets
 
     //-------------------------------------------------------------------------
 
-    int32 RawSkeleton::GetBoneIndex( StringID const& boneName ) const
+    int32_t RawSkeleton::GetBoneIndex( StringID const& boneName ) const
     {
-        int32 const numBones = GetNumBones();
+        int32_t const numBones = GetNumBones();
 
         for ( auto i = 0; i < numBones; i++ )
         {
@@ -35,7 +35,7 @@ namespace KRG::RawAssets
         auto const numBones = m_bones.size();
         for ( auto i = numBones - 1; i > 0; i-- )
         {
-            int32 parentIdx = m_bones[i].m_parentBoneIdx;
+            int32_t parentIdx = m_bones[i].m_parentBoneIdx;
             auto const& parentInverseTransform = m_bones[parentIdx].m_globalTransform.GetInverse();
             m_bones[i].m_localTransform = m_bones[i].m_globalTransform * parentInverseTransform;
         }
@@ -49,7 +49,7 @@ namespace KRG::RawAssets
         auto const numBones = m_bones.size();
         for ( auto i = 1; i < numBones; i++ )
         {
-            int32 parentIdx = m_bones[i].m_parentBoneIdx;
+            int32_t parentIdx = m_bones[i].m_parentBoneIdx;
             KRG_ASSERT( parentIdx != InvalidIndex );
             m_bones[i].m_globalTransform = m_bones[i].m_localTransform * m_bones[parentIdx].m_globalTransform;
         }

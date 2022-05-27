@@ -69,8 +69,8 @@ namespace KRG::Animation
         // Parameters
         //-------------------------------------------------------------------------
 
-        inline int32 GetNumControlParameters() const { return (int32) m_controlParameters.size(); }
-        inline int32 GetNumVirtualParameters() const { return (int32) m_virtualParameters.size(); }
+        inline int32_t GetNumControlParameters() const { return (int32_t) m_controlParameters.size(); }
+        inline int32_t GetNumVirtualParameters() const { return (int32_t) m_virtualParameters.size(); }
 
         inline TInlineVector<GraphNodes::ControlParameterEditorNode*, 20> const& GetControlParameters() const { return m_controlParameters; }
         inline TInlineVector<GraphNodes::VirtualParameterEditorNode*, 20> const& GetVirtualParameters() const { return m_virtualParameters; }

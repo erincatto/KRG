@@ -11,13 +11,13 @@ namespace KRG::Animation
 
     //-------------------------------------------------------------------------
 
-    using TaskSourceID = int16;
-    using TaskIndex = int8;
+    using TaskSourceID = int16_t;
+    using TaskIndex = int8_t;
     using TaskDependencies = TInlineVector<TaskIndex, 2>;
 
     //-------------------------------------------------------------------------
 
-    enum class TaskUpdateStage : uint8
+    enum class TaskUpdateStage : uint8_t
     {
         Any = 0,
         PrePhysics,
@@ -50,12 +50,12 @@ namespace KRG::Animation
         Task( TaskSourceID sourceID, TaskUpdateStage updateStage = TaskUpdateStage::Any, TaskDependencies const& dependencies = TaskDependencies() );
         virtual ~Task() {}
         virtual void Execute( TaskContext const& context ) = 0;
-        virtual uint32 GetTypeID() const { return 0; }
+        virtual uint32_t GetTypeID() const { return 0; }
 
-        inline int8 GetResultBufferIndex() const { return m_bufferIdx; }
+        inline int8_t GetResultBufferIndex() const { return m_bufferIdx; }
         inline bool IsComplete() const { return m_isComplete; }
         inline TaskDependencies const& GetDependencyIndices() const { return m_dependencies; }
-        inline int32 GetNumDependencies() const { return (int32) m_dependencies.size(); }
+        inline int32_t GetNumDependencies() const { return (int32_t) m_dependencies.size(); }
 
         // Get the stage that this task is required to run in
         inline TaskUpdateStage GetRequiredUpdateStage() const { return m_updateStage; }
@@ -117,15 +117,15 @@ namespace KRG::Animation
         }
 
         // Get a temporary working buffer that we intend to immediately release
-        inline int8 GetTemporaryPoseBuffer( TaskContext const& context, PoseBuffer*& outBuffer )
+        inline int8_t GetTemporaryPoseBuffer( TaskContext const& context, PoseBuffer*& outBuffer )
         {
-            int8 const tempBufferIdx = context.m_posePool.RequestPoseBuffer();
+            int8_t const tempBufferIdx = context.m_posePool.RequestPoseBuffer();
             outBuffer = context.m_posePool.GetBuffer( tempBufferIdx );
             return tempBufferIdx;
         }
 
         // Release the temporary buffer we requested
-        inline void ReleaseTemporaryPoseBuffer( TaskContext const& context, int8 bufferIdx )
+        inline void ReleaseTemporaryPoseBuffer( TaskContext const& context, int8_t bufferIdx )
         {
             KRG_ASSERT( bufferIdx != InvalidIndex && bufferIdx != m_bufferIdx );
             context.m_posePool.ReleasePoseBuffer( bufferIdx );
@@ -152,7 +152,7 @@ namespace KRG::Animation
 
     private:
 
-        int8                            m_bufferIdx = InvalidIndex;
+        int8_t                            m_bufferIdx = InvalidIndex;
         TaskDependencies                m_dependencies;
         TaskUpdateStage                 m_actualUpdateStage = TaskUpdateStage::Any;
         bool                            m_isComplete = false;

@@ -22,12 +22,12 @@ namespace KRG
     template<typename T>
     struct Category
     {
-        Category( String const& name, int32 depth = -1 )
+        Category( String const& name, int32_t depth = -1 )
             : m_name( name )
             , m_depth( depth )
         {}
 
-        Category( String&& name, int32 depth = -1 )
+        Category( String&& name, int32_t depth = -1 )
             : m_name( name )
             , m_depth( depth )
         {}
@@ -62,7 +62,7 @@ namespace KRG
         String                      m_name;
         TVector<Category<T>>        m_childCategories;
         TVector<CategoryItem<T>>    m_items;
-        int32                       m_depth = -1;
+        int32_t                       m_depth = -1;
     };
 
     // Category Tree
@@ -163,7 +163,7 @@ namespace KRG
             return splitPath;
         }
 
-        Category<T>* FindOrCreateCategory( Category<T>& currentCategory, TVector<String> const& path, int32 currentPathIdx )
+        Category<T>* FindOrCreateCategory( Category<T>& currentCategory, TVector<String> const& path, int32_t currentPathIdx )
         {
             KRG_ASSERT( !path.empty() );
 

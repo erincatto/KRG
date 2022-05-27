@@ -32,7 +32,7 @@ namespace KRG::EntityModel
 
     private:
 
-        virtual uint32 GetID() const override { return 0xFFFFFFFF; }
+        virtual uint32_t GetID() const override { return 0xFFFFFFFF; }
         virtual bool IsDirty() const override{ return false; } // TODO
         virtual bool Save() override;
         virtual void DrawWorkspaceToolbarItems( UpdateContext const& context ) override;

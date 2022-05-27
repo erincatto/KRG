@@ -21,7 +21,7 @@ namespace KRG
 
     private:
 
-        virtual uint32 GetID() const override { return 0xFFFFFFFE; }
+        virtual uint32_t GetID() const override { return 0xFFFFFFFE; }
         virtual bool HasWorkspaceToolbar() const override;
         virtual bool HasViewportToolbar() const override { return false; }
         virtual bool HasViewportOrientationGuide() const override { return false; }

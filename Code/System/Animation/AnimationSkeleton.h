@@ -33,40 +33,40 @@ namespace KRG::Animation
     public:
 
         virtual bool IsValid() const final;
-        inline int32 GetNumBones() const { return (int32) m_boneIDs.size(); }
+        inline int32_t GetNumBones() const { return (int32_t) m_boneIDs.size(); }
 
         // Bone info
         //-------------------------------------------------------------------------
 
-        KRG_FORCE_INLINE bool IsValidBoneIndex( int32 idx ) const { return idx >= 0 && idx < m_boneIDs.size(); }
+        KRG_FORCE_INLINE bool IsValidBoneIndex( int32_t idx ) const { return idx >= 0 && idx < m_boneIDs.size(); }
 
         // Get the index for a given bone ID, can return InvalidIndex
-        inline int32 GetBoneIndex( StringID const& ID ) const { return VectorFindIndex( m_boneIDs, ID ); }
+        inline int32_t GetBoneIndex( StringID const& ID ) const { return VectorFindIndex( m_boneIDs, ID ); }
 
         // Get all parent indices
-        inline TVector<int32> const& GetParentBoneIndices() const { return m_parentIndices; }
+        inline TVector<int32_t> const& GetParentBoneIndices() const { return m_parentIndices; }
 
         // Get the direct parent for a given bone
-        inline int32 GetParentBoneIndex( int32 idx ) const
+        inline int32_t GetParentBoneIndex( int32_t idx ) const
         {
             KRG_ASSERT( idx >= 0 && idx < m_parentIndices.size() );
             return m_parentIndices[idx];
         }
 
         // Find the index of the first child encountered for the specified bone. Returns InvalidIndex if this is a leaf bone.
-        int32 GetFirstChildBoneIndex( int32 boneIdx ) const;
+        int32_t GetFirstChildBoneIndex( int32_t boneIdx ) const;
 
         // Returns whether the specified bone is a child of the specified parent bone
-        bool IsChildBoneOf( int32 parentBoneIdx, int32 childBoneIdx ) const;
+        bool IsChildBoneOf( int32_t parentBoneIdx, int32_t childBoneIdx ) const;
 
         // Returns whether the specified bone is a parent of the specified child bone
-        KRG_FORCE_INLINE bool IsParentBoneOf( int32 parentBoneIdx, int32 childBoneIdx ) const { return IsChildBoneOf( parentBoneIdx, childBoneIdx ); }
+        KRG_FORCE_INLINE bool IsParentBoneOf( int32_t parentBoneIdx, int32_t childBoneIdx ) const { return IsChildBoneOf( parentBoneIdx, childBoneIdx ); }
 
         // Returns whether the specified bone is a child of the specified parent bone
-        KRG_FORCE_INLINE bool AreBonesInTheSameHierarchy( int32 boneIdx0, int32 boneIdx1 ) const { return IsChildBoneOf( boneIdx0, boneIdx1) || IsChildBoneOf( boneIdx1, boneIdx0 ); }
+        KRG_FORCE_INLINE bool AreBonesInTheSameHierarchy( int32_t boneIdx0, int32_t boneIdx1 ) const { return IsChildBoneOf( boneIdx0, boneIdx1) || IsChildBoneOf( boneIdx1, boneIdx0 ); }
 
         // Get the boneID for a specified bone index
-        KRG_FORCE_INLINE StringID GetBoneID( int32 idx ) const
+        KRG_FORCE_INLINE StringID GetBoneID( int32_t idx ) const
         {
             KRG_ASSERT( IsValidBoneIndex( idx ) );
             return m_boneIDs[idx];
@@ -78,13 +78,13 @@ namespace KRG::Animation
         TVector<Transform> const& GetLocalReferencePose() const { return m_localReferencePose; }
         TVector<Transform> const& GetGlobalReferencePose() const { return m_globalReferencePose; }
 
-        inline Transform GetBoneTransform( int32 idx ) const
+        inline Transform GetBoneTransform( int32_t idx ) const
         {
             KRG_ASSERT( idx >= 0 && idx < m_localReferencePose.size() );
             return m_localReferencePose[idx];
         }
 
-        Transform GetBoneGlobalTransform( int32 idx ) const;
+        Transform GetBoneGlobalTransform( int32_t idx ) const;
 
         // Debug
         //-------------------------------------------------------------------------
@@ -96,7 +96,7 @@ namespace KRG::Animation
     private:
 
         TVector<StringID>                   m_boneIDs;
-        TVector<int32>                      m_parentIndices;
+        TVector<int32_t>                      m_parentIndices;
         TVector<Transform>                  m_localReferencePose;
         TVector<Transform>                  m_globalReferencePose;
         TVector<TBitFlags<BoneFlags>>       m_boneFlags;

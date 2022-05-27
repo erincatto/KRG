@@ -21,7 +21,7 @@ namespace KRG::Physics
         m_pScene = nullptr;
     }
 
-    Ragdoll* Scene::CreateRagdoll( RagdollDefinition const* pDefinition, StringID const profileID, uint64 userID )
+    Ragdoll* Scene::CreateRagdoll( RagdollDefinition const* pDefinition, StringID const profileID, uint64_t userID )
     {
         KRG_ASSERT( m_pScene != nullptr && pDefinition != nullptr );
         auto pRagdoll = KRG::New<Ragdoll>( &m_pScene->getPhysics(), pDefinition, profileID, userID );

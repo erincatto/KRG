@@ -65,37 +65,37 @@ namespace KRG::TypeSystem::TypeHelpers
             return LoadingStatus::Unloaded;
         }
 
-        virtual Byte* GetArrayElementDataPtr( IRegisteredType* pType, uint32 arrayID, size_t arrayIdx ) const override
+        virtual uint8_t* GetArrayElementDataPtr( IRegisteredType* pType, uint32_t arrayID, size_t arrayIdx ) const override
         {
             KRG_UNREACHABLE_CODE();
             return nullptr;
         }
 
-        virtual size_t GetArraySize( IRegisteredType const* pTypeInstance, uint32 arrayID ) const override
+        virtual size_t GetArraySize( IRegisteredType const* pTypeInstance, uint32_t arrayID ) const override
         {
             KRG_UNREACHABLE_CODE();
             return 0;
         }
 
-        virtual size_t GetArrayElementSize( uint32 arrayID ) const override
+        virtual size_t GetArrayElementSize( uint32_t arrayID ) const override
         {
             KRG_UNREACHABLE_CODE();
             return 0;
         }
 
-        virtual void ClearArray( IRegisteredType* pTypeInstance, uint32 arrayID ) const override { KRG_UNREACHABLE_CODE(); }
-        virtual void AddArrayElement( IRegisteredType* pTypeInstance, uint32 arrayID ) const override { KRG_UNREACHABLE_CODE(); }
-        virtual void RemoveArrayElement( IRegisteredType* pTypeInstance, uint32 arrayID, size_t arrayIdx ) const override { KRG_UNREACHABLE_CODE(); }
+        virtual void ClearArray( IRegisteredType* pTypeInstance, uint32_t arrayID ) const override { KRG_UNREACHABLE_CODE(); }
+        virtual void AddArrayElement( IRegisteredType* pTypeInstance, uint32_t arrayID ) const override { KRG_UNREACHABLE_CODE(); }
+        virtual void RemoveArrayElement( IRegisteredType* pTypeInstance, uint32_t arrayID, size_t arrayIdx ) const override { KRG_UNREACHABLE_CODE(); }
 
-        virtual ResourceTypeID GetExpectedResourceTypeForProperty( IRegisteredType* pType, uint32 propertyID ) const override
+        virtual ResourceTypeID GetExpectedResourceTypeForProperty( IRegisteredType* pType, uint32_t propertyID ) const override
         {
             KRG_UNREACHABLE_CODE();
             return ResourceTypeID();
         }
 
         virtual bool AreAllPropertyValuesEqual( IRegisteredType const* pTypeInstance, IRegisteredType const* pOtherTypeInstance ) const override { return false; }
-        virtual bool IsPropertyValueEqual( IRegisteredType const* pTypeInstance, IRegisteredType const* pOtherTypeInstance, uint32 propertyID, int32 arrayIdx = InvalidIndex ) const override { return false; }
-        virtual void ResetToDefault( IRegisteredType* pTypeInstance, uint32 propertyID ) override {}
+        virtual bool IsPropertyValueEqual( IRegisteredType const* pTypeInstance, IRegisteredType const* pOtherTypeInstance, uint32_t propertyID, int32_t arrayIdx = InvalidIndex ) const override { return false; }
+        virtual void ResetToDefault( IRegisteredType* pTypeInstance, uint32_t propertyID ) override {}
     };
 }
 

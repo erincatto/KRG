@@ -46,19 +46,19 @@ namespace KRG::Physics
 
 namespace KRG::Physics
 {
-    static int32 GetParentBodyIndex( Animation::Skeleton const* pSkeleton, RagdollDefinition const& definition, int32 bodyIdx )
+    static int32_t GetParentBodyIndex( Animation::Skeleton const* pSkeleton, RagdollDefinition const& definition, int32_t bodyIdx )
     {
         KRG_ASSERT( bodyIdx >= 0 && bodyIdx < definition.m_bodies.size() );
 
-        int32 const boneIdx = pSkeleton->GetBoneIndex( definition.m_bodies[bodyIdx].m_boneID );
+        int32_t const boneIdx = pSkeleton->GetBoneIndex( definition.m_bodies[bodyIdx].m_boneID );
 
         // Traverse the hierarchy to try to find the first parent bone that has a body
-        int32 parentBoneIdx = pSkeleton->GetParentBoneIndex( boneIdx );
+        int32_t parentBoneIdx = pSkeleton->GetParentBoneIndex( boneIdx );
         while ( parentBoneIdx != InvalidIndex )
         {
             // Do we have a body for this parent bone?
             StringID const parentBoneID = pSkeleton->GetBoneID( parentBoneIdx );
-            for ( int32 i = 0; i < definition.m_bodies.size(); i++ )
+            for ( int32_t i = 0; i < definition.m_bodies.size(); i++ )
             {
                 if ( definition.m_bodies[i].m_boneID == parentBoneID )
                 {
@@ -88,12 +88,12 @@ namespace KRG::Physics
 
         KRG_ASSERT( pRagdollDefinition->GetBodyIndexForBoneID( boneID ) == InvalidIndex );
 
-        int32 const newBodyBoneIdx = m_pSkeleton->GetBoneIndex( boneID );
-        int32 const numBodies = pRagdollDefinition->GetNumBodies();
-        int32 bodyInsertionIdx = 0;
+        int32_t const newBodyBoneIdx = m_pSkeleton->GetBoneIndex( boneID );
+        int32_t const numBodies = pRagdollDefinition->GetNumBodies();
+        int32_t bodyInsertionIdx = 0;
         for ( bodyInsertionIdx = 0; bodyInsertionIdx < numBodies; bodyInsertionIdx++ )
         {
-            int32 const existingBodyBoneIdx = m_pSkeleton->GetBoneIndex( pRagdollDefinition->m_bodies[bodyInsertionIdx].m_boneID );
+            int32_t const existingBodyBoneIdx = m_pSkeleton->GetBoneIndex( pRagdollDefinition->m_bodies[bodyInsertionIdx].m_boneID );
             if ( existingBodyBoneIdx > newBodyBoneIdx )
             {
                 break;
@@ -111,7 +111,7 @@ namespace KRG::Physics
         Transform boneTransform = m_pSkeleton->GetBoneGlobalTransform( newBodyBoneIdx );
         Transform bodyGlobalTransform = boneTransform;
 
-        int32 const firstChildIdx = m_pSkeleton->GetFirstChildBoneIndex( newBodyBoneIdx );
+        int32_t const firstChildIdx = m_pSkeleton->GetFirstChildBoneIndex( newBodyBoneIdx );
         if ( firstChildIdx != InvalidIndex )
         {
             auto childBoneTransform = m_pSkeleton->GetBoneGlobalTransform( firstChildIdx );
@@ -160,7 +160,7 @@ namespace KRG::Physics
             profile.m_materialSettings.insert( profile.m_materialSettings.begin() + bodyInsertionIdx, RagdollBodyMaterialSettings() ); // human body density
 
             // Joint Settings
-            int32 const jointInsertionIdx = bodyInsertionIdx - 1;
+            int32_t const jointInsertionIdx = bodyInsertionIdx - 1;
             if ( jointInsertionIdx >= 0 )
             {
                 profile.m_jointSettings.insert( profile.m_jointSettings.begin() + jointInsertionIdx, RagdollJointSettings() );
@@ -168,7 +168,7 @@ namespace KRG::Physics
         }
     }
 
-    void RagdollWorkspace::DestroyBody( int32 bodyIdx )
+    void RagdollWorkspace::DestroyBody( int32_t bodyIdx )
     {
         ScopedRagdollSettingsModification const sdm( this );
 
@@ -189,7 +189,7 @@ namespace KRG::Physics
             profile.m_bodySettings.erase( profile.m_bodySettings.begin() + bodyIdx );
             profile.m_materialSettings.erase( profile.m_materialSettings.begin() + bodyIdx );
 
-            int32 const jointIdx = bodyIdx - 1;
+            int32_t const jointIdx = bodyIdx - 1;
             if ( jointIdx >= 0 )
             {
                 profile.m_jointSettings.erase( profile.m_jointSettings.begin() + jointIdx );
@@ -197,7 +197,7 @@ namespace KRG::Physics
         }
     }
 
-    void RagdollWorkspace::DestroyChildBodies( int32 destructionRootBodyIdx )
+    void RagdollWorkspace::DestroyChildBodies( int32_t destructionRootBodyIdx )
     {
         ScopedRagdollSettingsModification const sdm( this );
 
@@ -205,11 +205,11 @@ namespace KRG::Physics
         KRG_ASSERT( pRagdollDefinition->IsValid() && m_pSkeleton.IsLoaded() );
         KRG_ASSERT( destructionRootBodyIdx >= 0 && destructionRootBodyIdx < pRagdollDefinition->GetNumBodies() );
 
-        int32 const destructionRootBoneIdx = m_pSkeleton->GetBoneIndex( pRagdollDefinition->m_bodies[destructionRootBodyIdx].m_boneID );
+        int32_t const destructionRootBoneIdx = m_pSkeleton->GetBoneIndex( pRagdollDefinition->m_bodies[destructionRootBodyIdx].m_boneID );
 
-        for ( int32 bodyIdx = 0; bodyIdx < (int32) pRagdollDefinition->m_bodies.size(); bodyIdx++ )
+        for ( int32_t bodyIdx = 0; bodyIdx < (int32_t) pRagdollDefinition->m_bodies.size(); bodyIdx++ )
         {
-            int32 const bodyBoneIdx = m_pSkeleton->GetBoneIndex( pRagdollDefinition->m_bodies[bodyIdx].m_boneID );
+            int32_t const bodyBoneIdx = m_pSkeleton->GetBoneIndex( pRagdollDefinition->m_bodies[bodyIdx].m_boneID );
             if ( m_pSkeleton->IsChildBoneOf( destructionRootBoneIdx, bodyBoneIdx ) )
             {
                 DestroyBody( bodyIdx );
@@ -237,8 +237,8 @@ namespace KRG::Physics
         //-------------------------------------------------------------------------
         // Skipping the root bone
 
-        int32 const numBones = m_pSkeleton->GetNumBones();
-        int32 const numBodiesToCreate = Math::Min( numBones, (int32) RagdollDefinition::s_maxNumBodies );
+        int32_t const numBones = m_pSkeleton->GetNumBones();
+        int32_t const numBodiesToCreate = Math::Min( numBones, (int32_t) RagdollDefinition::s_maxNumBodies );
         for ( auto i = 1; i < numBodiesToCreate; i++ )
         {
             CreateBody( m_pSkeleton->GetBoneID( i ) );
@@ -253,8 +253,8 @@ namespace KRG::Physics
         RagdollDefinition::Profile* pActiveProfile = pRagdollDefinition->GetProfile( m_activeProfileID );
         KRG_ASSERT( pActiveProfile != nullptr );
 
-        int32 const numBodies = pRagdollDefinition->GetNumBodies();
-        for ( int32 i = 0; i < numBodies; i++ )
+        int32_t const numBodies = pRagdollDefinition->GetNumBodies();
+        for ( int32_t i = 0; i < numBodies; i++ )
         {
             float const capsuleVolume = Math::CalculateCapsuleVolume( pRagdollDefinition->m_bodies[i].m_radius, pRagdollDefinition->m_bodies[i].m_halfHeight * 2 );
             pActiveProfile->m_bodySettings[i].m_mass = capsuleVolume * 985; // human body density
@@ -275,11 +275,11 @@ namespace KRG::Physics
         ScopedRagdollSettingsModification const sdm( this );
 
         auto pRagdollDefinition = GetRagdollDefinition();
-        int32 const numBodies = pRagdollDefinition->GetNumBodies();
+        int32_t const numBodies = pRagdollDefinition->GetNumBodies();
 
         auto& profile = pRagdollDefinition->m_profiles.emplace_back();
         
-        InlineString ID( InlineString::CtorSprintf(), "%u", (uint64) &profile );
+        InlineString ID( InlineString::CtorSprintf(), "%u", (uint64_t) &profile );
         profile.m_ID = StringID( ID.c_str() );
 
         profile.m_bodySettings.resize( numBodies );
@@ -323,11 +323,11 @@ namespace KRG::Physics
         Vector const zeroRotationVector = jointTransform.GetAxisY();
 
         constexpr float const limitScale = 0.1f;
-        constexpr uint32 const numVertices = 30;
+        constexpr uint32_t const numVertices = 30;
         TInlineVector<Vector, numVertices> vertices;
         
         Radians const deltaAngle = ( limitMax - limitMin ) / numVertices;
-        for ( int32 i = 0; i < numVertices; i++ )
+        for ( int32_t i = 0; i < numVertices; i++ )
         {
             auto rotatedVector = Quaternion( axisOfRotation, limitMin + ( deltaAngle * i ) ).RotateVector( zeroRotationVector );
             vertices.push_back( jointTransform.GetTranslation() + ( rotatedVector * limitScale ) );
@@ -347,12 +347,12 @@ namespace KRG::Physics
         Vector const zeroRotationVector = jointTransform.GetAxisX();
 
         constexpr float const limitScale = 0.2f;
-        constexpr uint32 const numVertices = 30;
+        constexpr uint32_t const numVertices = 30;
         TInlineVector<Vector, numVertices> vertices;
 
         Radians const startAngleY = -( limitY / 2 );
         Radians const deltaAngleY = limitY / numVertices;
-        for ( int32 i = 0; i < numVertices; i++ )
+        for ( int32_t i = 0; i < numVertices; i++ )
         {
             auto rotatedVector = Quaternion( axisOfRotationY, startAngleY + ( deltaAngleY * i ) ).RotateVector( zeroRotationVector );
             vertices.push_back( jointTransform.GetTranslation() + ( rotatedVector * limitScale ) );
@@ -363,7 +363,7 @@ namespace KRG::Physics
 
         Radians const startAngleZ = -( limitZ / 2 );
         Radians const deltaAngleZ = limitZ / numVertices;
-        for ( int32 i = 0; i < numVertices; i++ )
+        for ( int32_t i = 0; i < numVertices; i++ )
         {
             auto rotatedVector = Quaternion( axisOfRotationZ, startAngleZ + ( deltaAngleZ * i ) ).RotateVector( zeroRotationVector );
             vertices.push_back( jointTransform.GetTranslation() + ( rotatedVector * limitScale ) );
@@ -729,11 +729,11 @@ namespace KRG::Physics
 
             if ( m_editorMode == Mode::BodyEditor )
             {
-                int32 const numBodies = pRagdollDefinition->GetNumBodies();
+                int32_t const numBodies = pRagdollDefinition->GetNumBodies();
                 for ( auto i = 0; i < numBodies; i++ )
                 {
                     auto const& body = pRagdollDefinition->m_bodies[i];
-                    int32 const boneIdx = m_pSkeleton->GetBoneIndex( body.m_boneID );
+                    int32_t const boneIdx = m_pSkeleton->GetBoneIndex( body.m_boneID );
                     KRG_ASSERT( boneIdx != InvalidIndex );
 
                     if ( m_isolateSelectedBody && body.m_boneID != m_selectedBoneID )
@@ -755,8 +755,8 @@ namespace KRG::Physics
                     // Draw joint
                     if ( i > 0 )
                     {
-                        int32 const parentBodyIdx = GetParentBodyIndex( m_pSkeleton.GetPtr(), *pRagdollDefinition, i );
-                        int32 const parentBoneIdx = m_pSkeleton->GetBoneIndex( pRagdollDefinition->m_bodies[parentBodyIdx].m_boneID );
+                        int32_t const parentBodyIdx = GetParentBodyIndex( m_pSkeleton.GetPtr(), *pRagdollDefinition, i );
+                        int32_t const parentBoneIdx = m_pSkeleton->GetBoneIndex( pRagdollDefinition->m_bodies[parentBodyIdx].m_boneID );
                         KRG_ASSERT( parentBoneIdx != InvalidIndex );
                         Transform const parentBodyTransform = pRagdollDefinition->m_bodies[parentBodyIdx].m_offsetTransform * m_pSkeleton->GetBoneGlobalTransform( parentBoneIdx );
 
@@ -768,14 +768,14 @@ namespace KRG::Physics
             }
             else
             {
-                int32 const numBodies = pRagdollDefinition->GetNumBodies();
+                int32_t const numBodies = pRagdollDefinition->GetNumBodies();
                 auto pActiveProfile = pRagdollDefinition->GetProfile( m_activeProfileID );
 
                 for ( auto bodyIdx = 1; bodyIdx < numBodies; bodyIdx++ )
                 {
-                    int32 const jointIdx = bodyIdx - 1;
+                    int32_t const jointIdx = bodyIdx - 1;
                     auto const& body = pRagdollDefinition->m_bodies[bodyIdx];
-                    int32 const boneIdx = m_pSkeleton->GetBoneIndex( body.m_boneID );
+                    int32_t const boneIdx = m_pSkeleton->GetBoneIndex( body.m_boneID );
                     KRG_ASSERT( boneIdx != InvalidIndex );
 
                     if ( m_isolateSelectedBody && body.m_boneID != m_selectedBoneID )
@@ -783,8 +783,8 @@ namespace KRG::Physics
                         continue;
                     }
 
-                    int32 const parentBodyIdx = GetParentBodyIndex( m_pSkeleton.GetPtr(), *pRagdollDefinition, bodyIdx );
-                    int32 const parentBoneIdx = m_pSkeleton->GetBoneIndex( pRagdollDefinition->m_bodies[parentBodyIdx].m_boneID );
+                    int32_t const parentBodyIdx = GetParentBodyIndex( m_pSkeleton.GetPtr(), *pRagdollDefinition, bodyIdx );
+                    int32_t const parentBoneIdx = m_pSkeleton->GetBoneIndex( pRagdollDefinition->m_bodies[parentBodyIdx].m_boneID );
                     KRG_ASSERT( parentBoneIdx != InvalidIndex );
 
                     Transform const bodyTransform = body.m_offsetTransform * m_pSkeleton->GetBoneGlobalTransform( boneIdx );
@@ -813,8 +813,8 @@ namespace KRG::Physics
 
             if ( m_selectedBoneID.IsValid() )
             {
-                int32 const boneIdx = m_pSkeleton->GetBoneIndex( m_selectedBoneID );
-                int32 const bodyIdx = pRagdollDefinition->GetBodyIndexForBoneID( m_selectedBoneID );
+                int32_t const boneIdx = m_pSkeleton->GetBoneIndex( m_selectedBoneID );
+                int32_t const bodyIdx = pRagdollDefinition->GetBodyIndexForBoneID( m_selectedBoneID );
                 if ( bodyIdx != InvalidIndex )
                 {
                     auto& body = pRagdollDefinition->m_bodies[bodyIdx];
@@ -990,7 +990,7 @@ namespace KRG::Physics
         auto pRagdollDefinition = GetRagdollDefinition();
         if ( m_selectedBoneID.IsValid() )
         {
-            int32 const bodyIdx = pRagdollDefinition->GetBodyIndexForBoneID( m_selectedBoneID );
+            int32_t const bodyIdx = pRagdollDefinition->GetBodyIndexForBoneID( m_selectedBoneID );
             if ( bodyIdx != InvalidIndex )
             {
                 m_bodyEditorPropertyGrid.SetTypeToEdit( &pRagdollDefinition->m_bodies[bodyIdx] );
@@ -1019,7 +1019,7 @@ namespace KRG::Physics
         TVector<BoneInfo*> boneInfos;
 
         // Create all infos
-        int32 const numBones = m_pSkeleton->GetNumBones();
+        int32_t const numBones = m_pSkeleton->GetNumBones();
         for ( auto i = 0; i < numBones; i++ )
         {
             auto& pBoneInfo = boneInfos.emplace_back( KRG::New<BoneInfo>() );
@@ -1029,7 +1029,7 @@ namespace KRG::Physics
         // Create hierarchy
         for ( auto i = 1; i < numBones; i++ )
         {
-            int32 const parentBoneIdx = m_pSkeleton->GetParentBoneIndex( i );
+            int32_t const parentBoneIdx = m_pSkeleton->GetParentBoneIndex( i );
             KRG_ASSERT( parentBoneIdx != InvalidIndex );
             boneInfos[parentBoneIdx]->m_children.emplace_back( boneInfos[i] );
         }
@@ -1055,13 +1055,13 @@ namespace KRG::Physics
         //-------------------------------------------------------------------------
 
         StringID const currentBoneID = m_pSkeleton->GetBoneID( pBone->m_boneIdx );
-        int32 const bodyIdx = pRagdollDefinition->GetBodyIndexForBoneID( currentBoneID );
+        int32_t const bodyIdx = pRagdollDefinition->GetBodyIndexForBoneID( currentBoneID );
         bool const hasBody = bodyIdx != InvalidIndex;
 
         //-------------------------------------------------------------------------
 
         ImGui::SetNextItemOpen( pBone->m_isExpanded );
-        int32 treeNodeFlags = ImGuiTreeNodeFlags_OpenOnDoubleClick;
+        int32_t treeNodeFlags = ImGuiTreeNodeFlags_OpenOnDoubleClick;
 
         if ( pBone->m_children.empty() )
         {
@@ -1456,7 +1456,7 @@ namespace KRG::Physics
             ImGui::TableNextColumn();
             ImGui::SetNextItemWidth( -1 );
 
-            int32 dt = (int32) cachedSettings.m_driveType;
+            int32_t dt = (int32_t) cachedSettings.m_driveType;
             if ( ImGui::Combo( "##DriveMode", &dt, rootBodyDriveComboOptions, 3 ) )
             {
                 ScopedRagdollSettingsModification const sdm( this );
@@ -1582,14 +1582,14 @@ namespace KRG::Physics
 
             //-------------------------------------------------------------------------
 
-            int32 const numBodies = pRagdollDefinition->GetNumBodies();
-            int32 const numJoints = numBodies - 1;
+            int32_t const numBodies = pRagdollDefinition->GetNumBodies();
+            int32_t const numJoints = numBodies - 1;
             for ( auto bodyIdx = 1; bodyIdx < numBodies; bodyIdx++ )
             {
                 auto& cachedBodySettings = m_workingProfileCopy.m_bodySettings[bodyIdx];
                 auto& realBodySettings = pProfile->m_bodySettings[bodyIdx];
 
-                int32 const jointIdx = bodyIdx - 1;
+                int32_t const jointIdx = bodyIdx - 1;
                 auto& cachedJointSettings = m_workingProfileCopy.m_jointSettings[jointIdx];
                 auto& realJointSettings = pProfile->m_jointSettings[jointIdx];
 
@@ -1661,7 +1661,7 @@ namespace KRG::Physics
                     {
                         ScopedRagdollSettingsModification const sdm( this );
                         float const value = cachedJointSettings.m_internalCompliance;
-                        for ( int32 i = 0; i < numJoints; i++ )
+                        for ( int32_t i = 0; i < numJoints; i++ )
                         {
                             m_workingProfileCopy.m_jointSettings[i].m_internalCompliance = value;
                             pProfile->m_jointSettings[i].m_internalCompliance = value;
@@ -1688,7 +1688,7 @@ namespace KRG::Physics
                     {
                         ScopedRagdollSettingsModification const sdm( this );
                         float const value = cachedJointSettings.m_externalCompliance;
-                        for ( int32 i = 0; i < numJoints; i++ )
+                        for ( int32_t i = 0; i < numJoints; i++ )
                         {
                             m_workingProfileCopy.m_jointSettings[i].m_externalCompliance = value;
                             pProfile->m_jointSettings[i].m_externalCompliance = value;
@@ -1702,7 +1702,7 @@ namespace KRG::Physics
                 ImGui::TableNextColumn();
                 ImGui::SetNextItemWidth( -1 );
 
-                int32 dt = (int32) cachedJointSettings.m_driveType;
+                int32_t dt = (int32_t) cachedJointSettings.m_driveType;
                 if( ImGui::Combo( "##DriveMode", &dt, driveComboOptions, 3 ) )
                 {
                     ScopedRagdollSettingsModification const sdm( this );
@@ -1718,7 +1718,7 @@ namespace KRG::Physics
                     {
                         ScopedRagdollSettingsModification const sdm( this );
                         RagdollJointSettings::DriveType value = cachedJointSettings.m_driveType;
-                        for ( int32 i = 0; i < numJoints; i++ )
+                        for ( int32_t i = 0; i < numJoints; i++ )
                         {
                             m_workingProfileCopy.m_jointSettings[i].m_driveType = value;
                             pProfile->m_jointSettings[i].m_driveType = value;
@@ -1748,7 +1748,7 @@ namespace KRG::Physics
                     {
                         ScopedRagdollSettingsModification const sdm( this );
                         float const value = cachedJointSettings.m_stiffness;
-                        for ( int32 i = 0; i < numJoints; i++ )
+                        for ( int32_t i = 0; i < numJoints; i++ )
                         {
                             m_workingProfileCopy.m_jointSettings[i].m_stiffness = value;
                             pProfile->m_jointSettings[i].m_stiffness = value;
@@ -1778,7 +1778,7 @@ namespace KRG::Physics
                     {
                         ScopedRagdollSettingsModification const sdm( this );
                         float const value = cachedJointSettings.m_damping;
-                        for ( int32 i = 0; i < numJoints; i++ )
+                        for ( int32_t i = 0; i < numJoints; i++ )
                         {
                             m_workingProfileCopy.m_jointSettings[i].m_damping = value;
                             pProfile->m_jointSettings[i].m_damping = value;
@@ -1804,7 +1804,7 @@ namespace KRG::Physics
                     {
                         ScopedRagdollSettingsModification const sdm( this );
                         bool const value = cachedJointSettings.m_twistLimitEnabled;
-                        for ( int32 i = 0; i < numJoints; i++ )
+                        for ( int32_t i = 0; i < numJoints; i++ )
                         {
                             m_workingProfileCopy.m_jointSettings[i].m_twistLimitEnabled = value;
                             pProfile->m_jointSettings[i].m_twistLimitEnabled = value;
@@ -1834,7 +1834,7 @@ namespace KRG::Physics
                         float const value = cachedJointSettings.m_twistLimitMin;
                         float const maxTwistContactDistance = ( cachedJointSettings.m_twistLimitMax - value ) / 2;
 
-                        for ( int32 i = 0; i < numJoints; i++ )
+                        for ( int32_t i = 0; i < numJoints; i++ )
                         {
                             if ( value < m_workingProfileCopy.m_jointSettings[i].m_twistLimitMax )
                             {
@@ -1873,7 +1873,7 @@ namespace KRG::Physics
                         float const value = cachedJointSettings.m_twistLimitMax;
                         float const maxTwistContactDistance = ( value - cachedJointSettings.m_twistLimitMin ) / 2;
 
-                        for ( int32 i = 0; i < numJoints; i++ )
+                        for ( int32_t i = 0; i < numJoints; i++ )
                         {
                             if ( value > m_workingProfileCopy.m_jointSettings[i].m_twistLimitMin )
                             {
@@ -1918,7 +1918,7 @@ namespace KRG::Physics
                     {
                         ScopedRagdollSettingsModification const sdm( this );
                         float const value = cachedJointSettings.m_twistLimitContactDistance;
-                        for ( int32 i = 0; i < numJoints; i++ )
+                        for ( int32_t i = 0; i < numJoints; i++ )
                         {
                             m_workingProfileCopy.m_jointSettings[i].m_twistLimitContactDistance = value;
                             pProfile->m_jointSettings[i].m_twistLimitContactDistance = value;
@@ -1945,7 +1945,7 @@ namespace KRG::Physics
                         ScopedRagdollSettingsModification const sdm( this );
 
                         bool const value = cachedJointSettings.m_swingLimitEnabled;
-                        for ( int32 i = 0; i < numJoints; i++ )
+                        for ( int32_t i = 0; i < numJoints; i++ )
                         {
                             m_workingProfileCopy.m_jointSettings[i].m_swingLimitEnabled = value;
                             pProfile->m_jointSettings[i].m_swingLimitEnabled = value;
@@ -1975,7 +1975,7 @@ namespace KRG::Physics
                         float const value = cachedJointSettings.m_swingLimitY;
                         float const maxSwingContactDistance = Math::Min( cachedJointSettings.m_swingLimitY, cachedJointSettings.m_swingLimitZ );
 
-                        for ( int32 i = 0; i < numJoints; i++ )
+                        for ( int32_t i = 0; i < numJoints; i++ )
                         {
                             m_workingProfileCopy.m_jointSettings[i].m_swingLimitY = value;
                             if ( m_workingProfileCopy.m_jointSettings[i].m_swingLimitContactDistance >= maxSwingContactDistance )
@@ -2010,7 +2010,7 @@ namespace KRG::Physics
                         float const value = cachedJointSettings.m_swingLimitZ;
                         float const maxSwingContactDistance = Math::Min( cachedJointSettings.m_swingLimitY, cachedJointSettings.m_swingLimitZ );
 
-                        for ( int32 i = 0; i < numJoints; i++ )
+                        for ( int32_t i = 0; i < numJoints; i++ )
                         {
                             m_workingProfileCopy.m_jointSettings[i].m_swingLimitZ = value;
                             if ( m_workingProfileCopy.m_jointSettings[i].m_swingLimitContactDistance >= maxSwingContactDistance )
@@ -2052,7 +2052,7 @@ namespace KRG::Physics
                     {
                         ScopedRagdollSettingsModification const sdm( this );
                         float const value = cachedJointSettings.m_swingLimitContactDistance;
-                        for ( int32 i = 0; i < numJoints; i++ )
+                        for ( int32_t i = 0; i < numJoints; i++ )
                         {
                             m_workingProfileCopy.m_jointSettings[i].m_swingLimitContactDistance = value;
                             pProfile->m_jointSettings[i].m_swingLimitContactDistance = value;
@@ -2082,7 +2082,7 @@ namespace KRG::Physics
                     {
                         ScopedRagdollSettingsModification const sdm( this );
                         float const value = cachedJointSettings.m_tangentialStiffness;
-                        for ( int32 i = 0; i < numJoints; i++ )
+                        for ( int32_t i = 0; i < numJoints; i++ )
                         {
                             m_workingProfileCopy.m_jointSettings[i].m_tangentialStiffness = value;
                             pProfile->m_jointSettings[i].m_tangentialStiffness = value;
@@ -2112,7 +2112,7 @@ namespace KRG::Physics
                     {
                         ScopedRagdollSettingsModification const sdm( this );
                         float const value = cachedJointSettings.m_tangentialDamping;
-                        for ( int32 i = 0; i < numJoints; i++ )
+                        for ( int32_t i = 0; i < numJoints; i++ )
                         {
                             m_workingProfileCopy.m_jointSettings[i].m_tangentialDamping = value;
                             pProfile->m_jointSettings[i].m_tangentialDamping = value;
@@ -2153,7 +2153,7 @@ namespace KRG::Physics
 
             //-------------------------------------------------------------------------
 
-            int32 const numBodies = pRagdollDefinition->GetNumBodies();
+            int32_t const numBodies = pRagdollDefinition->GetNumBodies();
             for ( auto bodyIdx = 0; bodyIdx < numBodies; bodyIdx++ )
             {
                 auto& bodySettings = m_workingProfileCopy.m_materialSettings[bodyIdx];
@@ -2187,7 +2187,7 @@ namespace KRG::Physics
                     {
                         ScopedRagdollSettingsModification const sdm( this );
                         float const value = bodySettings.m_staticFriction;
-                        for ( int32 i = 0; i < numBodies; i++ )
+                        for ( int32_t i = 0; i < numBodies; i++ )
                         {
                             m_workingProfileCopy.m_materialSettings[i].m_staticFriction = value;
                             pProfile->m_materialSettings[i].m_staticFriction = value;
@@ -2217,7 +2217,7 @@ namespace KRG::Physics
                     {
                         ScopedRagdollSettingsModification const sdm( this );
                         float const value = bodySettings.m_dynamicFriction;
-                        for ( int32 i = 0; i < numBodies; i++ )
+                        for ( int32_t i = 0; i < numBodies; i++ )
                         {
                             m_workingProfileCopy.m_materialSettings[i].m_dynamicFriction = value;
                             pProfile->m_materialSettings[i].m_dynamicFriction = value;
@@ -2244,7 +2244,7 @@ namespace KRG::Physics
                     {
                         ScopedRagdollSettingsModification const sdm( this );
                         float const value = bodySettings.m_restitution;
-                        for ( int32 i = 0; i < numBodies; i++ )
+                        for ( int32_t i = 0; i < numBodies; i++ )
                         {
                             m_workingProfileCopy.m_materialSettings[i].m_restitution = value;
                             pProfile->m_materialSettings[i].m_restitution = value;
@@ -2257,7 +2257,7 @@ namespace KRG::Physics
 
                 ImGui::TableNextColumn();
                 ImGui::SetNextItemWidth( -1 );
-                int32 fc = (int32) bodySettings.m_frictionCombineMode;
+                int32_t fc = (int32_t) bodySettings.m_frictionCombineMode;
                 if( ImGui::Combo( "##FrictionCombine", &fc, comboOptions, 4 ) )
                 {
                     ScopedRagdollSettingsModification const sdm( this );
@@ -2270,7 +2270,7 @@ namespace KRG::Physics
 
                 ImGui::TableNextColumn();
                 ImGui::SetNextItemWidth( -1 );
-                int32 rc = (int32) bodySettings.m_restitutionCombineMode;
+                int32_t rc = (int32_t) bodySettings.m_restitutionCombineMode;
                 if( ImGui::Combo( "##RestitutionCombine", &rc, comboOptions, 4 ) )
                 {
                     ScopedRagdollSettingsModification const sdm( this );

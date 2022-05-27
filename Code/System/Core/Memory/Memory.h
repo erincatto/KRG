@@ -1,7 +1,8 @@
 #pragma once
 
 #include "System/Core/_Module/API.h"
-#include "System/Core/Types/IntegralTypes.h"
+#include "System/Core/KRG.h"
+#include <cstring>
 #include <malloc.h>
 
 //-------------------------------------------------------------------------
@@ -120,7 +121,7 @@ namespace KRG
         size_t const requiredExtraMemory = std::max( requiredAlignment, size_t( 4 ) );
         size_t const requiredMemory = sizeof( T ) * numElements + requiredExtraMemory;
 
-        Byte* pOriginalAddress = pOriginalAddress = (Byte*) Alloc( requiredMemory, requiredAlignment );
+        uint8_t* pOriginalAddress = pOriginalAddress = (uint8_t*) Alloc( requiredMemory, requiredAlignment );
         KRG_ASSERT( pOriginalAddress != nullptr );
 
         // Call required type constructors
@@ -131,8 +132,8 @@ namespace KRG
         }
 
         // Record the number of array elements
-        uint32* pNumElements = reinterpret_cast<uint32*>( pArrayAddress ) - 1;
-        *pNumElements = uint32( numElements );
+        uint32_t* pNumElements = reinterpret_cast<uint32_t*>( pArrayAddress ) - 1;
+        *pNumElements = uint32_t( numElements );
 
         return pArrayAddress;
     }
@@ -144,7 +145,7 @@ namespace KRG
         size_t const requiredExtraMemory = std::max( requiredAlignment, size_t( 4 ) );
         size_t const requiredMemory = sizeof( T ) * numElements + requiredExtraMemory;
 
-        Byte* pOriginalAddress = pOriginalAddress = (Byte*) Alloc( requiredMemory, requiredAlignment );
+        uint8_t* pOriginalAddress = pOriginalAddress = (uint8_t*) Alloc( requiredMemory, requiredAlignment );
         KRG_ASSERT( pOriginalAddress != nullptr );
 
         // Call required type constructors
@@ -155,8 +156,8 @@ namespace KRG
         }
 
         // Record the number of array elements
-        uint32* pNumElements = reinterpret_cast<uint32*>( pArrayAddress ) - 1;
-        *pNumElements = uint32( numElements );
+        uint32_t* pNumElements = reinterpret_cast<uint32_t*>( pArrayAddress ) - 1;
+        *pNumElements = uint32_t( numElements );
 
         return pArrayAddress;
     }
@@ -168,13 +169,13 @@ namespace KRG
         size_t const requiredExtraMemory = std::max( requiredAlignment, size_t( 4 ) );
 
         // Get number of elements in array and call destructor on each entity
-        uint32 const numElements = *( reinterpret_cast<uint32*>( pArray ) - 1 );
-        for ( uint32 i = 0; i < numElements; i++ )
+        uint32_t const numElements = *( reinterpret_cast<uint32_t*>( pArray ) - 1 );
+        for ( uint32_t i = 0; i < numElements; i++ )
         {
             pArray[i].~T();
         }
 
-        Byte* pOriginalAddress = reinterpret_cast<Byte*>( pArray ) - requiredExtraMemory;
+        uint8_t* pOriginalAddress = reinterpret_cast<uint8_t*>( pArray ) - requiredExtraMemory;
         Free( (void*&) pOriginalAddress );
         pArray = nullptr;
     }

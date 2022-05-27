@@ -77,7 +77,7 @@ namespace KRG
     }
 
     template<typename T>
-    inline int32 VectorFindIndex( TVector<T> const& vector, T const& value )
+    inline int32_t VectorFindIndex( TVector<T> const& vector, T const& value )
     {
         auto iter = eastl::find( vector.begin(), vector.end(), value );
         if ( iter == vector.end() )
@@ -86,13 +86,13 @@ namespace KRG
         }
         else
         {
-            return (int32) ( iter - vector.begin() );
+            return (int32_t) ( iter - vector.begin() );
         }
     }
 
     // Usage: VectorFindIndex( vector, value, [] ( T const& typeRef, V const& valueRef ) { ... } );
     template<typename T, typename V, typename Predicate>
-    inline int32 VectorFindIndex( TVector<T> const& vector, V const& value, Predicate predicate )
+    inline int32_t VectorFindIndex( TVector<T> const& vector, V const& value, Predicate predicate )
     {
         auto iter = eastl::find( vector.begin(), vector.end(), value, predicate );
         if ( iter == vector.end() )
@@ -101,13 +101,13 @@ namespace KRG
         }
         else
         {
-            return (int32) ( iter - vector.begin() );
+            return (int32_t) ( iter - vector.begin() );
         }
     }
 
     // Usage: VectorContains( vector, [] ( T const& typeRef ) { ... } );
     template<typename T, typename V, typename Predicate>
-    inline int32 VectorFindIndex( TVector<T> const& vector, Predicate predicate )
+    inline int32_t VectorFindIndex( TVector<T> const& vector, Predicate predicate )
     {
         auto iter = eastl::find_if( vector.begin(), vector.end(), value, predicate );
         if ( iter == vector.end() )
@@ -116,7 +116,7 @@ namespace KRG
         }
         else
         {
-            return (int32) ( iter - vector.begin() );
+            return (int32_t) ( iter - vector.begin() );
         }
     }
 
@@ -165,7 +165,7 @@ namespace KRG
     }
 
     template<typename T, eastl_size_t S>
-    inline int32 VectorFindIndex( TInlineVector<T, S> const& vector, T const& value )
+    inline int32_t VectorFindIndex( TInlineVector<T, S> const& vector, T const& value )
     {
         auto iter = eastl::find( vector.begin(), vector.end(), value );
         if ( iter == vector.end() )
@@ -174,12 +174,12 @@ namespace KRG
         }
         else
         {
-            return ( int32) ( iter - vector.begin() );
+            return ( int32_t) ( iter - vector.begin() );
         }
     }
 
     template<typename T, eastl_size_t S, typename V, typename Predicate>
-    inline int32 VectorFindIndex( TInlineVector<T, S> const& vector, V const& value, Predicate predicate )
+    inline int32_t VectorFindIndex( TInlineVector<T, S> const& vector, V const& value, Predicate predicate )
     {
         auto iter = eastl::find( vector.begin(), vector.end(), value, predicate );
         if ( iter == vector.end() )
@@ -188,7 +188,7 @@ namespace KRG
         }
         else
         {
-            return ( int32) ( iter - vector.begin() );
+            return ( int32_t) ( iter - vector.begin() );
         }
     }
 

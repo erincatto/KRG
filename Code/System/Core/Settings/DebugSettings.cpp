@@ -123,12 +123,12 @@ namespace KRG
 
     //-------------------------------------------------------------------------
 
-    DebugSettingInt::DebugSettingInt( char const* pName, char const* pCategory, char const* pDescription, int32 initialValue )
+    DebugSettingInt::DebugSettingInt( char const* pName, char const* pCategory, char const* pDescription, int32_t initialValue )
         : DebugSetting( pName, pCategory, pDescription, Type::Int )
         , m_value( initialValue )
     {}
 
-    DebugSettingInt::DebugSettingInt( char const* pName, char const* pCategory, char const* pDescription, int32 initialValue, int32 min, int32 max )
+    DebugSettingInt::DebugSettingInt( char const* pName, char const* pCategory, char const* pDescription, int32_t initialValue, int32_t min, int32_t max )
         : DebugSetting( pName, pCategory, pDescription, Type::Int )
         , m_value( initialValue )
         , m_min( min )

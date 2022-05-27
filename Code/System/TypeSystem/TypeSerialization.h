@@ -73,7 +73,7 @@ namespace KRG::TypeSystem::Serialization
         TypeReader( TypeRegistry const& typeRegistry );
 
         // Get number of types serialized in the read json file
-        inline int32 GetNumSerializedTypes() const { return m_numSerializedTypes; }
+        inline int32_t GetNumSerializedTypes() const { return m_numSerializedTypes; }
 
         // Descriptor
         //-------------------------------------------------------------------------
@@ -123,8 +123,8 @@ namespace KRG::TypeSystem::Serialization
     private:
 
         TypeRegistry const&                                         m_typeRegistry;
-        int32                                                       m_numSerializedTypes = 0;
-        int32                                                       m_deserializedTypeIdx = 0;
+        int32_t                                                       m_numSerializedTypes = 0;
+        int32_t                                                       m_deserializedTypeIdx = 0;
     };
 
     //-------------------------------------------------------------------------
@@ -177,7 +177,7 @@ namespace KRG::TypeSystem::Serialization
     private:
 
         TypeRegistry const&                                         m_typeRegistry;
-        int32                                                       m_numTypesSerialized = 0;
+        int32_t                                                       m_numTypesSerialized = 0;
     };
 }
 #endif

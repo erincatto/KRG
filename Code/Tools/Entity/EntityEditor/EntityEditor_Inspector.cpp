@@ -51,7 +51,7 @@ namespace KRG::EntityModel
             }
         }
 
-        virtual uint64 GetUniqueID() const override
+        virtual uint64_t GetUniqueID() const override
         {
             if ( IsCategoryLabel() )
             {
@@ -506,7 +506,7 @@ namespace KRG::EntityModel
                     strcpy_s( m_filterBuffer, 256, filterCopy.data() );
 
                     // Convert buffer to lower case
-                    int32 i = 0;
+                    int32_t i = 0;
                     while ( i < 256 && m_filterBuffer[i] != 0 )
                     {
                         m_filterBuffer[i] = eastl::CharToLower( m_filterBuffer[i] );
@@ -577,7 +577,7 @@ namespace KRG::EntityModel
                 ImGui::TableHeadersRow();
 
                 ImGuiListClipper clipper;
-                clipper.Begin( (int32) m_filteredOptions.size() );
+                clipper.Begin( (int32_t) m_filteredOptions.size() );
                 while ( clipper.Step() )
                 {
                     for ( int i = clipper.DisplayStart; i < clipper.DisplayEnd; i++ )

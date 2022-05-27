@@ -15,7 +15,7 @@ namespace KRG::Physics
 {
     // Creates a unit cylinder mesh with the specified number of side
     // Half-height is along the X axis, Radius is in the Y/Z plane
-    static PxConvexMesh* CreateSharedCylinderMesh( PxPhysics* pPhysics, PxCooking* pCooking, uint32 numSides )
+    static PxConvexMesh* CreateSharedCylinderMesh( PxPhysics* pPhysics, PxCooking* pCooking, uint32_t numSides )
     {
         KRG_ASSERT( pPhysics != nullptr && pCooking != nullptr );
 
@@ -36,7 +36,7 @@ namespace KRG::Physics
         convexVerts[numSides] = vertVector + cylinderBottomOffset;
 
         float currentAngle = anglePerSide;
-        for ( uint32 i = 1; i < numSides; i++ )
+        for ( uint32_t i = 1; i < numSides; i++ )
         {
             PxQuat const rotation( currentAngle, rotationAxis );
             PxVec3 const rotatedVertVector = rotation.rotate( vertVector );
@@ -50,7 +50,7 @@ namespace KRG::Physics
         //-------------------------------------------------------------------------
 
         PxConvexMeshDesc convexDesc;
-        convexDesc.points.count = (uint32) convexVerts.size();
+        convexDesc.points.count = (uint32_t) convexVerts.size();
         convexDesc.points.stride = sizeof( PxVec3 );
         convexDesc.points.data = convexVerts.data();
         convexDesc.flags = PxConvexFlag::eCOMPUTE_CONVEX;

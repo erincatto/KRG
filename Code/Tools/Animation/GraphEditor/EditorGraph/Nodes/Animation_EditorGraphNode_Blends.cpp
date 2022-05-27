@@ -108,10 +108,10 @@ namespace KRG::Animation::GraphNodes
     bool RangedBlendEditorNode::DrawPinControls( VisualGraph::Flow::Pin const& pin )
     {
         // Add parameter value input field
-        if ( pin.IsInputPin() && pin.m_type == (uint32) GraphValueType::Pose )
+        if ( pin.IsInputPin() && pin.m_type == (uint32_t) GraphValueType::Pose )
         {
-            int32 const pinIdx = GetInputPinIndex( pin.m_ID );
-            int32 const parameterIdx = pinIdx - 1;
+            int32_t const pinIdx = GetInputPinIndex( pin.m_ID );
+            int32_t const parameterIdx = pinIdx - 1;
             KRG_ASSERT( parameterIdx >= 0 && parameterIdx < m_parameterValues.size() );
 
             ImGui::PushID( &m_parameterValues[parameterIdx] );
@@ -132,10 +132,10 @@ namespace KRG::Animation::GraphNodes
 
     void RangedBlendEditorNode::OnDynamicPinDestruction( UUID pinID )
     {
-        int32 const pinToBeRemovedIdx = GetInputPinIndex( pinID );
+        int32_t const pinToBeRemovedIdx = GetInputPinIndex( pinID );
         KRG_ASSERT( pinToBeRemovedIdx != InvalidIndex );
 
-        int32 const parameterIdx = pinToBeRemovedIdx - 1;
+        int32_t const parameterIdx = pinToBeRemovedIdx - 1;
         KRG_ASSERT( parameterIdx >= 0 && parameterIdx < m_parameterValues.size() );
         m_parameterValues.erase( m_parameterValues.begin() + parameterIdx );
     }
@@ -159,7 +159,7 @@ namespace KRG::Animation::GraphNodes
 
     bool VelocityBlendEditorNode::IsValidConnection( UUID const& inputPinID, Node const* pOutputPinNode, UUID const& outputPinID ) const
     {
-        int32 const pinIdx = GetInputPinIndex( inputPinID );
+        int32_t const pinIdx = GetInputPinIndex( inputPinID );
         if ( pinIdx > 0 )
         {
             return IsOfType<AnimationClipEditorNode>( pOutputPinNode ) || IsOfType<AnimationClipReferenceEditorNode>( pOutputPinNode );

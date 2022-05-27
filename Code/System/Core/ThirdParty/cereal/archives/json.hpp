@@ -249,9 +249,9 @@ namespace cereal
       void saveValue(int i)                 { itsWriter.Int(i);                                                          }
       //! Saves a uint to the current node
       void saveValue(unsigned u)            { itsWriter.Uint(u);                                                         }
-      //! Saves an int64 to the current node
+      //! Saves an int64_t to the current node
       void saveValue(int64_t i64)           { itsWriter.Int64(i64);                                                      }
-      //! Saves a uint64 to the current node
+      //! Saves a uint64_t to the current node
       void saveValue(uint64_t u64)          { itsWriter.Uint64(u64);                                                     }
       //! Saves a double to the current node
       void saveValue(double d)              { itsWriter.Double(d);                                                       }
@@ -644,9 +644,9 @@ namespace cereal
 
       //! Loads a value from the current node - bool overload
       void loadValue(bool & val)        { search(); val = itsIteratorStack.back().value().GetBool(); ++itsIteratorStack.back(); }
-      //! Loads a value from the current node - int64 overload
+      //! Loads a value from the current node - int64_t overload
       void loadValue(int64_t & val)     { search(); val = itsIteratorStack.back().value().GetInt64(); ++itsIteratorStack.back(); }
-      //! Loads a value from the current node - uint64 overload
+      //! Loads a value from the current node - uint64_t overload
       void loadValue(uint64_t & val)    { search(); val = itsIteratorStack.back().value().GetUint64(); ++itsIteratorStack.back(); }
       //! Loads a value from the current node - float overload
       void loadValue(float & val)       { search(); val = static_cast<float>(itsIteratorStack.back().value().GetDouble()); ++itsIteratorStack.back(); }

@@ -2,6 +2,7 @@
 
 #include "_Module/API.h"
 #include "TypeID.h"
+#include "System/Core/Types/Containers.h"
 
 //-------------------------------------------------------------------------
 // The path to a property within a reflected type
@@ -26,7 +27,7 @@ namespace KRG
 
                 PathElement() : m_arrayElementIdx( InvalidIndex ) {}
                 PathElement( StringID ID ) : m_propertyID( ID ), m_arrayElementIdx( InvalidIndex ) {}
-                PathElement( StringID ID, int32 arrayElementIdx ) : m_propertyID( ID ), m_arrayElementIdx( arrayElementIdx ) {}
+                PathElement( StringID ID, int32_t arrayElementIdx ) : m_propertyID( ID ), m_arrayElementIdx( arrayElementIdx ) {}
 
                 inline bool IsArrayElement() const { return m_arrayElementIdx != InvalidIndex; }
 
@@ -43,7 +44,7 @@ namespace KRG
             public:
 
                 StringID        m_propertyID;
-                int32           m_arrayElementIdx;
+                int32_t           m_arrayElementIdx;
             };
 
         public:
@@ -79,7 +80,7 @@ namespace KRG
                 return GetLastElement().IsArrayElement();
             }
 
-            inline void Append( StringID newElement, int32 arrayElementIdx = InvalidIndex )
+            inline void Append( StringID newElement, int32_t arrayElementIdx = InvalidIndex )
             {
                 KRG_ASSERT( newElement.IsValid() && arrayElementIdx >= InvalidIndex );
                 m_pathElements.emplace_back( PathElement( newElement, arrayElementIdx ) );
@@ -91,7 +92,7 @@ namespace KRG
                 m_pathElements.pop_back();
             }
 
-            inline void ReplaceLastElement( StringID newElement, int32 arrayElementIdx = InvalidIndex )
+            inline void ReplaceLastElement( StringID newElement, int32_t arrayElementIdx = InvalidIndex )
             {
                 KRG_ASSERT( IsValid() );
                 KRG_ASSERT( newElement.IsValid() && arrayElementIdx >= InvalidIndex );
@@ -115,7 +116,7 @@ namespace KRG
 
             inline bool operator==( PropertyPath const& other ) const
             {
-                int32 const numElements = (int32) m_pathElements.size();
+                int32_t const numElements = (int32_t) m_pathElements.size();
                 if ( numElements != other.GetNumElements() )
                 {
                     return false;

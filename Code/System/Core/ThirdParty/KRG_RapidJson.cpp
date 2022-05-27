@@ -33,7 +33,7 @@ namespace KRG
             size_t filesize = (size_t) ftell( pFile );
             fseek( pFile, 0, SEEK_SET );
 
-            m_pStringBuffer = (Byte*) KRG::Alloc( filesize + 1 );
+            m_pStringBuffer = (uint8_t*) KRG::Alloc( filesize + 1 );
             size_t readLength = fread( m_pStringBuffer, 1, filesize, pFile );
             m_pStringBuffer[readLength] = '\0';
             fclose( pFile );
@@ -62,7 +62,7 @@ namespace KRG
 
         size_t const stringLength = strlen( pString );
         size_t const requiredMemory = sizeof( char ) * ( stringLength + 1 );
-        m_pStringBuffer = (Byte*) KRG::Alloc( requiredMemory );
+        m_pStringBuffer = (uint8_t*) KRG::Alloc( requiredMemory );
         m_pStringBuffer[stringLength] = '\0';
 
         memcpy( m_pStringBuffer, pString, requiredMemory - sizeof( char ) );

@@ -28,7 +28,7 @@ namespace KRG
 
     public:
 
-        virtual uint32 GetSystemID() const = 0;
+        virtual uint32_t GetSystemID() const = 0;
 
     protected:
 
@@ -55,7 +55,7 @@ namespace KRG
 //-------------------------------------------------------------------------
 
 #define KRG_ENTITY_WORLD_SYSTEM( Type, ... )\
-    constexpr static uint32 const s_entitySystemID = Hash::FNV1a::GetHash32( #Type );\
-    virtual uint32 GetSystemID() const override final { return Type::s_entitySystemID; }\
+    constexpr static uint32_t const s_entitySystemID = Hash::FNV1a::GetHash32( #Type );\
+    virtual uint32_t GetSystemID() const override final { return Type::s_entitySystemID; }\
     static UpdatePriorityList const PriorityList;\
     virtual UpdatePriorityList const& GetRequiredUpdatePriorities() override { static UpdatePriorityList const priorityList = UpdatePriorityList( __VA_ARGS__ ); return priorityList; };\

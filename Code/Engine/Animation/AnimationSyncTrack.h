@@ -19,7 +19,7 @@ namespace KRG::Animation
     {
         SyncTrackTime() = default;
 
-        SyncTrackTime( int32 inEventIndex, float inPercentageThrough )
+        SyncTrackTime( int32_t inEventIndex, float inPercentageThrough )
             : m_eventIdx( inEventIndex )
             , m_percentageThrough( inPercentageThrough )
         {}
@@ -30,7 +30,7 @@ namespace KRG::Animation
             return m_percentageThrough.ToFloat() + m_eventIdx;
         }
 
-        int32                               m_eventIdx = 0;
+        int32_t                               m_eventIdx = 0;
         Percentage                          m_percentageThrough = 0;
     };
 
@@ -80,7 +80,7 @@ namespace KRG::Animation
     public:
 
         // Calculates a new duration resulting from a blend of two sync tracks
-        inline static float CalculateDurationSynchronized( float const duration0, float const duration1, int32 const numEvents0, int32 const numEvents1, int32 const eventsLCM, float const blendWeight )
+        inline static float CalculateDurationSynchronized( float const duration0, float const duration1, int32_t const numEvents0, int32_t const numEvents1, int32_t const eventsLCM, float const blendWeight )
         {
             KRG_ASSERT( numEvents0 > 0 && numEvents1 > 0 && eventsLCM > 0 );
             float const scaledDuration0 = duration0 * ( float( eventsLCM ) / numEvents0 );
@@ -134,37 +134,37 @@ namespace KRG::Animation
 
         SyncTrack();
 
-        SyncTrack( TInlineVector<EventMarker, 10> const& inEvents, int32 startEventOffset = 0 );
+        SyncTrack( TInlineVector<EventMarker, 10> const& inEvents, int32_t startEventOffset = 0 );
 
         // Create by blending two existing sync tracks. Only blends durations as it is meaningless to try and blend start times. Start times match up with blended durations.
         SyncTrack( SyncTrack const& track0, SyncTrack const& track1, float const blendWeight );
 
-        inline int32 GetNumEvents() const { return (int32) m_syncEvents.size(); }
+        inline int32_t GetNumEvents() const { return (int32_t) m_syncEvents.size(); }
 
         // The all the events in this sync track
         inline TInlineVector<Event, 10> const& GetEvents() const { return m_syncEvents; }
 
         // Does this sync track artificially start at a different event than the first one
         inline bool HasStartOffset() const { return m_startEventOffset != 0; }
-        inline int32 GetStartEventOffset() const { return m_startEventOffset; }
+        inline int32_t GetStartEventOffset() const { return m_startEventOffset; }
 
         // Get the event at specified index, includes offset
-        inline Event const& GetEvent( int32 i ) const
+        inline Event const& GetEvent( int32_t i ) const
         {
             auto adjustedIndex = ClampIndexToTrack( i + m_startEventOffset );
             return m_syncEvents[adjustedIndex];
         }
 
         // Get the event at specified index, excludes offset
-        inline Event const& GetEventWithoutOffset( int32 i ) const
+        inline Event const& GetEventWithoutOffset( int32_t i ) const
         {
             auto AdjustedIndex = ClampIndexToTrack( i );
             return m_syncEvents[AdjustedIndex];
         }
 
         // Get the duration of a specified event as a percentage of the whole track
-        inline Percentage GetEventDuration( int32 const eventIndex ) const { return GetEventDuration( eventIndex, true ); }
-        inline Percentage GetEventDurationWithoutOffset( int32 const eventIndex ) const { return GetEventDuration( eventIndex, false ); }
+        inline Percentage GetEventDuration( int32_t const eventIndex ) const { return GetEventDuration( eventIndex, true ); }
+        inline Percentage GetEventDurationWithoutOffset( int32_t const eventIndex ) const { return GetEventDuration( eventIndex, false ); }
 
         // Time step
         //-------------------------------------------------------------------------
@@ -216,12 +216,12 @@ namespace KRG::Animation
 
     private:
 
-        inline int32 ClampIndexToTrack( int32 const eventIndex ) const
+        inline int32_t ClampIndexToTrack( int32_t const eventIndex ) const
         {
             KRG_ASSERT( !m_syncEvents.empty() );
 
-            int32 const numEvents = GetNumEvents();
-            int32 clampedIndex = eventIndex % numEvents;
+            int32_t const numEvents = GetNumEvents();
+            int32_t clampedIndex = eventIndex % numEvents;
             if ( clampedIndex < 0 )
             {
                 clampedIndex += numEvents;
@@ -232,11 +232,11 @@ namespace KRG::Animation
 
         SyncTrackTime GetTime( Percentage const percentage, bool bWithOffset ) const;
         Percentage GetPercentageThrough( SyncTrackTime const& time, bool bWithOffset ) const;
-        Percentage GetEventDuration( int32 const eventIndex, bool bWithOffset ) const;
+        Percentage GetEventDuration( int32_t const eventIndex, bool bWithOffset ) const;
 
     private:
 
         TInlineVector<Event, 10>        m_syncEvents;               // The number and position of the sync periods
-        int32                           m_startEventOffset = 0;     // The offset for which event signifies the track of the track
+        int32_t                           m_startEventOffset = 0;     // The offset for which event signifies the track of the track
     };
 }

@@ -11,7 +11,7 @@ namespace KRG
     class UpdateContext;
     class EntityWorld;
     class SystemRegistry;
-    enum class EntityWorldType : uint8;
+    enum class EntityWorldType : uint8_t;
     namespace TypeSystem { struct TypeInfo; }
     namespace Render { class Viewport; }
 

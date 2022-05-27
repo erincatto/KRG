@@ -172,7 +172,7 @@ namespace KRG::Animation::GraphNodes
             // Dynamic Options
             //-------------------------------------------------------------------------
 
-            int32 const numInputs = GetNumInputPins();
+            int32_t const numInputs = GetNumInputPins();
 
             for ( auto i = 2; i < numInputs; i++ )
             {

@@ -33,7 +33,7 @@ namespace KRG::Animation
         {
             GraphNodeIndex const parameterIdx = pDebugContext->GetRuntimeGraphNodeIndex( m_pParameter->GetID() );
 
-            auto value = pDebugContext->m_pGraphComponent->GetControlParameterValue<int32>( parameterIdx );
+            auto value = pDebugContext->m_pGraphComponent->GetControlParameterValue<int32_t>( parameterIdx );
             ImGui::SetNextItemWidth( -1 );
             if ( ImGui::InputInt( "##ip", &value ) )
             {
@@ -336,7 +336,7 @@ namespace KRG::Animation
     {
         m_pVirtualParamaterToEdit = nullptr;
 
-        int32 windowFlags = 0;
+        int32_t windowFlags = 0;
         ImGui::PushStyleVar( ImGuiStyleVar_WindowPadding, ImVec2( 4, 4 ) );
         ImGui::SetNextWindowClass( pWindowClass );
         if ( ImGui::Begin( pWindowName, nullptr, windowFlags ) )
@@ -847,8 +847,8 @@ namespace KRG::Animation
 
     void GraphControlParameterEditor::CreatePreviewStates()
     {
-        int32 const numParameters = m_editorContext.GetNumControlParameters();
-        for ( int32 i = 0; i < numParameters; i++ )
+        int32_t const numParameters = m_editorContext.GetNumControlParameters();
+        for ( int32_t i = 0; i < numParameters; i++ )
         {
             auto pControlParameter = m_editorContext.GetControlParameters()[i];
             switch ( pControlParameter->GetValueType() )

@@ -205,7 +205,7 @@ namespace KRG::Timeline
         // Tracks and Item Edition
         //-------------------------------------------------------------------------
 
-        inline int32 GetNumTracks() const { return (int32) m_tracks.size(); }
+        inline int32_t GetNumTracks() const { return (int32_t) m_tracks.size(); }
         TVector<Track*>& GetTracks() { return m_tracks; }
         TVector<Track*> const& GetTracks() const { return m_tracks; }
         inline Track*& GetTrack( size_t i ) { return m_tracks[i]; }
@@ -238,7 +238,7 @@ namespace KRG::Timeline
     public:
 
         TVector<Track*>     m_tracks;
-        int32               m_beginModificationCallCount = 0;
+        int32_t               m_beginModificationCallCount = 0;
         bool                m_isDirty = false;
     };
 }

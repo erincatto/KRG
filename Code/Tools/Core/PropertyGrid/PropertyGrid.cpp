@@ -81,7 +81,7 @@ namespace KRG
 
     //-------------------------------------------------------------------------
 
-    PropertyEditor* PropertyGrid::GetPropertyEditor( PropertyInfo const& propertyInfo, Byte* pActualPropertyInstance )
+    PropertyEditor* PropertyGrid::GetPropertyEditor( PropertyInfo const& propertyInfo, uint8_t* pActualPropertyInstance )
     {
         PropertyEditor* pPropertyEditor = nullptr;
 
@@ -140,7 +140,7 @@ namespace KRG
                 }
 
                 ImGui::TableNextRow();
-                DrawPropertyRow( *m_pTypeInfo, m_pTypeInstance, propertyInfo, reinterpret_cast<Byte*>( m_pTypeInstance ) + propertyInfo.m_offset );
+                DrawPropertyRow( *m_pTypeInfo, m_pTypeInstance, propertyInfo, reinterpret_cast<uint8_t*>( m_pTypeInstance ) + propertyInfo.m_offset );
             }
 
             ImGui::EndTable();
@@ -148,7 +148,7 @@ namespace KRG
         ImGui::PopStyleVar();
     }
 
-    void PropertyGrid::DrawPropertyRow( TypeInfo const& typeInfo, IRegisteredType* pTypeInstance, PropertyInfo const& propertyInfo, Byte* pPropertyInstance )
+    void PropertyGrid::DrawPropertyRow( TypeInfo const& typeInfo, IRegisteredType* pTypeInstance, PropertyInfo const& propertyInfo, uint8_t* pPropertyInstance )
     {
         if ( propertyInfo.IsArrayProperty() )
         {
@@ -160,7 +160,7 @@ namespace KRG
         }
     }
 
-    void PropertyGrid::DrawValuePropertyRow( TypeInfo const& typeInfo, IRegisteredType* pTypeInstance, PropertyInfo const& propertyInfo, Byte* pPropertyInstance, int32 arrayIdx )
+    void PropertyGrid::DrawValuePropertyRow( TypeInfo const& typeInfo, IRegisteredType* pTypeInstance, PropertyInfo const& propertyInfo, uint8_t* pPropertyInstance, int32_t arrayIdx )
     {
         //-------------------------------------------------------------------------
         // Name
@@ -268,7 +268,7 @@ namespace KRG
 
             TypeInfo const* pChildTypeInfo = m_pToolsContext->m_pTypeRegistry->GetTypeInfo( propertyInfo.m_typeID );
             KRG_ASSERT( pChildTypeInfo != nullptr );
-            Byte* pChildTypeInstance = pActualPropertyInstance;
+            uint8_t* pChildTypeInstance = pActualPropertyInstance;
 
             for ( auto const& childPropertyInfo : pChildTypeInfo->m_properties )
             {
@@ -307,7 +307,7 @@ namespace KRG
         }
     }
 
-    void PropertyGrid::DrawArrayPropertyRow( TypeInfo const& typeInfo, IRegisteredType* pTypeInstance, PropertyInfo const& propertyInfo, Byte* pPropertyInstance )
+    void PropertyGrid::DrawArrayPropertyRow( TypeInfo const& typeInfo, IRegisteredType* pTypeInstance, PropertyInfo const& propertyInfo, uint8_t* pPropertyInstance )
     {
         KRG_ASSERT( propertyInfo.IsArrayProperty() );
 

@@ -9,7 +9,7 @@ namespace KRG
 {
     #if KRG_DEVELOPMENT_TOOLS
     // ID generator needed for curve editor
-    uint16 FloatCurve::s_pointIdentifierGenerator = 0;
+    uint16_t FloatCurve::s_pointIdentifierGenerator = 0;
     #endif
 
     //-------------------------------------------------------------------------
@@ -34,12 +34,12 @@ namespace KRG
 
         if ( parameterRange.ContainsExclusive( parameter ) )
         {
-            int32 const numPoints = GetNumPoints();
-            int32 const numCurves = numPoints - 1;
-            for ( int32 i = 0; i < numCurves; i++ )
+            int32_t const numPoints = GetNumPoints();
+            int32_t const numCurves = numPoints - 1;
+            for ( int32_t i = 0; i < numCurves; i++ )
             {
-                int32 const startIdx = i;
-                int32 const endIdx = i + 1;
+                int32_t const startIdx = i;
+                int32_t const endIdx = i + 1;
 
                 // If the parameter is within this curve, evaluate it
                 if ( parameter >= m_points[startIdx].m_parameter && parameter <= m_points[endIdx].m_parameter )
@@ -75,7 +75,7 @@ namespace KRG
         #endif
     }
 
-    void FloatCurve::EditPoint( int32 pointIdx, float parameter, float value )
+    void FloatCurve::EditPoint( int32_t pointIdx, float parameter, float value )
     {
         KRG_ASSERT( pointIdx >= 0 && pointIdx < GetNumPoints() );
         m_points[pointIdx].m_parameter = parameter;
@@ -83,24 +83,24 @@ namespace KRG
         SortPoints();
     }
 
-    void FloatCurve::SetPointTangentMode( int32 pointIdx, TangentMode mode )
+    void FloatCurve::SetPointTangentMode( int32_t pointIdx, TangentMode mode )
     {
         KRG_ASSERT( pointIdx >= 0 && pointIdx < GetNumPoints() );
         m_points[pointIdx].m_tangentMode = mode;
     }
 
-    void FloatCurve::SetPointOutTangent( int32 pointIdx, float tangent )
+    void FloatCurve::SetPointOutTangent( int32_t pointIdx, float tangent )
     {
         KRG_ASSERT( pointIdx >= 0 && pointIdx < GetNumPoints() );
         m_points[pointIdx].m_outTangent = tangent;
     }
 
-    void FloatCurve::SetPointInTangent( int32 pointIdx, float tangent )
+    void FloatCurve::SetPointInTangent( int32_t pointIdx, float tangent )
     {
         m_points[pointIdx].m_inTangent = tangent;
     }
 
-    void FloatCurve::RemovePoint( int32 pointIdx )
+    void FloatCurve::RemovePoint( int32_t pointIdx )
     {
         KRG_ASSERT( pointIdx >= 0 && pointIdx < GetNumPoints() );
 
@@ -122,8 +122,8 @@ namespace KRG
             return false;
         }
 
-        int32 numPoints = GetNumPoints();
-        for ( int32 i = 0; i < numPoints; i++ )
+        int32_t numPoints = GetNumPoints();
+        for ( int32_t i = 0; i < numPoints; i++ )
         {
             if ( m_points[i] != rhs.m_points[i] )
             {
@@ -159,7 +159,7 @@ namespace KRG
         }
 
         char* pCaret = nullptr;
-        uint64 numPoints = std::strtoul( &inStr.c_str()[startIdx], &pCaret, 0 );
+        uint64_t numPoints = std::strtoul( &inStr.c_str()[startIdx], &pCaret, 0 );
 
         //-------------------------------------------------------------------------
 
@@ -198,11 +198,11 @@ namespace KRG
 
         String curveStr;
         curveStr.reserve( GetNumPoints() * 30 ); // rough over-estimate of 30 characters per point
-        curveStr.sprintf( "%u", (uint32) GetNumPoints() );
+        curveStr.sprintf( "%u", (uint32_t) GetNumPoints() );
 
         for ( auto& point : m_points )
         {
-            pointStr.sprintf( ",%f,%f,%f,%f,%u", point.m_parameter, point.m_value, point.m_inTangent, point.m_outTangent, (uint8) point.m_tangentMode );
+            pointStr.sprintf( ",%f,%f,%f,%f,%u", point.m_parameter, point.m_value, point.m_inTangent, point.m_outTangent, (uint8_t) point.m_tangentMode );
             curveStr.append( pointStr.c_str() );
         }
 

@@ -15,7 +15,7 @@
 
 namespace KRG
 {
-    constexpr static int32 const g_shellIconCallbackMessageID = WM_USER + 1;
+    constexpr static int32_t const g_shellIconCallbackMessageID = WM_USER + 1;
 
     //-------------------------------------------------------------------------
 
@@ -148,7 +148,7 @@ namespace KRG
         m_applicationWindowHidden = true;
     }
 
-    bool ResourceServerApplication::CreateSystemTrayIcon( int32 iconID )
+    bool ResourceServerApplication::CreateSystemTrayIcon( int32_t iconID )
     {
         m_systemTrayIconData.cbSize = sizeof( NOTIFYICONDATA );
         m_systemTrayIconData.hWnd = m_windowHandle;
@@ -200,7 +200,7 @@ namespace KRG
         return true;
     }
 
-    bool ResourceServerApplication::ReadSettings( int32 argc, char** argv )
+    bool ResourceServerApplication::ReadSettings( int32_t argc, char** argv )
     {
         // Read configuration settings from ini
         //-------------------------------------------------------------------------
@@ -221,7 +221,7 @@ namespace KRG
         Shell_NotifyIcon( NIM_DELETE, &m_systemTrayIconData );
     }
 
-    void ResourceServerApplication::RefreshSystemTrayIcon( int32 iconID )
+    void ResourceServerApplication::RefreshSystemTrayIcon( int32_t iconID )
     {
         if ( iconID != m_currentIconID )
         {

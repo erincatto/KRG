@@ -11,7 +11,7 @@ namespace KRG::Animation::GraphNodes
 
     public:
 
-        using StateIndex = int16;
+        using StateIndex = int16_t;
 
         struct TransitionSettings
         {

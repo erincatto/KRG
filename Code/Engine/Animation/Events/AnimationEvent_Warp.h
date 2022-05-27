@@ -13,7 +13,7 @@ namespace KRG::Animation
     public:
 
         // The type of warping we are allowed to perform for this event
-        enum class Type : uint8
+        enum class Type : uint8_t
         {
             KRG_REGISTER_ENUM
 

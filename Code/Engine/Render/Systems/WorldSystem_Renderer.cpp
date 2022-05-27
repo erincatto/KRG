@@ -171,7 +171,7 @@ namespace KRG::Render
         if ( pMeshComponent->HasMeshResourceSet() )
         {
             // Remove from any transform update lists
-            int32 const staticMobilityTransformListIdx = VectorFindIndex( m_staticMobilityTransformUpdateList, pMeshComponent );
+            int32_t const staticMobilityTransformListIdx = VectorFindIndex( m_staticMobilityTransformUpdateList, pMeshComponent );
             if ( staticMobilityTransformListIdx != InvalidIndex )
             {
                 m_staticMobilityTransformUpdateList.erase_unsorted( m_staticMobilityTransformUpdateList.begin() + staticMobilityTransformListIdx );
@@ -179,7 +179,7 @@ namespace KRG::Render
 
             // Get the real mobility of the component
             Mobility realMobility = pMeshComponent->GetMobility();
-            int32 const mobilityListIdx = VectorFindIndex( m_mobilityUpdateList, pMeshComponent );
+            int32_t const mobilityListIdx = VectorFindIndex( m_mobilityUpdateList, pMeshComponent );
             if ( mobilityListIdx != InvalidIndex )
             {
                 realMobility = ( realMobility == Mobility::Dynamic ) ? Mobility::Static : Mobility::Dynamic;
@@ -213,7 +213,7 @@ namespace KRG::Render
         {
             auto pMesh = pMeshComponent->GetMesh();
             KRG_ASSERT( pMesh != nullptr && pMesh->IsValid() );
-            uint32 const meshID = pMesh->GetResourceID().GetPathID();
+            uint32_t const meshID = pMesh->GetResourceID().GetPathID();
 
             auto pMeshGroup = m_skeletalMeshGroups.FindOrAdd( meshID, pMesh );
             pMeshGroup->m_components.emplace_back( pMeshComponent );
@@ -229,7 +229,7 @@ namespace KRG::Render
         // Remove component from mesh group
         if ( pMeshComponent->HasMeshResourceSet() )
         {
-            uint32 const meshID = pMeshComponent->GetMesh()->GetResourceID().GetPathID();
+            uint32_t const meshID = pMeshComponent->GetMesh()->GetResourceID().GetPathID();
             auto pMeshGroup = m_skeletalMeshGroups.Get( meshID );
             pMeshGroup->m_components.erase_first_unsorted( pMeshComponent );
 

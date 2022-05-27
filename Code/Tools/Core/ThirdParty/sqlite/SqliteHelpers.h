@@ -16,7 +16,7 @@ namespace KRG::SQLite
     {
     protected:
 
-        static uint32 const constexpr s_defaultStatementBufferSize = 8096;
+        static uint32_t const constexpr s_defaultStatementBufferSize = 8096;
 
     public:
 

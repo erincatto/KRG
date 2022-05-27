@@ -23,7 +23,7 @@ namespace KRG::Network
 
     public:
 
-        using ClientConnectionID = uint32;
+        using ClientConnectionID = uint32_t;
 
         struct ClientInfo
         {
@@ -46,15 +46,15 @@ namespace KRG::Network
         //-------------------------------------------------------------------------
 
         inline bool IsRunning() const { return m_socketHandle != 0 && m_pollingGroupHandle != 0; }
-        inline uint32 GetSocketHandle() const { return m_socketHandle; }
+        inline uint32_t GetSocketHandle() const { return m_socketHandle; }
 
         // Client info
         //-------------------------------------------------------------------------
 
-        inline int32 GetNumConnectedClients() const { return (int32) m_connectedClients.size(); }
+        inline int32_t GetNumConnectedClients() const { return (int32_t) m_connectedClients.size(); }
         inline TVector<ClientInfo> const& GetConnectedClients() const { return m_connectedClients; }
 
-        inline ClientInfo const& GetConnectedClientInfo( int32 clientIdx ) const 
+        inline ClientInfo const& GetConnectedClientInfo( int32_t clientIdx ) const 
         {
             KRG_ASSERT( clientIdx >= 0 && clientIdx < m_connectedClients.size() );
             return m_connectedClients[clientIdx]; 
@@ -69,12 +69,12 @@ namespace KRG::Network
         // Messages
         //-------------------------------------------------------------------------
 
-        virtual void ProcessMessage( uint32 connectionID, void* pData, size_t size ) = 0;
-        virtual void SendMessages( TFunction<void( ClientConnectionID, void*, uint32 )> const& sendFunction ) = 0;
+        virtual void ProcessMessage( uint32_t connectionID, void* pData, size_t size ) = 0;
+        virtual void SendMessages( TFunction<void( ClientConnectionID, void*, uint32_t )> const& sendFunction ) = 0;
 
     private:
 
-        bool TryStartConnection( uint16 portNumber );
+        bool TryStartConnection( uint16_t portNumber );
         void CloseConnection();
 
         void AddConnectedClient( ClientConnectionID clientID, AddressString const& clientAddress );
@@ -82,8 +82,8 @@ namespace KRG::Network
 
     protected:
 
-        uint32                                          m_socketHandle = 0;
-        uint32                                          m_pollingGroupHandle = 0;
+        uint32_t                                          m_socketHandle = 0;
+        uint32_t                                          m_pollingGroupHandle = 0;
         TVector<ClientInfo>                             m_connectedClients;
     };
 
@@ -114,12 +114,12 @@ namespace KRG::Network
         inline bool HasConnectionFailed() const { return m_status == Status::ConnectionFailed; }
         inline bool IsDisconnected() const { return m_status == Status::Disconnected; }
 
-        inline uint32 const& GetClientConnectionID() const { return m_connectionHandle; }
+        inline uint32_t const& GetClientConnectionID() const { return m_connectionHandle; }
         inline AddressString const& GetAddress() const { return m_address; }
 
         virtual void ProcessMessage( void* pData, size_t size ) = 0;
 
-        virtual void SendMessages( TFunction<void( void*, uint32 )> const& sendFunction ) = 0;
+        virtual void SendMessages( TFunction<void( void*, uint32_t )> const& sendFunction ) = 0;
 
     private:
 
@@ -130,8 +130,8 @@ namespace KRG::Network
     private:
 
         AddressString                                   m_address;
-        uint32                                          m_connectionHandle = 0;
-        uint32                                          m_reconnectionAttemptsRemaining = 5;
+        uint32_t                                          m_connectionHandle = 0;
+        uint32_t                                          m_reconnectionAttemptsRemaining = 5;
         Status                                          m_status = Status::Disconnected;
     };
 
@@ -148,7 +148,7 @@ namespace KRG::Network
         static void Update();
 
         // Start a server connection on the specified port
-        static bool StartServerConnection( ServerConnection* pServerConnection, uint16 portNumber );
+        static bool StartServerConnection( ServerConnection* pServerConnection, uint16_t portNumber );
         static void StopServerConnection( ServerConnection* pServerConnection );
 
         // Start a client connection to a specified address. Address format: "XXX.XXX.XXX.XXX:Port"

@@ -50,7 +50,7 @@ namespace KRG
         void* GetViewportTextureForWorkspace( EditorWorkspace* pWorkspace ) const;
         Render::PickingID GetViewportPickingID( EditorWorkspace* pWorkspace, Int2 const& pixelCoords ) const;
 
-        inline bool IsWorkspaceOpen( uint32 workspaceID ) const { return FindResourceWorkspace( workspaceID ) != nullptr; }
+        inline bool IsWorkspaceOpen( uint32_t workspaceID ) const { return FindResourceWorkspace( workspaceID ) != nullptr; }
         inline bool IsWorkspaceOpen( ResourceID const& resourceID ) const { return FindResourceWorkspace( resourceID ) != nullptr; }
 
         // Immediately destroy a workspace
@@ -68,7 +68,7 @@ namespace KRG
     private:
 
         EditorWorkspace* FindResourceWorkspace( ResourceID const& resourceID ) const;
-        EditorWorkspace* FindResourceWorkspace( uint32 workspaceID ) const;
+        EditorWorkspace* FindResourceWorkspace( uint32_t workspaceID ) const;
 
         void StartGamePreview( UpdateContext const& context );
         void StopGamePreview( UpdateContext const& context );

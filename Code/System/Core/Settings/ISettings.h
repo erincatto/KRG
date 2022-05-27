@@ -29,7 +29,7 @@ namespace KRG
 
     public:
 
-        virtual uint32 GetSettingsID() const = 0;
+        virtual uint32_t GetSettingsID() const = 0;
 
     protected:
 
@@ -40,5 +40,5 @@ namespace KRG
 //-------------------------------------------------------------------------
 
 #define KRG_SETTINGS_ID( TypeName ) \
-constexpr static uint32 const s_settingsID = Hash::FNV1a::GetHash32( #TypeName ); \
-virtual uint32 GetSettingsID() const override final { return TypeName::s_settingsID; }
+constexpr static uint32_t const s_settingsID = Hash::FNV1a::GetHash32( #TypeName ); \
+virtual uint32_t GetSettingsID() const override final { return TypeName::s_settingsID; }

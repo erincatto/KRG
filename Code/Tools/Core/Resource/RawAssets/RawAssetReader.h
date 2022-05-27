@@ -26,7 +26,7 @@ namespace KRG::RawAssets
     //-------------------------------------------------------------------------
 
     KRG_TOOLS_CORE_API TUniquePtr<RawAssets::RawMesh> ReadStaticMesh( ReaderContext const& ctx, FileSystem::Path const& sourceFilePath, String const& nameOfMeshToCompile = String() );
-    KRG_TOOLS_CORE_API TUniquePtr<RawAssets::RawMesh> ReadSkeletalMesh( ReaderContext const& ctx, FileSystem::Path const& sourceFilePath, int32 maxBoneInfluences = 4 );
+    KRG_TOOLS_CORE_API TUniquePtr<RawAssets::RawMesh> ReadSkeletalMesh( ReaderContext const& ctx, FileSystem::Path const& sourceFilePath, int32_t maxBoneInfluences = 4 );
 
     KRG_TOOLS_CORE_API TUniquePtr<RawAssets::RawSkeleton> ReadSkeleton( ReaderContext const& ctx, FileSystem::Path const& sourceFilePath, String const& skeletonRootBoneName = String() );
     KRG_TOOLS_CORE_API TUniquePtr<RawAssets::RawAnimation> ReadAnimation( ReaderContext const& ctx, FileSystem::Path const& sourceFilePath, RawAssets::RawSkeleton const& rawSkeleton, String const& animationName = String() );

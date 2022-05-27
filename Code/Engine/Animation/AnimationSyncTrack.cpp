@@ -13,7 +13,7 @@ namespace KRG::Animation
         m_syncEvents.emplace_back( Event() );
     }
 
-    SyncTrack::SyncTrack( TInlineVector<EventMarker, 10> const& inMarkers, int32 eventOffset )
+    SyncTrack::SyncTrack( TInlineVector<EventMarker, 10> const& inMarkers, int32_t eventOffset )
     {
         // If there are no markers, then just default-construct
         if ( inMarkers.empty() )
@@ -38,13 +38,13 @@ namespace KRG::Animation
             m_syncEvents.emplace_back( Event( syncMarker.m_ID, syncMarker.m_startTime ) );
         }
 
-        int32 const numSyncEvents = (int32) m_syncEvents.size();
+        int32_t const numSyncEvents = (int32_t) m_syncEvents.size();
         KRG_ASSERT( numSyncEvents != 0 );
 
         // Calculate the sync periods
         //-------------------------------------------------------------------------
 
-        for ( int32 i = 0; i < numSyncEvents - 1; i++ )
+        for ( int32_t i = 0; i < numSyncEvents - 1; i++ )
         {
             m_syncEvents[i].m_duration = m_syncEvents[i + 1].m_startTime - m_syncEvents[i].m_startTime;
         }
@@ -62,17 +62,17 @@ namespace KRG::Animation
 
     SyncTrack::SyncTrack( SyncTrack const& track0, SyncTrack const& track1, float const blendWeight )
     {
-        int32 const numEventsTrack0 = (int32) track0.m_syncEvents.size();
-        int32 const numEventsTrack1 = (int32) track1.m_syncEvents.size();
+        int32_t const numEventsTrack0 = (int32_t) track0.m_syncEvents.size();
+        int32_t const numEventsTrack1 = (int32_t) track1.m_syncEvents.size();
 
         KRG_ASSERT( blendWeight >= 0.0f && blendWeight <= 1.0f );
         KRG_ASSERT( numEventsTrack0 > 0 && numEventsTrack1 > 0 );
 
-        int32 const minEvents = Math::Min( numEventsTrack0, numEventsTrack1 );
-        int32 const maxEvents = Math::Max( numEventsTrack0, numEventsTrack1 );
+        int32_t const minEvents = Math::Min( numEventsTrack0, numEventsTrack1 );
+        int32_t const maxEvents = Math::Max( numEventsTrack0, numEventsTrack1 );
 
         // Calculate the number of events in the blended track (the LCM of the two tracks)
-        int32 const LCM = Math::LowestCommonMultiple( minEvents, maxEvents );
+        int32_t const LCM = Math::LowestCommonMultiple( minEvents, maxEvents );
         float durationScaleTrack0 = float( numEventsTrack0 ) / LCM;
         float durationScaleTrack1 = float( numEventsTrack1 ) / LCM;
 
@@ -109,7 +109,7 @@ namespace KRG::Animation
 
     SyncTrackTime SyncTrack::GetTime( Percentage const percentage, bool withOffset ) const
     {
-        int32 const numSyncEvents = (int32) m_syncEvents.size();
+        int32_t const numSyncEvents = (int32_t) m_syncEvents.size();
         KRG_ASSERT( numSyncEvents > 0 );
 
         SyncTrackTime time;
@@ -123,7 +123,7 @@ namespace KRG::Animation
         }
 
         // Calculate the normalized percentage through the animation
-        int32 loopCount = 0;
+        int32_t loopCount = 0;
         Percentage percentageThrough = 0.0f;
         percentage.GetLoopCountAndNormalizedTime( loopCount, percentageThrough );
 
@@ -131,7 +131,7 @@ namespace KRG::Animation
         if ( percentageThrough < m_syncEvents[0].m_startTime )
         {
             // We are dealing with a looping sequence so the event is the last one
-            time.m_eventIdx = (uint32) numSyncEvents - 1;
+            time.m_eventIdx = (uint32_t) numSyncEvents - 1;
             KRG_ASSERT( m_syncEvents[time.m_eventIdx].m_duration > Math::Epsilon );
 
             float const eventDelta = m_syncEvents[0].m_startTime - percentageThrough;
@@ -167,7 +167,7 @@ namespace KRG::Animation
         time.m_eventIdx += loopCount * numSyncEvents;
 
         // Adjust sync track position to take account the offset
-        int32 const offset = withOffset ? m_startEventOffset : 0;
+        int32_t const offset = withOffset ? m_startEventOffset : 0;
         time.m_eventIdx = ClampIndexToTrack( time.m_eventIdx - offset );
 
         return time;
@@ -178,8 +178,8 @@ namespace KRG::Animation
         KRG_ASSERT( time.m_percentageThrough >= 0.0f && time.m_percentageThrough <= 1.0f );
 
         // Adjust event index based on event offset and clamp to the track
-        int32 offset = withOffset ? m_startEventOffset : 0;
-        int32 const eventIdx = ClampIndexToTrack( time.m_eventIdx + offset );
+        int32_t offset = withOffset ? m_startEventOffset : 0;
+        int32_t const eventIdx = ClampIndexToTrack( time.m_eventIdx + offset );
         Percentage percentageThroughSyncTrack = m_syncEvents[eventIdx].m_startTime + ( m_syncEvents[eventIdx].m_duration * time.m_percentageThrough );
 
         // Handle looping sequences
@@ -192,7 +192,7 @@ namespace KRG::Animation
         return percentageThroughSyncTrack;
     }
 
-    Percentage SyncTrack::GetEventDuration( int32 const eventIdx, bool withOffset ) const
+    Percentage SyncTrack::GetEventDuration( int32_t const eventIdx, bool withOffset ) const
     {
         KRG_ASSERT( eventIdx >= 0 && eventIdx < m_syncEvents.size() );
         Percentage const startTime = GetPercentageThrough( SyncTrackTime( eventIdx, 0.0f ), withOffset );
@@ -227,7 +227,7 @@ namespace KRG::Animation
             // Calculate the distance to the end of the start event
             syncTimeDistance = ( 1.0f - startTime.m_percentageThrough );
 
-            int32 eventIdx = startTime.m_eventIdx + 1;
+            int32_t eventIdx = startTime.m_eventIdx + 1;
             while ( eventIdx != endTime.m_eventIdx )
             {
                 // If we go past the number of event, then loop back around

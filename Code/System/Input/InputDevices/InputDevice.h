@@ -1,6 +1,6 @@
 #pragma once
 
-#include "System/Core/Types/IntegralTypes.h"
+#include "System/Core/KRG.h"
 #include "System/Core/Time/Time.h"
 
 //-------------------------------------------------------------------------
@@ -12,10 +12,10 @@ namespace KRG
         // Generic message data for various input messages (e.g. keyboard/mouse messages )
         struct GenericMessage
         {
-            uint64 m_data0;
-            uint64 m_data1;
-            uint64 m_data2;
-            uint64 m_data3;
+            uint64_t m_data0;
+            uint64_t m_data1;
+            uint64_t m_data2;
+            uint64_t m_data3;
         };
 
         //-------------------------------------------------------------------------

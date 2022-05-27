@@ -17,7 +17,7 @@ namespace KRG::Timeline
 
     protected:
 
-        enum class ViewUpdateMode : uint8
+        enum class ViewUpdateMode : uint8_t
         {
             None,
             ShowFullTimeRange,
@@ -26,13 +26,13 @@ namespace KRG::Timeline
             TrackPlayhead,
         };
 
-        enum class PlayState : uint8
+        enum class PlayState : uint8_t
         {
             Playing,
             Paused
         };
 
-        enum class ItemEditMode : uint8
+        enum class ItemEditMode : uint8_t
         {
             None,
             Move,

@@ -55,7 +55,7 @@ namespace KRG
         DebugSetting*       m_pNext = nullptr;
         char const          m_name[100] = { 0 };
         char const          m_category[156] = { 0 };
-        uint32              m_nameHash = 0; // The hash of the combined category and name strings
+        uint32_t              m_nameHash = 0; // The hash of the combined category and name strings
         Type                m_type;
         char const          m_description[256] = { 0 };
     };
@@ -86,21 +86,21 @@ namespace KRG
 
     public:
 
-        DebugSettingInt( char const* pName, char const* pCategory, char const* pDescription, int32 initialValue );
-        DebugSettingInt( char const* pName, char const* pCategory, char const* pDescription, int32 initialValue, int32 min, int32 max );
+        DebugSettingInt( char const* pName, char const* pCategory, char const* pDescription, int32_t initialValue );
+        DebugSettingInt( char const* pName, char const* pCategory, char const* pDescription, int32_t initialValue, int32_t min, int32_t max );
 
-        inline DebugSettingInt& operator=( int32 value ) { m_value = Math::Clamp( value, m_min, m_max ); return *this; }
-        inline operator int32() const { return m_value; }
+        inline DebugSettingInt& operator=( int32_t value ) { m_value = Math::Clamp( value, m_min, m_max ); return *this; }
+        inline operator int32_t() const { return m_value; }
 
-        inline int32 GetMin() const { return m_min; }
-        inline int32 GetMax() const { return m_max; }
+        inline int32_t GetMin() const { return m_min; }
+        inline int32_t GetMax() const { return m_max; }
         inline bool HasLimits() const { return m_min != INT_MIN || m_max != INT_MAX; }
 
     private:
 
-        int32                 m_value = false;
-        int32                 m_min = INT_MIN;
-        int32                 m_max = INT_MAX;
+        int32_t                 m_value = false;
+        int32_t                 m_min = INT_MIN;
+        int32_t                 m_max = INT_MAX;
     };
 
     //-------------------------------------------------------------------------

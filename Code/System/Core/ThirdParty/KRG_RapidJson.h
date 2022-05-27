@@ -62,7 +62,7 @@ namespace KRG
 
     private:
 
-        Byte*                                                       m_pStringBuffer = nullptr;
+        uint8_t*                                                       m_pStringBuffer = nullptr;
     };
 
     // JSON writer

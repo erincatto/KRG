@@ -32,7 +32,7 @@ namespace KRG
             case DebugSetting::Type::Int:
             {
                 auto pSetting = static_cast<DebugSettingInt*>( pDebugSetting );
-                int32 value = *pSetting;
+                int32_t value = *pSetting;
 
                 if ( pSetting->HasLimits() )
                 {
@@ -184,7 +184,7 @@ namespace KRG
                 auto const& logEntries = Log::GetLogEntries();
 
                 ImGuiListClipper clipper;
-                clipper.Begin( (int32) logEntries.size() );
+                clipper.Begin( (int32_t) logEntries.size() );
                 while ( clipper.Step() )
                 {
                     for ( int i = clipper.DisplayStart; i < clipper.DisplayEnd; i++ )

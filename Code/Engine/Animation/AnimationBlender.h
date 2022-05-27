@@ -74,7 +74,7 @@ namespace KRG::Animation
 
         struct BlendWeight
         {
-            inline static float GetBlendWeight( float const blendWeight, BoneMask const* pBoneMask, int32 const boneIdx )
+            inline static float GetBlendWeight( float const blendWeight, BoneMask const* pBoneMask, int32_t const boneIdx )
             {
                 return blendWeight;
             }
@@ -82,7 +82,7 @@ namespace KRG::Animation
 
         struct BoneWeight
         {
-            inline static float GetBlendWeight( float const blendWeight, BoneMask const* pBoneMask, int32 const boneIdx )
+            inline static float GetBlendWeight( float const blendWeight, BoneMask const* pBoneMask, int32_t const boneIdx )
             {
                 return blendWeight * pBoneMask->GetWeight( boneIdx );
             }

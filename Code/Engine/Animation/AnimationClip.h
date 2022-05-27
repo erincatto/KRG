@@ -64,7 +64,7 @@ namespace KRG::Animation
         QuantizationRange                       m_scaleRangeX;
         QuantizationRange                       m_scaleRangeY;
         QuantizationRange                       m_scaleRangeZ;
-        uint32                                  m_trackStartIndex = 0; // The start offset for this track in the compressed data block (in number of uint16s)
+        uint32_t                                  m_trackStartIndex = 0; // The start offset for this track in the compressed data block (in number of uint16s)
 
     private:
 
@@ -84,13 +84,13 @@ namespace KRG::Animation
 
     private:
 
-        inline static Quaternion DecodeRotation( uint16 const* pData )
+        inline static Quaternion DecodeRotation( uint16_t const* pData )
         {
             Quantization::EncodedQuaternion const encodedQuat( pData[0], pData[1], pData[2] );
             return encodedQuat.ToQuaternion();
         }
 
-        inline static Vector DecodeTranslation( uint16 const* pData, TrackCompressionSettings const& settings )
+        inline static Vector DecodeTranslation( uint16_t const* pData, TrackCompressionSettings const& settings )
         {
             float const m_x = Quantization::DecodeFloat( pData[0], settings.m_translationRangeX.m_rangeStart, settings.m_translationRangeX.m_rangeLength );
             float const m_y = Quantization::DecodeFloat( pData[1], settings.m_translationRangeY.m_rangeStart, settings.m_translationRangeY.m_rangeLength );
@@ -98,7 +98,7 @@ namespace KRG::Animation
             return Vector( m_x, m_y, m_z );
         }
 
-        inline static Vector DecodeScale( uint16 const* pData, TrackCompressionSettings const& settings )
+        inline static Vector DecodeScale( uint16_t const* pData, TrackCompressionSettings const& settings )
         {
             float const m_x = Quantization::DecodeFloat( pData[0], settings.m_scaleRangeX.m_rangeStart, settings.m_scaleRangeX.m_rangeLength );
             float const m_y = Quantization::DecodeFloat( pData[1], settings.m_scaleRangeY.m_rangeStart, settings.m_scaleRangeY.m_rangeLength );
@@ -112,7 +112,7 @@ namespace KRG::Animation
 
         virtual bool IsValid() const final { return m_pSkeleton != nullptr && m_pSkeleton.IsLoaded() && m_numFrames > 0; }
         inline Skeleton const* GetSkeleton() const { return m_pSkeleton.GetPtr(); }
-        inline int32 GetNumBones() const { KRG_ASSERT( m_pSkeleton != nullptr ); return m_pSkeleton->GetNumBones(); }
+        inline int32_t GetNumBones() const { KRG_ASSERT( m_pSkeleton != nullptr ); return m_pSkeleton->GetNumBones(); }
 
         // Animation Info
         //-------------------------------------------------------------------------
@@ -120,10 +120,10 @@ namespace KRG::Animation
         inline bool IsSingleFrameAnimation() const { return m_numFrames == 1; }
         inline bool IsAdditive() const { return m_isAdditive; }
         inline float GetFPS() const { return ( (float) m_numFrames ) / m_duration; }
-        inline uint32 GetNumFrames() const { return m_numFrames; }
+        inline uint32_t GetNumFrames() const { return m_numFrames; }
         inline Seconds GetDuration() const { return m_duration; }
-        inline Seconds GetTime( uint32 frame ) const { return Seconds( GetPercentageThrough( frame ).ToFloat() * m_duration ); }
-        inline Percentage GetPercentageThrough( uint32 frame ) const { return Percentage( ( (float) frame ) / m_numFrames ); }
+        inline Seconds GetTime( uint32_t frame ) const { return Seconds( GetPercentageThrough( frame ).ToFloat() * m_duration ); }
+        inline Percentage GetPercentageThrough( uint32_t frame ) const { return Percentage( ( (float) frame ) / m_numFrames ); }
         FrameTime GetFrameTime( Percentage const percentageThrough ) const;
         FrameTime GetFrameTime( Seconds const timeThroughAnimation ) const { return GetFrameTime( Percentage( timeThroughAnimation / m_duration ) ); }
         inline SyncTrack const& GetSyncTrack() const{ return m_syncTrack; }
@@ -134,12 +134,12 @@ namespace KRG::Animation
         void GetPose( FrameTime const& frameTime, Pose* pOutPose ) const;
         inline void GetPose( Percentage percentageThrough, Pose* pOutPose ) const { GetPose( GetFrameTime( percentageThrough ), pOutPose ); }
 
-        Transform GetLocalSpaceTransform( int32 boneIdx, FrameTime const& frameTime ) const;
-        inline Transform GetLocalSpaceTransform( int32 boneIdx, Percentage percentageThrough ) const{ return GetLocalSpaceTransform( boneIdx, GetFrameTime( percentageThrough ) ); }
+        Transform GetLocalSpaceTransform( int32_t boneIdx, FrameTime const& frameTime ) const;
+        inline Transform GetLocalSpaceTransform( int32_t boneIdx, Percentage percentageThrough ) const{ return GetLocalSpaceTransform( boneIdx, GetFrameTime( percentageThrough ) ); }
 
         // Warning: these are VERY expensive functions, use sparingly
-        Transform GetGlobalSpaceTransform( int32 boneIdx, FrameTime const& frameTime ) const;
-        inline Transform GetGlobalSpaceTransform( int32 boneIdx, Percentage percentageThrough ) const{ return GetGlobalSpaceTransform( boneIdx, GetFrameTime( percentageThrough ) ); }
+        Transform GetGlobalSpaceTransform( int32_t boneIdx, FrameTime const& frameTime ) const;
+        inline Transform GetGlobalSpaceTransform( int32_t boneIdx, Percentage percentageThrough ) const{ return GetGlobalSpaceTransform( boneIdx, GetFrameTime( percentageThrough ) ); }
 
         // Events
         //-------------------------------------------------------------------------
@@ -197,15 +197,15 @@ namespace KRG::Animation
     private:
 
         // Read a compressed transform from a track and return a pointer to the data for the next track
-        inline uint16 const* ReadCompressedTrackTransform( uint16 const* pTrackData, TrackCompressionSettings const& trackSettings, FrameTime const& frameTime, Transform& outTransform ) const;
-        inline uint16 const* ReadCompressedTrackKeyFrame( uint16 const* pTrackData, TrackCompressionSettings const& trackSettings, uint32 frameIdx, Transform& outTransform ) const;
+        inline uint16_t const* ReadCompressedTrackTransform( uint16_t const* pTrackData, TrackCompressionSettings const& trackSettings, FrameTime const& frameTime, Transform& outTransform ) const;
+        inline uint16_t const* ReadCompressedTrackKeyFrame( uint16_t const* pTrackData, TrackCompressionSettings const& trackSettings, uint32_t frameIdx, Transform& outTransform ) const;
 
     private:
 
         TResourcePtr<Skeleton>                  m_pSkeleton;
-        uint32                                  m_numFrames = 0;
+        uint32_t                                  m_numFrames = 0;
         Seconds                                 m_duration = 0.0f;
-        TVector<uint16>                         m_compressedPoseData;
+        TVector<uint16_t>                         m_compressedPoseData;
         TVector<TrackCompressionSettings>       m_trackCompressionSettings;
         TVector<Event*>                         m_events;
         SyncTrack                               m_syncTrack;
@@ -221,11 +221,11 @@ namespace KRG::Animation
 
 namespace KRG::Animation
 {
-    inline uint16 const* AnimationClip::ReadCompressedTrackTransform( uint16 const* pTrackData, TrackCompressionSettings const& trackSettings, FrameTime const& frameTime, Transform& outTransform ) const
+    inline uint16_t const* AnimationClip::ReadCompressedTrackTransform( uint16_t const* pTrackData, TrackCompressionSettings const& trackSettings, FrameTime const& frameTime, Transform& outTransform ) const
     {
         KRG_ASSERT( pTrackData != nullptr );
 
-        uint32 const frameIdx = frameTime.GetFrameIndex();
+        uint32_t const frameIdx = frameTime.GetFrameIndex();
         Percentage const percentageThrough = frameTime.GetPercentageThrough();
         KRG_ASSERT( frameIdx < m_numFrames - 1 );
 
@@ -238,11 +238,11 @@ namespace KRG::Animation
         // Read rotation
         //-------------------------------------------------------------------------
 
-        // Rotations are 48bits (3 x uint16)
-        static constexpr uint32 const rotationStride = 3;
+        // Rotations are 48bits (3 x uint16_t)
+        static constexpr uint32_t const rotationStride = 3;
 
-        uint32 PoseDataIdx0 = frameIdx * rotationStride;
-        uint32 PoseDataIdx1 = PoseDataIdx0 + rotationStride;
+        uint32_t PoseDataIdx0 = frameIdx * rotationStride;
+        uint32_t PoseDataIdx1 = PoseDataIdx0 + rotationStride;
         KRG_ASSERT( PoseDataIdx1 < ( m_numFrames * rotationStride ) );
 
         transform0.SetRotation( DecodeRotation( &pTrackData[PoseDataIdx0] ) );
@@ -255,8 +255,8 @@ namespace KRG::Animation
         // Read translation
         //-------------------------------------------------------------------------
 
-        // Translations are 48bits (3 x uint16)
-        static constexpr uint32 const translationStride = 3;
+        // Translations are 48bits (3 x uint16_t)
+        static constexpr uint32_t const translationStride = 3;
 
         if ( trackSettings.IsTranslationTrackStatic() )
         {
@@ -284,8 +284,8 @@ namespace KRG::Animation
         // Read scale
         //-------------------------------------------------------------------------
 
-        // Scales are 48bits (3 x uint16)
-        static constexpr uint32 const scaleStride = 3;
+        // Scales are 48bits (3 x uint16_t)
+        static constexpr uint32_t const scaleStride = 3;
 
         if ( trackSettings.IsScaleTrackStatic() )
         {
@@ -320,7 +320,7 @@ namespace KRG::Animation
 
     //-------------------------------------------------------------------------
 
-    inline uint16 const* AnimationClip::ReadCompressedTrackKeyFrame( uint16 const* pTrackData, TrackCompressionSettings const& trackSettings, uint32 frameIdx, Transform& outTransform ) const
+    inline uint16_t const* AnimationClip::ReadCompressedTrackKeyFrame( uint16_t const* pTrackData, TrackCompressionSettings const& trackSettings, uint32_t frameIdx, Transform& outTransform ) const
     {
         KRG_ASSERT( pTrackData != nullptr );
         KRG_ASSERT( frameIdx < m_numFrames );
@@ -329,10 +329,10 @@ namespace KRG::Animation
         // Read rotation
         //-------------------------------------------------------------------------
 
-        // Rotations are 48bits (3 x uint16)
-        static constexpr uint32 const rotationStride = 3;
+        // Rotations are 48bits (3 x uint16_t)
+        static constexpr uint32_t const rotationStride = 3;
 
-        uint32 PoseDataIdx = frameIdx * rotationStride;
+        uint32_t PoseDataIdx = frameIdx * rotationStride;
         KRG_ASSERT( PoseDataIdx < ( m_numFrames * rotationStride ) );
 
         outTransform.SetRotation( DecodeRotation( &pTrackData[PoseDataIdx] ) );
@@ -344,8 +344,8 @@ namespace KRG::Animation
         // Read translation
         //-------------------------------------------------------------------------
 
-        // Translations are 48bits (3 x uint16)
-        static constexpr uint32 const translationStride = 3;
+        // Translations are 48bits (3 x uint16_t)
+        static constexpr uint32_t const translationStride = 3;
 
         if ( trackSettings.IsTranslationTrackStatic() )
         {
@@ -370,8 +370,8 @@ namespace KRG::Animation
         // Read scale
         //-------------------------------------------------------------------------
 
-         // Scales are 48bits (3 x uint16)
-        static constexpr uint32 const scaleStride = 3;
+         // Scales are 48bits (3 x uint16_t)
+        static constexpr uint32_t const scaleStride = 3;
 
         if ( trackSettings.IsScaleTrackStatic() )
         {

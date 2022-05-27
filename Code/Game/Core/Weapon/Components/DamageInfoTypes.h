@@ -4,7 +4,7 @@
 
 namespace KRG::Weapon
 {
-	enum class DamageType : uint8
+	enum class DamageType : uint8_t
 	{
 		Normal,
 		Silver

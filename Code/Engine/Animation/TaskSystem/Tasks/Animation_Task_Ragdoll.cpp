@@ -63,7 +63,7 @@ namespace KRG::Animation::Tasks
             else if ( m_physicsBlendWeight > Math::LargeEpsilon )
             {
                 PoseBuffer* pTempBuffer = nullptr;
-                int8 const tmpBufferIdx = GetTemporaryPoseBuffer( context, pTempBuffer );
+                int8_t const tmpBufferIdx = GetTemporaryPoseBuffer( context, pTempBuffer );
                 KRG_ASSERT( pTempBuffer != nullptr );
 
                 // Get the ragdoll pose and blend it with the animation pose

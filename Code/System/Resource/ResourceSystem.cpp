@@ -9,7 +9,7 @@ namespace KRG::Resource
 {
     ResourceSystem::ResourceSystem( TaskSystem& taskSystem )
         : m_taskSystem( taskSystem )
-        , m_asyncProcessingTask( [this] ( TaskSetPartition range, uint32 threadnum ) { ProcessResourceRequests(); } )
+        , m_asyncProcessingTask( [this] ( TaskSetPartition range, uint32_t threadnum ) { ProcessResourceRequests(); } )
     {}
 
     ResourceSystem::~ResourceSystem()
@@ -61,7 +61,7 @@ namespace KRG::Resource
             // Internal user i.e. install dependency
             if ( requesterID.IsInstallDependencyRequest() )
             {
-                uint32 const resourcePathID( requesterID.GetInstallDependencyResourcePathID() );
+                uint32_t const resourcePathID( requesterID.GetInstallDependencyResourcePathID() );
                 auto const recordIter = m_resourceRecords.find_as( resourcePathID );
                 KRG_ASSERT( recordIter != m_resourceRecords.end() );
 
@@ -183,7 +183,7 @@ namespace KRG::Resource
 
         // Try find a pending request for this resource ID
         auto predicate = [] ( PendingRequest const& request, ResourceID const& resourceID ) { return request.m_pRecord->GetResourceID() == resourceID; };
-        int32 const foundIdx = VectorFindIndex( m_pendingRequests, request.m_pRecord->GetResourceID(), predicate );
+        int32_t const foundIdx = VectorFindIndex( m_pendingRequests, request.m_pRecord->GetResourceID(), predicate );
 
         // If we dont have a request for this resource ID create one
         if ( foundIdx == InvalidIndex )
@@ -203,7 +203,7 @@ namespace KRG::Resource
 
         Threading::RecursiveScopeLock lock( m_accessLock );
         auto predicate = [] ( ResourceRequest const* pRequest, ResourceRecord const* pResourceRecord ) { return pRequest->GetResourceRecord() == pResourceRecord; };
-        int32 const foundIdx = VectorFindIndex( m_activeRequests, pResourceRecord, predicate );
+        int32_t const foundIdx = VectorFindIndex( m_activeRequests, pResourceRecord, predicate );
 
         if ( foundIdx != InvalidIndex )
         {
@@ -392,7 +392,7 @@ namespace KRG::Resource
         //-------------------------------------------------------------------------
 
         // We dont have to worry about this loop even if the m_activeRequests array is modified from another thread since we only access the array in 2 places and both use locks
-        for ( int32 i = (int32) m_activeRequests.size() - 1; i >= 0; i-- )
+        for ( int32_t i = (int32_t) m_activeRequests.size() - 1; i >= 0; i-- )
         {
             ResourceRequest::RequestContext context;
             context.m_createRawRequestRequestFunction = [this] ( ResourceRequest* pRequest ) { m_pResourceProvider->RequestRawResource( pRequest ); };

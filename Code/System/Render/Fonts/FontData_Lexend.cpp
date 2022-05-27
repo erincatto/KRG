@@ -1421,25 +1421,25 @@ namespace KRG::Fonts::Lexend
 {
     namespace Regular
     {
-        Byte const* GetData()
+        uint8_t const* GetData()
         {
-            return (Byte*) g_lexendRegular_compressed_data_base85;
+            return (uint8_t*) g_lexendRegular_compressed_data_base85;
         }
     }
 
     namespace Medium
     {
-        Byte const* GetData()
+        uint8_t const* GetData()
         {
-            return (Byte*) g_lexendMedium_compressed_data_base85;
+            return (uint8_t*) g_lexendMedium_compressed_data_base85;
         }
     }
 
     namespace Bold
     {
-        Byte const* GetData()
+        uint8_t const* GetData()
         {
-            return (Byte*) g_lexendBold_compressed_data_base85;
+            return (uint8_t*) g_lexendBold_compressed_data_base85;
         }
     }
 }

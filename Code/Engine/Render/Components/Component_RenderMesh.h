@@ -23,9 +23,9 @@ namespace KRG::Render
         // Materials
         //-------------------------------------------------------------------------
 
-        inline int32 GetNumRequiredMaterials() const { return (int32) GetDefaultMaterials().size(); }
+        inline int32_t GetNumRequiredMaterials() const { return (int32_t) GetDefaultMaterials().size(); }
         inline TVector<Material const*> const& GetMaterials() const { return m_materials; }
-        void SetMaterialOverride( int32 materialIdx, ResourceID materialResourceID );
+        void SetMaterialOverride( int32_t materialIdx, ResourceID materialResourceID );
 
     protected:
 

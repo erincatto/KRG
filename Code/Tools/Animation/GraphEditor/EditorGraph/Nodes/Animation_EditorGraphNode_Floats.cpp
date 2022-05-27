@@ -326,7 +326,7 @@ namespace KRG::Animation::GraphNodes
             "<",
         };
 
-        ImGui::Text( "%s %.2f", comparisionStr[(int32)m_comparison], m_comparisonValue );
+        ImGui::Text( "%s %.2f", comparisionStr[(int32_t)m_comparison], m_comparisonValue );
     }
 
     //-------------------------------------------------------------------------

@@ -11,13 +11,13 @@ namespace KRG::TypeSystem::Reflection
 
         if ( cursorName == GetReflectionMacroText( ReflectionMacro::RegisterProperty ) )
         {
-            uint32 lineNumber;
+            uint32_t lineNumber;
             clang_getExpansionLocation( clang_getRangeStart( range ), nullptr, &lineNumber, nullptr, nullptr );
             pContext->AddFoundRegisteredPropertyMacro( RegisteredPropertyMacro( headerID, lineNumber, false ) );
         }
         else if ( cursorName == GetReflectionMacroText( ReflectionMacro::ExposeProperty ) )
         {
-            uint32 lineNumber;
+            uint32_t lineNumber;
             clang_getExpansionLocation( clang_getRangeStart( range ), nullptr, &lineNumber, nullptr, nullptr );
             pContext->AddFoundRegisteredPropertyMacro( RegisteredPropertyMacro( headerID, lineNumber, true ) );
         }

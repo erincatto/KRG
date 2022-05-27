@@ -12,7 +12,7 @@ namespace KRG::Animation::GraphNodes
 
     public:
 
-        enum class TransitionState : uint8
+        enum class TransitionState : uint8_t
         {
             None,
             TransitioningIn,

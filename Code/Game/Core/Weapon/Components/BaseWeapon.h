@@ -22,8 +22,8 @@ namespace KRG::Weapon
 
 		float m_baseAccuracy	= 1.f;
 		float m_firingRate		= 1.f;
-		int32 m_currentAmmoNum	= 1;
-		int32 m_maxAmmoCapacity = 1;
+		int32_t m_currentAmmoNum	= 1;
+		int32_t m_maxAmmoCapacity = 1;
 		//reload time
 		// ammo capacity
 	};

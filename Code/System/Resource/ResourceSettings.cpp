@@ -111,10 +111,10 @@ namespace KRG::Resource
                 return false;
             }
 
-            uint32 tempValue;
+            uint32_t tempValue;
             if ( ini.TryGetUInt( "Resource:ResourceServerPort", tempValue ) )
             {
-                m_resourceServerPort = (uint16) tempValue;
+                m_resourceServerPort = (uint16_t) tempValue;
             }
             else
             {

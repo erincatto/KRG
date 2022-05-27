@@ -24,7 +24,7 @@ namespace KRG
         KRG_ASSERT( m_worldSystems.empty() );
         KRG_ASSERT( m_entityUpdateList.empty() );
 
-        for ( int8 i = 0; i < (int8) UpdateStage::NumStages; i++ )
+        for ( int8_t i = 0; i < (int8_t) UpdateStage::NumStages; i++ )
         {
             KRG_ASSERT( m_systemUpdateLists[i].empty() );
         }
@@ -63,7 +63,7 @@ namespace KRG
             m_worldSystems.push_back( pWorldSystem );
 
             // Add to update lists
-            for ( int8 i = 0; i < (int8) UpdateStage::NumStages; i++ )
+            for ( int8_t i = 0; i < (int8_t) UpdateStage::NumStages; i++ )
             {
                 if ( pWorldSystem->GetRequiredUpdatePriorities().IsStageEnabled( (UpdateStage) i ) )
                 {
@@ -73,8 +73,8 @@ namespace KRG
                 // Sort update list
                 auto comparator = [i] ( IWorldEntitySystem* const& pSystemA, IWorldEntitySystem* const& pSystemB )
                 {
-                    uint8 const A = pSystemA->GetRequiredUpdatePriorities().GetPriorityForStage( (UpdateStage) i );
-                    uint8 const B = pSystemB->GetRequiredUpdatePriorities().GetPriorityForStage( (UpdateStage) i );
+                    uint8_t const A = pSystemA->GetRequiredUpdatePriorities().GetPriorityForStage( (UpdateStage) i );
+                    uint8_t const B = pSystemB->GetRequiredUpdatePriorities().GetPriorityForStage( (UpdateStage) i );
                     return A > B;
                 };
 
@@ -118,7 +118,7 @@ namespace KRG
         for( auto pWorldSystem : m_worldSystems )
         {
             // Remove from update lists
-            for ( int8 i = 0; i < (int8) UpdateStage::NumStages; i++ )
+            for ( int8_t i = 0; i < (int8_t) UpdateStage::NumStages; i++ )
             {
                 if ( pWorldSystem->GetRequiredUpdatePriorities().IsStageEnabled( (UpdateStage) i ) )
                 {
@@ -174,7 +174,7 @@ namespace KRG
     // Misc
     //-------------------------------------------------------------------------
 
-    IWorldEntitySystem* EntityWorld::GetWorldSystem( uint32 worldSystemID ) const
+    IWorldEntitySystem* EntityWorld::GetWorldSystem( uint32_t worldSystemID ) const
     {
         for ( IWorldEntitySystem* pWorldSystem : m_worldSystems )
         {
@@ -201,7 +201,7 @@ namespace KRG
         // This will fill the world activation/registration lists used below
         // This will also handle all hot-reload unload/load requests
 
-        for ( int32 i = (int32) m_maps.size() - 1; i >= 0; i-- )
+        for ( int32_t i = (int32_t) m_maps.size() - 1; i >= 0; i-- )
         {
             if ( m_maps[i].UpdateState( m_loadingContext, m_activationContext ) )
             {
@@ -233,7 +233,7 @@ namespace KRG
                 : m_context( context )
                 , m_updateList( updateList )
             {
-                m_SetSize = (uint32) updateList.size();
+                m_SetSize = (uint32_t) updateList.size();
             }
 
             // Only used for spatial dependency chain updates
@@ -247,9 +247,9 @@ namespace KRG
                 }
             }
 
-            virtual void ExecuteRange( TaskSetPartition range, uint32 threadnum ) override final
+            virtual void ExecuteRange( TaskSetPartition range, uint32_t threadnum ) override final
             {
-                for ( uint64 i = range.start; i < range.end; ++i )
+                for ( uint64_t i = range.start; i < range.end; ++i )
                 {
                     auto pEntity = m_updateList[i];
 
@@ -309,12 +309,12 @@ namespace KRG
         m_pTaskSystem->WaitForTask( &entityUpdateTask );
 
         // Force execution on main thread for debugging purposes
-        //entityUpdateTask.ExecuteRange( { 0u, (uint32) m_entityUpdateList.size() }, 0 );
+        //entityUpdateTask.ExecuteRange( { 0u, (uint32_t) m_entityUpdateList.size() }, 0 );
 
         // Update systems
         //-------------------------------------------------------------------------
 
-        for ( auto pSystem : m_systemUpdateLists[(int8) updateStage] )
+        for ( auto pSystem : m_systemUpdateLists[(int8_t) updateStage] )
         {
             KRG_PROFILE_SCOPE_SCENE( "Update World Systems" );
             KRG_ASSERT( pSystem->GetRequiredUpdatePriorities().IsStageEnabled( updateStage ) );
@@ -369,14 +369,14 @@ namespace KRG
                 , m_componentsToRegister( componentsToRegister )
                 , m_componentsToUnregister( componentsToUnregister )
             {
-                m_SetSize = (uint32) worldSystems.size();
+                m_SetSize = (uint32_t) worldSystems.size();
             }
 
-            virtual void ExecuteRange( TaskSetPartition range, uint32 threadnum ) override final
+            virtual void ExecuteRange( TaskSetPartition range, uint32_t threadnum ) override final
             {
                 KRG_PROFILE_SCOPE_SCENE( "Component World Registration Task" );
 
-                for ( uint64 i = range.start; i < range.end; ++i )
+                for ( uint64_t i = range.start; i < range.end; ++i )
                 {
                     auto pSystem = m_worldSystems[i];
 

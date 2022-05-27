@@ -9,9 +9,9 @@ namespace KRG::Input
 {
     class Button
     {
-        template<uint32> friend class ButtonStates;
+        template<uint32_t> friend class ButtonStates;
 
-        enum class State : uint8
+        enum class State : uint8_t
         {
             None = 0,
             Pressed,
@@ -19,7 +19,7 @@ namespace KRG::Input
             Released,
         };
 
-        enum class UpdateState : uint8
+        enum class UpdateState : uint8_t
         {
             None, 
             ChangedThisFrame,
@@ -116,20 +116,20 @@ namespace KRG::Input
 
     //-------------------------------------------------------------------------
 
-    template<uint32 numButtons>
+    template<uint32_t numButtons>
     class ButtonStates
     {
         friend class InputDevice;
 
     public:
 
-        inline bool WasPressed( uint32 buttonIdx ) const
+        inline bool WasPressed( uint32_t buttonIdx ) const
         {
             KRG_ASSERT( buttonIdx < numButtons );
             return ( m_buttons[buttonIdx].WasPressed() );
         }
 
-        inline bool WasReleased( uint32 buttonIdx, Seconds* pHeldDownDuration = nullptr ) const
+        inline bool WasReleased( uint32_t buttonIdx, Seconds* pHeldDownDuration = nullptr ) const
         {
             KRG_ASSERT( buttonIdx < numButtons );
             if ( m_buttons[buttonIdx].WasReleased() )
@@ -145,7 +145,7 @@ namespace KRG::Input
             return false;
         }
 
-        inline bool IsHeldDown( uint32 buttonIdx, Seconds* pHeldDownDuration = nullptr ) const
+        inline bool IsHeldDown( uint32_t buttonIdx, Seconds* pHeldDownDuration = nullptr ) const
         {
             if ( pHeldDownDuration != nullptr )
             {
@@ -155,7 +155,7 @@ namespace KRG::Input
             return WasPressed( buttonIdx ) || m_buttons[buttonIdx].IsHeldDown();
         }
 
-        inline Seconds GetHeldDuration( uint32 buttonIdx ) const
+        inline Seconds GetHeldDuration( uint32_t buttonIdx ) const
         {
             KRG_ASSERT( buttonIdx < numButtons );
             return m_buttons[buttonIdx].IsHeldDown() ? m_buttons[buttonIdx].GetTimeHeld() : 0.0f;
@@ -177,13 +177,13 @@ namespace KRG::Input
         }
 
         // Called when we detect a pressed event for a button
-        inline void Press( uint32 buttonIdx )
+        inline void Press( uint32_t buttonIdx )
         {
             m_buttons[buttonIdx].SetState( Button::State::Pressed );
         }
 
         // Called when we detect a released event for a button
-        inline void Release( uint32 buttonIdx )
+        inline void Release( uint32_t buttonIdx )
         {
             m_buttons[buttonIdx].SetState( Button::State::Released );
         }

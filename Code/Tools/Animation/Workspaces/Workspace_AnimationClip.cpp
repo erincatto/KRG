@@ -356,7 +356,7 @@ namespace KRG::Animation
                         //-------------------------------------------------------------------------
 
                         Skeleton const* pSkeleton = pPose->GetSkeleton();
-                        int32 const numBones = pSkeleton->GetNumBones();
+                        int32_t const numBones = pSkeleton->GetNumBones();
 
                         ImGuiListClipper clipper;
                         clipper.Begin( numBones );

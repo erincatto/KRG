@@ -52,7 +52,7 @@ namespace KRG
             TVector<ResourceTypeID> const& GetLoadableTypes() const { return m_loadableTypes; }
 
             // This function loads is responsible to deserialize the compiled resource data, read the resource header for install dependencies and to create the new runtime resource object
-            bool Load( ResourceID const& resourceID, TVector<Byte>& rawData, ResourceRecord* pResourceRecord ) const;
+            bool Load( ResourceID const& resourceID, TVector<uint8_t>& rawData, ResourceRecord* pResourceRecord ) const;
 
             // This function will destroy the created resource object
             void Unload( ResourceID const& resourceID, ResourceRecord* pResourceRecord ) const;

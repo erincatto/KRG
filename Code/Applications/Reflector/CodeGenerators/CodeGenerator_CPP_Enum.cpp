@@ -112,7 +112,7 @@ namespace KRG::CPP
 
         for ( auto const& c : type.m_enumConstants )
         {
-            file << "        enumInfo.m_constants.insert( TPair<StringID, int64>( StringID( \"" << c.second.m_label.c_str() << "\" ), " << c.second.m_value << " ) );\n";
+            file << "        enumInfo.m_constants.insert( TPair<StringID, int64_t>( StringID( \"" << c.second.m_label.c_str() << "\" ), " << c.second.m_value << " ) );\n";
         }
 
         file << "\n";

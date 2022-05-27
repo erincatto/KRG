@@ -13,7 +13,7 @@ namespace KRG::Animation
         #endif
     }
 
-    void GraphContext::Initialize( uint64 graphUserID, TaskSystem* pTaskSystem, Pose const* pPreviousPose, RootMotionRecorder* pRootMotionRecorder )
+    void GraphContext::Initialize( uint64_t graphUserID, TaskSystem* pTaskSystem, Pose const* pPreviousPose, RootMotionRecorder* pRootMotionRecorder )
     {
         KRG_ASSERT( graphUserID != 0 );
         m_graphUserID = graphUserID;

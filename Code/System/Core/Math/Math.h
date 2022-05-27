@@ -2,7 +2,7 @@
 
 #include "System/Core/_Module/API.h"
 #include "System/Core/Serialization/Serialization.h"
-#include "System/Core/Types/IntegralTypes.h"
+#include "System/Core/KRG.h"
 #include <math.h>
 #include <float.h>
 #include <stdlib.h>
@@ -55,7 +55,7 @@ namespace KRG
 
         KRG_FORCE_INLINE float Log( float value ) { return log( value ); }
 
-        KRG_FORCE_INLINE float AddToMovingAverage( float currentAverage, uint64 numCurrentSamples, float newValue )
+        KRG_FORCE_INLINE float AddToMovingAverage( float currentAverage, uint64_t numCurrentSamples, float newValue )
         {
             return currentAverage + ( ( newValue - currentAverage ) / ( numCurrentSamples + 1 ) );
         }
@@ -144,9 +144,9 @@ namespace KRG
         }
 
         template<typename T>
-        KRG_FORCE_INLINE int32 CeilingToInt( T value )
+        KRG_FORCE_INLINE int32_t CeilingToInt( T value )
         {
-            return (int32) ceil( value );
+            return (int32_t) ceil( value );
         }
 
         template<typename T>
@@ -156,9 +156,9 @@ namespace KRG
         }
 
         template <typename T>
-        KRG_FORCE_INLINE int32 FloorToInt( T value )
+        KRG_FORCE_INLINE int32_t FloorToInt( T value )
         {
-            return (int32) floor( value );
+            return (int32_t) floor( value );
         }
 
         template<typename T>
@@ -168,20 +168,20 @@ namespace KRG
         }
 
         template<typename T>
-        KRG_FORCE_INLINE int32 RoundToInt( T value )
+        KRG_FORCE_INLINE int32_t RoundToInt( T value )
         {
-            return (int32) round( value );
+            return (int32_t) round( value );
         }
 
-        inline int32 GreatestCommonDivisor( int32 a, int32 b )
+        inline int32_t GreatestCommonDivisor( int32_t a, int32_t b )
         {
             return b == 0 ? a : GreatestCommonDivisor( b, a % b );
         }
 
-        inline int32 LowestCommonMultiple( int32 a, int32 b )
+        inline int32_t LowestCommonMultiple( int32_t a, int32_t b )
         {
-            int32 const gcd = GreatestCommonDivisor( a, b );
-            int32 const lcm = ( a / gcd ) * b;
+            int32_t const gcd = GreatestCommonDivisor( a, b );
+            int32_t const lcm = ( a / gcd ) * b;
             return lcm;
         }
 
@@ -224,32 +224,32 @@ namespace KRG
         // Note: returns true for 0
         KRG_FORCE_INLINE bool IsPowerOf2( const int x ) { return ( x & ( x - 1 ) ) == 0; }
 
-        KRG_FORCE_INLINE uint32 GetClosestPowerOfTwo( uint32 x )
+        KRG_FORCE_INLINE uint32_t GetClosestPowerOfTwo( uint32_t x )
         {
-            uint32 i = 1;
+            uint32_t i = 1;
             while ( i < x ) i += i;
             if ( 4 * x < 3 * i ) i >>= 1;
             return i;
         }
 
-        KRG_FORCE_INLINE uint32 GetUpperPowerOfTwo( uint32 x )
+        KRG_FORCE_INLINE uint32_t GetUpperPowerOfTwo( uint32_t x )
         {
-            uint32 i = 1;
+            uint32_t i = 1;
             while ( i < x ) i += i;
             return i;
         }
 
-        KRG_FORCE_INLINE uint32 GetLowerPowerOfTwo( uint32 x )
+        KRG_FORCE_INLINE uint32_t GetLowerPowerOfTwo( uint32_t x )
         {
-            uint32 i = 1;
+            uint32_t i = 1;
             while ( i <= x ) i += i;
             return i >> 1;
         }
 
-        KRG_FORCE_INLINE uint32 RoundUpToNearestMultiple32( uint32 value, uint32 multiple ) { return ( ( value + multiple - 1 ) / multiple ) * multiple; }
-        KRG_FORCE_INLINE uint64 RoundUpToNearestMultiple64( uint64 value, uint64 multiple ) { return ( ( value + multiple - 1 ) / multiple ) * multiple; }
-        KRG_FORCE_INLINE uint32 RoundDownToNearestMultiple32( uint32 value, uint32 multiple ) { return value - value % multiple; }
-        KRG_FORCE_INLINE uint64 RoundDownToNearestMultiple64( uint64 value, uint64 multiple ) { return value - value % multiple; }
+        KRG_FORCE_INLINE uint32_t RoundUpToNearestMultiple32( uint32_t value, uint32_t multiple ) { return ( ( value + multiple - 1 ) / multiple ) * multiple; }
+        KRG_FORCE_INLINE uint64_t RoundUpToNearestMultiple64( uint64_t value, uint64_t multiple ) { return ( ( value + multiple - 1 ) / multiple ) * multiple; }
+        KRG_FORCE_INLINE uint32_t RoundDownToNearestMultiple32( uint32_t value, uint32_t multiple ) { return value - value % multiple; }
+        KRG_FORCE_INLINE uint64_t RoundDownToNearestMultiple64( uint64_t value, uint64_t multiple ) { return value - value % multiple; }
     }
 
     //-------------------------------------------------------------------------
@@ -260,7 +260,7 @@ namespace KRG
 
     //-------------------------------------------------------------------------
 
-    enum class Axis : uint8
+    enum class Axis : uint8_t
     {
         X = 0,
         Y,
@@ -289,11 +289,11 @@ namespace KRG
         inline Int2() {}
         inline Int2( ZeroInit_t ) : m_x( 0 ), m_y( 0 ) {}
         inline Int2( Float2 const& v );
-        inline explicit Int2( int32 v ) : m_x( v ), m_y( v ) {}
-        inline explicit Int2( int32 ix, int32 iy ) : m_x( ix ), m_y( iy ) {}
+        inline explicit Int2( int32_t v ) : m_x( v ), m_y( v ) {}
+        inline explicit Int2( int32_t ix, int32_t iy ) : m_x( ix ), m_y( iy ) {}
 
-        inline int32& operator[]( uint32 i ) { KRG_ASSERT( i < 2 ); return ( (int32*) this )[i]; }
-        inline int32 const& operator[]( uint32 i ) const { KRG_ASSERT( i < 2 ); return ( (int32*) this )[i]; }
+        inline int32_t& operator[]( uint32_t i ) { KRG_ASSERT( i < 2 ); return ( (int32_t*) this )[i]; }
+        inline int32_t const& operator[]( uint32_t i ) const { KRG_ASSERT( i < 2 ); return ( (int32_t*) this )[i]; }
 
         inline bool operator==( Int2 const rhs ) const { return m_x == rhs.m_x && m_y == rhs.m_y; }
         inline bool operator!=( Int2 const rhs ) const { return m_x != rhs.m_x || m_y != rhs.m_y; }
@@ -303,16 +303,16 @@ namespace KRG
         inline Int2 operator*( Int2 const& rhs ) const { return Int2( m_x * rhs.m_x, m_y * rhs.m_y ); }
         inline Int2 operator/( Int2 const& rhs ) const { return Int2( m_x / rhs.m_x, m_y / rhs.m_y ); }
 
-        inline Int2& operator+=( int32 const& rhs ) { m_x += rhs; m_y += rhs; return *this; }
-        inline Int2& operator-=( int32 const& rhs ) { m_x -= rhs; m_y -= rhs; return *this; }
-        inline Int2& operator*=( int32 const& rhs ) { m_x *= rhs; m_y *= rhs; return *this; }
-        inline Int2& operator/=( int32 const& rhs ) { m_x /= rhs; m_y /= rhs; return *this; }
+        inline Int2& operator+=( int32_t const& rhs ) { m_x += rhs; m_y += rhs; return *this; }
+        inline Int2& operator-=( int32_t const& rhs ) { m_x -= rhs; m_y -= rhs; return *this; }
+        inline Int2& operator*=( int32_t const& rhs ) { m_x *= rhs; m_y *= rhs; return *this; }
+        inline Int2& operator/=( int32_t const& rhs ) { m_x /= rhs; m_y /= rhs; return *this; }
 
         // Component wise operation
-        inline Int2 operator+( int32 const& rhs ) const { return Int2( m_x + rhs, m_y + rhs ); }
-        inline Int2 operator-( int32 const& rhs ) const { return Int2( m_x - rhs, m_y - rhs ); }
-        inline Int2 operator*( int32 const& rhs ) const { return Int2( m_x * rhs, m_y * rhs ); }
-        inline Int2 operator/( int32 const& rhs ) const { return Int2( m_x / rhs, m_y / rhs ); }
+        inline Int2 operator+( int32_t const& rhs ) const { return Int2( m_x + rhs, m_y + rhs ); }
+        inline Int2 operator-( int32_t const& rhs ) const { return Int2( m_x - rhs, m_y - rhs ); }
+        inline Int2 operator*( int32_t const& rhs ) const { return Int2( m_x * rhs, m_y * rhs ); }
+        inline Int2 operator/( int32_t const& rhs ) const { return Int2( m_x / rhs, m_y / rhs ); }
 
         inline Int2& operator+=( Int2 const& rhs ) { m_x += rhs.m_x; m_y += rhs.m_y; return *this; }
         inline Int2& operator-=( Int2 const& rhs ) { m_x -= rhs.m_x; m_y -= rhs.m_y; return *this; }
@@ -321,7 +321,7 @@ namespace KRG
 
     public:
 
-        int32 m_x, m_y;
+        int32_t m_x, m_y;
     };
 
     //-------------------------------------------------------------------------
@@ -336,24 +336,24 @@ namespace KRG
 
         inline Int4() {}
         inline Int4( ZeroInit_t ) : m_x( 0 ), m_y( 0 ), m_z( 0 ), m_w( 0 ) {}
-        inline explicit Int4( int32 v ) : m_x( v ), m_y( v ), m_z( v ), m_w( v ) {}
-        inline explicit Int4( int32 ix, int32 iy, int32 iz, int32 iw ) : m_x( ix ), m_y( iy ), m_z( iz ), m_w( iw ) {}
+        inline explicit Int4( int32_t v ) : m_x( v ), m_y( v ), m_z( v ), m_w( v ) {}
+        inline explicit Int4( int32_t ix, int32_t iy, int32_t iz, int32_t iw ) : m_x( ix ), m_y( iy ), m_z( iz ), m_w( iw ) {}
 
-        inline int32& operator[]( uint32 i ) { KRG_ASSERT( i < 4 ); return ( (int32*) this )[i]; }
-        inline int32 const& operator[]( uint32 i ) const { KRG_ASSERT( i < 4 ); return ( (int32*) this )[i]; }
+        inline int32_t& operator[]( uint32_t i ) { KRG_ASSERT( i < 4 ); return ( (int32_t*) this )[i]; }
+        inline int32_t const& operator[]( uint32_t i ) const { KRG_ASSERT( i < 4 ); return ( (int32_t*) this )[i]; }
 
         inline bool operator==( Int4 const rhs ) const { return m_x == rhs.m_x && m_y == rhs.m_y && m_z == rhs.m_z && m_w == rhs.m_w; }
         inline bool operator!=( Int4 const rhs ) const { return m_x != rhs.m_x || m_y != rhs.m_y || m_z != rhs.m_z || m_w != rhs.m_w; }
 
-        inline Int4 operator+( int32 const& rhs ) const { return Int4( m_x + rhs, m_y + rhs, m_z + rhs, m_w + rhs ); }
-        inline Int4 operator-( int32 const& rhs ) const { return Int4( m_x - rhs, m_y - rhs, m_z - rhs, m_w - rhs ); }
-        inline Int4 operator*( int32 const& rhs ) const { return Int4( m_x * rhs, m_y * rhs, m_z * rhs, m_w * rhs ); }
-        inline Int4 operator/( int32 const& rhs ) const { return Int4( m_x / rhs, m_y / rhs, m_z / rhs, m_w / rhs ); }
+        inline Int4 operator+( int32_t const& rhs ) const { return Int4( m_x + rhs, m_y + rhs, m_z + rhs, m_w + rhs ); }
+        inline Int4 operator-( int32_t const& rhs ) const { return Int4( m_x - rhs, m_y - rhs, m_z - rhs, m_w - rhs ); }
+        inline Int4 operator*( int32_t const& rhs ) const { return Int4( m_x * rhs, m_y * rhs, m_z * rhs, m_w * rhs ); }
+        inline Int4 operator/( int32_t const& rhs ) const { return Int4( m_x / rhs, m_y / rhs, m_z / rhs, m_w / rhs ); }
 
-        inline Int4& operator+=( int32 const& rhs ) { m_x += rhs; m_y += rhs; m_z += rhs; m_w += rhs; return *this; }
-        inline Int4& operator-=( int32 const& rhs ) { m_x -= rhs; m_y -= rhs; m_z -= rhs; m_w -= rhs; return *this; }
-        inline Int4& operator*=( int32 const& rhs ) { m_x *= rhs; m_y *= rhs; m_z *= rhs; m_w *= rhs; return *this; }
-        inline Int4& operator/=( int32 const& rhs ) { m_x /= rhs; m_y /= rhs; m_z /= rhs; m_w /= rhs; return *this; }
+        inline Int4& operator+=( int32_t const& rhs ) { m_x += rhs; m_y += rhs; m_z += rhs; m_w += rhs; return *this; }
+        inline Int4& operator-=( int32_t const& rhs ) { m_x -= rhs; m_y -= rhs; m_z -= rhs; m_w -= rhs; return *this; }
+        inline Int4& operator*=( int32_t const& rhs ) { m_x *= rhs; m_y *= rhs; m_z *= rhs; m_w *= rhs; return *this; }
+        inline Int4& operator/=( int32_t const& rhs ) { m_x /= rhs; m_y /= rhs; m_z /= rhs; m_w /= rhs; return *this; }
 
         // Component wise operation
         inline Int4 operator+( Int4 const& rhs ) const { return Int4( m_x + rhs.m_x, m_y + rhs.m_y, m_z + rhs.m_z, m_w + rhs.m_w ); }
@@ -368,7 +368,7 @@ namespace KRG
 
     public:
 
-        int32 m_x, m_y, m_z, m_w;
+        int32_t m_x, m_y, m_z, m_w;
     };
 
     //-------------------------------------------------------------------------
@@ -392,8 +392,8 @@ namespace KRG
         inline explicit Float2( Float3 const& v );
         inline explicit Float2( Float4 const& v );
 
-        inline float& operator[]( uint32 i ) { KRG_ASSERT( i < 2 ); return ( (float*) this )[i]; }
-        inline float const& operator[]( uint32 i ) const { KRG_ASSERT( i < 2 ); return ( (float*) this )[i]; }
+        inline float& operator[]( uint32_t i ) { KRG_ASSERT( i < 2 ); return ( (float*) this )[i]; }
+        inline float const& operator[]( uint32_t i ) const { KRG_ASSERT( i < 2 ); return ( (float*) this )[i]; }
 
         inline bool operator==( Float2 const rhs ) const { return m_x == rhs.m_x && m_y == rhs.m_y; }
         inline bool operator!=( Float2 const rhs ) const { return m_x != rhs.m_x || m_y != rhs.m_y; }
@@ -446,8 +446,8 @@ namespace KRG
         inline explicit Float3( Float2 const& v, float iz = 0.0f ) : m_x( v.m_x ), m_y( v.m_y ), m_z( iz ) {}
         inline explicit Float3( Float4 const& v );
 
-        inline float& operator[]( uint32 i ) { KRG_ASSERT( i < 3 ); return ( (float*) this )[i]; }
-        inline float const& operator[]( uint32 i ) const { KRG_ASSERT( i < 3 ); return ( (float*) this )[i]; }
+        inline float& operator[]( uint32_t i ) { KRG_ASSERT( i < 3 ); return ( (float*) this )[i]; }
+        inline float const& operator[]( uint32_t i ) const { KRG_ASSERT( i < 3 ); return ( (float*) this )[i]; }
 
         inline bool operator==( Float3 const rhs ) const { return m_x == rhs.m_x && m_y == rhs.m_y && m_z == rhs.m_z; }
         inline bool operator!=( Float3 const rhs ) const { return m_x != rhs.m_x || m_y != rhs.m_y || m_z != rhs.m_z; }
@@ -503,8 +503,8 @@ namespace KRG
         explicit Float4( Float2 const& v, float iz = 0.0f, float iw = 0.0f ) : m_x( v.m_x ), m_y( v.m_y ), m_z( iz ), m_w( iw ) {}
         explicit Float4( Float3 const& v, float iw = 0.0f ) : m_x( v.m_x ), m_y( v.m_y ), m_z( v.m_z ), m_w( iw ) {}
 
-        float& operator[]( uint32 i ) { KRG_ASSERT( i < 4 ); return ( (float*) this )[i]; }
-        float const& operator[]( uint32 i ) const { KRG_ASSERT( i < 4 ); return ( (float*) this )[i]; }
+        float& operator[]( uint32_t i ) { KRG_ASSERT( i < 4 ); return ( (float*) this )[i]; }
+        float const& operator[]( uint32_t i ) const { KRG_ASSERT( i < 4 ); return ( (float*) this )[i]; }
 
         bool operator==( Float4 const rhs ) const { return m_x == rhs.m_x && m_y == rhs.m_y && m_z == rhs.m_z && m_w == rhs.m_w; }
         bool operator!=( Float4 const rhs ) const { return m_x != rhs.m_x || m_y != rhs.m_y || m_z != rhs.m_z || m_w != rhs.m_w; }
@@ -539,8 +539,8 @@ namespace KRG
     //-------------------------------------------------------------------------
 
     inline Int2::Int2( Float2 const& v )
-        : m_x( (int32) v.m_x )
-        , m_y( (int32) v.m_y )
+        : m_x( (int32_t) v.m_x )
+        , m_y( (int32_t) v.m_y )
     {}
 
     inline Float2::Float2( Float3 const& v )
@@ -605,25 +605,25 @@ namespace KRG
         inline Degrees& operator*=( float const& rhs ) { m_value *= rhs; return *this; }
         inline Degrees& operator/=( float const& rhs ) { m_value /= rhs; return *this; }
 
-        inline Degrees operator+( int32 const& rhs ) const { return Degrees( m_value + rhs ); }
-        inline Degrees operator-( int32 const& rhs ) const { return Degrees( m_value - rhs ); }
-        inline Degrees operator*( int32 const& rhs ) const { return Degrees( m_value * rhs ); }
-        inline Degrees operator/( int32 const& rhs ) const { return Degrees( m_value / rhs ); }
+        inline Degrees operator+( int32_t const& rhs ) const { return Degrees( m_value + rhs ); }
+        inline Degrees operator-( int32_t const& rhs ) const { return Degrees( m_value - rhs ); }
+        inline Degrees operator*( int32_t const& rhs ) const { return Degrees( m_value * rhs ); }
+        inline Degrees operator/( int32_t const& rhs ) const { return Degrees( m_value / rhs ); }
 
-        inline Degrees& operator+=( int32 const& rhs ) { m_value += rhs; return *this; }
-        inline Degrees& operator-=( int32 const& rhs ) { m_value -= rhs; return *this; }
-        inline Degrees& operator*=( int32 const& rhs ) { m_value *= rhs; return *this; }
-        inline Degrees& operator/=( int32 const& rhs ) { m_value /= rhs; return *this; }
+        inline Degrees& operator+=( int32_t const& rhs ) { m_value += rhs; return *this; }
+        inline Degrees& operator-=( int32_t const& rhs ) { m_value -= rhs; return *this; }
+        inline Degrees& operator*=( int32_t const& rhs ) { m_value *= rhs; return *this; }
+        inline Degrees& operator/=( int32_t const& rhs ) { m_value /= rhs; return *this; }
 
-        inline Degrees operator+( uint32 const& rhs ) const { return Degrees( m_value + rhs ); }
-        inline Degrees operator-( uint32 const& rhs ) const { return Degrees( m_value - rhs ); }
-        inline Degrees operator*( uint32 const& rhs ) const { return Degrees( m_value * rhs ); }
-        inline Degrees operator/( uint32 const& rhs ) const { return Degrees( m_value / rhs ); }
+        inline Degrees operator+( uint32_t const& rhs ) const { return Degrees( m_value + rhs ); }
+        inline Degrees operator-( uint32_t const& rhs ) const { return Degrees( m_value - rhs ); }
+        inline Degrees operator*( uint32_t const& rhs ) const { return Degrees( m_value * rhs ); }
+        inline Degrees operator/( uint32_t const& rhs ) const { return Degrees( m_value / rhs ); }
 
-        inline Degrees& operator+=( uint32 const& rhs ) { m_value += rhs; return *this; }
-        inline Degrees& operator-=( uint32 const& rhs ) { m_value -= rhs; return *this; }
-        inline Degrees& operator*=( uint32 const& rhs ) { m_value *= rhs; return *this; }
-        inline Degrees& operator/=( uint32 const& rhs ) { m_value /= rhs; return *this; }
+        inline Degrees& operator+=( uint32_t const& rhs ) { m_value += rhs; return *this; }
+        inline Degrees& operator-=( uint32_t const& rhs ) { m_value -= rhs; return *this; }
+        inline Degrees& operator*=( uint32_t const& rhs ) { m_value *= rhs; return *this; }
+        inline Degrees& operator/=( uint32_t const& rhs ) { m_value /= rhs; return *this; }
 
         inline bool operator>( float const& rhs ) const { return m_value > rhs; };
         inline bool operator<( float const& rhs ) const { return m_value < rhs; }
@@ -659,7 +659,7 @@ namespace KRG
         // Clamps between -360 and 360
         inline void Clamp360()
         {
-            m_value -= ( int32( m_value / 360.0f ) * 360.0f );
+            m_value -= ( int32_t( m_value / 360.0f ) * 360.0f );
         }
 
         // Clamps between -360 and 360
@@ -761,25 +761,25 @@ namespace KRG
         inline Radians& operator*=( float const& rhs ) { m_value *= rhs; return *this; }
         inline Radians& operator/=( float const& rhs ) { m_value /= rhs; return *this; }
 
-        inline Radians operator+( int32 const& rhs ) const { return Radians( m_value + rhs ); }
-        inline Radians operator-( int32 const& rhs ) const { return Radians( m_value - rhs ); }
-        inline Radians operator*( int32 const& rhs ) const { return Radians( m_value * rhs ); }
-        inline Radians operator/( int32 const& rhs ) const { return Radians( m_value / rhs ); }
+        inline Radians operator+( int32_t const& rhs ) const { return Radians( m_value + rhs ); }
+        inline Radians operator-( int32_t const& rhs ) const { return Radians( m_value - rhs ); }
+        inline Radians operator*( int32_t const& rhs ) const { return Radians( m_value * rhs ); }
+        inline Radians operator/( int32_t const& rhs ) const { return Radians( m_value / rhs ); }
 
-        inline Radians& operator+=( int32 const& rhs ) { m_value += rhs; return *this; }
-        inline Radians& operator-=( int32 const& rhs ) { m_value -= rhs; return *this; }
-        inline Radians& operator*=( int32 const& rhs ) { m_value *= rhs; return *this; }
-        inline Radians& operator/=( int32 const& rhs ) { m_value /= rhs; return *this; }
+        inline Radians& operator+=( int32_t const& rhs ) { m_value += rhs; return *this; }
+        inline Radians& operator-=( int32_t const& rhs ) { m_value -= rhs; return *this; }
+        inline Radians& operator*=( int32_t const& rhs ) { m_value *= rhs; return *this; }
+        inline Radians& operator/=( int32_t const& rhs ) { m_value /= rhs; return *this; }
 
-        inline Radians operator+( uint32 const& rhs ) const { return Radians( m_value + rhs ); }
-        inline Radians operator-( uint32 const& rhs ) const { return Radians( m_value - rhs ); }
-        inline Radians operator*( uint32 const& rhs ) const { return Radians( m_value * rhs ); }
-        inline Radians operator/( uint32 const& rhs ) const { return Radians( m_value / rhs ); }
+        inline Radians operator+( uint32_t const& rhs ) const { return Radians( m_value + rhs ); }
+        inline Radians operator-( uint32_t const& rhs ) const { return Radians( m_value - rhs ); }
+        inline Radians operator*( uint32_t const& rhs ) const { return Radians( m_value * rhs ); }
+        inline Radians operator/( uint32_t const& rhs ) const { return Radians( m_value / rhs ); }
 
-        inline Radians& operator+=( uint32 const& rhs ) { m_value += rhs; return *this; }
-        inline Radians& operator-=( uint32 const& rhs ) { m_value -= rhs; return *this; }
-        inline Radians& operator*=( uint32 const& rhs ) { m_value *= rhs; return *this; }
-        inline Radians& operator/=( uint32 const& rhs ) { m_value /= rhs; return *this; }
+        inline Radians& operator+=( uint32_t const& rhs ) { m_value += rhs; return *this; }
+        inline Radians& operator-=( uint32_t const& rhs ) { m_value -= rhs; return *this; }
+        inline Radians& operator*=( uint32_t const& rhs ) { m_value *= rhs; return *this; }
+        inline Radians& operator/=( uint32_t const& rhs ) { m_value /= rhs; return *this; }
 
         inline bool operator>( float const& rhs ) const { return m_value > rhs; };
         inline bool operator<( float const& rhs ) const { return m_value < rhs; }
@@ -815,7 +815,7 @@ namespace KRG
         // Clamps between -2Pi to 2Pi
         inline void Clamp360()
         {
-            m_value -= int32( m_value / Math::TwoPi ) * Math::TwoPi;
+            m_value -= int32_t( m_value / Math::TwoPi ) * Math::TwoPi;
         }
 
         // Clamps between -2Pi to 2Pi
@@ -1000,8 +1000,8 @@ namespace KRG
         inline bool operator==( EulerAngles const& other ) const { return m_x == other.m_x && m_y == other.m_y && m_z == other.m_z; }
         inline bool operator!=( EulerAngles const& other ) const { return m_x != other.m_x || m_y != other.m_y || m_z != other.m_z; }
 
-        inline Radians& operator[]( uint32 i ) { KRG_ASSERT( i < 3 ); return ( (Radians*) this )[i]; }
-        inline Radians const& operator[]( uint32 i ) const { KRG_ASSERT( i < 3 ); return ( (Radians*) this )[i]; }
+        inline Radians& operator[]( uint32_t i ) { KRG_ASSERT( i < 3 ); return ( (Radians*) this )[i]; }
+        inline Radians const& operator[]( uint32_t i ) const { KRG_ASSERT( i < 3 ); return ( (Radians*) this )[i]; }
 
         inline Float3 ToFloat3() const { return Float3( Math::RadiansToDegrees * m_x.ToFloat(), Math::RadiansToDegrees * m_y.ToFloat(), Math::RadiansToDegrees * m_z.ToFloat() ); }
 

@@ -40,7 +40,7 @@ namespace KRG::Physics
 
         public:
 
-            int32                           m_boneIdx;
+            int32_t                           m_boneIdx;
             TInlineVector<BoneInfo*, 5>     m_children;
             bool                            m_isExpanded = true;
         };
@@ -101,8 +101,8 @@ namespace KRG::Physics
         //-------------------------------------------------------------------------
 
         void CreateBody( StringID boneID );
-        void DestroyBody( int32 bodyIdx );
-        void DestroyChildBodies( int32 bodyIdx );
+        void DestroyBody( int32_t bodyIdx );
+        void DestroyChildBodies( int32_t bodyIdx );
 
         void AutogenerateBodiesAndJoints();
         void AutogenerateBodyWeights();

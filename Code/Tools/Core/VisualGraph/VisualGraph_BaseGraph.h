@@ -4,7 +4,7 @@
 #include "VisualGraph_DrawingContext.h"
 #include "System/Core/ThirdParty/KRG_RapidJson.h"
 #include "System/TypeSystem/TypeRegistrationMacros.h"
-#include "System/Core/Types/IntegralTypes.h"
+#include "System/Core/KRG.h"
 #include "System/Core/Types/Event.h"
 
 //-------------------------------------------------------------------------
@@ -389,7 +389,7 @@ namespace KRG::VisualGraph
     private:
 
         BaseNode*                               m_pParentNode = nullptr; // Private so that we can enforce usage
-        int32                                   m_beginModificationCallCount = 0;
+        int32_t                                   m_beginModificationCallCount = 0;
     };
 
     //-------------------------------------------------------------------------

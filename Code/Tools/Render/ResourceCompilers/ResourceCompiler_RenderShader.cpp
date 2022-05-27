@@ -129,7 +129,7 @@ namespace KRG::Render
 
             VertexLayoutDescriptor::ElementDescriptor elementDesc;
             elementDesc.m_semantic = GetSemanticForName( paramDesc.SemanticName );
-            elementDesc.m_semanticIndex = (uint16) paramDesc.SemanticIndex;
+            elementDesc.m_semanticIndex = (uint16_t) paramDesc.SemanticIndex;
 
             // Determine DXGI format
             if ( paramDesc.Mask == 1 )
@@ -202,7 +202,7 @@ namespace KRG::Render
             return Error( "Unknown shader type" );
         }
 
-        uint32 shaderCompileFlags = D3DCOMPILE_ENABLE_STRICTNESS | D3DCOMPILE_WARNINGS_ARE_ERRORS;
+        uint32_t shaderCompileFlags = D3DCOMPILE_ENABLE_STRICTNESS | D3DCOMPILE_WARNINGS_ARE_ERRORS;
         #ifdef KRG_DEBUG
         shaderCompileFlags |= D3DCOMPILE_DEBUG;
         #endif
@@ -216,7 +216,7 @@ namespace KRG::Render
             return Error( "Invalid texture data path: %s", resourceDescriptor.m_shaderPath.c_str() );
         }
 
-        TVector<Byte> fileData;
+        TVector<uint8_t> fileData;
         if ( !FileSystem::LoadFile( shaderFilePath, fileData ) )
         {
             return Error( "Failed to load specified shader file: %s", shaderFilePath.c_str() );

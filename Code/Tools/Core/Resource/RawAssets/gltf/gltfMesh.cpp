@@ -65,7 +65,7 @@ namespace KRG::RawAssets
                 //-------------------------------------------------------------------------
 
                 // Check how many texture coordinate attributes do we have?
-                uint32 numTexcoordAttributes = 0;
+                uint32_t numTexcoordAttributes = 0;
                 for ( auto a = 0; a < primitive.attributes_count; a++ )
                 {
                     if ( primitive.attributes[a].type == cgltf_attribute_type_texcoord )
@@ -157,7 +157,7 @@ namespace KRG::RawAssets
 
                             for ( auto i = 0; i < numVertices; i++ )
                             {
-                                uint32 joints[4] = { 0, 0, 0, 0 };
+                                uint32_t joints[4] = { 0, 0, 0, 0 };
                                 cgltf_accessor_read_uint( primitive.attributes[a].data, i, joints, 4 );
 
                                 for ( auto j = 0; j < 4; j++ )
@@ -194,14 +194,14 @@ namespace KRG::RawAssets
                 {
                     for ( auto i = 0; i < primitive.indices->count; i++ )
                     {
-                        geometrySection.m_indices.emplace_back( (uint16) cgltf_accessor_read_index( primitive.indices, i ) );
+                        geometrySection.m_indices.emplace_back( (uint16_t) cgltf_accessor_read_index( primitive.indices, i ) );
                     }
                 }
                 else if ( primitive.indices->component_type == cgltf_component_type_r_32u )
                 {
                     for ( auto i = 0; i < primitive.indices->count; i++ )
                     {
-                        geometrySection.m_indices.emplace_back( (uint32) cgltf_accessor_read_index( primitive.indices, i ) );
+                        geometrySection.m_indices.emplace_back( (uint32_t) cgltf_accessor_read_index( primitive.indices, i ) );
                     }
                 }
                 else
@@ -246,18 +246,18 @@ namespace KRG::RawAssets
 
         //-------------------------------------------------------------------------
 
-        static void ReadJointHierarchy( gltfRawSkeleton& rawSkeleton, TVector<StringID> const& skinnedJoints, TVector<Transform> const& bindPose, cgltf_node* pNode, int32 parentIdx )
+        static void ReadJointHierarchy( gltfRawSkeleton& rawSkeleton, TVector<StringID> const& skinnedJoints, TVector<Transform> const& bindPose, cgltf_node* pNode, int32_t parentIdx )
         {
             KRG_ASSERT( pNode != nullptr );
 
             StringID const currentBoneName( pNode->name );
-            int32 const bindPoseIdx = VectorFindIndex( skinnedJoints, currentBoneName );
+            int32_t const bindPoseIdx = VectorFindIndex( skinnedJoints, currentBoneName );
             if ( bindPoseIdx == InvalidIndex )
             {
                 return;
             }
 
-            auto const boneIdx = (int32) rawSkeleton.m_bones.size();
+            auto const boneIdx = (int32_t) rawSkeleton.m_bones.size();
             rawSkeleton.m_bones.push_back( RawSkeleton::BoneData( pNode->name ) );
             rawSkeleton.m_bones[boneIdx].m_parentBoneIdx = parentIdx;
 
@@ -335,7 +335,7 @@ namespace KRG::RawAssets
             return pMesh;
         }
 
-        static TUniquePtr<RawMesh> ReadSkeletalMesh( FileSystem::Path const& sourceFilePath, int32 maxBoneInfluences = 4 )
+        static TUniquePtr<RawMesh> ReadSkeletalMesh( FileSystem::Path const& sourceFilePath, int32_t maxBoneInfluences = 4 )
         {
             KRG_ASSERT( sourceFilePath.IsValid() );
 
@@ -419,7 +419,7 @@ namespace KRG::gltf
             return RawAssets::gltfMeshFileReader::ReadStaticMesh( sourceFilePath, nameOfMeshToCompile );
         }
 
-    TUniquePtr<RawAssets::RawMesh> ReadSkeletalMesh( FileSystem::Path const& sourceFilePath, int32 maxBoneInfluences )
+    TUniquePtr<RawAssets::RawMesh> ReadSkeletalMesh( FileSystem::Path const& sourceFilePath, int32_t maxBoneInfluences )
         {
             return RawAssets::gltfMeshFileReader::ReadSkeletalMesh( sourceFilePath, maxBoneInfluences );
         }

@@ -57,11 +57,11 @@ namespace KRG::Animation::GraphNodes
 
         virtual void Initialize( VisualGraph::BaseGraph* pParentGraph ) override;
 
-        inline int32 GetPreviewStartValue() const { return m_previewStartValue; }
+        inline int32_t GetPreviewStartValue() const { return m_previewStartValue; }
 
     private:
 
-        KRG_EXPOSE int32 m_previewStartValue = 0;
+        KRG_EXPOSE int32_t m_previewStartValue = 0;
     };
 
     //-------------------------------------------------------------------------

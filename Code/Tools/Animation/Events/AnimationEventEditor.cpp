@@ -20,12 +20,12 @@ namespace KRG::Animation
         m_trackContainer.Reset();
     }
 
-    void EventEditor::SetAnimationLengthAndFPS( uint32 numFrames, float FPS )
+    void EventEditor::SetAnimationLengthAndFPS( uint32_t numFrames, float FPS )
     {
         KRG_ASSERT( numFrames > 0.0f );
         KRG_ASSERT( FPS > 0.0f );
 
-        if ( m_timeRange.m_end != (int32) numFrames || m_FPS != FPS )
+        if ( m_timeRange.m_end != (int32_t) numFrames || m_FPS != FPS )
         {
             SetTimeRange( IntRange( 0, numFrames ) );
 
@@ -73,7 +73,7 @@ namespace KRG::Animation
 
     void EventEditor::DrawAddTracksMenu()
     {
-        int32 numAvailableTracks = 0;
+        int32_t numAvailableTracks = 0;
         for ( auto pTypeInfo : m_eventTypes )
         {
             Event const* const pDefaultEventInstance = reinterpret_cast<Event const*>( pTypeInfo->m_pTypeHelper->GetDefaultTypeInstancePtr() );
@@ -150,7 +150,7 @@ namespace KRG::Animation
 
         //-------------------------------------------------------------------------
 
-        int32 numSyncTracks = 0;
+        int32_t numSyncTracks = 0;
         for ( auto pTrack : m_trackContainer.m_tracks )
         {
             auto pEventTrack = reinterpret_cast<EventTrack*>( pTrack );

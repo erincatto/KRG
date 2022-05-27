@@ -20,7 +20,7 @@ namespace KRG::Animation::GraphNodes
 
     public:
 
-        enum class TransitionOptions : uint8
+        enum class TransitionOptions : uint8_t
         {
             Synchronized,
             ClampDuration,
@@ -118,7 +118,7 @@ namespace KRG::Animation::GraphNodes
         BoneMask                                m_boneMask;
         float                                   m_transitionProgress = 0;
         float                                   m_transitionDuration = 0; // This is either time in seconds, or percentage of the sync track
-        int32                                   m_syncEventOffset = 0;
+        int32_t                                   m_syncEventOffset = 0;
         float                                   m_blendWeight = 0;
         SyncTrack                               m_syncTrack;
 
@@ -130,8 +130,8 @@ namespace KRG::Animation::GraphNodes
         SourceType                              m_sourceType = SourceType::State;
 
         #if KRG_DEVELOPMENT_TOOLS
-        int16                                   m_rootMotionActionIdxSource = InvalidIndex;
-        int16                                   m_rootMotionActionIdxTarget = InvalidIndex;
+        int16_t                                   m_rootMotionActionIdxSource = InvalidIndex;
+        int16_t                                   m_rootMotionActionIdxTarget = InvalidIndex;
         #endif
     };
 }

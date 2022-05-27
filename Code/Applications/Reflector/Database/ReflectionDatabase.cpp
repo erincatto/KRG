@@ -40,7 +40,7 @@ namespace KRG::TypeSystem::Reflection
 
         databasePath.EnsureDirectoryExists();
 
-        int32 sqlFlags = 0;
+        int32_t sqlFlags = 0;
 
         if ( readOnlyAccess )
         {
@@ -393,7 +393,7 @@ namespace KRG::TypeSystem::Reflection
 
     void ReflectionDatabase::DeleteTypesForHeader( HeaderID headerID )
     {
-        for ( auto j = (int32) m_reflectedTypes.size() - 1; j >= 0; j-- )
+        for ( auto j = (int32_t) m_reflectedTypes.size() - 1; j >= 0; j-- )
         {
             if ( m_reflectedTypes[j].m_headerID == headerID )
             {
@@ -401,7 +401,7 @@ namespace KRG::TypeSystem::Reflection
             }
         }
 
-        for ( auto j = (int32) m_reflectedResourceTypes.size() - 1; j >= 0; j-- )
+        for ( auto j = (int32_t) m_reflectedResourceTypes.size() - 1; j >= 0; j-- )
         {
             if ( m_reflectedResourceTypes[j].m_headerID == headerID )
             {
@@ -412,7 +412,7 @@ namespace KRG::TypeSystem::Reflection
 
     void ReflectionDatabase::DeleteObseleteHeadersAndTypes( TVector<HeaderID> const& registeredHeaders )
     {
-        for ( auto i = (int32) m_reflectedHeaders.size() - 1; i >= 0; i-- )
+        for ( auto i = (int32_t) m_reflectedHeaders.size() - 1; i >= 0; i-- )
         {
             auto const hdrID = m_reflectedHeaders[i].m_ID;
             if ( eastl::find( registeredHeaders.begin(), registeredHeaders.end(), hdrID ) == registeredHeaders.end() )
@@ -425,7 +425,7 @@ namespace KRG::TypeSystem::Reflection
 
     void ReflectionDatabase::DeleteObseleteProjects( TVector<ProjectInfo> const& registeredProjects )
     {
-        for ( auto i = (int32) m_reflectedProjects.size() - 1; i >= 0; i-- )
+        for ( auto i = (int32_t) m_reflectedProjects.size() - 1; i >= 0; i-- )
         {
             auto const prjID = m_reflectedProjects[i].m_ID;
             if ( eastl::find_if( registeredProjects.begin(), registeredProjects.end(), [prjID] ( ProjectInfo const& desc )->bool { return desc.m_ID == prjID; } ) == registeredProjects.end() )
@@ -523,7 +523,7 @@ namespace KRG::TypeSystem::Reflection
                 type.m_headerID = StringID( sqlite3_column_int( pStatement, 1 ) );
                 type.m_name = (char const*) sqlite3_column_text( pStatement, 2 );
                 type.m_namespace = (char const*) sqlite3_column_text( pStatement, 3 );
-                type.m_flags.Set( (uint32) sqlite3_column_int( pStatement, 4 ) );
+                type.m_flags.Set( (uint32_t) sqlite3_column_int( pStatement, 4 ) );
 
                 // Read additional type data
                 if ( type.IsEnum() )
@@ -620,7 +620,7 @@ namespace KRG::TypeSystem::Reflection
 
         for ( auto const& project : m_reflectedProjects )
         {
-            if ( !ExecuteSimpleQuery( "INSERT OR REPLACE INTO `Modules`(`ModuleID`, `Name`, `Path`, `ExportMacro`, `ModuleClassName`, `ModuleHeaderID`, `DependencyCount`) VALUES ( %u, \"%s\", \"%s\",\"%s\",\"%s\", %u, %u);", (uint32) project.m_ID, project.m_name.c_str(), project.m_path.c_str(), project.m_exportMacro.c_str(), project.m_moduleClassName.c_str(), (uint32) project.m_moduleHeaderID, project.m_dependencyCount ) )
+            if ( !ExecuteSimpleQuery( "INSERT OR REPLACE INTO `Modules`(`ModuleID`, `Name`, `Path`, `ExportMacro`, `ModuleClassName`, `ModuleHeaderID`, `DependencyCount`) VALUES ( %u, \"%s\", \"%s\",\"%s\",\"%s\", %u, %u);", (uint32_t) project.m_ID, project.m_name.c_str(), project.m_path.c_str(), project.m_exportMacro.c_str(), project.m_moduleClassName.c_str(), (uint32_t) project.m_moduleHeaderID, project.m_dependencyCount ) )
             {
                 return false;
             }
@@ -631,7 +631,7 @@ namespace KRG::TypeSystem::Reflection
 
         for ( auto const& header : m_reflectedHeaders )
         {
-            if ( !ExecuteSimpleQuery( "INSERT OR REPLACE INTO `HeaderFiles`(`HeaderID`,`ModuleID`,`FilePath`,`TimeStamp`,`Checksum`) VALUES ( %u, %u, \"%s\",%llu,%llu);", (uint32) header.m_ID, (uint32) header.m_projectID, header.m_filePath.c_str(), header.m_timestamp, header.m_checksum ) )
+            if ( !ExecuteSimpleQuery( "INSERT OR REPLACE INTO `HeaderFiles`(`HeaderID`,`ModuleID`,`FilePath`,`TimeStamp`,`Checksum`) VALUES ( %u, %u, \"%s\",%llu,%llu);", (uint32_t) header.m_ID, (uint32_t) header.m_projectID, header.m_filePath.c_str(), header.m_timestamp, header.m_checksum ) )
             {
                 return false;
             }
@@ -642,7 +642,7 @@ namespace KRG::TypeSystem::Reflection
 
         for ( auto const& type : m_reflectedTypes )
         {
-            if ( !ExecuteSimpleQuery( "INSERT OR REPLACE INTO `Types`(`TypeID`, `HeaderID`,`Name`,`Namespace`,`TypeFlags`) VALUES ( %u, %u, \"%s\", \"%s\", %u );", (uint32) type.m_ID, (uint32) type.m_headerID, type.m_name.c_str(), type.m_namespace.c_str(), (uint32) type.m_flags ) )
+            if ( !ExecuteSimpleQuery( "INSERT OR REPLACE INTO `Types`(`TypeID`, `HeaderID`,`Name`,`Namespace`,`TypeFlags`) VALUES ( %u, %u, \"%s\", \"%s\", %u );", (uint32_t) type.m_ID, (uint32_t) type.m_headerID, type.m_name.c_str(), type.m_namespace.c_str(), (uint32_t) type.m_flags ) )
             {
                 return false;
             }
@@ -668,7 +668,7 @@ namespace KRG::TypeSystem::Reflection
 
         for ( auto const& resourceType : m_reflectedResourceTypes )
         {
-            if ( !ExecuteSimpleQuery( "INSERT OR REPLACE INTO `ResourceTypes`( `TypeID`, `ResourceTypeID`, `FriendlyName`, `HeaderID`,`ClassName`,`Namespace`,`IsVirtual`) VALUES ( \"%s\", %u, \"%s\", %u, \"%s\",\"%s\",%d);", resourceType.m_typeID.c_str(), (uint32) resourceType.m_resourceTypeID, resourceType.m_friendlyName.c_str(), (uint32) resourceType.m_headerID, resourceType.m_className.c_str(), resourceType.m_namespace.c_str(), resourceType.m_isVirtual ? 1 : 0 ) )
+            if ( !ExecuteSimpleQuery( "INSERT OR REPLACE INTO `ResourceTypes`( `TypeID`, `ResourceTypeID`, `FriendlyName`, `HeaderID`,`ClassName`,`Namespace`,`IsVirtual`) VALUES ( \"%s\", %u, \"%s\", %u, \"%s\",\"%s\",%d);", resourceType.m_typeID.c_str(), (uint32_t) resourceType.m_resourceTypeID, resourceType.m_friendlyName.c_str(), (uint32_t) resourceType.m_headerID, resourceType.m_className.c_str(), resourceType.m_namespace.c_str(), resourceType.m_isVirtual ? 1 : 0 ) )
             {
                 return false;
             }
@@ -804,7 +804,7 @@ namespace KRG::TypeSystem::Reflection
         // Get all parent types
         //-------------------------------------------------------------------------
 
-        FillStatementBuffer( "SELECT `TypeParents`.ParentTypeID FROM `TypeParents` INNER JOIN `Types` ON `Types`.TypeID = `TypeParents`.ParentTypeID WHERE `TypeParents`.TypeID = %u;", (uint32) type.m_ID );
+        FillStatementBuffer( "SELECT `TypeParents`.ParentTypeID FROM `TypeParents` INNER JOIN `Types` ON `Types`.TypeID = `TypeParents`.ParentTypeID WHERE `TypeParents`.TypeID = %u;", (uint32_t) type.m_ID );
         if ( IsValidSQLiteResult( sqlite3_prepare_v2( m_pDatabase, m_statementBuffer, -1, &pStatement, nullptr ) ) )
         {
             while ( sqlite3_step( pStatement ) == SQLITE_ROW )
@@ -826,7 +826,7 @@ namespace KRG::TypeSystem::Reflection
         // Get all properties
         //-------------------------------------------------------------------------
 
-        FillStatementBuffer( "SELECT * FROM `Properties` WHERE `OwnerTypeID` = %u;", (uint32) type.m_ID );
+        FillStatementBuffer( "SELECT * FROM `Properties` WHERE `OwnerTypeID` = %u;", (uint32_t) type.m_ID );
         if ( IsValidSQLiteResult( sqlite3_prepare_v2( m_pDatabase, m_statementBuffer, -1, &pStatement, nullptr ) ) )
         {
             char arrayQueryStatement[s_defaultStatementBufferSize];
@@ -840,10 +840,10 @@ namespace KRG::TypeSystem::Reflection
                 propDesc.m_name = (char const*) sqlite3_column_text( pStatement, 4 );
                 propDesc.m_typeName = (char const*) sqlite3_column_text( pStatement, 5 );
                 propDesc.m_templateArgTypeName = (char const*) sqlite3_column_text( pStatement, 6 );
-                propDesc.m_flags.Set( (uint32) sqlite3_column_int( pStatement, 7 ) );
+                propDesc.m_flags.Set( (uint32_t) sqlite3_column_int( pStatement, 7 ) );
                 propDesc.m_arraySize = sqlite3_column_int( pStatement, 8 );
                 propDesc.m_propertyID = StringID( propDesc.m_name );
-                KRG_ASSERT( propDesc.m_propertyID == (uint32) sqlite3_column_int( pStatement, 0 ) ); // Ensure the property ID matches the recorded one
+                KRG_ASSERT( propDesc.m_propertyID == (uint32_t) sqlite3_column_int( pStatement, 0 ) ); // Ensure the property ID matches the recorded one
                 type.m_properties.push_back( propDesc );
             }
 
@@ -870,7 +870,7 @@ namespace KRG::TypeSystem::Reflection
         KRG_ASSERT( type.m_ID.IsValid() && type.IsEnum() );
 
         sqlite3_stmt* pStatement = nullptr;
-        FillStatementBuffer( "SELECT `Label`, `Value` FROM `EnumConstants` WHERE `EnumConstants`.TypeID = %u;", (uint32) type.m_ID );
+        FillStatementBuffer( "SELECT `Label`, `Value` FROM `EnumConstants` WHERE `EnumConstants`.TypeID = %u;", (uint32_t) type.m_ID );
         if ( IsValidSQLiteResult( sqlite3_prepare_v2( m_pDatabase, m_statementBuffer, -1, &pStatement, nullptr ) ) )
         {
             while ( sqlite3_step( pStatement ) == SQLITE_ROW )
@@ -899,19 +899,19 @@ namespace KRG::TypeSystem::Reflection
         for ( auto& parent : type.m_parents )
         {
             // Delete old parents
-            if ( !ExecuteSimpleQuery( "DELETE FROM `TypeParents` WHERE `TypeID` = %u;", (uint32) type.m_ID ) )
+            if ( !ExecuteSimpleQuery( "DELETE FROM `TypeParents` WHERE `TypeID` = %u;", (uint32_t) type.m_ID ) )
             {
                 return false;
             }
 
-            if ( !ExecuteSimpleQuery( "INSERT INTO `TypeParents`(`TypeID`, `ParentTypeID`) VALUES ( %u, %u );", (uint32) type.m_ID, (uint32) parent ) )
+            if ( !ExecuteSimpleQuery( "INSERT INTO `TypeParents`(`TypeID`, `ParentTypeID`) VALUES ( %u, %u );", (uint32_t) type.m_ID, (uint32_t) parent ) )
             {
                 return false;
             }
         }
 
         // Delete old properties
-        if ( !ExecuteSimpleQuery( "DELETE FROM `Properties` WHERE `OwnerTypeID` = %u;", (uint32) type.m_ID ) )
+        if ( !ExecuteSimpleQuery( "DELETE FROM `Properties` WHERE `OwnerTypeID` = %u;", (uint32_t) type.m_ID ) )
         {
             return false;
         }
@@ -919,7 +919,7 @@ namespace KRG::TypeSystem::Reflection
         // Update properties
         for ( auto& propertyDesc : type.m_properties )
         {
-            if ( !ExecuteSimpleQuery( "INSERT OR REPLACE INTO `Properties`(`PropertyID`, `LineNumber`, `OwnerTypeID`,`TypeID`,`Name`,`TypeName`,`TemplateTypeName`,`PropertyFlags`,`ArraySize`) VALUES ( %u, %d, %u, %u, \"%s\", \"%s\", \"%s\", %u, %d );", (uint32) propertyDesc.m_propertyID, propertyDesc.m_lineNumber, (uint32) type.m_ID, (uint32) propertyDesc.m_typeID, propertyDesc.m_name.c_str(), propertyDesc.m_typeName.c_str(), propertyDesc.m_templateArgTypeName.c_str(), (uint32) propertyDesc.m_flags, propertyDesc.m_arraySize ) )
+            if ( !ExecuteSimpleQuery( "INSERT OR REPLACE INTO `Properties`(`PropertyID`, `LineNumber`, `OwnerTypeID`,`TypeID`,`Name`,`TypeName`,`TemplateTypeName`,`PropertyFlags`,`ArraySize`) VALUES ( %u, %d, %u, %u, \"%s\", \"%s\", \"%s\", %u, %d );", (uint32_t) propertyDesc.m_propertyID, propertyDesc.m_lineNumber, (uint32_t) type.m_ID, (uint32_t) propertyDesc.m_typeID, propertyDesc.m_name.c_str(), propertyDesc.m_typeName.c_str(), propertyDesc.m_templateArgTypeName.c_str(), (uint32_t) propertyDesc.m_flags, propertyDesc.m_arraySize ) )
             {
                 return false;
             }
@@ -931,14 +931,14 @@ namespace KRG::TypeSystem::Reflection
     bool ReflectionDatabase::WriteAdditionalEnumData( ReflectedType const& type )
     {
         // Fill enum values table with all constants
-        if ( !ExecuteSimpleQuery( "DELETE FROM `EnumConstants` WHERE `TypeID` = %u;", (uint32) type.m_ID ) )
+        if ( !ExecuteSimpleQuery( "DELETE FROM `EnumConstants` WHERE `TypeID` = %u;", (uint32_t) type.m_ID ) )
         {
             return false;
         }
 
         for ( auto const& enumConstant : type.m_enumConstants )
         {
-            if ( !ExecuteSimpleQuery( "INSERT INTO `EnumConstants`(`TypeID`,`Label`,`Value`) VALUES ( %u, \"%s\", %u );", (uint32) type.m_ID, enumConstant.second.m_label.c_str(), enumConstant.second.m_value ) )
+            if ( !ExecuteSimpleQuery( "INSERT INTO `EnumConstants`(`TypeID`,`Label`,`Value`) VALUES ( %u, \"%s\", %u );", (uint32_t) type.m_ID, enumConstant.second.m_label.c_str(), enumConstant.second.m_value ) )
             {
                 return false;
             }

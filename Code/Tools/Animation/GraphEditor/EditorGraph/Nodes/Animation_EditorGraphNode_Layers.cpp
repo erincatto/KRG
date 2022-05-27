@@ -33,7 +33,7 @@ namespace KRG::Animation::GraphNodes
 
     bool LayerEditorNode::IsValidConnection( UUID const& inputPinID, Node const* pOutputPinNode, UUID const& outputPinID ) const
     {
-        int32 const pinIdx = GetInputPinIndex( inputPinID );
+        int32_t const pinIdx = GetInputPinIndex( inputPinID );
         if ( pinIdx > 0 )
         {
             return IsOfType<LayerSettingsEditorNode>( pOutputPinNode );
@@ -44,7 +44,7 @@ namespace KRG::Animation::GraphNodes
 
     TInlineString<100> LayerEditorNode::GetNewDynamicInputPinName() const
     {
-        int32 const numOptions = GetNumInputPins();
+        int32_t const numOptions = GetNumInputPins();
         TInlineString<100> pinName;
         pinName.sprintf( "Layer %d", numOptions - 2 );
         return pinName;
@@ -52,15 +52,15 @@ namespace KRG::Animation::GraphNodes
 
     void LayerEditorNode::OnDynamicPinDestruction( UUID pinID )
     {
-        int32 const numOptions = GetNumInputPins();
+        int32_t const numOptions = GetNumInputPins();
 
-        int32 const pintoBeRemovedIdx = GetInputPinIndex( pinID );
+        int32_t const pintoBeRemovedIdx = GetInputPinIndex( pinID );
         KRG_ASSERT( pintoBeRemovedIdx != InvalidIndex );
 
         // Rename all pins
         //-------------------------------------------------------------------------
 
-        int32 newPinIdx = 1;
+        int32_t newPinIdx = 1;
         for ( auto i = 2; i < numOptions; i++ )
         {
             if ( i == pintoBeRemovedIdx )

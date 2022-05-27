@@ -90,7 +90,7 @@ namespace KRG::Resource
         TypeSystem::TypeRegistry const*                             m_pTypeRegistry;
         FileSystem::Path                                            m_rawResourceDirPath;
         FileSystem::Path                                            m_compiledResourceDirPath;
-        int32                                                       m_dataDirectoryPathDepth;
+        int32_t                                                       m_dataDirectoryPathDepth;
         FileSystem::FileSystemWatcher                               m_fileSystemWatcher;
 
         Directory                                                   m_rootDir;

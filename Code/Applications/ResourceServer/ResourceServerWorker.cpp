@@ -27,7 +27,7 @@ namespace KRG::Resource
         m_pTaskSystem->ScheduleTask( this );
     }
 
-    void ResourceServerWorker::ExecuteRange( TaskSetPartition range, uint32 threadnum )
+    void ResourceServerWorker::ExecuteRange( TaskSetPartition range, uint32_t threadnum )
     {
         KRG_ASSERT( IsCompiling() );
         KRG_ASSERT( !m_pRequest->m_compilerArgs.empty() );
@@ -38,7 +38,7 @@ namespace KRG::Resource
 
         m_pRequest->m_compilationTimeStarted = PlatformClock::GetTime();
 
-        int32 result = subprocess_create( processCommandLineArgs, subprocess_option_combined_stdout_stderr | subprocess_option_inherit_environment | subprocess_option_no_window, &m_subProcess );
+        int32_t result = subprocess_create( processCommandLineArgs, subprocess_option_combined_stdout_stderr | subprocess_option_inherit_environment | subprocess_option_no_window, &m_subProcess );
         if ( result != 0 )
         {
             m_pRequest->m_status = CompilationRequest::Status::Failed;
@@ -51,7 +51,7 @@ namespace KRG::Resource
         // Wait for compilation to complete
         //-------------------------------------------------------------------------
 
-        int32 exitCode;
+        int32_t exitCode;
         result = subprocess_join( &m_subProcess, &exitCode );
         if ( result != 0 )
         {

@@ -26,8 +26,8 @@ namespace KRG
         //-------------------------------------------------------------------------
 
         bool TryGetBool( char const* key, bool& outValue ) const;
-        bool TryGetInt( char const* key, int32& outValue ) const;
-        bool TryGetUInt( char const* key, uint32& outValue ) const;
+        bool TryGetInt( char const* key, int32_t& outValue ) const;
+        bool TryGetUInt( char const* key, uint32_t& outValue ) const;
         bool TryGetString( char const* key, String& outValue ) const;
         bool TryGetFloat( char const* key, float& outValue ) const;
 
@@ -37,16 +37,16 @@ namespace KRG
             return (bool) iniparser_getboolean( m_pDictionary, key, defaultValue );
         }
 
-        inline int32 GetIntOrDefault( char const* key, int32 defaultValue ) const
+        inline int32_t GetIntOrDefault( char const* key, int32_t defaultValue ) const
         {
             KRG_ASSERT( IsValid() );
-            return ( int32) iniparser_getint( m_pDictionary, key, defaultValue );
+            return ( int32_t) iniparser_getint( m_pDictionary, key, defaultValue );
         }
 
-        inline uint32 GetUIntOrDefault( char const* key, uint32 defaultValue ) const
+        inline uint32_t GetUIntOrDefault( char const* key, uint32_t defaultValue ) const
         {
             KRG_ASSERT( IsValid() );
-            return ( uint32) iniparser_getint( m_pDictionary, key, defaultValue );
+            return ( uint32_t) iniparser_getint( m_pDictionary, key, defaultValue );
         }
 
         inline KRG::String GetStringOrDefault( char const* key, String const& defaultValue ) const
@@ -81,7 +81,7 @@ namespace KRG
             iniparser_set( m_pDictionary, key, value ? "True" : "False" );
         }
 
-        inline void SetInt( char const* key, int32 value )
+        inline void SetInt( char const* key, int32_t value )
         {
             KRG_ASSERT( IsValid() );
             char buffer[255];
@@ -89,7 +89,7 @@ namespace KRG
             iniparser_set( m_pDictionary, key, buffer );
         }
 
-        inline void SetUInt( char const* key, uint32 value )
+        inline void SetUInt( char const* key, uint32_t value )
         {
             KRG_ASSERT( IsValid() );
             char buffer[255];

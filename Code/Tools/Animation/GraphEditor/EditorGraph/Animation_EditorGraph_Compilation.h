@@ -82,9 +82,9 @@ namespace KRG::Animation
             }
 
             // Update instance requirements
-            m_graphInstanceRequiredAlignment = Math::Max( m_graphInstanceRequiredAlignment, ( uint32 ) alignof( T ) );
+            m_graphInstanceRequiredAlignment = Math::Max( m_graphInstanceRequiredAlignment, ( uint32_t ) alignof( T ) );
             size_t const requiredPadding = Memory::CalculatePaddingForAlignment( m_currentNodeMemoryOffset, alignof( T ) );
-            m_currentNodeMemoryOffset += uint32( sizeof( T ) + requiredPadding );
+            m_currentNodeMemoryOffset += uint32_t( sizeof( T ) + requiredPadding );
             m_nodeMemoryOffsets.emplace_back( m_currentNodeMemoryOffset );
 
             return NodeCompilationState::NeedCompilation;
@@ -165,9 +165,9 @@ namespace KRG::Animation
         TVector<GraphNodeIndex>                 m_persistentNodeIndices;
         TVector<String>                         m_compiledNodePaths;
         TVector<GraphNode::Settings*>           m_nodeSettings;
-        TVector<uint32>                         m_nodeMemoryOffsets;
-        uint32                                  m_currentNodeMemoryOffset = 0;
-        uint32                                  m_graphInstanceRequiredAlignment = alignof( bool );
+        TVector<uint32_t>                         m_nodeMemoryOffsets;
+        uint32_t                                  m_currentNodeMemoryOffset = 0;
+        uint32_t                                  m_graphInstanceRequiredAlignment = alignof( bool );
 
         TVector<UUID>                           m_registeredDataSlots;
         GraphNodeIndex                          m_conduitSourceStateCompiledNodeIdx = InvalidIndex;

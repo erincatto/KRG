@@ -18,11 +18,11 @@ namespace KRG::Render
         virtual bool IsValid() const override;
 
         // Bone Info
-        inline int32 GetNumBones() const { return (int32) m_boneIDs.size(); }
-        int32 GetBoneIndex( StringID const& boneID ) const;
-        inline TVector<int32> const& GetParentBoneIndices() const { return m_parentBoneIndices; }
-        inline int32 GetParentBoneIndex( int32 const& idx ) const { KRG_ASSERT( idx < m_parentBoneIndices.size() ); return m_parentBoneIndices[idx]; }
-        StringID GetBoneID( int32 idx ) const { KRG_ASSERT( idx < m_boneIDs.size() ); return m_boneIDs[idx]; }
+        inline int32_t GetNumBones() const { return (int32_t) m_boneIDs.size(); }
+        int32_t GetBoneIndex( StringID const& boneID ) const;
+        inline TVector<int32_t> const& GetParentBoneIndices() const { return m_parentBoneIndices; }
+        inline int32_t GetParentBoneIndex( int32_t const& idx ) const { KRG_ASSERT( idx < m_parentBoneIndices.size() ); return m_parentBoneIndices[idx]; }
+        StringID GetBoneID( int32_t idx ) const { KRG_ASSERT( idx < m_boneIDs.size() ); return m_boneIDs[idx]; }
 
         // Bind Poses
         inline TVector<Transform> const& GetBindPose() const { return m_bindPose; }
@@ -36,7 +36,7 @@ namespace KRG::Render
     private:
 
         TVector<StringID>                   m_boneIDs;
-        TVector<int32>                      m_parentBoneIndices;
+        TVector<int32_t>                      m_parentBoneIndices;
         TVector<Transform>                  m_bindPose;             // Note: bind pose is in global space
         TVector<Transform>                  m_inverseBindPose;
     };

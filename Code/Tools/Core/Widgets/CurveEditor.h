@@ -69,7 +69,7 @@ namespace KRG
     private:
 
         void CreatePoint( float parameter, float value );
-        void DeletePoint( int32 pointIdx );
+        void DeletePoint( int32_t pointIdx );
 
         //-------------------------------------------------------------------------
 
@@ -78,9 +78,9 @@ namespace KRG
         void DrawToolbar();
         void DrawGrid();
         void DrawCurve();
-        bool DrawInTangentHandle( int32 pointIdx );
-        bool DrawOutTangentHandle( int32 pointIdx );
-        bool DrawPointHandle( int32 pointIdx );
+        bool DrawInTangentHandle( int32_t pointIdx );
+        bool DrawOutTangentHandle( int32_t pointIdx );
+        bool DrawPointHandle( int32_t pointIdx );
         void DrawContextMenus();
         void HandleFrameInput();
 
@@ -108,7 +108,7 @@ namespace KRG
         void StartEditing();
         void StopEditing();
 
-        void SelectPoint( int32 pointIdx );
+        void SelectPoint( int32_t pointIdx );
         void ClearSelectedPoint();
 
     private:
@@ -117,7 +117,7 @@ namespace KRG
         FloatCurve&                                         m_curve;
         FloatRange                                          m_horizontalViewRange = FloatRange( 0, 1 );     // The horizontal grid range
         FloatRange                                          m_verticalViewRange = FloatRange( 0, 1 );       // The vertical grid range
-        int32                                               m_selectedPointIdx = InvalidIndex;
+        int32_t                                               m_selectedPointIdx = InvalidIndex;
         Float2                                              m_selectedPointValue;
         String                                              m_valueBeforeEdit;
         bool                                                m_isEditing = false;

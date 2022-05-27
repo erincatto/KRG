@@ -59,7 +59,7 @@ namespace KRG
         //-------------------------------------------------------------------------
 
         #if KRG_DEVELOPMENT_TOOLS
-        THashMap<uint32, DebugSetting*> const& GetAllDebugSettings() const { return m_debugSettings; }
+        THashMap<uint32_t, DebugSetting*> const& GetAllDebugSettings() const { return m_debugSettings; }
         DebugSetting const* TryGetDebugSetting( char const* pCategoryName, char const* pSettingName ) const;
         #endif
 
@@ -79,7 +79,7 @@ namespace KRG
 
         // A cache of all debug settings
         #if KRG_DEVELOPMENT_TOOLS
-        THashMap<uint32, DebugSetting*>         m_debugSettings;
+        THashMap<uint32_t, DebugSetting*>         m_debugSettings;
         #endif
     };
 }

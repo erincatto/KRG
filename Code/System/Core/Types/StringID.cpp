@@ -59,10 +59,6 @@ namespace KRG
 
     //-------------------------------------------------------------------------
 
-    StringID const StringID::InvalidID;
-
-    //-------------------------------------------------------------------------
-
     StringID::StringID( char const* pStr )
     {
         if ( pStr != nullptr )
@@ -97,7 +93,7 @@ namespace KRG
             }
         }
 
-        // ID likely directly created via uint32
+        // ID likely directly created via uint32_t
         return nullptr;
     }
 }

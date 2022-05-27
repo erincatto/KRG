@@ -42,7 +42,7 @@ namespace KRG::Navmesh
 
         NavmeshWorldSystem() = default;
 
-        AABB GetNavmeshBounds( uint32 layerIdx ) const;
+        AABB GetNavmeshBounds( uint32_t layerIdx ) const;
 
         #if KRG_ENABLE_NAVPOWER
         KRG_FORCE_INLINE bfx::SpaceHandle GetSpaceHandle() const { return bfx::GetDefaultSpaceHandle( m_pInstance ); }

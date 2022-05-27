@@ -55,7 +55,7 @@ namespace KRG::Animation
         virtual InlineString GetDebugText() const { return GetStaticTypeID().c_str(); }
         virtual char const* GetEventName() const = 0;
         virtual bool AllowMultipleTracks() const { return false; }
-        virtual int32 GetMaxEventsAllowedPerTrack() const { return -1; }
+        virtual int32_t GetMaxEventsAllowedPerTrack() const { return -1; }
         virtual EventType GetEventType() const { return EventType::Duration; }
         #endif
 

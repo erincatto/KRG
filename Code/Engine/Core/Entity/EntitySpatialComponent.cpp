@@ -5,9 +5,9 @@
 
 namespace KRG
 {
-    int32 SpatialEntityComponent::GetSpatialHierarchyDepth( bool limitToCurrentEntity ) const
+    int32_t SpatialEntityComponent::GetSpatialHierarchyDepth( bool limitToCurrentEntity ) const
     {
-        int32 hierarchyDepth = 0;
+        int32_t hierarchyDepth = 0;
 
         if ( limitToCurrentEntity && IsRootComponent() )
         {

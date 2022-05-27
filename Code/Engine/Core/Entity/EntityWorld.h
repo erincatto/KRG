@@ -20,7 +20,7 @@ namespace KRG
 
     //-------------------------------------------------------------------------
 
-    enum class EntityWorldType : uint8
+    enum class EntityWorldType : uint8_t
     {
         Game,
         Editor
@@ -68,7 +68,7 @@ namespace KRG
         // Systems
         //-------------------------------------------------------------------------
 
-        IWorldEntitySystem* GetWorldSystem( uint32 worldSystemID ) const;
+        IWorldEntitySystem* GetWorldSystem( uint32_t worldSystemID ) const;
 
         template<typename T>
         inline T* GetWorldSystem() const { return static_cast<T*>( GetWorldSystem( T::s_entitySystemID ) ); }
@@ -241,7 +241,7 @@ namespace KRG
 
         // Entities
         TVector<Entity*>                                                        m_entityUpdateList;
-        TVector<IWorldEntitySystem*>                                            m_systemUpdateLists[(int8) UpdateStage::NumStages];
+        TVector<IWorldEntitySystem*>                                            m_systemUpdateLists[(int8_t) UpdateStage::NumStages];
         bool                                                                    m_initialized = false;
         bool                                                                    m_isSuspended = false;
 

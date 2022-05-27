@@ -1,7 +1,7 @@
 #pragma once
 
 #include "System/Core/_Module/API.h"
-#include "IntegralTypes.h"
+#include "System/Core/KRG.h"
 #include <EASTL/string.h>
 #include <EASTL/fixed_string.h>
 #include <cstdio>
@@ -18,16 +18,16 @@ namespace KRG
     // Additional utility functions for string class
     //-------------------------------------------------------------------------
 
-    inline int32 VPrintf( char* pBuffer, uint32 bufferSize, char const* pMessageFormat, va_list args )
+    inline int32_t VPrintf( char* pBuffer, uint32_t bufferSize, char const* pMessageFormat, va_list args )
     {
         return vsnprintf( pBuffer, size_t( bufferSize ), pMessageFormat, args );
     }
 
-    inline int32 Printf( char* pBuffer, uint32 bufferSize, char const* pMessageFormat, ... )
+    inline int32_t Printf( char* pBuffer, uint32_t bufferSize, char const* pMessageFormat, ... )
     {
         va_list args;
         va_start( args, pMessageFormat );
-        int32 const numChars = VPrintf( pBuffer, size_t( bufferSize ), pMessageFormat, args );
+        int32_t const numChars = VPrintf( pBuffer, size_t( bufferSize ), pMessageFormat, args );
         va_end( args );
         return numChars;
     }
@@ -39,7 +39,7 @@ namespace KRG
         inline String ReplaceAllOccurrences( String const& originalString, char const* pSearchString, char const* pReplacement )
         {
             KRG_ASSERT( pSearchString != nullptr );
-            int32 const searchLength = (int32) strlen( pSearchString );
+            int32_t const searchLength = (int32_t) strlen( pSearchString );
             if ( originalString.empty() || searchLength == 0 )
             {
                 return originalString;
@@ -59,7 +59,7 @@ namespace KRG
         inline String& ReplaceAllOccurrencesInPlace( String& originalString, char const* pSearchString, char const* pReplacement )
         {
             KRG_ASSERT( pSearchString != nullptr );
-            int32 const searchLength = (int32) strlen( pSearchString );
+            int32_t const searchLength = (int32_t) strlen( pSearchString );
             if ( originalString.empty() || searchLength == 0 )
             {
                 return originalString;
@@ -158,22 +158,22 @@ namespace KRG
             return (bool) isxdigit( ch );
         }
 
-        KRG_SYSTEM_CORE_API int32 CompareInsensitive( char const* pStr0, char const* pStr1 );
-        KRG_SYSTEM_CORE_API int32 CompareInsensitive( char const* pStr0, char const* pStr1, size_t n );
+        KRG_SYSTEM_CORE_API int32_t CompareInsensitive( char const* pStr0, char const* pStr1 );
+        KRG_SYSTEM_CORE_API int32_t CompareInsensitive( char const* pStr0, char const* pStr1, size_t n );
 
         //-------------------------------------------------------------------------
 
         // Convert hex character (0-9 & A-F) to byte value
-        inline Byte HexCharToByteValue( char ch )
+        inline uint8_t HexCharToByteValue( char ch )
         {
             // 0-9
-            if ( ch > 47 && ch < 58 ) return (Byte) ( ch - 48 );
+            if ( ch > 47 && ch < 58 ) return (uint8_t) ( ch - 48 );
 
             // a-f
-            if ( ch > 96 && ch < 103 ) return (Byte) ( ch - 87 );
+            if ( ch > 96 && ch < 103 ) return (uint8_t) ( ch - 87 );
 
             // A-F
-            if ( ch > 64 && ch < 71 ) return (Byte) ( ch - 55 );
+            if ( ch > 64 && ch < 71 ) return (uint8_t) ( ch - 55 );
 
             return 0;
         }
@@ -181,9 +181,9 @@ namespace KRG
         //-------------------------------------------------------------------------
 
         // Convert hex character pair (0-9 & A-F) to byte value
-        inline Byte HexCharToByteValue( char a, char b )
+        inline uint8_t HexCharToByteValue( char a, char b )
         {
-            return (Byte) ( HexCharToByteValue( a ) * 16 + HexCharToByteValue( b ) );
+            return (uint8_t) ( HexCharToByteValue( a ) * 16 + HexCharToByteValue( b ) );
         }
     }
 }

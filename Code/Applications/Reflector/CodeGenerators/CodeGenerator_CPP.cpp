@@ -15,7 +15,7 @@ namespace KRG::CPP
 {
     static bool SortTypesByDependencies( TVector<ReflectedType>& structureTypes )
     {
-        int32 const numTypes = (int32) structureTypes.size();
+        int32_t const numTypes = (int32_t) structureTypes.size();
         if ( numTypes <= 1 )
         {
             return true;
@@ -30,7 +30,7 @@ namespace KRG::CPP
 
         for ( auto i = 0; i < numTypes; i++ )
         {
-            int32 const numParents = (int32) structureTypes[i].m_parents.size();
+            int32_t const numParents = (int32_t) structureTypes[i].m_parents.size();
             for ( auto p = 0; p < numParents; p++ )
             {
                 for ( auto j = 0; j < numTypes; j++ )

@@ -56,7 +56,7 @@ namespace KRG::Physics
         KRG_SERIALIZE_MEMBERS( m_driveType, m_maxDistance, m_tolerance, m_stiffness, m_damping );
         KRG_REGISTER_TYPE( RagdollRootControlBodySettings );
 
-        enum DriveType : uint8
+        enum DriveType : uint8_t
         {
             KRG_REGISTER_ENUM
 
@@ -107,7 +107,7 @@ namespace KRG::Physics
                                 m_swingLimitEnabled, m_swingLimitY, m_swingLimitZ, m_tangentialStiffness, m_tangentialDamping, m_swingLimitContactDistance );
         KRG_REGISTER_TYPE( RagdollJointSettings );
 
-        enum DriveType : uint8
+        enum DriveType : uint8_t
         {
             KRG_REGISTER_ENUM
 
@@ -164,7 +164,7 @@ namespace KRG::Physics
 
     public:
 
-        constexpr static uint32 const s_maxNumBodies = 64;
+        constexpr static uint32_t const s_maxNumBodies = 64;
 
         struct KRG_ENGINE_PHYSICS_API BodyDefinition : public IRegisteredType
         {
@@ -172,7 +172,7 @@ namespace KRG::Physics
             KRG_REGISTER_TYPE( BodyDefinition );
 
             KRG_REGISTER StringID                           m_boneID;
-            int32                                           m_parentBodyIdx = InvalidIndex;
+            int32_t                                           m_parentBodyIdx = InvalidIndex;
             KRG_EXPOSE float                                m_radius = 0.075f;
             KRG_EXPOSE float                                m_halfHeight = 0.025f;
             KRG_EXPOSE Transform                            m_offsetTransform;
@@ -199,10 +199,10 @@ namespace KRG::Physics
             // Ensures that all body settings are within the required limits. Returns true if any changes were made!
             bool CorrectSettingsToValidRanges();
 
-            inline bool ShouldBodiesCollides( int32 bodyIdx0, int32 bodyIdx1 ) const
+            inline bool ShouldBodiesCollides( int32_t bodyIdx0, int32_t bodyIdx1 ) const
             {
                 KRG_ASSERT( IsValid() );
-                uint64 const result = m_selfCollisionRules[bodyIdx0] & ( 1ULL << bodyIdx1 );
+                uint64_t const result = m_selfCollisionRules[bodyIdx0] & ( 1ULL << bodyIdx1 );
                 return result != 0;
             }
 
@@ -215,16 +215,16 @@ namespace KRG::Physics
             KRG_REGISTER TVector<RagdollBodyMaterialSettings>   m_materialSettings;
 
             // Solver Settings
-            KRG_EXPOSE uint32                                   m_solverPositionIterations = 4;
-            KRG_EXPOSE uint32                                   m_solverVelocityIterations = 4;
-            KRG_EXPOSE uint32                                   m_maxProjectionIterations = 4;
-            KRG_EXPOSE uint32                                   m_internalDriveIterations = 4;
-            KRG_EXPOSE uint32                                   m_externalDriveIterations = 4;
+            KRG_EXPOSE uint32_t                                   m_solverPositionIterations = 4;
+            KRG_EXPOSE uint32_t                                   m_solverVelocityIterations = 4;
+            KRG_EXPOSE uint32_t                                   m_maxProjectionIterations = 4;
+            KRG_EXPOSE uint32_t                                   m_internalDriveIterations = 4;
+            KRG_EXPOSE uint32_t                                   m_externalDriveIterations = 4;
             KRG_EXPOSE float                                    m_separationTolerance = 0.1f;
             KRG_EXPOSE float                                    m_stabilizationThreshold = 0.01f * Constants::s_speedScale * Constants::s_speedScale;
             KRG_EXPOSE float                                    m_sleepThreshold = 1;
 
-            TVector<uint64>                                     m_selfCollisionRules;
+            TVector<uint64_t>                                     m_selfCollisionRules;
         };
 
     public:
@@ -233,15 +233,15 @@ namespace KRG::Physics
 
         void CreateRuntimeData();
 
-        int32 GetNumBodies() const { return (int32) m_bodies.size(); }
-        int32 GetNumJoints() const { return (int32) m_bodies.size() - 1; }
-        int32 GetBodyIndexForBoneID( StringID boneID ) const;
-        int32 GetBodyIndexForBoneIdx( int32 boneIdx ) const;
+        int32_t GetNumBodies() const { return (int32_t) m_bodies.size(); }
+        int32_t GetNumJoints() const { return (int32_t) m_bodies.size() - 1; }
+        int32_t GetBodyIndexForBoneID( StringID boneID ) const;
+        int32_t GetBodyIndexForBoneIdx( int32_t boneIdx ) const;
 
         // Profiles
         //-------------------------------------------------------------------------
 
-        inline int32 GetNumProfiles() const { return (int32) m_profiles.size(); }
+        inline int32_t GetNumProfiles() const { return (int32_t) m_profiles.size(); }
         Profile const* GetDefaultProfile() const { return &m_profiles[0]; }
         Profile* GetDefaultProfile() { return &m_profiles[0]; }
         Profile* GetProfile( StringID profileID );
@@ -256,8 +256,8 @@ namespace KRG::Physics
         KRG_REGISTER TVector<Profile>                           m_profiles;
 
         // Runtime Data
-        TVector<int32>                                          m_boneToBodyMap;
-        TVector<int32>                                          m_bodyToBoneMap;
+        TVector<int32_t>                                          m_boneToBodyMap;
+        TVector<int32_t>                                          m_bodyToBoneMap;
     };
 
     //-------------------------------------------------------------------------
@@ -317,7 +317,7 @@ namespace KRG::Physics
     public:
 
         // Create a new ragdoll instance. The userID is used to prevent collisions between the ragdolls on the same user
-        Ragdoll( physx::PxPhysics* pPhysics, RagdollDefinition const* pDefinition, StringID const profileID = StringID(), uint64 userID = 0 );
+        Ragdoll( physx::PxPhysics* pPhysics, RagdollDefinition const* pDefinition, StringID const profileID = StringID(), uint64_t userID = 0 );
         ~Ragdoll();
 
         bool IsValid() const { return m_pArticulation != nullptr; }
@@ -330,7 +330,7 @@ namespace KRG::Physics
 
         inline uintptr_t GetUserID() const { return m_userID; }
 
-        inline bool ShouldBodiesCollides( int32 bodyIdx0, int32 bodyIdx1 ) const
+        inline bool ShouldBodiesCollides( int32_t bodyIdx0, int32_t bodyIdx1 ) const
         {
             KRG_ASSERT( IsValid() );
             return m_pProfile->ShouldBodiesCollides( bodyIdx0, bodyIdx1 );
@@ -412,7 +412,7 @@ namespace KRG::Physics
         RagdollDefinition const*                                m_pDefinition = nullptr;
         RagdollDefinition::Profile const*                       m_pProfile = nullptr;
         physx::PxArticulation*                                  m_pArticulation = nullptr;
-        uint64                                                  m_userID = 0;
+        uint64_t                                                  m_userID = 0;
         TVector<physx::PxArticulationLink*>                     m_links;
 
         physx::PxRigidDynamic*                                  m_pRootControlActor = nullptr;

@@ -76,7 +76,7 @@ namespace KRG::Animation
     inline FrameTime RootMotionData::GetFrameTime( Percentage percentageThrough ) const
     {
         FrameTime frameTime;
-        int32 const lastFrameIdx = (int32) m_transforms.size() - 1;
+        int32_t const lastFrameIdx = (int32_t) m_transforms.size() - 1;
         Percentage const clampedTime = percentageThrough.GetClamped( false );
         if ( clampedTime == 1.0f )
         {

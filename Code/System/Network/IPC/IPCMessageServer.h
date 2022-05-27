@@ -1,6 +1,5 @@
 #pragma once
 
-#include "System/Network/_Module/API.h"
 #include "IPCMessage.h"
 #include "System/Network/NetworkSystem.h"
 
@@ -21,8 +20,8 @@ namespace KRG::Network::IPC
 
     private:
 
-        virtual void ProcessMessage( uint32 connectionID, void* pData, size_t size ) override;
-        virtual void SendMessages( TFunction<void( ServerConnection::ClientConnectionID, void*, uint32 )> const& sendFunction ) override;
+        virtual void ProcessMessage( uint32_t connectionID, void* pData, size_t size ) override;
+        virtual void SendMessages( TFunction<void( ServerConnection::ClientConnectionID, void*, uint32_t )> const& sendFunction ) override;
 
     private:
 

@@ -10,8 +10,8 @@ namespace KRG::Render
 {
     namespace
     {
-        static uint32 const g_numInitialVertices = 2000;
-        static uint32 const g_numInitialIndices = 2000;
+        static uint32_t const g_numInitialVertices = 2000;
+        static uint32_t const g_numInitialIndices = 2000;
     }
 
     //-------------------------------------------------------------------------
@@ -59,7 +59,7 @@ namespace KRG::Render
         //-------------------------------------------------------------------------
 
         auto pSecondarySwapChain = (RenderWindow*) pViewport->RendererUserData;
-        pRenderDevice->ResizeWindow( *pSecondarySwapChain, Int2( (int32) size.x, (int32) size.y ) );
+        pRenderDevice->ResizeWindow( *pSecondarySwapChain, Int2( (int32_t) size.x, (int32_t) size.y ) );
     }
 
     //-------------------------------------------------------------------------
@@ -177,7 +177,7 @@ namespace KRG::Render
 
         //-------------------------------------------------------------------------
 
-        Byte* pPixels = nullptr;
+        uint8_t* pPixels = nullptr;
         Int2 dimensions;
         io.Fonts->GetTexDataAsRGBA32( &pPixels, &dimensions.m_x, &dimensions.m_y );
         size_t const textureDataSize = dimensions.m_x * dimensions.m_y * 4;
@@ -321,12 +321,12 @@ namespace KRG::Render
         //-------------------------------------------------------------------------
 
         // Check if our vertex and index buffers are large enough, if not then grow them
-        if ( (int32) m_vertexBuffer.GetNumElements() < pDrawData->TotalVtxCount )
+        if ( (int32_t) m_vertexBuffer.GetNumElements() < pDrawData->TotalVtxCount )
         {
             m_pRenderDevice->ResizeBuffer( m_vertexBuffer, sizeof( ImDrawVert ) * pDrawData->TotalVtxCount );
         }
 
-        if ( (int32) m_indexBuffer.GetNumElements() < pDrawData->TotalIdxCount )
+        if ( (int32_t) m_indexBuffer.GetNumElements() < pDrawData->TotalIdxCount )
         {
             m_pRenderDevice->ResizeBuffer( m_indexBuffer, sizeof( ImDrawIdx ) * pDrawData->TotalIdxCount );
         }
@@ -336,21 +336,21 @@ namespace KRG::Render
 
         // Copy vertices into our vertex and index buffers and record the command lists
         ImDrawVert* pVB = (ImDrawVert*) renderContext.MapBuffer( m_vertexBuffer );
-        int32 VBWriteIdx = 0;
+        int32_t VBWriteIdx = 0;
 
         ImDrawIdx* pIB = (ImDrawIdx*) renderContext.MapBuffer( m_indexBuffer );
-        int32 IBWriteIdx = 0;
+        int32_t IBWriteIdx = 0;
 
-        for ( int32 n = 0; n < pDrawData->CmdListsCount; n++ )
+        for ( int32_t n = 0; n < pDrawData->CmdListsCount; n++ )
         {
             ImDrawList const* pCmdList = pDrawData->CmdLists[n];
 
             // Copy vertex / index data
-            KRG_ASSERT( VBWriteIdx + pCmdList->VtxBuffer.Size <= (int32) m_vertexBuffer.GetNumElements() );
+            KRG_ASSERT( VBWriteIdx + pCmdList->VtxBuffer.Size <= (int32_t) m_vertexBuffer.GetNumElements() );
             memcpy( &pVB[VBWriteIdx], pCmdList->VtxBuffer.Data, pCmdList->VtxBuffer.Size * sizeof( ImDrawVert ) );
             VBWriteIdx += pCmdList->VtxBuffer.Size;
 
-            KRG_ASSERT( IBWriteIdx + pCmdList->IdxBuffer.Size <= (int32) m_indexBuffer.GetNumElements() );
+            KRG_ASSERT( IBWriteIdx + pCmdList->IdxBuffer.Size <= (int32_t) m_indexBuffer.GetNumElements() );
             memcpy( &pIB[IBWriteIdx], pCmdList->IdxBuffer.Data, pCmdList->IdxBuffer.Size * sizeof( ImDrawIdx ) );
             IBWriteIdx += pCmdList->IdxBuffer.Size;
         }
@@ -389,13 +389,13 @@ namespace KRG::Render
         // Render command lists
         //-------------------------------------------------------------------------
 
-        int32 vertexOffset = 0;
-        int32 indexOffset = 0;
-        for ( int32 n = 0; n < pDrawData->CmdListsCount; n++ )
+        int32_t vertexOffset = 0;
+        int32_t indexOffset = 0;
+        for ( int32_t n = 0; n < pDrawData->CmdListsCount; n++ )
         {
             ImDrawList const* pCmdList = pDrawData->CmdLists[n];
 
-            for ( int32 cmdIdx = 0; cmdIdx < pCmdList->CmdBuffer.Size; cmdIdx++ )
+            for ( int32_t cmdIdx = 0; cmdIdx < pCmdList->CmdBuffer.Size; cmdIdx++ )
             {
                 ImDrawCmd const* pCmd = &pCmdList->CmdBuffer[cmdIdx];
                 if ( pCmd->UserCallback != nullptr )
@@ -414,7 +414,7 @@ namespace KRG::Render
                     }
 
                     // Apply scissor/clipping rectangle
-                    ScissorRect scissorRect = { (int32) clip_min.x, (int32) clip_min.y, (int32) clip_max.x, (int32) clip_max.y };
+                    ScissorRect scissorRect = { (int32_t) clip_min.x, (int32_t) clip_min.y, (int32_t) clip_max.x, (int32_t) clip_max.y };
                     renderContext.SetRasterizerScissorRectangles( &scissorRect, 1 );
 
                     // Bind texture

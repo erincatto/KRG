@@ -536,7 +536,7 @@ namespace KRG::Physics
         return nullptr;
     }
 
-    int32 RagdollDefinition::GetBodyIndexForBoneID( StringID boneID ) const
+    int32_t RagdollDefinition::GetBodyIndexForBoneID( StringID boneID ) const
     {
         for ( auto bodyIdx = 0; bodyIdx < m_bodies.size(); bodyIdx++ )
         {
@@ -549,7 +549,7 @@ namespace KRG::Physics
         return InvalidIndex;
     }
 
-    int32 RagdollDefinition::GetBodyIndexForBoneIdx( int32 boneIdx ) const
+    int32_t RagdollDefinition::GetBodyIndexForBoneIdx( int32_t boneIdx ) const
     {
         auto const& boneID = m_pSkeleton->GetBoneID( boneIdx );
         return GetBodyIndexForBoneID( boneID );
@@ -559,8 +559,8 @@ namespace KRG::Physics
     {
         KRG_ASSERT( m_pSkeleton.IsLoaded() );
 
-        int32 const numBones = m_pSkeleton->GetNumBones();
-        int32 const numBodies = (int32) m_bodies.size();
+        int32_t const numBones = m_pSkeleton->GetNumBones();
+        int32_t const numBodies = (int32_t) m_bodies.size();
 
         TInlineVector<Transform, 30> inverseBodyTransforms;
 
@@ -574,10 +574,10 @@ namespace KRG::Physics
         m_bodyToBoneMap.resize( numBodies, InvalidIndex );
         inverseBodyTransforms.resize( numBodies );
 
-        for ( int32 boneIdx = 0; boneIdx < numBones; boneIdx++ )
+        for ( int32_t boneIdx = 0; boneIdx < numBones; boneIdx++ )
         {
             auto const& boneID = m_pSkeleton->GetBoneID( boneIdx );
-            for ( int32 bodyIdx = 0; bodyIdx < numBodies; bodyIdx++ )
+            for ( int32_t bodyIdx = 0; bodyIdx < numBodies; bodyIdx++ )
             {
                 if ( m_bodies[bodyIdx].m_boneID == boneID )
                 {
@@ -594,17 +594,17 @@ namespace KRG::Physics
         }
 
         // Calculate parent bone indices and joint relative transforms
-        for ( int32 bodyIdx = 0; bodyIdx < numBodies; bodyIdx++ )
+        for ( int32_t bodyIdx = 0; bodyIdx < numBodies; bodyIdx++ )
         {
             auto& body = m_bodies[bodyIdx];
             body.m_parentBodyIdx = InvalidIndex;
 
             // Traverse hierarchy and set parent body idx to the first parent bone that has a body
-            int32 boneIdx = m_pSkeleton->GetBoneIndex( body.m_boneID );
-            int32 parentBoneIdx = m_pSkeleton->GetParentBoneIndex( boneIdx );
+            int32_t boneIdx = m_pSkeleton->GetBoneIndex( body.m_boneID );
+            int32_t parentBoneIdx = m_pSkeleton->GetParentBoneIndex( boneIdx );
             while ( parentBoneIdx != InvalidIndex )
             {
-                int32 const parentBodyIdx = m_boneToBodyMap[parentBoneIdx];
+                int32_t const parentBodyIdx = m_boneToBodyMap[parentBoneIdx];
                 if ( parentBodyIdx != InvalidIndex )
                 {
                     body.m_parentBodyIdx = parentBodyIdx;
@@ -630,10 +630,10 @@ namespace KRG::Physics
 
         for ( auto& profile : m_profiles )
         {
-            uint64 const noCollisionMask = 0;
+            uint64_t const noCollisionMask = 0;
 
             // Generate collision mask
-            uint64 hasCollisionMask = 0;
+            uint64_t hasCollisionMask = 0;
             for ( auto i = 0; i < numBodies; i++ )
             {
                 if ( profile.m_bodySettings[i].m_enableSelfCollision )
@@ -661,8 +661,8 @@ namespace KRG::Physics
         //-------------------------------------------------------------------------
 
         #if KRG_DEVELOPMENT_TOOLS
-        int32 numRootBodies = 0;
-        for ( int32 bodyIdx = 0; bodyIdx < numBodies; bodyIdx++ )
+        int32_t numRootBodies = 0;
+        for ( int32_t bodyIdx = 0; bodyIdx < numBodies; bodyIdx++ )
         {
             KRG_ASSERT( m_bodies[bodyIdx].m_parentBodyIdx != bodyIdx);
 
@@ -680,7 +680,7 @@ namespace KRG::Physics
 
 namespace KRG::Physics
 {
-    Ragdoll::Ragdoll( PxPhysics* pPhysics, RagdollDefinition const* pDefinition, StringID const profileID, uint64 userID )
+    Ragdoll::Ragdoll( PxPhysics* pPhysics, RagdollDefinition const* pDefinition, StringID const profileID, uint64_t userID )
         : m_pPhysics( pPhysics )
         , m_pDefinition( pDefinition )
         , m_userID( userID )
@@ -720,8 +720,8 @@ namespace KRG::Physics
         // Create links
         //-------------------------------------------------------------------------
 
-        int32 const numBodies = pDefinition->GetNumBodies();
-        for ( int32 bodyIdx = 0; bodyIdx < numBodies; bodyIdx++ )
+        int32_t const numBodies = pDefinition->GetNumBodies();
+        for ( int32_t bodyIdx = 0; bodyIdx < numBodies; bodyIdx++ )
         {
             auto const& bodyDefinition = pDefinition->m_bodies[bodyIdx];
 
@@ -759,7 +759,7 @@ namespace KRG::Physics
         // Create joints
         //-------------------------------------------------------------------------
 
-        for ( int32 bodyIdx = 1; bodyIdx < numBodies; bodyIdx++ )
+        for ( int32_t bodyIdx = 1; bodyIdx < numBodies; bodyIdx++ )
         {
             PxArticulationJoint* pJoint = static_cast<PxArticulationJoint*>( m_links[bodyIdx]->getInboundJoint() );
             pJoint->setParentPose( ToPx( pDefinition->m_bodies[bodyIdx].m_parentRelativeJointTransform ) );
@@ -933,12 +933,12 @@ namespace KRG::Physics
 
     void Ragdoll::UpdateBodySettings()
     {
-        int32 const numBodies = (int32) m_links.size();
+        int32_t const numBodies = (int32_t) m_links.size();
 
         KRG_ASSERT( IsValid() );
 
         ScopedWriteLock const sl( this );
-        for ( int32 bodyIdx = 0; bodyIdx < numBodies; bodyIdx++ )
+        for ( int32_t bodyIdx = 0; bodyIdx < numBodies; bodyIdx++ )
         {
             if ( bodyIdx == 0 )
             {
@@ -964,7 +964,7 @@ namespace KRG::Physics
 
             // Update materials
             PxShape* pShape = nullptr;
-            int32 const numShapesFound = m_links[bodyIdx]->getShapes( &pShape, 1 );
+            int32_t const numShapesFound = m_links[bodyIdx]->getShapes( &pShape, 1 );
             KRG_ASSERT( numShapesFound == 1 );
             pShape->setMaterials( &pMaterial, 1 );
             pMaterial->release();
@@ -1000,10 +1000,10 @@ namespace KRG::Physics
         // Body and joint setting
         //-------------------------------------------------------------------------
 
-        int32 const numBodies = (int32) m_links.size();
-        for ( int32 bodyIdx = 1; bodyIdx < numBodies; bodyIdx++ )
+        int32_t const numBodies = (int32_t) m_links.size();
+        for ( int32_t bodyIdx = 1; bodyIdx < numBodies; bodyIdx++ )
         {
-            int32 const jointIdx = bodyIdx - 1;
+            int32_t const jointIdx = bodyIdx - 1;
             auto const& jointSettings = m_pProfile->m_jointSettings[jointIdx];
 
             //-------------------------------------------------------------------------
@@ -1068,7 +1068,7 @@ namespace KRG::Physics
         m_gravityEnabled = isGravityEnabled;
 
         ScopedWriteLock const sl( this );
-        int32 const numBodies = (int32) m_links.size();
+        int32_t const numBodies = (int32_t) m_links.size();
         for ( auto bodyIdx = 0; bodyIdx < numBodies; bodyIdx++ )
         {
             if ( bodyIdx == 0 )
@@ -1078,7 +1078,7 @@ namespace KRG::Physics
             }
             else
             {
-                int32 const jointIdx = bodyIdx - 1;
+                int32_t const jointIdx = bodyIdx - 1;
                 auto const& jointSettings = m_pProfile->m_jointSettings[jointIdx];
                 bool const isBodyGravityDisabled = ( jointSettings.m_driveType == RagdollJointSettings::Kinematic) || !m_gravityEnabled;
                 m_links[bodyIdx]->setActorFlag( PxActorFlag::eDISABLE_GRAVITY, isBodyGravityDisabled );
@@ -1105,13 +1105,13 @@ namespace KRG::Physics
         else // Clear any set targets when disabling pose following
         {
             ScopedWriteLock const sl( this );
-            int32 const numBodies = (int32) m_links.size();
+            int32_t const numBodies = (int32_t) m_links.size();
 
             // Destroy root control body
             DestroyRootControlBody();
 
             // Clear joint velocities
-            for ( int32 i = 1; i < numBodies; i++ )
+            for ( int32_t i = 1; i < numBodies; i++ )
             {
                 auto pJoint = static_cast<PxArticulationJoint*>( m_links[i]->getInboundJoint() );
                 pJoint->setTargetVelocity( PxZero );
@@ -1143,7 +1143,7 @@ namespace KRG::Physics
 
             if ( m_pRootControlActor != nullptr )
             {
-                int32 const rootBoneIdx = m_pDefinition->m_bodyToBoneMap[0];
+                int32_t const rootBoneIdx = m_pDefinition->m_bodyToBoneMap[0];
                 Transform const rootAnimWorldTransform = pPose->GetGlobalTransform( rootBoneIdx ) * worldTransform;
                 Transform const rootBodyWorldTransform = m_pDefinition->m_bodies[0].m_offsetTransform * rootAnimWorldTransform;
                 m_pRootControlActor->setKinematicTarget( ToPx( rootBodyWorldTransform ) );
@@ -1152,10 +1152,10 @@ namespace KRG::Physics
             // Update bodies and joint Targets
             //-------------------------------------------------------------------------
 
-            int32 const numBodies = (int32) m_links.size();
-            for ( int32 bodyIdx = 0; bodyIdx < numBodies; bodyIdx++ )
+            int32_t const numBodies = (int32_t) m_links.size();
+            for ( int32_t bodyIdx = 0; bodyIdx < numBodies; bodyIdx++ )
             {
-                int32 const boneIdx = m_pDefinition->m_bodyToBoneMap[bodyIdx];
+                int32_t const boneIdx = m_pDefinition->m_bodyToBoneMap[bodyIdx];
                 Transform const boneWorldTransform = pPose->GetGlobalTransform( boneIdx ) * worldTransform;
                 Transform const bodyWorldTransform = m_pDefinition->m_bodies[bodyIdx].m_offsetTransform * boneWorldTransform;
 
@@ -1172,7 +1172,7 @@ namespace KRG::Physics
                     continue;
                 }
 
-                int32 const jointIdx = bodyIdx - 1;
+                int32_t const jointIdx = bodyIdx - 1;
                 auto pJoint = static_cast<PxArticulationJoint*>( m_links[bodyIdx]->getInboundJoint() );
                 auto const& jointSettings = m_pProfile->m_jointSettings[jointIdx];
 
@@ -1187,7 +1187,7 @@ namespace KRG::Physics
                 }
                 else // Driven
                 {
-                    int32 const parentBoneIdx = m_pDefinition->m_bodyToBoneMap[m_pDefinition->m_bodies[bodyIdx].m_parentBodyIdx];
+                    int32_t const parentBoneIdx = m_pDefinition->m_bodyToBoneMap[m_pDefinition->m_bodies[bodyIdx].m_parentBodyIdx];
                     Transform const parentBoneWorldTransform = pPose->GetGlobalTransform( parentBoneIdx ) * worldTransform;
                     Transform const parentBodyWorldTransform = m_pDefinition->m_bodies[m_pDefinition->m_bodies[bodyIdx].m_parentBodyIdx].m_offsetTransform * parentBoneWorldTransform;
 
@@ -1227,7 +1227,7 @@ namespace KRG::Physics
         // Copy the global bone transforms here
         //-------------------------------------------------------------------------
 
-        int32 const numBones = pPose->GetNumBones();
+        int32_t const numBones = pPose->GetNumBones();
         m_globalBoneTransforms.resize( numBones );
         m_globalBoneTransforms = pPose->GetGlobalTransforms();
 
@@ -1237,8 +1237,8 @@ namespace KRG::Physics
 
         {
             ScopedReadLock const sl( this );
-            int32 const numBodies = (int32) m_links.size();
-            for ( int32 bodyIdx = 0; bodyIdx < numBodies; bodyIdx++ )
+            int32_t const numBodies = (int32_t) m_links.size();
+            for ( int32_t bodyIdx = 0; bodyIdx < numBodies; bodyIdx++ )
             {
                 PxTransform const ragdollBodyTransform = m_links[bodyIdx]->getGlobalPose();
                 if ( !ragdollBodyTransform.isSane() )
@@ -1248,7 +1248,7 @@ namespace KRG::Physics
                     break;
                 }
 
-                int32 const boneIdx = m_pDefinition->m_bodyToBoneMap[bodyIdx];
+                int32_t const boneIdx = m_pDefinition->m_bodyToBoneMap[bodyIdx];
                 Transform const bodyWorldTransform = FromPx( ragdollBodyTransform );
                 Transform const boneWorldTranform = m_pDefinition->m_bodies[bodyIdx].m_inverseOffsetTransform * bodyWorldTransform;
                 m_globalBoneTransforms[boneIdx] = boneWorldTranform * inverseWorldTransform;
@@ -1263,7 +1263,7 @@ namespace KRG::Physics
         // Calculate the local transforms and set back into the pose
         //-------------------------------------------------------------------------
 
-        for ( int32 i = 0; i < numBones; i++ )
+        for ( int32_t i = 0; i < numBones; i++ )
         {
             // Keep original local transforms for non-body bones
             if ( m_pDefinition->m_boneToBodyMap[i] == InvalidIndex )
@@ -1273,7 +1273,7 @@ namespace KRG::Physics
 
             //-------------------------------------------------------------------------
 
-            int32 const parentBoneIdx = m_pDefinition->m_pSkeleton->GetParentBoneIndex( i );
+            int32_t const parentBoneIdx = m_pDefinition->m_pSkeleton->GetParentBoneIndex( i );
             if ( parentBoneIdx != InvalidIndex )
             {
                 Transform const boneLocalTransform = m_globalBoneTransforms[i] * m_globalBoneTransforms[parentBoneIdx].GetInverse();
@@ -1292,7 +1292,7 @@ namespace KRG::Physics
     {
         KRG_ASSERT( IsValid() );
 
-        int32 const numBodies = m_pDefinition->GetNumBodies();
+        int32_t const numBodies = m_pDefinition->GetNumBodies();
         pose.resize( numBodies );
 
         ScopedReadLock const sl( this );
@@ -1326,8 +1326,8 @@ namespace KRG::Physics
     void Ragdoll::ResetState()
     {
         ScopedWriteLock const sl( this );
-        int32 const numBodies = (int32) m_links.size();
-        for ( int32 i = 0; i < numBodies; i++ )
+        int32_t const numBodies = (int32_t) m_links.size();
+        for ( int32_t i = 0; i < numBodies; i++ )
         {
             m_links[i]->setLinearVelocity( PxZero );
             m_links[i]->setAngularVelocity( PxZero );
@@ -1370,8 +1370,8 @@ namespace KRG::Physics
         // Draw Ragdoll Bodies
         //-------------------------------------------------------------------------
 
-        int32 const numBodies = m_pDefinition->GetNumBodies();
-        for ( int32 i = 0; i < numBodies; i++ )
+        int32_t const numBodies = m_pDefinition->GetNumBodies();
+        for ( int32_t i = 0; i < numBodies; i++ )
         {
             auto const& bodySettings = m_pDefinition->m_bodies[i];
             ctx.DrawCapsuleHeightX( pose[i], bodySettings.m_radius, bodySettings.m_halfHeight, Colors::Yellow, 2.0f );

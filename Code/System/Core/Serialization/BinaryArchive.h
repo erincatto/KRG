@@ -29,7 +29,6 @@
 #include "UserTypes/eastl_utility.hpp"
 #include "UserTypes/eastl_tuple.hpp"
 #include "UserTypes/eastl_hash_set.hpp"
-#include "UserTypes/eastl_chrono.hpp"
 #include "UserTypes/krg_stringid.hpp"
 
 // Archive
@@ -96,7 +95,7 @@ namespace KRG::Serialization
     {
     public:
 
-        BinaryMemoryArchive( Mode mode, TVector<Byte>& data );
+        BinaryMemoryArchive( Mode mode, TVector<uint8_t>& data );
         ~BinaryMemoryArchive();
 
         inline Mode GetMode() const { return m_mode; }

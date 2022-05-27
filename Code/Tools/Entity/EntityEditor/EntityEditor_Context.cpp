@@ -123,10 +123,10 @@ namespace KRG::EntityModel
 
                 case EntityEditorUndoableAction::ModifyEntities:
                 {
-                    int32 const numEntities = (int32) m_entityDescPostModification.size();
+                    int32_t const numEntities = (int32_t) m_entityDescPostModification.size();
                     KRG_ASSERT( m_entityDescPostModification.size() == m_entityDescPreModification.size() );
 
-                    for ( int32 i = 0; i < numEntities; i++ )
+                    for ( int32_t i = 0; i < numEntities; i++ )
                     {
                         // Remove current entities
                         auto pExistingEntity = m_pMap->FindEntityByName( m_entityDescPostModification[i].m_name );
@@ -183,10 +183,10 @@ namespace KRG::EntityModel
 
                 case EntityEditorUndoableAction::ModifyEntities:
                 {
-                    int32 const numEntities = (int32) m_entityDescPreModification.size();
+                    int32_t const numEntities = (int32_t) m_entityDescPreModification.size();
                     KRG_ASSERT( m_entityDescPostModification.size() == m_entityDescPreModification.size() );
 
-                    for ( int32 i = 0; i < numEntities; i++ )
+                    for ( int32_t i = 0; i < numEntities; i++ )
                     {
                         // Destroy the current entities (only if there are not duplicates since if they are they wont exist)
                         if ( !m_entitiesWereDuplicated )
@@ -612,7 +612,7 @@ namespace KRG::EntityModel
                     }
                 }
 
-                m_selectionBounds = OBB( points.data(), (uint32) points.size() );
+                m_selectionBounds = OBB( points.data(), (uint32_t) points.size() );
             }
         }
 
@@ -677,7 +677,7 @@ namespace KRG::EntityModel
                     }
                 }
 
-                m_selectionBounds = OBB( points.data(), (uint32) points.size() );
+                m_selectionBounds = OBB( points.data(), (uint32_t) points.size() );
             }
         }
     }
@@ -713,7 +713,7 @@ namespace KRG::EntityModel
         // Update all selected components
         if ( m_selectedComponents.size() > 0 )
         {
-            int32 offsetIdx = 0;
+            int32_t offsetIdx = 0;
             for ( auto pComponent : m_selectedComponents )
             {
                 if ( auto pSC = TryCast<SpatialEntityComponent>( pComponent ) )
@@ -725,7 +725,7 @@ namespace KRG::EntityModel
         }
         else // Update all selected entities
         {
-            int32 offsetIdx = 0;
+            int32_t offsetIdx = 0;
             for ( auto pSelectedEntity : m_selectedEntities )
             {
                 if ( pSelectedEntity->IsSpatialEntity() )

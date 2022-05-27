@@ -55,9 +55,9 @@ namespace KRG::Animation
 
         inline bool IsValid() const;
         inline Skeleton const* GetSkeleton() const { return m_pSkeleton; }
-        inline int32 GetNumWeights() const { return (int32) m_weights.size(); }
-        inline float GetWeight( uint32 i ) const { KRG_ASSERT( i < (uint32) m_weights.size() ); return m_weights[i]; }
-        inline float operator[]( uint32 i ) const { return GetWeight( i ); }
+        inline int32_t GetNumWeights() const { return (int32_t) m_weights.size(); }
+        inline float GetWeight( uint32_t i ) const { KRG_ASSERT( i < (uint32_t) m_weights.size() ); return m_weights[i]; }
+        inline float operator[]( uint32_t i ) const { return GetWeight( i ); }
         BoneMask& operator*=( BoneMask const& rhs );
 
         // Set all weights to zero
@@ -96,7 +96,7 @@ namespace KRG::Animation
 
     class BoneMaskPool
     {
-        constexpr static int32 const s_initialPoolSize = 4;
+        constexpr static int32_t const s_initialPoolSize = 4;
 
     public:
 
@@ -113,6 +113,6 @@ namespace KRG::Animation
     private:
 
         TVector<BoneMask*>          m_pool;
-        int32                       m_firstFreePoolIdx = InvalidIndex;
+        int32_t                       m_firstFreePoolIdx = InvalidIndex;
     };
 }

@@ -20,7 +20,7 @@ namespace KRG::Animation::GraphNodes
         }
     }
 
-    int32 SelectorNode::SelectOption( GraphContext& context ) const
+    int32_t SelectorNode::SelectOption( GraphContext& context ) const
     {
         KRG_ASSERT( context.IsValid() );
         auto pSettings = GetSettings<SelectorNode>();
@@ -28,7 +28,7 @@ namespace KRG::Animation::GraphNodes
         // Select a valid option
         if ( m_optionNodes.size() > 0 )
         {
-            int32 SelectedIdx = InvalidIndex;
+            int32_t SelectedIdx = InvalidIndex;
 
             auto const numOptions = m_optionNodes.size();
             KRG_ASSERT( m_optionNodes.size() == m_conditions.size() );
@@ -182,7 +182,7 @@ namespace KRG::Animation::GraphNodes
         }
     }
 
-    int32 AnimationClipSelectorNode::SelectOption( GraphContext& context ) const
+    int32_t AnimationClipSelectorNode::SelectOption( GraphContext& context ) const
     {
         KRG_ASSERT( context.IsValid() );
         auto pSettings = GetSettings<SelectorNode>();
@@ -190,7 +190,7 @@ namespace KRG::Animation::GraphNodes
         // Select a valid option
         if ( m_optionNodes.size() > 0 )
         {
-            int32 selectedIdx = InvalidIndex;
+            int32_t selectedIdx = InvalidIndex;
             auto const numOptions = m_optionNodes.size();
             KRG_ASSERT( m_optionNodes.size() == m_conditions.size() );
 

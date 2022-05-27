@@ -9,7 +9,7 @@
 namespace KRG::ImGuiX
 {
     // Rotation
-    constexpr static uint32 const       g_halfCircleSegmentCount = 64;
+    constexpr static uint32_t const       g_halfCircleSegmentCount = 64;
     constexpr static float const        g_widgetRadius = 40.0f;
     constexpr static float const        g_gizmoPickingSelectionBuffer = 3.0f;
     static Color const                  g_selectedColor = Colors::Yellow;
@@ -300,7 +300,7 @@ namespace KRG::ImGuiX
         auto pDrawList = ImGui::GetWindowDrawList();
         KRG_ASSERT( pDrawList != nullptr );
 
-        uint32 const axisColor = ConvertColor( color );
+        uint32_t const axisColor = ConvertColor( color );
         Vector const axisDir = ( end - start ).GetNormalized2();
         if ( axisDir.IsNearZero4() )
         {
@@ -407,7 +407,7 @@ namespace KRG::ImGuiX
         //-------------------------------------------------------------------------
 
         Vector const mousePos = io.MousePos;
-        auto LeftHandTest = [&mousePos, &drawQuadVerts] ( int32 side0, int32 side1 )
+        auto LeftHandTest = [&mousePos, &drawQuadVerts] ( int32_t side0, int32_t side1 )
         {
             float D = ( drawQuadVerts[side1].x - drawQuadVerts[side0].x ) * ( mousePos.m_y - drawQuadVerts[side0].y ) - ( mousePos.m_x - drawQuadVerts[side0].x ) * ( drawQuadVerts[side1].y - drawQuadVerts[side0].y );
             return D > 0;
@@ -429,8 +429,8 @@ namespace KRG::ImGuiX
 
         Color const innerColor = ( m_isScreenRotationWidgetHovered ) ? g_selectedColor : Colors::White;
         Color const outerColor = ( m_isScreenRotationWidgetHovered ) ? g_selectedColor : Colors::White.GetAlphaVersion( 0.5f );
-        uint32 const imguiInnerColor = ConvertColor( innerColor );
-        uint32 const imguiOuterColor = ConvertColor( outerColor );
+        uint32_t const imguiInnerColor = ConvertColor( innerColor );
+        uint32_t const imguiOuterColor = ConvertColor( outerColor );
 
         // Draw current Rotation Covered
         //-------------------------------------------------------------------------
@@ -469,7 +469,7 @@ namespace KRG::ImGuiX
         Vector const mousePos = io.MousePos;
 
         bool isHovered = false;
-        int32 const numPoints = g_halfCircleSegmentCount;
+        int32_t const numPoints = g_halfCircleSegmentCount;
         ImVec2 circlePointsSS[numPoints];
 
         Vector const startRotationVector = axisOfRotation_WS.Cross3( viewport.GetViewForwardDirection().GetNegated() ).GetNormalized3().GetNegated();
@@ -577,7 +577,7 @@ namespace KRG::ImGuiX
         }
         else
         {
-            uint32 const numCoveredCirclePoints = (uint32) Math::Ceiling( Math::Abs( m_rotationDeltaAngle.ToFloat() / Math::TwoPi ) * ( g_halfCircleSegmentCount * 2 ) );
+            uint32_t const numCoveredCirclePoints = (uint32_t) Math::Ceiling( Math::Abs( m_rotationDeltaAngle.ToFloat() / Math::TwoPi ) * ( g_halfCircleSegmentCount * 2 ) );
             ImVec2 innerCirclePointsSS[g_halfCircleSegmentCount * 2 + 2];
             angleStepDelta = m_rotationDeltaAngle / (float) numCoveredCirclePoints;
             for ( auto i = 0u; i < numCoveredCirclePoints; i++ )
@@ -1265,7 +1265,7 @@ namespace KRG::ImGuiX
         //-------------------------------------------------------------------------
 
         ImVec2 const originPosSS = ImVec2( m_origin_SS.ToFloat2() );
-        uint32 const originColor = ConvertColor( ( m_manipulationMode == ManipulationMode::ScaleXYZ || m_isOriginHovered ) ? g_selectedColor : g_originColor );
+        uint32_t const originColor = ConvertColor( ( m_manipulationMode == ManipulationMode::ScaleXYZ || m_isOriginHovered ) ? g_selectedColor : g_originColor );
 
         pDrawList->AddCircleFilled( originPosSS, 3.0f, originColor, 20 );
         pDrawList->AddCircle( originPosSS, 8.0f, originColor, 20, 2.0f );

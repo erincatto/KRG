@@ -54,8 +54,8 @@ namespace KRG::Animation
         m_firstFreeBuffer = 0;
 
         // Process all cached buffer destruction requests
-        int8 const numCachedBuffers = (int8) m_cachedBuffers.size();
-        for ( int8 i = 0; i < numCachedBuffers; i++ )
+        int8_t const numCachedBuffers = (int8_t) m_cachedBuffers.size();
+        for ( int8_t i = 0; i < numCachedBuffers; i++ )
         {
             if ( m_cachedBuffers[i].m_shouldBeDestroyed )
             {
@@ -72,7 +72,7 @@ namespace KRG::Animation
         #endif
     }
 
-    int8 PoseBufferPool::RequestPoseBuffer()
+    int8_t PoseBufferPool::RequestPoseBuffer()
     {
         if ( m_firstFreeBuffer == m_poseBuffers.size() )
         {
@@ -83,12 +83,12 @@ namespace KRG::Animation
             KRG_ASSERT( m_poseBuffers.size() < 255 );
         }
 
-        int8 const freeBufferIdx = m_firstFreeBuffer;
+        int8_t const freeBufferIdx = m_firstFreeBuffer;
         KRG_ASSERT( !m_poseBuffers[freeBufferIdx].m_isUsed );
         m_poseBuffers[freeBufferIdx].m_isUsed = true;
 
         // Update free index
-        int8 const numPoseBuffers = (int8) m_poseBuffers.size();
+        int8_t const numPoseBuffers = (int8_t) m_poseBuffers.size();
         for ( ; m_firstFreeBuffer < numPoseBuffers; m_firstFreeBuffer++ )
         {
             if ( !m_poseBuffers[m_firstFreeBuffer].m_isUsed )
@@ -100,7 +100,7 @@ namespace KRG::Animation
         return freeBufferIdx;
     }
 
-    void PoseBufferPool::ReleasePoseBuffer( int8 BufferIdx )
+    void PoseBufferPool::ReleasePoseBuffer( int8_t BufferIdx )
     {
         KRG_ASSERT( m_poseBuffers[BufferIdx].m_isUsed );
         m_poseBuffers[BufferIdx].m_isUsed = false;
@@ -135,7 +135,7 @@ namespace KRG::Animation
         //-------------------------------------------------------------------------
 
         // Update free index
-        int32 const numCachedBuffers = (int32) m_cachedBuffers.size();
+        int32_t const numCachedBuffers = (int32_t) m_cachedBuffers.size();
         for ( ; m_firstFreeCachedBuffer < numCachedBuffers; m_firstFreeCachedBuffer++ )
         {
             if ( !m_cachedBuffers[m_firstFreeCachedBuffer].m_isUsed )
@@ -185,7 +185,7 @@ namespace KRG::Animation
     //-------------------------------------------------------------------------
 
     #if KRG_DEVELOPMENT_TOOLS
-    void PoseBufferPool::RecordPose( int8 poseBufferIdx )
+    void PoseBufferPool::RecordPose( int8_t poseBufferIdx )
     {
         if ( !m_isDebugRecordingEnabled )
         {
@@ -207,7 +207,7 @@ namespace KRG::Animation
         m_debugBuffers[m_firstFreeDebugBuffer++].CopyFrom( m_poseBuffers[poseBufferIdx] );
     }
 
-    PoseBuffer const* PoseBufferPool::GetRecordedPose( int8 debugBufferIdx ) const
+    PoseBuffer const* PoseBufferPool::GetRecordedPose( int8_t debugBufferIdx ) const
     {
         KRG_ASSERT( debugBufferIdx >= 0 && debugBufferIdx < m_debugBuffers.size() );
         return &m_debugBuffers[debugBufferIdx];

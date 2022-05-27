@@ -18,7 +18,7 @@ namespace KRG::Animation::GraphNodes
         virtual TBitFlags<GraphType> GetAllowedParentGraphTypes() const override final { return TBitFlags<GraphType>( GraphType::BlendTree ); }
         virtual bool SupportsDynamicInputPins() const override { return true; }
         virtual TInlineString<100> GetNewDynamicInputPinName() const override { return "Input"; }
-        virtual uint32 GetDynamicInputPinValueType() const override { return (uint32) GraphValueType::Pose; }
+        virtual uint32_t GetDynamicInputPinValueType() const override { return (uint32_t) GraphValueType::Pose; }
 
     protected:
 

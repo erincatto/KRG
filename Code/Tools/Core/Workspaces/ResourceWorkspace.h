@@ -32,7 +32,7 @@ namespace KRG
 
     protected:
 
-        virtual uint32 GetID() const override { return m_descriptorID.GetPathID(); }
+        virtual uint32_t GetID() const override { return m_descriptorID.GetPathID(); }
         virtual bool HasViewportWindow() const override { return false; }
         virtual void Initialize( UpdateContext const& context ) override;
         virtual void Shutdown( UpdateContext const& context ) override;
@@ -77,7 +77,7 @@ namespace KRG
         EventBindingID                          m_preEditEventBindingID;
         EventBindingID                          m_postEditEventBindingID;
         ResourceDescriptorUndoableAction*       m_pActiveUndoableAction = nullptr;
-        int32                                   m_beginModificationCallCount = 0;
+        int32_t                                   m_beginModificationCallCount = 0;
         ImGuiX::Gizmo                           m_gizmo;
 
     private:
@@ -139,7 +139,7 @@ namespace KRG
             }
         }
 
-        virtual uint32 GetID() const override { return m_pResource.GetResourceID().GetPathID(); }
+        virtual uint32_t GetID() const override { return m_pResource.GetResourceID().GetPathID(); }
         virtual bool HasViewportWindow() const override { return true; }
         virtual bool HasViewportToolbar() const { return true; }
 

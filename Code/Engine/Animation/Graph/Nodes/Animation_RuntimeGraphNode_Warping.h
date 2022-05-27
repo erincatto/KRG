@@ -51,8 +51,8 @@ namespace KRG::Animation::GraphNodes
     {
         struct WarpSection
         {
-            int32 m_startFrame = 0;
-            int32 m_endFrame = 0;
+            int32_t m_startFrame = 0;
+            int32_t m_endFrame = 0;
             bool  m_rotationAllowed = false;
             bool  m_translationAllowed = false;
         };

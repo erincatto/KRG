@@ -13,7 +13,7 @@ namespace KRG
 
         // If the resource server is not running then start it
         String const resourceServerExecutableName = resourceServerExecutablePath.GetFilename();
-        uint32 const resourceServerProcessID = Platform::Win32::GetProcessID( resourceServerExecutableName.c_str() );
+        uint32_t const resourceServerProcessID = Platform::Win32::GetProcessID( resourceServerExecutableName.c_str() );
         shouldStartResourceServer = ( resourceServerProcessID == 0 );
 
         // Ensure we are running the correct build of the resource server

@@ -45,7 +45,7 @@ namespace KRG::Render
         inline TVector<Transform> const& GetBoneTransforms() const { return m_boneTransforms; }
 
         // The the global space transform for a specific bone
-        inline void SetBoneTransform( int32 boneIdx, Transform const& transform )
+        inline void SetBoneTransform( int32_t boneIdx, Transform const& transform )
         {
             KRG_ASSERT( boneIdx >= 0 && boneIdx < m_boneTransforms.size() );
             m_boneTransforms[boneIdx] = transform;
@@ -94,7 +94,7 @@ namespace KRG::Render
 
         KRG_EXPOSE TResourcePtr<SkeletalMesh>           m_pMesh;
         KRG_EXPOSE TResourcePtr<Animation::Skeleton>    m_pSkeleton = nullptr;
-        TVector<int32>                                  m_animToMeshBoneMap;
+        TVector<int32_t>                                  m_animToMeshBoneMap;
         TVector<Transform>                              m_boneTransforms;
         TVector<Matrix>                                 m_skinningTransforms;
     };

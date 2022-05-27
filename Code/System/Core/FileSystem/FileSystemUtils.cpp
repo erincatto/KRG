@@ -19,7 +19,7 @@ namespace KRG::FileSystem
 
         //-------------------------------------------------------------------------
 
-        uint32 const numExtensionFilters = (uint32) extensionFilter.size();
+        uint32_t const numExtensionFilters = (uint32_t) extensionFilter.size();
         TVector<String> lowercaseExtensionFilters = extensionFilter;
         for ( auto& extFilter : lowercaseExtensionFilters )
         {

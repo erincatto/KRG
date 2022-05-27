@@ -116,7 +116,7 @@ namespace KRG::Animation
         for ( auto const& boneWeight : weights )
         {
             KRG_ASSERT( boneWeight.m_weight >= 0.0f && boneWeight.m_weight <= 1.0f );
-            int32 const boneIdx = m_pSkeleton->GetBoneIndex( boneWeight.m_boneID );
+            int32_t const boneIdx = m_pSkeleton->GetBoneIndex( boneWeight.m_boneID );
             KRG_ASSERT( boneIdx != InvalidIndex );
             m_weights[boneIdx] = boneWeight.m_weight;
         }
@@ -133,7 +133,7 @@ namespace KRG::Animation
 
     BoneMask& BoneMask::operator*=( BoneMask const& rhs )
     {
-        int32 const numWeights = (int32) m_weights.size();
+        int32_t const numWeights = (int32_t) m_weights.size();
         for ( auto i = 0; i < numWeights; i++ )
         {
             m_weights[i] *= rhs.m_weights[i];

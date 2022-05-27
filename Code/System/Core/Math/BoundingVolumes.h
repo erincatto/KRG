@@ -32,7 +32,7 @@ namespace KRG
 
         Sphere() = default;
         Sphere( Vector position, float radius ) : m_center( position ), m_radius( radius ) { KRG_ASSERT( radius >= 0.0f ); }
-        Sphere( Vector* points, uint32 numPoints );
+        Sphere( Vector* points, uint32_t numPoints );
         explicit Sphere( AABB const& box );
         explicit Sphere( OBB const& box );
 
@@ -87,7 +87,7 @@ namespace KRG
     public:
 
         AABB() = default;
-        AABB( Vector const* pPoints, uint32 numPoints );
+        AABB( Vector const* pPoints, uint32_t numPoints );
         AABB( Vector const& center ) : m_center( center ), m_extents( Vector::Zero ) {}
         AABB( Vector const& center, Vector const& extents ) : m_center( center ), m_extents( extents ) { KRG_ASSERT( IsValid() ); }
         AABB( Vector const& center, float const& extents ) : m_center( center ), m_extents( extents ) { KRG_ASSERT( IsValid() ); }
@@ -191,7 +191,7 @@ namespace KRG
 
         OBB() = default;
         OBB( Vector center, Vector extents, Quaternion orientation = Quaternion::Identity );
-        OBB( Vector const* pPoints, uint32 numPoints );
+        OBB( Vector const* pPoints, uint32_t numPoints );
         explicit OBB( AABB const& aabb );
         explicit OBB( AABB const& aabb, Transform const& transform );
 
@@ -201,7 +201,7 @@ namespace KRG
 
         KRG_FORCE_INLINE void GetCorners( Vector corners[8] ) const
         {
-            for ( int32 i = 0; i < 8; ++i )
+            for ( int32_t i = 0; i < 8; ++i )
             {
                 corners[i] = m_center + m_orientation.RotateVector( m_extents * Vector::BoxCorners[i] );
             }
@@ -305,7 +305,7 @@ namespace KRG
 
     KRG_FORCE_INLINE void AABB::GetCorners( Vector corners[8] ) const
     {
-        for ( int32 i = 0; i < 8; ++i )
+        for ( int32_t i = 0; i < 8; ++i )
         {
             corners[i] = Vector::MultiplyAdd( m_extents, Vector::BoxCorners[i], m_center );
         }
@@ -372,6 +372,11 @@ namespace KRG
         return d2.IsLessThanEqual3( sphere.m_radius * sphere.m_radius );
     }
 
+    KRG_FORCE_INLINE bool AABB::Overlaps( OBB const& box ) const
+    {
+        return box.Overlaps( *this );
+    }
+
     //-------------------------------------------------------------------------
 
     // Optimization from: https://zeux.io/2010/10/17/aabb-from-obb-with-component-wise-abs/
@@ -401,7 +406,7 @@ namespace KRG
         }
 
         Vector const offset = other.m_center - m_center;
-        for ( int32 i = 0; i < 8; ++i )
+        for ( int32_t i = 0; i < 8; ++i )
         {
             Vector C = other.m_orientation.RotateVector( other.m_extents * Vector::BoxCorners[i] ) + offset;
             C = m_orientation.RotateVectorInverse( C );

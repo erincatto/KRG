@@ -2,6 +2,7 @@
 
 #include "PropertyInfo.h"
 #include "ITypeHelper.h"
+#include "System/Core/Types/Containers.h"
 
 //-------------------------------------------------------------------------
 
@@ -55,13 +56,13 @@ namespace KRG::TypeSystem
     public:
 
         TypeID                                  m_ID;
-        int32                                   m_size = -1;
-        int32                                   m_alignment = -1;
+        int32_t                                   m_size = -1;
+        int32_t                                   m_alignment = -1;
         TBitFlags<ETypeInfoMetaData>            m_metadata;
         ITypeHelper*                            m_pTypeHelper = nullptr;
         TVector<TypeInfo const*>                m_parentTypes;
         TVector<PropertyInfo>                   m_properties;
-        THashMap<StringID, int32>               m_propertyMap;
+        THashMap<StringID, int32_t>               m_propertyMap;
 
         #if KRG_DEVELOPMENT_TOOLS
         bool                                    m_isForDevelopmentUseOnly = false;      // Whether this property only exists in development builds

@@ -35,7 +35,7 @@ namespace KRG::TypeSystem::Reflection
     {
         bool SortProjectsByDependencies( TVector<ProjectInfo>& projects )
         {
-            int32 const numProjects = (int32) projects.size();
+            int32_t const numProjects = (int32_t) projects.size();
             if ( numProjects <= 1 )
             {
                 return true;
@@ -50,7 +50,7 @@ namespace KRG::TypeSystem::Reflection
 
             for ( auto p = 0; p < numProjects; p++ )
             {
-                int32 const numDependencies = (int32) projects[p].m_dependencies.size();
+                int32_t const numDependencies = (int32_t) projects[p].m_dependencies.size();
                 for ( auto d = 0; d < numDependencies; d++ )
                 {
                     for ( auto pp = 0; pp < numProjects; pp++ )
@@ -70,7 +70,7 @@ namespace KRG::TypeSystem::Reflection
             }
 
             // Update type list
-            uint32 depValue = 0;
+            uint32_t depValue = 0;
             TVector<ProjectInfo> sortedProjects;
             sortedProjects.reserve( numProjects );
 
@@ -143,7 +143,7 @@ namespace KRG::TypeSystem::Reflection
                     bool excludeProject = true;
 
                     // Ensure projects are within the allowed layers
-                    for ( auto i = 0u; i < (uint8) Reflection::EngineLayer::NumLayers; i++ )
+                    for ( auto i = 0u; i < (uint8_t) Reflection::EngineLayer::NumLayers; i++ )
                     {
                         if ( line.find( Reflection::Settings::LayerProjectNamePrefixes[i] ) != String::npos )
                         {
@@ -209,10 +209,10 @@ namespace KRG::TypeSystem::Reflection
         return true;
     }
 
-    uint64 Reflector::CalculateHeaderChecksum( FileSystem::Path const& engineIncludePath, FileSystem::Path const& filePath )
+    uint64_t Reflector::CalculateHeaderChecksum( FileSystem::Path const& engineIncludePath, FileSystem::Path const& filePath )
     {
         static char const* headerString = "Note: including file: ";
-        uint64 checksum = FileSystem::GetFileModifiedTime( filePath );
+        uint64_t checksum = FileSystem::GetFileModifiedTime( filePath );
         return checksum;
     }
 
@@ -383,7 +383,7 @@ namespace KRG::TypeSystem::Reflection
         }
 
         // Check file size
-        uint32 const size = (uint32) hdrFile.tellg();
+        uint32_t const size = (uint32_t) hdrFile.tellg();
         if ( size == 0 )
         {
             hdrFile.close();
@@ -393,7 +393,7 @@ namespace KRG::TypeSystem::Reflection
 
         // Check for the KRG registration macros
         bool exportMacroFound = false;
-        uint32 openCommentBlock = 0;
+        uint32_t openCommentBlock = 0;
 
         std::string stdLine;
         while ( std::getline( hdrFile, stdLine ) )
@@ -410,7 +410,7 @@ namespace KRG::TypeSystem::Reflection
                 auto const foundCommentIdx = line.find( "//" );
 
                 // Check for registration macros
-                for ( auto i = 0u; i < (uint32) ReflectionMacro::NumMacros; i++ )
+                for ( auto i = 0u; i < (uint32_t) ReflectionMacro::NumMacros; i++ )
                 {
                     ReflectionMacro const macro = (ReflectionMacro) i;
                     auto const foundMacroIdx = line.find( GetReflectionMacroText( macro ) );

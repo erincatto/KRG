@@ -35,7 +35,7 @@ namespace KRG::Physics
         inline bool IsTriangleMesh() const { return !m_isConvexMesh; }
         inline bool IsConvexMesh() const { return m_isConvexMesh; }
 
-        inline uint16 GetNumMaterialsNeeded() const { return (uint16) m_physicsMaterialIDs.size(); }
+        inline uint16_t GetNumMaterialsNeeded() const { return (uint16_t) m_physicsMaterialIDs.size(); }
         inline TInlineVector<StringID, 4> const& GetPhysicsMaterials() const { return m_physicsMaterialIDs; }
 
         //-------------------------------------------------------------------------

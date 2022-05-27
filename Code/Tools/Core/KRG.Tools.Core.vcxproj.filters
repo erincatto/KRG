@@ -87,9 +87,6 @@
     <ClInclude Include="ThirdParty\subprocess\subprocess.h">
       <Filter>ThirdParty\subprocess</Filter>
     </ClInclude>
-    <ClInclude Include="FileSystem\FileSystemHelpers.h">
-      <Filter>FileSystem</Filter>
-    </ClInclude>
     <ClInclude Include="FileSystem\FileSystemWatcher.h">
       <Filter>FileSystem</Filter>
     </ClInclude>
@@ -194,9 +191,6 @@
   <ItemGroup>
     <ClCompile Include="ThirdParty\sqlite\SqliteHelpers.cpp">
       <Filter>ThirdParty\sqlite</Filter>
-    </ClCompile>
-    <ClCompile Include="FileSystem\FileSystemHelpers.cpp">
-      <Filter>FileSystem</Filter>
     </ClCompile>
     <ClCompile Include="FileSystem\FileSystemWatcher.cpp">
       <Filter>FileSystem</Filter>

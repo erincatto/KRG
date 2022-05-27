@@ -13,7 +13,7 @@ namespace KRG::Animation::GraphNodes
     {
         struct IndexValuePair
         {
-            int16           m_idx;
+            int16_t           m_idx;
             float           m_value;
         };
 
@@ -21,9 +21,9 @@ namespace KRG::Animation::GraphNodes
         //-------------------------------------------------------------------------
 
         TInlineVector<IndexValuePair, 10> sortedIndexValuePairs;
-        int16 const numSources = (int16) values.size();
+        int16_t const numSources = (int16_t) values.size();
         sortedIndexValuePairs.resize( numSources );
-        for ( int16 i = 0; i < numSources; i++ )
+        for ( int16_t i = 0; i < numSources; i++ )
         {
             sortedIndexValuePairs[i].m_idx = i;
             sortedIndexValuePairs[i].m_value = values[i];
@@ -49,7 +49,7 @@ namespace KRG::Animation::GraphNodes
 
         Parameterization parameterization;
 
-        int32 const numBlendRanges = numSources - 1;
+        int32_t const numBlendRanges = numSources - 1;
         parameterization.m_blendRanges.resize( numBlendRanges );
         for ( auto i = 0; i < numBlendRanges; i++ )
         {
@@ -266,13 +266,13 @@ namespace KRG::Animation::GraphNodes
                 // Update Source 0
                 GraphPoseNodeResult const sourceResult0 = pSource0->Update( context );
                 #if KRG_DEVELOPMENT_TOOLS
-                int16 const rootMotionActionIdxSource0 = context.GetRootMotionActionRecorder()->GetLastActionIndex();
+                int16_t const rootMotionActionIdxSource0 = context.GetRootMotionActionRecorder()->GetLastActionIndex();
                 #endif
 
                 // Update Source 1
                 GraphPoseNodeResult const sourceResult1 = pSource1->Update( context );
                 #if KRG_DEVELOPMENT_TOOLS
-                int16 const rootMotionActionIdxSource1 = context.GetRootMotionActionRecorder()->GetLastActionIndex();
+                int16_t const rootMotionActionIdxSource1 = context.GetRootMotionActionRecorder()->GetLastActionIndex();
                 #endif
 
                 // Update internal time
@@ -367,13 +367,13 @@ namespace KRG::Animation::GraphNodes
                 // Update Source 0
                 GraphPoseNodeResult const sourceResult0 = pSource0->Update( context, updateRange );
                 #if KRG_DEVELOPMENT_TOOLS
-                int16 const rootMotionActionIdxSource0 = context.GetRootMotionActionRecorder()->GetLastActionIndex();
+                int16_t const rootMotionActionIdxSource0 = context.GetRootMotionActionRecorder()->GetLastActionIndex();
                 #endif
 
                 // Update Source 1
                 GraphPoseNodeResult const sourceResult1 = pSource1->Update( context, updateRange );
                 #if KRG_DEVELOPMENT_TOOLS
-                int16 const rootMotionActionIdxSource1 = context.GetRootMotionActionRecorder()->GetLastActionIndex();
+                int16_t const rootMotionActionIdxSource1 = context.GetRootMotionActionRecorder()->GetLastActionIndex();
                 #endif
 
                 if ( sourceResult0.HasRegisteredTasks() && sourceResult1.HasRegisteredTasks() )
@@ -431,7 +431,7 @@ namespace KRG::Animation::GraphNodes
             //-------------------------------------------------------------------------
 
             TInlineVector<float, 5> values;
-            int32 const numSources = (int32) pSettings->m_sourceNodeIndices.size();
+            int32_t const numSources = (int32_t) pSettings->m_sourceNodeIndices.size();
             for ( GraphNodeIndex i = 0; i < numSources; i++ )
             {
                 // The editor tooling guarantees that the source nodes are actually clip references!

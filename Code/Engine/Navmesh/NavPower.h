@@ -33,7 +33,7 @@ namespace KRG::Navmesh
 
     KRG_FORCE_INLINE Color FromBfx( bfx::Color const& color )
     {
-        return Color( uint8( color.m_r * 255 ), uint8( color.m_g * 255 ), uint8( color.m_b ), uint8( color.m_a * 255 ) );
+        return Color( uint8_t( color.m_r * 255 ), uint8_t( color.m_g * 255 ), uint8_t( color.m_b ), uint8_t( color.m_a * 255 ) );
     }
 
     //-------------------------------------------------------------------------
@@ -93,8 +93,8 @@ namespace KRG::Navmesh
 
     private:
 
-        virtual void DrawLineList( bfx::LineSegment const* pLines, uint32 numLines, bfx::Color const& color ) override;
-        virtual void DrawTriList( bfx::Triangle const* pTris, uint32 numTris, bfx::Color const& color ) override;
+        virtual void DrawLineList( bfx::LineSegment const* pLines, uint32_t numLines, bfx::Color const& color ) override;
+        virtual void DrawTriList( bfx::Triangle const* pTris, uint32_t numTris, bfx::Color const& color ) override;
         virtual void DrawString( bfx::Color const& color, char const* str ) override;
         virtual void DrawString( bfx::Color const& color, bfx::Vector3 const& pos, char const* str ) override;
 
@@ -113,7 +113,7 @@ namespace KRG::Navmesh
     class NavPowerAllocator final : public bfx::CustomAllocator
     {
         virtual void* CustomMalloc( size_t size ) override final { return KRG::Alloc( size ); }
-        virtual void* CustomAlignedMalloc( uint32 alignment, size_t size ) override final { return KRG::Alloc( size, alignment ); }
+        virtual void* CustomAlignedMalloc( uint32_t alignment, size_t size ) override final { return KRG::Alloc( size, alignment ); }
         virtual void CustomFree( void* ptr ) override final { KRG::Free( ptr ); }
         virtual bool IsThreadSafe() const override final { return true; }
         virtual const char* GetName() const override { return "KRUGER"; }

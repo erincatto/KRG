@@ -6,7 +6,7 @@
 
 namespace KRG::Input
 {
-    enum class ControllerButton : uint16
+    enum class ControllerButton : uint16_t
     {
         DPadUp = 0,
         DPadDown,
@@ -91,21 +91,21 @@ namespace KRG::Input
         //-------------------------------------------------------------------------
 
         // Was the button just pressed (i.e. went from up to down this frame)
-        KRG_FORCE_INLINE bool WasPressed( ControllerButton buttonID ) const { return ButtonStates::WasPressed( (uint32) buttonID ); }
+        KRG_FORCE_INLINE bool WasPressed( ControllerButton buttonID ) const { return ButtonStates::WasPressed( (uint32_t) buttonID ); }
 
         // Was the button just release (i.e. went from down to up this frame). Also optionally returns how long the button was held for
-        KRG_FORCE_INLINE bool WasReleased( ControllerButton buttonID, Seconds* pHeldDownDuration = nullptr ) const { return ButtonStates::WasReleased( (uint32) buttonID, pHeldDownDuration ); }
+        KRG_FORCE_INLINE bool WasReleased( ControllerButton buttonID, Seconds* pHeldDownDuration = nullptr ) const { return ButtonStates::WasReleased( (uint32_t) buttonID, pHeldDownDuration ); }
 
         // Is the button being held down?
-        KRG_FORCE_INLINE bool IsHeldDown( ControllerButton buttonID, Seconds* pHeldDownDuration = nullptr ) const { return ButtonStates::IsHeldDown( (uint32) buttonID, pHeldDownDuration ); }
+        KRG_FORCE_INLINE bool IsHeldDown( ControllerButton buttonID, Seconds* pHeldDownDuration = nullptr ) const { return ButtonStates::IsHeldDown( (uint32_t) buttonID, pHeldDownDuration ); }
 
         // How long has the button been held down for?
-        KRG_FORCE_INLINE Seconds GetHeldDuration( ControllerButton buttonID ) const { return ButtonStates::GetHeldDuration( (uint32) buttonID ); }
+        KRG_FORCE_INLINE Seconds GetHeldDuration( ControllerButton buttonID ) const { return ButtonStates::GetHeldDuration( (uint32_t) buttonID ); }
 
     private:
 
-        KRG_FORCE_INLINE void Press( ControllerButton buttonID ) { ButtonStates::Press( (uint32) buttonID ); }
-        KRG_FORCE_INLINE void Release( ControllerButton buttonID ) { ButtonStates::Release( (uint32) buttonID ); }
+        KRG_FORCE_INLINE void Press( ControllerButton buttonID ) { ButtonStates::Press( (uint32_t) buttonID ); }
+        KRG_FORCE_INLINE void Release( ControllerButton buttonID ) { ButtonStates::Release( (uint32_t) buttonID ); }
 
     private:
 

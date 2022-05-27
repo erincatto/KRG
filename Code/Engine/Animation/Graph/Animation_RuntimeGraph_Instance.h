@@ -40,7 +40,7 @@ namespace KRG::Animation
         // Control Parameters
         //-------------------------------------------------------------------------
 
-        inline int32 GetNumControlParameters() const { return m_pGraphVariation->m_pGraphDefinition->m_numControlParameters; }
+        inline int32_t GetNumControlParameters() const { return m_pGraphVariation->m_pGraphDefinition->m_numControlParameters; }
 
         inline GraphNodeIndex GetControlParameterIndex( StringID parameterID ) const
         {
@@ -125,7 +125,7 @@ namespace KRG::Animation
 
         GraphVariation const* const             m_pGraphVariation = nullptr;
         TVector<GraphNode*>                     m_nodes;
-        Byte*                                   m_pAllocatedInstanceMemory = nullptr;
+        uint8_t*                                   m_pAllocatedInstanceMemory = nullptr;
         PoseNode*                               m_pRootNode = nullptr;
     };
 }

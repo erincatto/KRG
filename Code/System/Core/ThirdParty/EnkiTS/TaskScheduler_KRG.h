@@ -18,5 +18,5 @@
 
 //-------------------------------------------------------------------------
 
-#include "System/Core/Defines.h"
+#include "System/Core/KRG.h"
 #define ENKI_ASSERT KRG_ASSERT

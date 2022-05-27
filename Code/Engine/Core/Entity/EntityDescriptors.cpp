@@ -8,12 +8,12 @@
 
 namespace KRG::EntityModel
 {
-    int32 EntityDescriptor::FindComponentIndex( StringID const& componentName ) const
+    int32_t EntityDescriptor::FindComponentIndex( StringID const& componentName ) const
     {
         KRG_ASSERT( componentName.IsValid() );
 
-        int32 const numComponents = (int32) m_components.size();
-        for ( int32 i = 0; i < numComponents; i++ )
+        int32_t const numComponents = (int32_t) m_components.size();
+        for ( int32_t i = 0; i < numComponents; i++ )
         {
             if ( m_components[i].m_name == componentName )
             {
@@ -29,7 +29,7 @@ namespace KRG::EntityModel
 
 namespace KRG::EntityModel
 {
-    void EntityCollectionDescriptor::Reserve( int32 numEntities )
+    void EntityCollectionDescriptor::Reserve( int32_t numEntities )
     {
         m_entityDescriptors.reserve( numEntities );
         m_entityLookupMap.reserve( numEntities );
@@ -40,8 +40,8 @@ namespace KRG::EntityModel
         m_entitySpatialAttachmentInfo.clear();
         m_entitySpatialAttachmentInfo.reserve( m_entityDescriptors.size() );
 
-        int32 const numEntities = (int32) m_entityDescriptors.size();
-        for ( int32 i = 0; i < numEntities; i++ )
+        int32_t const numEntities = (int32_t) m_entityDescriptors.size();
+        for ( int32_t i = 0; i < numEntities; i++ )
         {
             auto const& entityDesc = m_entityDescriptors[i];
             if ( !entityDesc.IsSpatialEntity() || !entityDesc.HasSpatialParent() )
@@ -102,7 +102,7 @@ namespace KRG::EntityModel
     {
         KRG_PROFILE_SCOPE_SCENE( "Instantiate Entity Collection" );
 
-        int32 const numEntitiesToCreate = (int32) m_entityDescriptors.size();
+        int32_t const numEntitiesToCreate = (int32_t) m_entityDescriptors.size();
         TVector<Entity*> createdEntities;
         createdEntities.resize( numEntitiesToCreate );
 
@@ -125,14 +125,14 @@ namespace KRG::EntityModel
                     , m_descriptors( descriptors )
                     , m_createdEntities( createdEntities )
                 {
-                    m_SetSize = (uint32) descriptors.size();
+                    m_SetSize = (uint32_t) descriptors.size();
                     m_MinRange = 10;
                 }
 
-                virtual void ExecuteRange( TaskSetPartition range, uint32 threadnum ) override final
+                virtual void ExecuteRange( TaskSetPartition range, uint32_t threadnum ) override final
                 {
                     KRG_PROFILE_SCOPE_SCENE( "Entity Creation Task" );
-                    for ( uint64 i = range.start; i < range.end; ++i )
+                    for ( uint64_t i = range.start; i < range.end; ++i )
                     {
                         m_createdEntities[i] = Entity::CreateFromDescriptor( m_typeRegistry, m_descriptors[i] );
                     }

@@ -32,7 +32,7 @@ namespace KRG
         StopEditing();
     }
 
-    void CurveEditor::DeletePoint( int32 pointIdx )
+    void CurveEditor::DeletePoint( int32_t pointIdx )
     {
         KRG_ASSERT( pointIdx >= 0 && pointIdx < m_curve.GetNumPoints() );
         StartEditing();
@@ -187,7 +187,7 @@ namespace KRG
         TInlineString<10> legendString;
         m_pDrawList->AddRectFilled( m_canvasStart, m_canvasEnd, ImGuiX::Style::s_gridBackgroundColor );
 
-        int32 const numVerticalLines = Math::FloorToInt( m_curveCanvasWidth / s_pixelsPerGridBlock );
+        int32_t const numVerticalLines = Math::FloorToInt( m_curveCanvasWidth / s_pixelsPerGridBlock );
         for ( auto i = 0; i <= numVerticalLines; i++ )
         {
             Float2 const lineStart( m_canvasStart.m_x + ( i * s_pixelsPerGridBlock ), m_canvasStart.m_y );
@@ -204,7 +204,7 @@ namespace KRG
             }
         }
 
-        int32 const numHorizontalLines = Math::FloorToInt( m_curveCanvasHeight / s_pixelsPerGridBlock );
+        int32_t const numHorizontalLines = Math::FloorToInt( m_curveCanvasHeight / s_pixelsPerGridBlock );
         for ( auto i = 0; i <= numHorizontalLines; i++ )
         {
             Float2 const lineStart( m_canvasStart.m_x, m_canvasStart.m_y + ( i * s_pixelsPerGridBlock ) );
@@ -224,7 +224,7 @@ namespace KRG
 
     void CurveEditor::DrawCurve()
     {
-        int32 const numPointsToDraw = Math::RoundToInt( m_curveCanvasWidth / 2 ) + 1;
+        int32_t const numPointsToDraw = Math::RoundToInt( m_curveCanvasWidth / 2 ) + 1;
         float const stepT = m_horizontalRangeLength / ( numPointsToDraw - 1 );
 
         TVector<ImVec2> curvePoints;
@@ -240,7 +240,7 @@ namespace KRG
         m_pDrawList->AddPolyline( curvePoints.data(), numPointsToDraw, s_curveColor, 0, 2.0f );
     }
 
-    bool CurveEditor::DrawInTangentHandle( int32 pointIdx )
+    bool CurveEditor::DrawInTangentHandle( int32_t pointIdx )
     {
         KRG_ASSERT( pointIdx >= 0 && pointIdx < m_curve.GetNumPoints() );
         FloatCurve::Point const& point = m_curve.GetPoint( pointIdx );
@@ -305,7 +305,7 @@ namespace KRG
         return isCurrentlyEditing;
     }
 
-    bool CurveEditor::DrawOutTangentHandle( int32 pointIdx )
+    bool CurveEditor::DrawOutTangentHandle( int32_t pointIdx )
     {
         KRG_ASSERT( pointIdx >= 0 && pointIdx < m_curve.GetNumPoints() );
         FloatCurve::Point const& point = m_curve.GetPoint( pointIdx );
@@ -376,7 +376,7 @@ namespace KRG
         return isCurrentlyEditing;
     }
 
-    bool CurveEditor::DrawPointHandle( int32 pointIdx )
+    bool CurveEditor::DrawPointHandle( int32_t pointIdx )
     {
         FloatCurve::Point const& point = m_curve.GetPoint( pointIdx );
         Float2 const pointCenter = GetScreenPosFromCurvePos( point );
@@ -440,7 +440,7 @@ namespace KRG
         m_wasCurveEdited = true;
     }
 
-    void CurveEditor::SelectPoint( int32 pointIdx )
+    void CurveEditor::SelectPoint( int32_t pointIdx )
     {
         KRG_ASSERT( pointIdx >= 0 && pointIdx < m_curve.GetNumPoints() );
         m_selectedPointIdx = pointIdx;
@@ -631,8 +631,8 @@ namespace KRG
             //-------------------------------------------------------------------------
 
             bool stillEditing = false;
-            int32 const numPoints = m_curve.GetNumPoints();
-            for ( int32 i = 0; i < numPoints; i++ )
+            int32_t const numPoints = m_curve.GetNumPoints();
+            for ( int32_t i = 0; i < numPoints; i++ )
             {
                 if ( i != 0 && m_curve.GetPoint(i).m_tangentMode == FloatCurve::Free )
                 {

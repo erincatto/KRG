@@ -35,7 +35,7 @@ namespace KRG::EntityModel
                 {
                     if ( pEntity->GetName() == entityNameID )
                     {
-                        entityName.sprintf( "New Entity %u", (uint32) Math::GetRandomUInt() );
+                        entityName.sprintf( "New Entity %u", (uint32_t) Math::GetRandomUInt() );
                         entityNameID = StringID( entityName.c_str() );
                         break;
                     }
@@ -52,8 +52,8 @@ namespace KRG::EntityModel
 
         if ( ImGui::BeginChild( "EntityList", ImVec2( -1, 0 ) ) )
         {
-            int32 const numEntities = (int32) pMap->GetEntities().size();
-            for ( int32 i = 0; i < numEntities; i++ )
+            int32_t const numEntities = (int32_t) pMap->GetEntities().size();
+            for ( int32_t i = 0; i < numEntities; i++ )
             {
                 Entity* pEntity = pMap->GetEntities()[i];
 

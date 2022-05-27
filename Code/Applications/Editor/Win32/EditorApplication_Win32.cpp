@@ -42,7 +42,7 @@ namespace KRG
         , m_editorEngine( TFunction<bool( String const& error )>( [this] ( String const& error )-> bool  { return FatalError( error ); } ) )
     {}
 
-    bool EditorApplication::ReadSettings( int32 argc, char** argv )
+    bool EditorApplication::ReadSettings( int32_t argc, char** argv )
     {
         // Get command line settings
         //-------------------------------------------------------------------------

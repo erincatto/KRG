@@ -1,5 +1,5 @@
 #pragma once
-#include "System/Core/Types/IntegralTypes.h"
+#include "System/Core/KRG.h"
 
 #if KRG_DEVELOPMENT_TOOLS
 

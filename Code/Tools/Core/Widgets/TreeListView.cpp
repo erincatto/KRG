@@ -27,9 +27,9 @@ namespace KRG
         return color;
     }
 
-    void TreeListViewItem::DestroyChild( uint64 uniqueItemID )
+    void TreeListViewItem::DestroyChild( uint64_t uniqueItemID )
     {
-        for ( int32 i = 0; i < (int32) m_children.size(); i++ )
+        for ( int32_t i = 0; i < (int32_t) m_children.size(); i++ )
         {
             if ( m_children[i]->GetUniqueID() == uniqueItemID )
             {
@@ -52,7 +52,7 @@ namespace KRG
         m_children.clear();
     }
 
-    TreeListViewItem const* TreeListViewItem::FindChild( uint64 uniqueID ) const 
+    TreeListViewItem const* TreeListViewItem::FindChild( uint64_t uniqueID ) const 
     {
         for ( auto pChild : m_children )
         {
@@ -143,7 +143,7 @@ namespace KRG
         m_rootItem.DestroyChildren();
     }
 
-    TreeListViewItem* TreeListView::FindItem( uint64 uniqueID )
+    TreeListViewItem* TreeListView::FindItem( uint64_t uniqueID )
     {
         if ( m_rootItem.GetUniqueID() == uniqueID )
         {
@@ -159,7 +159,7 @@ namespace KRG
         return pFoundItem;
     }
 
-    void TreeListView::DestroyItem( uint64 uniqueID )
+    void TreeListView::DestroyItem( uint64_t uniqueID )
     {
         KRG_ASSERT( m_rootItem.GetUniqueID() != uniqueID );
 
@@ -193,9 +193,9 @@ namespace KRG
         // Record current state
         //-------------------------------------------------------------------------
 
-        uint64 activeItemID = 0;
-        TVector<uint64> selectedItemIDs;
-        TVector<uint64> originalExpandedItems;
+        uint64_t activeItemID = 0;
+        TVector<uint64_t> selectedItemIDs;
+        TVector<uint64_t> originalExpandedItems;
 
         if ( maintainExpansionAndSelection )
         {
@@ -269,7 +269,7 @@ namespace KRG
 
     //-------------------------------------------------------------------------
 
-    void TreeListView::TryAddItemToVisualTree( TreeListViewItem* pItem, int32 hierarchyLevel )
+    void TreeListView::TryAddItemToVisualTree( TreeListViewItem* pItem, int32_t hierarchyLevel )
     {
         KRG_ASSERT( pItem != nullptr );
         KRG_ASSERT( hierarchyLevel >= 0 );
@@ -468,7 +468,7 @@ namespace KRG
         }
 
         // Set node flags
-        uint32 treeNodeflags = ImGuiTreeNodeFlags_SpanFullWidth;
+        uint32_t treeNodeflags = ImGuiTreeNodeFlags_SpanFullWidth;
 
         if ( m_expandItemsOnlyViaArrow )
         {
@@ -575,7 +575,7 @@ namespace KRG
         // Draw extra columns
         //-------------------------------------------------------------------------
 
-        for ( uint32 i = 0u; i < GetNumExtraColumns(); i++ )
+        for ( uint32_t i = 0u; i < GetNumExtraColumns(); i++ )
         {
             ImGui::TableSetColumnIndex( i + 1 );
             DrawItemExtraColumns( pItem, i );
@@ -637,7 +637,7 @@ namespace KRG
                 // Update scrollbar position
                 //-------------------------------------------------------------------------
 
-                m_firstVisibleRowItemIdx = Math::Clamp( m_firstVisibleRowItemIdx, 0, int32( m_visualTree.size() - 1 ) );
+                m_firstVisibleRowItemIdx = Math::Clamp( m_firstVisibleRowItemIdx, 0, int32_t( m_visualTree.size() - 1 ) );
                 m_maintainVisibleRowIdx = true;
             }
             else // Draw clipped table
@@ -654,14 +654,14 @@ namespace KRG
                 }
 
                 // Update visible item based on scrollbar position
-                m_firstVisibleRowItemIdx = (int32) Math::Round( ( currentVerticalScrollPosition / maxVerticalScrollPosition ) * numRowIndices );
-                m_firstVisibleRowItemIdx = Math::Clamp( m_firstVisibleRowItemIdx, 0, (int32) m_visualTree.size() - 1 );
+                m_firstVisibleRowItemIdx = (int32_t) Math::Round( ( currentVerticalScrollPosition / maxVerticalScrollPosition ) * numRowIndices );
+                m_firstVisibleRowItemIdx = Math::Clamp( m_firstVisibleRowItemIdx, 0, (int32_t) m_visualTree.size() - 1 );
 
                 // Calculate draw range
                 bool shouldDrawDummyRow = false;
-                int32 const maxNumDrawableRows = (int32) Math::Floor( totalVerticalSpaceAvailable / m_estimatedRowHeight );
-                int32 const itemsToDrawStartIdx = m_firstVisibleRowItemIdx;
-                int32 itemsToDrawEndIdx = Math::Min( itemsToDrawStartIdx + maxNumDrawableRows, (int32) m_visualTree.size() - 1 );
+                int32_t const maxNumDrawableRows = (int32_t) Math::Floor( totalVerticalSpaceAvailable / m_estimatedRowHeight );
+                int32_t const itemsToDrawStartIdx = m_firstVisibleRowItemIdx;
+                int32_t itemsToDrawEndIdx = Math::Min( itemsToDrawStartIdx + maxNumDrawableRows, (int32_t) m_visualTree.size() - 1 );
 
                 // Draw initial dummy to adjust scrollbar position
                 ImGui::Dummy( ImVec2( -1, currentVerticalScrollPosition ) );
@@ -672,7 +672,7 @@ namespace KRG
                     ImGui::TableSetupColumn( "Label", ImGuiTableColumnFlags_WidthStretch );
                     SetupExtraColumnHeaders();
 
-                    for ( int32 i = itemsToDrawStartIdx; i <= itemsToDrawEndIdx; i++ )
+                    for ( int32_t i = itemsToDrawStartIdx; i <= itemsToDrawEndIdx; i++ )
                     {
                         DrawVisualItem( m_visualTree[i] );
                     }

@@ -90,7 +90,7 @@ namespace KRG::TypeSystem
     public:
 
         PropertyPath                                                m_path;
-        TVector<Byte>                                               m_byteValue;
+        TVector<uint8_t>                                               m_byteValue;
 
         // Not-serialized - used in tooling
         #if KRG_DEVELOPMENT_TOOLS
@@ -223,9 +223,9 @@ namespace KRG::TypeSystem
             KRG_ASSERT( collection.m_typeSizes.size() == collection.m_typePaddings.size() ); // Did you forget to run the calculate requirements function?
 
             void* pRawMemory = KRG::Alloc( collection.m_totalRequiredSize, collection.m_requiredAlignment );
-            Byte* pTypeMemory = (Byte*) pRawMemory;
-            int32 const numDescs = (int32) collection.m_descriptors.size();
-            for ( int32 i = 0; i < numDescs; i++ )
+            uint8_t* pTypeMemory = (uint8_t*) pRawMemory;
+            int32_t const numDescs = (int32_t) collection.m_descriptors.size();
+            for ( int32_t i = 0; i < numDescs; i++ )
             {
                 pTypeMemory += collection.m_typePaddings[i];
                 outTypes.emplace_back( collection.m_descriptors[i].CreateTypeInstanceInPlace<T>( typeRegistry, collection.m_typeInfos[i], (IRegisteredType*) pTypeMemory ) );
@@ -250,8 +250,8 @@ namespace KRG::TypeSystem
         template<typename T>
         static void InstantiateDynamicCollection( TypeRegistry const& typeRegistry, TypeDescriptorCollection const& collection, TVector<T*>& outTypes )
         {
-            int32 const numDescs = (int32) collection.m_descriptors.size();
-            for ( int32 i = 0; i < numDescs; i++ )
+            int32_t const numDescs = (int32_t) collection.m_descriptors.size();
+            for ( int32_t i = 0; i < numDescs; i++ )
             {
                 outTypes.emplace_back( collection.m_descriptors[i].CreateTypeInstance<T>( typeRegistry, collection.m_typeInfos[i] ) );
             }
@@ -277,10 +277,10 @@ namespace KRG::TypeSystem
     public:
 
         TVector<TypeDescriptor>                                     m_descriptors;
-        int32                                                       m_totalRequiredSize = -1;
-        int32                                                       m_requiredAlignment = -1;
+        int32_t                                                       m_totalRequiredSize = -1;
+        int32_t                                                       m_requiredAlignment = -1;
         TVector<TypeInfo const*>                                    m_typeInfos;
-        TVector<uint32>                                             m_typeSizes;
-        TVector<uint32>                                             m_typePaddings;
+        TVector<uint32_t>                                             m_typeSizes;
+        TVector<uint32_t>                                             m_typePaddings;
     };
 }

@@ -92,7 +92,7 @@ namespace KRG::Animation
 
             //-------------------------------------------------------------------------
 
-            int32 const numInstallDependencies = (int32) installDependencies.size();
+            int32_t const numInstallDependencies = (int32_t) installDependencies.size();
             for ( auto i = 1; i < numInstallDependencies; i++ )
             {
                 pDataSet->m_resources[i - 1] = GetInstallDependency( installDependencies, pDataSet->m_resources[i - 1].GetResourceID() );

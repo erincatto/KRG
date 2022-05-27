@@ -381,7 +381,7 @@ namespace KRG::Timeline
     {
         ImVec2 const canvasSize = ImGui::GetContentRegionAvail();
         float const trackAreaWidth = ( canvasSize.x - g_trackHeaderWidth - g_playheadHalfWidth );
-        int32 const maxVisibleFrames = Math::Max( 0, Math::FloorToInt( ( canvasSize.x - g_trackHeaderWidth - g_playheadHalfWidth ) / m_pixelsPerFrame ) );
+        int32_t const maxVisibleFrames = Math::Max( 0, Math::FloorToInt( ( canvasSize.x - g_trackHeaderWidth - g_playheadHalfWidth ) / m_pixelsPerFrame ) );
 
         // Adjust visible range based on the canvas size
         if ( m_viewRange.GetLength() != maxVisibleFrames )
@@ -396,7 +396,7 @@ namespace KRG::Timeline
         {
             case ViewUpdateMode::ShowFullTimeRange:
             {
-                int32 const timeRangeLength = m_timeRange.GetLength();
+                int32_t const timeRangeLength = m_timeRange.GetLength();
                 m_pixelsPerFrame = Math::Max( 1.0f, Math::Floor( trackAreaWidth / timeRangeLength ) );
                 m_viewRange = m_timeRange;
                 m_viewUpdateMode = ViewUpdateMode::None;
@@ -423,7 +423,7 @@ namespace KRG::Timeline
 
             case ViewUpdateMode::TrackPlayhead:
             {
-                if ( !m_viewRange.ContainsInclusive( (int32) m_playheadTime ) )
+                if ( !m_viewRange.ContainsInclusive( (int32_t) m_playheadTime ) )
                 {
                     // If the playhead is in the last visible range
                     if ( m_playheadTime + maxVisibleFrames >= m_timeRange.m_end )
@@ -514,7 +514,7 @@ namespace KRG::Timeline
 
     void TimelineEditor::EnsureValidSelection()
     {
-        for ( int32 i = (int32) m_selectedItems.size() - 1; i >= 0; i-- )
+        for ( int32_t i = (int32_t) m_selectedItems.size() - 1; i >= 0; i-- )
         {
             if ( !m_trackContainer.Contains( m_selectedItems[i] ) )
             {
@@ -524,7 +524,7 @@ namespace KRG::Timeline
 
         //-------------------------------------------------------------------------
 
-        for ( int32 i = (int32) m_selectedTracks.size() - 1; i >= 0; i-- )
+        for ( int32_t i = (int32_t) m_selectedTracks.size() - 1; i >= 0; i-- )
         {
             if ( !m_trackContainer.Contains( m_selectedTracks[i] ) )
             {
@@ -683,17 +683,17 @@ namespace KRG::Timeline
         // Draw timeline
         //-------------------------------------------------------------------------
 
-        int32 const visibleRangeLength = m_viewRange.GetLength();
+        int32_t const visibleRangeLength = m_viewRange.GetLength();
 
-        int32 numFramesForLargeInterval = 10;
-        int32 numFramesForSmallInterval = 1;
+        int32_t numFramesForLargeInterval = 10;
+        int32_t numFramesForSmallInterval = 1;
         while ( ( numFramesForLargeInterval * m_pixelsPerFrame ) < g_timelineMinimumWidthForLargeInterval )
         {
             numFramesForLargeInterval *= 2;
             numFramesForSmallInterval *= 2;
         };
 
-        int32 const NumFramesForMediumInterval = numFramesForLargeInterval / 2;
+        int32_t const NumFramesForMediumInterval = numFramesForLargeInterval / 2;
 
         //-------------------------------------------------------------------------
 
@@ -702,9 +702,9 @@ namespace KRG::Timeline
         float endPosX = timelineRect.GetBR().x;
         float endPosY = timelineRect.GetBR().y;
 
-        for ( int32 i = 0; i <= visibleRangeLength; i += numFramesForSmallInterval )
+        for ( int32_t i = 0; i <= visibleRangeLength; i += numFramesForSmallInterval )
         {
-            float const lineOffsetX = startPosX + int32( i * m_pixelsPerFrame );
+            float const lineOffsetX = startPosX + int32_t( i * m_pixelsPerFrame );
             if ( lineOffsetX < startPosX || lineOffsetX > endPosX )
             {
                 continue;
@@ -854,8 +854,8 @@ namespace KRG::Timeline
 
 
         float trackStartY = fullTrackAreaRect.GetTL().y;
-        int32 const numTracks = m_trackContainer.GetNumTracks();
-        for ( int32 i = 0; i < numTracks; i++ )
+        int32_t const numTracks = m_trackContainer.GetNumTracks();
+        for ( int32_t i = 0; i < numTracks; i++ )
         {
             auto pTrack = m_trackContainer.GetTrack( i );
 
@@ -901,7 +901,7 @@ namespace KRG::Timeline
                 // Draw track header
                 //-------------------------------------------------------------------------
 
-                int32 const headerFlags = ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse | ImGuiWindowFlags_NoTitleBar;
+                int32_t const headerFlags = ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse | ImGuiWindowFlags_NoTitleBar;
                 ImGui::PushStyleVar( ImGuiStyleVar_ItemSpacing, ImVec2( 0, 1 ) );
                 if( ImGui::BeginChild( "Track Header", ImVec2( g_trackHeaderWidth, g_trackHeight ), false, headerFlags ) )
                 {
@@ -954,7 +954,7 @@ namespace KRG::Timeline
                             itemColor = (Float4) itemColor * 1.15f;
                         }
 
-                        return (uint32) ImColor( itemColor );
+                        return (uint32_t) ImColor( itemColor );
                     };
 
                     //-------------------------------------------------------------------------
@@ -1216,15 +1216,15 @@ namespace KRG::Timeline
         //-------------------------------------------------------------------------
 
         ImRect const horizontalScrollBarRect( ImVec2( canvasPos.x + g_trackHeaderWidth, canvasPos.y + canvasSize.y - horizontalScrollBarHeight ), ImVec2( canvasPos.x + canvasSize.x, canvasPos.y + canvasSize.y ) );
-        int64 const currentViewSize = Math::RoundToInt( m_viewRange.GetLength() * m_pixelsPerFrame );
-        int64 const totalContentSizeNeeded = Math::RoundToInt( m_timeRange.GetLength() * m_pixelsPerFrame );
-        int64 scrollbarPosition = Math::RoundToInt( m_viewRange.m_begin * m_pixelsPerFrame );
+        int64_t const currentViewSize = Math::RoundToInt( m_viewRange.GetLength() * m_pixelsPerFrame );
+        int64_t const totalContentSizeNeeded = Math::RoundToInt( m_timeRange.GetLength() * m_pixelsPerFrame );
+        int64_t scrollbarPosition = Math::RoundToInt( m_viewRange.m_begin * m_pixelsPerFrame );
 
         ImGuiWindow* pWindow = ImGui::GetCurrentWindow();
         ImGuiID const horizontalScrollBarID = pWindow->GetID( "#TimelineScrollbarY" );
         if( ImGui::ScrollbarEx( horizontalScrollBarRect, horizontalScrollBarID, ImGuiAxis_X, &scrollbarPosition, currentViewSize, totalContentSizeNeeded, 0 ) )
         {
-            int32 const viewRangeOriginalLength = m_viewRange.GetLength();
+            int32_t const viewRangeOriginalLength = m_viewRange.GetLength();
             m_viewRange.m_begin = Math::FloorToInt( scrollbarPosition / m_pixelsPerFrame );
             m_viewRange.m_end = m_viewRange.m_begin + viewRangeOriginalLength;
         }

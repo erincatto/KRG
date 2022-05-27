@@ -30,7 +30,7 @@ namespace KRG::Animation::GraphNodes
         PoseNode::InitializeInternal( context, initialTime );
         m_pBaseLayerNode->Initialize( context, initialTime );
 
-        int32 const numLayers = (int32) m_layers.size();
+        int32_t const numLayers = (int32_t) m_layers.size();
         for ( auto i = 0; i < numLayers; i++ )
         {
             auto pLayer = m_layers[i];
@@ -162,11 +162,11 @@ namespace KRG::Animation::GraphNodes
         SyncTrackTimeRange layerUpdateRange( baseStartTime, baseEndTime );
 
         #if KRG_DEVELOPMENT_TOOLS
-        int16 rootMotionActionIdxCurrentBase = m_rootMotionActionIdxBase;
-        int16 rootMotionActionIdxLayer = m_rootMotionActionIdxBase;
+        int16_t rootMotionActionIdxCurrentBase = m_rootMotionActionIdxBase;
+        int16_t rootMotionActionIdxLayer = m_rootMotionActionIdxBase;
         #endif
 
-        int32 const numLayers = (int32) m_layers.size();
+        int32_t const numLayers = (int32_t) m_layers.size();
         for ( auto i = 0; i < numLayers; i++ )
         {
             // Create the layer context
@@ -232,7 +232,7 @@ namespace KRG::Animation::GraphNodes
             //-------------------------------------------------------------------------
 
             SampledEventRange const& layerEventRange = layerResult.m_sampledEventRange;
-            int32 const numLayerEvents = layerEventRange.GetLength();
+            int32_t const numLayerEvents = layerEventRange.GetLength();
             if ( numLayerEvents > 0 )
             {
                 // Update events and mark them as ignored if requested
@@ -244,7 +244,7 @@ namespace KRG::Animation::GraphNodes
                 }
 
                 // Merge layer sampled event into the layer's nodes range
-                int32 const numCurrentEvents = nodeResult.m_sampledEventRange.GetLength();
+                int32_t const numCurrentEvents = nodeResult.m_sampledEventRange.GetLength();
                 if ( numCurrentEvents > 0 )
                 {
                     // Combine sampled event range - the current range must always be before the layer's range

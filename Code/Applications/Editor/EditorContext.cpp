@@ -274,9 +274,9 @@ namespace KRG
     EditorWorkspace* EditorContext::FindResourceWorkspace( ResourceID const& resourceID ) const
     {
         KRG_ASSERT( resourceID.IsValid() );
-        uint32 const resourcePathID = resourceID.GetResourcePath().GetID();
+        uint32_t const resourcePathID = resourceID.GetResourcePath().GetID();
 
-        auto foundWorkspaceIter = eastl::find( m_workspaces.begin(), m_workspaces.end(), resourcePathID, [] ( EditorWorkspace* const& pExistingWorkspace, uint32 ID ) { return pExistingWorkspace->GetID() == ID; } );
+        auto foundWorkspaceIter = eastl::find( m_workspaces.begin(), m_workspaces.end(), resourcePathID, [] ( EditorWorkspace* const& pExistingWorkspace, uint32_t ID ) { return pExistingWorkspace->GetID() == ID; } );
         if ( foundWorkspaceIter != m_workspaces.end() )
         {
             return *foundWorkspaceIter;
@@ -285,9 +285,9 @@ namespace KRG
         return nullptr;
     }
 
-    EditorWorkspace* EditorContext::FindResourceWorkspace( uint32 workspaceID ) const
+    EditorWorkspace* EditorContext::FindResourceWorkspace( uint32_t workspaceID ) const
     {
-        auto foundWorkspaceIter = eastl::find( m_workspaces.begin(), m_workspaces.end(), workspaceID, [] ( EditorWorkspace* const& pExistingWorkspace, uint32 ID ) { return pExistingWorkspace->GetID() == ID; } );
+        auto foundWorkspaceIter = eastl::find( m_workspaces.begin(), m_workspaces.end(), workspaceID, [] ( EditorWorkspace* const& pExistingWorkspace, uint32_t ID ) { return pExistingWorkspace->GetID() == ID; } );
         if ( foundWorkspaceIter != m_workspaces.end() )
         {
             return *foundWorkspaceIter;

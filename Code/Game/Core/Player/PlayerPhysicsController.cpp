@@ -79,7 +79,7 @@ namespace KRG::Player
         }
 
         // Move horizontally
-        int32 moveRecursion = 0;
+        int32_t moveRecursion = 0;
         auto moveResult = SweepCylinder( ctx, pPhysicsScene, cylinderHalfHeight, cylinderRadius, capsuleWorldTransform.GetTranslation(), deltaMovement, moveRecursion );
 
         // Update gravity if needed
@@ -96,7 +96,7 @@ namespace KRG::Player
         }
 
         // Move vertically
-        int32 verticalMoveRecursion = 0;
+        int32_t verticalMoveRecursion = 0;
         float const capsuleRadius = cylinderRadius - g_cylinderDiscretisationOffset; // Because we are using a mesh for the cylinder the capsule need to be slightly smaller to account for the discretization and be fully inside the cylinder
         float const capsuleCylinderPartHalfHeight = cylinderHalfHeight - cylinderRadius + g_cylinderDiscretisationOffset;
         auto const verticalMoveResult = SweepCapsuleVertical( ctx, pPhysicsScene, capsuleCylinderPartHalfHeight, capsuleRadius, moveResult.GetFinalPosition(), verticalAjustement, m_isStepHeightEnabled ? m_settings.m_stepHeight : 0.f, verticalMoveRecursion );
@@ -166,7 +166,7 @@ namespace KRG::Player
         return true;
     }
 
-    CharacterPhysicsController::MoveResult CharacterPhysicsController::SweepCylinder( EntityWorldUpdateContext const& ctx, Physics::Scene* pPhysicsScene, float cylinderHalfHeight, float cylinderRadius, Vector const& startPosition, Vector const& deltaTranslation, int32& idx )
+    CharacterPhysicsController::MoveResult CharacterPhysicsController::SweepCylinder( EntityWorldUpdateContext const& ctx, Physics::Scene* pPhysicsScene, float cylinderHalfHeight, float cylinderRadius, Vector const& startPosition, Vector const& deltaTranslation, int32_t& idx )
     {
         MoveResult moveResult( startPosition );
         idx++;
@@ -332,7 +332,7 @@ namespace KRG::Player
         return moveResult;
     }
 
-    CharacterPhysicsController::MoveResult CharacterPhysicsController::SweepCapsuleVertical( EntityWorldUpdateContext const& ctx, Physics::Scene* pPhysicsScene, float cylinderHalfHeight, float cylinderRadius, Vector const& startPosition, Vector const& deltaTranslation, float stepHeight, int32& idx )
+    CharacterPhysicsController::MoveResult CharacterPhysicsController::SweepCapsuleVertical( EntityWorldUpdateContext const& ctx, Physics::Scene* pPhysicsScene, float cylinderHalfHeight, float cylinderRadius, Vector const& startPosition, Vector const& deltaTranslation, float stepHeight, int32_t& idx )
     {
         MoveResult moveResult( startPosition );
         idx++;
@@ -615,7 +615,7 @@ namespace KRG::Player
     }
 
     #if KRG_DEVELOPMENT_TOOLS
-    void CharacterPhysicsController::DrawDebugSweep( EntityWorldUpdateContext const& ctx, float cylinderHalfHeight, float cylinderRadius, Vector const& startPosition, Vector const& endPosition, DebugSweepResultType resultType, int32 idx, DebugSweepShapeType shapeType )
+    void CharacterPhysicsController::DrawDebugSweep( EntityWorldUpdateContext const& ctx, float cylinderHalfHeight, float cylinderRadius, Vector const& startPosition, Vector const& endPosition, DebugSweepResultType resultType, int32_t idx, DebugSweepShapeType shapeType )
     {
         Color startColor = idx == 1 ? Colors::GreenYellow : Colors::OrangeRed;
         Color endColor;

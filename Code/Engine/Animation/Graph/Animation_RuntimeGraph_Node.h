@@ -155,8 +155,8 @@ namespace KRG::Animation
     private:
 
         Settings const*                 m_pSettings = nullptr;
-        uint32                          m_lastUpdateID = 0xFFFFFFFF;
-        uint32                          m_initializationCount = 0;
+        uint32_t                          m_lastUpdateID = 0xFFFFFFFF;
+        uint32_t                          m_initializationCount = 0;
     };
 
     //-------------------------------------------------------------------------
@@ -169,7 +169,7 @@ namespace KRG::Animation
 
     public:
 
-        int8                            m_taskIdx = InvalidIndex;
+        int8_t                            m_taskIdx = InvalidIndex;
         Transform                       m_rootMotionDelta = Transform::Identity;
         SampledEventRange               m_sampledEventRange;
     };
@@ -177,7 +177,7 @@ namespace KRG::Animation
     #if KRG_DEVELOPMENT_TOOLS
     struct PoseNodeDebugInfo
     {
-        int32                           m_loopCount = 0;
+        int32_t                           m_loopCount = 0;
         Seconds                         m_duration = 0.0f;
         Percentage                      m_currentTime = 0.0f;       // Clamped percentage over the duration
         Percentage                      m_previousTime = 0.0f;      // Clamped percentage over the duration
@@ -193,7 +193,7 @@ namespace KRG::Animation
 
         // Get internal animation state
         virtual SyncTrack const& GetSyncTrack() const = 0;
-        inline int32 GetLoopCount() const { return m_loopCount; }
+        inline int32_t GetLoopCount() const { return m_loopCount; }
         inline Percentage const& GetPreviousTime() const { return m_previousTime; }
         inline Percentage const& GetCurrentTime() const { return m_currentTime; }
         inline Seconds GetDuration() const { return m_duration; }
@@ -229,7 +229,7 @@ namespace KRG::Animation
 
     protected:
 
-        int32                           m_loopCount = 0;
+        int32_t                           m_loopCount = 0;
         Seconds                         m_duration = 0.0f;
         Percentage                      m_currentTime = 0.0f;       // Clamped percentage over the duration
         Percentage                      m_previousTime = 0.0f;      // Clamped percentage over the duration
@@ -242,7 +242,7 @@ namespace KRG::Animation
     template<typename T> struct ValueTypeValidation { static GraphValueType const Type = GraphValueType::Unknown; };
     template<> struct ValueTypeValidation<bool> { static GraphValueType const Type = GraphValueType::Bool; };
     template<> struct ValueTypeValidation<StringID> { static GraphValueType const Type = GraphValueType::ID; };
-    template<> struct ValueTypeValidation<int32> { static GraphValueType const Type = GraphValueType::Int; };
+    template<> struct ValueTypeValidation<int32_t> { static GraphValueType const Type = GraphValueType::Int; };
     template<> struct ValueTypeValidation<float> { static GraphValueType const Type = GraphValueType::Float; };
     template<> struct ValueTypeValidation<Vector> { static GraphValueType const Type = GraphValueType::Vector; };
     template<> struct ValueTypeValidation<Target> { static GraphValueType const Type = GraphValueType::Target; };

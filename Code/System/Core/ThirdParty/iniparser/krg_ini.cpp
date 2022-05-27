@@ -53,7 +53,7 @@ namespace KRG
         return false;
     }
 
-    bool IniFile::TryGetInt( char const* key, int32& outValue ) const
+    bool IniFile::TryGetInt( char const* key, int32_t& outValue ) const
     {
         KRG_ASSERT( IsValid() );
 
@@ -66,13 +66,13 @@ namespace KRG
         return false;
     }
 
-    bool IniFile::TryGetUInt( char const* key, uint32& outValue ) const
+    bool IniFile::TryGetUInt( char const* key, uint32_t& outValue ) const
     {
         KRG_ASSERT( IsValid() );
 
         if ( HasEntry( key ) )
         {
-            outValue = ( uint32) iniparser_getint( m_pDictionary, key, 0 );
+            outValue = ( uint32_t) iniparser_getint( m_pDictionary, key, 0 );
             return true;
         }
 

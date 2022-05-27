@@ -8,7 +8,7 @@ namespace KRG::Drawing
 {
     namespace
     {
-        constexpr static uint32 const g_numCircleVertices = 16;
+        constexpr static uint32_t const g_numCircleVertices = 16;
         static_assert( ( g_numCircleVertices % 4 ) == 0 );
 
         static bool g_circleVerticesInitialized = false;
@@ -38,7 +38,7 @@ namespace KRG::Drawing
         //-------------------------------------------------------------------------
 
         // Actual length is 2 since we specify dimensions in a half-size and then scale
-        static uint32 const g_unitCubeNumVertices = 8;
+        static uint32_t const g_unitCubeNumVertices = 8;
         static Float4 const g_unitCubeVertices[8] =
         {
             Float4( -1.0f, -1.0f, -1.0f, 1.0f ),    // BFL
@@ -52,8 +52,8 @@ namespace KRG::Drawing
         };
 
         // Box Primitives
-        static uint32 const g_unitCubeSolidNumIndices = 36;
-        static const uint16 g_unitCubeSolidIndices[36] =
+        static uint32_t const g_unitCubeSolidNumIndices = 36;
+        static const uint16_t g_unitCubeSolidIndices[36] =
         {
             // Triangle faces for a solid box
             0, 1, 3, 3, 1, 2,
@@ -64,8 +64,8 @@ namespace KRG::Drawing
             4, 0, 7, 7, 0, 3
         };
 
-        static uint32 const g_unitCubeWireNumIndices = 24;
-        static const uint16 g_unitCubeWireIndices[24] =
+        static uint32_t const g_unitCubeWireNumIndices = 24;
+        static const uint16_t g_unitCubeWireIndices[24] =
         {
             // Lines for a wire-frame box
             0, 1, 1, 2, 2, 3, 3, 0,
@@ -296,7 +296,7 @@ namespace KRG::Drawing
             InitializeCircleVertices();
         }
 
-        int32 const numVerts = g_numCircleVertices;
+        int32_t const numVerts = g_numCircleVertices;
 
         // Create and transform vertices
         Vector const radiusVector( radius );

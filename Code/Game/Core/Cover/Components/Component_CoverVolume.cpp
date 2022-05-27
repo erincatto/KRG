@@ -23,7 +23,7 @@ namespace KRG
 
         // Draw type
         char const* coverTypeStr[] = { "Low", "HighL", "HighR", "Hidden" };
-        drawingCtx.DrawText3D( WT.GetTranslation(), coverTypeStr[(int8) m_coverType], Colors::Yellow, Drawing::FontNormal, Drawing::TextAlignment::AlignMiddleCenter );
+        drawingCtx.DrawText3D( WT.GetTranslation(), coverTypeStr[(int8_t) m_coverType], Colors::Yellow, Drawing::FontNormal, Drawing::TextAlignment::AlignMiddleCenter );
 
         // Draw additional arrows
         for ( float horizontalOffset = 1.0f; horizontalOffset <= volumeExtents.m_x; horizontalOffset++ )

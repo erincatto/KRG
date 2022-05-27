@@ -114,7 +114,7 @@ namespace KRG
         KRG_FORCE_INLINE static Vector Select( Vector const& v0, Vector const& v1, Vector const& control );
 
         // Get a permutation of two vectors, each template argument represents the element index to select ( v0: 0-3, v1: 4-7 );
-        template<uint32 PermuteX, uint32 PermuteY, uint32 PermuteZ, uint32 PermuteW>
+        template<uint32_t PermuteX, uint32_t PermuteY, uint32_t PermuteZ, uint32_t PermuteW>
         KRG_FORCE_INLINE static Vector Permute( Vector const& v0, Vector const& v1 );
 
     public:
@@ -155,8 +155,8 @@ namespace KRG
 
         //-------------------------------------------------------------------------
 
-        float& operator[]( uint32 i ) { KRG_ASSERT( i < 4 ); return ( ( float* ) this )[i]; }
-        float const& operator[]( uint32 i ) const { KRG_ASSERT( i < 4 ); return ( ( float* ) this )[i]; }
+        float& operator[]( uint32_t i ) { KRG_ASSERT( i < 4 ); return ( ( float* ) this )[i]; }
+        float const& operator[]( uint32_t i ) const { KRG_ASSERT( i < 4 ); return ( ( float* ) this )[i]; }
 
         // W component operations - needed primarily for homogeneous coordinate operations
         KRG_FORCE_INLINE bool IsW1() const { return m_w == 1.0f; }
@@ -242,7 +242,7 @@ namespace KRG
         KRG_FORCE_INLINE Vector GetSplatW() const { return _mm_shuffle_ps( m_data, m_data, _MM_SHUFFLE( 3, 3, 3, 3 ) ); }
 
         // Get a shuffled version of the vector, each template argument represents the element index in the original vector
-        template<uint32 ElementX, uint32 ElementY, uint32 ElementZ, uint32 ElementW>
+        template<uint32_t ElementX, uint32_t ElementY, uint32_t ElementZ, uint32_t ElementW>
         KRG_FORCE_INLINE Vector Swizzle() const
         {
             static_assert( ElementX <= 3, "Element index parameter out of range" );
@@ -252,7 +252,7 @@ namespace KRG
             return _mm_shuffle_ps( m_data, m_data, _MM_SHUFFLE( ElementW, ElementZ, ElementY, ElementX ) );
         }
 
-        KRG_FORCE_INLINE Vector Shuffle( uint32 xIdx, uint32 yIdx, uint32 zIdx, uint32 wIdx ) const
+        KRG_FORCE_INLINE Vector Shuffle( uint32_t xIdx, uint32_t yIdx, uint32_t zIdx, uint32_t wIdx ) const
         {
             KRG_ASSERT( xIdx < 4 && yIdx < 4 && zIdx < 4 && wIdx < 4 );
             Vector result( (*this)[xIdx], ( *this )[yIdx], ( *this )[zIdx], ( *this )[wIdx] );
@@ -997,7 +997,7 @@ namespace KRG
         return result;
     }
 
-    template<uint32 PermuteX, uint32 PermuteY, uint32 PermuteZ, uint32 PermuteW>
+    template<uint32_t PermuteX, uint32_t PermuteY, uint32_t PermuteZ, uint32_t PermuteW>
     KRG_FORCE_INLINE Vector Vector::Permute( Vector const& v0, Vector const& v1 )
     {
         static_assert( PermuteX <= 7, "Element index parameter out of range" );
@@ -1005,7 +1005,7 @@ namespace KRG
         static_assert( PermuteZ <= 7, "Element index parameter out of range" );
         static_assert( PermuteW <= 7, "Element index parameter out of range" );
 
-        uint32 const shuffle = _MM_SHUFFLE( PermuteW & 3, PermuteZ & 3, PermuteY & 3, PermuteX & 3 );
+        uint32_t const shuffle = _MM_SHUFFLE( PermuteW & 3, PermuteZ & 3, PermuteY & 3, PermuteX & 3 );
         bool const whichX = PermuteX > 3;
         bool const whichY = PermuteY > 3;
         bool const whichZ = PermuteZ > 3;

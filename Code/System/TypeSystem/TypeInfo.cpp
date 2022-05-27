@@ -38,7 +38,7 @@ namespace KRG::TypeSystem
         auto propertyIter = m_propertyMap.find( propertyID );
         if ( propertyIter != m_propertyMap.end() )
         {
-            int32 const propertyIdx = propertyIter->second;
+            int32_t const propertyIdx = propertyIter->second;
             pProperty = &m_properties[propertyIdx];
         }
 

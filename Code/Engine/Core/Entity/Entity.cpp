@@ -65,8 +65,8 @@ namespace KRG
         // Create component spatial hierarchy
         //-------------------------------------------------------------------------
 
-        int32 const numComponents = (int32) pEntity->m_components.size();
-        for ( int32 spatialComponentIdx = 0; spatialComponentIdx < entityDesc.m_numSpatialComponents; spatialComponentIdx++ )
+        int32_t const numComponents = (int32_t) pEntity->m_components.size();
+        for ( int32_t spatialComponentIdx = 0; spatialComponentIdx < entityDesc.m_numSpatialComponents; spatialComponentIdx++ )
         {
             EntityModel::ComponentDescriptor const& spatialComponentDesc = entityDesc.m_components[spatialComponentIdx];
             KRG_ASSERT( spatialComponentDesc.IsSpatialComponent() );
@@ -79,7 +79,7 @@ namespace KRG
             }
 
             // Todo: profile this lookup and if it becomes too costly, pre-compute the parent indices and serialize them
-            int32 const parentComponentIdx = entityDesc.FindComponentIndex( spatialComponentDesc.m_spatialParentName );
+            int32_t const parentComponentIdx = entityDesc.FindComponentIndex( spatialComponentDesc.m_spatialParentName );
             KRG_ASSERT( parentComponentIdx != InvalidIndex );
 
             auto pParentSpatialComponent = static_cast<SpatialEntityComponent*>( pEntity->m_components[parentComponentIdx] );
@@ -185,7 +185,7 @@ namespace KRG
             }
         }
 
-        OBB const worldBounds( points.data(), (uint32) points.size() );
+        OBB const worldBounds( points.data(), (uint32_t) points.size() );
         return worldBounds;
     }
     #endif
@@ -354,7 +354,7 @@ namespace KRG
         InlineString desiredName = desiredNameID.c_str();
         InlineString finalName = desiredName;
 
-        uint32 counter = 0;
+        uint32_t counter = 0;
         bool isUniqueName = false;
         while ( !isUniqueName )
         {
@@ -529,7 +529,7 @@ namespace KRG
                 m_updateRegistrationStatus = RegistrationStatus::QueuedForUnregister;
             }
 
-            for ( int8 i = 0; i < (int8) UpdateStage::NumStages; i++ )
+            for ( int8_t i = 0; i < (int8_t) UpdateStage::NumStages; i++ )
             {
                 m_systemUpdateLists[i].clear();
             }
@@ -567,7 +567,7 @@ namespace KRG
 
     void Entity::UpdateSystems( EntityWorldUpdateContext const& context )
     {
-        int8 const updateStageIdx = (int8) context.GetUpdateStage();
+        int8_t const updateStageIdx = (int8_t) context.GetUpdateStage();
         for( auto pSystem : m_systemUpdateLists[updateStageIdx] )
         {
             KRG_ASSERT( pSystem->GetRequiredUpdatePriorities().IsStageEnabled( (UpdateStage) updateStageIdx ) );
@@ -659,7 +659,7 @@ namespace KRG
         m_pParentSpatialEntity->m_attachedEntities.erase_unsorted( iter );
 
         // Clear attachment data
-        m_parentAttachmentSocketID = StringID::InvalidID;
+        m_parentAttachmentSocketID = StringID();
         m_pParentSpatialEntity = nullptr;
         s_entitySpatialAttachmentStateUpdatedEvent.Execute( this );
     }
@@ -729,7 +729,7 @@ namespace KRG
 
         // Remove component hierarchy values
         m_pRootSpatialComponent->m_pSpatialParent = nullptr;
-        m_pRootSpatialComponent->m_parentAttachmentSocketID = StringID::InvalidID;
+        m_pRootSpatialComponent->m_parentAttachmentSocketID = StringID();
 
         //-------------------------------------------------------------------------
 
@@ -757,7 +757,7 @@ namespace KRG
 
         if ( pSpatialComponent == m_pRootSpatialComponent )
         {
-            int32 const numChildrenForRoot = (int32) m_pRootSpatialComponent->m_spatialChildren.size();
+            int32_t const numChildrenForRoot = (int32_t) m_pRootSpatialComponent->m_spatialChildren.size();
 
             // Ensure that we break any spatial attachments before we mess with the root component
             bool const recreateSpatialAttachment = m_isSpatialAttachmentCreated;
@@ -821,7 +821,7 @@ namespace KRG
 
     void Entity::GenerateSystemUpdateList()
     {
-        for ( int8 i = 0; i < (int8) UpdateStage::NumStages; i++ )
+        for ( int8_t i = 0; i < (int8_t) UpdateStage::NumStages; i++ )
         {
             m_systemUpdateLists[i].clear();
 
@@ -836,8 +836,8 @@ namespace KRG
             // Sort update list
             auto comparator = [i] ( EntitySystem* const& pSystemA, EntitySystem* const& pSystemB )
             {
-                uint8 const A = pSystemA->GetRequiredUpdatePriorities().GetPriorityForStage( (UpdateStage) i );
-                uint8 const B = pSystemB->GetRequiredUpdatePriorities().GetPriorityForStage( (UpdateStage) i );
+                uint8_t const A = pSystemA->GetRequiredUpdatePriorities().GetPriorityForStage( (UpdateStage) i );
+                uint8_t const B = pSystemB->GetRequiredUpdatePriorities().GetPriorityForStage( (UpdateStage) i );
                 return A > B;
             };
 
@@ -945,7 +945,7 @@ namespace KRG
     {
         KRG_ASSERT( pSystemTypeInfo != nullptr && pSystemTypeInfo->IsDerivedFrom<EntitySystem>() );
 
-        int32 const systemIdx = VectorFindIndex( m_systems, pSystemTypeInfo->m_ID, [] ( EntitySystem* pSystem, TypeSystem::TypeID systemTypeID ) { return pSystem->GetTypeInfo()->m_ID == systemTypeID; } );
+        int32_t const systemIdx = VectorFindIndex( m_systems, pSystemTypeInfo->m_ID, [] ( EntitySystem* pSystem, TypeSystem::TypeID systemTypeID ) { return pSystem->GetTypeInfo()->m_ID == systemTypeID; } );
         KRG_ASSERT( systemIdx != InvalidIndex );
         auto pSystem = m_systems[systemIdx];
 
@@ -1034,7 +1034,7 @@ namespace KRG
             if ( parentSpatialComponentID.IsValid() )
             {
                 KRG_ASSERT( pSpatialComponent != nullptr );
-                int32 const componentIdx = VectorFindIndex( m_components, parentSpatialComponentID, [] ( EntityComponent* pComponent, ComponentID const& componentID ) { return pComponent->GetID() == componentID; } );
+                int32_t const componentIdx = VectorFindIndex( m_components, parentSpatialComponentID, [] ( EntityComponent* pComponent, ComponentID const& componentID ) { return pComponent->GetID() == componentID; } );
                 KRG_ASSERT( componentIdx != InvalidIndex );
 
                 pParentComponent = TryCast<SpatialEntityComponent>( m_components[componentIdx] );
@@ -1058,7 +1058,7 @@ namespace KRG
 
     void Entity::DestroyComponent( ComponentID const& componentID )
     {
-        int32 const componentIdx = VectorFindIndex( m_components, componentID, [] ( EntityComponent* pComponent, ComponentID const& componentID ) { return pComponent->GetID() == componentID; } );
+        int32_t const componentIdx = VectorFindIndex( m_components, componentID, [] ( EntityComponent* pComponent, ComponentID const& componentID ) { return pComponent->GetID() == componentID; } );
 
         // If you hit this assert either the component doesnt exist or this entity has still to process deferred actions and the component might be in that list
         // We dont support adding and destroying a component in the same frame, please avoid doing stupid things
@@ -1141,7 +1141,7 @@ namespace KRG
         KRG_ASSERT( pComponent != nullptr );
         KRG_ASSERT( pComponent->IsUnloaded() && !pComponent->m_isRegisteredWithWorld && !pComponent->m_isRegisteredWithEntity );
 
-        int32 const componentIdx = VectorFindIndex( m_components, pComponent );
+        int32_t const componentIdx = VectorFindIndex( m_components, pComponent );
         KRG_ASSERT( componentIdx != InvalidIndex );
 
         // Update spatial hierarchy
@@ -1192,7 +1192,7 @@ namespace KRG
         // Note: ORDER OF OPERATIONS MATTERS!
 
         bool const entityStateChanged = !m_deferredActions.empty();
-        for ( int32 i = 0; i < (int32) m_deferredActions.size(); i++ )
+        for ( int32_t i = 0; i < (int32_t) m_deferredActions.size(); i++ )
         {
             EntityInternalStateAction& action = m_deferredActions[i];
 
@@ -1221,7 +1221,7 @@ namespace KRG
                     // Try to resolve the ID
                     if ( action.m_parentComponentID.IsValid() )
                     {
-                        int32 const componentIdx = VectorFindIndex( m_components, action.m_parentComponentID, [] ( EntityComponent* pComponent, ComponentID const& componentID ) { return pComponent->GetID() == componentID; } );
+                        int32_t const componentIdx = VectorFindIndex( m_components, action.m_parentComponentID, [] ( EntityComponent* pComponent, ComponentID const& componentID ) { return pComponent->GetID() == componentID; } );
                         KRG_ASSERT( componentIdx != InvalidIndex );
 
                         pParentComponent = TryCast<SpatialEntityComponent>( m_components[componentIdx] );

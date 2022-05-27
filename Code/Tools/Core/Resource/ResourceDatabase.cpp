@@ -199,8 +199,8 @@ namespace KRG::Resource
 
         //-------------------------------------------------------------------------
 
-        int32 const pathDepth = (int32) splitPath.size();
-        for ( int32 i = m_dataDirectoryPathDepth + 1; i < pathDepth; i++ )
+        int32_t const pathDepth = (int32_t) splitPath.size();
+        for ( int32_t i = m_dataDirectoryPathDepth + 1; i < pathDepth; i++ )
         {
             directoryPath.Append( splitPath[i] );
 
@@ -234,8 +234,8 @@ namespace KRG::Resource
 
         //-------------------------------------------------------------------------
 
-        int32 const pathDepth = (int32) splitPath.size();
-        for ( int32 i = m_dataDirectoryPathDepth + 1; i < pathDepth; i++ )
+        int32_t const pathDepth = (int32_t) splitPath.size();
+        for ( int32_t i = m_dataDirectoryPathDepth + 1; i < pathDepth; i++ )
         {
             directoryPath.Append( splitPath[i] );
 
@@ -290,16 +290,22 @@ namespace KRG::Resource
         Directory* pDirectory = FindDirectory( path.GetParentDirectory() );
         KRG_ASSERT( pDirectory != nullptr );
 
-        int32 const numFiles = (int32) pDirectory->m_files.size();
-        for ( int32 i = 0; i < numFiles; i++ )
+        int32_t const numFiles = (int32_t) pDirectory->m_files.size();
+        for ( int32_t i = 0; i < numFiles; i++ )
         {
             if ( pDirectory->m_files[i]->m_filePath == path )
             {
                 // Remove from categorized resource lists
                 if ( pDirectory->m_files[i]->m_resourceID.IsValid() )
                 {
-                    TVector<ResourceEntry*>& category = m_resourcesPerType.at( pDirectory->m_files[i]->m_resourceID.GetResourceTypeID() );
-                    category.erase_first_unsorted( pDirectory->m_files[i] );
+                    ResourceTypeID const typeID = pDirectory->m_files[i]->m_resourceID.GetResourceTypeID();
+
+                    auto iter = m_resourcesPerType.find( typeID );
+                    if ( iter != m_resourcesPerType.end() )
+                    {
+                        TVector<ResourceEntry*>& category = iter->second;
+                        category.erase_first_unsorted( pDirectory->m_files[i] );
+                    }
                 }
 
                 // Destroy record
@@ -347,8 +353,8 @@ namespace KRG::Resource
         auto pParentDirectory = FindDirectory( path.GetParentDirectory() );
         KRG_ASSERT( pParentDirectory != nullptr );
 
-        int32 const numDirectories = (int32) pParentDirectory->m_directories.size();
-        for ( int32 i = 0; i < numDirectories; i++ )
+        int32_t const numDirectories = (int32_t) pParentDirectory->m_directories.size();
+        for ( int32_t i = 0; i < numDirectories; i++ )
         {
             if ( pParentDirectory->m_directories[i].m_filePath == path )
             {
@@ -382,8 +388,8 @@ namespace KRG::Resource
             //-------------------------------------------------------------------------
 
             bool directoryMoved = false;
-            int32 const numOldDirectories = (int32) pOldParentDirectory->m_directories.size();
-            for ( int32 i = 0; i < numOldDirectories; i++ )
+            int32_t const numOldDirectories = (int32_t) pOldParentDirectory->m_directories.size();
+            for ( int32_t i = 0; i < numOldDirectories; i++ )
             {
                 if ( pOldParentDirectory->m_directories[i].m_filePath == oldPath )
                 {

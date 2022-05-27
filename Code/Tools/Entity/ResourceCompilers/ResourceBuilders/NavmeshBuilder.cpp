@@ -126,10 +126,10 @@ namespace KRG::Navmesh
         auto foundPhysicsComponents = entityCollectionDesc.GetComponentsOfType( ctx.m_typeRegistry, Physics::PhysicsMeshComponent::GetStaticTypeID() );
         for ( auto const& searchResult : foundPhysicsComponents )
         {
-            int32 const entityIdx = entityCollectionDesc.FindEntityIndex( searchResult.m_pEntity->m_name );
+            int32_t const entityIdx = entityCollectionDesc.FindEntityIndex( searchResult.m_pEntity->m_name );
             KRG_ASSERT( entityIdx != InvalidIndex );
 
-            int32 const componentIdx = entityCollectionDesc.GetEntityDescriptors()[entityIdx].FindComponentIndex( searchResult.m_pComponent->m_name );
+            int32_t const componentIdx = entityCollectionDesc.GetEntityDescriptors()[entityIdx].FindComponentIndex( searchResult.m_pComponent->m_name );
             KRG_ASSERT( componentIdx != InvalidIndex );
 
             Entity const* pEntity = createdEntities[entityIdx];
@@ -200,7 +200,7 @@ namespace KRG::Navmesh
             {
                 auto const scale = transform.GetScale();
 
-                int32 numNegativelyScaledAxes = ( scale.m_x < 0 ) ? 1 : 0;
+                int32_t numNegativelyScaledAxes = ( scale.m_x < 0 ) ? 1 : 0;
                 numNegativelyScaledAxes += ( scale.m_y < 0 ) ? 1 : 0;
                 numNegativelyScaledAxes += ( scale.m_z < 0 ) ? 1 : 0;
 
@@ -219,17 +219,17 @@ namespace KRG::Navmesh
 
                     //-------------------------------------------------------------------------
 
-                    int32 const numTriangles = geometrySection.GetNumTriangles();
-                    int32 const numIndices = (int32) geometrySection.m_indices.size();
+                    int32_t const numTriangles = geometrySection.GetNumTriangles();
+                    int32_t const numIndices = (int32_t) geometrySection.m_indices.size();
                     for ( auto t = 0; t < numTriangles; t++ )
                     {
-                        int32 const i = t * 3;
+                        int32_t const i = t * 3;
                         KRG_ASSERT( i <= numIndices - 3 );
 
                         // NavPower expects counterclockwise winding
-                        int32 const index0 = geometrySection.m_indices[flipWinding ? i + 2 : i];
-                        int32 const index1 = geometrySection.m_indices[i + 1];
-                        int32 const index2 = geometrySection.m_indices[flipWinding ? i : i + 2];
+                        int32_t const index0 = geometrySection.m_indices[flipWinding ? i + 2 : i];
+                        int32_t const index1 = geometrySection.m_indices[i + 1];
+                        int32_t const index2 = geometrySection.m_indices[flipWinding ? i : i + 2];
 
                         // Add triangle
                         auto& buildFace = m_buildFaces.emplace_back( bfx::BuildFace() );
@@ -304,9 +304,9 @@ namespace KRG::Navmesh
         surfaceInput.m_globalParams.m_maxNumCores = 16;
 
         surfaceInput.m_pFaces = m_buildFaces.data();
-        surfaceInput.m_numFaces = (uint32) m_buildFaces.size();
+        surfaceInput.m_numFaces = (uint32_t) m_buildFaces.size();
         surfaceInput.m_pParams = layerBuildParams.data();
-        surfaceInput.m_numParams = (uint32) layerBuildParams.size();
+        surfaceInput.m_numParams = (uint32_t) layerBuildParams.size();
 
         surfaceInput.m_globalParams.m_enableMulticoreBuild = true;
         surfaceInput.m_globalParams.m_maxNumCores = Threading::GetProcessorInfo().m_numPhysicalCores;

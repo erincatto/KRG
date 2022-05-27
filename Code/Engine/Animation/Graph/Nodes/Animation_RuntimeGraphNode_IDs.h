@@ -9,7 +9,7 @@ namespace KRG::Animation::GraphNodes
     {
     public:
 
-        enum class Comparison : uint8
+        enum class Comparison : uint8_t
         {
             KRG_REGISTER_ENUM
             Matches = 0,

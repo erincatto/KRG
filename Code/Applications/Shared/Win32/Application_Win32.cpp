@@ -53,7 +53,7 @@ namespace KRG
 
     //-------------------------------------------------------------------------
 
-    Win32Application::Win32Application( HINSTANCE hInstance, char const* applicationName, int32 iconResourceID )
+    Win32Application::Win32Application( HINSTANCE hInstance, char const* applicationName, int32_t iconResourceID )
         : m_pInstance( hInstance )
         , m_applicationName( applicationName )
         , m_applicationNameNoWhitespace( StringUtils::StripWhitespace( applicationName ) )
@@ -101,7 +101,7 @@ namespace KRG
 
         //-------------------------------------------------------------------------
 
-        int32 v = 0;
+        int32_t v = 0;
         if ( layoutIni.TryGetInt( "WindowSettings:Left", v ) )
         {
             m_windowRect.left = v;
@@ -129,13 +129,13 @@ namespace KRG
 
         //-------------------------------------------------------------------------
 
-        uint32 flags = 0;
+        uint32_t flags = 0;
 
         layoutIni.TryGetUInt( "Layout:UserFlags0", flags );
         m_userFlags = flags;
 
         layoutIni.TryGetUInt( "Layout:UserFlags1", flags );
-        m_userFlags |= uint64( flags ) << 32;
+        m_userFlags |= uint64_t( flags ) << 32;
     }
 
     void Win32Application::WriteLayoutSettings()
@@ -152,16 +152,16 @@ namespace KRG
 
             // Save window rect
             layoutIni.CreateSection( "WindowSettings" );
-            layoutIni.SetInt( "WindowSettings:Left", (int32) wndPlacement.rcNormalPosition.left );
-            layoutIni.SetInt( "WindowSettings:Right", (int32) wndPlacement.rcNormalPosition.right );
-            layoutIni.SetInt( "WindowSettings:Top", (int32) wndPlacement.rcNormalPosition.top );
-            layoutIni.SetInt( "WindowSettings:Bottom", (int32) wndPlacement.rcNormalPosition.bottom );
+            layoutIni.SetInt( "WindowSettings:Left", (int32_t) wndPlacement.rcNormalPosition.left );
+            layoutIni.SetInt( "WindowSettings:Right", (int32_t) wndPlacement.rcNormalPosition.right );
+            layoutIni.SetInt( "WindowSettings:Top", (int32_t) wndPlacement.rcNormalPosition.top );
+            layoutIni.SetInt( "WindowSettings:Bottom", (int32_t) wndPlacement.rcNormalPosition.bottom );
             layoutIni.SetBool( "WindowSettings:WasMaximized", wndPlacement.showCmd == SW_MAXIMIZE );
 
             // Save user flags
             layoutIni.CreateSection( "Layout" );
-            layoutIni.SetInt( "Layout:UserFlags0", (uint32) m_userFlags );
-            layoutIni.SetInt( "Layout:UserFlags1", (uint32) ( m_userFlags >> 32 ) );
+            layoutIni.SetInt( "Layout:UserFlags0", (uint32_t) m_userFlags );
+            layoutIni.SetInt( "Layout:UserFlags1", (uint32_t) ( m_userFlags >> 32 ) );
 
             FileSystem::Path const layoutIniFilePath = FileSystem::Path( m_applicationNameNoWhitespace + ".layout.ini" );
             layoutIni.SaveToFile( layoutIniFilePath );
@@ -222,7 +222,7 @@ namespace KRG
 
     //-------------------------------------------------------------------------
 
-    int Win32Application::Run( int32 argc, char** argv )
+    int Win32Application::Run( int32_t argc, char** argv )
     {
         // Read Settings
         //-------------------------------------------------------------------------

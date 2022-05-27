@@ -26,7 +26,7 @@ namespace KRG::AI
         bfx::PolylinePathRCPtr      m_path;
         #endif
 
-        int32                       m_currentPathSegmentIdx = InvalidIndex;
+        int32_t                       m_currentPathSegmentIdx = InvalidIndex;
         Percentage                  m_progressAlongSegment = 0.0f;
     };
 }

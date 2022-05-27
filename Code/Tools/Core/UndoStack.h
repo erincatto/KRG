@@ -26,7 +26,7 @@ namespace KRG
     {
     public:
 
-        enum class Operation : uint8
+        enum class Operation : uint8_t
         {
             Undo,
             Redo

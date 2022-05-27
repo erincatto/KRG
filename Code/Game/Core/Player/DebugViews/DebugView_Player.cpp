@@ -365,12 +365,12 @@ namespace KRG::Player
             auto const color = ImGui::GetColorU32( ImVec4( 1.0f, 1.0f, 1.0f, 1.0f ) );
             auto const colorLevel = ImGui::GetColorU32( ImVec4( 0.5f, 1.0f, 0.5f, 1.0f ) );
 
-            auto GetStartPosForLevel = [rectangleStart, rectWidth] ( int32 level )
+            auto GetStartPosForLevel = [rectangleStart, rectWidth] ( int32_t level )
             {
                 float paddingX = level == 1 ? 5.f : 2.5f;
                 return rectangleStart + ( ImVec2( float( level - 1 ), float( level - 1 ) ) * ImVec2( rectWidth / 3.f, 0.f ) ) + ImVec2( paddingX, 5.f );
             };
-            auto GetEndPosForLevel = [rectangleEnd, rectWidth] ( int32 level )
+            auto GetEndPosForLevel = [rectangleEnd, rectWidth] ( int32_t level )
             {
                 float paddingX = level == 3 ? 5.f : 2.5f;
                 return rectangleEnd - ( ImVec2( float( 3 - level ), float( 3 - level ) ) * ImVec2( rectWidth / 3.f, 0.f ) ) - ImVec2( paddingX, 5.f );

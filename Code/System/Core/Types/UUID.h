@@ -21,9 +21,9 @@ namespace KRG
 
         union Data
         {
-            uint64         m_U64[2];
-            uint32         m_U32[4];
-            uint8          m_U8[16];
+            uint64_t         m_U64[2];
+            uint32_t         m_U32[4];
+            uint8_t          m_U8[16];
         };
 
     public:
@@ -34,8 +34,8 @@ namespace KRG
     public:
 
         inline UUID() { Memory::MemsetZero( &m_data ); }
-        inline UUID( uint64 v0, uint64 v1 ) { m_data.m_U64[0] = v0; m_data.m_U64[1] = v1; }
-        inline UUID( uint32 v0, uint32 v1, uint32 v2, uint32 v3 ) { m_data.m_U32[0] = v0; m_data.m_U32[1] = v1; m_data.m_U32[2] = v2; m_data.m_U32[3] = v3; }
+        inline UUID( uint64_t v0, uint64_t v1 ) { m_data.m_U64[0] = v0; m_data.m_U64[1] = v1; }
+        inline UUID( uint32_t v0, uint32_t v1, uint32_t v2, uint32_t v3 ) { m_data.m_U32[0] = v0; m_data.m_U32[1] = v1; m_data.m_U32[2] = v2; m_data.m_U32[3] = v3; }
         inline UUID( String const& str ) : UUID( str.c_str() ) {}
         UUID( char const* pString );
 
@@ -47,9 +47,9 @@ namespace KRG
         inline bool IsValid() const { return m_data.m_U64[0] != 0 && m_data.m_U64[1] != 0; }
         inline void Clear() { Memory::MemsetZero( &m_data ); }
 
-        inline uint8 GetValueU8( uint32 idx ) const { KRG_ASSERT( idx < 16 ); return m_data.m_U8[idx]; }
-        inline uint32 GetValueU32( uint32 idx ) const { KRG_ASSERT( idx < 4 ); return m_data.m_U32[idx]; }
-        inline uint64 GetValueU64( uint32 idx ) const { KRG_ASSERT( idx < 2 ); return m_data.m_U64[idx]; }
+        inline uint8_t GetValueU8( uint32_t idx ) const { KRG_ASSERT( idx < 16 ); return m_data.m_U8[idx]; }
+        inline uint32_t GetValueU32( uint32_t idx ) const { KRG_ASSERT( idx < 4 ); return m_data.m_U32[idx]; }
+        inline uint64_t GetValueU64( uint32_t idx ) const { KRG_ASSERT( idx < 2 ); return m_data.m_U64[idx]; }
 
         KRG_FORCE_INLINE bool operator==( UUID const& RHS ) const { return m_data.m_U64[0] == RHS.m_data.m_U64[0] && m_data.m_U64[1] == RHS.m_data.m_U64[1]; }
         KRG_FORCE_INLINE bool operator!=( UUID const& RHS ) const { return m_data.m_U64[0] != RHS.m_data.m_U64[0] || m_data.m_U64[1] != RHS.m_data.m_U64[1]; }
@@ -73,14 +73,14 @@ namespace eastl
         {
             struct GUIDData
             {
-                KRG::uint32     m_a;
-                KRG::uint16     m_b;
-                KRG::uint16     m_c;
-                KRG::uint8      m_d[8];
+                uint32_t     m_a;
+                uint16_t     m_b;
+                uint16_t     m_c;
+                uint8_t      m_d[8];
             };
 
             GUIDData const& tmp = reinterpret_cast<GUIDData const&>( ID );
-            eastl_size_t hash = tmp.m_a ^ ( tmp.m_b << 16 | ( KRG::uint8 ) tmp.m_c ) ^ ( tmp.m_d[2] << 24 | tmp.m_d[7] );
+            eastl_size_t hash = tmp.m_a ^ ( tmp.m_b << 16 | ( uint8_t ) tmp.m_c ) ^ ( tmp.m_d[2] << 24 | tmp.m_d[7] );
             return hash;
         }
     };

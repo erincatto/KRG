@@ -10,7 +10,7 @@ namespace KRG::Animation::GraphNodes
 
     //-------------------------------------------------------------------------
 
-    enum class EventSearchMode : uint8
+    enum class EventSearchMode : uint8_t
     {
         KRG_REGISTER_ENUM
 
@@ -25,7 +25,7 @@ namespace KRG::Animation::GraphNodes
     {
     public:
 
-        enum class Operator : uint8
+        enum class Operator : uint8_t
         {
             KRG_REGISTER_ENUM
 
@@ -167,7 +167,7 @@ namespace KRG::Animation::GraphNodes
     {
     public:
 
-        enum class TriggerMode : uint8
+        enum class TriggerMode : uint8_t
         {
             KRG_REGISTER_ENUM
 
@@ -186,7 +186,7 @@ namespace KRG::Animation::GraphNodes
 
             GraphNodeIndex                                   m_sourceStateNodeIdx = InvalidIndex;
             TriggerMode                                 m_triggerMode = TriggerMode::ExactlyAtEventIndex;
-            int32                                       m_syncEventIdx = InvalidIndex;
+            int32_t                                       m_syncEventIdx = InvalidIndex;
         };
 
     private:

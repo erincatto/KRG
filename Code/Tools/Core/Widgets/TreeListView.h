@@ -32,7 +32,7 @@ namespace KRG
         //-------------------------------------------------------------------------
 
         // The unique ID is need to be able to ID, record and restore tree state
-        virtual uint64 GetUniqueID() const = 0;
+        virtual uint64_t GetUniqueID() const = 0;
 
         // The name ID is the name of the item relative to its parent. This is not guaranteed to be unique per item
         virtual StringID GetNameID() const = 0;
@@ -93,16 +93,16 @@ namespace KRG
         }
 
         // Destroy specific child - be careful when calling this, you need to make sure the visual tree is kept in sync
-        void DestroyChild( uint64 uniqueItemID );
+        void DestroyChild( uint64_t uniqueItemID );
 
         // Destroys all child for this branch - be careful when calling this, you need to make sure the visual tree is kept in sync
         void DestroyChildren();
 
         // Find a specific child
-        TreeListViewItem const* FindChild( uint64 uniqueID ) const;
+        TreeListViewItem const* FindChild( uint64_t uniqueID ) const;
 
         // Find a specific child
-        TreeListViewItem* FindChild( uint64 uniqueID ) { return const_cast<TreeListViewItem*>( const_cast<TreeListViewItem const*>( this )->FindChild( uniqueID ) ); }
+        TreeListViewItem* FindChild( uint64_t uniqueID ) { return const_cast<TreeListViewItem*>( const_cast<TreeListViewItem const*>( this )->FindChild( uniqueID ) ); }
 
         // Find a specific child
         TreeListViewItem* FindChild( TFunction<bool( TreeListViewItem const* )> const& searchPredicate );
@@ -161,7 +161,7 @@ namespace KRG
         {
             VisualTreeItem() = default;
 
-            VisualTreeItem( TreeListViewItem* pItem, int32 hierarchyLevel )
+            VisualTreeItem( TreeListViewItem* pItem, int32_t hierarchyLevel )
                 : m_pItem( pItem )
                 , m_hierarchyLevel( hierarchyLevel )
             {
@@ -171,7 +171,7 @@ namespace KRG
         public:
 
             TreeListViewItem*   m_pItem = nullptr;
-            int32               m_hierarchyLevel = -1;
+            int32_t               m_hierarchyLevel = -1;
         };
 
     protected:
@@ -186,7 +186,7 @@ namespace KRG
             }
 
             virtual StringID GetNameID() const { return m_ID; }
-            virtual uint64 GetUniqueID() const { return 0; }
+            virtual uint64_t GetUniqueID() const { return 0; }
 
         private:
 
@@ -253,11 +253,11 @@ namespace KRG
 
     protected:
 
-        inline int32 GetNumItems() const { return (int32) m_visualTree.size(); }
+        inline int32_t GetNumItems() const { return (int32_t) m_visualTree.size(); }
 
-        TreeListViewItem* FindItem( uint64 uniqueID );
+        TreeListViewItem* FindItem( uint64_t uniqueID );
 
-        void DestroyItem( uint64 uniqueID );
+        void DestroyItem( uint64_t uniqueID );
 
         //-------------------------------------------------------------------------
 
@@ -265,13 +265,13 @@ namespace KRG
         virtual void DrawAdditionalUI() {}
 
         // Get the number of extra columns needed
-        virtual uint32 GetNumExtraColumns() const { return 0; }
+        virtual uint32_t GetNumExtraColumns() const { return 0; }
 
         // Get the number of extra columns needed
         virtual void SetupExtraColumnHeaders() const {}
 
         // Draw any custom item controls you might need
-        virtual void DrawItemExtraColumns( TreeListViewItem* pBaseItem, int32 extraColumnIdx ) {}
+        virtual void DrawItemExtraColumns( TreeListViewItem* pBaseItem, int32_t extraColumnIdx ) {}
 
         // Draw any custom item context menus you might need
         virtual void DrawItemContextMenu( TVector<TreeListViewItem*> const& selectedItemsWithContextMenus ) {}
@@ -300,7 +300,7 @@ namespace KRG
         void HandleItemSelection( TreeListViewItem* pItem, bool isSelected );
 
         void DrawVisualItem( VisualTreeItem& visualTreeItem );
-        void TryAddItemToVisualTree( TreeListViewItem* pItem, int32 hierarchyLevel );
+        void TryAddItemToVisualTree( TreeListViewItem* pItem, int32_t hierarchyLevel );
 
         void RebuildVisualTree();
         void OnItemDoubleClickedInternal( TreeListViewItem* pItem );
@@ -336,7 +336,7 @@ namespace KRG
         VisualTreeState                                         m_visualTreeState = VisualTreeState::None;
         float                                                   m_estimatedRowHeight = -1.0f;
         float                                                   m_estimatedTreeHeight = -1.0f;
-        int32                                                   m_firstVisibleRowItemIdx = 0;
+        int32_t                                                   m_firstVisibleRowItemIdx = 0;
         float                                                   m_itemControlColumnWidth = 0;
         bool                                                    m_maintainVisibleRowIdx = false;
     };

@@ -16,7 +16,7 @@ namespace KRG::TypeSystem
 
     //-------------------------------------------------------------------------
 
-    PropertyEditor::PropertyEditor( ToolsContext const* pToolsContext, PropertyInfo const& propertyInfo, Byte* m_pPropertyInstance )
+    PropertyEditor::PropertyEditor( ToolsContext const* pToolsContext, PropertyInfo const& propertyInfo, uint8_t* m_pPropertyInstance )
         : m_pToolsContext( pToolsContext )
         , m_propertyInfo( propertyInfo )
         , m_pPropertyInstance( m_pPropertyInstance )
@@ -43,7 +43,7 @@ namespace KRG::TypeSystem
     {
     public:
 
-        EnumEditor( ToolsContext const* pToolsContext, PropertyInfo const& propertyInfo, Byte* m_pPropertyInstance )
+        EnumEditor( ToolsContext const* pToolsContext, PropertyInfo const& propertyInfo, uint8_t* m_pPropertyInstance )
             : PropertyEditor( pToolsContext, propertyInfo, m_pPropertyInstance )
             , m_pEnumInfo( pToolsContext->m_pTypeRegistry->GetEnumInfo( m_propertyInfo.m_typeID ) )
         {
@@ -85,37 +85,37 @@ namespace KRG::TypeSystem
             {
                 case CoreTypeID::Uint8:
                 {
-                    *reinterpret_cast<uint8*>( m_pPropertyInstance ) = (uint8) m_value_cached;
+                    *reinterpret_cast<uint8_t*>( m_pPropertyInstance ) = (uint8_t) m_value_cached;
                 }
                 break;
 
                 case CoreTypeID::Int8:
                 {
-                    *reinterpret_cast<int8*>( m_pPropertyInstance ) = (int8) m_value_cached;
+                    *reinterpret_cast<int8_t*>( m_pPropertyInstance ) = (int8_t) m_value_cached;
                 }
                 break;
 
                 case CoreTypeID::Uint16:
                 {
-                    *reinterpret_cast<uint16*>( m_pPropertyInstance ) = (uint16) m_value_cached;
+                    *reinterpret_cast<uint16_t*>( m_pPropertyInstance ) = (uint16_t) m_value_cached;
                 }
                 break;
 
                 case CoreTypeID::Int16:
                 {
-                    *reinterpret_cast<int16*>( m_pPropertyInstance ) = (int16) m_value_cached;
+                    *reinterpret_cast<int16_t*>( m_pPropertyInstance ) = (int16_t) m_value_cached;
                 }
                 break;
 
                 case CoreTypeID::Uint32:
                 {
-                    *reinterpret_cast<uint32*>( m_pPropertyInstance ) = (uint32) m_value_cached;
+                    *reinterpret_cast<uint32_t*>( m_pPropertyInstance ) = (uint32_t) m_value_cached;
                 }
                 break;
 
                 case CoreTypeID::Int32:
                 {
-                    *reinterpret_cast<int32*>( m_pPropertyInstance ) = (int32) m_value_cached;
+                    *reinterpret_cast<int32_t*>( m_pPropertyInstance ) = (int32_t) m_value_cached;
                 }
                 break;
 
@@ -133,37 +133,37 @@ namespace KRG::TypeSystem
             {
                 case CoreTypeID::Uint8:
                 {
-                    m_value_cached = m_value_imgui = ( int64 ) *reinterpret_cast<uint8 const*>( m_pPropertyInstance );
+                    m_value_cached = m_value_imgui = ( int64_t ) *reinterpret_cast<uint8_t const*>( m_pPropertyInstance );
                 }
                 break;
 
                 case CoreTypeID::Int8:
                 {
-                    m_value_cached = m_value_imgui = ( int64 ) *reinterpret_cast<int8 const*>( m_pPropertyInstance );
+                    m_value_cached = m_value_imgui = ( int64_t ) *reinterpret_cast<int8_t const*>( m_pPropertyInstance );
                 }
                 break;
 
                 case CoreTypeID::Uint16:
                 {
-                    m_value_cached = m_value_imgui = ( int64 ) *reinterpret_cast<uint16 const*>( m_pPropertyInstance );
+                    m_value_cached = m_value_imgui = ( int64_t ) *reinterpret_cast<uint16_t const*>( m_pPropertyInstance );
                 }
                 break;
 
                 case CoreTypeID::Int16:
                 {
-                    m_value_cached = m_value_imgui = ( int64 ) *reinterpret_cast<int16 const*>( m_pPropertyInstance );
+                    m_value_cached = m_value_imgui = ( int64_t ) *reinterpret_cast<int16_t const*>( m_pPropertyInstance );
                 }
                 break;
 
                 case CoreTypeID::Uint32:
                 {
-                    m_value_cached = m_value_imgui = ( int64 ) *reinterpret_cast<uint32 const*>( m_pPropertyInstance );
+                    m_value_cached = m_value_imgui = ( int64_t ) *reinterpret_cast<uint32_t const*>( m_pPropertyInstance );
                 }
                 break;
 
                 case CoreTypeID::Int32:
                 {
-                    m_value_cached = m_value_imgui = ( int64 ) *reinterpret_cast<int32 const*>( m_pPropertyInstance );
+                    m_value_cached = m_value_imgui = ( int64_t ) *reinterpret_cast<int32_t const*>( m_pPropertyInstance );
                 }
                 break;
 
@@ -181,7 +181,7 @@ namespace KRG::TypeSystem
             {
                 case CoreTypeID::Uint8:
                 {
-                    auto actualValue = ( int64 ) * reinterpret_cast<uint8 const*>( m_pPropertyInstance );
+                    auto actualValue = ( int64_t ) * reinterpret_cast<uint8_t const*>( m_pPropertyInstance );
                     if ( actualValue != m_value_cached )
                     {
                         m_value_cached = m_value_imgui = actualValue;
@@ -191,7 +191,7 @@ namespace KRG::TypeSystem
 
                 case CoreTypeID::Int8:
                 {
-                    auto actualValue = ( int64 ) * reinterpret_cast<int8 const*>( m_pPropertyInstance );
+                    auto actualValue = ( int64_t ) * reinterpret_cast<int8_t const*>( m_pPropertyInstance );
                     if ( actualValue != m_value_cached )
                     {
                         m_value_cached = m_value_imgui = actualValue;
@@ -201,7 +201,7 @@ namespace KRG::TypeSystem
 
                 case CoreTypeID::Uint16:
                 {
-                    auto actualValue = ( int64 ) * reinterpret_cast<uint16 const*>( m_pPropertyInstance );
+                    auto actualValue = ( int64_t ) * reinterpret_cast<uint16_t const*>( m_pPropertyInstance );
                     if ( actualValue != m_value_cached )
                     {
                         m_value_cached = m_value_imgui = actualValue;
@@ -211,7 +211,7 @@ namespace KRG::TypeSystem
 
                 case CoreTypeID::Int16:
                 {
-                    auto actualValue = ( int64 ) * reinterpret_cast<int16 const*>( m_pPropertyInstance );
+                    auto actualValue = ( int64_t ) * reinterpret_cast<int16_t const*>( m_pPropertyInstance );
                     if ( actualValue != m_value_cached )
                     {
                         m_value_cached = m_value_imgui = actualValue;
@@ -221,7 +221,7 @@ namespace KRG::TypeSystem
 
                 case CoreTypeID::Uint32:
                 {
-                    auto actualValue = ( int64 ) * reinterpret_cast<uint32 const*>( m_pPropertyInstance );
+                    auto actualValue = ( int64_t ) * reinterpret_cast<uint32_t const*>( m_pPropertyInstance );
                     if ( actualValue != m_value_cached )
                     {
                         m_value_cached = m_value_imgui = actualValue;
@@ -231,7 +231,7 @@ namespace KRG::TypeSystem
 
                 case CoreTypeID::Int32:
                 {
-                    auto actualValue = ( int64 ) * reinterpret_cast<int32 const*>( m_pPropertyInstance );
+                    auto actualValue = ( int64_t ) * reinterpret_cast<int32_t const*>( m_pPropertyInstance );
                     if ( actualValue != m_value_cached )
                     {
                         m_value_cached = m_value_imgui = actualValue;
@@ -250,8 +250,8 @@ namespace KRG::TypeSystem
     private:
 
         EnumInfo const*     m_pEnumInfo = nullptr;
-        int64               m_value_cached;
-        int64               m_value_imgui;
+        int64_t               m_value_cached;
+        int64_t               m_value_imgui;
     };
 
     //-------------------------------------------------------------------------
@@ -260,7 +260,7 @@ namespace KRG::TypeSystem
     {
     public:
 
-        BoolEditor( ToolsContext const* pToolsContext, PropertyInfo const& propertyInfo, Byte* m_pPropertyInstance )
+        BoolEditor( ToolsContext const* pToolsContext, PropertyInfo const& propertyInfo, uint8_t* m_pPropertyInstance )
             : PropertyEditor( pToolsContext,  propertyInfo, m_pPropertyInstance )
         {
             BoolEditor::ResetWorkingCopy();
@@ -299,7 +299,7 @@ namespace KRG::TypeSystem
     {
     public:
 
-        ScalarEditor( ToolsContext const* pToolsContext, PropertyInfo const& propertyInfo, Byte* m_pPropertyInstance )
+        ScalarEditor( ToolsContext const* pToolsContext, PropertyInfo const& propertyInfo, uint8_t* m_pPropertyInstance )
             : PropertyEditor( pToolsContext, propertyInfo, m_pPropertyInstance )
         {
             ScalarEditor::ResetWorkingCopy();
@@ -414,7 +414,7 @@ namespace KRG::TypeSystem
     {
     public:
 
-        VectorEditor( ToolsContext const* pToolsContext, PropertyInfo const& propertyInfo, Byte* m_pPropertyInstance )
+        VectorEditor( ToolsContext const* pToolsContext, PropertyInfo const& propertyInfo, uint8_t* m_pPropertyInstance )
             : PropertyEditor( pToolsContext, propertyInfo, m_pPropertyInstance )
         {
             VectorEditor::ResetWorkingCopy();
@@ -504,7 +504,7 @@ namespace KRG::TypeSystem
     {
     public:
 
-        ColorEditor( ToolsContext const* pToolsContext, PropertyInfo const& propertyInfo, Byte* m_pPropertyInstance )
+        ColorEditor( ToolsContext const* pToolsContext, PropertyInfo const& propertyInfo, uint8_t* m_pPropertyInstance )
             : PropertyEditor( pToolsContext, propertyInfo, m_pPropertyInstance )
         {
             ColorEditor::ResetWorkingCopy();
@@ -549,7 +549,7 @@ namespace KRG::TypeSystem
     {
     public:
 
-        RotationEditor( ToolsContext const* pToolsContext, PropertyInfo const& propertyInfo, Byte* m_pPropertyInstance )
+        RotationEditor( ToolsContext const* pToolsContext, PropertyInfo const& propertyInfo, uint8_t* m_pPropertyInstance )
             : PropertyEditor( pToolsContext, propertyInfo, m_pPropertyInstance )
         {
             RotationEditor::ResetWorkingCopy();
@@ -618,7 +618,7 @@ namespace KRG::TypeSystem
     {
     public:
 
-        AngleEditor( ToolsContext const* pToolsContext, PropertyInfo const& propertyInfo, Byte* m_pPropertyInstance )
+        AngleEditor( ToolsContext const* pToolsContext, PropertyInfo const& propertyInfo, uint8_t* m_pPropertyInstance )
             : PropertyEditor( pToolsContext, propertyInfo, m_pPropertyInstance )
         {
             AngleEditor::ResetWorkingCopy();
@@ -710,7 +710,7 @@ namespace KRG::TypeSystem
     {
     public:
 
-        UUIDEditor( ToolsContext const* pToolsContext, PropertyInfo const& propertyInfo, Byte* m_pPropertyInstance )
+        UUIDEditor( ToolsContext const* pToolsContext, PropertyInfo const& propertyInfo, uint8_t* m_pPropertyInstance )
             : PropertyEditor( pToolsContext, propertyInfo, m_pPropertyInstance )
         {
             UUIDEditor::ResetWorkingCopy();
@@ -771,7 +771,7 @@ namespace KRG::TypeSystem
     {
     public:
 
-        TimeEditor( ToolsContext const* pToolsContext, PropertyInfo const& propertyInfo, Byte* m_pPropertyInstance )
+        TimeEditor( ToolsContext const* pToolsContext, PropertyInfo const& propertyInfo, uint8_t* m_pPropertyInstance )
             : PropertyEditor( pToolsContext, propertyInfo, m_pPropertyInstance )
         {
             TimeEditor::ResetWorkingCopy();
@@ -866,7 +866,7 @@ namespace KRG::TypeSystem
     {
     public:
 
-        PercentageEditor( ToolsContext const* pToolsContext, PropertyInfo const& propertyInfo, Byte* m_pPropertyInstance )
+        PercentageEditor( ToolsContext const* pToolsContext, PropertyInfo const& propertyInfo, uint8_t* m_pPropertyInstance )
             : PropertyEditor( pToolsContext, propertyInfo, m_pPropertyInstance )
         {
             PercentageEditor::ResetWorkingCopy();
@@ -925,7 +925,7 @@ namespace KRG::TypeSystem
     {
     public:
 
-        TransformEditor( ToolsContext const* pToolsContext, PropertyInfo const& propertyInfo, Byte* m_pPropertyInstance )
+        TransformEditor( ToolsContext const* pToolsContext, PropertyInfo const& propertyInfo, uint8_t* m_pPropertyInstance )
             : PropertyEditor( pToolsContext, propertyInfo, m_pPropertyInstance )
         {
             TransformEditor::ResetWorkingCopy();
@@ -1101,7 +1101,7 @@ namespace KRG::TypeSystem
     {
     public:
 
-        ResourcePathEditor( ToolsContext const* pToolsContext, Resource::ResourceFilePicker& resourcePicker, PropertyInfo const& propertyInfo, Byte* m_pPropertyInstance )
+        ResourcePathEditor( ToolsContext const* pToolsContext, Resource::ResourceFilePicker& resourcePicker, PropertyInfo const& propertyInfo, uint8_t* m_pPropertyInstance )
             : PropertyEditor( pToolsContext, propertyInfo, m_pPropertyInstance )
             , m_resourceFilePicker( resourcePicker )
         {
@@ -1267,7 +1267,7 @@ namespace KRG::TypeSystem
     {
     public:
 
-        ResourceTypeIDEditor( ToolsContext const* pToolsContext, PropertyInfo const& propertyInfo, Byte* m_pPropertyInstance )
+        ResourceTypeIDEditor( ToolsContext const* pToolsContext, PropertyInfo const& propertyInfo, uint8_t* m_pPropertyInstance )
             : PropertyEditor( pToolsContext, propertyInfo, m_pPropertyInstance )
         {
             ResourceTypeIDEditor::ResetWorkingCopy();
@@ -1364,7 +1364,7 @@ namespace KRG::TypeSystem
     {
     public:
 
-        BitflagsEditor( ToolsContext const* pToolsContext, PropertyInfo const& propertyInfo, Byte* m_pPropertyInstance )
+        BitflagsEditor( ToolsContext const* pToolsContext, PropertyInfo const& propertyInfo, uint8_t* m_pPropertyInstance )
             : PropertyEditor( pToolsContext, propertyInfo, m_pPropertyInstance )
         {
             BitflagsEditor::ResetWorkingCopy();
@@ -1381,13 +1381,13 @@ namespace KRG::TypeSystem
                 {
                     constexpr static char const* const rowLabels[4] = { "00-07", "08-15", "16-23", "24-31" };
 
-                    for ( uint8 i = 0u; i < 4; i++ )
+                    for ( uint8_t i = 0u; i < 4; i++ )
                     {
                         ImGui::TableNextRow();
 
-                        for ( uint8 j = 0u; j < 8; j++ )
+                        for ( uint8_t j = 0u; j < 8; j++ )
                         {
-                            uint8 const flagIdx = i * 8 + j;
+                            uint8_t const flagIdx = i * 8 + j;
                             ImGui::TableNextColumn();
 
                             ImGui::PushID( &m_values_imgui[flagIdx] );
@@ -1411,7 +1411,7 @@ namespace KRG::TypeSystem
 
                     //-------------------------------------------------------------------------
 
-                    int32 flagCount = 0;
+                    int32_t flagCount = 0;
 
                     // For each label 
                     for ( auto const& constant : pEnumInfo->m_constants )
@@ -1426,7 +1426,7 @@ namespace KRG::TypeSystem
 
                         //-------------------------------------------------------------------------
 
-                        int64 const flagValue = constant.second;
+                        int64_t const flagValue = constant.second;
                         KRG_ASSERT( flagValue >= 0 && flagValue <= 31 );
                         if ( ImGui::Checkbox( constant.first.c_str(), &m_values_imgui[flagValue] ) )
                         {
@@ -1446,7 +1446,7 @@ namespace KRG::TypeSystem
         virtual void UpdateInstanceValue() override
         {
             auto pFlags = reinterpret_cast<BitFlags*>( m_pPropertyInstance );
-            for ( uint8 i = 0; i < 32; i++ )
+            for ( uint8_t i = 0; i < 32; i++ )
             {
                 pFlags->SetFlag( i, m_values_imgui[i] );
             }
@@ -1457,7 +1457,7 @@ namespace KRG::TypeSystem
         virtual void ResetWorkingCopy() override
         {
             auto pFlags = reinterpret_cast<BitFlags*>( m_pPropertyInstance );
-            for ( uint8 i = 0; i < 32; i++ )
+            for ( uint8_t i = 0; i < 32; i++ )
             {
                 m_values_imgui[i] = pFlags->IsFlagSet( i );
             }
@@ -1477,7 +1477,7 @@ namespace KRG::TypeSystem
     private:
 
         bool        m_values_imgui[32];
-        uint32      m_cachedFlags = 0;
+        uint32_t      m_cachedFlags = 0;
     };
 
     //-------------------------------------------------------------------------
@@ -1486,7 +1486,7 @@ namespace KRG::TypeSystem
     {
     public:
 
-        StringEditor( ToolsContext const* pToolsContext, PropertyInfo const& propertyInfo, Byte* m_pPropertyInstance )
+        StringEditor( ToolsContext const* pToolsContext, PropertyInfo const& propertyInfo, uint8_t* m_pPropertyInstance )
             : PropertyEditor( pToolsContext, propertyInfo, m_pPropertyInstance )
         {
             StringEditor::ResetWorkingCopy();
@@ -1532,11 +1532,11 @@ namespace KRG::TypeSystem
 
     class StringIDEditor final : public PropertyEditor
     {
-        constexpr static uint32 const s_bufferSize = 256;
+        constexpr static uint32_t const s_bufferSize = 256;
 
     public:
 
-        StringIDEditor( ToolsContext const* pToolsContext, PropertyInfo const& propertyInfo, Byte* m_pPropertyInstance )
+        StringIDEditor( ToolsContext const* pToolsContext, PropertyInfo const& propertyInfo, uint8_t* m_pPropertyInstance )
             : PropertyEditor( pToolsContext, propertyInfo, m_pPropertyInstance )
         {
             StringIDEditor::ResetWorkingCopy();
@@ -1631,7 +1631,7 @@ namespace KRG::TypeSystem
     {
     public:
 
-        TagEditor( ToolsContext const* pToolsContext, PropertyInfo const& propertyInfo, Byte* m_pPropertyInstance )
+        TagEditor( ToolsContext const* pToolsContext, PropertyInfo const& propertyInfo, uint8_t* m_pPropertyInstance )
             : PropertyEditor( pToolsContext, propertyInfo, m_pPropertyInstance )
         {
             TagEditor::ResetWorkingCopy();
@@ -1697,7 +1697,7 @@ namespace KRG::TypeSystem
     {
     public:
 
-        IntRangeEditor( ToolsContext const* pToolsContext, PropertyInfo const& propertyInfo, Byte* m_pPropertyInstance )
+        IntRangeEditor( ToolsContext const* pToolsContext, PropertyInfo const& propertyInfo, uint8_t* m_pPropertyInstance )
             : PropertyEditor( pToolsContext, propertyInfo, m_pPropertyInstance )
         {
             IntRangeEditor::ResetWorkingCopy();
@@ -1767,7 +1767,7 @@ namespace KRG::TypeSystem
     {
     public:
 
-        FloatRangeEditor( ToolsContext const* pToolsContext, PropertyInfo const& propertyInfo, Byte* m_pPropertyInstance )
+        FloatRangeEditor( ToolsContext const* pToolsContext, PropertyInfo const& propertyInfo, uint8_t* m_pPropertyInstance )
             : PropertyEditor( pToolsContext, propertyInfo, m_pPropertyInstance )
         {
             FloatRangeEditor::ResetWorkingCopy();
@@ -1839,7 +1839,7 @@ namespace KRG::TypeSystem
     {
     public:
 
-        FloatCurveEditor( ToolsContext const* pToolsContext, PropertyInfo const& propertyInfo, Byte* m_pPropertyInstance )
+        FloatCurveEditor( ToolsContext const* pToolsContext, PropertyInfo const& propertyInfo, uint8_t* m_pPropertyInstance )
             : PropertyEditor( pToolsContext, propertyInfo, m_pPropertyInstance )
             , m_editor( m_value_imgui )
         {
@@ -1915,7 +1915,7 @@ namespace KRG::TypeSystem
     // Factory Method
     //-------------------------------------------------------------------------
 
-    PropertyEditor* CreatePropertyEditor( ToolsContext const* pToolsContext, Resource::ResourceFilePicker& resourcePicker, PropertyInfo const& propertyInfo, Byte* m_pPropertyInstance )
+    PropertyEditor* CreatePropertyEditor( ToolsContext const* pToolsContext, Resource::ResourceFilePicker& resourcePicker, PropertyInfo const& propertyInfo, uint8_t* m_pPropertyInstance )
     {
         if ( propertyInfo.IsEnumProperty() )
         {
@@ -1934,49 +1934,49 @@ namespace KRG::TypeSystem
 
                 case CoreTypeID::Int8:
                 {
-                    return KRG::New<ScalarEditor<int8>>( pToolsContext, propertyInfo, m_pPropertyInstance );
+                    return KRG::New<ScalarEditor<int8_t>>( pToolsContext, propertyInfo, m_pPropertyInstance );
                 }
                 break;
 
                 case CoreTypeID::Int16:
                 {
-                    return KRG::New<ScalarEditor<int16>>( pToolsContext, propertyInfo, m_pPropertyInstance );
+                    return KRG::New<ScalarEditor<int16_t>>( pToolsContext, propertyInfo, m_pPropertyInstance );
                 }
                 break;
 
                 case CoreTypeID::Int32:
                 {
-                    return KRG::New<ScalarEditor<int32>>( pToolsContext, propertyInfo, m_pPropertyInstance );
+                    return KRG::New<ScalarEditor<int32_t>>( pToolsContext, propertyInfo, m_pPropertyInstance );
                 }
                 break;
 
                 case CoreTypeID::Int64:
                 {
-                    return KRG::New<ScalarEditor<int64>>( pToolsContext, propertyInfo, m_pPropertyInstance );
+                    return KRG::New<ScalarEditor<int64_t>>( pToolsContext, propertyInfo, m_pPropertyInstance );
                 }
                 break;
                 
                 case CoreTypeID::Uint8:
                 {
-                    return KRG::New<ScalarEditor<uint8>>( pToolsContext, propertyInfo, m_pPropertyInstance );
+                    return KRG::New<ScalarEditor<uint8_t>>( pToolsContext, propertyInfo, m_pPropertyInstance );
                 }
                 break;
 
                 case CoreTypeID::Uint16:
                 {
-                    return KRG::New<ScalarEditor<uint16>>( pToolsContext, propertyInfo, m_pPropertyInstance );
+                    return KRG::New<ScalarEditor<uint16_t>>( pToolsContext, propertyInfo, m_pPropertyInstance );
                 }
                 break;
 
                 case CoreTypeID::Uint32:
                 {
-                    return KRG::New<ScalarEditor<uint32>>( pToolsContext, propertyInfo, m_pPropertyInstance );
+                    return KRG::New<ScalarEditor<uint32_t>>( pToolsContext, propertyInfo, m_pPropertyInstance );
                 }
                 break;
 
                 case CoreTypeID::Uint64:
                 {
-                    return KRG::New<ScalarEditor<uint64>>( pToolsContext, propertyInfo, m_pPropertyInstance );
+                    return KRG::New<ScalarEditor<uint64_t>>( pToolsContext, propertyInfo, m_pPropertyInstance );
                 }
                 break;
                 

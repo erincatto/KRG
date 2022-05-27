@@ -30,7 +30,7 @@ namespace KRG::Animation
 
         public:
 
-            int32                           m_boneIdx;
+            int32_t                           m_boneIdx;
             TInlineVector<BoneInfo*, 5>     m_children;
             bool                            m_isExpanded = true;
         };

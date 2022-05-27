@@ -41,6 +41,6 @@ namespace KRG::Math::Easing
 
     float EvaluateEasingFunction( Type type, float parameter )
     {
-        return g_easingFunctions[(uint32) type]( parameter );
+        return g_easingFunctions[(uint32_t) type]( parameter );
     }
 }

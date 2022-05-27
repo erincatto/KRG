@@ -11,8 +11,8 @@ namespace KRG
 
     Nanoseconds::operator Microseconds() const
     {
-        auto const duration = std::chrono::duration<uint64, std::chrono::steady_clock::period>( m_value );
-        uint64 const numMicroseconds = std::chrono::duration_cast<std::chrono::microseconds>( duration ).count();
+        auto const duration = std::chrono::duration<uint64_t, std::chrono::steady_clock::period>( m_value );
+        uint64_t const numMicroseconds = std::chrono::duration_cast<std::chrono::microseconds>( duration ).count();
         return float( numMicroseconds );
     }
 
@@ -21,7 +21,7 @@ namespace KRG
     Nanoseconds PlatformClock::GetTime()
     {
         auto const time = std::chrono::high_resolution_clock::now();
-        uint64 const numNanosecondsSinceEpoch = time.time_since_epoch().count();
+        uint64_t const numNanosecondsSinceEpoch = time.time_since_epoch().count();
         return Nanoseconds( numNanosecondsSinceEpoch );
     }
 

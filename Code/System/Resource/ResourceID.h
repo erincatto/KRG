@@ -48,7 +48,7 @@ namespace KRG
         inline ResourceID( char const* pPath ) : m_path( pPath ) { OnPathChanged(); }
 
         inline bool IsValid() const { return m_type.IsValid(); }
-        inline uint32 GetPathID() const { return m_path.GetID(); }
+        inline uint32_t GetPathID() const { return m_path.GetID(); }
 
         inline ResourcePath const& GetResourcePath() const { return m_path; }
         inline ResourceTypeID GetResourceTypeID() const { return m_type; }
@@ -66,8 +66,8 @@ namespace KRG
         inline bool operator==( ResourceID const& rhs ) const { return m_path == rhs.m_path; }
         inline bool operator!=( ResourceID const& rhs ) const { return m_path != rhs.m_path; }
 
-        inline bool operator==( uint32 const& ID ) const { return m_path.GetID() == ID; }
-        inline bool operator!=( uint32 const& ID ) const { return m_path.GetID() != ID; }
+        inline bool operator==( uint32_t const& ID ) const { return m_path.GetID() == ID; }
+        inline bool operator!=( uint32_t const& ID ) const { return m_path.GetID() != ID; }
 
     private:
 
@@ -90,7 +90,7 @@ namespace eastl
     {
         eastl_size_t operator()( KRG::ResourceID const& ID ) const
         {
-            return ( KRG::uint32 ) ID.GetPathID();
+            return ( uint32_t ) ID.GetPathID();
         }
     };
 }

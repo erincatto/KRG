@@ -103,7 +103,7 @@ namespace KRG::FileSystem
             return false;
         }
 
-        int32 const result = String::comparei( m_fullpath.begin(), m_fullpath.begin() + parentDirectory.m_fullpath.length(), parentDirectory.m_fullpath.begin(), parentDirectory.m_fullpath.end() );
+        int32_t const result = String::comparei( m_fullpath.begin(), m_fullpath.begin() + parentDirectory.m_fullpath.length(), parentDirectory.m_fullpath.begin(), parentDirectory.m_fullpath.end() );
         return result == 0;
     }
 
@@ -201,9 +201,9 @@ namespace KRG::FileSystem
         return directoryHierarchy;
     }
 
-    int32 Path::GetDirectoryDepth() const
+    int32_t Path::GetDirectoryDepth() const
     {
-        int32 dirDepth = -1;
+        int32_t dirDepth = -1;
 
         if ( IsValid() )
         {
@@ -218,9 +218,9 @@ namespace KRG::FileSystem
         return dirDepth;
     }
 
-    int32 Path::GetPathDepth() const
+    int32_t Path::GetPathDepth() const
     {
-        int32 pathDepth = GetDirectoryDepth();
+        int32_t pathDepth = GetDirectoryDepth();
 
         if ( IsFilePath() )
         {

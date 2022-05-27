@@ -13,7 +13,7 @@ namespace KRG::Animation
     public:
 
         // The actual foot phase
-        enum class Phase : uint8
+        enum class Phase : uint8_t
         {
             KRG_REGISTER_ENUM
 
@@ -24,7 +24,7 @@ namespace KRG::Animation
         };
 
         // Used wherever we need to specify a phase (or phase group)
-        enum class PhaseCondition : uint8
+        enum class PhaseCondition : uint8_t
         {
             KRG_REGISTER_ENUM
 

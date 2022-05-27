@@ -529,7 +529,7 @@ namespace KRG::Render
         pRenderDevice->CreateShaderInputBinding( m_vertexShader, vertexLayoutDesc, m_inputBinding );
 
         // Create text IB
-        m_indexBuffer.m_byteStride = sizeof( uint16 );
+        m_indexBuffer.m_byteStride = sizeof( uint16_t );
         m_indexBuffer.m_byteSize = m_vertexBuffer.m_byteStride * MaxGlyphsPerDrawCall * 6; // 6 indices per glyph
         m_indexBuffer.m_type = RenderBuffer::Type::Index;
         m_indexBuffer.m_usage = RenderBuffer::Usage::CPU_and_GPU;
@@ -594,13 +594,13 @@ namespace KRG::Render
         }
 
         Int2 const fontAtlasDimensions = m_fontAtlas.GetDimensions();
-        int32 const fontAtlasDimensionsSq = fontAtlasDimensions.m_x * fontAtlasDimensions.m_y;
+        int32_t const fontAtlasDimensionsSq = fontAtlasDimensions.m_x * fontAtlasDimensions.m_y;
 
         m_nonZeroAlphaTexCoords = Float2( 0, 0 );
 
         // Convert from 8 bit to 32 bit pixels
-        TVector<uint32> fontdata( fontAtlasDimensionsSq );
-        Byte const* pSrc = m_fontAtlas.GetAtlasData();
+        TVector<uint32_t> fontdata( fontAtlasDimensionsSq );
+        uint8_t const* pSrc = m_fontAtlas.GetAtlasData();
         for ( int i = 0; i < fontAtlasDimensionsSq; i++ )
         {
             if ( m_nonZeroAlphaTexCoords == Float2::Zero && *pSrc == 0xFF )
@@ -610,11 +610,11 @@ namespace KRG::Render
                 m_nonZeroAlphaTexCoords = Float2( u, v );
             }
 
-            fontdata[i] = ( (uint32) ( *pSrc++ ) << 24 ) | 0x00FFFFFF;
+            fontdata[i] = ( (uint32_t) ( *pSrc++ ) << 24 ) | 0x00FFFFFF;
         }
 
         m_fontAtlasTexture = Texture( fontAtlasDimensions );
-        pRenderDevice->CreateDataTexture( m_fontAtlasTexture, TextureFormat::Raw, (Byte*) fontdata.data(), fontAtlasDimensions.m_x * fontAtlasDimensions.m_y * 4 );
+        pRenderDevice->CreateDataTexture( m_fontAtlasTexture, TextureFormat::Raw, (uint8_t*) fontdata.data(), fontAtlasDimensions.m_x * fontAtlasDimensions.m_y * 4 );
 
         // Set up PSO
         m_PSO.m_pVertexShader = &m_vertexShader;
@@ -686,7 +686,7 @@ namespace KRG::Render
     // Fonts and Glyphs
     //-------------------------------------------------------------------------
 
-    bool DebugTextFontAtlas::Generate( FontDesc* pFonts, int32 const numFonts )
+    bool DebugTextFontAtlas::Generate( FontDesc* pFonts, int32_t const numFonts )
     {
         static IntRange const glyphRange( 0x20, 0xFF );
 
@@ -694,7 +694,7 @@ namespace KRG::Render
         //-------------------------------------------------------------------------
 
         Int2 const fontAtlasDimensions = GetDimensions();
-        int32 const fontAtlasDimensionsSq = fontAtlasDimensions.m_x * fontAtlasDimensions.m_y;
+        int32_t const fontAtlasDimensionsSq = fontAtlasDimensions.m_x * fontAtlasDimensions.m_y;
         m_atlasData.resize( fontAtlasDimensionsSq, 0 );
 
         // Render debug fonts to atlas
@@ -711,7 +711,7 @@ namespace KRG::Render
         //-------------------------------------------------------------------------
 
         TVector<stbtt_packedchar> charInfo;
-        TVector<Byte> fontData;
+        TVector<uint8_t> fontData;
 
         for ( auto i = 0; i < numFonts; i++ )
         {
@@ -724,7 +724,7 @@ namespace KRG::Render
             stbtt_InitFont( &stbFontInfo, fontData.data(), 0 );
             float const fontScale = stbtt_ScaleForPixelHeight( &stbFontInfo, 10 );
 
-            int32 unscaledAscent, unscaledDescent, unscaledLineGap;
+            int32_t unscaledAscent, unscaledDescent, unscaledLineGap;
             stbtt_GetFontVMetrics( &stbFontInfo, &unscaledAscent, &unscaledDescent, &unscaledLineGap );
 
             // Create font info
@@ -750,7 +750,7 @@ namespace KRG::Render
 
             for ( auto g = glyphRange.m_begin; g < glyphRange.m_end; g++ )
             {
-                int32 charIdx = g - glyphRange.m_begin;
+                int32_t charIdx = g - glyphRange.m_begin;
                 stbtt_aligned_quad q;
                 Float2 pos( 0.0f );
                 stbtt_GetPackedQuad( charInfo.data(), fontAtlasDimensions.m_x, fontAtlasDimensions.m_y, charIdx, &pos.m_x, &pos.m_y, &q, 0 );
@@ -770,15 +770,15 @@ namespace KRG::Render
         return true;
     }
 
-    void DebugTextFontAtlas::GetGlyphsForString( uint32 fontIdx, TInlineString<24> const& str, TInlineVector<int32, 100>& outGlyphIndices ) const
+    void DebugTextFontAtlas::GetGlyphsForString( uint32_t fontIdx, TInlineString<24> const& str, TInlineVector<int32_t, 100>& outGlyphIndices ) const
     {
         KRG_ASSERT( fontIdx < m_fonts.size() );
         auto const& fontInfo = m_fonts[fontIdx];
 
         IntRange const glyphRange = fontInfo.GetValidGlyphRange();
-        int32 const spaceIdx = ' ' - glyphRange.m_begin;
+        int32_t const spaceIdx = ' ' - glyphRange.m_begin;
 
-        outGlyphIndices.reserve( (int32) ( str.size() * 1.5f ) );
+        outGlyphIndices.reserve( (int32_t) ( str.size() * 1.5f ) );
 
         for ( char ch : str )
         {
@@ -800,18 +800,18 @@ namespace KRG::Render
         }
     }
 
-    void DebugTextFontAtlas::GetGlyphsForString( uint32 fontIdx, char const* pStr, TInlineVector<int32, 100>& outGlyphIndices ) const
+    void DebugTextFontAtlas::GetGlyphsForString( uint32_t fontIdx, char const* pStr, TInlineVector<int32_t, 100>& outGlyphIndices ) const
     {
         KRG_ASSERT( fontIdx < m_fonts.size() );
         auto const& fontInfo = m_fonts[fontIdx];
 
         IntRange const glyphRange = fontInfo.GetValidGlyphRange();
-        int32 const spaceIdx = ' ' - glyphRange.m_begin;
+        int32_t const spaceIdx = ' ' - glyphRange.m_begin;
 
-        int32 const strLen = (int32) strlen( pStr );
+        int32_t const strLen = (int32_t) strlen( pStr );
         outGlyphIndices.reserve( Math::CeilingToInt( strLen * 1.5f ) );
 
-        for ( int32 i = 0; i < strLen; i++ )
+        for ( int32_t i = 0; i < strLen; i++ )
         {
             if ( pStr[i] == '\t' )
             {
@@ -831,7 +831,7 @@ namespace KRG::Render
         }
     }
 
-    Int2 DebugTextFontAtlas::GetTextExtents( uint32 fontIdx, char const* pText ) const
+    Int2 DebugTextFontAtlas::GetTextExtents( uint32_t fontIdx, char const* pText ) const
     {
         KRG_ASSERT( pText != nullptr );
 
@@ -845,7 +845,7 @@ namespace KRG::Render
         float const lineHeight = fontInfo.m_ascent + fontInfo.m_descent + fontInfo.m_lineGap;
         float currentLineWidth = 0;
         float maxWidth = 0;
-        uint32 numLines = 1;
+        uint32_t numLines = 1;
 
         for ( auto i = 0; i < numChars; i++ )
         {
@@ -872,11 +872,11 @@ namespace KRG::Render
         }
 
         maxWidth = Math::Max( currentLineWidth, maxWidth );
-        Int2 const extents( (int32) Math::Floor( maxWidth - 0.5f ) - 1, (int32) Math::Floor( ( lineHeight * numLines ) - 0.5f ) );
+        Int2 const extents( (int32_t) Math::Floor( maxWidth - 0.5f ) - 1, (int32_t) Math::Floor( ( lineHeight * numLines ) - 0.5f ) );
         return extents;
     }
 
-    uint32 DebugTextFontAtlas::WriteGlyphsToBuffer( DebugFontGlyphVertex* pVertexBuffer, uint16 indexStartOffset, uint16* pIndexBuffer, uint32 fontIdx, TInlineVector<int32, 100> const& glyphIndices, Float2 const& textPosTopLeft, Float4 const& color ) const
+    uint32_t DebugTextFontAtlas::WriteGlyphsToBuffer( DebugFontGlyphVertex* pVertexBuffer, uint16_t indexStartOffset, uint16_t* pIndexBuffer, uint32_t fontIdx, TInlineVector<int32_t, 100> const& glyphIndices, Float2 const& textPosTopLeft, Float4 const& color ) const
     {
         KRG_ASSERT( fontIdx < m_fonts.size() );
         auto const& fontInfo = m_fonts[fontIdx];
@@ -887,7 +887,7 @@ namespace KRG::Render
         // Draw characters
         //-------------------------------------------------------------------------
 
-        uint32 numGlyphsDrawn = 0;
+        uint32_t numGlyphsDrawn = 0;
         Float2 textDrawPos = textPosTopLeft;
         textDrawPos.m_y += ( lineHeight - descent );
 
@@ -910,7 +910,7 @@ namespace KRG::Render
                 Float2 const tr( Math::Floor( textDrawPos.m_x + glyph.m_positionBR.m_x ), Math::Floor( textDrawPos.m_y + glyph.m_positionTL.m_y ) );
                 Float2 const br( Math::Floor( textDrawPos.m_x + glyph.m_positionBR.m_x ), Math::Floor( textDrawPos.m_y + glyph.m_positionBR.m_y ) );
 
-                uint32 const vertexColor = ( uint8( color[3] * 255 ) << 24 ) | ( uint8( color[2] * 255 ) << 16 ) | ( uint8( color[1] * 255 ) << 8 ) | uint8( color[0] * 255 );
+                uint32_t const vertexColor = ( uint8_t( color[3] * 255 ) << 24 ) | ( uint8_t( color[2] * 255 ) << 16 ) | ( uint8_t( color[1] * 255 ) << 8 ) | uint8_t( color[0] * 255 );
 
                 // 0 = BL, 1 = TL, 2 = TR, 3 = BR
                 pVertexBuffer[0] = DebugFontGlyphVertex{ bl, Float2( glyph.m_texCoordsTL.m_x, glyph.m_texCoordsBR.m_y ), vertexColor };
@@ -943,7 +943,7 @@ namespace KRG::Render
         return numGlyphsDrawn;
     }
 
-    void DebugTextFontAtlas::WriteCustomGlyphToBuffer( DebugFontGlyphVertex* pVertexBuffer, uint16 indexStartOffset, uint16* pIndexBuffer, uint32 fontIdx, int32 firstGlyphIdx, Float2 const& texCoords, Float2 const& textPosTopLeft, Int2 const& textExtents, int32 pixelPadding, Float4 const& color ) const
+    void DebugTextFontAtlas::WriteCustomGlyphToBuffer( DebugFontGlyphVertex* pVertexBuffer, uint16_t indexStartOffset, uint16_t* pIndexBuffer, uint32_t fontIdx, int32_t firstGlyphIdx, Float2 const& texCoords, Float2 const& textPosTopLeft, Int2 const& textExtents, int32_t pixelPadding, Float4 const& color ) const
     {
         KRG_ASSERT( fontIdx < m_fonts.size() );
         auto const& fontInfo = m_fonts[fontIdx];
@@ -962,7 +962,7 @@ namespace KRG::Render
         Float2 const bl( Math::Floor( textDrawPos.m_x + glyph.m_positionTL.m_x - pixelPadding ), Math::Floor( textDrawPos.m_y - ascent + textExtents.m_y + pixelPadding ) );
         Float2 const br( Math::Floor( textDrawPos.m_x + textExtents.m_x + pixelPadding ), Math::Floor( textDrawPos.m_y - ascent + textExtents.m_y + pixelPadding ) );
 
-        uint32 const vertexColor = ( uint8( color[3] * 255 ) << 24 ) | ( uint8( color[2] * 255 ) << 16 ) | ( uint8( color[1] * 255 ) << 8 ) | uint8( color[0] * 255 );
+        uint32_t const vertexColor = ( uint8_t( color[3] * 255 ) << 24 ) | ( uint8_t( color[2] * 255 ) << 16 ) | ( uint8_t( color[1] * 255 ) << 8 ) | uint8_t( color[0] * 255 );
 
         // 0 = BL, 1 = TL, 2 = TR, 3 = BR
         pVertexBuffer[0] = DebugFontGlyphVertex{ bl, texCoords, vertexColor };

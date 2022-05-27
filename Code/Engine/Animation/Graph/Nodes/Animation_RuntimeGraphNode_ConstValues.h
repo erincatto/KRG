@@ -58,7 +58,7 @@ namespace KRG::Animation::GraphNodes
 
             virtual void InstantiateNode( TVector<GraphNode*> const& nodePtrs, GraphDataSet const* pDataSet, InitOptions options ) const override;
 
-            int32 m_value;
+            int32_t m_value;
         };
 
     private:

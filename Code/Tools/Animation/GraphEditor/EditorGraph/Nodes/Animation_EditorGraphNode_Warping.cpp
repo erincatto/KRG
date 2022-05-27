@@ -66,7 +66,7 @@ namespace KRG::Animation::GraphNodes
 
     bool OrientationWarpEditorNode::IsValidConnection( UUID const& inputPinID, Node const* pOutputPinNode, UUID const& outputPinID ) const
     {
-        int32 const pinIdx = GetInputPinIndex( inputPinID );
+        int32_t const pinIdx = GetInputPinIndex( inputPinID );
         if ( pinIdx == 0 )
         {
             return IsOfType<AnimationClipEditorNode>( pOutputPinNode ) || IsOfType<AnimationClipReferenceEditorNode>( pOutputPinNode );
@@ -143,7 +143,7 @@ namespace KRG::Animation::GraphNodes
 
     bool TargetWarpEditorNode::IsValidConnection( UUID const& inputPinID, Node const* pOutputPinNode, UUID const& outputPinID ) const
     {
-        int32 const pinIdx = GetInputPinIndex( inputPinID );
+        int32_t const pinIdx = GetInputPinIndex( inputPinID );
         if ( pinIdx == 0 )
         {
             return IsOfType<AnimationClipEditorNode>( pOutputPinNode ) || IsOfType<AnimationClipReferenceEditorNode>( pOutputPinNode );

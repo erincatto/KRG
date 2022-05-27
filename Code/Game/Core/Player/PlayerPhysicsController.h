@@ -35,7 +35,7 @@ namespace KRG::Player
             Radians                             m_wallSlideAngle = Radians( Degrees( 60 ) );
             Radians                             m_maxNavigableSlopeAngle = Radians( Degrees( 45 ) );
 
-            uint32                              m_physicsLayerMask = Physics::CreateLayerMask( Physics::Layers::Environment, Physics::Layers::Characters );
+            uint32_t                              m_physicsLayerMask = Physics::CreateLayerMask( Physics::Layers::Environment, Physics::Layers::Characters );
             TInlineVector<EntityID, 5>          m_ignoredActors;
         };
 
@@ -160,11 +160,11 @@ namespace KRG::Player
         // Sweep function
         //-------------------------------------------------------------------------
 
-        MoveResult SweepCylinder( EntityWorldUpdateContext const& ctx, Physics::Scene* pPhysicsScene, float cylinderHalfHeight, float cylinderRadius, Vector const& startPosition, Vector const& deltaTranslation, int32& idx );
-        MoveResult SweepCapsuleVertical( EntityWorldUpdateContext const& ctx, Physics::Scene* pPhysicsScene, float cylinderHalfHeight, float cylinderRadius, Vector const& startPosition, Vector const& deltaTranslation, float stepHeight, int32& idx );
+        MoveResult SweepCylinder( EntityWorldUpdateContext const& ctx, Physics::Scene* pPhysicsScene, float cylinderHalfHeight, float cylinderRadius, Vector const& startPosition, Vector const& deltaTranslation, int32_t& idx );
+        MoveResult SweepCapsuleVertical( EntityWorldUpdateContext const& ctx, Physics::Scene* pPhysicsScene, float cylinderHalfHeight, float cylinderRadius, Vector const& startPosition, Vector const& deltaTranslation, float stepHeight, int32_t& idx );
 
         #if KRG_DEVELOPMENT_TOOLS
-        void DrawDebugSweep( EntityWorldUpdateContext const& ctx, float cylinderHalfHeight, float cylinderRadius, Vector const& startPosition, Vector const& endPosition, DebugSweepResultType resultType, int32 idx, DebugSweepShapeType shapeType );
+        void DrawDebugSweep( EntityWorldUpdateContext const& ctx, float cylinderHalfHeight, float cylinderRadius, Vector const& startPosition, Vector const& endPosition, DebugSweepResultType resultType, int32_t idx, DebugSweepShapeType shapeType );
         #endif
 
     private:

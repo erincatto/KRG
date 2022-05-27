@@ -6,7 +6,7 @@
 
 namespace KRG::Input
 {
-    enum class KeyboardButton : uint16
+    enum class KeyboardButton : uint16_t
     {
         Key_A = 0,
         Key_B,
@@ -135,19 +135,19 @@ namespace KRG::Input
         }
 
         // Get the char key pressed this frame. If no key pressed, this returns 0;
-        inline uint8 GetCharKeyPressed() const { return m_charKeyPressed; }
+        inline uint8_t GetCharKeyPressed() const { return m_charKeyPressed; }
 
         // Was the button just pressed (i.e. went from up to down this frame)
-        KRG_FORCE_INLINE bool WasPressed( KeyboardButton buttonID ) const { return ButtonStates::WasPressed( (uint32) buttonID ); }
+        KRG_FORCE_INLINE bool WasPressed( KeyboardButton buttonID ) const { return ButtonStates::WasPressed( (uint32_t) buttonID ); }
 
         // Was the button just release (i.e. went from down to up this frame). Also optionally returns how long the button was held for
-        KRG_FORCE_INLINE bool WasReleased( KeyboardButton buttonID, Seconds* pHeldDownDuration = nullptr ) const { return ButtonStates::WasReleased( (uint32) buttonID, pHeldDownDuration ); }
+        KRG_FORCE_INLINE bool WasReleased( KeyboardButton buttonID, Seconds* pHeldDownDuration = nullptr ) const { return ButtonStates::WasReleased( (uint32_t) buttonID, pHeldDownDuration ); }
 
         // Is the button being held down?
-        KRG_FORCE_INLINE bool IsHeldDown( KeyboardButton buttonID, Seconds* pHeldDownDuration = nullptr ) const { return ButtonStates::IsHeldDown( (uint32) buttonID, pHeldDownDuration ); }
+        KRG_FORCE_INLINE bool IsHeldDown( KeyboardButton buttonID, Seconds* pHeldDownDuration = nullptr ) const { return ButtonStates::IsHeldDown( (uint32_t) buttonID, pHeldDownDuration ); }
 
         // How long has the button been held down for?
-        KRG_FORCE_INLINE Seconds GetHeldDuration( KeyboardButton buttonID ) const { return ButtonStates::GetHeldDuration( (uint32) buttonID ); }
+        KRG_FORCE_INLINE Seconds GetHeldDuration( KeyboardButton buttonID ) const { return ButtonStates::GetHeldDuration( (uint32_t) buttonID ); }
 
         // Syntactic Sugar
         //-------------------------------------------------------------------------
@@ -174,8 +174,8 @@ namespace KRG::Input
 
     private:
 
-        KRG_FORCE_INLINE void Press( KeyboardButton buttonID ) { ButtonStates::Press( (uint32) buttonID ); }
-        KRG_FORCE_INLINE void Release( KeyboardButton buttonID ) { ButtonStates::Release( (uint32) buttonID ); }
+        KRG_FORCE_INLINE void Press( KeyboardButton buttonID ) { ButtonStates::Press( (uint32_t) buttonID ); }
+        KRG_FORCE_INLINE void Release( KeyboardButton buttonID ) { ButtonStates::Release( (uint32_t) buttonID ); }
 
         inline void ResetFrameState( ResetType resetType )
         {
@@ -189,6 +189,6 @@ namespace KRG::Input
 
     private:
 
-        uint8  m_charKeyPressed;
+        uint8_t  m_charKeyPressed;
     };
 }

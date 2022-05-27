@@ -23,7 +23,7 @@ namespace KRG
                     constant.m_label = ClangUtils::GetCursorDisplayName( cr );
 
                     auto const& initVal = pEnumConstantDecl->getInitVal();
-                    constant.m_value = (int32) initVal.getExtValue();
+                    constant.m_value = (int32_t) initVal.getExtValue();
 
                     pEnum->AddEnumConstant( constant );
                 }

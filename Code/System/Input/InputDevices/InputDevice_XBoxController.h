@@ -14,7 +14,7 @@ namespace KRG
 
         public:
 
-            XBoxControllerInputDevice( uint32 hardwareControllerIdx ) : m_hardwareControllerIdx( hardwareControllerIdx ) {}
+            XBoxControllerInputDevice( uint32_t hardwareControllerIdx ) : m_hardwareControllerIdx( hardwareControllerIdx ) {}
 
         private:
 
@@ -24,7 +24,7 @@ namespace KRG
 
         private:
 
-            uint32 m_hardwareControllerIdx = 0xFFFFFFFF;
+            uint32_t m_hardwareControllerIdx = 0xFFFFFFFF;
         };
     }
 }

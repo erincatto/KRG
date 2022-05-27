@@ -36,7 +36,7 @@ namespace KRG::RawAssets
             TInlineVector<Float2, 3>            m_texCoords;
 
             // Optional skinning data
-            TVector<int32>                      m_boneIndices;
+            TVector<int32_t>                      m_boneIndices;
             TVector<float>                      m_boneWeights;
         };
 
@@ -46,15 +46,15 @@ namespace KRG::RawAssets
         {
             GeometrySection() = default;
 
-            inline uint32 GetNumTriangles() const { return (uint32) m_indices.size() / 3; }
-            inline int32 GetNumUVChannels() const { return m_numUVChannels; }
+            inline uint32_t GetNumTriangles() const { return (uint32_t) m_indices.size() / 3; }
+            inline int32_t GetNumUVChannels() const { return m_numUVChannels; }
 
         public:
 
             String                              m_name;
             TVector<VertexData>                 m_vertices;
-            TVector<uint32>                     m_indices;
-            int32                               m_numUVChannels = 0;
+            TVector<uint32_t>                     m_indices;
+            int32_t                               m_numUVChannels = 0;
 
             bool                                m_clockwiseWinding = false;
         };
@@ -64,13 +64,13 @@ namespace KRG::RawAssets
         RawMesh() = default;
         virtual bool IsValid() const override final;
 
-        inline int32 GetNumGeometrySections() const { return (int32) m_geometrySections.size(); }
+        inline int32_t GetNumGeometrySections() const { return (int32_t) m_geometrySections.size(); }
         inline TVector<GeometrySection> const& GetGeometrySections() const { return m_geometrySections; }
 
         inline bool IsSkeletalMesh() const { return m_isSkeletalMesh; }
         inline RawSkeleton const& GetSkeleton() const { KRG_ASSERT( IsSkeletalMesh() ); return m_skeleton; }
-        inline int32 GetNumBones() const { KRG_ASSERT( IsSkeletalMesh() ); return m_skeleton.GetNumBones(); }
-        inline int32 GetNumBoneInfluencesPerVertex() const { KRG_ASSERT( IsSkeletalMesh() ); return m_maxNumberOfBoneInfluences; }
+        inline int32_t GetNumBones() const { KRG_ASSERT( IsSkeletalMesh() ); return m_skeleton.GetNumBones(); }
+        inline int32_t GetNumBoneInfluencesPerVertex() const { KRG_ASSERT( IsSkeletalMesh() ); return m_maxNumberOfBoneInfluences; }
 
     protected:
 
@@ -79,7 +79,7 @@ namespace KRG::RawAssets
         TVector<String>                     m_errors;
 
         RawSkeleton                         m_skeleton;
-        int32                               m_maxNumberOfBoneInfluences = 0;
+        int32_t                               m_maxNumberOfBoneInfluences = 0;
         bool                                m_isSkeletalMesh = false;
     };
 }

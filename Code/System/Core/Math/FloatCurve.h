@@ -18,7 +18,7 @@ namespace KRG
         KRG_SERIALIZE_MEMBERS( m_points );
 
         #if KRG_DEVELOPMENT_TOOLS
-        static uint16 s_pointIdentifierGenerator;
+        static uint16_t s_pointIdentifierGenerator;
         #endif
 
     public:
@@ -27,7 +27,7 @@ namespace KRG
         static bool FromString( String const& inStr, FloatCurve& outCurve );
 
         // The tangent options per point
-        enum TangentMode : uint8
+        enum TangentMode : uint8_t
         {
             Free,
             Locked,
@@ -52,7 +52,7 @@ namespace KRG
             TangentMode     m_tangentMode = TangentMode::Free;
 
             #if KRG_DEVELOPMENT_TOOLS
-            uint16          m_ID; // Not serialized, runtime generated through edit operations
+            uint16_t          m_ID; // Not serialized, runtime generated through edit operations
             #endif
         };
 
@@ -61,8 +61,8 @@ namespace KRG
         // Curve query
         //-------------------------------------------------------------------------
 
-        inline int32 const GetNumPoints() const { return (int32) m_points.size(); }
-        Point const& GetPoint( int32 pointIdx ) const { KRG_ASSERT( pointIdx >= 0 && pointIdx < GetNumPoints() ); return m_points[pointIdx]; }
+        inline int32_t const GetNumPoints() const { return (int32_t) m_points.size(); }
+        Point const& GetPoint( int32_t pointIdx ) const { KRG_ASSERT( pointIdx >= 0 && pointIdx < GetNumPoints() ); return m_points[pointIdx]; }
 
         // Get the range for the parameters that this curve covers - all values outside this range are clamped to the extremity points
         inline FloatRange GetParameterRange() const 
@@ -83,11 +83,11 @@ namespace KRG
         //-------------------------------------------------------------------------
 
         void AddPoint( float parameter, float value, float inTangent = 1.0f, float outTangent = 1.0f );
-        void EditPoint( int32 pointIdx, float parameter, float value );
-        void SetPointTangentMode( int32 pointIdx, TangentMode mode );
-        void SetPointOutTangent( int32 pointIdx, float tangent );
-        void SetPointInTangent( int32 pointIdx, float tangent );
-        void RemovePoint( int32 pointIdx );
+        void EditPoint( int32_t pointIdx, float parameter, float value );
+        void SetPointTangentMode( int32_t pointIdx, TangentMode mode );
+        void SetPointOutTangent( int32_t pointIdx, float tangent );
+        void SetPointInTangent( int32_t pointIdx, float tangent );
+        void RemovePoint( int32_t pointIdx );
         void Clear() { m_points.clear(); }
 
         #if KRG_DEVELOPMENT_TOOLS

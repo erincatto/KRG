@@ -150,7 +150,7 @@ namespace KRG::Animation::GraphNodes
         BoneMaskValueNode::ShutdownInternal( context );
     }
 
-    BoneMask const* BoneMaskSelectorNode::GetBoneMaskForIndex( GraphContext& context, int32 optionIndex ) const
+    BoneMask const* BoneMaskSelectorNode::GetBoneMaskForIndex( GraphContext& context, int32_t optionIndex ) const
     {
         KRG_ASSERT( optionIndex >= -1 && optionIndex < m_boneMaskOptionNodes.size() );
 

@@ -63,7 +63,7 @@ namespace KRG::Animation::GraphNodes
         auto pSettings = GetSettings<StateMachineNode>();
 
         StateIndex selectedStateIndex = pSettings->m_defaultStateIndex;
-        auto const numStates = (int16) m_states.size();
+        auto const numStates = (int16_t) m_states.size();
 
         // NOTE: we need to initialize all conditions in advance to ensure that the value caching works
         for ( auto i = 0; i < numStates; i++ )
@@ -169,11 +169,11 @@ namespace KRG::Animation::GraphNodes
         // Check for a valid transition
         //-------------------------------------------------------------------------
 
-        int32 transitionIdx = InvalidIndex;
+        int32_t transitionIdx = InvalidIndex;
         bool shouldForceTransition = false;
 
-        int32 const numTransitions = (int32) currentlyActiveState.m_transitions.size();
-        for ( int32 i = 0; i < numTransitions; i++ )
+        int32_t const numTransitions = (int32_t) currentlyActiveState.m_transitions.size();
+        for ( int32_t i = 0; i < numTransitions; i++ )
         {
             auto const& transition = currentlyActiveState.m_transitions[i];
             KRG_ASSERT( transition.m_targetStateIdx != InvalidIndex );

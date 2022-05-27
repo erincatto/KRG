@@ -41,7 +41,7 @@ namespace KRG::Fbx
 
         FbxAxisSystem const originalAxisSystem = globalSettings.GetAxisSystem();
 
-        int32 sign = 0;
+        int32_t sign = 0;
         switch ( originalAxisSystem.GetUpVector( sign ) )
         {
             case FbxAxisSystem::eXAxis : 

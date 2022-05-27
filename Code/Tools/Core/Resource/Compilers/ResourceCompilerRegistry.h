@@ -35,7 +35,7 @@ namespace KRG::Resource
             return nullptr;
         }
 
-        inline int32 GetVersionForType( ResourceTypeID const& typeID ) const
+        inline int32_t GetVersionForType( ResourceTypeID const& typeID ) const
         {
             auto pCompiler = GetCompilerForResourceType( typeID );
             KRG_ASSERT( pCompiler != nullptr );

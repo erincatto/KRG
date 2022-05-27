@@ -89,7 +89,7 @@ namespace KRG::Animation::GraphNodes
             MarkNodeActive( context );
 
             StringID const inputID = m_pInputValueNode->GetValue<StringID>( context );
-            int32 const foundIdx = VectorFindIndex( pSettings->m_IDs, inputID );
+            int32_t const foundIdx = VectorFindIndex( pSettings->m_IDs, inputID );
             if ( foundIdx != InvalidIndex )
             {
                 m_value = pSettings->m_values[foundIdx];

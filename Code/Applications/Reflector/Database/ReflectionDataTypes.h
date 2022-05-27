@@ -16,13 +16,13 @@ namespace KRG::TypeSystem::Reflection
 
         ReflectedProperty() = default;
 
-        ReflectedProperty( String const& name, int32 lineNumber )
+        ReflectedProperty( String const& name, int32_t lineNumber )
             : m_propertyID( name )
             , m_name( name )
             , m_lineNumber( lineNumber )
         {}
 
-        ReflectedProperty( String const& name, String const& typeName, int32 lineNumber )
+        ReflectedProperty( String const& name, String const& typeName, int32_t lineNumber )
             : m_propertyID( name )
             , m_name( name )
             , m_typeName( typeName )
@@ -35,7 +35,7 @@ namespace KRG::TypeSystem::Reflection
         inline bool IsArrayProperty() const { return m_flags.IsFlagSet( PropertyInfo::Flags::IsArray ) || m_flags.IsFlagSet( PropertyInfo::Flags::IsDynamicArray ); }
         inline bool IsStaticArrayProperty() const { return m_flags.IsFlagSet( PropertyInfo::Flags::IsArray ) && !m_flags.IsFlagSet( PropertyInfo::Flags::IsDynamicArray ); }
         inline bool IsDynamicArrayProperty() const { return m_flags.IsFlagSet( PropertyInfo::Flags::IsDynamicArray ); }
-        inline uint32 GetArraySize() const { KRG_ASSERT( m_arraySize > 0 ); return (uint32) m_arraySize; }
+        inline uint32_t GetArraySize() const { KRG_ASSERT( m_arraySize > 0 ); return (uint32_t) m_arraySize; }
 
         inline bool operator==( ReflectedProperty const& RHS ) const { return m_propertyID == RHS.m_propertyID; }
         inline bool operator!=( ReflectedProperty const& RHS ) const { return m_propertyID != RHS.m_propertyID; }
@@ -47,12 +47,12 @@ namespace KRG::TypeSystem::Reflection
     public:
 
         StringID                                        m_propertyID;
-        int32                                           m_lineNumber = -1;
+        int32_t                                           m_lineNumber = -1;
         TypeID                                          m_typeID;
         String                                          m_name;
         String                                          m_typeName;
         String                                          m_templateArgTypeName;
-        int32                                           m_arraySize = -1;
+        int32_t                                           m_arraySize = -1;
         TBitFlags<PropertyInfo::Flags>                  m_flags;
         bool                                            m_isDevOnly = true;
     };
@@ -62,7 +62,7 @@ namespace KRG::TypeSystem::Reflection
     struct ReflectedEnumConstant
     {
         String                                          m_label;
-        int32                                           m_value;
+        int32_t                                           m_value;
     };
 
     struct ReflectedType
@@ -98,7 +98,7 @@ namespace KRG::TypeSystem::Reflection
         // Enum functions
         void AddEnumConstant( ReflectedEnumConstant const& constant );
         bool IsValidEnumLabelID( StringID labelID ) const { return m_enumConstants.find( labelID ) != m_enumConstants.end(); }
-        bool GetValueFromEnumLabel( StringID labelID, uint32& value ) const;
+        bool GetValueFromEnumLabel( StringID labelID, uint32_t& value ) const;
 
         // Dev tools helpers
         String GetFriendlyName() const;

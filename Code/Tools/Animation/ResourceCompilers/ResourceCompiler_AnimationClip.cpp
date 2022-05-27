@@ -158,7 +158,7 @@ namespace KRG::Animation
     void AnimationClipCompiler::TransferAndCompressAnimationData( RawAssets::RawAnimation const& rawAnimData, AnimationClip& animClip ) const
     {
         auto const& rawTrackData = rawAnimData.GetTrackData();
-        int32 const numBones = rawAnimData.GetNumBones();
+        int32_t const numBones = rawAnimData.GetNumBones();
 
         // Transfer basic animation data
         //-------------------------------------------------------------------------
@@ -200,18 +200,18 @@ namespace KRG::Animation
 
         static constexpr float const defaultQuantizationRangeLength = 0.1f;
 
-        for ( int32 boneIdx = 0; boneIdx < numBones; boneIdx++ )
+        for ( int32_t boneIdx = 0; boneIdx < numBones; boneIdx++ )
         {
             TrackCompressionSettings trackSettings;
 
             // Record offset into data for this track
-            trackSettings.m_trackStartIndex = (uint32) animClip.m_compressedPoseData.size();
+            trackSettings.m_trackStartIndex = (uint32_t) animClip.m_compressedPoseData.size();
 
             //-------------------------------------------------------------------------
             // Rotation
             //-------------------------------------------------------------------------
 
-            for ( uint32 frameIdx = 0; frameIdx < animClip.m_numFrames; frameIdx++ )
+            for ( uint32_t frameIdx = 0; frameIdx < animClip.m_numFrames; frameIdx++ )
             {
                 Transform const& rawBoneTransform = rawTrackData[boneIdx].m_transforms[frameIdx];
                 Quaternion const rotation = rawBoneTransform.GetRotation();
@@ -260,9 +260,9 @@ namespace KRG::Animation
                 Transform const& rawBoneTransform = rawTrackData[boneIdx].m_transforms[0];
                 Vector const& translation = rawBoneTransform.GetTranslation();
 
-                uint16 const m_x = Quantization::EncodeFloat( translation.m_x, trackSettings.m_translationRangeX.m_rangeStart, trackSettings.m_translationRangeX.m_rangeLength );
-                uint16 const m_y = Quantization::EncodeFloat( translation.m_y, trackSettings.m_translationRangeY.m_rangeStart, trackSettings.m_translationRangeY.m_rangeLength );
-                uint16 const m_z = Quantization::EncodeFloat( translation.m_z, trackSettings.m_translationRangeZ.m_rangeStart, trackSettings.m_translationRangeZ.m_rangeLength );
+                uint16_t const m_x = Quantization::EncodeFloat( translation.m_x, trackSettings.m_translationRangeX.m_rangeStart, trackSettings.m_translationRangeX.m_rangeLength );
+                uint16_t const m_y = Quantization::EncodeFloat( translation.m_y, trackSettings.m_translationRangeY.m_rangeStart, trackSettings.m_translationRangeY.m_rangeLength );
+                uint16_t const m_z = Quantization::EncodeFloat( translation.m_z, trackSettings.m_translationRangeZ.m_rangeStart, trackSettings.m_translationRangeZ.m_rangeLength );
 
                 animClip.m_compressedPoseData.push_back( m_x );
                 animClip.m_compressedPoseData.push_back( m_y );
@@ -270,14 +270,14 @@ namespace KRG::Animation
             }
             else // Store all frames
             {
-                for ( uint32 frameIdx = 0; frameIdx < animClip.m_numFrames; frameIdx++ )
+                for ( uint32_t frameIdx = 0; frameIdx < animClip.m_numFrames; frameIdx++ )
                 {
                     Transform const& rawBoneTransform = rawTrackData[boneIdx].m_transforms[frameIdx];
                     Vector const& translation = rawBoneTransform.GetTranslation();
 
-                    uint16 const m_x = Quantization::EncodeFloat( translation.m_x, trackSettings.m_translationRangeX.m_rangeStart, trackSettings.m_translationRangeX.m_rangeLength );
-                    uint16 const m_y = Quantization::EncodeFloat( translation.m_y, trackSettings.m_translationRangeY.m_rangeStart, trackSettings.m_translationRangeY.m_rangeLength );
-                    uint16 const m_z = Quantization::EncodeFloat( translation.m_z, trackSettings.m_translationRangeZ.m_rangeStart, trackSettings.m_translationRangeZ.m_rangeLength );
+                    uint16_t const m_x = Quantization::EncodeFloat( translation.m_x, trackSettings.m_translationRangeX.m_rangeStart, trackSettings.m_translationRangeX.m_rangeLength );
+                    uint16_t const m_y = Quantization::EncodeFloat( translation.m_y, trackSettings.m_translationRangeY.m_rangeStart, trackSettings.m_translationRangeY.m_rangeLength );
+                    uint16_t const m_z = Quantization::EncodeFloat( translation.m_z, trackSettings.m_translationRangeZ.m_rangeStart, trackSettings.m_translationRangeZ.m_rangeLength );
 
                     animClip.m_compressedPoseData.push_back( m_x );
                     animClip.m_compressedPoseData.push_back( m_y );
@@ -323,9 +323,9 @@ namespace KRG::Animation
                 Transform const& rawBoneTransform = rawTrackData[boneIdx].m_transforms[0];
                 Vector const& scale = rawBoneTransform.GetScale();
 
-                uint16 const m_x = Quantization::EncodeFloat( scale.m_x, trackSettings.m_scaleRangeX.m_rangeStart, trackSettings.m_scaleRangeX.m_rangeLength );
-                uint16 const m_y = Quantization::EncodeFloat( scale.m_y, trackSettings.m_scaleRangeY.m_rangeStart, trackSettings.m_scaleRangeY.m_rangeLength );
-                uint16 const m_z = Quantization::EncodeFloat( scale.m_z, trackSettings.m_scaleRangeZ.m_rangeStart, trackSettings.m_scaleRangeZ.m_rangeLength );
+                uint16_t const m_x = Quantization::EncodeFloat( scale.m_x, trackSettings.m_scaleRangeX.m_rangeStart, trackSettings.m_scaleRangeX.m_rangeLength );
+                uint16_t const m_y = Quantization::EncodeFloat( scale.m_y, trackSettings.m_scaleRangeY.m_rangeStart, trackSettings.m_scaleRangeY.m_rangeLength );
+                uint16_t const m_z = Quantization::EncodeFloat( scale.m_z, trackSettings.m_scaleRangeZ.m_rangeStart, trackSettings.m_scaleRangeZ.m_rangeLength );
 
                 animClip.m_compressedPoseData.push_back( m_x );
                 animClip.m_compressedPoseData.push_back( m_y );
@@ -333,14 +333,14 @@ namespace KRG::Animation
             }
             else // Store all frames
             {
-                for ( uint32 frameIdx = 0; frameIdx < animClip.m_numFrames; frameIdx++ )
+                for ( uint32_t frameIdx = 0; frameIdx < animClip.m_numFrames; frameIdx++ )
                 {
                     Transform const& rawBoneTransform = rawTrackData[boneIdx].m_transforms[frameIdx];
                     Vector const& scale = rawBoneTransform.GetScale();
 
-                    uint16 const m_x = Quantization::EncodeFloat( scale.m_x, trackSettings.m_scaleRangeX.m_rangeStart, trackSettings.m_scaleRangeX.m_rangeLength );
-                    uint16 const m_y = Quantization::EncodeFloat( scale.m_y, trackSettings.m_scaleRangeY.m_rangeStart, trackSettings.m_scaleRangeY.m_rangeLength );
-                    uint16 const m_z = Quantization::EncodeFloat( scale.m_z, trackSettings.m_scaleRangeZ.m_rangeStart, trackSettings.m_scaleRangeZ.m_rangeLength );
+                    uint16_t const m_x = Quantization::EncodeFloat( scale.m_x, trackSettings.m_scaleRangeX.m_rangeStart, trackSettings.m_scaleRangeX.m_rangeLength );
+                    uint16_t const m_y = Quantization::EncodeFloat( scale.m_y, trackSettings.m_scaleRangeY.m_rangeStart, trackSettings.m_scaleRangeY.m_rangeLength );
+                    uint16_t const m_z = Quantization::EncodeFloat( scale.m_z, trackSettings.m_scaleRangeZ.m_rangeStart, trackSettings.m_scaleRangeZ.m_rangeLength );
 
                     animClip.m_compressedPoseData.push_back( m_x );
                     animClip.m_compressedPoseData.push_back( m_y );
@@ -387,7 +387,7 @@ namespace KRG::Animation
         // Reflect into runtime events
         //-------------------------------------------------------------------------
 
-        int32 numSyncTracks = 0;
+        int32_t numSyncTracks = 0;
         TVector<Event*> events;
         FloatRange const animationTimeRange( 0, rawAnimData.GetDuration() );
         for ( auto pTrack : trackContainer.m_tracks )

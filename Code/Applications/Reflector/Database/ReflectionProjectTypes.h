@@ -58,8 +58,8 @@ namespace KRG::TypeSystem::Reflection
         HeaderID                        m_ID;
         ProjectID                       m_projectID;
         FileSystem::Path                m_filePath;
-        uint64                          m_timestamp = 0;
-        uint64                          m_checksum = 0;
+        uint64_t                          m_timestamp = 0;
+        uint64_t                          m_checksum = 0;
     };
 
     //-------------------------------------------------------------------------
@@ -96,9 +96,9 @@ namespace KRG::TypeSystem::Reflection
         FileSystem::Path                m_path;
         String                          m_exportMacro;
         HeaderID                        m_moduleHeaderID;
-        uint32                          m_dependencyCount = 0;
+        uint32_t                          m_dependencyCount = 0;
         TVector<HeaderInfo>             m_headerFiles;
-        TVector<uint32>                 m_dirtyHeaders;
+        TVector<uint32_t>                 m_dirtyHeaders;
         TVector<ProjectID>              m_dependencies;
         mutable String                  m_moduleClassName;
         bool                            m_includeInAutogenerateModuleRegistrationList = true;

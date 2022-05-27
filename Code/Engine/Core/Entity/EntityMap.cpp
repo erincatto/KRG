@@ -241,7 +241,7 @@ namespace KRG::EntityModel
         Threading::RecursiveScopeLock lock( m_mutex );
 
         // Check if the entity is in the add queue, if so just cancel the request
-        int32 const entityIdx = VectorFindIndex( m_entitiesToAdd, entityID, [] ( Entity* pEntity, EntityID entityID ) { return pEntity->GetID() == entityID; } );
+        int32_t const entityIdx = VectorFindIndex( m_entitiesToAdd, entityID, [] ( Entity* pEntity, EntityID entityID ) { return pEntity->GetID() == entityID; } );
         if ( entityIdx != InvalidIndex )
         {
             pEntityToRemove = m_entitiesToAdd[entityIdx];
@@ -282,7 +282,7 @@ namespace KRG::EntityModel
         Threading::RecursiveScopeLock lock( m_mutex );
 
         // Check if the entity is in the add queue, if so just cancel the request
-        int32 const entityIdx = VectorFindIndex( m_entitiesToAdd, entityID, [] ( Entity* pEntity, EntityID entityID ) { return pEntity->GetID() == entityID; } );
+        int32_t const entityIdx = VectorFindIndex( m_entitiesToAdd, entityID, [] ( Entity* pEntity, EntityID entityID ) { return pEntity->GetID() == entityID; } );
         if ( entityIdx != InvalidIndex )
         {
             pEntityToDestroy = m_entitiesToAdd[entityIdx];
@@ -371,14 +371,14 @@ namespace KRG::EntityModel
                 : m_activationContext( activationContext )
                 , m_entities( entities )
             {
-                m_SetSize = (uint32) m_entities.size();
+                m_SetSize = (uint32_t) m_entities.size();
             }
 
-            virtual void ExecuteRange( TaskSetPartition range, uint32 threadnum ) override final
+            virtual void ExecuteRange( TaskSetPartition range, uint32_t threadnum ) override final
             {
                 KRG_PROFILE_SCOPE_SCENE( "Activate Entities Task" );
 
-                for ( uint64 i = range.start; i < range.end; ++i )
+                for ( uint64_t i = range.start; i < range.end; ++i )
                 {
                     auto pEntity = m_entities[i];
                     if ( pEntity->IsLoaded() )
@@ -422,14 +422,14 @@ namespace KRG::EntityModel
                 : m_activationContext( activationContext )
                 , m_entities( entities )
             {
-                m_SetSize = (uint32) m_entities.size();
+                m_SetSize = (uint32_t) m_entities.size();
             }
 
-            virtual void ExecuteRange( TaskSetPartition range, uint32 threadnum ) override final
+            virtual void ExecuteRange( TaskSetPartition range, uint32_t threadnum ) override final
             {
                 KRG_PROFILE_SCOPE_SCENE( "Deactivate Entities Task" );
 
-                for ( uint64 i = range.start; i < range.end; ++i )
+                for ( uint64_t i = range.start; i < range.end; ++i )
                 {
                     auto pEntity = m_entities[i];
                     if ( pEntity->IsActivated() )
@@ -605,7 +605,7 @@ namespace KRG::EntityModel
         //-------------------------------------------------------------------------
 
         // Unload and deactivate entities and remove them from the collection
-        for ( int32 i = (int32) m_entitiesToRemove.size() - 1; i >= 0; i-- )
+        for ( int32_t i = (int32_t) m_entitiesToRemove.size() - 1; i >= 0; i-- )
         {
             auto& removalRequest = m_entitiesToRemove[i];
             auto pEntityToRemove = removalRequest.m_pEntity;
@@ -675,14 +675,14 @@ namespace KRG::EntityModel
                 , m_entitiesToLoad( entitiesToLoad )
                 , m_isActivated( isActivated )
             {
-                m_SetSize = (uint32) m_entitiesToLoad.size();
+                m_SetSize = (uint32_t) m_entitiesToLoad.size();
             }
 
-            virtual void ExecuteRange( TaskSetPartition range, uint32 threadnum ) override final
+            virtual void ExecuteRange( TaskSetPartition range, uint32_t threadnum ) override final
             {
                 KRG_PROFILE_SCOPE_SCENE( "Load and Activate Entities Task" );
 
-                for ( uint32 i = range.start; i < range.end; ++i )
+                for ( uint32_t i = range.start; i < range.end; ++i )
                 {
                     auto pEntity = m_entitiesToLoad[i];
 
@@ -895,7 +895,7 @@ namespace KRG::EntityModel
 
     //-------------------------------------------------------------------------
 
-    static InlineString GenerateUniqueName( InlineString const& baseName, int32 counterValue )
+    static InlineString GenerateUniqueName( InlineString const& baseName, int32_t counterValue )
     {
         InlineString finalName;
 
@@ -921,7 +921,7 @@ namespace KRG::EntityModel
         InlineString finalName = desiredName;
         StringID finalNameID( finalName.c_str() );
 
-        uint32 counter = 0;
+        uint32_t counter = 0;
         bool isUniqueName = false;
         while ( !isUniqueName )
         {

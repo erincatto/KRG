@@ -34,7 +34,7 @@ namespace KRG
     public:
 
         constexpr static char const* s_pathPrefix = "data://";
-        constexpr static int32 const s_pathPrefixLength = 7;
+        constexpr static int32_t const s_pathPrefixLength = 7;
         constexpr static char const s_pathDelimiter = '/';
 
         static bool IsValidPath( char const* pPath );
@@ -56,7 +56,7 @@ namespace KRG
 
         inline bool IsValid() const { return !m_path.empty() && IsValidPath( m_path ); }
         inline void Clear() { m_path.clear(); m_ID = 0; }
-        inline uint32 GetID() const { return m_ID; }
+        inline uint32_t GetID() const { return m_ID; }
 
         // Path info
         //-------------------------------------------------------------------------
@@ -68,10 +68,10 @@ namespace KRG
         String GetParentDirectory() const;
 
         // Get the directory depth for this path e.g. D:\Foo\Bar\Moo.txt = 2
-        int32 GetDirectoryDepth() const;
+        int32_t GetDirectoryDepth() const;
 
         // Get the full path depth for this path e.g. D:\Foo\Bar\Moo.txt = 3
-        int32 GetPathDepth() const;
+        int32_t GetPathDepth() const;
 
         // Is this a file path
         inline bool IsFile() const { KRG_ASSERT( IsValid() ); return m_path.back() != s_pathDelimiter; }
@@ -133,7 +133,7 @@ namespace KRG
     private:
 
         String              m_path;
-        uint32              m_ID = 0;
+        uint32_t              m_ID = 0;
     };
 }
 

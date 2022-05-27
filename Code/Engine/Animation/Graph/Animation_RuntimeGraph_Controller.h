@@ -137,7 +137,7 @@ namespace KRG::Animation
     protected:
 
         // Get the ID for this controller
-        virtual uint32 GetSubGraphControllerID() const = 0;
+        virtual uint32_t GetSubGraphControllerID() const = 0;
     };
 
     //-------------------------------------------------------------------------
@@ -188,6 +188,6 @@ namespace KRG::Animation
 //-------------------------------------------------------------------------
 
 #define KRG_ANIMATION_SUBGRAPH_CONTROLLER_ID( TypeName ) \
-constexpr static uint32 const s_subGraphControllerID = Hash::FNV1a::GetHash32( #TypeName ); \
-virtual uint32 GetSubGraphControllerID() const override final { return TypeName::s_subGraphControllerID; }\
+constexpr static uint32_t const s_subGraphControllerID = Hash::FNV1a::GetHash32( #TypeName ); \
+virtual uint32_t GetSubGraphControllerID() const override final { return TypeName::s_subGraphControllerID; }\
 KRG_DEVELOPMENT_TOOLS_LINE_IN_MACRO( char const* GetName() const override final { return #TypeName; } )

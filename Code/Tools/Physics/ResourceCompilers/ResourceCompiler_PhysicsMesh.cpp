@@ -22,7 +22,7 @@ namespace KRG
         {
         public:
 
-            PhysxMemoryStream( TVector<Byte>& destination ) : m_buffer( destination ) {}
+            PhysxMemoryStream( TVector<uint8_t>& destination ) : m_buffer( destination ) {}
 
         private:
 
@@ -36,7 +36,7 @@ namespace KRG
 
         private:
 
-            TVector<Byte>& m_buffer;
+            TVector<uint8_t>& m_buffer;
         };
 
         //-------------------------------------------------------------------------
@@ -77,7 +77,7 @@ namespace KRG
             //-------------------------------------------------------------------------
             
             PhysicsMesh physicsMesh;
-            TVector<Byte> cookedMeshData;
+            TVector<uint8_t> cookedMeshData;
 
             if ( resourceDescriptor.m_isConvexMesh )
             {
@@ -142,7 +142,7 @@ namespace KRG
             }
         }
 
-        bool PhysicsMeshCompiler::CookTriangleMeshData( RawAssets::RawMesh const& rawMesh, TVector<Byte>& outCookedData ) const
+        bool PhysicsMeshCompiler::CookTriangleMeshData( RawAssets::RawMesh const& rawMesh, TVector<uint8_t>& outCookedData ) const
         {
             PhysXAllocator allocator;
             PhysXUserErrorCallback errorCallback;
@@ -167,11 +167,11 @@ namespace KRG
 
             PxTriangleMeshDesc meshDesc;
             meshDesc.points.stride = sizeof( float ) * 3;
-            meshDesc.triangles.stride = sizeof( uint32 ) * 3;
+            meshDesc.triangles.stride = sizeof( uint32_t ) * 3;
             meshDesc.materialIndices.stride = sizeof( PxMaterialTableIndex );
 
             TVector<Float3> vertexData;
-            TVector<uint32> indexData;
+            TVector<uint32_t> indexData;
             TVector<PxMaterialTableIndex> materialIndexData;
 
             PxMaterialTableIndex materialIdx = 0;
@@ -190,13 +190,13 @@ namespace KRG
                 }
 
                 // Add material indices
-                uint32 const numTriangles = geometrySection.GetNumTriangles();
+                uint32_t const numTriangles = geometrySection.GetNumTriangles();
                 for ( auto triIdx = 0u; triIdx < geometrySection.GetNumTriangles(); triIdx++ )
                 {
                     materialIndexData.emplace_back( materialIdx );
                 }
 
-                meshDesc.points.count += (uint32) geometrySection.m_vertices.size();
+                meshDesc.points.count += (uint32_t) geometrySection.m_vertices.size();
                 meshDesc.triangles.count += numTriangles;
                 materialIdx++;
             }
@@ -234,7 +234,7 @@ namespace KRG
             return true;
         }
 
-        bool PhysicsMeshCompiler::CookConvexMeshData( RawAssets::RawMesh const& rawMesh, TVector<Byte>& outCookedData ) const
+        bool PhysicsMeshCompiler::CookConvexMeshData( RawAssets::RawMesh const& rawMesh, TVector<uint8_t>& outCookedData ) const
         {
             PhysXAllocator allocator;
             PhysXUserErrorCallback errorCallback;
@@ -257,8 +257,8 @@ namespace KRG
             //-------------------------------------------------------------------------
 
             TVector<Float3> vertexData;
-            TVector<uint32> indexData;
-            uint32 indexOffset = 0;
+            TVector<uint32_t> indexData;
+            uint32_t indexOffset = 0;
 
             for ( auto const& geometrySection : rawMesh.GetGeometrySections() )
             {
@@ -274,19 +274,19 @@ namespace KRG
                     indexData.push_back( indexOffset + idx );
                 }
 
-                indexOffset += (uint32) geometrySection.m_vertices.size();
+                indexOffset += (uint32_t) geometrySection.m_vertices.size();
             }
 
             //-------------------------------------------------------------------------
 
             PxConvexMeshDesc convexMeshDesc;
             convexMeshDesc.flags = PxConvexFlag::eCOMPUTE_CONVEX;
-            convexMeshDesc.points.count = (uint32) vertexData.size();
+            convexMeshDesc.points.count = (uint32_t) vertexData.size();
             convexMeshDesc.points.stride = sizeof( float ) * 3;
             convexMeshDesc.points.data = vertexData.data();
 
-            convexMeshDesc.indices.count = (uint32) indexData.size();
-            convexMeshDesc.indices.stride = sizeof( uint32 ) * 3;
+            convexMeshDesc.indices.count = (uint32_t) indexData.size();
+            convexMeshDesc.indices.stride = sizeof( uint32_t ) * 3;
             convexMeshDesc.indices.data = indexData.data();
 
             //-------------------------------------------------------------------------

@@ -332,31 +332,31 @@ namespace KRG::Physics
             {
                 PxTriangleMesh const* pTriMesh = pMeshComponent->m_pPhysicsMesh->GetTriangleMesh();
                 PxTriangleMeshGeometry const meshGeo( const_cast<PxTriangleMesh*>( pTriMesh ), ToPx( scale ) );
-                pPhysicsShape = pPhysics->createShape( meshGeo, physicsMaterials.data(), (uint16) physicsMaterials.size(), true, shapeFlags );
+                pPhysicsShape = pPhysics->createShape( meshGeo, physicsMaterials.data(), (uint16_t) physicsMaterials.size(), true, shapeFlags );
                 localBounds = OBB( FromPx( pTriMesh->getLocalBounds() ) );
             }
             else // Convex Mesh
             {
                 PxConvexMesh const* pConvexMesh = pMeshComponent->m_pPhysicsMesh->GetConvexMesh();
                 PxConvexMeshGeometry const meshGeo( const_cast<PxConvexMesh*>( pConvexMesh ), ToPx( scale ) );
-                pPhysicsShape = pPhysics->createShape( meshGeo, physicsMaterials.data(), (uint16) physicsMaterials.size(), true, shapeFlags );
+                pPhysicsShape = pPhysics->createShape( meshGeo, physicsMaterials.data(), (uint16_t) physicsMaterials.size(), true, shapeFlags );
                 localBounds = OBB( FromPx( pConvexMesh->getLocalBounds() ) );
             }
         }
         else if ( auto pBoxComponent = TryCast<BoxComponent>( pComponent ) )
         {
             PxBoxGeometry const boxGeo = CreateBoxGeometry( scale, pBoxComponent->m_boxExtents, &localBounds );
-            pPhysicsShape = pPhysics->createShape( boxGeo, physicsMaterials.data(), (uint16) physicsMaterials.size(), true, shapeFlags );
+            pPhysicsShape = pPhysics->createShape( boxGeo, physicsMaterials.data(), (uint16_t) physicsMaterials.size(), true, shapeFlags );
         }
         else if ( auto pSphereComponent = TryCast<SphereComponent>( pComponent ) )
         {
             PxSphereGeometry const sphereGeo = CreateSphereGeometry( scale, pSphereComponent->m_radius, &localBounds );
-            pPhysicsShape = pPhysics->createShape( sphereGeo, physicsMaterials.data(), (uint16) physicsMaterials.size(), true, shapeFlags );
+            pPhysicsShape = pPhysics->createShape( sphereGeo, physicsMaterials.data(), (uint16_t) physicsMaterials.size(), true, shapeFlags );
         }
         else if ( auto pCapsuleComponent = TryCast<CapsuleComponent>( pComponent ) )
         {
             PxCapsuleGeometry const capsuleGeo = CreateCapsuleGeometry( scale, pCapsuleComponent->m_radius, pCapsuleComponent->m_cylinderPortionHalfHeight, &localBounds );
-            pPhysicsShape = pPhysics->createShape( capsuleGeo, physicsMaterials.data(), (uint16) physicsMaterials.size(), true, shapeFlags );
+            pPhysicsShape = pPhysics->createShape( capsuleGeo, physicsMaterials.data(), (uint16_t) physicsMaterials.size(), true, shapeFlags );
         }
 
         pComponent->SetLocalBounds( localBounds );
@@ -666,7 +666,7 @@ namespace KRG::Physics
     #if KRG_DEVELOPMENT_TOOLS
     bool PhysicsWorldSystem::IsDebugDrawingEnabled() const
     {
-        uint32 const result = m_sceneDebugFlags & ( 1 << physx::PxVisualizationParameter::eSCALE );
+        uint32_t const result = m_sceneDebugFlags & ( 1 << physx::PxVisualizationParameter::eSCALE );
         return result != 0;
     }
 
@@ -684,7 +684,7 @@ namespace KRG::Physics
         SetDebugFlags( m_sceneDebugFlags );
     }
 
-    void PhysicsWorldSystem::SetDebugFlags( uint32 debugFlags )
+    void PhysicsWorldSystem::SetDebugFlags( uint32_t debugFlags )
     {
         KRG_ASSERT( m_pScene != nullptr );
         PxScene* pPxScene = m_pScene->m_pScene;

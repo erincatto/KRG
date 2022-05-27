@@ -1,11 +1,11 @@
 #include "ResourceBrowser.h"
 #include "RawResourceInspectors/RawResourceInspector.h"
 #include "ResourceBrowser_DescriptorCreator.h"
-#include "Tools/Core/FileSystem/FileSystemHelpers.h"
 #include "Tools/Core/Resource/Compilers/ResourceDescriptor.h"
 #include "Tools/Core/ThirdParty/pfd/portable-file-dialogs.h"
 #include "System/Core/FileSystem/FileSystemUtils.h"
 #include "System/Core/Profiling/Profiling.h"
+#include "System/Core/Platform/PlatformHelpers_Win32.h"
 
 //-------------------------------------------------------------------------
 
@@ -42,7 +42,7 @@ namespace KRG
         }
 
         virtual StringID GetNameID() const { return m_nameID; }
-        virtual uint64 GetUniqueID() const override { return m_resourcePath.GetID(); }
+        virtual uint64_t GetUniqueID() const override { return m_resourcePath.GetID(); }
         virtual bool HasContextMenu() const override { return true; }
         virtual bool IsActivatable() const override { return false; }
 
@@ -297,7 +297,7 @@ namespace KRG
         if ( ImGui::InputText( "##Filter", m_nameFilterBuffer, 256 ) )
         {
             // Convert buffer to lower case
-            int32 i = 0;
+            int32_t i = 0;
             while ( i < 256 && m_nameFilterBuffer[i] != 0 )
             {
                 m_nameFilterBuffer[i] = eastl::CharToLower( m_nameFilterBuffer[i] );
@@ -405,8 +405,8 @@ namespace KRG
 
         //-------------------------------------------------------------------------
 
-        int32 const pathDepth = (int32) splitPath.size();
-        for ( int32 i = m_dataDirectoryPathDepth + 1; i < pathDepth; i++ )
+        int32_t const pathDepth = (int32_t) splitPath.size();
+        for ( int32_t i = m_dataDirectoryPathDepth + 1; i < pathDepth; i++ )
         {
             directoryPath.Append( splitPath[i] );
 
@@ -438,7 +438,7 @@ namespace KRG
 
         if ( ImGui::MenuItem( "Open In Explorer" ) )
         {
-            FileSystem::OpenInExplorer( pResourceItem->GetFilePath() );
+            Platform::Win32::OpenInExplorer( pResourceItem->GetFilePath() );
         }
 
         if ( ImGui::MenuItem( "Copy File Path" ) )
@@ -526,7 +526,7 @@ namespace KRG
         // Filter Type Info list
         //-------------------------------------------------------------------------
 
-        for ( auto i = (int32) descriptorTypeInfos.size() - 1; i >= 0; i-- )
+        for ( auto i = (int32_t) descriptorTypeInfos.size() - 1; i >= 0; i-- )
         {
             auto pRD = (Resource::ResourceDescriptor const*) descriptorTypeInfos[i]->GetDefaultInstance();
             if ( !pRD->IsUserCreateableDescriptor() )

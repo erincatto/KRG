@@ -1,5 +1,5 @@
 #pragma once
-#include "System\Core\Defines.h"
+#include "System\Core\KRG.h"
 
 //-------------------------------------------------------------------------
 

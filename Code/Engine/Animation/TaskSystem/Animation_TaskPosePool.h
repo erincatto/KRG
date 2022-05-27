@@ -54,8 +54,8 @@ namespace KRG::Animation
 
     class PoseBufferPool
     {
-        constexpr static int8 const s_numInitialBuffers = 6;
-        constexpr static int8 const s_bufferGrowAmount = 3;
+        constexpr static int8_t const s_numInitialBuffers = 6;
+        constexpr static int8_t const s_bufferGrowAmount = 3;
 
     public:
 
@@ -67,10 +67,10 @@ namespace KRG::Animation
         // Poses
         //-------------------------------------------------------------------------
 
-        int8 RequestPoseBuffer();
-        void ReleasePoseBuffer( int8 bufferIdx );
+        int8_t RequestPoseBuffer();
+        void ReleasePoseBuffer( int8_t bufferIdx );
 
-        inline PoseBuffer* GetBuffer( int8 bufferIdx )
+        inline PoseBuffer* GetBuffer( int8_t bufferIdx )
         {
             KRG_ASSERT( m_poseBuffers[bufferIdx].m_isUsed );
             return &m_poseBuffers[bufferIdx];
@@ -90,8 +90,8 @@ namespace KRG::Animation
         inline bool IsRecordingEnabled() const { return m_isDebugRecordingEnabled; }
         inline void EnableRecording( bool enabled ) const { m_isDebugRecordingEnabled = enabled; }
         inline bool HasRecordedData() const { return m_firstFreeDebugBuffer != 0; }
-        void RecordPose( int8 poseBufferIdx );
-        PoseBuffer const* GetRecordedPose( int8 debugBufferIdx ) const;
+        void RecordPose( int8_t poseBufferIdx );
+        PoseBuffer const* GetRecordedPose( int8_t debugBufferIdx ) const;
         #endif
 
     private:
@@ -100,12 +100,12 @@ namespace KRG::Animation
         TVector<PoseBuffer>                         m_poseBuffers;
         TVector<CachedPoseBuffer>                   m_cachedBuffers;
         TInlineVector<UUID, 5>                      m_cachedPoseBuffersToDestroy;
-        int8                                        m_firstFreeCachedBuffer = 0;
-        int8                                        m_firstFreeBuffer = 0;
+        int8_t                                        m_firstFreeCachedBuffer = 0;
+        int8_t                                        m_firstFreeBuffer = 0;
 
         #if KRG_DEVELOPMENT_TOOLS
         TVector<PoseBuffer>                         m_debugBuffers;
-        int8                                        m_firstFreeDebugBuffer = 0;
+        int8_t                                        m_firstFreeDebugBuffer = 0;
         mutable bool                                m_isDebugRecordingEnabled = false;
         #endif
     };

@@ -17,7 +17,7 @@ namespace KRG::TypeSystem::Reflection
 
         name[0] = (char) toupper( name[0] );
 
-        int32 i = 1;
+        int32_t i = 1;
         while ( i < name.length() )
         {
             // Only insert a space before a Capital letter, if it isnt the last letter and if it isnt followed or preceded by a capital letter
@@ -79,7 +79,7 @@ namespace KRG::TypeSystem::Reflection
         m_enumConstants[id] = constant;
     }
 
-    bool ReflectedType::GetValueFromEnumLabel( StringID labelID, uint32& value ) const
+    bool ReflectedType::GetValueFromEnumLabel( StringID labelID, uint32_t& value ) const
     {
         KRG_ASSERT( m_ID.IsValid() && IsEnum() );
 

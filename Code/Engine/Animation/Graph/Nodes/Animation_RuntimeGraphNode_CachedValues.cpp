@@ -119,7 +119,7 @@ namespace KRG::Animation::GraphNodes
         auto pSettings = GetSettings<CachedIntNode>();
         if ( pSettings->m_mode == CachedValueMode::OnEntry )
         {
-            m_value = m_pInputValueNode->GetValue<int32>( context );
+            m_value = m_pInputValueNode->GetValue<int32_t>( context );
             m_hasCachedValue = true;
         }
         else
@@ -148,11 +148,11 @@ namespace KRG::Animation::GraphNodes
             }
             else
             {
-                m_value = m_pInputValueNode->GetValue<int32>( context );
+                m_value = m_pInputValueNode->GetValue<int32_t>( context );
             }
         }
 
-        *reinterpret_cast<int32*>( pOutValue ) = m_value;
+        *reinterpret_cast<int32_t*>( pOutValue ) = m_value;
     }
 
     //-------------------------------------------------------------------------

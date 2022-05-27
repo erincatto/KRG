@@ -7,7 +7,7 @@
 namespace KRG::Navmesh
 {
     #if KRG_DEVELOPMENT_TOOLS
-    void NavpowerRenderer::DrawLineList( bfx::LineSegment const* pLines, uint32 numLines, bfx::Color const& color )
+    void NavpowerRenderer::DrawLineList( bfx::LineSegment const* pLines, uint32_t numLines, bfx::Color const& color )
     {
         auto ctx = m_pDebugDrawingSystem->GetDrawingContext();
         for ( auto i = 0u; i < numLines; i++ )
@@ -17,7 +17,7 @@ namespace KRG::Navmesh
         }
     }
 
-    void NavpowerRenderer::DrawTriList( bfx::Triangle const* pTris, uint32 numTris, bfx::Color const& color )
+    void NavpowerRenderer::DrawTriList( bfx::Triangle const* pTris, uint32_t numTris, bfx::Color const& color )
     {
         auto ctx = m_pDebugDrawingSystem->GetDrawingContext();
         for ( auto i = 0u; i < numTris; i++ )

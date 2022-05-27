@@ -58,10 +58,10 @@ namespace KRG::FileSystem
         bool IsUnderDirectory( Path const& parentDirectory ) const;
 
         // Get the directory depth for this path e.g. D:\Foo\Bar\Moo.txt = 2
-        int32 GetDirectoryDepth() const;
+        int32_t GetDirectoryDepth() const;
 
         // Get the full path depth for this path e.g. D:\Foo\Bar\Moo.txt = 3
-        int32 GetPathDepth() const;
+        int32_t GetPathDepth() const;
 
         // Basic Operations
         //-------------------------------------------------------------------------
@@ -183,7 +183,7 @@ namespace KRG::FileSystem
         // Comparison
         //-------------------------------------------------------------------------
 
-        inline uint32 GetHashCode() const { return m_hashCode; }
+        inline uint32_t GetHashCode() const { return m_hashCode; }
         inline bool operator==( Path const& RHS ) const { return m_hashCode == RHS.m_hashCode; }
         inline bool operator!=( Path const& RHS ) const { return m_hashCode != RHS.m_hashCode; }
 
@@ -208,7 +208,7 @@ namespace KRG::FileSystem
     private:
 
         String      m_fullpath;
-        uint32      m_hashCode = 0;
+        uint32_t      m_hashCode = 0;
         bool        m_isDirectoryPath = false;
     };
 }
@@ -219,7 +219,7 @@ namespace KRG::FileSystem
 
 namespace KRG::FileSystem
 {
-    KRG_FORCE_INLINE uint64 GetFileModifiedTime( Path const& filePath )
+    KRG_FORCE_INLINE uint64_t GetFileModifiedTime( Path const& filePath )
     {
         return GetFileModifiedTime( filePath.c_str() );
     }
@@ -230,7 +230,7 @@ namespace KRG::FileSystem
         return EraseFile( filePath.c_str() );
     }
 
-    KRG_FORCE_INLINE bool LoadFile( Path const& filePath, TVector<Byte>& fileData )
+    KRG_FORCE_INLINE bool LoadFile( Path const& filePath, TVector<uint8_t>& fileData )
     {
         KRG_ASSERT( filePath.IsFilePath() );
         return LoadFile( filePath.c_str(), fileData );

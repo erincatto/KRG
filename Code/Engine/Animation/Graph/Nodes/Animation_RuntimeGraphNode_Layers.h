@@ -61,7 +61,7 @@ namespace KRG::Animation::GraphNodes
         GraphLayerContext                                   m_previousContext;
 
         #if KRG_DEVELOPMENT_TOOLS
-        int16                                               m_rootMotionActionIdxBase = InvalidIndex;
+        int16_t                                               m_rootMotionActionIdxBase = InvalidIndex;
         #endif
     };
 }

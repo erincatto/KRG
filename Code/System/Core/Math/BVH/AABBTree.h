@@ -18,8 +18,8 @@ namespace KRG::Math
         public:
 
             Node() = default;
-            Node( AABB&& bounds, uint64 userData = 0 ) : m_bounds( bounds ), m_userData( userData ), m_volume( bounds.GetVolume() ) {}
-            Node( AABB const& bounds, uint64 userData = 0 ) : m_bounds( bounds ), m_userData( userData ), m_volume( bounds.GetVolume() ) {}
+            Node( AABB&& bounds, uint64_t userData = 0 ) : m_bounds( bounds ), m_userData( userData ), m_volume( bounds.GetVolume() ) {}
+            Node( AABB const& bounds, uint64_t userData = 0 ) : m_bounds( bounds ), m_userData( userData ), m_volume( bounds.GetVolume() ) {}
 
             inline bool IsLeafNode() const { return m_rightNodeIdx == InvalidIndex; }
 
@@ -27,12 +27,12 @@ namespace KRG::Math
 
             AABB            m_bounds = AABB( Vector::Zero );
 
-            int32           m_leftNodeIdx = InvalidIndex;
-            int32           m_rightNodeIdx = InvalidIndex;
-            int32           m_parentNodeIdx = InvalidIndex;
+            int32_t           m_leftNodeIdx = InvalidIndex;
+            int32_t           m_rightNodeIdx = InvalidIndex;
+            int32_t           m_parentNodeIdx = InvalidIndex;
             float           m_volume = 0;
 
-            uint64          m_userData = 0xFFFFFFFFFFFFFFFF;
+            uint64_t          m_userData = 0xFFFFFFFFFFFFFFFF;
             bool            m_isFree = true;
         };
 
@@ -42,18 +42,18 @@ namespace KRG::Math
 
         inline bool IsEmpty() const { return m_rootNodeIdx == InvalidIndex; }
 
-        void InsertBox( AABB const& aabb, uint64 userData );
-        void RemoveBox( uint64 userData );
+        void InsertBox( AABB const& aabb, uint64_t userData );
+        void RemoveBox( uint64_t userData );
 
-        KRG_FORCE_INLINE void InsertBox( AABB const& aabb, void* pUserData ) { InsertBox( aabb, reinterpret_cast<uint64>( pUserData ) ); }
-        KRG_FORCE_INLINE void RemoveBox( void* pUserData ) { RemoveBox( reinterpret_cast<uint64>( pUserData ) ); }
+        KRG_FORCE_INLINE void InsertBox( AABB const& aabb, void* pUserData ) { InsertBox( aabb, reinterpret_cast<uint64_t>( pUserData ) ); }
+        KRG_FORCE_INLINE void RemoveBox( void* pUserData ) { RemoveBox( reinterpret_cast<uint64_t>( pUserData ) ); }
 
-        bool FindOverlaps( AABB const& queryBox, TVector<uint64>& outResults ) const;
+        bool FindOverlaps( AABB const& queryBox, TVector<uint64_t>& outResults ) const;
 
         template<typename T>
         bool FindOverlaps( AABB const& queryBox, TVector<T*>& outResults ) const
         {
-            return FindOverlaps( queryBox, reinterpret_cast<TVector<uint64>&>( outResults ) );
+            return FindOverlaps( queryBox, reinterpret_cast<TVector<uint64_t>&>( outResults ) );
         }
 
         #if KRG_DEVELOPMENT_TOOLS
@@ -62,27 +62,27 @@ namespace KRG::Math
 
     private:
 
-        void InsertNode( int32 leafNodeIdx, AABB const& newSiblingBox, uint64 userData );
-        void RemoveNode( int32 nodeToRemoveIdx );
-        void UpdateBranchNodeBounds( int32 nodeIdx );
+        void InsertNode( int32_t leafNodeIdx, AABB const& newSiblingBox, uint64_t userData );
+        void RemoveNode( int32_t nodeToRemoveIdx );
+        void UpdateBranchNodeBounds( int32_t nodeIdx );
 
-        int32 RequestNode( AABB const& box, uint64 userData = 0 );
-        void ReleaseNode( int32 nodeIdx );
+        int32_t RequestNode( AABB const& box, uint64_t userData = 0 );
+        void ReleaseNode( int32_t nodeIdx );
 
-        int32 FindBestLeafNodeToCreateSiblingFor( int32 startNodeIdx, AABB const& newBox ) const;
-        void FindAllOverlappingLeafNodes( int32 currentNodeIdx, AABB const& queryBox, TVector<uint64>& outResults ) const;
-        void FindAllOverlappingLeafNodes( int32 currentNodeIdx, OBB const& queryBox, TVector<uint64>& outResults ) const;
+        int32_t FindBestLeafNodeToCreateSiblingFor( int32_t startNodeIdx, AABB const& newBox ) const;
+        void FindAllOverlappingLeafNodes( int32_t currentNodeIdx, AABB const& queryBox, TVector<uint64_t>& outResults ) const;
+        void FindAllOverlappingLeafNodes( int32_t currentNodeIdx, OBB const& queryBox, TVector<uint64_t>& outResults ) const;
 
         #if KRG_DEVELOPMENT_TOOLS
-        void DrawBranch( Drawing::DrawContext& drawingContext, int32 nodeIdx ) const;
-        void DrawLeaf( Drawing::DrawContext& drawingContext, int32 nodeIdx ) const;
+        void DrawBranch( Drawing::DrawContext& drawingContext, int32_t nodeIdx ) const;
+        void DrawLeaf( Drawing::DrawContext& drawingContext, int32_t nodeIdx ) const;
         #endif
 
     private:
 
         TVector<Node>       m_nodes;
-        int32               m_rootNodeIdx = InvalidIndex;
-        int32               m_freeNodeIdx = 0;
+        int32_t               m_rootNodeIdx = InvalidIndex;
+        int32_t               m_freeNodeIdx = 0;
     };
 }
 

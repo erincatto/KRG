@@ -86,14 +86,14 @@ namespace KRG::Player
     {
     public:
 
-        enum class Status : uint8
+        enum class Status : uint8_t
         {
             Interruptible,      // Running and allow transitions
             Uninterruptible,    // Running but block transitions
             Completed           // Finished
         };
 
-        enum class StopReason : uint8
+        enum class StopReason : uint8_t
         {
             Completed,
             Interrupted
@@ -104,7 +104,7 @@ namespace KRG::Player
         virtual ~Action() = default;
 
         // Get the ID for this action
-        virtual uint32 GetActionID() const = 0;
+        virtual uint32_t GetActionID() const = 0;
 
         // Is this action active
         inline bool IsActive() const { return m_isActive; }
@@ -175,6 +175,6 @@ namespace KRG::Player
 //-------------------------------------------------------------------------
 
 #define KRG_PLAYER_ACTION_ID( TypeName ) \
-constexpr static uint32 const s_gameplayStateID = Hash::FNV1a::GetHash32( #TypeName ); \
-virtual uint32 GetActionID() const override final { return TypeName::s_gameplayStateID; }\
+constexpr static uint32_t const s_gameplayStateID = Hash::FNV1a::GetHash32( #TypeName ); \
+virtual uint32_t GetActionID() const override final { return TypeName::s_gameplayStateID; }\
 KRG_DEVELOPMENT_TOOLS_LINE_IN_MACRO( char const* GetName() const override final { return #TypeName; } )

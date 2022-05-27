@@ -10,7 +10,7 @@ namespace KRG::Render
 {
     class MaterialCompiler : public Resource::Compiler
     {
-        static const int32 s_version = 1;
+        static const int32_t s_version = 1;
 
     public:
 

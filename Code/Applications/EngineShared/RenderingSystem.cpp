@@ -160,8 +160,8 @@ namespace KRG::Render
 
         auto comparator = [] ( IRenderer* const& pRendererA, IRenderer* const& pRendererB )
         {
-            int32 const A = pRendererA->GetPriority();
-            int32 const B = pRendererB->GetPriority();
+            int32_t const A = pRendererA->GetPriority();
+            int32_t const B = pRendererB->GetPriority();
             return A < B;
         };
 

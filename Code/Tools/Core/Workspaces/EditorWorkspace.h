@@ -57,7 +57,7 @@ namespace KRG
         inline char const* GetDockspaceID() const { KRG_ASSERT( !m_dockspaceID.empty() ); return m_dockspaceID.c_str(); }
 
         // Get a unique ID for this workspace
-        virtual uint32 GetID() const = 0;
+        virtual uint32_t GetID() const = 0;
 
         // Should this workspace display a viewport?
         virtual bool HasViewportWindow() const { return true; }

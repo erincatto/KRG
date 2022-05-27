@@ -7,7 +7,7 @@
 
 namespace KRG::Resource
 {
-    bool ResourceLoader::Load( ResourceID const& resourceID, TVector<Byte>& rawData, ResourceRecord* pResourceRecord ) const
+    bool ResourceLoader::Load( ResourceID const& resourceID, TVector<uint8_t>& rawData, ResourceRecord* pResourceRecord ) const
     {
         Serialization::BinaryMemoryArchive archive( Serialization::Mode::Read, rawData );
         if ( archive.IsValid() )

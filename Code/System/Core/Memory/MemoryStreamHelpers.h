@@ -18,7 +18,7 @@ namespace KRG
     {
         struct KRG_SYSTEM_CORE_API Buffer final : public std::streambuf
         {
-            inline Buffer( TVector<Byte>& data )
+            inline Buffer( TVector<uint8_t>& data )
                 : m_buffer( data )
             {}
 
@@ -38,13 +38,13 @@ namespace KRG
 
         private:
 
-            TVector<Byte>&      m_buffer;
+            TVector<uint8_t>&      m_buffer;
             eastl_size_t        m_bufferPos = 0;
         };
 
     public:
 
-        MemoryStream( TVector<Byte>& data )
+        MemoryStream( TVector<uint8_t>& data )
             : std::iostream( &m_buffer )
             , m_buffer( data )
         {}
@@ -80,7 +80,7 @@ namespace KRG
 
     public:
 
-        MemoryStreamView( Byte const* pData, size_t dataSize )
+        MemoryStreamView( uint8_t const* pData, size_t dataSize )
             : std::istream( static_cast<std::streambuf*>( &m_buffer ) )
             , m_buffer( const_cast<char*>( (char const*) pData ), dataSize )
         {}

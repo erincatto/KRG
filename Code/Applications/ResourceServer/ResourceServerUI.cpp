@@ -1,9 +1,9 @@
 #include "ResourceServerUI.h"
 #include "ResourceServer.h"
-#include "Tools/Core/FileSystem/FileSystemHelpers.h"
 #include "System/Render/Imgui/ImguiX.h"
 #include "System/Render/Imgui/ImguiStyle.h"
 #include "System/Core/Types/Color.h"
+#include "System/Core/Platform/PlatformHelpers_Win32.h"
 
 //-------------------------------------------------------------------------
 
@@ -124,7 +124,7 @@ namespace KRG::Resource
                 ImGui::TableHeadersRow();
 
                 ImGuiListClipper clipper;
-                clipper.Begin( (int32) m_combinedRequests.size() );
+                clipper.Begin( (int32_t) m_combinedRequests.size() );
                 while ( clipper.Step() )
                 {
                     for ( int i = clipper.DisplayStart; i < clipper.DisplayEnd; i++ )
@@ -276,13 +276,13 @@ namespace KRG::Resource
                 ImGui::SameLine();
                 if ( ImGui::Button( KRG_ICON_FILE "Source File", ImVec2( buttonWidth, 0 ) ) )
                 {
-                    FileSystem::OpenInExplorer( m_pSelectedCompletedRequest->GetSourceFilePath() );
+                    Platform::Win32::OpenInExplorer( m_pSelectedCompletedRequest->GetSourceFilePath() );
                 }
 
                 ImGui::SameLine();
                 if ( ImGui::Button( KRG_ICON_FILE_CHECK "Compiled File", ImVec2( buttonWidth, 0 ) ) )
                 {
-                    FileSystem::OpenInExplorer( m_pSelectedCompletedRequest->GetDestinationFilePath() );
+                    Platform::Win32::OpenInExplorer( m_pSelectedCompletedRequest->GetDestinationFilePath() );
                 }
 
                 ImGui::EndDisabled();
@@ -312,7 +312,7 @@ namespace KRG::Resource
     {
         if ( ImGui::Begin( g_workerStatusWindowName ) )
         {
-            int32 const numWorkers = m_pResourceServer->GetNumWorkers();
+            int32_t const numWorkers = m_pResourceServer->GetNumWorkers();
             for ( auto i = 0; i < numWorkers; i++ )
             {
                 ImGui::Text( "Worker %02d: ", i );
@@ -405,8 +405,8 @@ namespace KRG::Resource
 
                 ImGui::TableHeadersRow();
 
-                int32 const numConnectedClients = m_pResourceServer->GetNumConnectedClients();
-                for ( int32 i = 0; i < numConnectedClients; i++ )
+                int32_t const numConnectedClients = m_pResourceServer->GetNumConnectedClients();
+                for ( int32_t i = 0; i < numConnectedClients; i++ )
                 {
                     ImGui::TableNextRow();
 

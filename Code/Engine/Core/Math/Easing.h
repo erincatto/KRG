@@ -11,7 +11,7 @@
 
 namespace KRG::Math::Easing
 {
-    enum class Type : uint8
+    enum class Type : uint8_t
     {
         KRG_REGISTER_ENUM
 

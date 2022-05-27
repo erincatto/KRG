@@ -19,12 +19,12 @@
     <ClInclude Include="Algorithm\Quantization.h" />
     <ClInclude Include="Algorithm\TopologicalSort.h" />
     <ClInclude Include="Algorithm\Encoding.h" />
-    <ClInclude Include="Defines.h" />
+    <ClInclude Include="KRG.h" />
     <ClInclude Include="FileSystem\FileSystemUtils.h" />
     <ClInclude Include="Math\EigenVectors.h" />
     <ClInclude Include="Math\FloatCurve.h" />
     <ClInclude Include="Math\MathRandom.h" />
-    <ClInclude Include="Platform\PlatformDefines_Win32.h" />
+    <ClInclude Include="Platform\Platform_Win32.h" />
     <ClInclude Include="Drawing\DebugDrawingSystem.h" />
     <ClInclude Include="Math\MathStringHelpers.h" />
     <ClInclude Include="Math\MathHelpers.h" />
@@ -343,7 +343,6 @@
     <ClInclude Include="Serialization\Serialization.h" />
     <ClInclude Include="Serialization\BinaryArchive.h" />
     <ClInclude Include="Serialization\UserTypes\eastl_bitset.hpp" />
-    <ClInclude Include="Serialization\UserTypes\eastl_chrono.hpp" />
     <ClInclude Include="Serialization\UserTypes\eastl_deque.hpp" />
     <ClInclude Include="Serialization\UserTypes\eastl_hash_map.hpp" />
     <ClInclude Include="Serialization\UserTypes\eastl_hash_set.hpp" />
@@ -455,7 +454,6 @@
     <ClInclude Include="ThirdParty\xxhash\xxhash.h" />
     <ClInclude Include="Threading\Threading.h" />
     <ClInclude Include="Types\IDVector.h" />
-    <ClInclude Include="Types\IntegralTypes.h" />
     <ClInclude Include="Types\Function.h" />
     <ClInclude Include="Types\Pool.h" />
     <ClInclude Include="Time\Time.h" />
@@ -485,6 +483,7 @@
     <ClCompile Include="Math\MathStringHelpers.cpp" />
     <ClCompile Include="Drawing\DebugDrawingCommands.cpp" />
     <ClCompile Include="Drawing\DebugDrawing.cpp" />
+    <ClCompile Include="Platform\Platform_Win32.cpp" />
     <ClCompile Include="Serialization\JsonArchive.cpp" />
     <ClCompile Include="Settings\DebugSettings.cpp" />
     <ClCompile Include="FileSystem\FileSystemPath.cpp" />

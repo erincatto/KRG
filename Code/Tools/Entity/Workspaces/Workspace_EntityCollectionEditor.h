@@ -18,7 +18,7 @@ namespace KRG::EntityModel
 
     private:
 
-        virtual uint32 GetID() const override { return 0x00FFFFFF; }
+        virtual uint32_t GetID() const override { return 0x00FFFFFF; }
         virtual bool IsDirty() const override{ return false; } // TODO
         virtual bool Save() override;
         virtual void UpdateWorkspace( UpdateContext const& context, ImGuiWindowClass* pWindowClass ) override;

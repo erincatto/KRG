@@ -14,7 +14,7 @@ namespace KRG::Animation::Tasks
         virtual void Execute( TaskContext const& context ) override;
 
         #if KRG_DEVELOPMENT_TOOLS
-        virtual String GetDebugText() const override { return String( TEXT( "Write Cached Pose" ) ); }
+        virtual String GetDebugText() const override { return String( "Write Cached Pose" ); }
         virtual Color GetDebugColor() const { return Colors::Red; }
         #endif
 
@@ -34,7 +34,7 @@ namespace KRG::Animation::Tasks
         virtual void Execute( TaskContext const& context ) override;
 
         #if KRG_DEVELOPMENT_TOOLS
-        virtual String GetDebugText() const override { return String( TEXT( "Read Cached Pose" ) ); }
+        virtual String GetDebugText() const override { return String( "Read Cached Pose" ); }
         virtual Color GetDebugColor() const { return Colors::Red; }
         #endif
 

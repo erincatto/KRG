@@ -8,5 +8,6 @@
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)RenderingSystem.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Engine.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Engine_Win32.cpp" />
   </ItemGroup>
 </Project>

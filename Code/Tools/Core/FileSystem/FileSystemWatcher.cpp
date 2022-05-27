@@ -5,13 +5,37 @@
 
 //-------------------------------------------------------------------------
 
+#ifndef NOMINMAX
+#define NOMINMAX
+#endif
+
+#ifndef WIN32_LEAN_AND_MEAN
+#define WIN32_LEAN_AND_MEAN
+#endif
+
+#include <windows.h>
+
+//-------------------------------------------------------------------------
+
 #if _WIN32
 namespace KRG::FileSystem
 {
+    FileSystemWatcher::FileSystemWatcher()
+    {
+        // Create overlapped event
+        OVERLAPPED* pOverlappedEvent = KRG::New<OVERLAPPED>();
+        Memory::MemsetZero( pOverlappedEvent, sizeof( OVERLAPPED ) );
+        m_pOverlappedEvent = pOverlappedEvent;
+    }
+
     FileSystemWatcher::~FileSystemWatcher()
     {
         KRG_ASSERT( m_changeListeners.empty() );
         StopWatching();
+
+        // Delete overlapped event
+        auto pOverlappedEvent = reinterpret_cast<OVERLAPPED*>( m_pOverlappedEvent );
+        KRG::Delete( pOverlappedEvent );
     }
 
     void FileSystemWatcher::RegisterChangeListener( IFileSystemChangeListener* pListener )
@@ -49,8 +73,9 @@ namespace KRG::FileSystem
         // Create event
         //-------------------------------------------------------------------------
 
-        m_overlappedEvent.hEvent = CreateEvent( NULL, TRUE, FALSE, NULL );
-        if ( m_overlappedEvent.hEvent == nullptr )
+        auto pOverlappedEvent = reinterpret_cast<OVERLAPPED*>( m_pOverlappedEvent );
+        pOverlappedEvent->hEvent = CreateEvent( NULL, TRUE, FALSE, NULL );
+        if ( pOverlappedEvent->hEvent == nullptr )
         {
             KRG_LOG_ERROR( "FileSystem", "Failed to create overlapped event: %s", Platform::Win32::GetLastErrorMessage().c_str() );
             CloseHandle( m_pDirectoryHandle );
@@ -64,11 +89,13 @@ namespace KRG::FileSystem
 
     void FileSystemWatcher::StopWatching()
     {
+        auto pOverlappedEvent = reinterpret_cast<OVERLAPPED*>( m_pOverlappedEvent );
+
         // If we are still waiting for an IO request, cancel it
         if ( m_requestPending )
         {
             CancelIo( m_pDirectoryHandle );
-            GetOverlappedResult( m_pDirectoryHandle, &m_overlappedEvent, &m_numBytesReturned, TRUE );
+            GetOverlappedResult( m_pDirectoryHandle, pOverlappedEvent, &m_numBytesReturned, TRUE);
         }
 
         // Send all pending notifications
@@ -84,16 +111,18 @@ namespace KRG::FileSystem
 
         //-------------------------------------------------------------------------
 
-        CloseHandle( m_overlappedEvent.hEvent );
+        CloseHandle( pOverlappedEvent->hEvent );
         CloseHandle( m_pDirectoryHandle );
         m_directoryToWatch = Path();
-        m_overlappedEvent.hEvent = nullptr;
+        pOverlappedEvent->hEvent = nullptr;
         m_pDirectoryHandle = nullptr;
     }
 
     bool FileSystemWatcher::Update()
     {
         KRG_ASSERT( IsWatching() );
+
+        auto pOverlappedEvent = reinterpret_cast<OVERLAPPED*>( m_pOverlappedEvent );
 
         bool changeDetected = false;
 
@@ -107,7 +136,7 @@ namespace KRG::FileSystem
                 TRUE,
                 FILE_NOTIFY_CHANGE_FILE_NAME | FILE_NOTIFY_CHANGE_DIR_NAME | FILE_NOTIFY_CHANGE_SIZE | FILE_NOTIFY_CHANGE_LAST_WRITE | FILE_NOTIFY_CHANGE_CREATION,
                 &m_numBytesReturned,
-                &m_overlappedEvent,
+                pOverlappedEvent,
                 NULL,
                 ReadDirectoryNotifyExtendedInformation
             );
@@ -116,7 +145,7 @@ namespace KRG::FileSystem
         }
         else // Wait for request to complete
         {
-            if ( GetOverlappedResult( m_pDirectoryHandle, &m_overlappedEvent, &m_numBytesReturned, FALSE ) )
+            if ( GetOverlappedResult( m_pDirectoryHandle, pOverlappedEvent, &m_numBytesReturned, FALSE ) )
             {
                 if ( m_numBytesReturned != 0 )
                 {
@@ -281,7 +310,7 @@ namespace KRG::FileSystem
 
     void FileSystemWatcher::ProcessPendingModificationEvents()
     {
-        for ( int32 i = (int32) m_pendingFileModificationEvents.size() - 1; i >= 0; i-- )
+        for ( int32_t i = (int32_t) m_pendingFileModificationEvents.size() - 1; i >= 0; i-- )
         {
             auto& pendingEvent = m_pendingFileModificationEvents[i];
 

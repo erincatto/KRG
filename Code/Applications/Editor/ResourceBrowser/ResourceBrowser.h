@@ -48,7 +48,7 @@ namespace KRG
         bool                                                m_showRawFiles = false;
         bool                                                m_showDeleteConfirmationDialog = false;
 
-        int32                                               m_dataDirectoryPathDepth;
+        int32_t                                               m_dataDirectoryPathDepth;
         TVector<FileSystem::Path>                           m_foundPaths;
 
         ResourceDescriptorCreator*                          m_pResourceDescriptorCreator = nullptr;

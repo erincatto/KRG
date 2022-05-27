@@ -33,8 +33,8 @@ namespace KRG::Animation::GraphNodes
                 return m_parameterValueRange.m_begin < rhs.m_parameterValueRange.m_begin;
             }
 
-            int16                                   m_inputIdx0 = InvalidIndex;
-            int16                                   m_inputIdx1 = InvalidIndex;
+            int16_t                                   m_inputIdx0 = InvalidIndex;
+            int16_t                                   m_inputIdx1 = InvalidIndex;
             FloatRange                              m_parameterValueRange = FloatRange( 0 );
         };
 
@@ -82,7 +82,7 @@ namespace KRG::Animation::GraphNodes
 
         TInlineVector<PoseNode*, 5>                 m_sourceNodes;
         FloatValueNode*                             m_pInputParameterValueNode = nullptr;
-        int32                                       m_selectedRangeIdx = InvalidIndex;
+        int32_t                                       m_selectedRangeIdx = InvalidIndex;
         float                                       m_blendWeight = 0.0f;
         SyncTrack                                   m_blendedSyncTrack;
     };

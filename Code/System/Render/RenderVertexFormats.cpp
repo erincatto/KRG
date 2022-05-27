@@ -4,7 +4,7 @@
 
 namespace KRG::Render
 {
-    static uint32 const g_dataTypeSizes[] =
+    static uint32_t const g_dataTypeSizes[] =
     {
         0,
 
@@ -38,13 +38,13 @@ namespace KRG::Render
         4
     };
 
-    static_assert( sizeof( g_dataTypeSizes ) / sizeof( uint32 ) == (uint32) DataFormat::Count, "Mismatched data type and size arrays" );
+    static_assert( sizeof( g_dataTypeSizes ) / sizeof( uint32_t ) == (uint32_t) DataFormat::Count, "Mismatched data type and size arrays" );
 
-    uint32 GetDataTypeFormatByteSize( DataFormat format )
+    uint32_t GetDataTypeFormatByteSize( DataFormat format )
     {
-        uint32 const formatIdx = (uint32) format;
-        KRG_ASSERT( formatIdx < (uint32) DataFormat::Count );
-        uint32 const size = g_dataTypeSizes[formatIdx];
+        uint32_t const formatIdx = (uint32_t) format;
+        KRG_ASSERT( formatIdx < (uint32_t) DataFormat::Count );
+        uint32_t const size = g_dataTypeSizes[formatIdx];
         return size;
     }
 

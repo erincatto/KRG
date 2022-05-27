@@ -12,7 +12,7 @@ namespace KRG
 
         String tempString;
         size_t idx, lastIdx = 0;
-        for ( int32 i = 0; i < 4; i++ )
+        for ( int32_t i = 0; i < 4; i++ )
         {
             idx = tagFormatString.find_first_of( '.', lastIdx );
             if ( idx == String::npos )
@@ -45,7 +45,7 @@ namespace KRG
     {
         String result;
 
-        uint32 const state = GetTagState();
+        uint32_t const state = GetTagState();
         switch ( state )
         {
             case HasValidCategories_0:

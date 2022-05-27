@@ -87,7 +87,7 @@ namespace KRG
 
         //-------------------------------------------------------------------------
 
-        JsonMemoryArchive::JsonMemoryArchive( Mode mode, TVector<Byte>& data )
+        JsonMemoryArchive::JsonMemoryArchive( Mode mode, TVector<uint8_t>& data )
             : m_mode( mode )
             , m_stream( data )
         {

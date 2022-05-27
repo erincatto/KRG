@@ -7,7 +7,6 @@
 
 #if _WIN32
 #include "System/Core/Platform/PlatformHelpers_Win32.h"
-#include <shellapi.h>
 #endif
 
 //-------------------------------------------------------------------------
@@ -36,7 +35,7 @@ namespace KRG::Profiling
     {
         #if _WIN32
         FileSystem::Path const profilerPath = FileSystem::Path( Platform::Win32::GetCurrentModulePath() ) + "..\\..\\..\\..\\External\\Optick\\Optick.exe";
-        ShellExecute( 0, 0, profilerPath.c_str(), 0, 0, SW_SHOW );
+        Platform::Win32::StartProcess( profilerPath );
         #endif
     }
 

@@ -25,7 +25,7 @@ namespace KRG
         public:
 
             template<typename ElementType, typename ElementDataType>
-            static ElementDataType GetElementData( ElementType* pElement, int32 const ctrlPointIdx, int32 const vertexIdx )
+            static ElementDataType GetElementData( ElementType* pElement, int32_t const ctrlPointIdx, int32_t const vertexIdx )
             {
                 ElementDataType data;
                 switch ( pElement->GetMappingMode() )
@@ -42,7 +42,7 @@ namespace KRG
 
                             case FbxGeometryElement::eIndexToDirect:
                             {
-                                int32 const dataElementIdx = pElement->GetIndexArray().GetAt( ctrlPointIdx );
+                                int32_t const dataElementIdx = pElement->GetIndexArray().GetAt( ctrlPointIdx );
                                 data = pElement->GetDirectArray().GetAt( dataElementIdx );
                             }
                             break;
@@ -62,7 +62,7 @@ namespace KRG
 
                             case FbxGeometryElement::eIndexToDirect:
                             {
-                                int32 const dataElementIdx = pElement->GetIndexArray().GetAt( vertexIdx );
+                                int32_t const dataElementIdx = pElement->GetIndexArray().GetAt( vertexIdx );
                                 data = pElement->GetDirectArray().GetAt( dataElementIdx );
                             }
                             break;
@@ -98,7 +98,7 @@ namespace KRG
                 return pMesh;
             }
 
-            static TUniquePtr<RawMesh> ReadSkeletalMesh( FileSystem::Path const& sourceFilePath, int32 maxBoneInfluences = 4 )
+            static TUniquePtr<RawMesh> ReadSkeletalMesh( FileSystem::Path const& sourceFilePath, int32_t maxBoneInfluences = 4 )
             {
                 KRG_ASSERT( sourceFilePath.IsValid() );
 
@@ -173,7 +173,7 @@ namespace KRG
                 // For each mesh found perform necessary corrections and read mesh data
                 // Note: this needs to be done in two passes since these operations reorder the geometries in the sceneCtx and pScene->GetGeometry( x ) doesnt return what you expect
                 bool meshFound = false;
-                TVector<TVector<uint32>> controlPointVertexMapping;
+                TVector<TVector<uint32_t>> controlPointVertexMapping;
                 for ( auto foundMesh : meshes )
                 {
                     if ( rawMesh.m_isSkeletalMesh && !foundMesh.isSkinned )
@@ -268,7 +268,7 @@ namespace KRG
                 return true;
             }
 
-            static bool ReadMeshData( Fbx::FbxSceneContext const& sceneCtx, fbxsdk::FbxMesh* pMesh, FbxRawMesh::GeometrySection& geometryData, TVector<TVector<uint32>>& controlPointVertexMapping )
+            static bool ReadMeshData( Fbx::FbxSceneContext const& sceneCtx, fbxsdk::FbxMesh* pMesh, FbxRawMesh::GeometrySection& geometryData, TVector<TVector<uint32_t>>& controlPointVertexMapping )
             {
                 KRG_ASSERT( pMesh != nullptr && pMesh->IsTriangleMesh() );
 
@@ -279,27 +279,27 @@ namespace KRG
                 // Check winding order - TODO: actually figure out how to get the real value, right now we assume CCW
                 geometryData.m_clockwiseWinding = false;
                 FbxVector4 const meshScale = meshNodeGlobalTransform.GetS();
-                uint32 const numNegativeAxes = ( ( meshScale[0] < 0 ) ? 1 : 0 ) + ( ( meshScale[1] < 0 ) ? 1 : 0 ) + ( ( meshScale[2] < 0 ) ? 1 : 0 );
+                uint32_t const numNegativeAxes = ( ( meshScale[0] < 0 ) ? 1 : 0 ) + ( ( meshScale[1] < 0 ) ? 1 : 0 ) + ( ( meshScale[2] < 0 ) ? 1 : 0 );
                 if ( numNegativeAxes == 1 || numNegativeAxes == 3 )
                 {
                     geometryData.m_clockwiseWinding = !geometryData.m_clockwiseWinding;
                 }
 
                 // Reserve memory for mesh data
-                int32 const numPolygons = pMesh->GetPolygonCount();
-                int32 const numVertices = numPolygons * 3;
+                int32_t const numPolygons = pMesh->GetPolygonCount();
+                int32_t const numVertices = numPolygons * 3;
                 geometryData.m_vertices.reserve( numVertices );
 
-                for ( int32 polygonIdx = 0; polygonIdx < numPolygons; polygonIdx++ )
+                for ( int32_t polygonIdx = 0; polygonIdx < numPolygons; polygonIdx++ )
                 {
-                    for ( int32 vertexIdx = 0; vertexIdx < 3; vertexIdx++ )
+                    for ( int32_t vertexIdx = 0; vertexIdx < 3; vertexIdx++ )
                     {
                         RawMesh::VertexData vert;
 
                         // Get vertex position
                         //-------------------------------------------------------------------------
 
-                        int32 const ctrlPointIdx = pMesh->GetPolygonVertex( polygonIdx, vertexIdx );
+                        int32_t const ctrlPointIdx = pMesh->GetPolygonVertex( polygonIdx, vertexIdx );
                         FbxVector4 const meshVertex = meshNodeGlobalTransform.MultT( pMesh->GetControlPoints()[ctrlPointIdx] );
                         vert.m_position = sceneCtx.ConvertVector3AndFixScale( meshVertex );
                         vert.m_position.m_w = 1.0f;
@@ -342,7 +342,7 @@ namespace KRG
                         // Get vertex UV
                         //-------------------------------------------------------------------------
 
-                        int32 const numUVChannelsForMeshSection = pMesh->GetElementUVCount();
+                        int32_t const numUVChannelsForMeshSection = pMesh->GetElementUVCount();
                         for ( auto i = 0; i < numUVChannelsForMeshSection; ++i )
                         {
                             FbxGeometryElementUV* pTexcoordElement = pMesh->GetElementUV( i );
@@ -362,7 +362,7 @@ namespace KRG
 
                                         case FbxLayerElementUV::eIndexToDirect:
                                         {
-                                            int32 const texCoordIdx = pTexcoordElement->GetIndexArray().GetAt( ctrlPointIdx );
+                                            int32_t const texCoordIdx = pTexcoordElement->GetIndexArray().GetAt( ctrlPointIdx );
                                             texCoord = pTexcoordElement->GetDirectArray().GetAt( texCoordIdx );
                                         }
                                         break;
@@ -378,7 +378,7 @@ namespace KRG
                                         case FbxLayerElementUV::eDirect:
                                         case FbxLayerElementUV::eIndexToDirect:
                                         {
-                                            int32 const textureUVIndex = pMesh->GetTextureUVIndex( polygonIdx, vertexIdx );
+                                            int32_t const textureUVIndex = pMesh->GetTextureUVIndex( polygonIdx, vertexIdx );
                                             texCoord = pTexcoordElement->GetDirectArray().GetAt( textureUVIndex );
                                         }
                                         break;
@@ -400,7 +400,7 @@ namespace KRG
                         //-------------------------------------------------------------------------
 
                         // Check whether we are referencing a new vertex or should use the index to an existing one?
-                        uint32 existingVertexIdx = (uint32) InvalidIndex;
+                        uint32_t existingVertexIdx = (uint32_t) InvalidIndex;
                         auto& vertexIndices = controlPointVertexMapping[ctrlPointIdx];
                         for ( auto const& idx : vertexIndices )
                         {
@@ -412,15 +412,15 @@ namespace KRG
                         }
 
                         // The vertex already exists, so just add its index
-                        if ( existingVertexIdx != (uint32) InvalidIndex )
+                        if ( existingVertexIdx != (uint32_t) InvalidIndex )
                         {
                             KRG_ASSERT( existingVertexIdx < geometryData.m_vertices.size() );
                             geometryData.m_indices.push_back( existingVertexIdx );
                         }
                         else // Create new vertex
                         {
-                            geometryData.m_indices.push_back( (uint32) geometryData.m_vertices.size() );
-                            vertexIndices.push_back( (uint32) geometryData.m_vertices.size() );
+                            geometryData.m_indices.push_back( (uint32_t) geometryData.m_vertices.size() );
+                            vertexIndices.push_back( (uint32_t) geometryData.m_vertices.size() );
                             geometryData.m_vertices.push_back( vert );
                         }
                     }
@@ -471,12 +471,12 @@ namespace KRG
                 return pSkeletonRootNode;
             }
 
-            static bool ReadSkinningData( FbxRawMesh& rawMesh, Fbx::FbxSceneContext const& sceneCtx, fbxsdk::FbxMesh* pMesh, RawMesh::GeometrySection& geometryData, TVector<TVector<uint32>>& controlPointVertexMapping )
+            static bool ReadSkinningData( FbxRawMesh& rawMesh, Fbx::FbxSceneContext const& sceneCtx, fbxsdk::FbxMesh* pMesh, RawMesh::GeometrySection& geometryData, TVector<TVector<uint32_t>>& controlPointVertexMapping )
             {
                 KRG_ASSERT( pMesh != nullptr && pMesh->IsTriangleMesh() && rawMesh.m_isSkeletalMesh );
 
                 // Check whether skinning data exists for this mesh
-                int32 const numSkins = pMesh->GetDeformerCount( FbxDeformer::eSkin );
+                int32_t const numSkins = pMesh->GetDeformerCount( FbxDeformer::eSkin );
                 if ( numSkins == 0 )
                 {
                     rawMesh.LogError( "No skin data found!" );
@@ -535,7 +535,7 @@ namespace KRG
                 FbxRawSkeleton& rawSkeleton = static_cast<FbxRawSkeleton&>( rawMesh.m_skeleton );
 
                 auto const numVertices = geometryData.m_vertices.size();
-                TVector<TVector<TPair<uint16, float>>> vertexSkinMapping( numVertices );
+                TVector<TVector<TPair<uint16_t, float>>> vertexSkinMapping( numVertices );
 
                 auto const numClusters = pSkin->GetClusterCount();
                 for ( auto c = 0; c < numClusters; c++ )
@@ -558,7 +558,7 @@ namespace KRG
                     }
 
                     // Find bone in skeleton that matches this cluster name
-                    int32 const boneIdx = rawMesh.m_skeleton.GetBoneIndex( clusterName );
+                    int32_t const boneIdx = rawMesh.m_skeleton.GetBoneIndex( clusterName );
                     if ( boneIdx == InvalidIndex )
                     {
                         rawMesh.LogError( "Unknown bone link node encountered in FBX scene (%s)", clusterName.c_str() );
@@ -611,7 +611,7 @@ namespace KRG
                         while ( vert.m_boneIndices.size() > rawMesh.m_maxNumberOfBoneInfluences )
                         {
                             // Remove lowest influence
-                            int32 smallestWeightIdx = 0;
+                            int32_t smallestWeightIdx = 0;
                             for ( auto f = 1; f < vert.m_boneIndices.size(); f++ )
                             {
                                 if ( vert.m_boneWeights[f] < vert.m_boneWeights[smallestWeightIdx] )
@@ -655,7 +655,7 @@ namespace KRG
         return RawAssets::FbxMeshFileReader::ReadStaticMesh( sourceFilePath, nameOfMeshToCompile );
     }
 
-    TUniquePtr<RawAssets::RawMesh> Fbx::ReadSkeletalMesh( FileSystem::Path const& sourceFilePath, int32 maxBoneInfluences )
+    TUniquePtr<RawAssets::RawMesh> Fbx::ReadSkeletalMesh( FileSystem::Path const& sourceFilePath, int32_t maxBoneInfluences )
     {
         return RawAssets::FbxMeshFileReader::ReadSkeletalMesh( sourceFilePath, maxBoneInfluences );
     }

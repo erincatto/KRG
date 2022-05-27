@@ -59,7 +59,7 @@ namespace KRG::Animation
 
         GraphContext();
 
-        void Initialize( uint64 userID, TaskSystem* pTaskSystem, Pose const* pPreviousPose, RootMotionRecorder* pRootMotionRecorder );
+        void Initialize( uint64_t userID, TaskSystem* pTaskSystem, Pose const* pPreviousPose, RootMotionRecorder* pRootMotionRecorder );
         void Shutdown();
 
         inline bool IsValid() const { return m_pSkeleton != nullptr && m_pTaskSystem != nullptr && m_pPreviousPose != nullptr; }
@@ -82,14 +82,14 @@ namespace KRG::Animation
 
     public:
 
-        uint64                                  m_graphUserID = 0;
+        uint64_t                                  m_graphUserID = 0;
         TaskSystem* const                       m_pTaskSystem = nullptr;
         Skeleton const* const                   m_pSkeleton = nullptr;
         Pose const* const                       m_pPreviousPose = nullptr;
         Transform                               m_worldTransform = Transform::Identity;
         Transform                               m_worldTransformInverse = Transform::Identity;
         SampledEventsBuffer                     m_sampledEvents;
-        uint32                                  m_updateID = 0;
+        uint32_t                                  m_updateID = 0;
         BranchState                             m_branchState = BranchState::Active;
         Physics::Scene*                         m_pPhysicsScene = nullptr;
 

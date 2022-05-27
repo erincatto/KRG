@@ -169,7 +169,7 @@ private:
 
     // Detect encoding type with BOM or RFC 4627
     void DetectType() {
-        // BOM (Byte Order Mark):
+        // BOM (uint8_t Order Mark):
         // 00 00 FE FF  UTF-32BE
         // FF FE 00 00  UTF-32LE
         // FE FF        UTF-16BE

@@ -102,7 +102,7 @@ namespace KRG::TypeSystem::Reflection
         auto pContext = reinterpret_cast<ClangParserContext*>( pClientData );
         auto pClass = reinterpret_cast<ReflectedType*>( pContext->m_pCurrentEntry );
 
-        uint32 const lineNumber = ClangUtils::GetLineNumberForCursor( cr );
+        uint32_t const lineNumber = ClangUtils::GetLineNumberForCursor( cr );
         CXCursorKind kind = clang_getCursorKind( cr );
         switch ( kind )
         {
@@ -123,9 +123,9 @@ namespace KRG::TypeSystem::Reflection
                 GetAllDerivedProperties( pContext->m_pDatabase, parentIDs, pClass->m_properties );
 
                 // Remove duplicate properties added via the parent property traversal - do not change the order of the array
-                for ( int32 i = 0; i < (int32) pClass->m_properties.size(); i++ )
+                for ( int32_t i = 0; i < (int32_t) pClass->m_properties.size(); i++ )
                 {
-                    for ( int32 j = i + 1; j < (int32) pClass->m_properties.size(); j++ )
+                    for ( int32_t j = i + 1; j < (int32_t) pClass->m_properties.size(); j++ )
                     {
                         if ( pClass->m_properties[i].m_propertyID == pClass->m_properties[j].m_propertyID )
                         {
@@ -176,7 +176,7 @@ namespace KRG::TypeSystem::Reflection
 
                         auto const pArrayType = (clang::ConstantArrayType*) pFieldQualType.getTypePtr();
                         propertyDesc.m_flags.SetFlag( PropertyInfo::Flags::IsArray );
-                        propertyDesc.m_arraySize = (int32) pArrayType->getSize().getSExtValue();
+                        propertyDesc.m_arraySize = (int32_t) pArrayType->getSize().getSExtValue();
 
                         // Set property type to array type
                         type = clang_getElementType( type );

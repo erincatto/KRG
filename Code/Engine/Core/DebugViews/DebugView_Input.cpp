@@ -11,8 +11,8 @@ namespace KRG::Input
 {
     namespace
     {
-        static uint32 const g_controlOutlineColor = 0xFF666666;
-        static uint32 const g_controlFillColor = 0xFF888888;
+        static uint32_t const g_controlOutlineColor = 0xFF666666;
+        static uint32_t const g_controlFillColor = 0xFF888888;
 
         static float const g_buttonWidth = 20;
         static float const g_buttonBorderThickness = 2.0f;
@@ -25,7 +25,7 @@ namespace KRG::Input
         static Float2 const g_buttonDimensions( g_buttonWidth, g_buttonWidth );
     }
 
-    static void DrawButton( ImDrawList* pDrawList, Float2 const& position, Float2 const& dimensions, char const* const pLabel, bool IsHeldDown, uint32 buttonColor = g_controlOutlineColor, uint32 pressedColor = g_controlFillColor )
+    static void DrawButton( ImDrawList* pDrawList, Float2 const& position, Float2 const& dimensions, char const* const pLabel, bool IsHeldDown, uint32_t buttonColor = g_controlOutlineColor, uint32_t pressedColor = g_controlFillColor )
     {
         KRG_ASSERT( pDrawList != nullptr );
         Float2 const buttonTopLeft = position;
@@ -70,10 +70,10 @@ namespace KRG::Input
         if ( triggerValueRaw > 0 )
         {
             float triggerValue0;
-            uint32 triggerValue0Color;
+            uint32_t triggerValue0Color;
 
             float triggerValue1;
-            uint32 triggerValue1Color;
+            uint32_t triggerValue1Color;
 
             if ( isLeftTrigger )
             {
@@ -249,8 +249,8 @@ namespace KRG::Input
         char buffer[256];
 
         // Draw the open controller windows
-        int32 const numControllers = (int32) m_openControllerWindows.size();
-        for ( int32 i = numControllers - 1; i >= 0; i-- )
+        int32_t const numControllers = (int32_t) m_openControllerWindows.size();
+        for ( int32_t i = numControllers - 1; i >= 0; i-- )
         {
             // Draw the window
             Printf( buffer, 256, "Controller State: Controller %d", i );
@@ -286,12 +286,12 @@ namespace KRG::Input
 
         ImGui::Separator();
 
-        uint32 const numControllers = m_pInputSystem->GetNumConnectedControllers();
+        uint32_t const numControllers = m_pInputSystem->GetNumConnectedControllers();
         if ( numControllers > 0 )
         {
             TInlineString<100> str;
             bool noControllersConnected = true;
-            for ( uint32 i = 0u; i < numControllers; i++ )
+            for ( uint32_t i = 0u; i < numControllers; i++ )
             {
                 str.sprintf( "Show Controller State: %d", i );
                 if ( ImGui::MenuItem( str.c_str() ) )

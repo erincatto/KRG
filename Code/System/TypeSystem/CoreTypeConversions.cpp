@@ -17,10 +17,10 @@
 
 namespace KRG::TypeSystem::Conversion
 {
-    void StringToFloatArray( String const& str, int32 const numFloats, float* pFloats )
+    void StringToFloatArray( String const& str, int32_t const numFloats, float* pFloats )
     {
         char substr[128] = { 0 };
-        int32 resIdx = 0;
+        int32_t resIdx = 0;
 
         bool complete = false;
         size_t startIdx = 0;
@@ -43,11 +43,11 @@ namespace KRG::TypeSystem::Conversion
         }
     }
 
-    void FloatArrayToString( float const* pFloats, int32 const numFloats, String& strValue )
+    void FloatArrayToString( float const* pFloats, int32_t const numFloats, String& strValue )
     {
         strValue.clear();
 
-        for ( int32 i = 0; i < numFloats; i++ )
+        for ( int32_t i = 0; i < numFloats; i++ )
         {
             strValue += eastl::to_string( pFloats[i] );
 
@@ -58,10 +58,10 @@ namespace KRG::TypeSystem::Conversion
         }
     }
 
-    void StringToIntArray( String const& str, int32 const numInts, int32* pInts )
+    void StringToIntArray( String const& str, int32_t const numInts, int32_t* pInts )
     {
         char substr[128] = { 0 };
-        int32 resIdx = 0;
+        int32_t resIdx = 0;
 
         bool complete = false;
         size_t startIdx = 0;
@@ -84,11 +84,11 @@ namespace KRG::TypeSystem::Conversion
         }
     }
 
-    void IntArrayToString( int32 const* pInts, int32 const numInts, String& strValue )
+    void IntArrayToString( int32_t const* pInts, int32_t const numInts, String& strValue )
     {
         strValue.clear();
 
-        for ( int32 i = 0; i < numInts; i++ )
+        for ( int32_t i = 0; i < numInts; i++ )
         {
             strValue += eastl::to_string( pInts[i] );
 
@@ -113,7 +113,7 @@ namespace KRG::TypeSystem::Conversion
 
         if ( str.find_first_of( "0x" ) == 0 || str.find_first_of( "0X" ) == 0 )
         {
-            uint32 value = std::strtoul( str.c_str(), nullptr, 16 );
+            uint32_t value = std::strtoul( str.c_str(), nullptr, 16 );
             outFlags.Set( value );
             return true;
         }
@@ -135,10 +135,10 @@ namespace KRG::TypeSystem::Conversion
                 bufferIdx = 0;
                 isReadingEnumValue = false;
 
-                int64 flag;
+                int64_t flag;
                 if ( enumInfo.TryGetConstantValue( StringID( buffer ), flag ) )
                 {
-                    outFlags.SetFlag( (uint8) flag, true );
+                    outFlags.SetFlag( (uint8_t) flag, true );
                     return true;
                 }
             }
@@ -202,7 +202,7 @@ namespace KRG::TypeSystem::Conversion
 
         for ( auto i = 0u; i < 32; i++ )
         {
-            if ( flags.IsFlagSet( (uint8) i ) )
+            if ( flags.IsFlagSet( (uint8_t) i ) )
             {
                 StringID label;
                 if ( !enumInfo.TryGetConstantLabel( i, label ) )
@@ -229,7 +229,7 @@ namespace KRG::TypeSystem::Conversion
     //-------------------------------------------------------------------------
 
     template<typename T>
-    bool ConvertToBinary( TypeRegistry const& typeRegistry, TypeID typeID, TypeID templateArgumentTypeID, String const& strValue, TVector<Byte>& byteArray )
+    bool ConvertToBinary( TypeRegistry const& typeRegistry, TypeID typeID, TypeID templateArgumentTypeID, String const& strValue, TVector<uint8_t>& byteArray )
     {
         T value;
         if ( !ConvertStringToNativeType( typeRegistry, typeID, templateArgumentTypeID, strValue, &value ) )
@@ -251,44 +251,44 @@ namespace KRG::TypeSystem::Conversion
             KRG_ASSERT( pEnumInfo != nullptr );
             
             StringID const enumID( str );
-            int64 const enumValue = pEnumInfo->GetConstantValue( enumID );
+            int64_t const enumValue = pEnumInfo->GetConstantValue( enumID );
 
             // We only support up to 32 bit enum types...
             switch ( pEnumInfo->m_underlyingType )
             {
                 case CoreTypeID::Uint8:
                 {
-                    *( (uint8*) pValue ) = (uint8) enumValue;
+                    *( (uint8_t*) pValue ) = (uint8_t) enumValue;
                 }
                 break;
 
                 case CoreTypeID::Int8:
                 {
-                    *( (int8*) pValue ) = (int8) enumValue;
+                    *( (int8_t*) pValue ) = (int8_t) enumValue;
                 }
                 break;
 
                 case CoreTypeID::Uint16:
                 {
-                    *( (uint16*) pValue ) = (uint16) enumValue;
+                    *( (uint16_t*) pValue ) = (uint16_t) enumValue;
                 }
                 break;
 
                 case CoreTypeID::Int16:
                 {
-                    *( (int16*) pValue ) = (int16) enumValue;
+                    *( (int16_t*) pValue ) = (int16_t) enumValue;
                 }
                 break;
 
                 case CoreTypeID::Uint32:
                 {
-                    *( (uint32*) pValue ) = (uint32) enumValue;
+                    *( (uint32_t*) pValue ) = (uint32_t) enumValue;
                 }
                 break;
 
                 case CoreTypeID::Int32:
                 {
-                    *( (int32*) pValue ) = (int32) enumValue;
+                    *( (int32_t*) pValue ) = (int32_t) enumValue;
                 }
                 break;
 
@@ -315,49 +315,49 @@ namespace KRG::TypeSystem::Conversion
 
                 case CoreTypeID::Uint8 :
                 {
-                    *reinterpret_cast<uint8*>( pValue ) = (uint8) std::strtoul( str.c_str(), nullptr, 0 );
+                    *reinterpret_cast<uint8_t*>( pValue ) = (uint8_t) std::strtoul( str.c_str(), nullptr, 0 );
                 }
                 break;
 
                 case CoreTypeID::Int8 :
                 {
-                    *reinterpret_cast<int8*>( pValue ) = (int8) std::strtol( str.c_str(), nullptr, 0 );
+                    *reinterpret_cast<int8_t*>( pValue ) = (int8_t) std::strtol( str.c_str(), nullptr, 0 );
                 }
                 break;
 
                 case CoreTypeID::Uint16 :
                 {
-                    *reinterpret_cast<uint16*>( pValue ) = (uint16) std::strtoul( str.c_str(), nullptr, 0 );
+                    *reinterpret_cast<uint16_t*>( pValue ) = (uint16_t) std::strtoul( str.c_str(), nullptr, 0 );
                 }
                 break;
 
                 case CoreTypeID::Int16 :
                 {
-                    *reinterpret_cast<int16*>( pValue ) = (int16) std::strtol( str.c_str(), nullptr, 0 );
+                    *reinterpret_cast<int16_t*>( pValue ) = (int16_t) std::strtol( str.c_str(), nullptr, 0 );
                 }
                 break;
 
                 case CoreTypeID::Uint32 :
                 {
-                    *reinterpret_cast<uint32*>( pValue ) = std::strtoul( str.c_str(), nullptr, 0 );
+                    *reinterpret_cast<uint32_t*>( pValue ) = std::strtoul( str.c_str(), nullptr, 0 );
                 }
                 break;
 
                 case CoreTypeID::Int32 :
                 {
-                    *reinterpret_cast<int32*>( pValue ) = std::strtol( str.c_str(), nullptr, 0 );
+                    *reinterpret_cast<int32_t*>( pValue ) = std::strtol( str.c_str(), nullptr, 0 );
                 }
                 break;
 
                 case CoreTypeID::Uint64 :
                 {
-                    *reinterpret_cast<uint64*>( pValue ) = std::strtoull( str.c_str(), nullptr, 0 );
+                    *reinterpret_cast<uint64_t*>( pValue ) = std::strtoull( str.c_str(), nullptr, 0 );
                 }
                 break;
 
                 case CoreTypeID::Int64:
                 {
-                    *reinterpret_cast<int64*>( pValue ) = std::strtol( str.c_str(), nullptr, 0 );
+                    *reinterpret_cast<int64_t*>( pValue ) = std::strtol( str.c_str(), nullptr, 0 );
                 }
                 break;
 
@@ -405,7 +405,7 @@ namespace KRG::TypeSystem::Conversion
 
                 case CoreTypeID::Color :
                 {
-                    uint32 const colorType = std::strtoul( str.c_str(), nullptr, 16 );
+                    uint32_t const colorType = std::strtoul( str.c_str(), nullptr, 16 );
                     *reinterpret_cast<Color*>( pValue ) = Color( colorType );
                 }
                 break;
@@ -516,7 +516,7 @@ namespace KRG::TypeSystem::Conversion
 
                 case CoreTypeID::IntRange:
                 {
-                    int32 intData[2];
+                    int32_t intData[2];
                     StringToIntArray( str, 2, intData );
                     *reinterpret_cast<IntRange*>( pValue ) = IntRange( intData[0], intData[1] );
                 }
@@ -633,37 +633,37 @@ namespace KRG::TypeSystem::Conversion
             {
                 case CoreTypeID::Uint8:
                 {
-                    strValue = pEnumInfo->GetConstantLabel( *( (uint8*) pValue ) ).c_str();
+                    strValue = pEnumInfo->GetConstantLabel( *( (uint8_t*) pValue ) ).c_str();
                 }
                 break;
 
                 case CoreTypeID::Int8:
                 {
-                    strValue = pEnumInfo->GetConstantLabel( *( (int8*) pValue ) ).c_str();
+                    strValue = pEnumInfo->GetConstantLabel( *( (int8_t*) pValue ) ).c_str();
                 }
                 break;
 
                 case CoreTypeID::Uint16:
                 {
-                    strValue = pEnumInfo->GetConstantLabel( *( (uint16*) pValue ) ).c_str();
+                    strValue = pEnumInfo->GetConstantLabel( *( (uint16_t*) pValue ) ).c_str();
                 }
                 break;
 
                 case CoreTypeID::Int16:
                 {
-                    strValue = pEnumInfo->GetConstantLabel( *( (int16*) pValue ) ).c_str();
+                    strValue = pEnumInfo->GetConstantLabel( *( (int16_t*) pValue ) ).c_str();
                 }
                 break;
 
                 case CoreTypeID::Uint32:
                 {
-                    strValue = pEnumInfo->GetConstantLabel( *( (uint32*) pValue ) ).c_str();
+                    strValue = pEnumInfo->GetConstantLabel( *( (uint32_t*) pValue ) ).c_str();
                 }
                 break;
 
                 case CoreTypeID::Int32:
                 {
-                    strValue = pEnumInfo->GetConstantLabel( *( (int32*) pValue ) ).c_str();
+                    strValue = pEnumInfo->GetConstantLabel( *( (int32_t*) pValue ) ).c_str();
                 }
                 break;
 
@@ -688,49 +688,49 @@ namespace KRG::TypeSystem::Conversion
 
                 case CoreTypeID::Uint8:
                 {
-                    strValue = eastl::to_string( *reinterpret_cast<uint8 const*>( pValue ) );
+                    strValue = eastl::to_string( *reinterpret_cast<uint8_t const*>( pValue ) );
                 }
                 break;
 
                 case CoreTypeID::Int8:
                 {
-                    strValue = eastl::to_string( *reinterpret_cast<int8 const*>( pValue ) );
+                    strValue = eastl::to_string( *reinterpret_cast<int8_t const*>( pValue ) );
                 }
                 break;
 
                 case CoreTypeID::Uint16:
                 {
-                    strValue = eastl::to_string( *reinterpret_cast<uint16 const*>( pValue ) );
+                    strValue = eastl::to_string( *reinterpret_cast<uint16_t const*>( pValue ) );
                 }
                 break;
 
                 case CoreTypeID::Int16:
                 {
-                    strValue = eastl::to_string( *reinterpret_cast<int16 const*>( pValue ) );
+                    strValue = eastl::to_string( *reinterpret_cast<int16_t const*>( pValue ) );
                 }
                 break;
 
                 case CoreTypeID::Uint32:
                 {
-                    strValue = eastl::to_string( *reinterpret_cast<uint32 const*>( pValue ) );
+                    strValue = eastl::to_string( *reinterpret_cast<uint32_t const*>( pValue ) );
                 }
                 break;
 
                 case CoreTypeID::Int32:
                 {
-                    strValue = eastl::to_string( *reinterpret_cast<int32 const*>( pValue ) );
+                    strValue = eastl::to_string( *reinterpret_cast<int32_t const*>( pValue ) );
                 }
                 break;
 
                 case CoreTypeID::Uint64:
                 {
-                    strValue = eastl::to_string( *reinterpret_cast<uint64 const*>( pValue ) );
+                    strValue = eastl::to_string( *reinterpret_cast<uint64_t const*>( pValue ) );
                 }
                 break;
 
                 case CoreTypeID::Int64:
                 {
-                    strValue = eastl::to_string( *reinterpret_cast<int64 const*>( pValue ) );
+                    strValue = eastl::to_string( *reinterpret_cast<int64_t const*>( pValue ) );
                 }
                 break;
 
@@ -1001,7 +1001,7 @@ namespace KRG::TypeSystem::Conversion
         return false;
     }
 
-    bool ConvertNativeTypeToBinary( TypeRegistry const& typeRegistry, TypeID typeID, TypeID templateArgumentTypeID, void const* pValue, TVector<Byte>& byteArray )
+    bool ConvertNativeTypeToBinary( TypeRegistry const& typeRegistry, TypeID typeID, TypeID templateArgumentTypeID, void const* pValue, TVector<uint8_t>& byteArray )
     {
         Serialization::BinaryMemoryArchive archive( Serialization::Mode::Write, byteArray );
 
@@ -1016,37 +1016,37 @@ namespace KRG::TypeSystem::Conversion
             {
                 case CoreTypeID::Uint8:
                 {
-                    archive << *reinterpret_cast<uint8 const*>( pValue );
+                    archive << *reinterpret_cast<uint8_t const*>( pValue );
                 }
                 break;
 
                 case CoreTypeID::Int8:
                 {
-                    archive << *reinterpret_cast<int8 const*>( pValue );
+                    archive << *reinterpret_cast<int8_t const*>( pValue );
                 }
                 break;
 
                 case CoreTypeID::Uint16:
                 {
-                    archive << *reinterpret_cast<uint16 const*>( pValue );
+                    archive << *reinterpret_cast<uint16_t const*>( pValue );
                 }
                 break;
 
                 case CoreTypeID::Int16:
                 {
-                    archive << *reinterpret_cast<int16 const*>( pValue );
+                    archive << *reinterpret_cast<int16_t const*>( pValue );
                 }
                 break;
 
                 case CoreTypeID::Uint32:
                 {
-                    archive << *reinterpret_cast<uint32 const*>( pValue );
+                    archive << *reinterpret_cast<uint32_t const*>( pValue );
                 }
                 break;
 
                 case CoreTypeID::Int32:
                 {
-                    archive << *reinterpret_cast<int32 const*>( pValue );
+                    archive << *reinterpret_cast<int32_t const*>( pValue );
                 }
                 break;
 
@@ -1071,49 +1071,49 @@ namespace KRG::TypeSystem::Conversion
 
                 case CoreTypeID::Uint8:
                 {
-                    archive << *reinterpret_cast<uint8 const*>( pValue );
+                    archive << *reinterpret_cast<uint8_t const*>( pValue );
                 }
                 break;
 
                 case CoreTypeID::Int8:
                 {
-                    archive << *reinterpret_cast<int8 const*>( pValue );
+                    archive << *reinterpret_cast<int8_t const*>( pValue );
                 }
                 break;
 
                 case CoreTypeID::Uint16:
                 {
-                    archive << *reinterpret_cast<uint16 const*>( pValue );
+                    archive << *reinterpret_cast<uint16_t const*>( pValue );
                 }
                 break;
 
                 case CoreTypeID::Int16:
                 {
-                    archive << *reinterpret_cast<int16 const*>( pValue );
+                    archive << *reinterpret_cast<int16_t const*>( pValue );
                 }
                 break;
 
                 case CoreTypeID::Uint32:
                 {
-                    archive << *reinterpret_cast<uint32 const*>( pValue );
+                    archive << *reinterpret_cast<uint32_t const*>( pValue );
                 }
                 break;
 
                 case CoreTypeID::Int32:
                 {
-                    archive << *reinterpret_cast<int32 const*>( pValue );
+                    archive << *reinterpret_cast<int32_t const*>( pValue );
                 }
                 break;
 
                 case CoreTypeID::Uint64:
                 {
-                    archive << *reinterpret_cast<uint64 const*>( pValue );
+                    archive << *reinterpret_cast<uint64_t const*>( pValue );
                 }
                 break;
 
                 case CoreTypeID::Int64:
                 {
-                    archive << *reinterpret_cast<int64 const*>( pValue );
+                    archive << *reinterpret_cast<int64_t const*>( pValue );
                 }
                 break;
 
@@ -1311,9 +1311,9 @@ namespace KRG::TypeSystem::Conversion
         return true;
     }
 
-    bool ConvertBinaryToNativeType( TypeRegistry const& typeRegistry, TypeID typeID, TypeID templateArgumentTypeID, TVector<Byte> const& byteArray, void* pValue )
+    bool ConvertBinaryToNativeType( TypeRegistry const& typeRegistry, TypeID typeID, TypeID templateArgumentTypeID, TVector<uint8_t> const& byteArray, void* pValue )
     {
-        Serialization::BinaryMemoryArchive archive( Serialization::Mode::Read, const_cast<TVector<Byte>&>( byteArray ) );
+        Serialization::BinaryMemoryArchive archive( Serialization::Mode::Read, const_cast<TVector<uint8_t>&>( byteArray ) );
 
         // Enums
         if ( !IsCoreType( typeID ) )
@@ -1326,37 +1326,37 @@ namespace KRG::TypeSystem::Conversion
             {
                 case CoreTypeID::Uint8:
                 {
-                    archive >> *reinterpret_cast<uint8*>( pValue );
+                    archive >> *reinterpret_cast<uint8_t*>( pValue );
                 }
                 break;
 
                 case CoreTypeID::Int8:
                 {
-                    archive >> *reinterpret_cast<int8*>( pValue );
+                    archive >> *reinterpret_cast<int8_t*>( pValue );
                 }
                 break;
 
                 case CoreTypeID::Uint16:
                 {
-                    archive >> *reinterpret_cast<uint16*>( pValue );
+                    archive >> *reinterpret_cast<uint16_t*>( pValue );
                 }
                 break;
 
                 case CoreTypeID::Int16:
                 {
-                    archive >> *reinterpret_cast<int16*>( pValue );
+                    archive >> *reinterpret_cast<int16_t*>( pValue );
                 }
                 break;
 
                 case CoreTypeID::Uint32:
                 {
-                    archive >> *reinterpret_cast<uint32*>( pValue );
+                    archive >> *reinterpret_cast<uint32_t*>( pValue );
                 }
                 break;
 
                 case CoreTypeID::Int32:
                 {
-                    archive >> *reinterpret_cast<int32*>( pValue );
+                    archive >> *reinterpret_cast<int32_t*>( pValue );
                 }
                 break;
 
@@ -1381,49 +1381,49 @@ namespace KRG::TypeSystem::Conversion
 
                 case CoreTypeID::Uint8:
                 {
-                    archive >> *reinterpret_cast<uint8*>( pValue );
+                    archive >> *reinterpret_cast<uint8_t*>( pValue );
                 }
                 break;
 
                 case CoreTypeID::Int8:
                 {
-                    archive >> *reinterpret_cast<int8*>( pValue );
+                    archive >> *reinterpret_cast<int8_t*>( pValue );
                 }
                 break;
 
                 case CoreTypeID::Uint16:
                 {
-                    archive >> *reinterpret_cast<uint16*>( pValue );
+                    archive >> *reinterpret_cast<uint16_t*>( pValue );
                 }
                 break;
 
                 case CoreTypeID::Int16:
                 {
-                    archive >> *reinterpret_cast<int16*>( pValue );
+                    archive >> *reinterpret_cast<int16_t*>( pValue );
                 }
                 break;
 
                 case CoreTypeID::Uint32:
                 {
-                    archive >> *reinterpret_cast<uint32*>( pValue );
+                    archive >> *reinterpret_cast<uint32_t*>( pValue );
                 }
                 break;
 
                 case CoreTypeID::Int32:
                 {
-                    archive >> *reinterpret_cast<int32*>( pValue );
+                    archive >> *reinterpret_cast<int32_t*>( pValue );
                 }
                 break;
 
                 case CoreTypeID::Uint64:
                 {
-                    archive >> *reinterpret_cast<uint64*>( pValue );
+                    archive >> *reinterpret_cast<uint64_t*>( pValue );
                 }
                 break;
 
                 case CoreTypeID::Int64:
                 {
-                    archive >> *reinterpret_cast<int64*>( pValue );
+                    archive >> *reinterpret_cast<int64_t*>( pValue );
                 }
                 break;
 
@@ -1623,7 +1623,7 @@ namespace KRG::TypeSystem::Conversion
         return true;
     }
 
-    bool ConvertStringToBinary( TypeRegistry const& typeRegistry, TypeID typeID, TypeID templateArgumentTypeID, String const& strValue, TVector<Byte>& byteArray )
+    bool ConvertStringToBinary( TypeRegistry const& typeRegistry, TypeID typeID, TypeID templateArgumentTypeID, String const& strValue, TVector<uint8_t>& byteArray )
     {
         byteArray.clear();
 
@@ -1646,31 +1646,31 @@ namespace KRG::TypeSystem::Conversion
 
                 case CoreTypeID::Int8:
                 {
-                    return ConvertToBinary<int8>( typeRegistry, typeID, templateArgumentTypeID, strValue, byteArray );
+                    return ConvertToBinary<int8_t>( typeRegistry, typeID, templateArgumentTypeID, strValue, byteArray );
                 }
                 break;
 
                 case CoreTypeID::Uint16:
                 {
-                    return ConvertToBinary<uint16>( typeRegistry, typeID, templateArgumentTypeID, strValue, byteArray );
+                    return ConvertToBinary<uint16_t>( typeRegistry, typeID, templateArgumentTypeID, strValue, byteArray );
                 }
                 break;
 
                 case CoreTypeID::Int16:
                 {
-                    return ConvertToBinary<int16>( typeRegistry, typeID, templateArgumentTypeID, strValue, byteArray );
+                    return ConvertToBinary<int16_t>( typeRegistry, typeID, templateArgumentTypeID, strValue, byteArray );
                 }
                 break;
 
                 case CoreTypeID::Uint32:
                 {
-                    return ConvertToBinary<uint32>( typeRegistry, typeID, templateArgumentTypeID, strValue, byteArray );
+                    return ConvertToBinary<uint32_t>( typeRegistry, typeID, templateArgumentTypeID, strValue, byteArray );
                 }
                 break;
 
                 case CoreTypeID::Int32:
                 {
-                    return ConvertToBinary<int32>( typeRegistry, typeID, templateArgumentTypeID, strValue, byteArray );
+                    return ConvertToBinary<int32_t>( typeRegistry, typeID, templateArgumentTypeID, strValue, byteArray );
                 }
                 break;
 
@@ -1694,49 +1694,49 @@ namespace KRG::TypeSystem::Conversion
 
                 case CoreTypeID::Uint8:
                 {
-                    return ConvertToBinary<uint8>( typeRegistry, typeID, templateArgumentTypeID, strValue, byteArray );
+                    return ConvertToBinary<uint8_t>( typeRegistry, typeID, templateArgumentTypeID, strValue, byteArray );
                 }
                 break;
 
                 case CoreTypeID::Int8:
                 {
-                    return ConvertToBinary<int8>( typeRegistry, typeID, templateArgumentTypeID, strValue, byteArray );
+                    return ConvertToBinary<int8_t>( typeRegistry, typeID, templateArgumentTypeID, strValue, byteArray );
                 }
                 break;
 
                 case CoreTypeID::Uint16:
                 {
-                    return ConvertToBinary<uint16>( typeRegistry, typeID, templateArgumentTypeID, strValue, byteArray );
+                    return ConvertToBinary<uint16_t>( typeRegistry, typeID, templateArgumentTypeID, strValue, byteArray );
                 }
                 break;
 
                 case CoreTypeID::Int16:
                 {
-                    return ConvertToBinary<int16>( typeRegistry, typeID, templateArgumentTypeID, strValue, byteArray );
+                    return ConvertToBinary<int16_t>( typeRegistry, typeID, templateArgumentTypeID, strValue, byteArray );
                 }
                 break;
 
                 case CoreTypeID::Uint32:
                 {
-                    return ConvertToBinary<uint32>( typeRegistry, typeID, templateArgumentTypeID, strValue, byteArray );
+                    return ConvertToBinary<uint32_t>( typeRegistry, typeID, templateArgumentTypeID, strValue, byteArray );
                 }
                 break;
 
                 case CoreTypeID::Int32:
                 {
-                    return ConvertToBinary<int32>( typeRegistry, typeID, templateArgumentTypeID, strValue, byteArray );
+                    return ConvertToBinary<int32_t>( typeRegistry, typeID, templateArgumentTypeID, strValue, byteArray );
                 }
                 break;
 
                 case CoreTypeID::Uint64:
                 {
-                    return ConvertToBinary<uint64>( typeRegistry, typeID, templateArgumentTypeID, strValue, byteArray );
+                    return ConvertToBinary<uint64_t>( typeRegistry, typeID, templateArgumentTypeID, strValue, byteArray );
                 }
                 break;
 
                 case CoreTypeID::Int64:
                 {
-                    return ConvertToBinary<int64>( typeRegistry, typeID, templateArgumentTypeID, strValue, byteArray );
+                    return ConvertToBinary<int64_t>( typeRegistry, typeID, templateArgumentTypeID, strValue, byteArray );
                 }
                 break;
 

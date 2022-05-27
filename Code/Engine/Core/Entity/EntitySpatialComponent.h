@@ -79,7 +79,7 @@ namespace KRG
         inline ComponentID GetSpatialParentID() const { KRG_ASSERT( HasSpatialParent() ); return m_pSpatialParent->GetID(); }
         inline Transform const& GetSpatialParentWorldTransform() const { KRG_ASSERT( HasSpatialParent() ); return m_pSpatialParent->GetWorldTransform(); }
 
-        int32 GetSpatialHierarchyDepth( bool limitToCurrentEntity = true ) const;
+        int32_t GetSpatialHierarchyDepth( bool limitToCurrentEntity = true ) const;
 
         // The socket that this component is attached to
         inline StringID GetAttachmentSocketID() const { return m_parentAttachmentSocketID; }

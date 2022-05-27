@@ -367,6 +367,7 @@
     <ClCompile Include="Math\MathRandom.cpp" />
     <ClCompile Include="FileSystem\Platform\FileSystemPath_Win32.cpp" />
     <ClCompile Include="FileSystem\Platform\FileSystemUtils_Win32.cpp" />
+    <ClCompile Include="Platform\Platform_Win32.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Math\Transform.h">
@@ -1638,9 +1639,6 @@
     <ClInclude Include="Serialization\UserTypes\eastl_bitset.hpp">
       <Filter>Serialization\UserTypes</Filter>
     </ClInclude>
-    <ClInclude Include="Serialization\UserTypes\eastl_chrono.hpp">
-      <Filter>Serialization\UserTypes</Filter>
-    </ClInclude>
     <ClInclude Include="Serialization\UserTypes\eastl_deque.hpp">
       <Filter>Serialization\UserTypes</Filter>
     </ClInclude>
@@ -1683,10 +1681,7 @@
     <ClInclude Include="_Module\API.h">
       <Filter>_Module</Filter>
     </ClInclude>
-    <ClInclude Include="Types\IntegralTypes.h">
-      <Filter>Types</Filter>
-    </ClInclude>
-    <ClInclude Include="Platform\PlatformDefines_Win32.h">
+    <ClInclude Include="Platform\Platform_Win32.h">
       <Filter>Platform</Filter>
     </ClInclude>
     <ClInclude Include="Math\MathStringHelpers.h">
@@ -1704,7 +1699,7 @@
     <ClInclude Include="Settings\ISettings.h">
       <Filter>Settings</Filter>
     </ClInclude>
-    <ClInclude Include="Defines.h" />
+    <ClInclude Include="KRG.h" />
     <ClInclude Include="ThirdParty\stb\stb_image.h" />
     <ClInclude Include="ThirdParty\stb\stb_rect_pack.h" />
     <ClInclude Include="ThirdParty\stb\stb_truetype.h" />

@@ -37,10 +37,10 @@ namespace KRG::Physics
 
     private:
 
-        void DrawPoints( Render::RenderContext const& renderContext, Render::Viewport const& viewport, physx::PxDebugPoint const* pPoints, uint32 numPoints );
-        void DrawLines( Render::RenderContext const& renderContext, Render::Viewport const& viewport, physx::PxDebugLine const* pLines, uint32 numLines );
-        void DrawTriangles( Render::RenderContext const& renderContext, Render::Viewport const& viewport, physx::PxDebugTriangle const* pTriangles, uint32 numTriangles );
-        void DrawStrings( Render::RenderContext const& renderContext, Render::Viewport const& viewport, physx::PxDebugText const* pStrings, uint32 numStrings );
+        void DrawPoints( Render::RenderContext const& renderContext, Render::Viewport const& viewport, physx::PxDebugPoint const* pPoints, uint32_t numPoints );
+        void DrawLines( Render::RenderContext const& renderContext, Render::Viewport const& viewport, physx::PxDebugLine const* pLines, uint32_t numLines );
+        void DrawTriangles( Render::RenderContext const& renderContext, Render::Viewport const& viewport, physx::PxDebugTriangle const* pTriangles, uint32_t numTriangles );
+        void DrawStrings( Render::RenderContext const& renderContext, Render::Viewport const& viewport, physx::PxDebugText const* pStrings, uint32_t numStrings );
 
     private:
 

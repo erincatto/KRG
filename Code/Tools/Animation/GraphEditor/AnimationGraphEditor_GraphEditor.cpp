@@ -499,7 +499,7 @@ namespace KRG::Animation
                 }
 
                 ImGui::PushStyleColor( ImGuiCol_Button, ImVec4( 0, 0, 0, 0 ) );
-                for ( auto i = (int32) pathToRoot.size() - 1; i >= 0; i-- )
+                for ( auto i = (int32_t) pathToRoot.size() - 1; i >= 0; i-- )
                 {
                     ImGui::SameLine( 0, -1 );
                     ImGui::Text( "/" );

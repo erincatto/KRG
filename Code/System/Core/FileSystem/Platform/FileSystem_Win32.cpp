@@ -110,7 +110,7 @@ namespace KRG::FileSystem
         return ( dwAttrib != INVALID_FILE_ATTRIBUTES && !( dwAttrib & FILE_ATTRIBUTE_DIRECTORY ) && ( dwAttrib & FILE_ATTRIBUTE_READONLY ) );
     }
 
-    uint64 GetFileModifiedTime( char const* path )
+    uint64_t GetFileModifiedTime( char const* path )
     {
         ULARGE_INTEGER fileWriteTime;
         fileWriteTime.QuadPart = 0;
@@ -185,7 +185,7 @@ namespace KRG::FileSystem
 
     //-------------------------------------------------------------------------
 
-    bool LoadFile( char const* pPath, TVector<Byte>& fileData )
+    bool LoadFile( char const* pPath, TVector<uint8_t>& fileData )
     {
         KRG_ASSERT( pPath != nullptr );
 
@@ -213,7 +213,7 @@ namespace KRG::FileSystem
         DWORD bytesRead = 0;
         DWORD remainingBytesToRead = (DWORD) fileSize;
 
-        Byte* pBuffer = fileData.data();
+        uint8_t* pBuffer = fileData.data();
         while ( remainingBytesToRead != 0 )
         {
             DWORD const numBytesToRead = Math::Min( defaultReadBufferSize, remainingBytesToRead );

@@ -29,7 +29,6 @@
 #include "UserTypes/eastl_utility.hpp"
 #include "UserTypes/eastl_tuple.hpp"
 #include "UserTypes/eastl_hash_set.hpp"
-#include "UserTypes/eastl_chrono.hpp"
 #include "UserTypes/krg_stringid.hpp"
 
 // Archive
@@ -95,7 +94,7 @@ namespace KRG
         {
         public:
 
-            JsonMemoryArchive( Mode mode, TVector<Byte>& data );
+            JsonMemoryArchive( Mode mode, TVector<uint8_t>& data );
             ~JsonMemoryArchive();
 
             inline Mode GetMode() const { return m_mode; }

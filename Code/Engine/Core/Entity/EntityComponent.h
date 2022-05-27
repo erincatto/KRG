@@ -30,7 +30,7 @@ namespace KRG
 
     public:
 
-        enum class Status : uint8
+        enum class Status : uint8_t
         {
             Unloaded = 0,
             Loading,

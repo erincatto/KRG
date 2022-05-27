@@ -3,6 +3,7 @@
 #include "imgui.h"
 #include "System/Core/Platform/PlatformHelpers_Win32.h"
 #include "System/Core/Memory/Memory.h"
+#include <windows.h>
 #include <tchar.h>
 
 //-------------------------------------------------------------------------
@@ -919,7 +920,7 @@ namespace KRG::ImGuiX::Platform
         }
     }
 
-    LRESULT WindowsMessageHandler( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam )
+    intptr_t WindowsMessageHandler( HWND hWnd, uint32_t message, uintptr_t wParam, intptr_t lParam )
     {
         return ImGui_ImplWin32_WndProcHandler( hWnd, message, wParam, lParam );
     }

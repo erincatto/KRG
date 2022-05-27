@@ -138,7 +138,7 @@ namespace KRG::Render
 
             if ( m_selectedBoneID.IsValid() )
             {
-                int32 const selectedBoneIdx = m_pResource->GetBoneIndex( m_selectedBoneID );
+                int32_t const selectedBoneIdx = m_pResource->GetBoneIndex( m_selectedBoneID );
                 if ( selectedBoneIdx != InvalidIndex )
                 {
                     Transform const& globalBoneTransform = m_pResource->GetBindPose()[selectedBoneIdx];
@@ -281,7 +281,7 @@ namespace KRG::Render
             {
                 if ( m_selectedBoneID.IsValid() )
                 {
-                    int32 const selectedBoneIdx = m_pResource->GetBoneIndex( m_selectedBoneID );
+                    int32_t const selectedBoneIdx = m_pResource->GetBoneIndex( m_selectedBoneID );
                     if ( selectedBoneIdx != InvalidIndex )
                     {
                         {
@@ -289,7 +289,7 @@ namespace KRG::Render
                             ImGui::Text( "%d. %s", selectedBoneIdx, m_pResource->GetBoneID( selectedBoneIdx ).c_str() );
                         }
 
-                        int32 const parentBoneIdx = m_pResource->GetParentBoneIndex( selectedBoneIdx );
+                        int32_t const parentBoneIdx = m_pResource->GetParentBoneIndex( selectedBoneIdx );
                         if ( parentBoneIdx != InvalidIndex )
                         {
                             ImGui::NewLine();
@@ -317,7 +317,7 @@ namespace KRG::Render
         TVector<BoneInfo*> boneInfos;
 
         // Create all infos
-        int32 const numBones = m_pResource->GetNumBones();
+        int32_t const numBones = m_pResource->GetNumBones();
         for ( auto i = 0; i < numBones; i++ )
         {
             auto& pBoneInfo = boneInfos.emplace_back( KRG::New<BoneInfo>() );
@@ -327,7 +327,7 @@ namespace KRG::Render
         // Create hierarchy
         for ( auto i = 1; i < numBones; i++ )
         {
-            int32 const parentBoneIdx = m_pResource->GetParentBoneIndex( i );
+            int32_t const parentBoneIdx = m_pResource->GetParentBoneIndex( i );
             KRG_ASSERT( parentBoneIdx != InvalidIndex );
             boneInfos[parentBoneIdx]->m_children.emplace_back( boneInfos[i] );
         }
@@ -350,7 +350,7 @@ namespace KRG::Render
         StringID const currentBoneID = m_pResource->GetBoneID( pBone->m_boneIdx );
         ImGui::SetNextItemOpen( pBone->m_isExpanded );
 
-        int32 treeNodeFlags = ImGuiTreeNodeFlags_OpenOnDoubleClick;
+        int32_t treeNodeFlags = ImGuiTreeNodeFlags_OpenOnDoubleClick;
 
         if ( pBone->m_children.empty() )
         {

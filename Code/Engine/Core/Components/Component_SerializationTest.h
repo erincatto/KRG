@@ -31,10 +31,10 @@ namespace KRG
     {
         KRG_REGISTER_TYPE( ExternalTestStruct );
 
-        KRG_EXPOSE uint8                                        m_uint8 = 8;
-        KRG_EXPOSE uint16                                       m_uint16 = 16;
-        KRG_EXPOSE uint32                                       m_uint32 = 32;
-        KRG_EXPOSE uint64                                       m_U64 = 64;
+        KRG_EXPOSE uint8_t                                        m_uint8 = 8;
+        KRG_EXPOSE uint16_t                                       m_uint16 = 16;
+        KRG_EXPOSE uint32_t                                       m_uint32 = 32;
+        KRG_EXPOSE uint64_t                                       m_U64 = 64;
         KRG_EXPOSE UUID                                         m_UUID;
         KRG_EXPOSE EulerAngles                                  m_eulerAngles = EulerAngles( 23, 45, 56 );
         KRG_EXPOSE TVector<ExternalTestSubStruct>               m_dynamicArray = { ExternalTestSubStruct(), ExternalTestSubStruct() };
@@ -89,7 +89,7 @@ namespace KRG
             KRG_EXPOSE ResourceID                                   m_resourceID;
         };
 
-        enum class InternalEnum : uint8
+        enum class InternalEnum : uint8_t
         {
             KRG_REGISTER_ENUM
 
@@ -99,7 +99,7 @@ namespace KRG
 
         struct InternalTest
         {
-            enum class Enum : int16
+            enum class Enum : int16_t
             {
                 KRG_REGISTER_ENUM
 
@@ -116,14 +116,14 @@ namespace KRG
     protected:
 
         KRG_EXPOSE bool                                                         m_bool = true;
-        KRG_EXPOSE uint8                                                        m_U8 = 8;
-        KRG_EXPOSE uint16                                                       m_U16 = 16;
-        KRG_EXPOSE uint32                                                       m_U32 = 32;
-        KRG_EXPOSE uint64                                                       m_U64 = 64;
-        KRG_EXPOSE int8                                                         m_S8 = -8;
-        KRG_EXPOSE int16                                                        m_S16 = -16;
-        KRG_EXPOSE int32                                                        m_S32 = -32;
-        KRG_EXPOSE int64                                                        m_S64 = -64;
+        KRG_EXPOSE uint8_t                                                        m_U8 = 8;
+        KRG_EXPOSE uint16_t                                                       m_U16 = 16;
+        KRG_EXPOSE uint32_t                                                       m_U32 = 32;
+        KRG_EXPOSE uint64_t                                                       m_U64 = 64;
+        KRG_EXPOSE int8_t                                                         m_S8 = -8;
+        KRG_EXPOSE int16_t                                                        m_S16 = -16;
+        KRG_EXPOSE int32_t                                                        m_S32 = -32;
+        KRG_EXPOSE int64_t                                                        m_S64 = -64;
         KRG_EXPOSE float                                                        m_F32 = -343.23432432423f;
         KRG_EXPOSE double                                                       m_F64 = 343.23432432423;
         KRG_EXPOSE UUID                                                         m_UUID;

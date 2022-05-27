@@ -13,12 +13,12 @@ namespace KRG::Math
 
     //-------------------------------------------------------------------------
 
-    int32 AABBTree::FindBestLeafNodeToCreateSiblingFor( int32 startNodeIdx, AABB const& newBox ) const
+    int32_t AABBTree::FindBestLeafNodeToCreateSiblingFor( int32_t startNodeIdx, AABB const& newBox ) const
     {
         auto const& startNode = m_nodes[startNodeIdx];
         KRG_ASSERT( !startNode.IsLeafNode() && startNode.m_leftNodeIdx != InvalidIndex );
 
-        int32 currentNodeIdx = startNodeIdx;
+        int32_t currentNodeIdx = startNodeIdx;
         while ( currentNodeIdx != InvalidIndex )
         {
             auto const& currentNode = m_nodes[currentNodeIdx];
@@ -57,12 +57,12 @@ namespace KRG::Math
         return InvalidIndex;
     }
 
-    void AABBTree::InsertBox( AABB const& newBox, uint64 userData )
+    void AABBTree::InsertBox( AABB const& newBox, uint64_t userData )
     {
         KRG_ASSERT( newBox.IsValid() );
 
         // All boxes must have a non-zero unique userdata value as that is also used as the ID
-        KRG_ASSERT( userData != 0 && !VectorContains( m_nodes, userData, [] ( Node const& node, uint64 userData ) { return !node.m_isFree && node.IsLeafNode() && node.m_userData == userData; } ) );
+        KRG_ASSERT( userData != 0 && !VectorContains( m_nodes, userData, [] ( Node const& node, uint64_t userData ) { return !node.m_isFree && node.IsLeafNode() && node.m_userData == userData; } ) );
 
         // First box
         if ( m_rootNodeIdx == InvalidIndex )
@@ -77,13 +77,13 @@ namespace KRG::Math
         }
         else // Find the best leaf node to create a sibling to
         {
-            uint32 bestNodeIdx = FindBestLeafNodeToCreateSiblingFor( m_rootNodeIdx, newBox );
+            uint32_t bestNodeIdx = FindBestLeafNodeToCreateSiblingFor( m_rootNodeIdx, newBox );
             KRG_ASSERT( bestNodeIdx != InvalidIndex );
             InsertNode( bestNodeIdx, newBox, userData );
         }
     }
 
-    void AABBTree::UpdateBranchNodeBounds( int32 nodeIdx )
+    void AABBTree::UpdateBranchNodeBounds( int32_t nodeIdx )
     {
         auto& currentNode = m_nodes[nodeIdx];
         KRG_ASSERT( !currentNode.IsLeafNode() );
@@ -92,17 +92,17 @@ namespace KRG::Math
         currentNode.m_volume = currentNode.m_bounds.GetVolume();
     }
 
-    void AABBTree::InsertNode( int32 originalLeafNodeIdx, AABB const& newSiblingBox, uint64 userData )
+    void AABBTree::InsertNode( int32_t originalLeafNodeIdx, AABB const& newSiblingBox, uint64_t userData )
     {
         KRG_ASSERT( newSiblingBox.IsValid() );
 
         auto const& originalLeafNode = m_nodes[originalLeafNodeIdx];
-        int32 const grandparentIdx = originalLeafNode.m_parentNodeIdx;
+        int32_t const grandparentIdx = originalLeafNode.m_parentNodeIdx;
 
         //-------------------------------------------------------------------------
 
         // Create new branch node
-        int32 const newBranchNodeIdx = RequestNode( newSiblingBox );
+        int32_t const newBranchNodeIdx = RequestNode( newSiblingBox );
         m_nodes[newBranchNodeIdx].m_parentNodeIdx = grandparentIdx;
 
         // Set left child to original leaf node
@@ -110,7 +110,7 @@ namespace KRG::Math
         m_nodes[m_nodes[newBranchNodeIdx].m_leftNodeIdx].m_parentNodeIdx = newBranchNodeIdx;
 
         // Create the sibling node and set it as the right child
-        int32 const newSiblingNodeIdx = RequestNode( newSiblingBox, userData );
+        int32_t const newSiblingNodeIdx = RequestNode( newSiblingBox, userData );
         m_nodes[newBranchNodeIdx].m_rightNodeIdx = newSiblingNodeIdx;
         m_nodes[m_nodes[newBranchNodeIdx].m_rightNodeIdx].m_parentNodeIdx = newBranchNodeIdx;
 
@@ -135,7 +135,7 @@ namespace KRG::Math
         }
 
         // Propagate changes up the hierarchy
-        int32 parentIndex = grandparentIdx;
+        int32_t parentIndex = grandparentIdx;
         while ( parentIndex != InvalidIndex )
         {
             UpdateBranchNodeBounds( parentIndex );
@@ -143,17 +143,17 @@ namespace KRG::Math
         }
     }
 
-    void AABBTree::RemoveBox( uint64 userData )
+    void AABBTree::RemoveBox( uint64_t userData )
     {
-        int32 const nodeToRemoveIdx = VectorFindIndex( m_nodes, userData, [] ( Node const& node, uint64 userData ) { return !node.m_isFree && node.IsLeafNode() && node.m_userData == userData; } );
+        int32_t const nodeToRemoveIdx = VectorFindIndex( m_nodes, userData, [] ( Node const& node, uint64_t userData ) { return !node.m_isFree && node.IsLeafNode() && node.m_userData == userData; } );
         KRG_ASSERT( nodeToRemoveIdx != InvalidIndex && m_nodes[nodeToRemoveIdx].IsLeafNode() );
         RemoveNode( nodeToRemoveIdx );
     }
 
-    void AABBTree::RemoveNode( int32 nodeToRemoveIdx )
+    void AABBTree::RemoveNode( int32_t nodeToRemoveIdx )
     {
         // Check if we are the root node
-        int32 const parentNodeIdx = m_nodes[nodeToRemoveIdx].m_parentNodeIdx;
+        int32_t const parentNodeIdx = m_nodes[nodeToRemoveIdx].m_parentNodeIdx;
         if ( parentNodeIdx == InvalidIndex )
         {
             KRG_ASSERT( m_rootNodeIdx == nodeToRemoveIdx );
@@ -162,10 +162,10 @@ namespace KRG::Math
         }
         else // Replace the parent branch node with our sibling
         {
-            int32 const siblingIdx = ( m_nodes[parentNodeIdx].m_leftNodeIdx == nodeToRemoveIdx ) ? m_nodes[parentNodeIdx].m_rightNodeIdx : m_nodes[parentNodeIdx].m_leftNodeIdx;
+            int32_t const siblingIdx = ( m_nodes[parentNodeIdx].m_leftNodeIdx == nodeToRemoveIdx ) ? m_nodes[parentNodeIdx].m_rightNodeIdx : m_nodes[parentNodeIdx].m_leftNodeIdx;
 
             // If we dont have a grandparent then the parent branch was the root
-            int32 const grandparentNodeIdx = m_nodes[parentNodeIdx].m_parentNodeIdx;
+            int32_t const grandparentNodeIdx = m_nodes[parentNodeIdx].m_parentNodeIdx;
             if ( grandparentNodeIdx == InvalidIndex )
             {
                 KRG_ASSERT( m_rootNodeIdx == parentNodeIdx );
@@ -186,7 +186,7 @@ namespace KRG::Math
                 m_nodes[siblingIdx].m_parentNodeIdx = grandparentNodeIdx;
 
                 // Propagate changes up the hierarchy
-                int32 parentIndex = grandparentNodeIdx;
+                int32_t parentIndex = grandparentNodeIdx;
                 while ( parentIndex != InvalidIndex )
                 {
                     UpdateBranchNodeBounds( parentIndex );
@@ -202,12 +202,12 @@ namespace KRG::Math
 
     //-------------------------------------------------------------------------
 
-    int32 AABBTree::RequestNode( AABB const& box, uint64 userData )
+    int32_t AABBTree::RequestNode( AABB const& box, uint64_t userData )
     {
         KRG_ASSERT( m_nodes[m_freeNodeIdx].m_isFree );
 
         // Create a new node in the first free idx
-        int32 freeNodeIdx = m_freeNodeIdx;
+        int32_t freeNodeIdx = m_freeNodeIdx;
         new ( &m_nodes[freeNodeIdx] ) Node( box, userData );
         m_nodes[freeNodeIdx].m_isFree = false;
 
@@ -229,7 +229,7 @@ namespace KRG::Math
         return freeNodeIdx;
     }
 
-    void AABBTree::ReleaseNode( int32 nodeIdx )
+    void AABBTree::ReleaseNode( int32_t nodeIdx )
     {
         KRG_ASSERT( nodeIdx >= 0 && nodeIdx < m_nodes.size() && !m_nodes[nodeIdx].m_isFree );
         m_nodes[nodeIdx].m_isFree = true;
@@ -238,7 +238,7 @@ namespace KRG::Math
 
     //-------------------------------------------------------------------------
 
-    void AABBTree::FindAllOverlappingLeafNodes( int32 currentNodeIdx, AABB const& queryBox, TVector<uint64>& outResults ) const
+    void AABBTree::FindAllOverlappingLeafNodes( int32_t currentNodeIdx, AABB const& queryBox, TVector<uint64_t>& outResults ) const
     {
         Node const& currentNode = m_nodes[currentNodeIdx];
         if ( currentNode.IsLeafNode() )
@@ -256,7 +256,7 @@ namespace KRG::Math
         }
     }
 
-    bool AABBTree::FindOverlaps( AABB const& queryBox, TVector<uint64>& outResults ) const
+    bool AABBTree::FindOverlaps( AABB const& queryBox, TVector<uint64_t>& outResults ) const
     {
         outResults.clear();
 
@@ -291,7 +291,7 @@ namespace KRG::Math
         }
     }
 
-    void AABBTree::DrawBranch( Drawing::DrawContext& drawingContext, int32 nodeIdx ) const
+    void AABBTree::DrawBranch( Drawing::DrawContext& drawingContext, int32_t nodeIdx ) const
     {
         auto const& currentNode = m_nodes[nodeIdx];
         KRG_ASSERT( !currentNode.IsLeafNode() );
@@ -318,7 +318,7 @@ namespace KRG::Math
         }
     }
 
-    void AABBTree::DrawLeaf( Drawing::DrawContext& drawingContext, int32 nodeIdx ) const
+    void AABBTree::DrawLeaf( Drawing::DrawContext& drawingContext, int32_t nodeIdx ) const
     {
         KRG_ASSERT( m_nodes[nodeIdx].IsLeafNode() );
         drawingContext.DrawWireBox( m_nodes[nodeIdx].m_bounds, Colors::Lime, 2.0f, Drawing::DepthTestState::EnableDepthTest );

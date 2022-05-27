@@ -27,11 +27,11 @@ namespace KRG::Animation
 
     class RootMotionRecorder
     {
-        constexpr static int32 const s_recordingBufferSize = 300;
+        constexpr static int32_t const s_recordingBufferSize = 300;
 
     public:
 
-        enum class ActionType : uint16
+        enum class ActionType : uint16_t
         {
             Unknown = 0,
             Sample,
@@ -50,7 +50,7 @@ namespace KRG::Animation
             Transform                   m_rootMotionDelta;
             GraphNodeIndex              m_nodeIdx;
             ActionType                  m_actionType;
-            TInlineVector<int16, 2>     m_dependencies;
+            TInlineVector<int16_t, 2>     m_dependencies;
         };
 
         struct RecordedPosition
@@ -75,32 +75,32 @@ namespace KRG::Animation
 
         inline bool HasRecordedActions() const { return !m_recordedActions.empty(); }
 
-        KRG_FORCE_INLINE int16 GetLastActionIndex() const { return (int16) m_recordedActions.size() - 1; }
+        KRG_FORCE_INLINE int16_t GetLastActionIndex() const { return (int16_t) m_recordedActions.size() - 1; }
 
-        KRG_FORCE_INLINE int16 RecordSampling( GraphNodeIndex nodeIdx, Transform const& rootMotionDelta )
+        KRG_FORCE_INLINE int16_t RecordSampling( GraphNodeIndex nodeIdx, Transform const& rootMotionDelta )
         {
             KRG_ASSERT( nodeIdx != InvalidIndex );
-            int16 const idx = (int16) m_recordedActions.size();
+            int16_t const idx = (int16_t) m_recordedActions.size();
             m_recordedActions.emplace_back( nodeIdx, ActionType::Sample, rootMotionDelta);
             return idx;
         }
 
-        KRG_FORCE_INLINE int16 RecordModification( GraphNodeIndex nodeIdx, Transform const& rootMotionDelta )
+        KRG_FORCE_INLINE int16_t RecordModification( GraphNodeIndex nodeIdx, Transform const& rootMotionDelta )
         {
             KRG_ASSERT( nodeIdx != InvalidIndex );
-            int16 const previousIdx = GetLastActionIndex();
+            int16_t const previousIdx = GetLastActionIndex();
             KRG_ASSERT( previousIdx >= 0 );
-            int16 const idx = (int16) m_recordedActions.size();
+            int16_t const idx = (int16_t) m_recordedActions.size();
             auto& action = m_recordedActions.emplace_back( nodeIdx, ActionType::Modification, rootMotionDelta );
             action.m_dependencies.emplace_back( previousIdx );
             return idx;
         }
 
         // Blend operations automatically pop a blend context
-        KRG_FORCE_INLINE int16 RecordBlend( GraphNodeIndex nodeIdx, int16 originalRootMotionActionIdx0, int16 originalRootMotionActionIdx1, Transform const& rootMotionDelta )
+        KRG_FORCE_INLINE int16_t RecordBlend( GraphNodeIndex nodeIdx, int16_t originalRootMotionActionIdx0, int16_t originalRootMotionActionIdx1, Transform const& rootMotionDelta )
         {
             KRG_ASSERT( nodeIdx != InvalidIndex );
-            int16 const idx = (int16) m_recordedActions.size();
+            int16_t const idx = (int16_t) m_recordedActions.size();
             auto& action = m_recordedActions.emplace_back( nodeIdx, ActionType::Blend, rootMotionDelta );
             action.m_dependencies.emplace_back( originalRootMotionActionIdx0 );
 
@@ -124,7 +124,7 @@ namespace KRG::Animation
         Transform                       m_startWorldTransform;
         Transform                       m_endWorldTransform;
         TVector<RecordedPosition>       m_recordedRootTransforms; // Circular buffer
-        int32                           m_freeBufferIdx = 0;
+        int32_t                           m_freeBufferIdx = 0;
         RootMotionRecorderDebugMode     m_debugMode = RootMotionRecorderDebugMode::Off;
     };
 }

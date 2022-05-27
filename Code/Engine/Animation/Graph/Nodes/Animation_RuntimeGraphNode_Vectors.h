@@ -10,7 +10,7 @@ namespace KRG::Animation::GraphNodes
     {
     public:
 
-        enum class Info : uint8
+        enum class Info : uint8_t
         {
             KRG_REGISTER_ENUM
 

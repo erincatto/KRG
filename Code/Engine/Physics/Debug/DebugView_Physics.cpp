@@ -55,7 +55,7 @@ namespace KRG::Physics
                     static char const* const combineText[] = { "Average", "Min", "Multiply", "Max" };
                     auto GetCombineText = [] ( PxCombineMode::Enum combineMode )
                     {
-                        return combineText[(uint8) combineMode];
+                        return combineText[(uint8_t) combineMode];
                     };
 
                     //-------------------------------------------------------------------------
@@ -118,7 +118,7 @@ namespace KRG::Physics
         // Scene
         //-------------------------------------------------------------------------
 
-        uint32 debugFlags = m_pPhysicsWorldSystem->GetDebugFlags();
+        uint32_t debugFlags = m_pPhysicsWorldSystem->GetDebugFlags();
         float drawDistance = m_pPhysicsWorldSystem->GetDebugDrawDistance();
 
         bool stateUpdated = false;

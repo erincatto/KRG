@@ -143,9 +143,9 @@ namespace KRG::Resource
         {
             auto ProcessIncomingMessages = [this] ( Network::IPC::Message const& message )
             {
-                if ( message.GetMessageID() == (int32) NetworkMessageID::RequestResource )
+                if ( message.GetMessageID() == (int32_t) NetworkMessageID::RequestResource )
                 {
-                    uint32 const clientID = message.GetClientConnectionID();
+                    uint32_t const clientID = message.GetClientConnectionID();
                     NetworkResourceRequest networkRequest = message.GetData<NetworkResourceRequest>();
                     ProcessResourceRequest( networkRequest.m_path, clientID );
                 }
@@ -253,7 +253,7 @@ namespace KRG::Resource
 
     void ResourceServer::CleanupCompletedRequests()
     {
-        for ( int32 i = (int32) m_completedRequests.size() - 1; i >= 0; i-- )
+        for ( int32_t i = (int32_t) m_completedRequests.size() - 1; i >= 0; i-- )
         {
             KRG_ASSERT( !VectorContains( m_activeRequests, m_completedRequests[i] ) && !VectorContains( m_pendingRequests, m_completedRequests[i] ) );
             KRG::Delete( m_completedRequests[i] );
@@ -263,7 +263,7 @@ namespace KRG::Resource
 
     //-------------------------------------------------------------------------
 
-    void ResourceServer::ProcessResourceRequest( ResourceID const& resourceID, uint32 clientID, bool forceRecompile )
+    void ResourceServer::ProcessResourceRequest( ResourceID const& resourceID, uint32_t clientID, bool forceRecompile )
     {
         KRG_ASSERT( m_compiledResourceDatabase.IsConnected() );
 
@@ -391,7 +391,7 @@ namespace KRG::Resource
                 {
                     Network::IPC::Message message;
                     message.SetClientConnectionID( clientInfo.m_ID );
-                    message.SetData( (int32) NetworkMessageID::ResourceUpdated, response );
+                    message.SetData( (int32_t) NetworkMessageID::ResourceUpdated, response );
                     m_networkServer.SendMessage( eastl::move( message ) );
                 }
             }
@@ -400,7 +400,7 @@ namespace KRG::Resource
         {
             Network::IPC::Message message;
             message.SetClientConnectionID( pRequest->GetClientID() );
-            message.SetData( (int32) NetworkMessageID::ResourceRequestComplete, response );
+            message.SetData( (int32_t) NetworkMessageID::ResourceRequestComplete, response );
             m_networkServer.SendMessage( eastl::move( message ) );
         }
     }
@@ -550,7 +550,7 @@ namespace KRG::Resource
         // Check compile dependencies
         //-------------------------------------------------------------------------
 
-        int32 const compilerVersion = m_compilerRegistry.GetVersionForType( resourceID.GetResourceTypeID() );
+        int32_t const compilerVersion = m_compilerRegistry.GetVersionForType( resourceID.GetResourceTypeID() );
         KRG_ASSERT( compilerVersion >= 0 );
 
         FileSystem::Path const sourceFilePath = ResourcePath::ToFileSystemPath( m_pSettings->m_rawResourcePath, resourceID.GetResourcePath() );
@@ -559,8 +559,8 @@ namespace KRG::Resource
             return false;
         }
 
-        uint64 const fileTimestamp = FileSystem::GetFileModifiedTime( sourceFilePath );
-        uint64 sourceTimestampHash = 0;
+        uint64_t const fileTimestamp = FileSystem::GetFileModifiedTime( sourceFilePath );
+        uint64_t sourceTimestampHash = 0;
 
         TVector<ResourcePath> compileDependencies;
         if ( !TryReadCompileDependencies( sourceFilePath, compileDependencies ) )

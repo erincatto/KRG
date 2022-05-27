@@ -179,9 +179,9 @@ namespace KRG
 
         m_entities.clear();
 
-        int32 numEntities = 0 ;
-        int32 numSpatialEntities = 0;
-        int32 numComponents = 0;
+        int32_t numEntities = 0 ;
+        int32_t numSpatialEntities = 0;
+        int32_t numComponents = 0;
 
         bool foundSelectedEntity = false;
 
@@ -189,7 +189,7 @@ namespace KRG
         {
             if ( loadedMap.IsLoaded() || loadedMap.IsActivated() )
             {
-                numEntities += (int32) loadedMap.GetEntities().size();
+                numEntities += (int32_t) loadedMap.GetEntities().size();
                 m_entities.insert( m_entities.end(), loadedMap.GetEntities().begin(), loadedMap.GetEntities().end() );
 
                 for ( Entity* pEntity : loadedMap.GetEntities() )

@@ -37,7 +37,7 @@ namespace KRG::Render
             MATERIAL_USE_AO_TEXTURE = ( 1 << 4 ),
         };
 
-        constexpr static int32 const s_maxPunctualLights = 16;
+        constexpr static int32_t const s_maxPunctualLights = 16;
 
         struct PunctualLight
         {
@@ -53,8 +53,8 @@ namespace KRG::Render
             Vector          m_SunColorRoughnessOneLevel = Vector::Zero;// TODO: refactor to Float3 and float
             Matrix          m_sunShadowMapMatrix = Matrix( ZeroInit );
             float           m_manualExposure = -1.0f;
-            uint32          m_lightingFlags = 0;
-            uint32          m_numPunctualLights = 0;
+            uint32_t          m_lightingFlags = 0;
+            uint32_t          m_numPunctualLights = 0;
             PunctualLight   m_punctualLights[s_maxPunctualLights];
         };
 
@@ -62,21 +62,21 @@ namespace KRG::Render
         {
             PickingData() = default;
 
-            inline PickingData( uint64 v0, uint64 v1 )
+            inline PickingData( uint64_t v0, uint64_t v1 )
             {
-                m_ID[0] = (uint32) ( v0 & 0x00000000FFFFFFFF );
-                m_ID[1] = (uint32) ( ( v0 >> 32 ) & 0x00000000FFFFFFFF );
-                m_ID[2] = (uint32) ( v1 & 0x00000000FFFFFFFF );
-                m_ID[3] = (uint32) ( ( v1 >> 32 ) & 0x00000000FFFFFFFF );
+                m_ID[0] = (uint32_t) ( v0 & 0x00000000FFFFFFFF );
+                m_ID[1] = (uint32_t) ( ( v0 >> 32 ) & 0x00000000FFFFFFFF );
+                m_ID[2] = (uint32_t) ( v1 & 0x00000000FFFFFFFF );
+                m_ID[3] = (uint32_t) ( ( v1 >> 32 ) & 0x00000000FFFFFFFF );
             }
 
-            uint32 m_ID[4];
+            uint32_t m_ID[4];
             Float4 m_padding;
         };
 
         struct MaterialData
         {
-            uint32   m_surfaceFlags = 0;
+            uint32_t   m_surfaceFlags = 0;
             float    m_metalness = 0.0f;
             float    m_roughness = 0.0f;
             float    m_normalScaler = 1.0f;

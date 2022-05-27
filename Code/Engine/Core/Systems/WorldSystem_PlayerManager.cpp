@@ -183,7 +183,7 @@ namespace KRG
             }
             else
             {
-                int32 const wheelDelta = pMouseState->GetWheelDelta();
+                int32_t const wheelDelta = pMouseState->GetWheelDelta();
                 m_debugCameraMoveSpeed = FloatRange( s_debugCameraMinSpeed, s_debugCameraMaxSpeed ).GetClampedValue( m_debugCameraMoveSpeed + ( wheelDelta * 0.5f ) );
             }
         }

@@ -33,7 +33,7 @@ namespace KRG::FileSystem
 
     class KRG_TOOLS_CORE_API FileSystemWatcher final
     {
-        static constexpr uint32 const ResultBufferSize = 16384;
+        static constexpr uint32_t const ResultBufferSize = 16384;
         static constexpr float const FileModificationBatchTimeout = 250; // How long to wait between the start of the first modification event and notifying the event listeners
 
         struct FileModificationEvent
@@ -46,6 +46,7 @@ namespace KRG::FileSystem
 
     public:
 
+        FileSystemWatcher();
         ~FileSystemWatcher();
 
         void RegisterChangeListener( IFileSystemChangeListener* pListener );
@@ -72,9 +73,9 @@ namespace KRG::FileSystem
         TInlineVector<IFileSystemChangeListener*, 5>    m_changeListeners;
 
         // Request Data
-        OVERLAPPED                                      m_overlappedEvent = { 0 };
-        Byte                                            m_resultBuffer[ResultBufferSize] = { 0 };
-        DWORD                                           m_numBytesReturned = 0;
+        void*                                           m_pOverlappedEvent = nullptr;
+        uint8_t                                         m_resultBuffer[ResultBufferSize] = { 0 };
+        unsigned long                                   m_numBytesReturned = 0;
         bool                                            m_requestPending = false;
 
         // File Modification buffers

@@ -88,7 +88,7 @@ namespace KRG
         {
             // Add to global list - settings are expected to be unique!
             KRG_ASSERT( m_debugSettings.find( pSetting->m_nameHash ) == m_debugSettings.end() );
-            m_debugSettings.insert( TPair<uint32, DebugSetting*>( pSetting->m_nameHash, pSetting ) );
+            m_debugSettings.insert( TPair<uint32_t, DebugSetting*>( pSetting->m_nameHash, pSetting ) );
 
             // Move onto next setting
             pSetting = pSetting->m_pNext;
@@ -103,7 +103,7 @@ namespace KRG
         InlineString combinedName( pCategoryName );
         combinedName += pSettingName;
 
-        uint32 const combinedNameHash = Hash::GetHash32( combinedName.c_str() );
+        uint32_t const combinedNameHash = Hash::GetHash32( combinedName.c_str() );
 
         auto settingsIter = m_debugSettings.find( combinedNameHash );
         if ( settingsIter != m_debugSettings.end() )

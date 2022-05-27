@@ -1,7 +1,7 @@
 #pragma once
 
 #include "System/Core/_Module/API.h"
-#include "Containers.h"
+#include "EASTL/hash_map.h"
 #include "String.h"
 
 //-------------------------------------------------------------------------
@@ -22,22 +22,21 @@ namespace KRG
     public:
 
         using CachedString = eastl::basic_string<char, StringID_CustomAllocator>;
-        using StringCache = eastl::hash_map<uint32, CachedString, eastl::hash<uint32>, eastl::equal_to<uint32>, StringID_CustomAllocator>;
+        using StringCache = eastl::hash_map<uint32_t, CachedString, eastl::hash<uint32_t>, eastl::equal_to<uint32_t>, StringID_CustomAllocator>;
 
-        static StringCache const s_stringCache;
-        static StringID const InvalidID;
+        static StringCache const    s_stringCache;
 
     public:
 
         StringID() = default;
         explicit StringID( nullptr_t ) : m_ID( 0 ) {}
         explicit StringID( char const* pStr );
-        explicit StringID( uint32 ID ) : m_ID( ID ) {}
+        explicit StringID( uint32_t ID ) : m_ID( ID ) {}
         inline explicit StringID( String const& str ) : StringID( str.c_str() ) {}
 
         inline bool IsValid() const { return m_ID != 0; }
-        inline uint32 GetID() const { return m_ID; }
-        inline operator uint32() const { return m_ID; }
+        inline uint32_t GetID() const { return m_ID; }
+        inline operator uint32_t() const { return m_ID; }
 
         inline void Clear() { m_ID = 0; }
 
@@ -48,7 +47,7 @@ namespace KRG
 
     private:
 
-        uint32 m_ID = 0;
+        uint32_t m_ID = 0;
     };
 }
 
@@ -59,6 +58,6 @@ namespace eastl
     template <>
     struct hash<KRG::StringID>
     {
-        eastl_size_t operator()( KRG::StringID const& ID ) const { return (KRG::uint32) ID; }
+        eastl_size_t operator()( KRG::StringID const& ID ) const { return (uint32_t) ID; }
     };
 }

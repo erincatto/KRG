@@ -1,7 +1,6 @@
 #ifdef _WIN32
 #pragma once
 
-#include <windows.h>
 #include "Win32/Application_Win32.h"
 #include "Applications/EngineShared/Engine.h"
 #include "Engine/Core/ToolsUI/EngineToolsUI.h"
@@ -34,7 +33,7 @@ namespace KRG
 
     private:
 
-        virtual bool ReadSettings( int32 argc, char** argv ) override;
+        virtual bool ReadSettings( int32_t argc, char** argv ) override;
         virtual bool Initialize();
         virtual bool Shutdown();
 

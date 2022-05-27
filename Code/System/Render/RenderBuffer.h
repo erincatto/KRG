@@ -39,14 +39,14 @@ namespace KRG::Render
         inline bool IsValid() const { return m_resourceHandle.IsValid(); }
 
         BufferHandle const& GetResourceHandle() const { return m_resourceHandle; }
-        inline uint32 GetNumElements() const { return m_byteSize / m_byteStride; }
+        inline uint32_t GetNumElements() const { return m_byteSize / m_byteStride; }
 
     public:
 
-        uint32              m_ID;
-        uint32              m_slot = 0;
-        uint32              m_byteSize = 0;
-        uint32              m_byteStride = 0;
+        uint32_t              m_ID;
+        uint32_t              m_slot = 0;
+        uint32_t              m_byteSize = 0;
+        uint32_t              m_byteStride = 0;
         Usage               m_usage = Usage::GPU_only;
         Type                m_type = Type::Unknown;
 

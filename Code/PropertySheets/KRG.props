@@ -56,7 +56,6 @@
       <GenerateDebugInformation Condition="$(Configuration) == 'Shipping'">No</GenerateDebugInformation>
       <RandomizedBaseAddress Condition="$(Configuration) == 'Debug'">false</RandomizedBaseAddress>
       <CreateHotPatchableImage Condition="$(Configuration) != 'Shipping'">Enabled</CreateHotPatchableImage>
-      <CreateHotPatchableImage Condition="$(Configuration) == 'Shipping'">Disabled</CreateHotPatchableImage>
       <OptimizeReferences Condition="$(Configuration) != 'Shipping'">false</OptimizeReferences>
       <OptimizeReferences Condition="$(Configuration) == 'Shipping'">true</OptimizeReferences>
       <EnableCOMDATFolding Condition="$(Configuration) != 'Shipping'">false</EnableCOMDATFolding>

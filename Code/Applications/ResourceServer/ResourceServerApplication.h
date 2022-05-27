@@ -9,7 +9,7 @@
 #include "System/Render/Imgui/ImguiSystem.h"
 #include "System/Render/RenderViewport.h"
 #include "System/Core/Types/String.h"
-#include "System/Core/Types/IntegralTypes.h"
+#include "System/Core/KRG.h"
 #include "Engine/Core/Update/UpdateContext.h"
 #include "Win32/Application_Win32.h"
 #include <shellapi.h>
@@ -31,7 +31,7 @@ namespace KRG
 
     private:
 
-        virtual bool ReadSettings( int32 argc, char** argv ) override;
+        virtual bool ReadSettings( int32_t argc, char** argv ) override;
         virtual bool Initialize() override;
         virtual bool Shutdown() override;
         virtual bool ApplicationLoop() override;
@@ -43,15 +43,15 @@ namespace KRG
         void ShowApplicationWindow();
         void HideApplicationWindow();
 
-        bool CreateSystemTrayIcon( int32 iconID );
+        bool CreateSystemTrayIcon( int32_t iconID );
         void DestroySystemTrayIcon();
-        void RefreshSystemTrayIcon( int32 iconID );
+        void RefreshSystemTrayIcon( int32_t iconID );
         bool ShowSystemTrayMenu();
 
     private:
 
         NOTIFYICONDATA                          m_systemTrayIconData;
-        int32                                   m_currentIconID = 0;
+        int32_t                                   m_currentIconID = 0;
         bool                                    m_applicationWindowHidden = false;
 
         //-------------------------------------------------------------------------

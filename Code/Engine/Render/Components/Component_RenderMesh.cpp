@@ -20,7 +20,7 @@ namespace KRG::Render
         SpatialEntityComponent::Shutdown();
     }
 
-    void MeshComponent::SetMaterialOverride( int32 materialIdx, ResourceID materialResourceID )
+    void MeshComponent::SetMaterialOverride( int32_t materialIdx, ResourceID materialResourceID )
     {
         KRG_ASSERT( IsUnloaded() );
         KRG_ASSERT( materialResourceID.IsValid() );

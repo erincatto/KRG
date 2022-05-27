@@ -53,14 +53,14 @@ namespace KRG::FileSystem
     KRG_SYSTEM_CORE_API bool IsFileReadOnly( char const* filePath );
     KRG_FORCE_INLINE bool IsFileReadOnly( String const& filePath ) { return IsFileReadOnly( filePath.c_str() ); }
 
-    KRG_SYSTEM_CORE_API uint64 GetFileModifiedTime( char const* filePath );
-    KRG_FORCE_INLINE uint64 GetFileModifiedTime( String const& filePath ) { return GetFileModifiedTime( filePath.c_str() ); }
+    KRG_SYSTEM_CORE_API uint64_t GetFileModifiedTime( char const* filePath );
+    KRG_FORCE_INLINE uint64_t GetFileModifiedTime( String const& filePath ) { return GetFileModifiedTime( filePath.c_str() ); }
     
     KRG_SYSTEM_CORE_API bool EraseFile( char const* filePath );
     KRG_FORCE_INLINE bool EraseFile( String const& filePath ) { return EraseFile( filePath.c_str() ); }
 
-    KRG_SYSTEM_CORE_API bool LoadFile( char const* filePath, TVector<Byte>& fileData );
-    KRG_FORCE_INLINE bool LoadFile( String const& filePath, TVector<Byte>& fileData ) { return LoadFile( filePath.c_str(), fileData ); }
+    KRG_SYSTEM_CORE_API bool LoadFile( char const* filePath, TVector<uint8_t>& fileData );
+    KRG_FORCE_INLINE bool LoadFile( String const& filePath, TVector<uint8_t>& fileData ) { return LoadFile( filePath.c_str(), fileData ); }
     
     // Directory Functions
     //-------------------------------------------------------------------------

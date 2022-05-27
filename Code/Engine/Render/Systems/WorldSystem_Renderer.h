@@ -34,7 +34,7 @@ namespace KRG::Render
         KRG_ENTITY_WORLD_SYSTEM( RendererWorldSystem, RequiresUpdate( UpdateStage::FrameEnd ), RequiresUpdate( UpdateStage::Paused ) );
 
         #if KRG_DEVELOPMENT_TOOLS
-        enum class VisualizationMode : int8
+        enum class VisualizationMode : int8_t
         {
             Lighting            = 0,
             Albedo              = 1,
@@ -54,7 +54,7 @@ namespace KRG::Render
         {
             SkeletalMeshGroup( SkeletalMesh const* pInMesh ) : m_pMesh( pInMesh ) { KRG_ASSERT( pInMesh != nullptr ); }
 
-            inline uint32 GetID() const { return m_pMesh->GetResourceID().GetPathID(); }
+            inline uint32_t GetID() const { return m_pMesh->GetResourceID().GetPathID(); }
 
         public:
 
@@ -113,7 +113,7 @@ namespace KRG::Render
 
         // Skeletal meshes
         TIDVector<ComponentID, SkeletalMeshComponent*>                  m_registeredSkeletalMeshComponents;
-        TIDVector<uint32, SkeletalMeshGroup>                            m_skeletalMeshGroups;
+        TIDVector<uint32_t, SkeletalMeshGroup>                            m_skeletalMeshGroups;
         TVector<SkeletalMeshComponent const*>                           m_visibleSkeletalMeshComponents;
 
         // Lights

@@ -19,7 +19,7 @@ namespace KRG::SQLite
 
         databasePath.EnsureDirectoryExists();
 
-        int32 sqlFlags = 0;
+        int32_t sqlFlags = 0;
 
         if ( readOnlyAccess )
         {

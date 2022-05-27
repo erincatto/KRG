@@ -1,31 +1,32 @@
 #include "Encoding.h"
+#include <locale>
 
 //-------------------------------------------------------------------------
 
 namespace KRG::Encoding::Base64
 {
-    static Byte const g_charTable[65] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+    static uint8_t const g_charTable[65] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 
     //-------------------------------------------------------------------------
 
-    TVector<Byte> Encode( Byte const* pDataToEncode, size_t dataSize )
+    TVector<uint8_t> Encode( uint8_t const* pDataToEncode, size_t dataSize )
     {
         KRG_ASSERT( pDataToEncode != nullptr && dataSize > 0 );
 
-        TVector<Byte> encodedData;
-        int32 i = 0, j = 0;
-        Byte byte3[3];
-        Byte byte4[4];
+        TVector<uint8_t> encodedData;
+        int32_t i = 0, j = 0;
+        uint8_t byte3[3];
+        uint8_t byte4[4];
 
         while ( dataSize-- )
         {
             byte3[i++] = *( pDataToEncode++ );
             if ( i == 3 )
             {
-                byte4[0] = static_cast<Byte>( ( byte3[0] & 0xfc ) >> 2 );
-                byte4[1] = static_cast<Byte>( ( ( byte3[0] & 0x03 ) << 4 ) + ( ( byte3[1] & 0xf0 ) >> 4 ) );
-                byte4[2] = static_cast<Byte>( ( ( byte3[1] & 0x0f ) << 2 ) + ( ( byte3[2] & 0xc0 ) >> 6 ) );
-                byte4[3] = static_cast<Byte>( byte3[2] & 0x3f );
+                byte4[0] = static_cast<uint8_t>( ( byte3[0] & 0xfc ) >> 2 );
+                byte4[1] = static_cast<uint8_t>( ( ( byte3[0] & 0x03 ) << 4 ) + ( ( byte3[1] & 0xf0 ) >> 4 ) );
+                byte4[2] = static_cast<uint8_t>( ( ( byte3[1] & 0x0f ) << 2 ) + ( ( byte3[2] & 0xc0 ) >> 6 ) );
+                byte4[3] = static_cast<uint8_t>( byte3[2] & 0x3f );
 
                 for ( i = 0; ( i < 4 ); i++ )
                 {
@@ -61,14 +62,14 @@ namespace KRG::Encoding::Base64
         return encodedData;
     }
 
-    static bool IsBase64( Byte c )
+    static bool IsBase64( uint8_t c )
     {
-        return ( isalnum( c ) || ( c == '+' ) || ( c == '/' ) );
+        return ( std::isalnum( c ) || ( c == '+' ) || ( c == '/' ) );
     }
 
-    static Byte FindCharIndex( Byte c )
+    static uint8_t FindCharIndex( uint8_t c )
     {
-        for ( Byte i = 0; i < 65; i++ )
+        for ( uint8_t i = 0; i < 65; i++ )
         {
             if ( g_charTable[i] == c )
             {
@@ -77,17 +78,17 @@ namespace KRG::Encoding::Base64
         }
 
         KRG_UNREACHABLE_CODE();
-        return (Byte) -1;
+        return (uint8_t) -1;
     }
 
-    TVector<Byte> Decode( Byte const* pDataToDecode, size_t dataSize )
+    TVector<uint8_t> Decode( uint8_t const* pDataToDecode, size_t dataSize )
     {
         KRG_ASSERT( pDataToDecode != nullptr && dataSize > 0 );
-        TVector<Byte> decodedData;
+        TVector<uint8_t> decodedData;
 
-        int32 idx = 0;
+        int32_t idx = 0;
         size_t i = 0, j = 0;
-        Byte byte4[4], byte3[3];
+        uint8_t byte4[4], byte3[3];
 
         while ( dataSize-- && ( pDataToDecode[idx] != '=' ) && IsBase64( pDataToDecode[idx] ) )
         {
@@ -144,18 +145,18 @@ namespace KRG::Encoding::Base64
 
 namespace KRG::Encoding::Base85
 {
-    TVector<Byte> Encode( Byte const* pDataToEncode, size_t dataSize )
+    TVector<uint8_t> Encode( uint8_t const* pDataToEncode, size_t dataSize )
     {
         KRG_ASSERT( pDataToEncode != nullptr && dataSize > 0 );
-        TVector<Byte> encodedData;
+        TVector<uint8_t> encodedData;
         KRG_UNIMPLEMENTED_FUNCTION();
         return encodedData;
     }
 
-    TVector<Byte> Decode( Byte const* pDataToDecode, size_t dataSize )
+    TVector<uint8_t> Decode( uint8_t const* pDataToDecode, size_t dataSize )
     {
         KRG_ASSERT( pDataToDecode != nullptr && dataSize > 0 );
-        TVector<Byte> decodedData;
+        TVector<uint8_t> decodedData;
         KRG_UNIMPLEMENTED_FUNCTION();
         return decodedData;
     }

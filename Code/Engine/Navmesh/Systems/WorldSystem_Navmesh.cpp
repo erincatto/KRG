@@ -163,7 +163,7 @@ namespace KRG::Navmesh
         #endif
     }
 
-    AABB NavmeshWorldSystem::GetNavmeshBounds( uint32 layerIdx ) const
+    AABB NavmeshWorldSystem::GetNavmeshBounds( uint32_t layerIdx ) const
     {
         AABB bounds;
 

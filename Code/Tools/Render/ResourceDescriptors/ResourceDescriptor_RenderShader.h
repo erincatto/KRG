@@ -7,7 +7,7 @@
 
 namespace KRG::Render
 {
-    enum class ShaderType : uint8
+    enum class ShaderType : uint8_t
     {
         KRG_REGISTER_ENUM
 

@@ -91,7 +91,7 @@ namespace KRG::Animation::GraphNodes
 
                         case GraphValueType::Int:
                         {
-                            auto const value = pDebugContext->GetRuntimeNodeValue<int32>( runtimeNodeIdx );
+                            auto const value = pDebugContext->GetRuntimeNodeValue<int32_t>( runtimeNodeIdx );
                             ImGui::Text( "%d", value );
                         }
                         break;
@@ -585,7 +585,7 @@ namespace KRG::Animation
         VisualGraph::FlowGraph::SerializeCustom( typeRegistry, writer );
 
         writer.Key( "GraphType" );
-        writer.Uint( (uint8) m_type );
+        writer.Uint( (uint8_t) m_type );
     }
 
     void FlowGraph::PostPasteNodes( TInlineVector<VisualGraph::BaseNode*, 20> const& pastedNodes )

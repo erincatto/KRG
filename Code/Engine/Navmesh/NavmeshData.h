@@ -18,10 +18,10 @@ namespace KRG::Navmesh
     public:
 
         virtual bool IsValid() const override { return !m_graphImage.empty(); }
-        inline TVector<Byte> const& GetGraphImage() const { return m_graphImage; }
+        inline TVector<uint8_t> const& GetGraphImage() const { return m_graphImage; }
 
     private:
 
-        TVector<Byte>   m_graphImage;
+        TVector<uint8_t>   m_graphImage;
     };
 }

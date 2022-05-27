@@ -11,9 +11,9 @@ namespace KRG::TypeSystem
         struct ResolvedPathElement
         {
             StringID                m_propertyID;
-            int32                   m_arrayElementIdx;
+            int32_t                   m_arrayElementIdx;
             PropertyInfo const*     m_pPropertyInfo;
-            Byte*                   m_pAddress;
+            uint8_t*                   m_pAddress;
         };
 
         struct ResolvedPath
@@ -25,11 +25,11 @@ namespace KRG::TypeSystem
         };
 
         // Resolves a given property path with a given type instance to calculate the final address of the property this path refers to
-        static ResolvedPath ResolvePropertyPath( TypeRegistry const& typeRegistry, TypeInfo const* pTypeInfo, Byte* const pTypeInstanceAddress, PropertyPath const& path )
+        static ResolvedPath ResolvePropertyPath( TypeRegistry const& typeRegistry, TypeInfo const* pTypeInfo, uint8_t* const pTypeInstanceAddress, PropertyPath const& path )
         {
             ResolvedPath resolvedPath;
 
-            Byte* pResolvedTypeInstance = pTypeInstanceAddress;
+            uint8_t* pResolvedTypeInstance = pTypeInstanceAddress;
             TypeInfo const* pResolvedTypeInfo = pTypeInfo;
             PropertyInfo const* pFoundPropertyInfo = nullptr;
 
@@ -101,7 +101,7 @@ namespace KRG::TypeSystem
                         size_t const numArrayElements = propInfo.IsStaticArrayProperty() ? propInfo.m_arraySize : pTypeInfo->m_pTypeHelper->GetArraySize( pTypeInstance, propInfo.m_ID );
                         if ( numArrayElements > 0 )
                         {
-                            Byte const* pArrayElementAddress = pTypeInfo->m_pTypeHelper->GetArrayElementDataPtr( const_cast<IRegisteredType*>( pTypeInstance ), propInfo.m_ID, 0 );
+                            uint8_t const* pArrayElementAddress = pTypeInfo->m_pTypeHelper->GetArrayElementDataPtr( const_cast<IRegisteredType*>( pTypeInstance ), propInfo.m_ID, 0 );
 
                             // Write array elements
                             for ( auto i = 0; i < numArrayElements; i++ )
@@ -123,7 +123,7 @@ namespace KRG::TypeSystem
                 }
             }
 
-            static void DescribeProperty( TypeRegistry const& typeRegistry, TypeDescriptor& typeDesc, TypeInfo const* pParentTypeInfo, IRegisteredType const* pParentInstance, PropertyInfo const& propertyInfo, bool shouldSetPropertyStringValues, void const* pPropertyInstance, PropertyPath& path, int32 arrayElementIdx = InvalidIndex )
+            static void DescribeProperty( TypeRegistry const& typeRegistry, TypeDescriptor& typeDesc, TypeInfo const* pParentTypeInfo, IRegisteredType const* pParentInstance, PropertyInfo const& propertyInfo, bool shouldSetPropertyStringValues, void const* pPropertyInstance, PropertyPath& path, int32_t arrayElementIdx = InvalidIndex )
             {
                 if ( IsCoreType( propertyInfo.m_typeID ) || propertyInfo.IsEnumProperty() )
                 {
@@ -184,7 +184,7 @@ namespace KRG::TypeSystem
 
     void TypeDescriptor::RemovePropertyValue( TypeSystem::PropertyPath const& path )
     {
-        for ( int32 i = (int32) m_properties.size() - 1; i >= 0; i-- )
+        for ( int32_t i = (int32_t) m_properties.size() - 1; i >= 0; i-- )
         {
             if ( m_properties[i].m_path == path )
             {
@@ -202,7 +202,7 @@ namespace KRG::TypeSystem
             KRG_ASSERT( propertyValue.IsValid() );
 
             // Resolve a property path for a given instance
-            auto resolvedPath = ResolvePropertyPath( typeRegistry, &typeInfo, (Byte*) pTypeInstance, propertyValue.m_path );
+            auto resolvedPath = ResolvePropertyPath( typeRegistry, &typeInfo, (uint8_t*) pTypeInstance, propertyValue.m_path );
             if ( !resolvedPath.IsValid() )
             {
                 KRG_LOG_ERROR( "TypeSystem", "Tried to set the value for an invalid property (%s) for type (%s)", propertyValue.m_path.ToString().c_str(), typeInfo.m_ID.ToStringID().c_str() );
@@ -238,7 +238,7 @@ namespace KRG::TypeSystem
         m_typeSizes.clear();
         m_typePaddings.clear();
 
-        int32 const numDescs = (int32) m_descriptors.size();
+        int32_t const numDescs = (int32_t) m_descriptors.size();
         if ( numDescs == 0 )
         {
             return;
@@ -265,9 +265,9 @@ namespace KRG::TypeSystem
 
             m_typeInfos.emplace_back( pTypeInfo );
             m_typeSizes.emplace_back( pTypeInfo->m_size );
-            m_typePaddings.emplace_back( (uint32) requiredPadding );
+            m_typePaddings.emplace_back( (uint32_t) requiredPadding );
         }
 
-        m_totalRequiredSize = (uint32) predictedMemoryOffset;
+        m_totalRequiredSize = (uint32_t) predictedMemoryOffset;
     }
 }

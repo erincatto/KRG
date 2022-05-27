@@ -186,8 +186,8 @@ sort/q_sort/vector<TestObject>                 87962047     15004677      5.86  
 sort/q_sort/vector<TestObject>/sorted          21396523      3341163      6.40         *
 sort/q_sort/vector<ValuePair>                  80334589     10429161      7.70         *
 sort/q_sort/vector<ValuePair>/sorted           22133295      3230553      6.85         *
-sort/q_sort/vector<uint32>                     72195388      5940302     12.15         *
-sort/q_sort/vector<uint32>/sorted              19635171       995495     19.72         *
+sort/q_sort/vector<uint32_t>                     72195388      5940302     12.15         *
+sort/q_sort/vector<uint32_t>/sorted              19635171       995495     19.72         *
 
 string<char16_t>/compare                      523013373    534722089      0.98
 string<char16_t>/erase/pos,n                    3446597      3439492      1.00
@@ -221,12 +221,12 @@ string<char8_t>/rfind/p,pos,n                    737299       368518      2.00  
 string<char8_t>/size                              42245        26801      1.58         *
 string<char8_t>/swap                            1036142      1491028      0.69         *
 
-vector<uint64>/erase                           56417135     55770251      1.01
-vector<uint64>/insert                          56617761     56100468      1.01
-vector<uint64>/iteration                       10413895      1291269      8.06         *
-vector<uint64>/operator[]                      23507193      3479390      6.76         *
-vector<uint64>/push_back                       34687939     13806627      2.51         *
-vector<uint64>/sort                           256886550     84669657      3.03         *
+vector<uint64_t>/erase                           56417135     55770251      1.01
+vector<uint64_t>/insert                          56617761     56100468      1.01
+vector<uint64_t>/iteration                       10413895      1291269      8.06         *
+vector<uint64_t>/operator[]                      23507193      3479390      6.76         *
+vector<uint64_t>/push_back                       34687939     13806627      2.51         *
+vector<uint64_t>/sort                           256886550     84669657      3.03         *
 ```
 
 ### Win32.VC71.MS.Release
@@ -392,8 +392,8 @@ sort/q_sort/vector<TestObject>                  9674828      5430199      1.78  
 sort/q_sort/vector<TestObject>/sorted            606908      1111647      0.55         *
 sort/q_sort/vector<ValuePair>                   6284194      3423452      1.84         *
 sort/q_sort/vector<ValuePair>/sorted             711629       569364      1.25         *
-sort/q_sort/vector<uint32>                      5453379      2916146      1.87         *
-sort/q_sort/vector<uint32>/sorted                537047       419144      1.28         *
+sort/q_sort/vector<uint32_t>                      5453379      2916146      1.87         *
+sort/q_sort/vector<uint32_t>/sorted                537047       419144      1.28         *
 
 string<char16_t>/compare                      435083295    251985824      1.73         *
 string<char16_t>/erase/pos,n                    3454842      3451858      1.00
@@ -427,12 +427,12 @@ string<char8_t>/rfind/p,pos,n                    196103       148894      1.32  
 string<char8_t>/size                              11619        11220      1.04
 string<char8_t>/swap                            1461056       419874      3.48         *
 
-vector<uint64>/erase                           55235116     55284587      1.00
-vector<uint64>/insert                          55166046     55142755      1.00
-vector<uint64>/iteration                         553954       509719      1.09
-vector<uint64>/operator[]                       1284239       798516      1.61         *
-vector<uint64>/push_back                        5399549      3867959      1.40         *
-vector<uint64>/sort                            43636314     42619952      1.02
+vector<uint64_t>/erase                           55235116     55284587      1.00
+vector<uint64_t>/insert                          55166046     55142755      1.00
+vector<uint64_t>/iteration                         553954       509719      1.09
+vector<uint64_t>/operator[]                       1284239       798516      1.61         *
+vector<uint64_t>/push_back                        5399549      3867959      1.40         *
+vector<uint64_t>/sort                            43636314     42619952      1.02
 ```
 
 ### Win32.VC71.STLPort.Debug
@@ -598,8 +598,8 @@ sort/q_sort/vector<TestObject>                 17476629     14953285      1.17  
 sort/q_sort/vector<TestObject>/sorted           6667034      3327435      2.00         *
 sort/q_sort/vector<ValuePair>                  15391357     10820848      1.42         *
 sort/q_sort/vector<ValuePair>/sorted            6617122      3232949      2.05         *
-sort/q_sort/vector<uint32>                      8343906      6014846      1.39         *
-sort/q_sort/vector<uint32>/sorted               3039430      1003127      3.03         *
+sort/q_sort/vector<uint32_t>                      8343906      6014846      1.39         *
+sort/q_sort/vector<uint32_t>/sorted               3039430      1003127      3.03         *
 
 string<char16_t>/compare                     1489709846    532664000      2.80         *
 string<char16_t>/erase/pos,n                    3528690      3439864      1.03
@@ -633,12 +633,12 @@ string<char8_t>/rfind/p,pos,n                   1446232       366902      3.94  
 string<char8_t>/size                              26859        25431      1.06
 string<char8_t>/swap                            2123350      1490509      1.42         *
 
-vector<uint64>/erase                           55164013     56417449      0.98
-vector<uint64>/insert                          55872973     56432664      0.99
-vector<uint64>/iteration                        1329102      1324623      1.00
-vector<uint64>/operator[]                       5264738      3136746      1.68         *
-vector<uint64>/push_back                       14903245     13171175      1.13         *
-vector<uint64>/sort                            88429095     88542171      1.00
+vector<uint64_t>/erase                           55164013     56417449      0.98
+vector<uint64_t>/insert                          55872973     56432664      0.99
+vector<uint64_t>/iteration                        1329102      1324623      1.00
+vector<uint64_t>/operator[]                       5264738      3136746      1.68         *
+vector<uint64_t>/push_back                       14903245     13171175      1.13         *
+vector<uint64_t>/sort                            88429095     88542171      1.00
 ```
 
 ### Win32.VC71.STLPort.Release
@@ -804,8 +804,8 @@ sort/q_sort/vector<TestObject>                  7331530      7017260      1.04
 sort/q_sort/vector<TestObject>/sorted           1601629      1247120      1.28         *
 sort/q_sort/vector<ValuePair>                   7071643      7067869      1.00
 sort/q_sort/vector<ValuePair>/sorted            2136390      1703799      1.25         *
-sort/q_sort/vector<uint32>                      3292891      2943627      1.12         *
-sort/q_sort/vector<uint32>/sorted                653693       473612      1.38         *
+sort/q_sort/vector<uint32_t>                      3292891      2943627      1.12         *
+sort/q_sort/vector<uint32_t>/sorted                653693       473612      1.38         *
 
 string<char16_t>/compare                      356579259    432760228      0.82         *
 string<char16_t>/erase/pos,n                    3430422      3428645      1.00
@@ -839,12 +839,12 @@ string<char8_t>/rfind/p,pos,n                    226202       200013      1.13  
 string<char8_t>/size                              11280        11109      1.02
 string<char8_t>/swap                             519393       559759      0.93
 
-vector<uint64>/erase                           55184856     55192217      1.00
-vector<uint64>/insert                          56764267     55682726      1.02
-vector<uint64>/iteration                         423122       424039      1.00
-vector<uint64>/operator[]                       1189397       860991      1.38         *
-vector<uint64>/push_back                        5626609      4027317      1.40         *
-vector<uint64>/sort                            49227036     49231362      1.00
+vector<uint64_t>/erase                           55184856     55192217      1.00
+vector<uint64_t>/insert                          56764267     55682726      1.02
+vector<uint64_t>/iteration                         423122       424039      1.00
+vector<uint64_t>/operator[]                       1189397       860991      1.38         *
+vector<uint64_t>/push_back                        5626609      4027317      1.40         *
+vector<uint64_t>/sort                            49227036     49231362      1.00
 ```
 
 ----------------------------------------------

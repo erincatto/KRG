@@ -126,11 +126,11 @@ namespace KRG::Animation::GraphNodes
                 // Apply the sync event offset
                 float eventIdxOffset;
                 float percentageThroughOffset = Math::ModF( floatSyncEventOffset, &eventIdxOffset );
-                targetStartEventSyncTime.m_eventIdx += (int32) eventIdxOffset;
+                targetStartEventSyncTime.m_eventIdx += (int32_t) eventIdxOffset;
 
                 // Ensure we handle looping past the current event with the percentage offset
                 targetStartEventSyncTime.m_percentageThrough = Math::ModF( targetStartEventSyncTime.m_percentageThrough + percentageThroughOffset, &eventIdxOffset );
-                targetStartEventSyncTime.m_eventIdx += (int32) eventIdxOffset;
+                targetStartEventSyncTime.m_eventIdx += (int32_t) eventIdxOffset;
             }
 
             // Initialize and update the target node

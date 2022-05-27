@@ -12,7 +12,7 @@ namespace KRG
 {
     namespace Threading
     {
-        using ThreadID = uint32;
+        using ThreadID = uint32_t;
 
         //-------------------------------------------------------------------------
         // Processor Info
@@ -20,8 +20,8 @@ namespace KRG
 
         struct ProcessorInfo
         {
-            uint16 m_numPhysicalCores = 0;
-            uint16 m_numLogicalCores = 0;
+            uint16_t m_numPhysicalCores = 0;
+            uint16_t m_numLogicalCores = 0;
         };
 
         KRG_SYSTEM_CORE_API ProcessorInfo GetProcessorInfo();

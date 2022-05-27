@@ -21,6 +21,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)Engine.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Engine_Win32.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)RenderingSystem.cpp" />
   </ItemGroup>
 </Project>

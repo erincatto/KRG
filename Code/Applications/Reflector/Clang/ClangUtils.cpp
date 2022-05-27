@@ -55,51 +55,51 @@ namespace KRG
                 switch ( pBT->getKind() )
                 {
                     case clang::BuiltinType::Char_S:
-                    qualifiedName = "KRG::int8";
+                    qualifiedName = "int8_t";
                     break;
 
                     case clang::BuiltinType::Char_U:
-                    qualifiedName = "KRG::uint8";
+                    qualifiedName = "uint8_t";
                     break;
 
                     case clang::BuiltinType::UChar:
-                    qualifiedName = "KRG::uint8";
+                    qualifiedName = "uint8_t";
                     break;
 
                     case clang::BuiltinType::SChar:
-                    qualifiedName = "KRG::int8";
+                    qualifiedName = "int8_t";
                     break;
 
                     case clang::BuiltinType::Char16:
-                    qualifiedName = "KRG::uint16";
+                    qualifiedName = "uint16_t";
                     break;
 
                     case clang::BuiltinType::Char32:
-                    qualifiedName = "KRG::uint32";
+                    qualifiedName = "uint32_t";
                     break;
 
                     case clang::BuiltinType::UShort:
-                    qualifiedName = "KRG::uint16";
+                    qualifiedName = "uint16_t";
                     break;
 
                     case clang::BuiltinType::Short:
-                    qualifiedName = "KRG::int16";
+                    qualifiedName = "int16_t";
                     break;
 
                     case clang::BuiltinType::UInt:
-                    qualifiedName = "KRG::uint32";
+                    qualifiedName = "uint32_t";
                     break;
 
                     case clang::BuiltinType::Int:
-                    qualifiedName = "KRG::int32";
+                    qualifiedName = "int32_t";
                     break;
 
                     case clang::BuiltinType::ULongLong:
-                    qualifiedName = "KRG::uint64";
+                    qualifiedName = "uint64_t";
                     break;
 
                     case clang::BuiltinType::LongLong:
-                    qualifiedName = "KRG::int64";
+                    qualifiedName = "int64_t";
                     break;
 
                     case clang::BuiltinType::Float:

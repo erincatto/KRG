@@ -72,7 +72,7 @@ namespace KRG
         static TEvent<Entity*>                  s_entitySpatialAttachmentStateUpdatedEvent;
 
         // Registration state
-        enum class RegistrationStatus : uint8
+        enum class RegistrationStatus : uint8_t
         {
             Unregistered = 0,
             QueuedForRegister,
@@ -82,7 +82,7 @@ namespace KRG
 
     public:
 
-        enum class Status : uint8
+        enum class Status : uint8_t
         {
             Unloaded = 0,
             Loaded,
@@ -113,8 +113,8 @@ namespace KRG
         inline EntityID const& GetID() const { return m_ID; }
         inline StringID GetName() const { return m_name; }
         inline EntityMapID const& GetMapID() const { return m_mapID; }
-        inline uint32 GetNumComponents() const { return (uint32) m_components.size(); }
-        inline uint32 GetNumSystems() const { return (uint32) m_systems.size(); }
+        inline uint32_t GetNumComponents() const { return (uint32_t) m_components.size(); }
+        inline uint32_t GetNumSystems() const { return (uint32_t) m_systems.size(); }
 
         // Creates a descriptor for this entity
         bool CreateDescriptor( TypeSystem::TypeRegistry const& typeRegistry, EntityModel::EntityDescriptor& outDesc ) const;
@@ -327,7 +327,7 @@ namespace KRG
 
         TVector<EntitySystem*>                          m_systems;
         TVector<EntityComponent*>                       m_components;
-        SystemUpdateList                                m_systemUpdateLists[(int8) UpdateStage::NumStages];
+        SystemUpdateList                                m_systemUpdateLists[(int8_t) UpdateStage::NumStages];
 
         SpatialEntityComponent*                         m_pRootSpatialComponent = nullptr;                                  // This spatial component defines our world position
         TVector<Entity*>                                m_attachedEntities;                                                 // The list of entities that are attached to this entity

@@ -39,7 +39,7 @@ namespace KRG
         void Initialize();
         void Shutdown();
 
-        inline uint32 GetNumWorkers() const { return m_numWorkers; }
+        inline uint32_t GetNumWorkers() const { return m_numWorkers; }
 
         inline void WaitForAll() { m_taskScheduler.WaitforAll(); }
 
@@ -68,7 +68,7 @@ namespace KRG
     private:
 
         enki::TaskScheduler     m_taskScheduler;
-        uint32                  m_numWorkers = 0;
+        uint32_t                  m_numWorkers = 0;
         bool                    m_initialized = false;
     };
 }

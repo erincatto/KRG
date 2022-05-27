@@ -196,7 +196,7 @@ namespace KRG::Animation
     {
         String tempString = parameterName;
         bool isNameUnique = false;
-        int32 suffix = 0;
+        int32_t suffix = 0;
 
         while ( !isNameUnique )
         {

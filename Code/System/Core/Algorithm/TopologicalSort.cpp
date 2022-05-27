@@ -28,7 +28,7 @@ namespace KRG
     bool TopologicalSorter::Sort( TVector<Node>& list )
     {
         TVector<Node> sortedList;
-        auto const numNodes = (int32) list.size();
+        auto const numNodes = (int32_t) list.size();
 
         for ( auto i = 0; i < numNodes; i++ )
         {

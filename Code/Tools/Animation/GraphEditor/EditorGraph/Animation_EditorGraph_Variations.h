@@ -70,12 +70,12 @@ namespace KRG::Animation
 
     private:
 
-        inline int32 GetVariationIndex( StringID variationID ) const
+        inline int32_t GetVariationIndex( StringID variationID ) const
         {
             auto iter = eastl::find( m_variations.begin(), m_variations.end(), variationID );
             if ( iter != m_variations.end() )
             {
-                return int32( iter - m_variations.begin() );
+                return int32_t( iter - m_variations.begin() );
             }
 
             return InvalidIndex;

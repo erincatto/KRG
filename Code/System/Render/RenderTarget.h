@@ -12,8 +12,8 @@ namespace KRG::Render
         PickingID() = default;
         inline bool IsSet() const { return m_0 != 0 || m_1 != 0; }
 
-        uint64 m_0 = 0;
-        uint64 m_1 = 0;
+        uint64_t m_0 = 0;
+        uint64_t m_1 = 0;
     };
 
     //-------------------------------------------------------------------------

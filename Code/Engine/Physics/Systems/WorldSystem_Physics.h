@@ -59,8 +59,8 @@ namespace KRG::Physics
         //-------------------------------------------------------------------------
 
         #if KRG_DEVELOPMENT_TOOLS
-        inline uint32 GetDebugFlags() const { return m_sceneDebugFlags; }
-        void SetDebugFlags( uint32 debugFlags );
+        inline uint32_t GetDebugFlags() const { return m_sceneDebugFlags; }
+        void SetDebugFlags( uint32_t debugFlags );
 
         inline bool IsDebugDrawingEnabled() const;
         void SetDebugDrawingEnabled( bool enableDrawing );
@@ -107,7 +107,7 @@ namespace KRG::Physics
         #if KRG_DEVELOPMENT_TOOLS
         bool                                                    m_drawDynamicActorBounds = false;
         bool                                                    m_drawKinematicActorBounds = false;
-        uint32                                                  m_sceneDebugFlags = 0;
+        uint32_t                                                  m_sceneDebugFlags = 0;
         float                                                   m_debugDrawDistance = 10.0f;
         #endif
     };

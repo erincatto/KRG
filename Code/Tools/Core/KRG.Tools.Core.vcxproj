@@ -103,7 +103,6 @@
     <ClInclude Include="Widgets\TreeListView.h" />
     <ClInclude Include="Workspaces\ResourceWorkspace.h" />
     <ClInclude Include="Resource\ResourceFilePicker.h" />
-    <ClInclude Include="FileSystem\FileSystemHelpers.h" />
     <ClInclude Include="FileSystem\FileSystemWatcher.h" />
     <ClInclude Include="Helpers\GlobalRegistryBase.h" />
     <ClInclude Include="PropertyGrid\PropertyGrid.h" />
@@ -151,7 +150,6 @@
     <ClCompile Include="Widgets\TreeListView.cpp" />
     <ClCompile Include="Workspaces\ResourceWorkspace.cpp" />
     <ClCompile Include="Resource\ResourceFilePicker.cpp" />
-    <ClCompile Include="FileSystem\FileSystemHelpers.cpp" />
     <ClCompile Include="FileSystem\FileSystemWatcher.cpp" />
     <ClCompile Include="PropertyGrid\PropertyGrid.cpp" />
     <ClCompile Include="Resource\Compilers\ResourceCompiler.cpp" />

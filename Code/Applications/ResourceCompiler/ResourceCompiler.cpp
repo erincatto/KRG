@@ -66,7 +66,7 @@ namespace KRG
     };
 }
 
-static int32 CompileResource( TypeSystem::TypeRegistry const& typeRegistry, Resource::CompilerRegistry const& compilerRegistry, Resource::Settings const& settings, ResourceID const& resourceID )
+static int32_t CompileResource( TypeSystem::TypeRegistry const& typeRegistry, Resource::CompilerRegistry const& compilerRegistry, Resource::Settings const& settings, ResourceID const& resourceID )
 {
     
 }
@@ -168,10 +168,10 @@ int main( int argc, char* argv[] )
 
         // Compile
         Resource::CompilationResult const result = pCompiler->Compile( compileContext );
-        return (int32) result;
+        return (int32_t) result;
     };
 
-    int32 const result = CompileResource();
+    int32_t const result = CompileResource();
 
     // Unregister all compilers and modules
     //-------------------------------------------------------------------------

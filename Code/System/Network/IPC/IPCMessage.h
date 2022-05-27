@@ -15,7 +15,7 @@ namespace KRG::Network::IPC
 
     //-------------------------------------------------------------------------
 
-    typedef int32 MessageID;
+    typedef int32_t MessageID;
 
     //-------------------------------------------------------------------------
 
@@ -62,13 +62,13 @@ namespace KRG::Network::IPC
 
         //-------------------------------------------------------------------------
 
-        inline uint32 const& GetClientConnectionID() const { return m_clientConnectionID; }
-        inline void SetClientConnectionID( uint32 clientConnectionID ) { m_clientConnectionID = clientConnectionID; }
+        inline uint32_t const& GetClientConnectionID() const { return m_clientConnectionID; }
+        inline void SetClientConnectionID( uint32_t clientConnectionID ) { m_clientConnectionID = clientConnectionID; }
         inline MessageID GetMessageID() const { return *(MessageID*) m_data.data(); }
 
         inline bool IsValid() const { return GetMessageID() != InvalidID; }
         inline bool HasPayload() const { return GetPayloadDataSize() > sizeof( MessageID ); }
-        inline Byte const* GetPayloadData() const { return m_data.data() + sizeof( MessageID ); }
+        inline uint8_t const* GetPayloadData() const { return m_data.data() + sizeof( MessageID ); }
         inline size_t GetPayloadDataSize() const { return m_data.size() - sizeof( MessageID ); }
 
         // Serialization functions
@@ -103,7 +103,7 @@ namespace KRG::Network::IPC
 
     private:
 
-        TInlineVector<Byte, sizeof( MessageID )>    m_data;
-        uint32                                      m_clientConnectionID = 0;
+        TInlineVector<uint8_t, sizeof( MessageID )>    m_data;
+        uint32_t                                      m_clientConnectionID = 0;
     };
 }

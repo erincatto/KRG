@@ -13,14 +13,14 @@ namespace KRG
 
     namespace
     {
-        static uint32 stb_decompress_length( Byte *input )
+        static uint32_t stb_decompress_length( uint8_t *input )
         {
             return ( input[8] << 24 ) + ( input[9] << 16 ) + ( input[10] << 8 ) + input[11];
         }
 
-        static Byte *stb__barrier, *stb__barrier2, *stb__barrier3, *stb__barrier4;
-        static Byte *stb__dout;
-        static void stb__match( Byte *data, uint32 length )
+        static uint8_t *stb__barrier, *stb__barrier2, *stb__barrier3, *stb__barrier4;
+        static uint8_t *stb__dout;
+        static void stb__match( uint8_t *data, uint32_t length )
         {
             // INVERSE of memmove... write each byte before copying the next...
             KRG_ASSERT( stb__dout + length <= stb__barrier );
@@ -29,7 +29,7 @@ namespace KRG
             while ( length-- ) *stb__dout++ = *data++;
         }
 
-        static void stb__lit( Byte *data, uint32 length )
+        static void stb__lit( uint8_t *data, uint32_t length )
         {
             KRG_ASSERT( stb__dout + length <= stb__barrier );
             if ( stb__dout + length > stb__barrier ) { stb__dout += length; return; }
@@ -42,7 +42,7 @@ namespace KRG
         #define stb__in3(x)   ((i[x] << 16) + stb__in2((x)+1))
         #define stb__in4(x)   ((i[x] << 24) + stb__in3((x)+1))
 
-        static Byte *stb_decompress_token( Byte *i )
+        static uint8_t *stb_decompress_token( uint8_t *i )
         {
             if ( *i >= 0x20 ) { // use fewer if's for cases that expand small
                 if ( *i >= 0x80 )       stb__match( stb__dout - i[1] - 1, i[0] - 0x80 + 1 ), i += 2;
@@ -60,7 +60,7 @@ namespace KRG
             return i;
         }
 
-        static uint32 stb_adler32( uint32 adler32, Byte *buffer, uint32 buflen )
+        static uint32_t stb_adler32( uint32_t adler32, uint8_t *buffer, uint32_t buflen )
         {
             const unsigned long ADLER_MOD = 65521;
             unsigned long s1 = adler32 & 0xffff, s2 = adler32 >> 16;
@@ -88,12 +88,12 @@ namespace KRG
                 buflen -= blocklen;
                 blocklen = 5552;
             }
-            return (uint32) ( s2 << 16 ) + (uint32) s1;
+            return (uint32_t) ( s2 << 16 ) + (uint32_t) s1;
         }
 
-        static uint32 stb_decompress( Byte *output, Byte *i, uint32 length )
+        static uint32_t stb_decompress( uint8_t *output, uint8_t *i, uint32_t length )
         {
-            uint32 olen;
+            uint32_t olen;
             if ( stb__in4( 0 ) != 0x57bC0000 ) return 0;
             if ( stb__in4( 4 ) != 0 )          return 0; // error! stream is > 4GB
             olen = stb_decompress_length( i );
@@ -105,13 +105,13 @@ namespace KRG
 
             stb__dout = output;
             for ( ;;) {
-                Byte *old_i = i;
+                uint8_t *old_i = i;
                 i = stb_decompress_token( i );
                 if ( i == old_i ) {
                     if ( *i == 0x05 && i[1] == 0xfa ) {
                         KRG_ASSERT( stb__dout == output + olen );
                         if ( stb__dout != output + olen ) return 0;
-                        if ( stb_adler32( 1, output, olen ) != (uint32) stb__in4( 2 ) )
+                        if ( stb_adler32( 1, output, olen ) != (uint32_t) stb__in4( 2 ) )
                             return 0;
                         return olen;
                     }
@@ -126,13 +126,13 @@ namespace KRG
             }
         }
 
-        static uint32 Decode85Byte( Byte c ) { return c >= '\\' ? c - 36 : c - 35; }
+        static uint32_t Decode85Byte( uint8_t c ) { return c >= '\\' ? c - 36 : c - 35; }
 
-        static void DecodeFontData( Byte const* src, Byte* dst )
+        static void DecodeFontData( uint8_t const* src, uint8_t* dst )
         {
             while ( *src )
             {
-                int32 tmp = Decode85Byte( src[0] ) + 85 * ( Decode85Byte( src[1] ) + 85 * ( Decode85Byte( src[2] ) + 85 * ( Decode85Byte( src[3] ) + 85 * Decode85Byte( src[4] ) ) ) );
+                int32_t tmp = Decode85Byte( src[0] ) + 85 * ( Decode85Byte( src[1] ) + 85 * ( Decode85Byte( src[2] ) + 85 * ( Decode85Byte( src[3] ) + 85 * Decode85Byte( src[4] ) ) ) );
                 dst[0] = ( ( tmp >> 0 ) & 0xFF );
                 dst[1] = ( ( tmp >> 8 ) & 0xFF );
                 dst[2] = ( ( tmp >> 16 ) & 0xFF );
@@ -147,15 +147,15 @@ namespace KRG
 
     namespace Fonts
     {
-        void GetDecompressedFontData( Byte const* pSourceData, TVector<Byte>& fontData )
+        void GetDecompressedFontData( uint8_t const* pSourceData, TVector<uint8_t>& fontData )
         {
             // Decode font data
-            uint32 const decodedDataSize = uint32( ( strlen( (char*) pSourceData ) + 4 ) / 5 ) * 4;
-            Byte* pDecodedData = KRG_STACK_ARRAY_ALLOC( Byte, decodedDataSize );
-            DecodeFontData( (Byte const*) pSourceData, pDecodedData );
+            uint32_t const decodedDataSize = uint32_t( ( strlen( (char*) pSourceData ) + 4 ) / 5 ) * 4;
+            uint8_t* pDecodedData = KRG_STACK_ARRAY_ALLOC( uint8_t, decodedDataSize );
+            DecodeFontData( (uint8_t const*) pSourceData, pDecodedData );
 
             // Decompress font data
-            int32 const decompressedDataSize = stb_decompress_length( (Byte*) pDecodedData );
+            int32_t const decompressedDataSize = stb_decompress_length( (uint8_t*) pDecodedData );
             fontData.resize( decompressedDataSize );
             stb_decompress( fontData.data(), pDecodedData, decodedDataSize );
         }
