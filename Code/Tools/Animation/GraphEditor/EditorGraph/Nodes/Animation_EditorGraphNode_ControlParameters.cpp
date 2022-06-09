@@ -39,4 +39,10 @@ namespace KRG::Animation::GraphNodes
         EditorGraphNode::Initialize( pParentGraph );
         CreateOutputPin( "Value", GraphValueType::Target, true );
     }
+
+    void TargetControlParameterEditorNode::SetPreviewTargetTransform( Transform const& transform )
+    {
+        VisualGraph::ScopedNodeModification snm( this );
+        m_previewStartTransform = transform;
+    }
 }

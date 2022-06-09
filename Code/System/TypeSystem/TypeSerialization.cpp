@@ -1,5 +1,7 @@
 #include "TypeSerialization.h"
 #include "System/Core/Logging/Log.h"
+#include "TypeRegistry.h"
+#include "TypeInfo.h"
 
 //-------------------------------------------------------------------------
 // Descriptors
@@ -308,7 +310,7 @@ namespace KRG::TypeSystem::Serialization
             TypeID const actualTypeID( typeIDValueIter->value.GetString() );
 
             // If you hit this the type in the JSON file and the type you are trying to deserialize do not match
-            if ( typeID != actualTypeID )
+            if ( typeID != actualTypeID && !typeRegistry.IsTypeDerivedFrom( actualTypeID, typeID ) )
             {
                 KRG_LOG_ERROR( "TypeSystem", "Type mismatch, expected %s, encountered %s", typeID.c_str(), actualTypeID.c_str() );
                 return false;

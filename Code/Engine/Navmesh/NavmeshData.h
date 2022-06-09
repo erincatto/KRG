@@ -9,8 +9,8 @@ namespace KRG::Navmesh
 {
     class KRG_ENGINE_NAVMESH_API NavmeshData : public Resource::IResource
     {
-        KRG_REGISTER_VIRTUAL_RESOURCE( 'nav', "Navmesh");
-        friend class NavmeshBuilder;
+        KRG_REGISTER_RESOURCE( 'nav', "Navmesh");
+        friend class NavmeshGenerator;
         friend class NavmeshLoader;
 
         KRG_SERIALIZE_MEMBERS( KRG_NVP( m_graphImage ) );

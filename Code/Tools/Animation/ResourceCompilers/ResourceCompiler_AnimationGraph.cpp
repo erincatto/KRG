@@ -32,24 +32,24 @@ namespace KRG::Animation
         return CompilationFailed( ctx );
     }
 
-    Resource::CompilationResult AnimationGraphCompiler::CompileGraphDefinition( Resource::CompileContext const& ctx ) const
+    bool AnimationGraphCompiler::LoadAndCompileGraph( FileSystem::Path const& graphFilePath, EditorGraphDefinition& editorGraph, GraphDefinitionCompiler& definitionCompiler ) const
     {
         JsonReader jsonReader;
-        if ( !jsonReader.ReadFromFile( ctx.m_inputFilePath ) )
+        if ( !jsonReader.ReadFromFile( graphFilePath ) )
         {
-            return Error( "Failed to read animation graph file: %s", ctx.m_inputFilePath.c_str() );
+            Error( "Failed to read animation graph file: %s", graphFilePath.c_str() );
+            return false;
         }
 
-        EditorGraphDefinition editorGraph;
-        if ( !editorGraph.LoadFromJson( ctx.m_typeRegistry, jsonReader.GetDocument() ) )
+        if ( !editorGraph.LoadFromJson( *m_pTypeRegistry, jsonReader.GetDocument() ) )
         {
-            return Error( "Malformed animation graph file: %s", ctx.m_inputFilePath.c_str() );
+            Error( "Malformed animation graph file: %s", graphFilePath.c_str() );
+            return false;
         }
 
         // Compile
         //-------------------------------------------------------------------------
 
-        GraphDefinitionCompiler definitionCompiler;
         if ( !definitionCompiler.CompileGraph( editorGraph ) )
         {
             // Dump log
@@ -69,7 +69,19 @@ namespace KRG::Animation
                 }
             }
 
-            return Resource::CompilationResult::Failure;
+            return false;
+        }
+
+        return true;
+    }
+
+    Resource::CompilationResult AnimationGraphCompiler::CompileGraphDefinition( Resource::CompileContext const& ctx ) const
+    {
+        EditorGraphDefinition editorGraph;
+        GraphDefinitionCompiler definitionCompiler;
+        if ( !LoadAndCompileGraph( ctx.m_inputFilePath, editorGraph, definitionCompiler ) )
+        {
+            return CompilationFailed( ctx );
         }
 
         // Serialize
@@ -83,16 +95,17 @@ namespace KRG::Animation
             archive << Resource::ResourceHeader( s_version, GraphDefinition::GetStaticResourceTypeID() );
             archive << *pRuntimeGraph;
             
-            // Serialize node paths only in non-shipping builds
-            #if !KRG_CONFIGURATION_SHIPPING
-            archive << pRuntimeGraph->m_nodePaths;
-            #endif
+            // Serialize node paths only in dev builds
+            if ( ctx.IsCompilingForDevelopmentBuild() )
+            {
+                archive << pRuntimeGraph->m_nodePaths;
+            }
 
             // Node settings type descs
             TypeSystem::TypeDescriptorCollection settingsTypeDescriptors;
             for ( auto pSettings : pRuntimeGraph->m_nodeSettings )
             {
-                settingsTypeDescriptors.m_descriptors.emplace_back( TypeSystem::TypeDescriptor( ctx.m_typeRegistry, pSettings ) );
+                settingsTypeDescriptors.m_descriptors.emplace_back( TypeSystem::TypeDescriptor( *m_pTypeRegistry, pSettings ) );
             }
             archive << settingsTypeDescriptors;
 
@@ -114,7 +127,7 @@ namespace KRG::Animation
     Resource::CompilationResult AnimationGraphCompiler::CompileGraphVariation( Resource::CompileContext const& ctx ) const
     {
         GraphVariationResourceDescriptor resourceDescriptor;
-        if ( !Resource::ResourceDescriptor::TryReadFromFile( ctx.m_typeRegistry, ctx.m_inputFilePath, resourceDescriptor ) )
+        if ( !Resource::ResourceDescriptor::TryReadFromFile( *m_pTypeRegistry, ctx.m_inputFilePath, resourceDescriptor ) )
         {
             return Error( "Failed to read resource descriptor from input file: %s", ctx.m_inputFilePath.c_str() );
         }
@@ -123,55 +136,22 @@ namespace KRG::Animation
         //-------------------------------------------------------------------------
 
         FileSystem::Path graphFilePath;
-        if ( !ctx.ConvertResourcePathToFilePath( resourceDescriptor.m_graphPath, graphFilePath ) )
+        if ( !ConvertResourcePathToFilePath( resourceDescriptor.m_graphPath, graphFilePath ) )
         {
             return Error( "invalid graph data path: %s", resourceDescriptor.m_graphPath.c_str() );
         }
 
-        JsonReader jsonReader;
-        if ( !jsonReader.ReadFromFile( graphFilePath ) )
-        {
-            return Error( "Failed to read animation graph file: %s", ctx.m_inputFilePath.c_str() );
-        }
-
         EditorGraphDefinition editorGraph;
-        if ( !editorGraph.LoadFromJson( ctx.m_typeRegistry, jsonReader.GetDocument() ) )
+        GraphDefinitionCompiler definitionCompiler;
+        if ( !LoadAndCompileGraph( graphFilePath, editorGraph, definitionCompiler ) )
         {
-            return Error( "Malformed animation graph file: %s", ctx.m_inputFilePath.c_str() );
+            return CompilationFailed( ctx );
         }
 
         StringID const variationID = resourceDescriptor.m_variationID.IsValid() ? resourceDescriptor.m_variationID : GraphVariation::DefaultVariationID;
         if ( !editorGraph.IsValidVariation( variationID ) )
         {
             return Error( "Invalid variation requested: %s", variationID.c_str() );
-        }
-
-        // Compile
-        //-------------------------------------------------------------------------
-        // We need to compile the graph to get the order of the data slots
-
-        GraphDefinitionCompiler definitionCompiler;
-
-        if ( !definitionCompiler.CompileGraph( editorGraph ) )
-        {
-            // Dump log
-            for ( auto const& logEntry : definitionCompiler.GetLog() )
-            {
-                if ( logEntry.m_severity == Log::Severity::Error )
-                {
-                    Error( "%s", logEntry.m_message.c_str() );
-                }
-                else if ( logEntry.m_severity == Log::Severity::Warning )
-                {
-                    Warning( "%s", logEntry.m_message.c_str() );
-                }
-                else if ( logEntry.m_severity == Log::Severity::Message )
-                {
-                    Message( "%s", logEntry.m_message.c_str() );
-                }
-            }
-
-            return Resource::CompilationResult::Failure;
         }
 
         // Create requested data set resource
@@ -182,7 +162,7 @@ namespace KRG::Animation
 
         FileSystem::Path dataSetFilePath = graphFilePath.GetParentDirectory();
         dataSetFilePath.Append( dataSetFileName );
-        ResourcePath const dataSetPath = ResourcePath::FromFileSystemPath( ctx.m_rawResourceDirectoryPath, dataSetFilePath );
+        ResourcePath const dataSetPath = ResourcePath::FromFileSystemPath( m_rawResourceDirectoryPath, dataSetFilePath );
 
         if ( !GenerateVirtualDataSetResource( ctx, editorGraph, definitionCompiler.GetRegisteredDataSlots(), variationID, dataSetPath ) )
         {
@@ -214,6 +194,94 @@ namespace KRG::Animation
         {
             return CompilationFailed( ctx );
         }
+    }
+
+    //-------------------------------------------------------------------------
+
+    bool AnimationGraphCompiler::GetReferencedResources( ResourceID const& resourceID, TVector<ResourceID>& outReferencedResources ) const
+    {
+        if ( resourceID.GetResourceTypeID() == GraphVariation::GetStaticResourceTypeID() )
+        {
+            FileSystem::Path const filePath = resourceID.GetResourcePath().ToFileSystemPath( m_rawResourceDirectoryPath );
+            GraphVariationResourceDescriptor resourceDescriptor;
+            if ( !Resource::ResourceDescriptor::TryReadFromFile( *m_pTypeRegistry, filePath, resourceDescriptor ) )
+            {
+                return false;
+            }
+
+            FileSystem::Path graphFilePath;
+            if ( !ConvertResourcePathToFilePath( resourceDescriptor.m_graphPath, graphFilePath ) )
+            {
+                Error( "invalid graph data path: %s", resourceDescriptor.m_graphPath.c_str() );
+                return false;
+            }
+
+            EditorGraphDefinition editorGraph;
+            GraphDefinitionCompiler definitionCompiler;
+            if ( !LoadAndCompileGraph( graphFilePath, editorGraph, definitionCompiler ) )
+            {
+                return false;
+            }
+
+            StringID const variationID = resourceDescriptor.m_variationID.IsValid() ? resourceDescriptor.m_variationID : GraphVariation::DefaultVariationID;
+            if ( !editorGraph.IsValidVariation( variationID ) )
+            {
+                Error( "Invalid variation requested: %s", variationID.c_str() );
+                return false;
+            }
+
+            // Add graph definition
+            //-------------------------------------------------------------------------
+
+            ResourceID const graphResourceID( resourceDescriptor.m_graphPath );
+            if ( graphResourceID.IsValid() )
+            {
+                VectorEmplaceBackUnique( outReferencedResources, graphResourceID );
+            }
+
+            // Add skeleton
+            //-------------------------------------------------------------------------
+
+            auto const pVariation = editorGraph.GetVariation( variationID );
+            KRG_ASSERT( pVariation != nullptr );
+
+            if ( pVariation->m_pSkeleton.GetResourceID().IsValid() )
+            {
+                VectorEmplaceBackUnique( outReferencedResources, pVariation->m_pSkeleton.GetResourceID() );
+            }
+
+            // Add data resources
+            //-------------------------------------------------------------------------
+
+            THashMap<UUID, GraphNodes::DataSlotEditorNode const*> dataSlotLookupMap;
+            auto pRootGraph = editorGraph.GetRootGraph();
+            auto const& dataSlotNodes = pRootGraph->FindAllNodesOfType<GraphNodes::DataSlotEditorNode>( VisualGraph::SearchMode::Recursive, VisualGraph::SearchTypeMatch::Derived );
+            for ( auto pSlotNode : dataSlotNodes )
+            {
+                dataSlotLookupMap.insert( TPair<UUID, GraphNodes::DataSlotEditorNode const*>( pSlotNode->GetID(), pSlotNode ) );
+            }
+
+            auto const& registeredDataSlots = definitionCompiler.GetRegisteredDataSlots();
+            for ( auto const& dataSlotID : registeredDataSlots )
+            {
+                auto iter = dataSlotLookupMap.find( dataSlotID );
+                if ( iter == dataSlotLookupMap.end() )
+                {
+                    Error( "Unknown data slot encountered (%s) when generating data set", dataSlotID.ToString().c_str() );
+                    return false;
+                }
+
+                auto const dataSlotResourceID = iter->second->GetResourceID( editorGraph.GetVariationHierarchy(), variationID );
+                if ( dataSlotResourceID.IsValid() )
+                {
+                    VectorEmplaceBackUnique( outReferencedResources, dataSlotResourceID );
+                }
+            }
+        }
+
+        //-------------------------------------------------------------------------
+
+        return true;
     }
 
     //-------------------------------------------------------------------------

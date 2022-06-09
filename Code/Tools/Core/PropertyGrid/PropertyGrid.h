@@ -81,6 +81,12 @@ namespace KRG
         // Manually flag the grid as dirty
         void MarkDirty() { m_isDirty = true; }
 
+        // Expand all properties
+        void ExpandAllPropertyViews();
+
+        // Expand all properties
+        void CollapseAllPropertyViews();
+
         //-------------------------------------------------------------------------
 
         // Event fired just before a property is modified

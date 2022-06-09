@@ -12,7 +12,7 @@
 
 //-------------------------------------------------------------------------
 
-namespace KRG::EntityModel::Serialization
+namespace KRG::EntityModel::Serializer
 {
     static bool Error( char const* pFormat, ... )
     {
@@ -28,7 +28,7 @@ namespace KRG::EntityModel::Serialization
 // Reading
 //-------------------------------------------------------------------------
 
-namespace KRG::EntityModel::Serialization
+namespace KRG::EntityModel::Serializer
 {
     namespace
     {
@@ -65,12 +65,6 @@ namespace KRG::EntityModel::Serialization
 
         //-------------------------------------------------------------------------
 
-        static void ReadPropertyValue( ParsingContext& ctx, RapidJsonValue::ConstMemberIterator memberIter, TypeSystem::PropertyDescriptor& outPropertyDesc )
-        {
-            KRG_ASSERT( !memberIter->value.IsArray() ); // TODO: arrays not supported yet
-            outPropertyDesc = TypeSystem::PropertyDescriptor( TypeSystem::PropertyPath( memberIter->name.GetString() ), memberIter->value.GetString() );
-        }
-
         static bool ReadAndConvertPropertyValue( ParsingContext& ctx, TypeSystem::TypeInfo const* pTypeInfo, RapidJsonValue::ConstMemberIterator memberIter, TypeSystem::PropertyDescriptor& outPropertyDesc )
         {
             if ( !memberIter->value.IsString() )
@@ -78,7 +72,10 @@ namespace KRG::EntityModel::Serialization
                 return Error( "Property value for (%s) must be a string value.", memberIter->name.GetString() );
             }
 
-            ReadPropertyValue( ctx, memberIter, outPropertyDesc );
+            //-------------------------------------------------------------------------
+
+            KRG_ASSERT( !memberIter->value.IsArray() ); // TODO: arrays not supported yet
+            outPropertyDesc = TypeSystem::PropertyDescriptor( TypeSystem::PropertyPath( memberIter->name.GetString() ), memberIter->value.GetString(), TypeSystem::TypeID() );
 
             //-------------------------------------------------------------------------
 
@@ -95,6 +92,9 @@ namespace KRG::EntityModel::Serialization
                     return Error( "Failed to convert string value (%s) to binary for property: %s for type (%s)", outPropertyDesc.m_stringValue.c_str(), outPropertyDesc.m_path.ToString().c_str(), pTypeInfo->m_ID.c_str() );
                 }
             }
+
+            outPropertyDesc.m_typeID = pPropertyInfo->m_typeID;
+            outPropertyDesc.m_templatedArgumentTypeID = pPropertyInfo->m_templateArgumentTypeID;
 
             return true;
         }
@@ -533,7 +533,7 @@ namespace KRG::EntityModel::Serialization
 // Writing
 //-------------------------------------------------------------------------
 
-namespace KRG::EntityModel::Serialization
+namespace KRG::EntityModel::Serializer
 {
     namespace
     {

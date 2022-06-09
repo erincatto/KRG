@@ -30,7 +30,7 @@ namespace KRG::Animation
             // Deserialize debug node paths
             //-------------------------------------------------------------------------
 
-            #if !KRG_CONFIGURATION_SHIPPING
+            #if KRG_DEVELOPMENT_TOOLS
             archive >> pGraphDef->m_nodePaths;
             #endif
 

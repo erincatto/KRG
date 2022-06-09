@@ -6,6 +6,7 @@
 #include "System/Render/RenderPipelineState.h"
 #include "System/Render/RenderTexture.h"
 #include "System/Resource/ResourcePtr.h"
+#include "System/Core/Types/Color.h"
 
 //-------------------------------------------------------------------------
 

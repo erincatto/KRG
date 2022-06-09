@@ -21,7 +21,7 @@ namespace KRG
 
     ResourceServerApplication::ResourceServerApplication( HINSTANCE pInstance )
         : Win32Application( pInstance, "Kruger Resource Server", IDI_RESOURCESERVER )
-        , m_resourceServerUI( &m_resourceServer )
+        , m_resourceServerUI( m_resourceServer )
     {}
 
     LRESULT ResourceServerApplication::WndProcess( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam )
@@ -351,8 +351,8 @@ int APIENTRY _tWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpC
     //-------------------------------------------------------------------------
 
     #if KRG_ENABLE_LPP
-    /*HMODULE livePP = lpp::lppLoadAndRegister( L"../../External/LivePP", "Quickstart" );
-    lpp::lppEnableAllCallingModulesSync( livePP );*/
+    HMODULE livePP = lpp::lppLoadAndRegister( L"../../External/LivePP", "Quickstart" );
+    lpp::lppEnableAllCallingModulesSync( livePP );
     #endif
 
     //-------------------------------------------------------------------------

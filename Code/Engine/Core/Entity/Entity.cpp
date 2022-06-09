@@ -4,6 +4,7 @@
 #include "EntityActivationContext.h"
 #include "EntityLoadingContext.h"
 #include "EntityDescriptors.h"
+#include "System/TypeSystem/TypeRegistry.h"
 
 //-------------------------------------------------------------------------
 
@@ -351,6 +352,13 @@ namespace KRG
 
     StringID Entity::GenerateUniqueComponentName( EntityComponent* pComponent, StringID desiredNameID ) const
     {
+        if ( !desiredNameID.IsValid() )
+        {
+            desiredNameID = pComponent->GetTypeID().ToStringID();
+        }
+
+        //-------------------------------------------------------------------------
+
         InlineString desiredName = desiredNameID.c_str();
         InlineString finalName = desiredName;
 

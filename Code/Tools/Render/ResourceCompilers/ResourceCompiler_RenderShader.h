@@ -9,6 +9,7 @@ namespace KRG::Render
 {
     class ShaderCompiler : public Resource::Compiler
     {
+        KRG_REGISTER_TYPE( ShaderCompiler );
         static const int32_t s_version = 1;
 
     public:

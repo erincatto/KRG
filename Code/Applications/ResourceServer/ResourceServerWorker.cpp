@@ -31,7 +31,13 @@ namespace KRG::Resource
     {
         KRG_ASSERT( IsCompiling() );
         KRG_ASSERT( !m_pRequest->m_compilerArgs.empty() );
-        char const* processCommandLineArgs[4] = { m_workerFullPath.c_str(), "-compile", m_pRequest->m_compilerArgs.c_str(), nullptr };
+        char const* processCommandLineArgs[5] = { m_workerFullPath.c_str(), "-compile", m_pRequest->m_compilerArgs.c_str(), nullptr, nullptr };
+
+        // Set package flag for packing request
+        if ( m_pRequest->m_origin == CompilationRequest::Origin::Package )
+        {
+            processCommandLineArgs[3] = "-package";
+        }
 
         // Start compiler process
         //-------------------------------------------------------------------------

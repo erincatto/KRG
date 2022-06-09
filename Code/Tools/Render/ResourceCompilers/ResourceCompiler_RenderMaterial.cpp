@@ -17,7 +17,7 @@ namespace KRG::Render
     Resource::CompilationResult MaterialCompiler::Compile( Resource::CompileContext const& ctx ) const
     {
         MaterialResourceDescriptor resourceDescriptor;
-        if ( !Resource::ResourceDescriptor::TryReadFromFile( ctx.m_typeRegistry, ctx.m_inputFilePath, resourceDescriptor ) )
+        if ( !Resource::ResourceDescriptor::TryReadFromFile( *m_pTypeRegistry, ctx.m_inputFilePath, resourceDescriptor ) )
         {
             return Error( "Failed to read resource descriptor from input file: %s", ctx.m_inputFilePath.c_str() );
         }
@@ -62,6 +62,11 @@ namespace KRG::Render
             hdr.m_installDependencies.push_back( material.m_pNormalMapTexture.GetResourceID() );
         }
 
+        if ( material.HasAOTexture() )
+        {
+            hdr.m_installDependencies.push_back( material.m_pAOTexture.GetResourceID() );
+        }
+
         // Serialize
         //-------------------------------------------------------------------------
 
@@ -75,5 +80,44 @@ namespace KRG::Render
         {
             return CompilationFailed( ctx );
         }
+    }
+
+    bool MaterialCompiler::GetReferencedResources( ResourceID const& resourceID, TVector<ResourceID>& outReferencedResources ) const
+    {
+        FileSystem::Path const filePath = resourceID.GetResourcePath().ToFileSystemPath( m_rawResourceDirectoryPath );
+        MaterialResourceDescriptor resourceDescriptor;
+        if ( !Resource::ResourceDescriptor::TryReadFromFile( *m_pTypeRegistry, filePath, resourceDescriptor ) )
+        {
+            return false;
+        }
+
+        //-------------------------------------------------------------------------
+
+        if ( resourceDescriptor.m_albedoTexture.IsValid() )
+        {
+            VectorEmplaceBackUnique( outReferencedResources, resourceDescriptor.m_albedoTexture.GetResourceID() );
+        }
+
+        if ( resourceDescriptor.m_metalnessTexture.IsValid() )
+        {
+            VectorEmplaceBackUnique( outReferencedResources, resourceDescriptor.m_metalnessTexture.GetResourceID() );
+        }
+
+        if ( resourceDescriptor.m_roughnessTexture.IsValid() )
+        {
+            VectorEmplaceBackUnique( outReferencedResources, resourceDescriptor.m_roughnessTexture.GetResourceID() );
+        }
+
+        if ( resourceDescriptor.m_normalMapTexture.IsValid() )
+        {
+            VectorEmplaceBackUnique( outReferencedResources, resourceDescriptor.m_normalMapTexture.GetResourceID() );
+        }
+
+        if ( resourceDescriptor.m_aoTexture.IsValid() )
+        {
+            VectorEmplaceBackUnique( outReferencedResources, resourceDescriptor.m_aoTexture.GetResourceID() );
+        }
+
+        return true;
     }
 }

@@ -3,6 +3,7 @@
 #include "Engine/Render/_Module/API.h"
 #include "Engine/Core/Entity/EntitySpatialComponent.h"
 #include "System/Render/RenderTexture.h"
+#include "System/Resource/ResourcePtr.h"
 
 //-------------------------------------------------------------------------
 namespace KRG::Render

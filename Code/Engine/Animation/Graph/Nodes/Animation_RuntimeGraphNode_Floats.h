@@ -1,6 +1,7 @@
 #pragma once
 #include "Engine/Animation/Graph/Animation_RuntimeGraph_Node.h"
 #include "Engine/Core/Math/Easing.h"
+#include "System/Core/Math/FloatCurve.h"
 
 //-------------------------------------------------------------------------
 

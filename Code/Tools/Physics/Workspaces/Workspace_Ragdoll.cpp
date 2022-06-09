@@ -604,23 +604,23 @@ namespace KRG::Physics
         ImGuiX::VerticalSeparator( ImVec2( 15, -1 ) );
 
         auto pRagdollDefinition = GetRagdollDefinition();
+
+        //-------------------------------------------------------------------------
+
         ImVec2 const menuDimensions = ImGui::GetContentRegionMax();
+        float buttonDimensions = 130;
+        ImGui::SameLine( menuDimensions.x / 2 - buttonDimensions / 2 );
 
         if ( IsPreviewing() )
         {
-            char const * const stopPreviewStr = KRG_ICON_STOP" Stop Preview";
-            ImGui::SameLine( menuDimensions.x / 2 - ImGui::CalcTextSize( stopPreviewStr ).x / 2 );
-            if ( ImGui::MenuItem( stopPreviewStr ) )
+            if ( ImGuiX::FlatIconButton( KRG_ICON_STOP, "Stop Preview", Colors::Red, ImVec2( buttonDimensions, 0 ) ) )
             {
                 StopPreview();
             }
         }
         else
         {
-            ImGui::BeginDisabled( !pRagdollDefinition->IsValid() && m_pMeshComponent != nullptr );
-            char const * const startPreviewStr = KRG_ICON_PLAY" Preview Ragdoll";
-            ImGui::SameLine( menuDimensions.x / 2 - ImGui::CalcTextSize( startPreviewStr ).x / 2 );
-            if ( ImGui::MenuItem( startPreviewStr ) )
+            if ( ImGuiX::FlatIconButton( KRG_ICON_PLAY, "Preview Ragdoll", Colors::Lime, ImVec2( buttonDimensions, 0 ) ) )
             {
                 StartPreview( context );
             }

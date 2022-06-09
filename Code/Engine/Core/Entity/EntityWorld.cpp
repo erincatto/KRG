@@ -4,6 +4,7 @@
 #include "System/Resource/ResourceSystem.h"
 #include "System/Core/Profiling/Profiling.h"
 #include "System/Core/Settings/DebugSettings.h"
+#include "System/TypeSystem/TypeRegistry.h"
 
 //-------------------------------------------------------------------------
 

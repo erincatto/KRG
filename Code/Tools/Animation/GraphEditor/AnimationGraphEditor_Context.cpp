@@ -1,6 +1,7 @@
 #include "AnimationGraphEditor_Context.h"
 #include "EditorGraph/Nodes/Animation_EditorGraphNode_ControlParameters.h"
 #include "Tools/Core/ToolsContext.h"
+#include "System/TypeSystem/TypeRegistry.h"
 
 //-------------------------------------------------------------------------
 

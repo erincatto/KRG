@@ -85,6 +85,7 @@ namespace KRG::EntityModel
         void AddEntity( Entity* pEntity );
         void DuplicateSelectedEntities();
         void DestroyEntity( Entity* pEntity );
+        void RemoveEntity( Entity* pEntity );
         void DestroySelectedEntities();
 
         void CreateSystem( Entity* pEntity, TypeSystem::TypeInfo const* pSystemTypeInfo );

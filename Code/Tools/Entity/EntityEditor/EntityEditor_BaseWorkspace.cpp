@@ -8,6 +8,7 @@
 #include "Engine/Physics/PhysicsMesh.h"
 #include "Engine/Core/Entity/EntitySerialization.h"
 #include "Engine/Core/Entity/EntitySystem.h"
+#include "System/TypeSystem/TypeRegistry.h"
 #include "System/Core/FileSystem/FileSystem.h"
 #include "System/Core/Math/Math.h"
 #include "System/Core/Logging/Log.h"
@@ -241,7 +242,7 @@ namespace KRG::EntityModel
 
         ImGui::SetNextItemWidth( 48 );
         ImGui::PushStyleVar( ImGuiStyleVar_WindowPadding, ImVec2( 4.0f, 4.0f ) );
-        if ( ImGui::BeginCombo( "##MapEditorOptions", KRG_ICON_TUNE, ImGuiComboFlags_HeightLarge ) )
+        if ( ImGui::BeginCombo( "##MapEditorOptions", KRG_ICON_MONITOR_EYE, ImGuiComboFlags_HeightLarge ) )
         {
             ImGuiX::TextSeparator( "Physics" );
 

@@ -3,8 +3,8 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LocalDebuggerWorkingDirectory>$(OutDir)</LocalDebuggerWorkingDirectory>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
-    <LocalDebuggerCommandArguments>-compile data://ai/aigraph_default.agv</LocalDebuggerCommandArguments>
-    <RemoteDebuggerCommandArguments>-compile data://ai/aigraph_default.agv</RemoteDebuggerCommandArguments>
+    <LocalDebuggerCommandArguments>-compile data://physics/physicsmaterials.pmdb</LocalDebuggerCommandArguments>
+    <RemoteDebuggerCommandArguments>-compile data://physics/physicsmaterials.pmdb</RemoteDebuggerCommandArguments>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LocalDebuggerWorkingDirectory>$(OutDir)</LocalDebuggerWorkingDirectory>
@@ -17,5 +17,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Shipping|x64'">
     <LocalDebuggerWorkingDirectory>$(OutDir)</LocalDebuggerWorkingDirectory>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
+    <LocalDebuggerCommandArguments>-compile data://physics/physicsmaterials.pmdb</LocalDebuggerCommandArguments>
+    <RemoteDebuggerCommandArguments>-compile data://physics/physicsmaterials.pmdb</RemoteDebuggerCommandArguments>
   </PropertyGroup>
 </Project>

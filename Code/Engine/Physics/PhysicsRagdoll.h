@@ -3,10 +3,12 @@
 #include "PhysX.h"
 #include "PhysicsMaterial.h"
 #include "System/Animation/AnimationSkeleton.h"
+#include "System/Resource/ResourcePtr.h"
 #include "System/Core/Math/Transform.h"
 #include "System/Core/Math/NumericRange.h"
 #include "System/Core/Types/Containers.h"
 #include "System/Core/Types/StringID.h"
+#include "System/Core/Time/Time.h"
 
 //-------------------------------------------------------------------------
 

@@ -3,6 +3,22 @@
   "Id": "bbcf3423-e4b4-4cdd-8a97-c6c390bacc23",
   "Items": [
     {
+      "Id": "98ebde9b-3986-4ca0-8e41-9037f5720049",
+      "Command": "-compile data://maps/prototype_combat_minimal.nav"
+    },
+    {
+      "Id": "19e93083-4c06-48bc-9521-5bdb67294403",
+      "Command": "-compile data://maps/br_minimal.nav"
+    },
+    {
+      "Id": "e2d7e307-a159-4efd-ad60-a565d13e2985",
+      "Command": "-compile data://maps/prototype_combat_minimal.nav"
+    },
+    {
+      "Id": "b0658502-4a26-4be7-9861-acd7d403cbf4",
+      "Command": "-shipping"
+    },
+    {
       "Id": "64a5e0c2-5f6b-47a3-830e-c72791a32202",
       "Command": "-compile data://physics/physicsmaterials.pmdb"
     },
@@ -53,6 +69,10 @@
         {
           "Id": "e9351240-7dc9-46e7-ae9d-0b118849b5d2",
           "Command": "-compile data://maps/ecs_testmap.map"
+        },
+        {
+          "Id": "7dfd4f5c-9619-4a16-a813-483f2911d7cb",
+          "Command": "-compile data://maps/prototype_combat_minimal.map"
         }
       ]
     },

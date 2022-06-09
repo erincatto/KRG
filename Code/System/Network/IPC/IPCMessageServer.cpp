@@ -6,7 +6,7 @@
 
 namespace KRG::Network::IPC
 {
-    void Server::SendMessage( Message&& message )
+    void Server::SendNetworkMessage( Message&& message )
     {
         auto& outgoingMessage = m_outgoingMessages.emplace_back( eastl::move( message ) );
     }

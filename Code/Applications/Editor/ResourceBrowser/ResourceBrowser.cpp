@@ -3,6 +3,7 @@
 #include "ResourceBrowser_DescriptorCreator.h"
 #include "Tools/Core/Resource/Compilers/ResourceDescriptor.h"
 #include "Tools/Core/ThirdParty/pfd/portable-file-dialogs.h"
+#include "System/TypeSystem/TypeRegistry.h"
 #include "System/Core/FileSystem/FileSystemUtils.h"
 #include "System/Core/Profiling/Profiling.h"
 #include "System/Core/Platform/PlatformHelpers_Win32.h"

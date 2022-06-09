@@ -3,6 +3,7 @@
 #include "Engine/Animation/TaskSystem/Animation_TaskSystem.h"
 #include "Engine/Animation/TaskSystem/Tasks/Animation_Task_Blend.h"
 #include "Animation_RuntimeGraphNode_AnimationClip.h"
+#include "EASTL/sort.h"
 
 //-------------------------------------------------------------------------
 

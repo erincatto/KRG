@@ -2,6 +2,7 @@
 #include "System/Network/_Module/API.h"
 #include "System/Core/Types/Containers.h"
 #include "System/Core/Memory/MemoryStreamHelpers.h"
+#include "cereal/archives/json.hpp"
 
 //-------------------------------------------------------------------------
 

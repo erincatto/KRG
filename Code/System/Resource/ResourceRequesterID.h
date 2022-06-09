@@ -65,7 +65,7 @@ namespace KRG::Resource
 
     private:
 
-        uint64_t  m_ID = 0;
-        bool    m_isInstallDependency = false;
+        uint64_t    m_ID = 0;
+        bool        m_isInstallDependency = false;
     };
 }

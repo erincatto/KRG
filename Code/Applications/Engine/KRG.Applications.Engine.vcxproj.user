@@ -21,8 +21,8 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Shipping|x64'">
     <LocalDebuggerWorkingDirectory>$(OutDir)</LocalDebuggerWorkingDirectory>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
-    <LocalDebuggerCommandArguments>-map data://maps/br_full.map</LocalDebuggerCommandArguments>
-    <RemoteDebuggerCommandArguments>-map data://maps/br_full.map</RemoteDebuggerCommandArguments>
+    <LocalDebuggerCommandArguments>-map data://maps/br_minimal.map</LocalDebuggerCommandArguments>
+    <RemoteDebuggerCommandArguments>-map data://maps/br_minimal.map</RemoteDebuggerCommandArguments>
   </PropertyGroup>
   <PropertyGroup>
     <ShowAllFiles>false</ShowAllFiles>

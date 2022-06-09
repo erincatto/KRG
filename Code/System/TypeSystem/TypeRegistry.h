@@ -1,8 +1,7 @@
 #pragma once
 
-#include "EnumInfo.h"
-#include "TypeInfo.h"
 #include "ResourceInfo.h"
+#include "TypeInfo.h"
 #include "CoreTypeIDs.h"
 #include "System/Core/Systems/ISystem.h"
 
@@ -10,6 +9,8 @@
 
 namespace KRG::TypeSystem
 {
+    struct EnumInfo;
+    struct PropertyInfo;
     class PropertyPath;
 
     //-------------------------------------------------------------------------
@@ -49,7 +50,7 @@ namespace KRG::TypeSystem
         bool IsTypeDerivedFrom( TypeID typeID, TypeID parentTypeID ) const;
 
         // Return all types matching specified type metadata
-        TVector<TypeInfo const*> GetAllTypesWithMatchingMetadata( TBitFlags<ETypeInfoMetaData> metadataFlags ) const;
+        TVector<TypeInfo const*> GetAllTypesWithMatchingMetadata( TBitFlags<TypeInfoMetaData> metadataFlags ) const;
 
         // Return all known types
         TVector<TypeInfo const*> GetAllTypes( bool includeAbstractTypes = true, bool sortAlphabetically = false ) const;

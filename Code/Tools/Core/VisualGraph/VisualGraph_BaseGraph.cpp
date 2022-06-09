@@ -1,5 +1,6 @@
 #include "VisualGraph_BaseGraph.h"
 #include "System/TypeSystem/TypeSerialization.h"
+#include "System/TypeSystem/TypeRegistry.h"
 
 //-------------------------------------------------------------------------
 

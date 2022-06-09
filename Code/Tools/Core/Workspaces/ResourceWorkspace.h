@@ -77,7 +77,7 @@ namespace KRG
         EventBindingID                          m_preEditEventBindingID;
         EventBindingID                          m_postEditEventBindingID;
         ResourceDescriptorUndoableAction*       m_pActiveUndoableAction = nullptr;
-        int32_t                                   m_beginModificationCallCount = 0;
+        int32_t                                 m_beginModificationCallCount = 0;
         ImGuiX::Gizmo                           m_gizmo;
 
     private:

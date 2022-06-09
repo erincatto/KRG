@@ -1,6 +1,8 @@
 #include "Workspace_MapEditor.h"
+#include "Tools/Navmesh/NavmeshGeneratorDialog.h"
 #include "Tools/Core/ThirdParty/pfd/portable-file-dialogs.h"
 #include "Tools/Core/Helpers/CommonDialogs.h"
+#include "Engine/Navmesh/Components/Component_Navmesh.h"
 #include "Engine/Core/Entity/EntitySerialization.h"
 #include "System/Core/FileSystem/FileSystem.h"
 
@@ -13,6 +15,11 @@ namespace KRG::EntityModel
     {
         m_gizmo.SetTargetTransform( &m_gizmoTransform );
         SetDisplayName( "Map Editor" );
+    }
+
+    EntityMapEditor::~EntityMapEditor()
+    {
+        KRG_ASSERT( m_pNavmeshGeneratorDialog == nullptr );
     }
 
     //-------------------------------------------------------------------------
@@ -64,7 +71,7 @@ namespace KRG::EntityModel
         //-------------------------------------------------------------------------
 
         EntityCollectionDescriptor emptyMap;
-        if ( Serialization::WriteEntityCollectionToFile( *m_pToolsContext->m_pTypeRegistry, emptyMap, mapFilePath ) )
+        if ( Serializer::WriteEntityCollectionToFile( *m_pToolsContext->m_pTypeRegistry, emptyMap, mapFilePath ) )
         {
             LoadMap( mapResourceID );
         }
@@ -148,7 +155,7 @@ namespace KRG::EntityModel
             return;
         }
 
-        if ( Serialization::WriteEntityCollectionToFile( *m_pToolsContext->m_pTypeRegistry, ecd, mapFilePath ) )
+        if ( Serializer::WriteEntityCollectionToFile( *m_pToolsContext->m_pTypeRegistry, ecd, mapFilePath ) )
         {
             ResourceID const mapResourcePath = GetResourcePath( mapFilePath );
             LoadMap( mapResourcePath );
@@ -174,35 +181,88 @@ namespace KRG::EntityModel
         }
 
         FileSystem::Path const filePath = GetFileSystemPath( m_loadedMap );
-        return Serialization::WriteEntityCollectionToFile( *m_pToolsContext->m_pTypeRegistry, ecd, filePath );
+        return Serializer::WriteEntityCollectionToFile( *m_pToolsContext->m_pTypeRegistry, ecd, filePath );
     }
 
     //-------------------------------------------------------------------------
 
     void EntityMapEditor::DrawWorkspaceToolbarItems( UpdateContext const& context )
     {
+        ImGuiX::VerticalSeparator();
+
+        //-------------------------------------------------------------------------
+        // Tools Menu
+        //-------------------------------------------------------------------------
+
+        ImGui::BeginDisabled( !HasLoadedMap() );
+        if ( ImGui::BeginMenu( KRG_ICON_HAMMER_WRENCH" Tools" ) )
+        {
+            // Navmesh
+            //-------------------------------------------------------------------------
+
+            ImGuiX::TextSeparator( "Navmesh" );
+            
+            auto const& navmeshComponents = m_pWorld->GetAllRegisteredComponentsOfType<Navmesh::NavmeshComponent>();
+            bool const hasNavmeshComponent = !navmeshComponents.empty();
+
+            if ( !hasNavmeshComponent )
+            {
+                // Create navmesh component entity
+                if ( ImGui::MenuItem( "Create Navmesh Component" ) )
+                {
+                    CreateNavmeshComponent();
+                }
+            }
+
+            //-------------------------------------------------------------------------
+
+            ImGui::BeginDisabled( !hasNavmeshComponent );
+            if ( ImGui::MenuItem( "Generate Navmesh" ) )
+            {
+                BeginNavmeshGeneration( context );
+            }
+            ImGui::EndDisabled();
+
+            //-------------------------------------------------------------------------
+
+            ImGui::EndMenu();
+        }
+        ImGui::EndDisabled();
+
+        //-------------------------------------------------------------------------
+        // Preview Button
+        //-------------------------------------------------------------------------
+
         ImVec2 const menuDimensions = ImGui::GetContentRegionMax();
+        float buttonDimensions = 130;
+        ImGui::SameLine( menuDimensions.x / 2 - buttonDimensions / 2 );
 
         ImGui::BeginDisabled( !HasLoadedMap() );
         if ( m_isGamePreviewRunning )
         {
-            char const * const stopPreviewStr = KRG_ICON_STOP" Stop Game Preview";
-            ImGui::SameLine( menuDimensions.x / 2 - ImGui::CalcTextSize( stopPreviewStr ).x / 2 );
-            if ( ImGui::MenuItem( stopPreviewStr ) )
+            if ( ImGuiX::FlatIconButton( KRG_ICON_STOP, "Stop Preview", Colors::Red, ImVec2( buttonDimensions, 0 ) ) )
             {
                 m_gamePreviewStopRequested.Execute( context );
             }
         }
         else
         {
-            char const * const startPreviewStr = KRG_ICON_PLAY" Preview Game";
-            ImGui::SameLine( menuDimensions.x / 2 - ImGui::CalcTextSize( startPreviewStr ).x / 2 );
-            if ( ImGui::MenuItem( startPreviewStr ) )
+            if ( ImGuiX::FlatIconButton( KRG_ICON_PLAY, "Preview Map", Colors::Lime, ImVec2( buttonDimensions, 0 ) ) )
             {
                 m_gamePreviewStartRequested.Execute( context );
             }
         }
         ImGui::EndDisabled();
+    }
+
+    void EntityMapEditor::UpdateWorkspace( UpdateContext const& context, ImGuiWindowClass* pWindowClass )
+    {
+        EntityEditorBaseWorkspace::UpdateWorkspace( context, pWindowClass );
+
+        if ( m_pNavmeshGeneratorDialog != nullptr )
+        {
+            UpdateNavmeshGeneration( context );
+        }
     }
 
     //-------------------------------------------------------------------------
@@ -217,5 +277,73 @@ namespace KRG::EntityModel
     {
         m_pWorld->ResumeUpdates();
         m_isGamePreviewRunning = false;
+    }
+
+    //-------------------------------------------------------------------------
+
+    void EntityMapEditor::CreateNavmeshComponent()
+    {
+        // Create the appropriate resource ID for the navmesh data
+        ResourcePath navmeshResourcePath = m_context.GetMap()->GetMapResourceID().GetResourcePath();
+        navmeshResourcePath.ReplaceExtension( Navmesh::NavmeshData::GetStaticResourceTypeID().ToString().c_str() );
+        ResourceID const navmeshResourceID( navmeshResourcePath );
+
+        // Create a new entity with a navmesh component if one isnt found
+        Entity* pEntity = KRG::New<Entity>( StringID( "Navmesh Entity" ) );
+        pEntity->AddComponent( KRG::New<Navmesh::NavmeshComponent>( navmeshResourceID ) );
+        m_context.AddEntity( pEntity );
+    }
+
+    void EntityMapEditor::BeginNavmeshGeneration( UpdateContext const& context )
+    {
+        KRG_ASSERT( m_pNavmeshGeneratorDialog == nullptr );
+
+        // Try find navmesh component
+        auto const& navmeshComponents = m_pWorld->GetAllRegisteredComponentsOfType<Navmesh::NavmeshComponent>();
+        if ( navmeshComponents.size() > 1 )
+        {
+            KRG_LOG_WARNING( "Map Editor", "Multiple navmesh components found in the map! This is not supported!" );
+        }
+
+        Navmesh::NavmeshComponent const* pNavmeshComponent = navmeshComponents.back();
+
+        // Navmesh Generation
+        //-------------------------------------------------------------------------
+
+        FileSystem::Path navmeshFilePath = m_context.GetMap()->GetMapResourceID().GetResourcePath().ToFileSystemPath( m_context.m_pToolsContext->m_pResourceDatabase->GetRawResourceDirectoryPath() );
+        navmeshFilePath.ReplaceExtension( Navmesh::NavmeshData::GetStaticResourceTypeID().ToString() );
+
+        EntityCollectionDescriptor mapDesc;
+        m_context.GetMap()->CreateDescriptor( *m_pToolsContext->m_pTypeRegistry, mapDesc );
+        m_pNavmeshGeneratorDialog = KRG::New<Navmesh::NavmeshGeneratorDialog>( m_pToolsContext, pNavmeshComponent->GetBuildSettings(), mapDesc, navmeshFilePath);
+    }
+
+    void EntityMapEditor::UpdateNavmeshGeneration( UpdateContext const& context )
+    {
+        KRG_ASSERT( m_pNavmeshGeneratorDialog != nullptr );
+        if ( !m_pNavmeshGeneratorDialog->UpdateAndDrawDialog( context ) )
+        {
+            EndNavmeshGeneration( context );
+        }
+    }
+
+    void EntityMapEditor::EndNavmeshGeneration( UpdateContext const& context )
+    {
+        KRG_ASSERT( m_pNavmeshGeneratorDialog != nullptr );
+
+        // Update navmesh build settings if needed
+        if ( m_pNavmeshGeneratorDialog->WereBuildSettingsUpdated() )
+        {
+            auto const& navmeshComponents = m_pWorld->GetAllRegisteredComponentsOfType<Navmesh::NavmeshComponent>();
+            KRG_ASSERT( navmeshComponents.size() == 1 );
+           
+            auto pNavmeshComponent = const_cast<Navmesh::NavmeshComponent*>( navmeshComponents.back() );
+            m_context.BeginEditComponent( pNavmeshComponent );
+            pNavmeshComponent->SetBuildSettings( m_pNavmeshGeneratorDialog->GetBuildSettings() );
+            m_context.EndEditComponent();
+        }
+
+        // Destroy dialog
+        KRG::Delete( m_pNavmeshGeneratorDialog );
     }
 }

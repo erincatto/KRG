@@ -11,6 +11,7 @@
 #include "System/Render/Imgui/ImguiSystem.h"
 #include "System/Resource/ResourceProvider.h"
 #include "System/Resource/ResourceSystem.h"
+#include "System/TypeSystem/TypeRegistry.h"
 #include "System/Core/Settings/SettingsRegistry.h"
 #include "System/Core/Threading/TaskSystem.h"
 #include "System/Core/Systems/SystemRegistry.h"

@@ -1,6 +1,7 @@
 #include "EntityDescriptors.h"
 #include "System/Core/Logging/Log.h"
 #include "Entity.h"
+#include "System/TypeSystem/TypeRegistry.h"
 #include "System/Core/Profiling/Profiling.h"
 #include "System/Core/Threading/TaskSystem.h"
 
@@ -185,4 +186,30 @@ namespace KRG::EntityModel
 
         return createdEntities;
     }
+
+    #if KRG_DEVELOPMENT_TOOLS
+    void EntityCollectionDescriptor::GetAllReferencedResources( TVector<ResourceID>& outReferencedResources ) const
+    {
+        outReferencedResources.clear();
+
+        TypeSystem::TypeID const resourceIDTypeID = TypeSystem::CoreTypeRegistry::GetTypeID( TypeSystem::CoreTypeID::ResourceID );
+        TypeSystem::TypeID const resourcePathTypeID = TypeSystem::CoreTypeRegistry::GetTypeID( TypeSystem::CoreTypeID::ResourcePath );
+        TypeSystem::TypeID const resourcePtrTypeID = TypeSystem::CoreTypeRegistry::GetTypeID( TypeSystem::CoreTypeID::ResourcePtr );
+        TypeSystem::TypeID const templateResourcePtrTypeID = TypeSystem::CoreTypeRegistry::GetTypeID( TypeSystem::CoreTypeID::TResourcePtr );
+
+        for ( auto const& entityDesc : m_entityDescriptors )
+        {
+            for ( auto const& componentDesc : entityDesc.m_components )
+            {
+                for ( auto const& propertyDesc : componentDesc.m_properties )
+                {
+                    if ( propertyDesc.m_typeID == resourceIDTypeID || propertyDesc.m_typeID == resourcePathTypeID || propertyDesc.m_typeID == resourcePtrTypeID || propertyDesc.m_typeID == templateResourcePtrTypeID )
+                    {
+                        VectorEmplaceBackUnique<ResourceID>( outReferencedResources, ResourceID( propertyDesc.m_stringValue ) );
+                    }
+                }
+            }
+        }
+    }
+    #endif
 }

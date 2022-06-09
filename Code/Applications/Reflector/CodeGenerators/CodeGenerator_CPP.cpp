@@ -77,6 +77,7 @@ namespace KRG::CPP
         typeRegistrationStr << "//-------------------------------------------------------------------------\n\n";
         typeRegistrationStr << "#include \"System/TypeSystem/TypeHelpers.h\"\n";
         typeRegistrationStr << "#include \"System/TypeSystem/TypeRegistry.h\"\n\n";
+        typeRegistrationStr << "#include \"System/TypeSystem/EnumInfo.h\"\n\n";
 
         // Get all modules from database
         TVector<ProjectInfo> modules = database.GetAllRegisteredProjects();
@@ -290,6 +291,7 @@ namespace KRG::CPP
         m_moduleFile << "#include \"../API.h\"\n";
         m_moduleFile << "#include \"System/TypeSystem/TypeRegistry.h\"\n";
         m_moduleFile << "#include \"System/TypeSystem/ITypeHelper.h\"\n";
+        m_moduleFile << "#include \"System/TypeSystem/EnumInfo.h\"\n";
         m_moduleFile << "#include \"System/Resource/ResourceSystem.h\"\n";
         m_moduleFile << "#include \"" << prj.GetModuleHeaderDesc().m_filePath.c_str() << "\"\n\n";
         m_moduleFile << "//-------------------------------------------------------------------------\n\n";

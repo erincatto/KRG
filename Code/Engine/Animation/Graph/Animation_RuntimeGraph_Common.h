@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Engine/Animation/_Module/API.h"
-#include "Engine/Animation/AnimationCommon.h"
 #include "System/Core/Types/Color.h"
 #include "System/Core/KRG.h"
 #include "System/TypeSystem/TypeRegistrationMacros.h"

@@ -20,7 +20,7 @@ namespace KRG::Physics
     Resource::CompilationResult PhysicsMaterialDatabaseCompiler::Compile( Resource::CompileContext const& ctx ) const
     {
         PhysicsMaterialDatabaseResourceDescriptor resourceDescriptor;
-        if ( !Resource::ResourceDescriptor::TryReadFromFile( ctx.m_typeRegistry, ctx.m_inputFilePath, resourceDescriptor ) )
+        if ( !Resource::ResourceDescriptor::TryReadFromFile( *m_pTypeRegistry, ctx.m_inputFilePath, resourceDescriptor ) )
         {
             return Error( "Failed to read resource descriptor from input file: %s", ctx.m_inputFilePath.c_str() );
         }
@@ -33,14 +33,14 @@ namespace KRG::Physics
         for ( ResourcePath const& libraryPath : resourceDescriptor.m_materialLibraries )
         {
             FileSystem::Path libraryFilePath;
-            if ( !ctx.ConvertResourcePathToFilePath( libraryPath, libraryFilePath ) )
+            if ( !ConvertResourcePathToFilePath( libraryPath, libraryFilePath ) )
             {
                 return Error( "Failed to convert data path to filepath: %s", libraryPath.c_str() );
             }
 
             //-------------------------------------------------------------------------
 
-            TypeSystem::Serialization::TypeReader typeReader( ctx.m_typeRegistry );
+            TypeSystem::Serialization::TypeReader typeReader( *m_pTypeRegistry );
             if ( typeReader.ReadFromFile( libraryFilePath ) )
             {
                 int32_t const numSerializedTypes = typeReader.GetNumSerializedTypes();

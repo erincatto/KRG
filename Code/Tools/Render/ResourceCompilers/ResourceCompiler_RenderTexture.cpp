@@ -35,7 +35,7 @@ namespace KRG::Render
     Resource::CompilationResult TextureCompiler::CompileTexture( Resource::CompileContext const& ctx ) const
     {
         TextureResourceDescriptor resourceDescriptor;
-        if ( !Resource::ResourceDescriptor::TryReadFromFile( ctx.m_typeRegistry, ctx.m_inputFilePath, resourceDescriptor ) )
+        if ( !Resource::ResourceDescriptor::TryReadFromFile( *m_pTypeRegistry, ctx.m_inputFilePath, resourceDescriptor ) )
         {
             return Error( "Failed to read resource descriptor from input file: %s", ctx.m_inputFilePath.c_str() );
         }
@@ -43,7 +43,7 @@ namespace KRG::Render
         //-------------------------------------------------------------------------
 
         FileSystem::Path textureFilePath;
-        if ( !ctx.ConvertResourcePathToFilePath( resourceDescriptor.m_path, textureFilePath ) )
+        if ( !ConvertResourcePathToFilePath( resourceDescriptor.m_path, textureFilePath ) )
         {
             return Error( "Invalid texture data path: %s", resourceDescriptor.m_path.c_str() );
         }
@@ -74,7 +74,7 @@ namespace KRG::Render
     Resource::CompilationResult TextureCompiler::CompileCubemapTexture( Resource::CompileContext const& ctx ) const
     {
         CubemapTextureResourceDescriptor resourceDescriptor;
-        if ( !Resource::ResourceDescriptor::TryReadFromFile( ctx.m_typeRegistry, ctx.m_inputFilePath, resourceDescriptor ) )
+        if ( !Resource::ResourceDescriptor::TryReadFromFile( *m_pTypeRegistry, ctx.m_inputFilePath, resourceDescriptor ) )
         {
             return Error( "Failed to read resource descriptor from input file: %s", ctx.m_inputFilePath.c_str() );
         }
@@ -85,7 +85,7 @@ namespace KRG::Render
         CubemapTexture texture;
         texture.m_format = TextureFormat::DDS;
 
-        FileSystem::Path const sourceTexturePath = resourceDescriptor.m_path.ToFileSystemPath( ctx.m_rawResourceDirectoryPath );
+        FileSystem::Path const sourceTexturePath = resourceDescriptor.m_path.ToFileSystemPath( m_rawResourceDirectoryPath );
         if ( !FileSystem::Exists( sourceTexturePath ) )
         {
             return Error( "Failed to open specified source file: %s", sourceTexturePath.c_str() );

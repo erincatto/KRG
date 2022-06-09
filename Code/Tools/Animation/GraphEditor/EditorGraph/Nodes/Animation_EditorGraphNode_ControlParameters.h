@@ -133,6 +133,10 @@ namespace KRG::Animation::GraphNodes
             return target;
         }
 
+        inline bool IsBoneTarget() const { return m_isBoneID; }
+        inline Transform const& GetPreviewTargetTransform() const { return m_previewStartTransform; }
+        void SetPreviewTargetTransform( Transform const& transform );
+
     private:
 
         KRG_EXPOSE bool         m_isSet = false;

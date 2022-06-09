@@ -5,6 +5,8 @@
 #include "EditorGraph/Animation_EditorGraph_Definition.h"
 #include "Tools/Core/Resource/ResourceDatabase.h"
 #include "Engine/Core/Update/UpdateContext.h"
+#include "System/TypeSystem/TypeRegistry.h"
+#include "EASTL/sort.h"
 
 //-------------------------------------------------------------------------
 

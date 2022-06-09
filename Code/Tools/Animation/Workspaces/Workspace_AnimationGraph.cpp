@@ -46,14 +46,14 @@ namespace KRG::Animation
         {
             JsonReader reader;
             reader.ReadFromString( m_valueBefore.c_str() );
-            m_pWorkspace->m_graphEditorContext.LoadGraph( reader.GetDocument() );
+            m_pWorkspace->m_editorContext.LoadGraph( reader.GetDocument() );
         }
 
         virtual void Redo() override
         {
             JsonReader reader;
             reader.ReadFromString( m_valueAfter.c_str() );
-            m_pWorkspace->m_graphEditorContext.LoadGraph( reader.GetDocument() );
+            m_pWorkspace->m_editorContext.LoadGraph( reader.GetDocument() );
         }
 
         void SerializeBeforeState()
@@ -64,7 +64,7 @@ namespace KRG::Animation
             }
 
             JsonWriter writer;
-            m_pWorkspace->m_graphEditorContext.SaveGraph( *writer.GetWriter() );
+            m_pWorkspace->m_editorContext.SaveGraph( *writer.GetWriter() );
             m_valueBefore.resize( writer.GetStringBuffer().GetSize() );
             memcpy( m_valueBefore.data(), writer.GetStringBuffer().GetString(), writer.GetStringBuffer().GetSize() );
         }
@@ -72,7 +72,7 @@ namespace KRG::Animation
         void SerializeAfterState()
         {
             JsonWriter writer;
-            m_pWorkspace->m_graphEditorContext.SaveGraph( *writer.GetWriter() );
+            m_pWorkspace->m_editorContext.SaveGraph( *writer.GetWriter() );
             m_valueAfter.resize( writer.GetStringBuffer().GetSize() );
             memcpy( m_valueAfter.data(), writer.GetStringBuffer().GetString(), writer.GetStringBuffer().GetSize() );
         }
@@ -88,7 +88,7 @@ namespace KRG::Animation
 
     AnimationGraphWorkspace::AnimationGraphWorkspace( ToolsContext const* pToolsContext, EntityWorld* pWorld, ResourceID const& resourceID )
         : TResourceWorkspace<GraphDefinition>( pToolsContext, pWorld, resourceID, false )
-        , m_graphEditorContext( *pToolsContext )
+        , m_editorContext( *pToolsContext )
         , m_propertyGrid( m_pToolsContext )
     {
         SetViewportCameraSpeed( 10.0f );
@@ -109,22 +109,32 @@ namespace KRG::Animation
             }
 
             // Try to load the graph from the file
-            if ( !m_graphEditorContext.LoadGraph( reader.GetDocument() ) )
+            if ( !m_editorContext.LoadGraph( reader.GetDocument() ) )
             {
                 KRG_LOG_ERROR( "Animation", "Failed to load graph definition: %s", m_graphFilePath.c_str() );
             }
 
-            m_graphEditor.NavigateTo( m_graphEditorContext.GetRootGraph() );
+            m_graphEditor.NavigateTo( m_editorContext.GetRootGraph() );
         }
 
-        KRG_ASSERT( m_graphEditorContext.GetGraphDefinition() != nullptr );
+        KRG_ASSERT( m_editorContext.GetGraphDefinition() != nullptr );
+
+        // Gizmo
+        //-------------------------------------------------------------------------
+
+        m_gizmo.SetTargetTransform( &m_gizmoTransform );
+        m_gizmo.SetOption( ImGuiX::Gizmo::Options::DrawManipulationPlanes, true );
+        m_gizmo.SetOption( ImGuiX::Gizmo::Options::AllowScale, false );
+        m_gizmo.SetOption( ImGuiX::Gizmo::Options::AllowCoordinateSpaceSwitching, false );
+        m_gizmo.SetCoordinateSystemSpace( CoordinateSpace::Local );
+        m_gizmo.SwitchMode( ImGuiX::Gizmo::GizmoMode::Translation );
 
         // Bind events
         //-------------------------------------------------------------------------
 
         auto OnBeginGraphModification = [this] ( VisualGraph::BaseGraph* pRootGraph )
         {
-            if ( pRootGraph == m_graphEditorContext.GetRootGraph() )
+            if ( pRootGraph == m_editorContext.GetRootGraph() )
             {
                 KRG_ASSERT( m_pActiveUndoableAction == nullptr );
 
@@ -135,14 +145,14 @@ namespace KRG::Animation
 
         auto OnEndGraphModification = [this] ( VisualGraph::BaseGraph* pRootGraph )
         {
-            if ( pRootGraph == m_graphEditorContext.GetRootGraph() )
+            if ( pRootGraph == m_editorContext.GetRootGraph() )
             {
                 KRG_ASSERT( m_pActiveUndoableAction != nullptr );
 
                 m_pActiveUndoableAction->SerializeAfterState();
                 m_undoStack.RegisterAction( m_pActiveUndoableAction );
                 m_pActiveUndoableAction = nullptr;
-                m_graphEditorContext.MarkDirty();
+                m_editorContext.MarkDirty();
             }
         };
 
@@ -151,13 +161,13 @@ namespace KRG::Animation
 
         //-------------------------------------------------------------------------
 
-        m_preEditEventBindingID = m_propertyGrid.OnPreEdit().Bind( [this] ( PropertyEditInfo const& info ) { m_graphEditorContext.GetRootGraph()->BeginModification(); } );
-        m_postEditEventBindingID = m_propertyGrid.OnPostEdit().Bind( [this] ( PropertyEditInfo const& info ) { m_graphEditorContext.GetRootGraph()->EndModification(); } );
+        m_preEditEventBindingID = m_propertyGrid.OnPreEdit().Bind( [this] ( PropertyEditInfo const& info ) { m_editorContext.GetRootGraph()->BeginModification(); } );
+        m_postEditEventBindingID = m_propertyGrid.OnPostEdit().Bind( [this] ( PropertyEditInfo const& info ) { m_editorContext.GetRootGraph()->EndModification(); } );
 
         //-------------------------------------------------------------------------
 
-        m_navigateToNodeEventBindingID = m_graphEditorContext.OnNavigateToNode().Bind( [this] ( VisualGraph::BaseNode* pNode ) { m_graphEditor.NavigateTo( pNode ); } );
-        m_navigateToGraphEventBindingID = m_graphEditorContext.OnNavigateToGraph().Bind( [this] ( VisualGraph::BaseGraph* pGraph ) { m_graphEditor.NavigateTo( pGraph ); } );
+        m_navigateToNodeEventBindingID = m_editorContext.OnNavigateToNode().Bind( [this] ( VisualGraph::BaseNode* pNode ) { m_graphEditor.NavigateTo( pNode ); } );
+        m_navigateToGraphEventBindingID = m_editorContext.OnNavigateToGraph().Bind( [this] ( VisualGraph::BaseGraph* pGraph ) { m_graphEditor.NavigateTo( pGraph ); } );
     }
 
     AnimationGraphWorkspace::~AnimationGraphWorkspace()
@@ -173,8 +183,8 @@ namespace KRG::Animation
         VisualGraph::BaseGraph::OnBeginModification().Unbind( m_rootGraphBeginModificationBindingID );
         VisualGraph::BaseGraph::OnEndModification().Unbind( m_rootGraphEndModificationBindingID );
 
-        m_graphEditorContext.OnNavigateToNode().Unbind( m_navigateToNodeEventBindingID );
-        m_graphEditorContext.OnNavigateToGraph().Unbind( m_navigateToGraphEventBindingID );
+        m_editorContext.OnNavigateToNode().Unbind( m_navigateToNodeEventBindingID );
+        m_editorContext.OnNavigateToGraph().Unbind( m_navigateToGraphEventBindingID );
     }
 
     void AnimationGraphWorkspace::Initialize( UpdateContext const& context )
@@ -240,7 +250,7 @@ namespace KRG::Animation
         // Property Grid
         //-------------------------------------------------------------------------
 
-        auto const& selection = m_graphEditorContext.GetSelectedNodes();
+        auto const& selection = m_editorContext.GetSelectedNodes();
         if ( selection.empty() )
         {
             m_propertyGrid.SetTypeToEdit( nullptr );
@@ -280,21 +290,19 @@ namespace KRG::Animation
     void AnimationGraphWorkspace::DrawWorkspaceToolbarItems( UpdateContext const& context )
     {
         ImVec2 const menuDimensions = ImGui::GetContentRegionMax();
+        float buttonDimensions = 130;
+        ImGui::SameLine( menuDimensions.x / 2 - buttonDimensions / 2 );
 
         if ( IsPreviewing() )
         {
-            char const * const stopPreviewStr = KRG_ICON_STOP" Stop Preview";
-            ImGui::SameLine( menuDimensions.x / 2 - ImGui::CalcTextSize( stopPreviewStr ).x / 2 );
-            if ( ImGui::MenuItem( stopPreviewStr ) )
+            if ( ImGuiX::FlatIconButton( KRG_ICON_STOP, "Stop Preview", Colors::Red, ImVec2( buttonDimensions, 0 ) ) )
             {
                 StopPreview();
             }
         }
         else
         {
-            char const * const startPreviewStr = KRG_ICON_PLAY" Preview Graph";
-            ImGui::SameLine( menuDimensions.x / 2 - ImGui::CalcTextSize( startPreviewStr ).x / 2 );
-            if ( ImGui::MenuItem( startPreviewStr ) )
+            if ( ImGuiX::FlatIconButton( KRG_ICON_PLAY, "Preview Graph", Colors::Lime, ImVec2( buttonDimensions, 0 ) ) )
             {
                 StartPreview( context );
             }
@@ -415,13 +423,65 @@ namespace KRG::Animation
         }
     }
 
+    void AnimationGraphWorkspace::DrawViewportOverlayElements( UpdateContext const& context, Render::Viewport const* pViewport )
+    {
+        TResourceWorkspace<GraphDefinition>::DrawViewportOverlayElements( context, pViewport );
+
+        // Check if we have a target parameter selected
+        GraphNodes::TargetControlParameterEditorNode* pSelectedTargetControlParameter = nullptr;
+        if ( !m_editorContext.GetSelectedNodes().empty() )
+        {
+            pSelectedTargetControlParameter = TryCast<GraphNodes::TargetControlParameterEditorNode>( m_editorContext.GetSelectedNodes().back().m_pNode );
+        }
+
+        // Allow for in-viewport manipulation of the parameter preview value
+        if ( pSelectedTargetControlParameter != nullptr && !pSelectedTargetControlParameter->IsBoneTarget() )
+        {
+            if ( m_isViewportFocused )
+            {
+                if ( ImGui::IsKeyPressed( ImGuiKey_Space ) )
+                {
+                    m_gizmo.SwitchToNextMode();
+                }
+            }
+
+            if ( !m_gizmo.IsManipulating() )
+            {
+                m_gizmoTransform = pSelectedTargetControlParameter->GetPreviewTargetTransform();
+            }
+
+            switch ( m_gizmo.Draw( *pViewport ) )
+            {
+                case ImGuiX::Gizmo::Result::StartedManipulating:
+                {
+                    m_editorContext.BeginGraphModification();
+                }
+                break;
+
+                case ImGuiX::Gizmo::Result::Manipulating:
+                {
+
+                }
+                break;
+
+                case ImGuiX::Gizmo::Result::StoppedManipulating:
+                {
+                    pSelectedTargetControlParameter->SetPreviewTargetTransform( m_gizmoTransform );
+                    m_editorContext.EndGraphModification();
+                }
+                break;
+            }
+        }
+
+    }
+
     //-------------------------------------------------------------------------
 
     void AnimationGraphWorkspace::GenerateAnimGraphVariationDescriptors()
     {
         KRG_ASSERT( m_graphFilePath.IsValid() && m_graphFilePath.MatchesExtension( "ag" ) );
 
-        auto const& variations = m_graphEditorContext.GetVariationHierarchy();
+        auto const& variations = m_editorContext.GetVariationHierarchy();
         for ( auto const& variation : variations.GetAllVariations() )
         {
             GraphVariationResourceDescriptor resourceDesc;
@@ -439,11 +499,11 @@ namespace KRG::Animation
     {
         KRG_ASSERT( m_graphFilePath.IsValid() );
         JsonWriter writer;
-        m_graphEditorContext.SaveGraph( *writer.GetWriter() );
+        m_editorContext.SaveGraph( *writer.GetWriter() );
         if ( writer.WriteToFile( m_graphFilePath ) )
         {
             GenerateAnimGraphVariationDescriptors();
-            m_graphEditorContext.ClearDirty();
+            m_editorContext.ClearDirty();
             return true;
         }
 
@@ -452,7 +512,7 @@ namespace KRG::Animation
 
     bool AnimationGraphWorkspace::IsDirty() const
     {
-        return m_graphEditorContext.IsDirty();
+        return m_editorContext.IsDirty();
     }
 
     void AnimationGraphWorkspace::PreUndoRedo( UndoStack::Operation operation )
@@ -473,10 +533,10 @@ namespace KRG::Animation
 
     void AnimationGraphWorkspace::PostUndoRedo( UndoStack::Operation operation, IUndoableAction const* pAction )
     {
-        auto pNode = m_graphEditorContext.GetRootGraph()->FindNode( m_selectedNodePreUndoRedo );
+        auto pNode = m_editorContext.GetRootGraph()->FindNode( m_selectedNodePreUndoRedo );
         if ( pNode != nullptr )
         {
-            m_graphEditorContext.SetSelectedNodes( { VisualGraph::SelectedNode( pNode ) } );
+            m_editorContext.SetSelectedNodes( { VisualGraph::SelectedNode( pNode ) } );
         }
 
         m_graphEditor.OnUndoRedo();
@@ -492,7 +552,7 @@ namespace KRG::Animation
         //-------------------------------------------------------------------------
 
         GraphDefinitionCompiler definitionCompiler;
-        bool const graphCompiledSuccessfully = definitionCompiler.CompileGraph( *m_graphEditorContext.GetGraphDefinition() );
+        bool const graphCompiledSuccessfully = definitionCompiler.CompileGraph( *m_editorContext.GetGraphDefinition() );
         m_graphCompilationLog.UpdateCompilationResults( definitionCompiler.GetLog() );
 
         // Compilation failed, stop preview attempt
@@ -529,7 +589,7 @@ namespace KRG::Animation
         // Preview Mesh Component
         //-------------------------------------------------------------------------
 
-        auto pVariation = m_graphEditorContext.GetVariation( m_selectedVariationID );
+        auto pVariation = m_editorContext.GetVariation( m_selectedVariationID );
         KRG_ASSERT( pVariation != nullptr );
         if ( pVariation->m_pSkeleton.IsValid() )
         {
@@ -629,7 +689,7 @@ namespace KRG::Animation
     {
         KRG_ASSERT( m_isFirstPreviewFrame && m_pGraphComponent != nullptr && m_pGraphComponent->IsInitialized() );
 
-        for ( auto pControlParameter : m_graphEditorContext.GetControlParameters() )
+        for ( auto pControlParameter : m_editorContext.GetControlParameters() )
         {
             GraphNodeIndex const parameterIdx = m_pGraphComponent->GetControlParameterIndex( StringID( pControlParameter->GetParameterName() ) );
 

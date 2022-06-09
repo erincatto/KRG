@@ -228,10 +228,17 @@ namespace KRG::EntityModel
             return HasComponentsOfType( typeRegistry, T::GetStaticTypeID(), allowDerivedTypes );
         }
 
+        // Collection Info
+        //-------------------------------------------------------------------------
+
+        #if KRG_DEVELOPMENT_TOOLS
+        void GetAllReferencedResources( TVector<ResourceID>& outReferencedResources ) const;
+        #endif
+
     protected:
 
         TVector<EntityDescriptor>                                   m_entityDescriptors;
-        THashMap<StringID, int32_t>                                   m_entityLookupMap;
+        THashMap<StringID, int32_t>                                 m_entityLookupMap;
         TVector<SpatialAttachmentInfo>                              m_entitySpatialAttachmentInfo;
     };
 }

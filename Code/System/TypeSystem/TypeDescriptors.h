@@ -28,6 +28,8 @@ namespace KRG::TypeSystem
 
             #if KRG_DEVELOPMENT_TOOLS
             m_stringValue = stringValue;
+            m_typeID = propertyInfo.m_typeID;
+            m_templatedArgumentTypeID = propertyInfo.m_templateArgumentTypeID;
             #endif
         }
 
@@ -39,6 +41,8 @@ namespace KRG::TypeSystem
 
             #if KRG_DEVELOPMENT_TOOLS
             m_stringValue = stringValue;
+            m_typeID = propertyTypeID;
+            m_templatedArgumentTypeID = propertyTemplatedArgumentTypeID;
             #endif
         }
 
@@ -63,23 +67,9 @@ namespace KRG::TypeSystem
         //-------------------------------------------------------------------------
 
         #if KRG_DEVELOPMENT_TOOLS
-        PropertyDescriptor( PropertyPath const& path, char const* pStringValue )
+        PropertyDescriptor( PropertyPath const& path, char const* pValue, TypeID typeID, TypeID templatedArgumentTypeID = TypeID() )
             : m_path( path )
-            , m_stringValue( pStringValue )
-        {
-            KRG_ASSERT( m_path.IsValid() && pStringValue != nullptr );
-        }
-
-        PropertyDescriptor( PropertyPath const& path, String const& stringValue )
-            : m_path( path )
-            , m_stringValue( stringValue )
-        {
-            KRG_ASSERT( m_path.IsValid() && !stringValue.empty() );
-        }
-
-        PropertyDescriptor( PropertyPath const& path, String const& value, TypeID typeID = TypeID(), TypeID templatedArgumentTypeID = TypeID() )
-            : m_path( path )
-            , m_stringValue( value )
+            , m_stringValue( pValue )
             , m_typeID( typeID )
             , m_templatedArgumentTypeID( templatedArgumentTypeID )
         {
@@ -90,7 +80,7 @@ namespace KRG::TypeSystem
     public:
 
         PropertyPath                                                m_path;
-        TVector<uint8_t>                                               m_byteValue;
+        TVector<uint8_t>                                            m_byteValue;
 
         // Not-serialized - used in tooling
         #if KRG_DEVELOPMENT_TOOLS

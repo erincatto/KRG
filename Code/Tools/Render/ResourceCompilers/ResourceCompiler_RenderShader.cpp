@@ -176,7 +176,7 @@ namespace KRG::Render
     Resource::CompilationResult Render::ShaderCompiler::Compile( Resource::CompileContext const& ctx ) const
     {
         ShaderResourceDescriptor resourceDescriptor;
-        if ( !Resource::ResourceDescriptor::TryReadFromFile( ctx.m_typeRegistry, ctx.m_inputFilePath, resourceDescriptor ) )
+        if ( !Resource::ResourceDescriptor::TryReadFromFile( *m_pTypeRegistry, ctx.m_inputFilePath, resourceDescriptor ) )
         {
             return Error( "Failed to read resource descriptor from input file: %s", ctx.m_inputFilePath.c_str() );
         }
@@ -211,7 +211,7 @@ namespace KRG::Render
         //-------------------------------------------------------------------------
 
         FileSystem::Path shaderFilePath;
-        if ( !ctx.ConvertResourcePathToFilePath( resourceDescriptor.m_shaderPath, shaderFilePath ) )
+        if ( !ConvertResourcePathToFilePath( resourceDescriptor.m_shaderPath, shaderFilePath ) )
         {
             return Error( "Invalid texture data path: %s", resourceDescriptor.m_shaderPath.c_str() );
         }

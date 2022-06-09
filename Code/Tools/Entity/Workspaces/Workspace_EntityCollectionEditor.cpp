@@ -52,7 +52,7 @@ namespace KRG::EntityModel
         }
 
         FileSystem::Path const filePath = GetFileSystemPath( m_collection.GetResourcePath() );
-        return Serialization::WriteEntityCollectionToFile( m_context.GetTypeRegistry(), ecd, filePath);
+        return Serializer::WriteEntityCollectionToFile( m_context.GetTypeRegistry(), ecd, filePath);
     }
 
     //-------------------------------------------------------------------------

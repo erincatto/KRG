@@ -44,7 +44,9 @@ namespace KRG::Animation
 
         bool IsNodeActive( GraphNodeIndex nodeIdx ) const;
         
+        #if KRG_DEVELOPMENT_TOOLS
         PoseNodeDebugInfo GetPoseNodeDebugInfo( GraphNodeIndex runtimeNodeIdx ) const;
+        #endif
 
         template<typename T>
         inline T GetRuntimeNodeValue( GraphNodeIndex runtimeNodeIdx ) const
@@ -60,6 +62,8 @@ namespace KRG::Animation
 
     //-------------------------------------------------------------------------
 
+    #if KRG_DEVELOPMENT_TOOLS
     void DrawPoseNodeDebugInfo( VisualGraph::DrawContext const& ctx, float width, PoseNodeDebugInfo const& debugInfo );
     void DrawEmptyPoseNodeDebugInfo( VisualGraph::DrawContext const& ctx, float width );
+    #endif
 }

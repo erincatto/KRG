@@ -14,14 +14,13 @@ namespace KRG::Resource
     static char const* const g_workerStatusWindowName = "Worker Status";
     static char const* const g_serverInfoWindowName = "Server Info";
     static char const* const g_connectionInfoWindowName = "Connected Clients";
+    static char const* const g_packagingControlsWindowName = "Packaging";
 
     //-------------------------------------------------------------------------
 
-    ResourceServerUI::ResourceServerUI( ResourceServer* pServer )
-        : m_pResourceServer( pServer )
-    {
-        KRG_ASSERT( m_pResourceServer != nullptr );
-    }
+    ResourceServerUI::ResourceServerUI( ResourceServer& resourceServer )
+        : m_resourceServer( resourceServer )
+    {}
 
     void ResourceServerUI::Draw()
     {
@@ -55,6 +54,7 @@ namespace KRG::Resource
                 ImGui::DockBuilderDockWindow( g_workerStatusWindowName, topRightDockID );
                 ImGui::DockBuilderDockWindow( g_connectionInfoWindowName, topLeftDockID );
                 ImGui::DockBuilderDockWindow( g_serverInfoWindowName, topLeftDockID );
+                ImGui::DockBuilderDockWindow( g_packagingControlsWindowName, topLeftDockID );
                 ImGui::DockBuilderDockWindow( g_pendingRequestsWindowName, topLeftDockID );
                 ImGui::DockBuilderDockWindow( g_completedRequestsWindowName, bottomDockID );
 
@@ -71,11 +71,12 @@ namespace KRG::Resource
 
         DrawServerInfo();
         DrawConnectionInfo();
-        DrawCompletedRequests();
+        DrawRequests();
         DrawWorkerStatus();
+        DrawPackagingControls();
     }
 
-    void ResourceServerUI::DrawCompletedRequests()
+    void ResourceServerUI::DrawRequests()
     {
         if ( ImGui::Begin( g_completedRequestsWindowName ) )
         {
@@ -93,9 +94,9 @@ namespace KRG::Resource
 
             if ( ImGui::BeginTable( "Completed Requests Table", 7, ImGuiTableFlags_Borders | ImGuiTableFlags_Resizable | ImGuiTableFlags_ScrollX | ImGuiTableFlags_ScrollY, ImVec2( 0, tableHeight ) ) )
             {
-                auto const& activeRequests = m_pResourceServer->GetActiveRequests();
-                auto const& pendingRequests = m_pResourceServer->GetPendingRequests();
-                auto const& completedRequests = m_pResourceServer->GetCompletedRequests();
+                auto const& activeRequests = m_resourceServer.GetActiveRequests();
+                auto const& pendingRequests = m_resourceServer.GetPendingRequests();
+                auto const& completedRequests = m_resourceServer.GetCompletedRequests();
 
                 m_combinedRequests.clear();
                 m_combinedRequests.reserve( activeRequests.size() + pendingRequests.size() + completedRequests.size() );
@@ -104,7 +105,6 @@ namespace KRG::Resource
                 m_combinedRequests.insert( m_combinedRequests.end(), pendingRequests.begin(), pendingRequests.end() );
                 m_combinedRequests.insert( m_combinedRequests.end(), completedRequests.begin(), completedRequests.end() );
 
-
                 auto SortPredicate = [] ( CompilationRequest const* pRequestA, CompilationRequest const* pRequestB ) { return pRequestA->GetTimeRequested() < pRequestB->GetTimeRequested(); };
                 eastl::sort( m_combinedRequests.begin(), m_combinedRequests.end(), SortPredicate );
 
@@ -112,7 +112,7 @@ namespace KRG::Resource
 
                 ImGui::TableSetupColumn( "##Status", ImGuiTableColumnFlags_WidthFixed | ImGuiTableColumnFlags_NoResize, 18 );
                 ImGui::TableSetupColumn( "Client", ImGuiTableColumnFlags_WidthFixed | ImGuiTableColumnFlags_NoResize, 110 );
-                ImGui::TableSetupColumn( "Source", ImGuiTableColumnFlags_WidthStretch );
+                ImGui::TableSetupColumn( "Origin", ImGuiTableColumnFlags_WidthStretch );
                 ImGui::TableSetupColumn( "Destination", ImGuiTableColumnFlags_WidthStretch );
                 ImGui::TableSetupColumn( "Type", ImGuiTableColumnFlags_WidthFixed | ImGuiTableColumnFlags_NoResize, 30 );
                 ImGui::TableSetupColumn( "Up To Date", ImGuiTableColumnFlags_WidthFixed | ImGuiTableColumnFlags_NoResize, 60 );
@@ -182,13 +182,31 @@ namespace KRG::Resource
                         //-------------------------------------------------------------------------
 
                         ImGui::TableSetColumnIndex( 1 );
-                        if ( pRequest->IsInternalRequest() )
+                        switch ( pRequest->m_origin )
                         {
-                            ImGui::Text( "File System Watcher" );
-                        }
-                        else
-                        {
-                            ImGui::Text( "%llu", pRequest->GetClientID() );
+                            case CompilationRequest::Origin::External :
+                            {
+                                ImGui::Text( "%llu", pRequest->GetClientID() );
+                            }
+                            break;
+
+                            case CompilationRequest::Origin::FileWatcher:
+                            {
+                                ImGui::Text( "File System Watcher" );
+                            }
+                            break;
+
+                            case CompilationRequest::Origin::ManualCompile:
+                            {
+                                ImGui::Text( "Manual" );
+                            }
+                            break;
+
+                            case CompilationRequest::Origin::Package:
+                            {
+                                ImGui::Text( "Packaging" );
+                            }
+                            break;
                         }
 
                         //-------------------------------------------------------------------------
@@ -270,7 +288,7 @@ namespace KRG::Resource
                 ImGui::SameLine();
                 if ( ImGui::Button( KRG_ICON_COG "Recompile", ImVec2( buttonWidth, 0 ) ) )
                 {
-                    m_pResourceServer->RecompileResource( m_pSelectedCompletedRequest->GetResourceID() );
+                    m_resourceServer.CompileResource( m_pSelectedCompletedRequest->GetResourceID() );
                 }
 
                 ImGui::SameLine();
@@ -290,7 +308,7 @@ namespace KRG::Resource
                 ImGui::SameLine();
                 if ( ImGui::Button( KRG_ICON_DELETE "Clear History", ImVec2( buttonWidth, 0 ) ) )
                 {
-                    m_pResourceServer->RequestCleanupOfCompletedRequests();
+                    m_resourceServer.RequestCleanupOfCompletedRequests();
                 }
             }
 
@@ -312,14 +330,14 @@ namespace KRG::Resource
     {
         if ( ImGui::Begin( g_workerStatusWindowName ) )
         {
-            int32_t const numWorkers = m_pResourceServer->GetNumWorkers();
+            int32_t const numWorkers = m_resourceServer.GetNumWorkers();
             for ( auto i = 0; i < numWorkers; i++ )
             {
                 ImGui::Text( "Worker %02d: ", i );
                 ImGui::SameLine();
-                if ( m_pResourceServer->GetWorkerStatus( i ) == ResourceServerWorker::Status::Compiling )
+                if ( m_resourceServer.GetWorkerStatus( i ) == ResourceServerWorker::Status::Compiling )
                 {
-                    ImGui::TextColored( ImGuiX::ConvertColor( Colors::LimeGreen ), m_pResourceServer->GetCompilationTaskResourceID( i ).c_str() );
+                    ImGui::TextColored( ImGuiX::ConvertColor( Colors::LimeGreen ), m_resourceServer.GetCompilationTaskResourceID( i ).c_str() );
                 }
                 else
                 {
@@ -334,9 +352,9 @@ namespace KRG::Resource
     {
         if ( ImGui::Begin( g_serverInfoWindowName ) )
         {
-            ImGui::Text( "Raw Resource Path: %s", m_pResourceServer->GetRawResourceDir().c_str() );
-            ImGui::Text( "Compiled Resource Path: %s", m_pResourceServer->GetCompiledResourceDir().c_str() );
-            ImGui::Text( "IP Address: %s:%d", m_pResourceServer->GetNetworkAddress().c_str(), m_pResourceServer->GetNetworkPort() );
+            ImGui::Text( "Raw Resource Path: %s", m_resourceServer.GetRawResourceDir().c_str() );
+            ImGui::Text( "Compiled Resource Path: %s", m_resourceServer.GetCompiledResourceDir().c_str() );
+            ImGui::Text( "IP Address: %s:%d", m_resourceServer.GetNetworkAddress().c_str(), m_resourceServer.GetNetworkPort() );
 
             ImGui::NewLine();
 
@@ -353,7 +371,7 @@ namespace KRG::Resource
 
                 ImGui::TableHeadersRow();
 
-                auto const pCompilerRegistry = m_pResourceServer->GetCompilerRegistry();
+                auto const pCompilerRegistry = m_resourceServer.GetCompilerRegistry();
 
                 for ( auto const& pCompiler : pCompilerRegistry->GetRegisteredCompilers() )
                 {
@@ -405,19 +423,109 @@ namespace KRG::Resource
 
                 ImGui::TableHeadersRow();
 
-                int32_t const numConnectedClients = m_pResourceServer->GetNumConnectedClients();
+                int32_t const numConnectedClients = m_resourceServer.GetNumConnectedClients();
                 for ( int32_t i = 0; i < numConnectedClients; i++ )
                 {
                     ImGui::TableNextRow();
 
                     ImGui::TableSetColumnIndex( 0 );
-                    ImGui::Text( "%u", m_pResourceServer->GetClientID( i ) );
+                    ImGui::Text( "%u", m_resourceServer.GetClientID( i ) );
 
                     ImGui::TableSetColumnIndex( 1 );
-                    ImGui::Text( m_pResourceServer->GetConnectedClientAddress( i ).c_str() );
+                    ImGui::Text( m_resourceServer.GetConnectedClientAddress( i ).c_str() );
                 }
 
                 ImGui::EndTable();
+            }
+        }
+        ImGui::End();
+    }
+
+    void ResourceServerUI::DrawPackagingControls()
+    {
+        if ( ImGui::Begin( g_packagingControlsWindowName ) )
+        {
+            if ( m_resourceServer.IsPackaging() )
+            {
+                ImGui::Text( "Packaging in Progress:" );
+
+                float const progress = m_resourceServer.GetPackagingProgress();
+                ImGui::ProgressBar( progress, ImVec2( -1, 0 ) );
+
+                ImGui::NewLine();
+                ImGui::Text( "Maps being packaged:" );
+
+                auto const& mapsToBePackaged = m_resourceServer.GetMapsQueuedForPackaging();
+                for ( auto const& mapID : mapsToBePackaged )
+                {
+                    ImGui::BulletText( mapID.c_str() );
+                }
+            }
+            else
+            {
+                InlineString previewStr;
+                auto const& mapsToBePackaged = m_resourceServer.GetMapsQueuedForPackaging();
+                for ( auto const& mapID : mapsToBePackaged )
+                {
+                    if ( !previewStr.empty() )
+                    {
+                        previewStr.append( ", " );
+                    }
+                    previewStr.append( mapID.GetFileNameWithoutExtension().c_str() );
+                }
+
+                if ( previewStr.empty() )
+                {
+                    previewStr = "Nothing To Package";
+                }
+
+                //-------------------------------------------------------------------------
+
+                ImVec2 const dimensions = ImGui::GetContentRegionAvail();
+
+                auto const& allMaps = m_resourceServer.GetAllFoundMaps();
+                constexpr static float const buttonSize = 28;
+                ImGui::SetNextItemWidth( dimensions.x - buttonSize - ImGui::GetStyle().ItemSpacing.x );
+                {
+                    ImGuiX::ScopedFont const sf( ImGuiX::Font::Small );
+                    if ( ImGui::BeginCombo( "##SelectedMaps", previewStr.c_str(), ImGuiComboFlags_HeightLargest) )
+                    {
+                        for ( auto const& mapID : allMaps )
+                        {
+                            bool isSelected = VectorContains( mapsToBePackaged, mapID );
+                            if ( ImGui::Checkbox( mapID.c_str(), &isSelected ) )
+                            {
+                                if ( isSelected )
+                                {
+                                    m_resourceServer.AddMapToPackagingList( mapID );
+                                }
+                                else
+                                {
+                                    m_resourceServer.RemoveMapFromPackagingList( mapID );
+                                }
+                            }
+                        }
+
+                        ImGui::EndCombo();
+                    }
+                }
+                ImGuiX::ItemTooltip( "Select maps to package..." );
+
+                ImGui::SameLine();
+                if ( ImGui::Button( KRG_ICON_REFRESH"##RefreshMaps", ImVec2( buttonSize, 0 ) ) )
+                {
+                    m_resourceServer.RefreshAvailableMapList();
+                }
+                ImGuiX::ItemTooltip( "Refresh Map List" );
+
+                //-------------------------------------------------------------------------
+
+                ImGui::BeginDisabled( !m_resourceServer.CanStartPackaging() );
+                if ( ImGuiX::ColoredButton( Colors::Green, Colors::White, "Package Selected Maps", ImVec2( -1, 0 ) ) )
+                {
+                    m_resourceServer.PackageMaps();
+                }
+                ImGui::EndDisabled();
             }
         }
         ImGui::End();

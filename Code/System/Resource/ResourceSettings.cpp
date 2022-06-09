@@ -9,27 +9,29 @@ namespace KRG::Resource
 {
     bool Settings::ReadSettings( IniFile const& ini )
     {
-        String s;
+        String tmp;
         m_workingDirectoryPath = FileSystem::GetCurrentProcessPath();
 
         // Runtime settings
         //-------------------------------------------------------------------------
 
+        String compiledResourceDirectoryName;
+
+        if ( ini.TryGetString( "Paths:CompiledResourceDirectoryName", compiledResourceDirectoryName ) )
         {
-            if ( ini.TryGetString( "Paths:CompiledResourcePath", s ) )
+            m_compiledResourcePath = m_workingDirectoryPath + compiledResourceDirectoryName;
+            if ( !m_compiledResourcePath.IsValid() )
             {
-                m_compiledResourcePath = m_workingDirectoryPath + s;
-                if ( !m_compiledResourcePath.IsValid() )
-                {
-                    KRG_LOG_ERROR( "Engine", "Invalid compiled data path: %s", m_compiledResourcePath.c_str() );
-                    return false;
-                }
-            }
-            else
-            {
-                KRG_LOG_ERROR( "Engine", "Failed to read compiled data path from ini file" );
+                KRG_LOG_ERROR( "Engine", "Invalid compiled data path: %s", m_compiledResourcePath.c_str() );
                 return false;
             }
+
+            m_compiledResourcePath.MakeIntoDirectoryPath();
+        }
+        else
+        {
+            KRG_LOG_ERROR( "Engine", "Failed to read compiled data path from ini file" );
+            return false;
         }
 
         // Development only settings
@@ -37,9 +39,12 @@ namespace KRG::Resource
 
         #if KRG_DEVELOPMENT_TOOLS
         {
-            if ( ini.TryGetString( "Paths:RawResourcePath", s ) )
+            // Paths
+            //-------------------------------------------------------------------------
+
+            if ( ini.TryGetString( "Paths:RawResourcePath", tmp ) )
             {
-                m_rawResourcePath = m_workingDirectoryPath + s;
+                m_rawResourcePath = m_workingDirectoryPath + tmp;
                 if ( !m_rawResourcePath.IsValid() )
                 {
                     KRG_LOG_ERROR( "Engine", "Invalid source data path: %s", m_compiledResourcePath.c_str() );
@@ -52,11 +57,34 @@ namespace KRG::Resource
                 return false;
             }
 
+            if ( ini.TryGetString( "Paths:PackagedBuildRelativePath", tmp ) )
+            {
+                if ( tmp.empty() )
+                {
+                    KRG_LOG_ERROR( "Engine", "Invalid packaged build relative path: %s", tmp.c_str() );
+                    return false;
+                }
+                else
+                {
+                    m_packagedBuildCompiledResourcePath = m_compiledResourcePath.GetParentDirectory();
+                    m_packagedBuildCompiledResourcePath += tmp;
+                    m_packagedBuildCompiledResourcePath += compiledResourceDirectoryName;
+                    m_packagedBuildCompiledResourcePath.MakeIntoDirectoryPath();
+                    KRG_ASSERT( m_packagedBuildCompiledResourcePath.IsValid() );
+                }
+            }
+            else
+            {
+                KRG_LOG_ERROR( "Engine", "Failed to read packaged build path from ini file" );
+                return false;
+            }
+
+            // Compiled Resource DB
             //-------------------------------------------------------------------------
 
-            if ( ini.TryGetString( "Resource:CompiledResourceDatabaseName", s ) )
+            if ( ini.TryGetString( "Resource:CompiledResourceDatabaseName", tmp ) )
             {
-                m_compiledResourceDatabasePath = m_workingDirectoryPath + s;
+                m_compiledResourceDatabasePath = m_workingDirectoryPath + tmp;
                 if ( !m_compiledResourceDatabasePath.IsValid() )
                 {
                     KRG_LOG_ERROR( "Engine", "Invalid compiled resource database path: %s", m_compiledResourceDatabasePath.c_str() );
@@ -72,9 +100,9 @@ namespace KRG::Resource
             // Resource Compiler
             //-------------------------------------------------------------------------
 
-            if ( ini.TryGetString( "Resource:ResourceCompilerExecutablePath", s ) )
+            if ( ini.TryGetString( "Resource:ResourceCompilerExecutablePath", tmp ) )
             {
-                m_resourceCompilerExecutablePath = m_workingDirectoryPath + s;
+                m_resourceCompilerExecutablePath = m_workingDirectoryPath + tmp;
                 if ( !m_resourceCompilerExecutablePath.IsValid() )
                 {
                     KRG_LOG_ERROR( "Engine", "Invalid resource compiler path: %s", m_resourceCompilerExecutablePath.c_str() );
@@ -90,9 +118,9 @@ namespace KRG::Resource
             // Resource Server
             //-------------------------------------------------------------------------
 
-            if ( ini.TryGetString( "Resource:ResourceServerExecutablePath", s ) )
+            if ( ini.TryGetString( "Resource:ResourceServerExecutablePath", tmp ) )
             {
-                m_resourceServerExecutablePath = m_workingDirectoryPath + s;
+                m_resourceServerExecutablePath = m_workingDirectoryPath + tmp;
                 if ( !m_resourceServerExecutablePath.IsValid() )
                 {
                     KRG_LOG_ERROR( "Engine", "Invalid resource server path: %s", m_resourceServerExecutablePath.c_str() );

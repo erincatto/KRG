@@ -199,7 +199,7 @@ namespace KRG
     {
         if ( !VectorContains( vector, item ) )
         {
-            vector.emplace_back( eastl::forward( item ) );
+            vector.emplace_back( item );
         }
     }
 
@@ -217,7 +217,7 @@ namespace KRG
     {
         if ( !VectorContains( vector, item ) )
         {
-            vector.emplace_back( eastl::forward( item ) );
+            vector.emplace_back( item );
         }
     }
 

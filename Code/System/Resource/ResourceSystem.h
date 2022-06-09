@@ -106,6 +106,7 @@ namespace KRG::Resource
         //-------------------------------------------------------------------------
 
         #if KRG_DEVELOPMENT_TOOLS
+        void RequestResourceHotReload( ResourceID const& resourceID );
         inline bool RequiresHotReloading() const { return !m_usersThatRequireReload.empty(); }
         inline TVector<ResourceRequesterID> const& GetUsersToBeReloaded() const { return m_usersThatRequireReload; }
         inline TVector<ResourceID> const& GetResourcesToBeReloaded() const { return m_externallyUpdatedResources; }

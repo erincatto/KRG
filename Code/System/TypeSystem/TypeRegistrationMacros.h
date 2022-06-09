@@ -1,6 +1,6 @@
 #pragma once
 #include "_Module/API.h"
-#include "TypeRegistry.h"
+#include "TypeInfo.h"
 
 //-------------------------------------------------------------------------
 // Prevent Reflection
@@ -20,6 +20,19 @@
 
 namespace KRG
 {
+    namespace TypeSystem
+    {
+        class TypeRegistry;
+    }
+
+    namespace TypeSystem::TypeHelpers
+    {
+        template<typename T>
+        class TTypeHelper;
+    }
+
+    //-------------------------------------------------------------------------
+
     // Interface to enforce virtual destructors and type-info overrides
     class KRG_SYSTEM_TYPESYSTEM_API IRegisteredType
     {

@@ -399,7 +399,7 @@ namespace KRG::ImGuiX
     //-------------------------------------------------------------------------
 
     constexpr static float const g_labelWidth = 14.0f;
-    constexpr static float const g_labelHeight = 24.0f;
+    constexpr static float const g_labelHeight = 22.0f;
 
     static bool BeginElementFrame( char const* pLabel, float labelWidth, ImVec2 const& size, ImVec4 backgroundColor)
     {
@@ -414,7 +414,7 @@ namespace KRG::ImGuiX
             ImGui::AlignTextToFramePadding();
             ImGui::SetCursorPosX( 3 );
             {
-                ImGuiX::ScopedFont sf( Font::MediumBold );
+                ImGuiX::ScopedFont sf( Font::SmallBold );
                 ImGui::Text( pLabel );
             }
 
@@ -439,6 +439,8 @@ namespace KRG::ImGuiX
     static bool DrawVectorElement( char const* pID, char const* pLabel, float const& width, ImVec4 backgroundColor, float* pValue, bool isReadOnly = false )
     {
         bool result = false;
+
+        ImGuiX::ScopedFont sf( Font::Small );
 
         if ( BeginElementFrame( pLabel, g_labelWidth, ImVec2( width, g_labelHeight ), backgroundColor ) )
         {

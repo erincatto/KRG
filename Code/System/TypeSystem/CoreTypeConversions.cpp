@@ -12,6 +12,7 @@
 #include "System/Core/Types/Percentage.h"
 #include "System/Core/Math/Transform.h"
 #include "System/Core/Logging/Log.h"
+#include "EnumInfo.h"
 
 //-------------------------------------------------------------------------
 

@@ -24,9 +24,6 @@ namespace KRG
     {
         friend class SettingsRegistry;
 
-        static ISettings* s_pHead;
-        static ISettings* s_pTail;
-
     public:
 
         virtual uint32_t GetSettingsID() const = 0;

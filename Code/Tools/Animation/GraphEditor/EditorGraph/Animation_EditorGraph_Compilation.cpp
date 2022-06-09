@@ -110,7 +110,7 @@ namespace KRG::Animation
             m_runtimeGraph.m_controlParameterIDs.emplace_back( controlParameters[i]->GetParameterID() );
         }
 
-        #if !KRG_CONFIGURATION_SHIPPING
+        #if KRG_DEVELOPMENT_TOOLS
         m_runtimeGraph.m_nodePaths.swap( m_context.m_compiledNodePaths );
         #endif
 

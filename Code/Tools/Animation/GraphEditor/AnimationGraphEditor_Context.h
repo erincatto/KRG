@@ -35,7 +35,7 @@ namespace KRG::Animation
         inline void MarkDirty() { m_editorGraph.MarkDirty(); }
         inline void ClearDirty() { m_editorGraph.ClearDirty(); }
 
-        void BeginModification() { m_editorGraph.MarkDirty(); m_editorGraph.GetRootGraph()->BeginModification(); }
+        void BeginGraphModification() { m_editorGraph.MarkDirty(); m_editorGraph.GetRootGraph()->BeginModification(); }
         void EndGraphModification() { m_editorGraph.GetRootGraph()->EndModification(); }
 
         // Graph Data

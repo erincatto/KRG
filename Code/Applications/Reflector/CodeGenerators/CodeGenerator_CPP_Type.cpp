@@ -1137,19 +1137,19 @@ namespace KRG::CPP
         // Add type metadata
         if ( type.IsAbstract() )
         {
-            file << "                    typeInfo.m_metadata.SetFlag( ETypeInfoMetaData::Abstract );\n\n";
+            file << "                    typeInfo.m_metadata.SetFlag( TypeInfoMetaData::Abstract );\n\n";
         }
         else if ( type.IsEntity() )
         {
-            file << "                    typeInfo.m_metadata.SetFlag( ETypeInfoMetaData::Entity );\n\n";
+            file << "                    typeInfo.m_metadata.SetFlag( TypeInfoMetaData::Entity );\n\n";
         }
         else if ( type.IsEntityComponent() )
         {
-            file << "                    typeInfo.m_metadata.SetFlag( ETypeInfoMetaData::EntityComponent );\n\n";
+            file << "                    typeInfo.m_metadata.SetFlag( TypeInfoMetaData::EntityComponent );\n\n";
         }
         else if ( type.IsEntitySystem() )
         {
-            file << "                    typeInfo.m_metadata.SetFlag( ETypeInfoMetaData::EntitySystem );\n\n";
+            file << "                    typeInfo.m_metadata.SetFlag( TypeInfoMetaData::EntitySystem );\n\n";
         }
         else
         {

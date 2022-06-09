@@ -9,6 +9,7 @@ namespace KRG::Physics
 {
     class PhysicsMaterialDatabaseCompiler : public Resource::Compiler
     {
+        KRG_REGISTER_TYPE( PhysicsMaterialDatabaseCompiler );
         static const int32_t s_version = 0;
 
     public:

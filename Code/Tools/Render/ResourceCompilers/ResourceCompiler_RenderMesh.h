@@ -19,6 +19,8 @@ namespace KRG::Render
 
     class MeshCompiler : public Resource::Compiler
     {
+        KRG_REGISTER_TYPE( MeshCompiler );
+
     protected:
 
         using Resource::Compiler::Compiler;
@@ -29,12 +31,14 @@ namespace KRG::Render
         void OptimizeMeshGeometry( Mesh& mesh ) const;
         void SetMeshDefaultMaterials( MeshResourceDescriptor const& descriptor, Mesh& mesh ) const;
         void SetMeshInstallDependencies( Mesh const& mesh, Resource::ResourceHeader& hdr ) const;
+        virtual bool GetReferencedResources( ResourceID const& resourceID, TVector<ResourceID>& outReferencedResources ) const override;
     };
 
     //-------------------------------------------------------------------------
 
     class StaticMeshCompiler : public MeshCompiler
     {
+        KRG_REGISTER_TYPE( StaticMeshCompiler );
         static const int32_t s_version = 1;
 
     public:
@@ -47,6 +51,7 @@ namespace KRG::Render
 
     class SkeletalMeshCompiler : public MeshCompiler
     {
+        KRG_REGISTER_TYPE( SkeletalMeshCompiler );
         static const int32_t s_version = 4;
 
     public:

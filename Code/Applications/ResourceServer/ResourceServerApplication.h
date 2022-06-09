@@ -51,7 +51,7 @@ namespace KRG
     private:
 
         NOTIFYICONDATA                          m_systemTrayIconData;
-        int32_t                                   m_currentIconID = 0;
+        int32_t                                 m_currentIconID = 0;
         bool                                    m_applicationWindowHidden = false;
 
         //-------------------------------------------------------------------------

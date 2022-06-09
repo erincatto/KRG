@@ -5,6 +5,11 @@
 
 //-------------------------------------------------------------------------
 
+namespace KRG
+{
+    class Transform;
+}
+
 namespace KRG::Render
 {
     class SkeletalMeshComponent;

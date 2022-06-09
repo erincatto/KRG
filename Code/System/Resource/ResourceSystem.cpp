@@ -225,19 +225,7 @@ namespace KRG::Resource
         #if KRG_DEVELOPMENT_TOOLS
         for ( auto const& updatedResourceID : m_pResourceProvider->GetExternallyUpdatedResources() )
         {
-            // If the resource is not currently in use then just early-out
-            auto const recordIter = m_resourceRecords.find( updatedResourceID );
-            if ( recordIter == m_resourceRecords.end() )
-            {
-                return;
-            }
-
-            // Generate a list of users for this resource
-            ResourceRecord* pRecord = recordIter->second;
-            GetUsersForResource( pRecord, m_usersThatRequireReload );
-
-            // Add to list of resources to be reloaded
-            m_externallyUpdatedResources.emplace_back( updatedResourceID );
+            RequestResourceHotReload( updatedResourceID );
         }
         #endif
     }
@@ -428,6 +416,25 @@ namespace KRG::Resource
     //-------------------------------------------------------------------------
 
     #if KRG_DEVELOPMENT_TOOLS
+    void ResourceSystem::RequestResourceHotReload( ResourceID const& resourceID )
+    {
+        Threading::RecursiveScopeLock lock( m_accessLock );
+
+        // If the resource is not currently in use then just early-out
+        auto const recordIter = m_resourceRecords.find( resourceID );
+        if ( recordIter == m_resourceRecords.end() )
+        {
+            return;
+        }
+
+        // Generate a list of users for this resource
+        ResourceRecord* pRecord = recordIter->second;
+        GetUsersForResource( pRecord, m_usersThatRequireReload );
+
+        // Add to list of resources to be reloaded
+        m_externallyUpdatedResources.emplace_back( resourceID );
+    }
+
     void ResourceSystem::ClearHotReloadRequests()
     {
         Threading::RecursiveScopeLock lock( m_accessLock );

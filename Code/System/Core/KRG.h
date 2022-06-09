@@ -19,9 +19,8 @@
 // KRG_SHIPPING = optimized build with no debug info
 
 //-------------------------------------------------------------------------
-// Development
+// Development Tools
 //-------------------------------------------------------------------------
-// This define controls whether the dev tools are compiled
 // KRG_DEVELOPMENT_TOOLS_LINE_IN_MACRO exists for use in macros.
 
 #if !KRG_SHIPPING

@@ -5,6 +5,7 @@
 #include "System/TypeSystem/TypeRegistrationMacros.h"
 #include "Engine/Core/Update/UpdateStage.h"
 #include "System/Core/Types/Containers.h"
+#include "System/Core/Algorithm/Hash.h"
 
 //-------------------------------------------------------------------------
 // World Entity System

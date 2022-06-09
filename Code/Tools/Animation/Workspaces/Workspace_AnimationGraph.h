@@ -42,6 +42,7 @@ namespace KRG::Animation
         virtual void UpdateWorld( EntityWorldUpdateContext const& updateContext ) override;
 
         virtual bool HasViewportToolbarTimeControls() const override { return true; }
+        virtual void DrawViewportOverlayElements( UpdateContext const& context, Render::Viewport const* pViewport ) override;
         virtual void DrawWorkspaceToolbarItems( UpdateContext const& context ) override;
         virtual void UpdateWorkspace( UpdateContext const& context, ImGuiWindowClass* pWindowClass ) override;
         virtual void PreUndoRedo( UndoStack::Operation operation ) override;
@@ -71,11 +72,11 @@ namespace KRG::Animation
         String                              m_graphCompilationLogWindowName;
         String                              m_debuggerWindowName;
 
-        GraphEditorContext                  m_graphEditorContext;
-        GraphControlParameterEditor         m_controlParameterEditor = GraphControlParameterEditor( m_graphEditorContext );
-        GraphVariationEditor                m_variationEditor = GraphVariationEditor( m_graphEditorContext );
-        GraphEditor                         m_graphEditor = GraphEditor( m_graphEditorContext );
-        GraphCompilationLog                 m_graphCompilationLog = GraphCompilationLog( m_graphEditorContext );
+        GraphEditorContext                  m_editorContext;
+        GraphControlParameterEditor         m_controlParameterEditor = GraphControlParameterEditor( m_editorContext );
+        GraphVariationEditor                m_variationEditor = GraphVariationEditor( m_editorContext );
+        GraphEditor                         m_graphEditor = GraphEditor( m_editorContext );
+        GraphCompilationLog                 m_graphCompilationLog = GraphCompilationLog( m_editorContext );
         PropertyGrid                        m_propertyGrid;
 
         EventBindingID                      m_rootGraphBeginModificationBindingID;
@@ -90,6 +91,8 @@ namespace KRG::Animation
 
         FileSystem::Path                    m_graphFilePath;
         StringID                            m_selectedVariationID = GraphVariation::DefaultVariationID;
+
+        Transform                           m_gizmoTransform;
 
         // Preview
         Physics::PhysicsSystem*             m_pPhysicsSystem = nullptr;

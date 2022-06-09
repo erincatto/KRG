@@ -189,6 +189,27 @@ namespace KRG::Render
         }
     }
 
+    bool MeshCompiler::GetReferencedResources( ResourceID const& resourceID, TVector<ResourceID>& outReferencedResources ) const
+    {
+        FileSystem::Path const filePath = resourceID.GetResourcePath().ToFileSystemPath( m_rawResourceDirectoryPath );
+        MeshResourceDescriptor resourceDescriptor;
+        if ( !Resource::ResourceDescriptor::TryReadFromFile( *m_pTypeRegistry, filePath, resourceDescriptor ) )
+        {
+            Error( "Failed to read resource descriptor from input file: %s", filePath.c_str() );
+            return false;
+        }
+
+        for ( auto const& materialResourceID : resourceDescriptor.m_materials )
+        {
+            if ( materialResourceID.GetResourceID().IsValid() )
+            {
+                VectorEmplaceBackUnique( outReferencedResources, materialResourceID.GetResourceID() );
+            }
+        }
+
+        return true;
+    }
+
     //-------------------------------------------------------------------------
 
     StaticMeshCompiler::StaticMeshCompiler()
@@ -200,7 +221,7 @@ namespace KRG::Render
     Resource::CompilationResult StaticMeshCompiler::Compile( Resource::CompileContext const& ctx ) const
     {
         StaticMeshResourceDescriptor resourceDescriptor;
-        if ( !Resource::ResourceDescriptor::TryReadFromFile( ctx.m_typeRegistry, ctx.m_inputFilePath, resourceDescriptor ) )
+        if ( !Resource::ResourceDescriptor::TryReadFromFile( *m_pTypeRegistry, ctx.m_inputFilePath, resourceDescriptor ) )
         {
             return Error( "Failed to read resource descriptor from input file: %s", ctx.m_inputFilePath.c_str() );
         }
@@ -209,7 +230,7 @@ namespace KRG::Render
         //-------------------------------------------------------------------------
 
         FileSystem::Path meshFilePath;
-        if ( !ctx.ConvertResourcePathToFilePath( resourceDescriptor.m_meshPath, meshFilePath ) )
+        if ( !ConvertResourcePathToFilePath( resourceDescriptor.m_meshPath, meshFilePath ) )
         {
             return Error( "Invalid mesh data path: %s", resourceDescriptor.m_meshPath.c_str() );
         }
@@ -269,7 +290,7 @@ namespace KRG::Render
     Resource::CompilationResult SkeletalMeshCompiler::Compile( Resource::CompileContext const& ctx ) const
     {
         SkeletalMeshResourceDescriptor resourceDescriptor;
-        if ( !Resource::ResourceDescriptor::TryReadFromFile( ctx.m_typeRegistry, ctx.m_inputFilePath, resourceDescriptor ) )
+        if ( !Resource::ResourceDescriptor::TryReadFromFile( *m_pTypeRegistry, ctx.m_inputFilePath, resourceDescriptor ) )
         {
             return Error( "Failed to read resource descriptor from input file: %s", ctx.m_inputFilePath.c_str() );
         }
@@ -280,7 +301,7 @@ namespace KRG::Render
         //-------------------------------------------------------------------------
 
         FileSystem::Path meshFilePath;
-        if ( !ctx.ConvertResourcePathToFilePath( resourceDescriptor.m_meshPath, meshFilePath ) )
+        if ( !ConvertResourcePathToFilePath( resourceDescriptor.m_meshPath, meshFilePath ) )
         {
             return Error( "Invalid mesh data path: %s", resourceDescriptor.m_meshPath.c_str() );
         }

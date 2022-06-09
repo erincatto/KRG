@@ -5,6 +5,7 @@
 #include "Tools/Core/ThirdParty/pfd/portable-file-dialogs.h"
 #include "System/Render/Imgui/ImguiX.h"
 #include "System/TypeSystem/PropertyInfo.h"
+#include "System/TypeSystem/EnumInfo.h"
 #include "System/TypeSystem/TypeRegistry.h"
 #include "System/Core/Types/String.h"
 

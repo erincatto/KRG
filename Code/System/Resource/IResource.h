@@ -5,9 +5,9 @@
 //-------------------------------------------------------------------------
 // Base for all KRG resources
 //-------------------------------------------------------------------------
-// Virtual resources are resources which dont have explicit resource descriptors
-// or are generated as a side-effect of another resource's compilation
-// e.g. navmesh being generated when compiling a map
+// Note: Virtual resources are resources which dont have explicit resource descriptors or are generated as a side-effect of another resource's compilation
+// e.g., We can generate the navmesh for a map as part of compiling the map
+// e.g., We generate an anim graph dataset whenever we compile a graph variation
 
 namespace KRG::Resource
 {
@@ -27,7 +27,7 @@ namespace KRG::Resource
         inline ResourcePath const& GetResourcePath() const { return m_resourceID.GetResourcePath(); }
 
         virtual bool IsValid() const = 0;
-        virtual ResourceTypeID GetResourceType() const = 0;
+        virtual ResourceTypeID const& GetResourceType() const = 0;
         virtual bool IsVirtualResourceType() const = 0;
 
         #if KRG_DEVELOPMENT_TOOLS
@@ -50,8 +50,8 @@ namespace KRG::Resource
 #define KRG_REGISTER_RESOURCE( typeFourCC, friendlyName ) \
     public: \
         static bool const IsVirtualResource = false;\
-        static ResourceTypeID GetStaticResourceTypeID() { return ResourceTypeID( typeFourCC ); } \
-        virtual ResourceTypeID GetResourceType() const override { return ResourceTypeID( typeFourCC ); } \
+        static ResourceTypeID const& GetStaticResourceTypeID() { static ResourceTypeID const typeID( typeFourCC ); return typeID; } \
+        virtual ResourceTypeID const& GetResourceType() const override { static ResourceTypeID const typeID( typeFourCC ); return typeID; } \
         virtual bool IsVirtualResourceType() const override { return false; }\
         KRG_DEVELOPMENT_TOOLS_LINE_IN_MACRO( constexpr static char const* const s_friendlyName = #friendlyName; )\
         KRG_DEVELOPMENT_TOOLS_LINE_IN_MACRO( virtual char const* GetFriendlyName() const override { return friendlyName; } )\
@@ -61,8 +61,8 @@ namespace KRG::Resource
 #define KRG_REGISTER_VIRTUAL_RESOURCE( typeFourCC, friendlyName ) \
     public: \
         static bool const IsVirtualResource = true;\
-        static ResourceTypeID GetStaticResourceTypeID() { return ResourceTypeID( typeFourCC ); } \
-        virtual ResourceTypeID GetResourceType() const override { return ResourceTypeID( typeFourCC ); } \
+        static ResourceTypeID const& GetStaticResourceTypeID() { static ResourceTypeID const typeID( typeFourCC ); return typeID; } \
+        virtual ResourceTypeID const& GetResourceType() const override { static ResourceTypeID const typeID( typeFourCC ); return typeID;} \
         virtual bool IsVirtualResourceType() const override { return true; }\
         KRG_DEVELOPMENT_TOOLS_LINE_IN_MACRO( constexpr static char const* const s_friendlyName = #friendlyName; )\
         KRG_DEVELOPMENT_TOOLS_LINE_IN_MACRO( virtual char const* GetFriendlyName() const override { return friendlyName; } )\

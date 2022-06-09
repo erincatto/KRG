@@ -23,7 +23,7 @@ namespace KRG::EntityModel
 //-------------------------------------------------------------------------
 
 #if KRG_DEVELOPMENT_TOOLS
-namespace KRG::EntityModel::Serialization
+namespace KRG::EntityModel::Serializer
 {
     KRG_ENGINE_CORE_API bool ReadEntityDescriptor( TypeSystem::TypeRegistry const& typeRegistry, RapidJsonValue const& entityValue, EntityDescriptor& outEntityDesc );
     KRG_ENGINE_CORE_API bool ReadEntityCollectionFromJson( TypeSystem::TypeRegistry const& typeRegistry, RapidJsonValue const& entitiesArrayValue, EntityCollectionDescriptor& outCollectionDesc );

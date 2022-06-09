@@ -232,6 +232,8 @@ namespace KRG
             return false;
         }
 
+        //-------------------------------------------------------------------------
+
         return m_pTypeRegistry->IsRegisteredResourceType( resourceTypeID );
     }
 

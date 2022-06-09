@@ -4,17 +4,18 @@
 
 //-------------------------------------------------------------------------
 
+namespace KRG::TypeSystem { class TypeRegistry; }
+
+//-------------------------------------------------------------------------
+
 namespace KRG::Resource
 {
     class KRG_TOOLS_CORE_API CompilerRegistry
     {
     public:
 
-        CompilerRegistry() = default;
+        CompilerRegistry( TypeSystem::TypeRegistry const& typeRegistry, FileSystem::Path const& rawResourceDirectoryPath );
         ~CompilerRegistry();
-
-        void RegisterCompiler( Compiler const* pCompiler );
-        void UnregisterCompiler( Compiler const* pCompiler );
 
         //-------------------------------------------------------------------------
 
@@ -41,6 +42,11 @@ namespace KRG::Resource
             KRG_ASSERT( pCompiler != nullptr );
             return pCompiler->GetVersion();
         }
+
+    private:
+
+        void RegisterCompiler( Compiler const* pCompiler );
+        void UnregisterCompiler( Compiler const* pCompiler );
 
     private:
 

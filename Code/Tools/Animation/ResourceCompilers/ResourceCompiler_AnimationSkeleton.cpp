@@ -19,7 +19,7 @@ namespace KRG::Animation
     Resource::CompilationResult SkeletonCompiler::Compile( Resource::CompileContext const& ctx ) const
     {
         SkeletonResourceDescriptor resourceDescriptor;
-        if ( !Resource::ResourceDescriptor::TryReadFromFile( ctx.m_typeRegistry, ctx.m_inputFilePath, resourceDescriptor ) )
+        if ( !Resource::ResourceDescriptor::TryReadFromFile( *m_pTypeRegistry, ctx.m_inputFilePath, resourceDescriptor ) )
         {
             return Error( "Failed to read resource descriptor from input file: %s", ctx.m_inputFilePath.c_str() );
         }
@@ -28,7 +28,7 @@ namespace KRG::Animation
         //-------------------------------------------------------------------------
             
         FileSystem::Path skeletonFilePath;
-        if ( !ctx.ConvertResourcePathToFilePath( resourceDescriptor.m_skeletonPath, skeletonFilePath ) )
+        if ( !ConvertResourcePathToFilePath( resourceDescriptor.m_skeletonPath, skeletonFilePath ) )
         {
             return Error( "Invalid skeleton data path: %s", resourceDescriptor.m_skeletonPath.c_str() );
         }

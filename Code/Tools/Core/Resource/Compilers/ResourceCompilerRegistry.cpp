@@ -1,12 +1,31 @@
 #include "ResourceCompilerRegistry.h"
+#include "System/TypeSystem/TypeRegistry.h"
 
 //-------------------------------------------------------------------------
 
 namespace KRG::Resource
 {
+    CompilerRegistry::CompilerRegistry( TypeSystem::TypeRegistry const& typeRegistry, FileSystem::Path const& rawResourceDirectoryPath )
+    {
+        TVector<TypeSystem::TypeInfo const*> compilerTypes = typeRegistry.GetAllDerivedTypes( Compiler::GetStaticTypeID(), false, false, true );
+
+        for ( auto pCompilerType : compilerTypes )
+        {
+            auto pCreatedCompiler = Cast<Compiler>( pCompilerType->m_pTypeHelper->CreateType() );
+            pCreatedCompiler->Initialize( typeRegistry, rawResourceDirectoryPath );
+            m_compilers.emplace_back( pCreatedCompiler );
+            RegisterCompiler( pCreatedCompiler );
+        }
+    }
+
     CompilerRegistry::~CompilerRegistry()
     {
-        KRG_ASSERT( m_compilers.empty() );
+        for ( auto& pCompiler : m_compilers )
+        {
+            UnregisterCompiler( pCompiler );
+            KRG::Delete( pCompiler );
+        }
+
         KRG_ASSERT( m_compilerTypeMap.empty() );
         KRG_ASSERT( m_compilerVirtualTypeMap.empty() );
     }
@@ -14,11 +33,7 @@ namespace KRG::Resource
     void CompilerRegistry::RegisterCompiler( Compiler const* pCompiler )
     {
         KRG_ASSERT( pCompiler != nullptr );
-        KRG_ASSERT( !VectorContains( m_compilers, pCompiler ) );
-
-        //-------------------------------------------------------------------------
-
-        m_compilers.emplace_back( pCompiler );
+        KRG_ASSERT( VectorContains( m_compilers, pCompiler ) );
 
         //-------------------------------------------------------------------------
 
@@ -43,10 +58,6 @@ namespace KRG::Resource
     {
         KRG_ASSERT( pCompiler != nullptr );
         KRG_ASSERT( VectorContains( m_compilers, pCompiler ) );
-
-        //-------------------------------------------------------------------------
-
-        m_compilers.erase_first_unsorted( pCompiler );
 
         //-------------------------------------------------------------------------
 

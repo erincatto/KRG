@@ -13,7 +13,7 @@
 
 namespace KRG::Physics
 {
-    class KRG_ENGINE_PHYSICS_API EngineModule : public IModule
+    class KRG_ENGINE_PHYSICS_API EngineModule final : public IModule
     {
         KRG_REGISTER_MODULE;
 
@@ -31,7 +31,7 @@ namespace KRG::Physics
         PhysicsSystem                               m_physicsSystem;
         PhysicsMeshLoader                           m_physicsMeshLoader;
         PhysicsMaterialDatabaseLoader               m_physicsMaterialLoader;
-        RagdollLoader                        m_physicsRagdollLoader;
+        RagdollLoader                               m_physicsRagdollLoader;
         TResourcePtr<PhysicsMaterialDatabase>       m_pPhysicMaterialDB;
 
         #if KRG_DEVELOPMENT_TOOLS

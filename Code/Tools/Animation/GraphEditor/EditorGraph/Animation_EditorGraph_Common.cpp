@@ -17,13 +17,16 @@ namespace KRG::Animation
         return m_pGraphComponent->IsNodeActive( nodeIdx );
     }
 
+    #if KRG_DEVELOPMENT_TOOLS
     PoseNodeDebugInfo DebugContext::GetPoseNodeDebugInfo( GraphNodeIndex runtimeNodeIdx ) const
     {
         return m_pGraphComponent->GetPoseNodeDebugInfo( runtimeNodeIdx );
     }
+    #endif
 
     //-------------------------------------------------------------------------
 
+    #if KRG_DEVELOPMENT_TOOLS
     void DrawPoseNodeDebugInfo( VisualGraph::DrawContext const& ctx, float width, PoseNodeDebugInfo const& debugInfo )
     {
         float const availableWidth = Math::Max( width, g_playbackBarMinimumWidth );
@@ -89,4 +92,5 @@ namespace KRG::Animation
         ImGui::Text( "Percent: N/A" );
         ImGui::Text( "Event: N/A" );
     }
+    #endif
 }

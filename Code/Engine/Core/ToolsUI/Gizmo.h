@@ -78,6 +78,7 @@ namespace KRG::ImGuiX
         //-------------------------------------------------------------------------
 
         inline void SetOption( Options option, bool isEnabled ) { m_options.SetFlag( option, isEnabled ); }
+        inline bool IsManipulating() const { return m_manipulationMode != ManipulationMode::None; }
 
         //-------------------------------------------------------------------------
 

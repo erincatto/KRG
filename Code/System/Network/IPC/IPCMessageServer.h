@@ -13,7 +13,7 @@ namespace KRG::Network::IPC
     public:
 
         // Queues a message to be sent. Note this is a destructive operation!! This call will move the data
-        void SendMessage( Message&& message );
+        void SendNetworkMessage( Message&& message );
 
         // Iterates over all incoming messages and calls the processing function
         void ProcessIncomingMessages( TFunction<void( Message const& message )> messageProcessorFunction );

@@ -5,17 +5,16 @@
 
 namespace KRG::Resource
 {
-    CompileContext::CompileContext( TypeSystem::TypeRegistry const& typeRegistry, FileSystem::Path const& rawResourceDirectoryPath, FileSystem::Path const& compiledResourceDirectoryPath, ResourceID const& resourceToCompile )
-        : m_typeRegistry( typeRegistry )
-        , m_rawResourceDirectoryPath( rawResourceDirectoryPath )
-        , m_compiledResourceDirectoryPath( compiledResourceDirectoryPath )
+    CompileContext::CompileContext( FileSystem::Path const& rawResourceDirectoryPath, FileSystem::Path const& compiledResourceDirectoryPath, ResourceID const& resourceToCompile, bool isCompilingForShippingBuild )
+        : m_compiledResourceDirectoryPath( compiledResourceDirectoryPath )
         , m_resourceID( resourceToCompile )
+        , m_isCompilingForPackagedBuild( isCompilingForShippingBuild )
     {
-        KRG_ASSERT( m_rawResourceDirectoryPath.IsDirectoryPath() && FileSystem::Exists( m_rawResourceDirectoryPath ) && resourceToCompile.IsValid() );
+        KRG_ASSERT( rawResourceDirectoryPath.IsDirectoryPath() && FileSystem::Exists( rawResourceDirectoryPath ) && resourceToCompile.IsValid() );
 
         // Resolve paths
         ResourcePath const& resourceToCompilePath = resourceToCompile.GetResourcePath();
-        const_cast<FileSystem::Path&>( m_inputFilePath ) = ResourcePath::ToFileSystemPath( m_rawResourceDirectoryPath, resourceToCompilePath );
+        const_cast<FileSystem::Path&>( m_inputFilePath ) = ResourcePath::ToFileSystemPath( rawResourceDirectoryPath, resourceToCompilePath );
         const_cast<FileSystem::Path&>( m_outputFilePath ) = ResourcePath::ToFileSystemPath( m_compiledResourceDirectoryPath, resourceToCompilePath );
     }
 
@@ -30,6 +29,18 @@ namespace KRG::Resource
     }
 
     //-------------------------------------------------------------------------
+
+    void Compiler::Initialize( TypeSystem::TypeRegistry const& typeRegistry, FileSystem::Path const& rawResourceDirectoryPath )
+    {
+        m_pTypeRegistry = &typeRegistry;
+        m_rawResourceDirectoryPath = rawResourceDirectoryPath;
+    }
+
+    void Compiler::Shutdown()
+    {
+        m_pTypeRegistry = nullptr;
+        m_rawResourceDirectoryPath.Clear();
+    }
 
     CompilationResult Compiler::Error( char const* pFormat, ... ) const
     {

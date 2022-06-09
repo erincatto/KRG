@@ -24,6 +24,14 @@ namespace KRG::Resource
             Failed
         };
 
+        enum class Origin
+        {
+            External,
+            ManualCompile,
+            FileWatcher,
+            Package
+        };
+
     public:
 
         // Get the client that requested this resource
@@ -33,7 +41,7 @@ namespace KRG::Resource
         inline ResourceID const& GetResourceID() const { return m_resourceID; }
 
         // Returns whether the request was externally requested (i.e. by a client) or internally requested (i.e. due to a file changing and being detected)
-        inline bool IsInternalRequest() const { return m_isHotReloadRequest; }
+        inline bool IsInternalRequest() const { return m_origin != Origin::External; }
 
         // Status
         inline Status GetStatus() const { return m_status; }
@@ -54,6 +62,11 @@ namespace KRG::Resource
 
         inline Milliseconds GetCompilationElapsedTime() const
         {
+            if ( m_status == Status::Pending )
+            {
+                return 0;
+            }
+
             if ( !IsComplete() )
             {
                 return Milliseconds( PlatformClock::GetTime() - m_compilationTimeStarted );
@@ -64,28 +77,33 @@ namespace KRG::Resource
 
         inline Milliseconds GetUptoDateCheckElapsedTime() const
         {
+            if ( m_status == Status::Pending )
+            {
+                return 0;
+            }
+
             return Milliseconds( m_upToDateCheckTimeFinished - m_upToDateCheckTimeStarted );
         }
 
     public:
 
-        uint32_t                              m_clientID = 0;
+        uint32_t                            m_clientID = 0;
         ResourceID                          m_resourceID;
-        int32_t                               m_compilerVersion = -1;
-        uint64_t                              m_fileTimestamp = 0;
-        uint64_t                              m_sourceTimestampHash = 0;
+        int32_t                             m_compilerVersion = -1;
+        uint64_t                            m_fileTimestamp = 0;
+        uint64_t                            m_sourceTimestampHash = 0;
         FileSystem::Path                    m_sourceFile;
         FileSystem::Path                    m_destinationFile;
         String                              m_compilerArgs;
 
         TimeStamp                           m_timeRequested;
-        Nanoseconds                         m_compilationTimeStarted;
-        Nanoseconds                         m_compilationTimeFinished;
-        Nanoseconds                         m_upToDateCheckTimeStarted;
-        Nanoseconds                         m_upToDateCheckTimeFinished;
+        Nanoseconds                         m_compilationTimeStarted = 0;
+        Nanoseconds                         m_compilationTimeFinished = 0;
+        Nanoseconds                         m_upToDateCheckTimeStarted = 0;
+        Nanoseconds                         m_upToDateCheckTimeFinished = 0;
 
         String                              m_log;
         Status                              m_status = Status::Pending;
-        bool                                m_isHotReloadRequest = false;
+        Origin                              m_origin = Origin::External;
     };
 }

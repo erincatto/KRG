@@ -1,8 +1,7 @@
 #include "ResourceCompiler_EntityCollection.h"
-#include "ResourceBuilders/NavmeshBuilder.h"
 #include "Engine/Core/Entity/EntityDescriptors.h"
 #include "Engine/Core/Entity/EntitySerialization.h"
-#include "Engine/Navmesh/Components/Component_Navmesh.h"
+#include "System/TypeSystem/TypeRegistry.h"
 #include "System/Core/Serialization/BinaryArchive.h"
 #include "System/Core/FileSystem/FileSystem.h"
 #include "System/Core/Time/Timers.h"
@@ -12,24 +11,12 @@
 namespace KRG::EntityModel
 {
     EntityCollectionCompiler::EntityCollectionCompiler()
-        : Resource::Compiler( "EntityMapCompiler", s_version )
+        : Resource::Compiler( "EntityCollectionCompiler", s_version )
     {
         m_outputTypes.push_back( EntityCollectionDescriptor::GetStaticResourceTypeID() );
-        m_outputTypes.push_back( EntityMapDescriptor::GetStaticResourceTypeID() );
-        m_virtualTypes.push_back( Navmesh::NavmeshData::GetStaticResourceTypeID() );
     }
 
     Resource::CompilationResult EntityCollectionCompiler::Compile( Resource::CompileContext const& ctx ) const
-    {
-        if ( ctx.m_resourceID.GetResourceTypeID() == EntityMapDescriptor::GetStaticResourceTypeID() )
-        {
-            return CompileMap( ctx );
-        }
-
-        return CompileCollection( ctx );
-    }
-
-    Resource::CompilationResult EntityCollectionCompiler::CompileCollection( Resource::CompileContext const& ctx ) const
     {
         EntityCollectionDescriptor collectionDesc;
 
@@ -41,7 +28,7 @@ namespace KRG::EntityModel
         {
             ScopedTimer<PlatformClock> timer( elapsedTime );
 
-            if ( !Serialization::ReadEntityCollectionFromFile( ctx.m_typeRegistry, ctx.m_inputFilePath, collectionDesc ) )
+            if ( !Serializer::ReadEntityCollectionFromFile( *m_pTypeRegistry, ctx.m_inputFilePath, collectionDesc ) )
             {
                 return Resource::CompilationResult::Failure;
             }
@@ -52,7 +39,7 @@ namespace KRG::EntityModel
         // Serialize
         //-------------------------------------------------------------------------
 
-        KRG::Serialization::BinaryFileArchive archive( KRG::Serialization::Mode::Write, ctx.m_outputFilePath );
+        Serialization::BinaryFileArchive archive( Serialization::Mode::Write, ctx.m_outputFilePath );
         if ( archive.IsValid() )
         {
             archive << Resource::ResourceHeader( s_version, EntityCollectionDescriptor::GetStaticResourceTypeID() ) << collectionDesc;
@@ -64,92 +51,29 @@ namespace KRG::EntityModel
         }
     }
 
-    Resource::CompilationResult EntityCollectionCompiler::CompileMap( Resource::CompileContext const& ctx ) const
+    bool EntityCollectionCompiler::GetReferencedResources( ResourceID const& resourceID, TVector<ResourceID>& outReferencedResources ) const
     {
-        EntityMapDescriptor map;
+        KRG_ASSERT( resourceID.GetResourceTypeID() == EntityCollectionDescriptor::GetStaticResourceTypeID() );
 
-        //-------------------------------------------------------------------------
-        // Read collection
-        //-------------------------------------------------------------------------
+        EntityModel::EntityCollectionDescriptor collectionDesc;
 
-        Milliseconds elapsedTime = 0.0f;
+        // Read map descriptor
+        FileSystem::Path const collectionFilePath = resourceID.GetResourcePath().ToFileSystemPath( m_rawResourceDirectoryPath );
+        if ( !EntityModel::Serializer::ReadEntityCollectionFromFile( *m_pTypeRegistry, collectionFilePath, collectionDesc ) )
         {
-            ScopedTimer<PlatformClock> timer( elapsedTime );
-
-            if ( !Serialization::ReadEntityCollectionFromFile( ctx.m_typeRegistry, ctx.m_inputFilePath, map ) )
-            {
-                return Resource::CompilationResult::Failure;
-            }
+            return false;
         }
-        Message( "Entity map read in: %.2fms", elapsedTime.ToFloat() );
 
-        //-------------------------------------------------------------------------
-        // Navmesh
-        //-------------------------------------------------------------------------
+        // Get all referenced resources
+        TVector<ResourceID> referencedResources;
+        collectionDesc.GetAllReferencedResources( referencedResources );
 
-        #if KRG_ENABLE_NAVPOWER
-        auto const navmeshComponents = map.GetComponentsOfType<Navmesh::NavmeshComponent>( ctx.m_typeRegistry, false );
-        if ( !navmeshComponents.empty() )
+        // Enqueue resources for compilation
+        for ( auto const& referencedResourceID : referencedResources )
         {
-            {
-                ScopedTimer<PlatformClock> timer( elapsedTime );
-
-                // Log warning about invalid data
-                if ( navmeshComponents.size() > 1 )
-                {
-                    Warning( "More than one navmesh component detected! Only using the first one!" );
-                }
-
-                // Remove any values for the navmesh resource property
-                // TODO: see if there is a smart way to avoid using strings for property access
-                TypeSystem::PropertyPath const navmeshResourcePropertyPath( "m_pNavmeshData" );
-                for ( auto i = navmeshComponents.size(); i > 0; i-- )
-                {
-                    navmeshComponents[0].m_pComponent->RemovePropertyValue( navmeshResourcePropertyPath );
-                }
-
-                // Set navmesh resource ptr
-                ResourcePath navmeshResourcePath = ctx.m_resourceID.GetResourcePath();
-                navmeshResourcePath.ReplaceExtension( Navmesh::NavmeshData::GetStaticResourceTypeID().ToString() );
-                navmeshComponents[0].m_pComponent->m_properties.emplace_back( TypeSystem::PropertyDescriptor( ctx.m_typeRegistry, navmeshResourcePropertyPath, GetCoreTypeID( TypeSystem::CoreTypeID::TResourcePtr ), TypeSystem::TypeID(), navmeshResourcePath.GetString() ) );
-
-                // Create navmesh component and generate navmesh
-                auto pNavmeshComponent = navmeshComponents[0].m_pComponent->CreateTypeInstance<Navmesh::NavmeshComponent>( ctx.m_typeRegistry );
-                KRG_ASSERT( pNavmeshComponent != nullptr );
-
-                // Generate navmesh
-                FileSystem::Path navmeshFilePath = ctx.m_outputFilePath;
-                navmeshFilePath.ReplaceExtension( Navmesh::NavmeshData::GetStaticResourceTypeID().ToString() );
-
-                Navmesh::NavmeshBuilder navmeshBuilder;
-                bool const navmeshBuildResult = navmeshBuilder.Build( ctx, map, navmeshFilePath, pNavmeshComponent );
-
-
-                // Delete component instance
-                KRG::Delete( pNavmeshComponent );
-
-                if ( !navmeshBuildResult )
-                {
-                    return Resource::CompilationResult::Failure;
-                }
-            }
-            Message( "Navmesh built in: %.2fms", elapsedTime.ToFloat() );
+            VectorEmplaceBackUnique( outReferencedResources, referencedResourceID );
         }
-        #endif
 
-        //-------------------------------------------------------------------------
-        // Serialize
-        //-------------------------------------------------------------------------
-
-        KRG::Serialization::BinaryFileArchive archive( KRG::Serialization::Mode::Write, ctx.m_outputFilePath );
-        if ( archive.IsValid() )
-        {
-            archive << Resource::ResourceHeader( s_version, EntityMapDescriptor::GetStaticResourceTypeID() ) << map;
-            return CompilationSucceeded( ctx );
-        }
-        else
-        {
-            return CompilationFailed( ctx );
-        }
+        return true;
     }
 }

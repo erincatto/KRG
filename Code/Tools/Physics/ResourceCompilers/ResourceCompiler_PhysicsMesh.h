@@ -13,6 +13,7 @@ namespace KRG::Physics
 {
     class PhysicsMeshCompiler : public Resource::Compiler
     {
+        KRG_REGISTER_TYPE( PhysicsMeshCompiler );
         static const int32_t s_version = 4;
 
     public:

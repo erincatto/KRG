@@ -1,6 +1,7 @@
 #include "AnimationEventData.h"
 #include "System/TypeSystem/TypeSerialization.h"
 #include "System/Render/Imgui/ImguiX.h"
+#include "System/TypeSystem/TypeRegistry.h"
 
 //-------------------------------------------------------------------------
 

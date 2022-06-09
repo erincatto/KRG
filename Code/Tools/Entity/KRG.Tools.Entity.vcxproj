@@ -91,7 +91,7 @@
     <ClCompile Include="EntityEditor\EntityEditor_Context.cpp" />
     <ClCompile Include="EntityEditor\EntityEditor_Inspector.cpp" />
     <ClCompile Include="EntityEditor\EntityEditor_PropertyGrid.cpp" />
-    <ClCompile Include="ResourceCompilers\ResourceBuilders\NavmeshBuilder.cpp" />
+    <ClCompile Include="ResourceCompilers\ResourceCompiler_Map.cpp" />
     <ClCompile Include="ResourceCompilers\ResourceCompiler_EntityCollection.cpp" />
     <ClCompile Include="EntityEditor\EntityEditor_Outliner.cpp" />
     <ClCompile Include="Workspaces\Workspace_EntityCollectionEditor.cpp" />
@@ -106,7 +106,7 @@
     <ClInclude Include="EntityEditor\EntityEditor_PropertyGrid.h" />
     <ClInclude Include="EntityEditor\EntityEditor_Inspector.h" />
     <ClInclude Include="EntityEditor\EntityEditor_Outliner.h" />
-    <ClInclude Include="ResourceCompilers\ResourceBuilders\NavmeshBuilder.h" />
+    <ClInclude Include="ResourceCompilers\ResourceCompiler_Map.h" />
     <ClInclude Include="ResourceCompilers\ResourceCompiler_EntityCollection.h" />
     <ClInclude Include="Workspaces\Workspace_EntityCollectionEditor.h" />
     <ClInclude Include="Workspaces\Workspace_GamePreviewer.h" />
@@ -145,8 +145,8 @@
     <ProjectReference Include="..\Core\KRG.Tools.Core.vcxproj">
       <Project>{821afa79-df18-4414-9775-e0c0f45bad78}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\Physics\KRG.Tools.Physics.vcxproj">
-      <Project>{2740c360-55dc-489c-bfd4-e700df47b0b5}</Project>
+    <ProjectReference Include="..\Navmesh\KRG.Tools.Navmesh.vcxproj">
+      <Project>{01bf69d5-d60b-4583-a564-eb0dac75640b}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -111,6 +111,18 @@ namespace KRG
 
     //-------------------------------------------------------------------------
 
+    void PropertyGrid::ExpandAllPropertyViews()
+    {
+        // TODO
+    }
+
+    void PropertyGrid::CollapseAllPropertyViews()
+    {
+        // TODO
+    }
+
+    //-------------------------------------------------------------------------
+
     void PropertyGrid::DrawGrid()
     {
         if ( m_pTypeInstance == nullptr )

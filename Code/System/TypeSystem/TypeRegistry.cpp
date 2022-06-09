@@ -1,5 +1,8 @@
 #include "TypeRegistry.h"
 #include "PropertyPath.h"
+#include "ResourceInfo.h"
+#include "EnumInfo.h"
+#include "TypeInfo.h"
 #include "System/Core/Logging/Log.h"
 #include "TypeRegistrationMacros.h"
 #include "TypeHelpers.h"
@@ -102,7 +105,7 @@ namespace KRG::TypeSystem
         return pTypeInfo->IsDerivedFrom( parentTypeID );
     }
 
-    TVector<TypeInfo const*> TypeRegistry::GetAllTypesWithMatchingMetadata( TBitFlags<ETypeInfoMetaData> metadataFlags ) const
+    TVector<TypeInfo const*> TypeRegistry::GetAllTypesWithMatchingMetadata( TBitFlags<TypeInfoMetaData> metadataFlags ) const
     {
         TVector<TypeInfo const*> matchingTypes;
 

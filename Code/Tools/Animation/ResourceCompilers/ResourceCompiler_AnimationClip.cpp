@@ -23,7 +23,7 @@ namespace KRG::Animation
     {
         AnimationClipResourceDescriptor resourceDescriptor;
 
-        TypeSystem::Serialization::TypeReader typeReader( ctx.m_typeRegistry );
+        TypeSystem::Serialization::TypeReader typeReader( *m_pTypeRegistry );
         if ( !typeReader.ReadFromFile( ctx.m_inputFilePath ) )
         {
             return Error( "Failed to read resource descriptor file: %s", ctx.m_inputFilePath.c_str() );
@@ -45,7 +45,7 @@ namespace KRG::Animation
 
         ResourcePath const& skeletonPath = resourceDescriptor.m_pSkeleton.GetResourcePath();
         FileSystem::Path skeletonDescriptorFilePath;
-        if ( !ctx.ConvertResourcePathToFilePath( skeletonPath, skeletonDescriptorFilePath ) )
+        if ( !ConvertResourcePathToFilePath( skeletonPath, skeletonDescriptorFilePath ) )
         {
             return Error( "Invalid skeleton data path: %s", skeletonPath.c_str() );
         }
@@ -56,13 +56,13 @@ namespace KRG::Animation
         }
 
         SkeletonResourceDescriptor skeletonResourceDescriptor;
-        if ( !Resource::ResourceDescriptor::TryReadFromFile( ctx.m_typeRegistry, skeletonDescriptorFilePath, skeletonResourceDescriptor ) )
+        if ( !Resource::ResourceDescriptor::TryReadFromFile( *m_pTypeRegistry, skeletonDescriptorFilePath, skeletonResourceDescriptor ) )
         {
             return Error( "Failed to read skeleton resource descriptor from input file: %s", ctx.m_inputFilePath.c_str() );
         }
 
         FileSystem::Path skeletonFilePath;
-        if ( !ctx.ConvertResourcePathToFilePath( skeletonResourceDescriptor.m_skeletonPath, skeletonFilePath ) )
+        if ( !ConvertResourcePathToFilePath( skeletonResourceDescriptor.m_skeletonPath, skeletonFilePath ) )
         {
             return Error( "Invalid skeleton FBX data path: %s", skeletonResourceDescriptor.m_skeletonPath.GetString().c_str() );
         }
@@ -78,7 +78,7 @@ namespace KRG::Animation
         //-------------------------------------------------------------------------
 
         FileSystem::Path animationFilePath;
-        if ( !ctx.ConvertResourcePathToFilePath( resourceDescriptor.m_animationPath, animationFilePath ) )
+        if ( !ConvertResourcePathToFilePath( resourceDescriptor.m_animationPath, animationFilePath ) )
         {
             return Error( "Invalid animation data path: %s", resourceDescriptor.m_animationPath.c_str() );
         }
@@ -378,7 +378,7 @@ namespace KRG::Animation
         }
 
         Timeline::TrackContainer trackContainer;
-        if ( !trackContainer.Serialize( ctx.m_typeRegistry, eventDataValueObject ) )
+        if ( !trackContainer.Serialize( *m_pTypeRegistry, eventDataValueObject ) )
         {
             Error( "Malformed event track data" );
             return false;
@@ -455,7 +455,7 @@ namespace KRG::Animation
 
         for ( auto const& pEvent : events )
         {
-            outEventData.m_collection.m_descriptors.emplace_back( TypeSystem::TypeDescriptor( ctx.m_typeRegistry, pEvent ) );
+            outEventData.m_collection.m_descriptors.emplace_back( TypeSystem::TypeDescriptor( *m_pTypeRegistry, pEvent ) );
         }
 
         eastl::sort( outEventData.m_syncEventMarkers.begin(), outEventData.m_syncEventMarkers.end() );
@@ -465,6 +465,12 @@ namespace KRG::Animation
 
         trackContainer.Reset();
 
+        return true;
+    }
+
+    bool AnimationClipCompiler::GetReferencedResources( ResourceID const& resourceID, TVector<ResourceID>& outReferencedResources ) const
+    {
+        // TODO: check events for referenced resources
         return true;
     }
 }

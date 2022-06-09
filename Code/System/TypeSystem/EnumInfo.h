@@ -71,6 +71,6 @@ namespace KRG::TypeSystem
 
         TypeID                                              m_ID;
         CoreTypeID                                          m_underlyingType;
-        THashMap<StringID, int64_t>                           m_constants;
+        THashMap<StringID, int64_t>                         m_constants;
     };
 }

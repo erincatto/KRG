@@ -4,6 +4,13 @@
 
 //-------------------------------------------------------------------------
 
+namespace KRG::Navmesh
+{
+    class NavmeshGeneratorDialog;
+}
+
+//-------------------------------------------------------------------------
+
 namespace KRG::EntityModel
 {
     class KRG_TOOLS_ENTITY_API EntityMapEditor final : public EntityEditorBaseWorkspace
@@ -11,6 +18,7 @@ namespace KRG::EntityModel
     public:
 
         EntityMapEditor( ToolsContext const* pToolsContext, EntityWorld* pWorld );
+        ~EntityMapEditor();
 
         inline bool HasLoadedMap() const { return m_loadedMap.IsValid(); }
         inline ResourceID GetLoadedMap() const { return m_loadedMap; }
@@ -36,6 +44,15 @@ namespace KRG::EntityModel
         virtual bool IsDirty() const override{ return false; } // TODO
         virtual bool Save() override;
         virtual void DrawWorkspaceToolbarItems( UpdateContext const& context ) override;
+        virtual void UpdateWorkspace( UpdateContext const& context, ImGuiWindowClass* pWindowClass ) override;
+
+        // Navmesh
+        //-------------------------------------------------------------------------
+
+        void CreateNavmeshComponent();
+        void BeginNavmeshGeneration( UpdateContext const& context );
+        void UpdateNavmeshGeneration( UpdateContext const& context );
+        void EndNavmeshGeneration( UpdateContext const& context );
 
     private:
 
@@ -43,5 +60,7 @@ namespace KRG::EntityModel
         bool                                            m_isGamePreviewRunning = false;
         TEvent<UpdateContext const&>                    m_gamePreviewStartRequested;
         TEvent<UpdateContext const&>                    m_gamePreviewStopRequested;
+
+        Navmesh::NavmeshGeneratorDialog*                m_pNavmeshGeneratorDialog = nullptr;
     };
 }

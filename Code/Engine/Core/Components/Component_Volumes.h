@@ -2,6 +2,7 @@
 
 #include "Engine/Core/_Module/API.h"
 #include "Engine/Core/Entity/EntitySpatialComponent.h"
+#include "System/Core/Types/Color.h"
 
 //-------------------------------------------------------------------------
 

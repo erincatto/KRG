@@ -29,18 +29,6 @@ namespace KRG::EntityModel
             ImGuiX::ScopedFont const sf( ImGuiX::Font::SmallBold );
             if ( ImGuiX::ColoredButton( Colors::Green, Colors::White, "CREATE NEW ENTITY", ImVec2( -1, 0 ) ) )
             {
-                InlineString entityName( "New Entity" );
-                StringID entityNameID( entityName.c_str() );
-                for ( auto pEntity : pMap->GetEntities() )
-                {
-                    if ( pEntity->GetName() == entityNameID )
-                    {
-                        entityName.sprintf( "New Entity %u", (uint32_t) Math::GetRandomUInt() );
-                        entityNameID = StringID( entityName.c_str() );
-                        break;
-                    }
-                }
-
                 Entity* pEntity = m_context.CreateEntity();
                 m_context.SelectEntity( pEntity );
             }

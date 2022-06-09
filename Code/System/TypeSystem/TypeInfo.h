@@ -8,7 +8,7 @@
 
 namespace KRG::TypeSystem
 {
-    enum class ETypeInfoMetaData
+    enum class TypeInfoMetaData
     {
         Abstract,
         Entity,
@@ -32,7 +32,7 @@ namespace KRG::TypeSystem
         inline char const* GetCategoryName() const { return m_category.c_str(); }
         #endif
 
-        bool IsAbstractType() const { return m_metadata.IsFlagSet( ETypeInfoMetaData::Abstract ); }
+        bool IsAbstractType() const { return m_metadata.IsFlagSet( TypeInfoMetaData::Abstract ); }
 
         bool IsDerivedFrom( TypeID const parentTypeID ) const;
 
@@ -56,13 +56,13 @@ namespace KRG::TypeSystem
     public:
 
         TypeID                                  m_ID;
-        int32_t                                   m_size = -1;
-        int32_t                                   m_alignment = -1;
-        TBitFlags<ETypeInfoMetaData>            m_metadata;
+        int32_t                                 m_size = -1;
+        int32_t                                 m_alignment = -1;
+        TBitFlags<TypeInfoMetaData>             m_metadata;
         ITypeHelper*                            m_pTypeHelper = nullptr;
         TVector<TypeInfo const*>                m_parentTypes;
         TVector<PropertyInfo>                   m_properties;
-        THashMap<StringID, int32_t>               m_propertyMap;
+        THashMap<StringID, int32_t>             m_propertyMap;
 
         #if KRG_DEVELOPMENT_TOOLS
         bool                                    m_isForDevelopmentUseOnly = false;      // Whether this property only exists in development builds

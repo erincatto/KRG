@@ -15,19 +15,20 @@ namespace KRG::Resource
 
     public:
 
-        ResourceServerUI( ResourceServer* pServer );
+        ResourceServerUI( ResourceServer& resourceServer );
         void Draw();
 
     private:
 
-        void DrawCompletedRequests();
+        void DrawRequests();
         void DrawWorkerStatus();
         void DrawServerInfo();
         void DrawConnectionInfo();
+        void DrawPackagingControls();
 
     private:
 
-        ResourceServer*                         m_pResourceServer = nullptr;
+        ResourceServer&                         m_resourceServer;
         CompilationRequest const*               m_pSelectedCompletedRequest = nullptr;
         TVector<CompilationRequest const*>      m_combinedRequests; // Temp working memory for UI
     };

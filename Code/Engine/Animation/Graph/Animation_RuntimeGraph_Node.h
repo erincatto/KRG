@@ -155,8 +155,8 @@ namespace KRG::Animation
     private:
 
         Settings const*                 m_pSettings = nullptr;
-        uint32_t                          m_lastUpdateID = 0xFFFFFFFF;
-        uint32_t                          m_initializationCount = 0;
+        uint32_t                        m_lastUpdateID = 0xFFFFFFFF;
+        uint32_t                        m_initializationCount = 0;
     };
 
     //-------------------------------------------------------------------------
@@ -169,7 +169,7 @@ namespace KRG::Animation
 
     public:
 
-        int8_t                            m_taskIdx = InvalidIndex;
+        int8_t                          m_taskIdx = InvalidIndex;
         Transform                       m_rootMotionDelta = Transform::Identity;
         SampledEventRange               m_sampledEventRange;
     };
@@ -177,7 +177,7 @@ namespace KRG::Animation
     #if KRG_DEVELOPMENT_TOOLS
     struct PoseNodeDebugInfo
     {
-        int32_t                           m_loopCount = 0;
+        int32_t                         m_loopCount = 0;
         Seconds                         m_duration = 0.0f;
         Percentage                      m_currentTime = 0.0f;       // Clamped percentage over the duration
         Percentage                      m_previousTime = 0.0f;      // Clamped percentage over the duration
@@ -229,7 +229,7 @@ namespace KRG::Animation
 
     protected:
 
-        int32_t                           m_loopCount = 0;
+        int32_t                         m_loopCount = 0;
         Seconds                         m_duration = 0.0f;
         Percentage                      m_currentTime = 0.0f;       // Clamped percentage over the duration
         Percentage                      m_previousTime = 0.0f;      // Clamped percentage over the duration

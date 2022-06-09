@@ -8,6 +8,7 @@ namespace KRG::Physics
 {
     class RagdollCompiler : public Resource::Compiler
     {
+        KRG_REGISTER_TYPE( RagdollCompiler );
         static const int32_t s_version = 3;
 
     public:

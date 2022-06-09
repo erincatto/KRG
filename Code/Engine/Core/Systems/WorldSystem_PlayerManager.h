@@ -4,6 +4,8 @@
 #include "Engine/Core/Entity/EntityWorldSystem.h"
 #include "Engine/Core/Entity/EntityIDs.h"
 #include "System/Core/Types/IDVector.h"
+#include "System/Core/Math/Transform.h"
+#include "System/Core/Math/NumericRange.h"
 
 //-------------------------------------------------------------------------
 // Player Management World System
