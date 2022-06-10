@@ -17,6 +17,11 @@ namespace KRG::Resource
         KRG_ASSERT( m_pResourceProvider == nullptr && !IsBusy() && m_resourceRecords.empty() );
     }
 
+    ResourceSettings const& ResourceSystem::GetSettings() const
+    {
+        return m_pResourceProvider->GetSettings();
+    }
+
     void ResourceSystem::Initialize( ResourceProvider* pResourceProvider )
     {
         KRG_ASSERT( pResourceProvider != nullptr && pResourceProvider->IsReady() );

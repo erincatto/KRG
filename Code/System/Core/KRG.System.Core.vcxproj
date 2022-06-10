@@ -30,10 +30,8 @@
     <ClInclude Include="Math\MathHelpers.h" />
     <ClInclude Include="Serialization\UserTypes\eastl_fixed_vector.hpp" />
     <ClInclude Include="Serialization\JsonArchive.h" />
-    <ClInclude Include="Settings\ISettings.h" />
     <ClInclude Include="Drawing\DebugDrawingCommands.h" />
     <ClInclude Include="Drawing\DebugDrawing.h" />
-    <ClInclude Include="Settings\DebugSettings.h" />
     <ClInclude Include="ThirdParty\cereal\archives\xml.hpp" />
     <ClInclude Include="ThirdParty\cereal\external\rapidjson\cursorstreamwrapper.h" />
     <ClInclude Include="ThirdParty\cereal\external\rapidxml\rapidxml.hpp" />
@@ -356,7 +354,6 @@
     <ClInclude Include="Serialization\UserTypes\eastl_utility.hpp" />
     <ClInclude Include="Serialization\UserTypes\eastl_vector.hpp" />
     <ClInclude Include="Serialization\UserTypes\krg_stringid.hpp" />
-    <ClInclude Include="Settings\SettingsRegistry.h" />
     <ClInclude Include="Threading\TaskSystem.h" />
     <ClInclude Include="ThirdParty\cereal\access.hpp" />
     <ClInclude Include="ThirdParty\cereal\archives\adapters.hpp" />
@@ -485,7 +482,6 @@
     <ClCompile Include="Drawing\DebugDrawing.cpp" />
     <ClCompile Include="Platform\Platform_Win32.cpp" />
     <ClCompile Include="Serialization\JsonArchive.cpp" />
-    <ClCompile Include="Settings\DebugSettings.cpp" />
     <ClCompile Include="FileSystem\FileSystemPath.cpp" />
     <ClCompile Include="FileSystem\FileStreams.cpp" />
     <ClCompile Include="FileSystem\FileSystemUtils.cpp" />
@@ -505,7 +501,6 @@
     <ClCompile Include="Platform\PlatformHelpers_Win32.cpp" />
     <ClCompile Include="Profiling\Profiling.cpp" />
     <ClCompile Include="Serialization\BinaryArchive.cpp" />
-    <ClCompile Include="Settings\SettingsRegistry.cpp" />
     <ClCompile Include="Systems\SystemRegistry.cpp" />
     <ClCompile Include="ThirdParty\EA\EASTL\Source\allocator_eastl.cpp" />
     <ClCompile Include="ThirdParty\EA\EASTL\Source\assert.cpp" />

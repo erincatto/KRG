@@ -9,7 +9,7 @@
 #if KRG_DEVELOPMENT_TOOLS
 namespace KRG::Navmesh
 {
-    void NavmeshDebugView::DrawNavmeshDebugSettings( NavmeshWorldSystem* pNavmeshWorldSystem )
+    void NavmeshDebugView::DrawNavmeshRuntimeSettings( NavmeshWorldSystem* pNavmeshWorldSystem )
     {
         #if KRG_ENABLE_NAVPOWER
         auto CreatePlannerCheckboxForFlag = [pNavmeshWorldSystem] ( char const* pLabel, bfx::PlannerDebugFlag flag )
@@ -116,7 +116,7 @@ namespace KRG::Navmesh
 
     void NavmeshDebugView::DrawMenu( EntityWorldUpdateContext const& context )
     {
-        DrawNavmeshDebugSettings( m_pNavmeshWorldSystem );
+        DrawNavmeshRuntimeSettings( m_pNavmeshWorldSystem );
     }
 
     void NavmeshDebugView::DrawWindows( EntityWorldUpdateContext const& context, ImGuiWindowClass* pWindowClass )

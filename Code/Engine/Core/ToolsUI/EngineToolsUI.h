@@ -3,7 +3,6 @@
 #include "IToolsUI.h"
 #include "Engine/Core/DebugViews/DebugView_System.h"
 #include "Engine/Core/Update/UpdateContext.h"
-#include "System/Core/Settings/DebugSettings.h"
 #include "System/Core/Types/Containers.h"
 #include "System/Core/Logging/Log.h"
 
@@ -64,7 +63,7 @@ namespace KRG
 
         SystemLogView                                       m_systemLogView;
         bool                                                m_isLogWindowOpen = false;
-        bool                                                m_isDebugSettingsWindowOpen = false;
+        bool                                                m_isRuntimeSettingsWindowOpen = false;
         bool                                                m_isTimeControlWindowOpen = false;
     };
 }

@@ -7,10 +7,10 @@
 #include "Tools/Core/ThirdParty/pfd/portable-file-dialogs.h"
 #include "Engine/Core/Entity/EntityWorld.h"
 #include "Engine/Core/Entity/EntityWorldManager.h"
+#include "Engine/Core/Update/UpdateContext.h"
 #include "System/Resource/ResourceSettings.h"
 #include "System/Resource/ResourceSystem.h"
-#include "System/Core/Settings/SettingsRegistry.h"
-#include "Engine/Core/Update/UpdateContext.h"
+#include "System/Core/ThirdParty/iniparser/krg_ini.h"
 
 //-------------------------------------------------------------------------
 
@@ -23,20 +23,12 @@ namespace KRG
 
     void EditorContext::Initialize( UpdateContext const& context )
     {
-        auto pSettingsRegistry = context.GetSystem<SettingsRegistry>();
-        KRG_ASSERT( pSettingsRegistry != nullptr );
-        
-        auto pResourceSettings = pSettingsRegistry->GetSettings<Resource::Settings>();
-        KRG_ASSERT( pResourceSettings != nullptr );
-
-        //-------------------------------------------------------------------------
-
         m_pTypeRegistry = context.GetSystem<TypeSystem::TypeRegistry>();
         m_pResourceSystem = context.GetSystem<Resource::ResourceSystem>();
         m_pWorldManager = context.GetSystem<EntityWorldManager>();
         m_pRenderingSystem = context.GetSystem<Render::RenderingSystem>();
 
-        m_resourceDB.Initialize( m_pTypeRegistry, pResourceSettings->m_rawResourcePath, pResourceSettings->m_compiledResourcePath );
+        m_resourceDB.Initialize( m_pTypeRegistry, m_pResourceSystem->GetSettings().m_rawResourcePath, m_pResourceSystem->GetSettings().m_compiledResourcePath );
         m_pResourceDatabase = &m_resourceDB;
 
         // Create map editor workspace

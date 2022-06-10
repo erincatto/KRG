@@ -5,7 +5,7 @@
 
 namespace KRG::Navmesh
 {
-    bool EngineModule::Initialize( ModuleContext& context )
+    bool EngineModule::Initialize( ModuleContext& context, IniFile const& iniFile )
     {
         context.RegisterResourceLoader( &m_navmeshLoader );
 

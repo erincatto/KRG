@@ -6,7 +6,7 @@
 
 namespace KRG::Resource
 {
-    class Settings;
+    class ResourceSettings;
 
     //-------------------------------------------------------------------------
 
@@ -15,19 +15,13 @@ namespace KRG::Resource
 
     public:
 
-        PackagedResourceProvider( Settings const* pSettings );
-
+        using ResourceProvider::ResourceProvider;
         virtual bool IsReady() const override final;
 
     private:
 
-        PackagedResourceProvider() = delete;
-
+        virtual bool Initialize() override;
         virtual void RequestRawResource( ResourceRequest* pRequest ) override;
         virtual void CancelRequest( ResourceRequest* pRequest ) override;
-
-    private:
-
-        FileSystem::Path const m_compiledResourcesPath;
     };
 }

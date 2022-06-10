@@ -5,7 +5,7 @@
 
 namespace KRG::Render
 {
-    bool EngineModule::Initialize( ModuleContext& context )
+    bool EngineModule::Initialize( ModuleContext& context, IniFile const& iniFile )
     {
         auto pRenderDevice = context.GetRenderDevice();
         KRG_ASSERT( pRenderDevice != nullptr );

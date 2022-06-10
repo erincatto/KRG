@@ -5,6 +5,7 @@
 #include "Engine/Core/Entity/EntityWorld.h"
 #include "Engine/Core/Entity/EntityWorldManager.h"
 #include "Engine/Core/ResourceLoaders/ResourceLoader_EntityCollection.h"
+#include "Engine/Core/RuntimeSettings/RuntimeSettings.h"
 #include "System/Render/Imgui/ImguiX.h"
 #include "System/Render/RenderDevice.h"
 #include "System/Input/InputSystem.h"
@@ -12,7 +13,6 @@
 #include "System/Resource/ResourceProvider.h"
 #include "System/Resource/ResourceSystem.h"
 #include "System/TypeSystem/TypeRegistry.h"
-#include "System/Core/Settings/SettingsRegistry.h"
 #include "System/Core/Threading/TaskSystem.h"
 #include "System/Core/Systems/SystemRegistry.h"
 
@@ -26,9 +26,7 @@ namespace KRG::EngineCore
 
     public:
 
-        EngineModule( SettingsRegistry& settingsRegistry );
-
-        virtual bool Initialize( ModuleContext& context ) final;
+        virtual bool Initialize( ModuleContext& context, IniFile const& iniFile ) final;
         virtual void Shutdown( ModuleContext& context ) final;
 
         inline SystemRegistry* GetSystemRegistry() { return &m_systemRegistry; }
@@ -47,7 +45,7 @@ namespace KRG::EngineCore
     private:
 
         // System
-        SettingsRegistry&                               m_settingsRegistry;
+        SettingsRegistry                                m_settingsRegistry;
         TaskSystem                                      m_taskSystem;
         TypeSystem::TypeRegistry                        m_typeRegistry;
         SystemRegistry                                  m_systemRegistry;
@@ -55,7 +53,7 @@ namespace KRG::EngineCore
 
         // Resource
         Resource::ResourceProvider*                     m_pResourceProvider = nullptr;
-        Resource::ResourceSystem                        m_resourceSystem;
+        Resource::ResourceSystem                        m_resourceSystem = Resource::ResourceSystem( m_taskSystem );
 
         // Rendering
         Render::RenderDevice*                           m_pRenderDevice = nullptr;

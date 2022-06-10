@@ -17,7 +17,7 @@ namespace KRG
 
         public:
 
-            virtual bool Initialize( ModuleContext& context ) override final;
+            virtual bool Initialize( ModuleContext& context, IniFile const& iniFile ) override final;
             virtual void Shutdown( ModuleContext& context ) override final;
 
         private:

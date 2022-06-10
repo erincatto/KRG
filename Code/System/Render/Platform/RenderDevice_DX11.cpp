@@ -1,7 +1,7 @@
 #include "RenderDevice_DX11.h"
 #include "TextureLoader_Win32.h"
 #include "System/Render/RenderDefaultResources.h"
-#include "System/Render/RenderSettings.h"
+#include "System/Core/ThirdParty/iniparser/krg_ini.h"
 #include "System/Core/Profiling/Profiling.h"
 #include "System/Core/Logging/Log.h"
 
@@ -54,12 +54,28 @@ namespace KRG::Render
         return m_pDevice != nullptr;
     }
 
-    bool RenderDevice::Initialize( Settings const& settings )
+    bool RenderDevice::Initialize( IniFile const& iniFile )
     {
-        m_resolution = settings.m_resolution;
-        m_refreshRate = settings.m_refreshRate;
-        m_fullscreen = settings.m_isFullscreen;
+        KRG_ASSERT( iniFile.IsValid() );
 
+        m_resolution.m_x = iniFile.GetIntOrDefault( "Render:ResolutionX", 1280 );
+        m_resolution.m_y = iniFile.GetIntOrDefault( "Render:ResolutionX", 720 );
+        m_refreshRate = iniFile.GetFloatOrDefault( "Render:ResolutionX", 60 );
+        m_isFullscreen = iniFile.GetBoolOrDefault( "Render:Fullscreen", false );
+
+        //-------------------------------------------------------------------------
+
+        if ( m_resolution.m_x < 0 || m_resolution.m_y < 0 || m_refreshRate < 0 )
+        {
+            KRG_LOG_ERROR( "Render", "Invalid render settings read from ini file." );
+            return false;
+        }
+
+        return Initialize();
+    }
+
+    bool RenderDevice::Initialize()
+    {
         CreateDeviceAndSwapchain();
         CreateDefaultDepthStencilStates();
 
@@ -103,7 +119,7 @@ namespace KRG::Render
         swapChainDesc.SampleDesc.Quality = 0;
         swapChainDesc.SwapEffect = DXGI_SWAP_EFFECT_FLIP_SEQUENTIAL;
         swapChainDesc.OutputWindow = GetActiveWindow();
-        swapChainDesc.Windowed = !m_fullscreen;
+        swapChainDesc.Windowed = !m_isFullscreen;
 
         // Set debug flags on D3D device in debug build
         UINT flags = 0;

@@ -3,17 +3,14 @@
 
 //-------------------------------------------------------------------------
 
-namespace KRG
+namespace KRG::Game
 {
-    namespace Game
+    bool GameModule::Initialize( ModuleContext& context, IniFile const& iniFile )
     {
-        bool GameModule::Initialize( ModuleContext& context )
-        {
-            return true;
-        }
+        return true;
+    }
 
-        void GameModule::Shutdown( ModuleContext& context )
-        {
-        }
+    void GameModule::Shutdown( ModuleContext& context )
+    {
     }
 }

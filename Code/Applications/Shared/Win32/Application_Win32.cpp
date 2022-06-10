@@ -227,7 +227,7 @@ namespace KRG
         // Read Settings
         //-------------------------------------------------------------------------
 
-        if ( !ReadSettings( argc, argv ) )
+        if ( !ProcessCommandline( argc, argv ) )
         {
             return FatalError( "Application failed to read settings correctly!" );
         }

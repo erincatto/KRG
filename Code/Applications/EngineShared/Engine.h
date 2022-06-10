@@ -3,10 +3,6 @@
 #include "RenderingSystem.h"
 #include "Engine/Core/Modules/EngineModuleContext.h"
 #include "Engine/Core/ToolsUI/IToolsUI.h"
-#include "Engine/Physics/PhysicsSettings.h"
-#include "System/Render/RenderSettings.h"
-#include "System/Resource/ResourceSettings.h"
-#include "System/Core/Settings/SettingsRegistry.h"
 #include "System/Core/Types/Function.h"
 #include "Engine/Core/Update/UpdateContext.h"
 
@@ -33,7 +29,7 @@ namespace KRG
     public:
 
         Engine( TFunction<bool( KRG::String const& error )>&& errorHandler );
-        virtual ~Engine();
+        virtual ~Engine() = default;
 
         bool Initialize( String const& applicationName, Int2 const& windowDimensions );
         bool Shutdown();
@@ -55,23 +51,14 @@ namespace KRG
 
         //-------------------------------------------------------------------------
 
-        bool InitializeModules();
+        bool InitializeNonCoreModules( IniFile const& iniFile );
         void LoadModuleResources( Resource::ResourceSystem& resourceSystem );
-        bool OnModuleResourceLoadingComplete();
         void UnloadModuleResources( Resource::ResourceSystem& resourceSystem );
-        void ShutdownModules();
+        void ShutdownNonCoreModules();
 
     protected:
 
         TFunction<bool( KRG::String const& error )>     m_fatalErrorHandler;
-
-        // Settings
-        //-------------------------------------------------------------------------
-
-        SettingsRegistry                                m_settingsRegistry;
-        Resource::Settings                              m_resourceSettings;
-        Render::Settings                                m_renderSettings;
-        Physics::Settings                               m_physicsSettings;
 
         // Modules
         //-------------------------------------------------------------------------

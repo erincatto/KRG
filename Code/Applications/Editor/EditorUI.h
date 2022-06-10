@@ -51,7 +51,7 @@ namespace KRG
 
         SystemLogView                       m_systemLogView;
         bool                                m_isSystemLogWindowOpen = false;
-        bool                                m_isDebugSettingsWindowOpen = false;
+        bool                                m_isRuntimeSettingsWindowOpen = false;
 
         bool                                m_isResourceBrowserWindowOpen = true;
         bool                                m_isResourceLogWindowOpen = false;

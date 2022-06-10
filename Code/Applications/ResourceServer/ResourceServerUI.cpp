@@ -523,7 +523,7 @@ namespace KRG::Resource
                 ImGui::BeginDisabled( !m_resourceServer.CanStartPackaging() );
                 if ( ImGuiX::ColoredButton( Colors::Green, Colors::White, "Package Selected Maps", ImVec2( -1, 0 ) ) )
                 {
-                    m_resourceServer.PackageMaps();
+                    m_resourceServer.StartPackaging();
                 }
                 ImGui::EndDisabled();
             }

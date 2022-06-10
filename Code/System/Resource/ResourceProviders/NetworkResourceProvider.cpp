@@ -11,14 +11,6 @@
 #if KRG_DEVELOPMENT_TOOLS
 namespace KRG::Resource
 {
-    NetworkResourceProvider::NetworkResourceProvider( Settings const* pSettings )
-        : ResourceProvider()
-        , m_address( String::CtorSprintf(), "%s:%d", pSettings->m_resourceServerNetworkAddress.c_str(), pSettings->m_resourceServerPort )
-    {
-        KRG_ASSERT( pSettings != nullptr );
-        KRG_ASSERT( !pSettings->m_resourceServerNetworkAddress.empty() && pSettings->m_resourceServerPort < 9999 );
-    }
-
     bool NetworkResourceProvider::IsReady() const
     {
         return m_networkClient.IsConnected() || m_networkClient.IsConnecting();
@@ -26,7 +18,14 @@ namespace KRG::Resource
 
     bool NetworkResourceProvider::Initialize()
     {
-        return Network::NetworkSystem::StartClientConnection( &m_networkClient, m_address.c_str() );
+        m_address = String( String::CtorSprintf(), "%s:%d", m_settings.m_resourceServerNetworkAddress.c_str(), m_settings.m_resourceServerPort );
+        if ( !Network::NetworkSystem::StartClientConnection( &m_networkClient, m_address.c_str() ) )
+        {
+            KRG_LOG_ERROR( "Resource Provider", "Failed to connect to the resource server (%s)!", m_address.c_str() );
+            return false;
+        }
+
+        return true;
     }
 
     void NetworkResourceProvider::Shutdown()

@@ -20,6 +20,7 @@ namespace KRG::Resource
     class ResourceProvider;
     class ResourceLoader;
     class ResourceRequest;
+    class ResourceSettings;
 
     //-------------------------------------------------------------------------
 
@@ -69,6 +70,7 @@ namespace KRG::Resource
         ~ResourceSystem();
 
         inline bool IsInitialized() const { return m_pResourceProvider != nullptr; }
+        ResourceSettings const& GetSettings() const;
         void Initialize( ResourceProvider* pResourceProvider );
         void Shutdown();
 

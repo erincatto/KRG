@@ -258,7 +258,7 @@ namespace KRG::EntityModel
             ImGuiX::TextSeparator( "Navmesh" );
 
             auto pNavmeshWorldSystem = m_pWorld->GetWorldSystem<Navmesh::NavmeshWorldSystem>();
-            Navmesh::NavmeshDebugView::DrawNavmeshDebugSettings( pNavmeshWorldSystem );
+            Navmesh::NavmeshDebugView::DrawNavmeshRuntimeSettings( pNavmeshWorldSystem );
 
             //-------------------------------------------------------------------------
 

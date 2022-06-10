@@ -331,9 +331,9 @@ namespace KRG::Animation
 
     //-------------------------------------------------------------------------
 
-    AnimationDebugView::ComponentDebugSettings* AnimationDebugView::GetDebugSettings( ComponentID ID )
+    AnimationDebugView::ComponentRuntimeSettings* AnimationDebugView::GetRuntimeSettings( ComponentID ID )
     {
-        for ( auto& debuggedComponent : m_componentDebugSettings )
+        for ( auto& debuggedComponent : m_componentRuntimeSettings )
         {
             if ( debuggedComponent.m_ID == ID )
             {
@@ -341,16 +341,16 @@ namespace KRG::Animation
             }
         }
 
-        return &m_componentDebugSettings.emplace_back( ID );
+        return &m_componentRuntimeSettings.emplace_back( ID );
     }
 
-    void AnimationDebugView::DestroyDebugSettings( ComponentID ID )
+    void AnimationDebugView::DestroyRuntimeSettings( ComponentID ID )
     {
-        for ( int32_t i = 0; i < (int32_t) m_componentDebugSettings.size(); i++ )
+        for ( int32_t i = 0; i < (int32_t) m_componentRuntimeSettings.size(); i++ )
         {
-            if ( m_componentDebugSettings[i].m_ID == ID )
+            if ( m_componentRuntimeSettings[i].m_ID == ID )
             {
-                m_componentDebugSettings.erase_unsorted( m_componentDebugSettings.begin() + i );
+                m_componentRuntimeSettings.erase_unsorted( m_componentRuntimeSettings.begin() + i );
                 break;
             }
         }
@@ -369,7 +369,7 @@ namespace KRG::Animation
             auto pEntity = m_pWorld->FindEntity( entityID );
             KRG_ASSERT( pEntity != nullptr );
 
-            auto pDebugSettings = GetDebugSettings( pGraphComponent->GetID() );
+            auto pRuntimeSettings = GetRuntimeSettings( pGraphComponent->GetID() );
 
             //-------------------------------------------------------------------------
 
@@ -380,12 +380,12 @@ namespace KRG::Animation
 
                 if ( ImGui::MenuItem( "Show Control Parameters" ) )
                 {
-                    pDebugSettings->m_drawControlParameters = true;
+                    pRuntimeSettings->m_drawControlParameters = true;
                 }
 
                 if ( ImGui::MenuItem( "Show Sampled Events" ) )
                 {
-                    pDebugSettings->m_drawSampledEvents = true;
+                    pRuntimeSettings->m_drawSampledEvents = true;
                 }
 
                 //-------------------------------------------------------------------------
@@ -425,7 +425,7 @@ namespace KRG::Animation
 
                 if ( ImGui::MenuItem( "Show Active Tasks" ) )
                 {
-                    pDebugSettings->m_drawActiveTasks = true;
+                    pRuntimeSettings->m_drawActiveTasks = true;
                 }
 
                 //-------------------------------------------------------------------------
@@ -468,10 +468,10 @@ namespace KRG::Animation
     {
         InlineString title;
 
-        for ( int32_t i = (int32_t) m_componentDebugSettings.size() - 1; i >= 0; i-- )
+        for ( int32_t i = (int32_t) m_componentRuntimeSettings.size() - 1; i >= 0; i-- )
         {
             bool stopDebug = false;
-            auto ppFoundComponent = m_pAnimationWorldSystem->m_graphComponents.FindItem( m_componentDebugSettings[i].m_ID );
+            auto ppFoundComponent = m_pAnimationWorldSystem->m_graphComponents.FindItem( m_componentRuntimeSettings[i].m_ID );
             if ( ppFoundComponent != nullptr )
             {
                 auto pGraphComponent = *ppFoundComponent;
@@ -484,7 +484,7 @@ namespace KRG::Animation
 
                 //-------------------------------------------------------------------------
 
-                if ( m_componentDebugSettings[i].m_drawControlParameters )
+                if ( m_componentRuntimeSettings[i].m_drawControlParameters )
                 {
                     bool keepOpen = true;
                     title.sprintf( "Control Parameters: %s (%s)", pGraphComponent->GetName().c_str(), pEntity->GetName().c_str() );
@@ -497,13 +497,13 @@ namespace KRG::Animation
 
                     if ( !keepOpen )
                     {
-                        m_componentDebugSettings[i].m_drawControlParameters = false;
+                        m_componentRuntimeSettings[i].m_drawControlParameters = false;
                     }
                 }
 
                 //-------------------------------------------------------------------------
 
-                if ( m_componentDebugSettings[i].m_drawActiveTasks )
+                if ( m_componentRuntimeSettings[i].m_drawActiveTasks )
                 {
                     bool keepOpen = true;
                     title.sprintf( "Active Tasks: %s (%s)", pGraphComponent->GetName().c_str(), pEntity->GetName().c_str() );
@@ -516,13 +516,13 @@ namespace KRG::Animation
 
                     if ( !keepOpen )
                     {
-                        m_componentDebugSettings[i].m_drawActiveTasks = false;
+                        m_componentRuntimeSettings[i].m_drawActiveTasks = false;
                     }
                 }
 
                 //-------------------------------------------------------------------------
 
-                if ( m_componentDebugSettings[i].m_drawSampledEvents )
+                if ( m_componentRuntimeSettings[i].m_drawSampledEvents )
                 {
                     bool keepOpen = true;
                     title.sprintf( "Sampled Events: %s (%s)", pGraphComponent->GetName().c_str(), pEntity->GetName().c_str() );
@@ -535,7 +535,7 @@ namespace KRG::Animation
 
                     if ( !keepOpen )
                     {
-                        m_componentDebugSettings[i].m_drawSampledEvents = false;
+                        m_componentRuntimeSettings[i].m_drawSampledEvents = false;
                     }
                 }
             }
@@ -548,7 +548,7 @@ namespace KRG::Animation
 
             if ( stopDebug )
             {
-                m_componentDebugSettings.erase_unsorted( m_componentDebugSettings.begin() + i );
+                m_componentRuntimeSettings.erase_unsorted( m_componentRuntimeSettings.begin() + i );
             }
         }
     }
@@ -557,9 +557,9 @@ namespace KRG::Animation
     {
         auto drawingCtx = context.GetDrawingContext();
 
-        for ( auto const& debugSettings : m_componentDebugSettings )
+        for ( auto const& RuntimeSettings : m_componentRuntimeSettings )
         {
-            auto ppFoundComponent = m_pAnimationWorldSystem->m_graphComponents.FindItem( debugSettings.m_ID );
+            auto ppFoundComponent = m_pAnimationWorldSystem->m_graphComponents.FindItem( RuntimeSettings.m_ID );
             if ( ppFoundComponent != nullptr )
             {
                 auto pGraphComponent = *ppFoundComponent;

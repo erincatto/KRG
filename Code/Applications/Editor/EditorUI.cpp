@@ -6,6 +6,7 @@
 #include "Engine/Core/ToolsUI/OrientationGuide.h"
 #include "Engine/Core/Entity/EntityWorld.h"
 #include "Engine/Core/DebugViews/DebugView_Resource.h"
+#include "Engine/Core/DebugViews/DebugView_RuntimeSettings.h"
 #include "Engine/Core/Entity/EntityWorldManager.h"
 #include "Engine/Core/Entity/EntityWorldUpdateContext.h"
 #include "Engine/Render/Debug/DebugView_Render.h"
@@ -37,7 +38,6 @@ namespace KRG
     {
         m_context.Initialize( context );
         m_pResourceBrowser = KRG::New<ResourceBrowser>( m_context );
-
         m_resourceDatabaseUpdateEventBindingID = m_context.GetResourceDatabase()->OnDatabaseUpdated().Bind( [this] () { m_pResourceBrowser->RebuildBrowserTree(); } );
 
         //-------------------------------------------------------------------------
@@ -148,10 +148,10 @@ namespace KRG
             m_isSystemLogWindowOpen = m_systemLogView.Draw( context );
         }
 
-        if ( m_isDebugSettingsWindowOpen )
+        if ( m_isRuntimeSettingsWindowOpen )
         {
             ImGui::SetNextWindowClass( &m_editorWindowClass );
-            m_isDebugSettingsWindowOpen = SystemDebugView::DrawDebugSettingsView( context );
+            m_isRuntimeSettingsWindowOpen = RuntimeSettingsDebugView::DrawRuntimeSettingsView( context );
         }
 
         if ( m_isPhysicsMaterialDatabaseWindowOpen )
@@ -420,7 +420,7 @@ namespace KRG
 
         if ( ImGui::BeginMenu( "System" ) )
         {
-            ImGui::MenuItem( "Debug Settings", nullptr, &m_isDebugSettingsWindowOpen );
+            ImGui::MenuItem( "Debug Settings", nullptr, &m_isRuntimeSettingsWindowOpen );
             ImGui::MenuItem( "System Log", nullptr, &m_isSystemLogWindowOpen );
 
             ImGui::Separator();

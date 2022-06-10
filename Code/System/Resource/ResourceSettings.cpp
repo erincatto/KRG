@@ -7,7 +7,7 @@
 
 namespace KRG::Resource
 {
-    bool Settings::ReadSettings( IniFile const& ini )
+    bool ResourceSettings::ReadSettings( IniFile const& ini )
     {
         String tmp;
         m_workingDirectoryPath = FileSystem::GetCurrentProcessPath();

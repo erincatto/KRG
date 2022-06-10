@@ -7,7 +7,7 @@ namespace KRG
 {
     namespace Animation
     {
-        bool EngineModule::Initialize( ModuleContext& context )
+        bool EngineModule::Initialize( ModuleContext& context, IniFile const& iniFile )
         {
             auto const pTypeRegistry = context.GetSystem<TypeSystem::TypeRegistry>();
             m_animationClipLoader.SetTypeRegistry( pTypeRegistry );

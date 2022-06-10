@@ -5,6 +5,7 @@
 
 namespace KRG
 {
+    class IniFile;
     class EntityWorldManager;
     class GamePreviewer;
     namespace EntityModel { class EntityMapEditor; }

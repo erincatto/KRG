@@ -1,6 +1,7 @@
 #include "WorldSystem_Renderer.h"
 #include "Engine/Core/Entity/Entity.h"
 #include "Engine/Core/Entity/EntityWorldUpdateContext.h"
+#include "Engine/Core/RuntimeSettings/RuntimeSettings.h"
 #include "Engine/Render/Components/Component_StaticMesh.h"
 #include "Engine/Render/Components/Component_SkeletalMesh.h"
 #include "Engine/Render/Components/Component_Lights.h"
@@ -8,7 +9,6 @@
 #include "Engine/Render/Shaders/EngineShaders.h"
 #include "System/Render/RenderDefaultResources.h"
 #include "System/Render/RenderViewport.h"
-#include "System/Core/Settings/DebugSettings.h"
 #include "System/Core/Profiling/Profiling.h"
 #include "System/Core/Logging/Log.h"
 
@@ -17,10 +17,10 @@
 namespace KRG::Render
 {
     #if KRG_DEVELOPMENT_TOOLS
-    static DebugSettingBool g_showStaticMeshBounds( "ShowStaticMeshBounds", "Rendering/Static Meshes", "", false );
-    static DebugSettingBool g_showSkeletalMeshBounds( "ShowSkeletalMeshBounds", "Rendering/Skeletal Meshes", "", false );
-    static DebugSettingBool g_showSkeletalMeshBones( "ShowSkeletalMeshBones", "Rendering/Skeletal Meshes", "", false );
-    static DebugSettingBool g_showSkeletalMeshBindPoses( "ShowSkeletalMeshBindPoses", "Rendering/Skeletal Meshes", "", false );
+    static RuntimeSettingBool g_showStaticMeshBounds( "ShowStaticMeshBounds", "Rendering/Static Meshes", "", false );
+    static RuntimeSettingBool g_showSkeletalMeshBounds( "ShowSkeletalMeshBounds", "Rendering/Skeletal Meshes", "", false );
+    static RuntimeSettingBool g_showSkeletalMeshBones( "ShowSkeletalMeshBones", "Rendering/Skeletal Meshes", "", false );
+    static RuntimeSettingBool g_showSkeletalMeshBindPoses( "ShowSkeletalMeshBindPoses", "Rendering/Skeletal Meshes", "", false );
     #endif
 
     //-------------------------------------------------------------------------

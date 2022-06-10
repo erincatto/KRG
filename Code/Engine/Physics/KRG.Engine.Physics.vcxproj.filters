@@ -36,7 +36,6 @@
     <ClCompile Include="ResourceLoaders\ResourceLoader_PhysicsMesh.cpp">
       <Filter>ResourceLoaders</Filter>
     </ClCompile>
-    <ClCompile Include="PhysicsSettings.cpp" />
     <ClCompile Include="PhysicsMaterial.cpp" />
     <ClCompile Include="PhysicsSimulationFilter.cpp" />
     <ClCompile Include="PhysicsMesh.cpp" />
@@ -73,7 +72,6 @@
     <ClInclude Include="ResourceLoaders\ResourceLoader_PhysicsMesh.h">
       <Filter>ResourceLoaders</Filter>
     </ClInclude>
-    <ClInclude Include="PhysicsSettings.h" />
     <ClInclude Include="PhysicsMaterial.h" />
     <ClInclude Include="PhysicsSimulationFilter.h" />
     <ClInclude Include="PhysicsMesh.h" />

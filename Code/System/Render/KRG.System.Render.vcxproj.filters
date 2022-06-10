@@ -89,7 +89,6 @@
     </ClCompile>
     <ClCompile Include="RenderDefaultResources.cpp" />
     <ClCompile Include="RenderTarget.cpp" />
-    <ClCompile Include="RenderSettings.cpp" />
     <ClCompile Include="RenderShader.cpp" />
     <ClCompile Include="RenderTexture.cpp" />
     <ClCompile Include="RenderVertexFormats.cpp" />
@@ -153,7 +152,6 @@
     <ClInclude Include="RenderAPI.h" />
     <ClInclude Include="RenderWindow.h" />
     <ClInclude Include="RenderTarget.h" />
-    <ClInclude Include="RenderSettings.h" />
     <ClInclude Include="RenderDefaultResources.h" />
     <ClInclude Include="RenderDevice.h" />
     <ClInclude Include="RenderBuffer.h" />

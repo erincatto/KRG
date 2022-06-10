@@ -17,13 +17,15 @@ namespace KRG::Physics
     {
         KRG_REGISTER_MODULE;
 
+        static void GetListOfAllRequiredModuleResources( TVector<ResourceID>& outResourceIDs );
+
     public:
 
-        virtual bool Initialize( ModuleContext& context ) override final;
+        virtual bool Initialize( ModuleContext& context, IniFile const& iniFile ) override final;
         virtual void Shutdown( ModuleContext& context ) override final;
 
         virtual void LoadModuleResources( Resource::ResourceSystem& resourceSystem ) override final;
-        virtual bool OnEngineResourceLoadingComplete() override final;
+        virtual bool VerifyModuleResourceLoadingComplete() override final;
         virtual void UnloadModuleResources( Resource::ResourceSystem& resourceSystem ) override final;
 
     private:

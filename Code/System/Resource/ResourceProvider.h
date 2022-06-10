@@ -2,6 +2,11 @@
 
 #include "_Module/API.h"
 #include "ResourceID.h"
+#include "ResourceSettings.h"
+
+//-------------------------------------------------------------------------
+
+namespace KRG { class IniFile; }
 
 //-------------------------------------------------------------------------
 
@@ -22,12 +27,15 @@ namespace KRG::Resource
 
     public:
 
-        ResourceProvider() = default;
+        ResourceProvider( ResourceSettings const& settings ) : m_settings( settings ) {}
         virtual ~ResourceProvider() {}
 
         virtual bool IsReady() const = 0;
-        virtual bool Initialize() { return true; }
+        virtual bool Initialize() = 0;
         virtual void Shutdown() {}
+
+        // Get general resource settings
+        ResourceSettings const& GetSettings() const { return m_settings; }
 
         // The resource provider update function
         virtual void Update() {};
@@ -46,5 +54,9 @@ namespace KRG::Resource
             return emptyVector;
         }
         #endif
+
+    protected:
+
+        ResourceSettings const m_settings;
     };
 }

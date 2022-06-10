@@ -101,7 +101,6 @@
     <ClInclude Include="PhysicsLayers.h" />
     <ClInclude Include="PhysicsRagdoll.h" />
     <ClInclude Include="PhysicsScene.h" />
-    <ClInclude Include="PhysicsSettings.h" />
     <ClInclude Include="PhysicsMaterial.h" />
     <ClInclude Include="PhysicsSimulationFilter.h" />
     <ClInclude Include="Debug\PhysicsDebugRenderer.h" />
@@ -126,7 +125,6 @@
     <ClCompile Include="Debug\DebugView_Physics.cpp" />
     <ClCompile Include="PhysicsRagdoll.cpp" />
     <ClCompile Include="PhysicsScene.cpp" />
-    <ClCompile Include="PhysicsSettings.cpp" />
     <ClCompile Include="PhysicsMaterial.cpp" />
     <ClCompile Include="PhysicsSimulationFilter.cpp" />
     <ClCompile Include="Debug\PhysicsDebugRenderer.cpp" />

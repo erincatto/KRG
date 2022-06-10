@@ -1,13 +1,26 @@
 #include "Module.h"
 #include "Engine/Core/Modules/EngineModuleContext.h"
-#include "Engine/Physics/PhysicsSettings.h"
 #include "Engine/Render/RendererRegistry.h"
 
 //-------------------------------------------------------------------------
 
 namespace KRG::Physics
 {
-    bool EngineModule::Initialize( ModuleContext& context )
+    namespace
+    {
+        constexpr static char const* const g_physicsMaterialDatabaseResourceID = "data://Physics/PhysicsMaterials.pmdb";
+    }
+
+    //-------------------------------------------------------------------------
+
+    void EngineModule::GetListOfAllRequiredModuleResources( TVector<ResourceID>& outResourceIDs )
+    {
+        outResourceIDs.emplace_back( ResourceID( g_physicsMaterialDatabaseResourceID ) );
+    }
+
+    //-------------------------------------------------------------------------
+
+    bool EngineModule::Initialize( ModuleContext& context, IniFile const& iniFile )
     {
         m_physicsSystem.Initialize();
 
@@ -32,12 +45,6 @@ namespace KRG::Physics
         KRG_ASSERT( pRendererRegistry != nullptr );
         pRendererRegistry->RegisterRenderer( &m_physicsRenderer );
         #endif
-
-        //-------------------------------------------------------------------------
-
-        auto pSettings = context.GetSettingsRegistry()->GetSettings<Settings>();
-        KRG_ASSERT( pSettings != nullptr );
-        m_pPhysicMaterialDB = ResourceID( pSettings->m_physicalMaterialDatabasePath );
 
         //-------------------------------------------------------------------------
 
@@ -75,10 +82,12 @@ namespace KRG::Physics
 
     void EngineModule::LoadModuleResources( Resource::ResourceSystem& resourceSystem )
     {
+        m_pPhysicMaterialDB = ResourceID( g_physicsMaterialDatabaseResourceID );
+        KRG_ASSERT( m_pPhysicMaterialDB.IsValid() );
         resourceSystem.LoadResource( m_pPhysicMaterialDB );
     }
 
-    bool EngineModule::OnEngineResourceLoadingComplete()
+    bool EngineModule::VerifyModuleResourceLoadingComplete()
     {
         return m_pPhysicMaterialDB.IsLoaded() && m_pPhysicMaterialDB->IsValid();
     }

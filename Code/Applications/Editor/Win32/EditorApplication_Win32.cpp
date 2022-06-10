@@ -1,13 +1,8 @@
 #include "EditorApplication_Win32.h"
 #include "Engine_Win32.h"
 #include "Resource.h"
-#include "iniparser/krg_ini.h"
 #include "Applications/Shared/cmdParser/krg_cmdparser.h"
-#include "Applications/Shared/Win32/SharedHelpers_Win32.h"
-#include "System/Input/InputSystem.h"
 #include "System/Render/Imgui/ImguiStyle.h"
-#include "System/Core/FileSystem/FileSystemUtils.h"
-#include "System/Core/Time/Timers.h"
 #include <tchar.h>
 #include <windows.h>
 
@@ -42,34 +37,20 @@ namespace KRG
         , m_editorEngine( TFunction<bool( String const& error )>( [this] ( String const& error )-> bool  { return FatalError( error ); } ) )
     {}
 
-    bool EditorApplication::ReadSettings( int32_t argc, char** argv )
+    bool EditorApplication::ProcessCommandline( int32_t argc, char** argv )
     {
-        // Get command line settings
-        //-------------------------------------------------------------------------
+        cli::Parser cmdParser( argc, argv );
+        cmdParser.set_optional<std::string>( "map", "map", "", "The startup map." );
 
+        if ( !cmdParser.run() )
         {
-            cli::Parser cmdParser( argc, argv );
-            cmdParser.set_optional<std::string>( "map", "map", "", "The startup map." );
-
-            if ( !cmdParser.run() )
-            {
-                return FatalError( "Invalid command line arguments!" );
-            }
-
-            std::string const map = cmdParser.get<std::string>( "map" );
-            if ( !map.empty() )
-            {
-                m_editorEngine.m_editorStartupMap = ResourcePath( map.c_str() );
-            }
+            return FatalError( "Invalid command line arguments!" );
         }
 
-        // Read configuration settings from ini
-        //-------------------------------------------------------------------------
-
-        FileSystem::Path const iniPath = FileSystem::GetCurrentProcessPath().Append( "KRG.ini" );
-        if ( !m_editorEngine.m_settingsRegistry.LoadFromFile( iniPath ) )
+        std::string const map = cmdParser.get<std::string>( "map" );
+        if ( !map.empty() )
         {
-            return FatalError( "Failed to read required settings from INI file" );
+            m_editorEngine.m_editorStartupMap = ResourcePath( map.c_str() );
         }
 
         return true;
@@ -77,14 +58,6 @@ namespace KRG
 
     bool EditorApplication::Initialize()
     {
-        if ( !EnsureResourceServerIsRunning( m_editorEngine.m_resourceSettings.m_resourceServerExecutablePath ) )
-        {
-            return FatalError( "Couldn't start resource server!" );
-        }
-
-        // Initialize editor
-        //-------------------------------------------------------------------------
-
         Int2 const windowDimensions( ( m_windowRect.right - m_windowRect.left ), ( m_windowRect.bottom - m_windowRect.top ) );
         if ( !m_editorEngine.Initialize( m_applicationNameNoWhitespace, windowDimensions ) )
         {
@@ -102,7 +75,7 @@ namespace KRG
     bool EditorApplication::ApplicationLoop()
     {
         // Uncomment for live editing of ImguiTheme
-        ImGuiX::Style::Apply();
+        //ImGuiX::Style::Apply();
         return m_editorEngine.Update();
     }
 

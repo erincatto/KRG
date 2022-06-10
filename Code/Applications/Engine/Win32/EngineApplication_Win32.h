@@ -33,7 +33,7 @@ namespace KRG
 
     private:
 
-        virtual bool ReadSettings( int32_t argc, char** argv ) override;
+        virtual bool ProcessCommandline( int32_t argc, char** argv ) override;
         virtual bool Initialize();
         virtual bool Shutdown();
 

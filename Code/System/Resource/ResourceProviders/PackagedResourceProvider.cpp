@@ -1,27 +1,25 @@
 #include "PackagedResourceProvider.h"
 #include "System/Resource/ResourceRequest.h"
 #include "System/Resource/ResourceSettings.h"
+#include "System/Core/Logging/Log.h"
 
 //-------------------------------------------------------------------------
 
 namespace KRG::Resource
 {
-    PackagedResourceProvider::PackagedResourceProvider( Settings const* pSettings )
-        : ResourceProvider()
-        , m_compiledResourcesPath( pSettings->m_compiledResourcePath )
+    bool PackagedResourceProvider::IsReady() const
     {
-        KRG_ASSERT( pSettings != nullptr );
-        KRG_ASSERT( m_compiledResourcesPath.IsValid() );
+        return true;
     }
 
-    bool PackagedResourceProvider::IsReady() const
+    bool PackagedResourceProvider::Initialize()
     {
         return true;
     }
 
     void PackagedResourceProvider::RequestRawResource( ResourceRequest* pRequest )
     {
-        FileSystem::Path const resourceFilePath = pRequest->GetResourceID().GetResourcePath().ToFileSystemPath( m_compiledResourcesPath );
+        FileSystem::Path const resourceFilePath = pRequest->GetResourceID().GetResourcePath().ToFileSystemPath( m_settings.m_compiledResourcePath );
         pRequest->OnRawResourceRequestComplete( resourceFilePath.c_str() );
     }
 

@@ -8,7 +8,6 @@
 #include "System/Network/IPC/IPCMessageServer.h"
 #include "System/Resource/ResourceSettings.h"
 #include "System/TypeSystem/TypeRegistry.h"
-#include "System/Core/Settings/SettingsRegistry.h"
 #include "System/Core/Threading/TaskSystem.h"
 
 //-------------------------------------------------------------------------
@@ -28,17 +27,17 @@ namespace KRG::Resource
         ResourceServer();
         ~ResourceServer();
 
-        bool Initialize( Settings const& settings );
+        bool Initialize( IniFile const& iniFile );
         void Shutdown();
         void Update();
 
         inline bool IsBusy() const { return m_pendingRequests.size() + m_activeRequests.size() > 0; }
 
         inline String const& GetErrorMessage() const { return m_errorMessage; }
-        inline String const& GetNetworkAddress() const { return m_pSettings->m_resourceServerNetworkAddress; }
-        inline uint16_t GetNetworkPort() const { return m_pSettings->m_resourceServerPort; }
-        inline FileSystem::Path const& GetRawResourceDir() const { return m_pSettings->m_rawResourcePath; }
-        inline FileSystem::Path const& GetCompiledResourceDir() const { return m_pSettings->m_compiledResourcePath; }
+        inline String const& GetNetworkAddress() const { return m_settings.m_resourceServerNetworkAddress; }
+        inline uint16_t GetNetworkPort() const { return m_settings.m_resourceServerPort; }
+        inline FileSystem::Path const& GetRawResourceDir() const { return m_settings.m_rawResourcePath; }
+        inline FileSystem::Path const& GetCompiledResourceDir() const { return m_settings.m_compiledResourcePath; }
 
         // Compilers and Compilation
         //-------------------------------------------------------------------------
@@ -78,7 +77,7 @@ namespace KRG::Resource
         inline float GetPackagingProgress() const { return ( float( m_completedPackagingRequests.size() ) / m_resourcesToBePackaged.size() ); }
 
         // Start the packaging process
-        void PackageMaps();
+        void StartPackaging();
 
         // Refresh the list of available maps to package
         void RefreshAvailableMapList();
@@ -135,7 +134,7 @@ namespace KRG::Resource
         Network::IPC::Server                    m_networkServer;
 
         // Settings
-        Settings const*                         m_pSettings = nullptr;
+        ResourceSettings                        m_settings;
         uint32_t                                m_maxSimultaneousCompilationTasks = 16;
 
         // Compilation Requests

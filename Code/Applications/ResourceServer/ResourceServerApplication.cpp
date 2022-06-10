@@ -1,10 +1,10 @@
 #include "ResourceServerApplication.h"
 #include "Resources/Resource.h"
-#include "System/Render/RenderSettings.h"
 #include "System/Core/Logging/Log.h"
 #include "System/Core/Time/Timers.h"
 #include "System/Core/FileSystem/FileSystemUtils.h"
 #include "System/Render/Imgui/Platform/ImguiPlatform_win32.h"
+#include "System/Core/ThirdParty/iniparser/krg_ini.h"
 #include <tchar.h>
 
 #if KRG_ENABLE_LPP
@@ -200,22 +200,6 @@ namespace KRG
         return true;
     }
 
-    bool ResourceServerApplication::ReadSettings( int32_t argc, char** argv )
-    {
-        // Read configuration settings from ini
-        //-------------------------------------------------------------------------
-
-        m_settingsRegistry.RegisterSettings( &m_settings );
-
-        FileSystem::Path const iniPath = FileSystem::GetCurrentProcessPath().Append( "KRG.ini" );
-        if ( !m_settingsRegistry.LoadFromFile( iniPath ) )
-        {
-            return FatalError( "Failed to read required settings from INI file" );
-        }
-
-        return true;
-    }
-
     void ResourceServerApplication::DestroySystemTrayIcon()
     {
         Shell_NotifyIcon( NIM_DELETE, &m_systemTrayIconData );
@@ -235,7 +219,7 @@ namespace KRG
     bool ResourceServerApplication::Initialize()
     {
         m_pRenderDevice = KRG::New<Render::RenderDevice>();
-        if ( !m_pRenderDevice->Initialize( Render::Settings() ) )
+        if ( !m_pRenderDevice->Initialize() )
         {
             KRG::Delete( m_pRenderDevice );
             return FatalError( "Failed to create render device!" );
@@ -247,7 +231,15 @@ namespace KRG
 
         //-------------------------------------------------------------------------
 
-        if ( !m_resourceServer.Initialize( m_settings ) )
+        FileSystem::Path const iniFilePath = FileSystem::GetCurrentProcessPath().Append( "KRG.ini" );
+        IniFile iniFile( iniFilePath );
+        if ( !iniFile.IsValid() )
+        {
+            InlineString const errorMessage( InlineString::CtorSprintf(), "Failed to load settings from INI file: %s", iniFilePath.c_str() );
+            return FatalError( errorMessage.c_str() );
+        }
+
+        if ( !m_resourceServer.Initialize( iniFile ) )
         {
             return FatalError( "Resource server failed to initialize!" );
         }
@@ -351,8 +343,8 @@ int APIENTRY _tWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpC
     //-------------------------------------------------------------------------
 
     #if KRG_ENABLE_LPP
-    HMODULE livePP = lpp::lppLoadAndRegister( L"../../External/LivePP", "Quickstart" );
-    lpp::lppEnableAllCallingModulesSync( livePP );
+    //HMODULE livePP = lpp::lppLoadAndRegister( L"../../External/LivePP", "Quickstart" );
+    //lpp::lppEnableAllCallingModulesSync( livePP );
     #endif
 
     //-------------------------------------------------------------------------

@@ -21,9 +21,9 @@ namespace KRG::Animation
     {
         KRG_REGISTER_TYPE( AnimationDebugView );
 
-        struct ComponentDebugSettings
+        struct ComponentRuntimeSettings
         {
-            ComponentDebugSettings( ComponentID ID )
+            ComponentRuntimeSettings( ComponentID ID )
                 : m_ID( ID )
             {}
 
@@ -55,8 +55,8 @@ namespace KRG::Animation
         virtual void DrawWindows( EntityWorldUpdateContext const& context, ImGuiWindowClass* pWindowClass ) override;
         virtual void DrawOverlayElements( EntityWorldUpdateContext const& context ) override;
 
-        ComponentDebugSettings* GetDebugSettings( ComponentID ID );
-        void DestroyDebugSettings( ComponentID ID );
+        ComponentRuntimeSettings* GetRuntimeSettings( ComponentID ID );
+        void DestroyRuntimeSettings( ComponentID ID );
 
         void DrawMenu( EntityWorldUpdateContext const& context );
 
@@ -64,7 +64,7 @@ namespace KRG::Animation
 
         EntityWorld const*                      m_pWorld = nullptr;
         AnimationWorldSystem*                   m_pAnimationWorldSystem = nullptr;
-        TVector<ComponentDebugSettings>         m_componentDebugSettings;
+        TVector<ComponentRuntimeSettings>         m_componentRuntimeSettings;
     };
 }
 #endif

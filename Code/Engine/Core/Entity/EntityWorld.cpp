@@ -1,9 +1,9 @@
 #include "EntityWorld.h"
 #include "EntityWorldUpdateContext.h"
 #include "EntityWorldDebugView.h"
+#include "Engine/Core/RuntimeSettings/RuntimeSettings.h"
 #include "System/Resource/ResourceSystem.h"
 #include "System/Core/Profiling/Profiling.h"
-#include "System/Core/Settings/DebugSettings.h"
 #include "System/TypeSystem/TypeRegistry.h"
 
 //-------------------------------------------------------------------------
@@ -13,7 +13,7 @@ namespace KRG
     namespace Settings
     {
         #if KRG_DEVELOPMENT_TOOLS
-        static DebugSettingBool g_showEntityWorldLoadErrors( "ShowEntityWorldLoadErrors", "Entity/World", "", false );
+        static RuntimeSettingBool g_showEntityWorldLoadErrors( "ShowEntityWorldLoadErrors", "Entity/World", "", false );
         #endif
     }
 

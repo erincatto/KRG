@@ -9,12 +9,12 @@
 
 //-------------------------------------------------------------------------
 
+namespace KRG { class IniFile; }
+
+//-------------------------------------------------------------------------
+
 namespace KRG::Render
 {
-    class Settings;
-
-    //-------------------------------------------------------------------------
-
     class KRG_SYSTEM_RENDER_API RenderDevice
     {
 
@@ -26,7 +26,8 @@ namespace KRG::Render
         //-------------------------------------------------------------------------
 
         bool IsInitialized() const;
-        bool Initialize( Settings const& settings );
+        bool Initialize( IniFile const& iniFile );
+        bool Initialize();
         void Shutdown();
 
         inline RenderContext const& GetImmediateContext() const { return m_immediateContext; }
@@ -106,9 +107,9 @@ namespace KRG::Render
 
     private:
 
-        Int2                        m_resolution = Int2( 0 );
-        float                       m_refreshRate = 0;
-        bool                        m_fullscreen = false;
+        Int2                        m_resolution = Int2( 1280, 720 );
+        float                       m_refreshRate = 60;
+        bool                        m_isFullscreen = false;
 
         // Device Core 
         ID3D11Device*               m_pDevice = nullptr;

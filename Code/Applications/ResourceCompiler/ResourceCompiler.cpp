@@ -3,8 +3,8 @@
 #include "Applications/Shared/ApplicationGlobalState.h"
 #include "Applications/Shared/cmdParser/krg_cmdparser.h"
 #include "System/Resource/ResourceSettings.h"
-#include "System/Core/Settings/SettingsRegistry.h"
 #include "System/Core/FileSystem/FileSystemUtils.h"
+#include "System/Core/ThirdParty/iniparser/krg_ini.h"
 #include "System/Core/Logging/Log.h"
 
 #include <windows.h>
@@ -77,16 +77,19 @@ int main( int argc, char* argv[] )
     // Read INI settings
     //-------------------------------------------------------------------------
 
-    FileSystem::Path const iniPath = FileSystem::GetCurrentProcessPath() + "KRG.ini";
-
-    Resource::Settings settings;
-    SettingsRegistry settingsRegistry;
-    settingsRegistry.RegisterSettings( &settings );
-
-    if ( !settingsRegistry.LoadFromFile( iniPath ) )
+    FileSystem::Path const iniFilePath = FileSystem::GetCurrentProcessPath().Append( "KRG.ini" );
+    IniFile iniFile( iniFilePath );
+    if ( !iniFile.IsValid() )
     {
-        KRG_LOG_ERROR( "ResourceCompiler", "Failed to read settings from INI file: %s", iniPath.c_str() );
+        KRG_LOG_ERROR( "ResourceCompiler", "Failed to read INI file: %s", iniFilePath.c_str() );
         return 1;
+    }
+
+    Resource::ResourceSettings settings;
+    if ( !settings.ReadSettings( iniFile ) )
+    {
+        KRG_LOG_ERROR( "ResourceCompiler", "Failed to read settings from INI file: %s", iniFilePath.c_str() );
+        return false;
     }
 
     // Read CMD line arguments and process request

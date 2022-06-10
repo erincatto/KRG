@@ -11,7 +11,7 @@
 #if KRG_DEVELOPMENT_TOOLS
 namespace KRG::Resource
 {
-    class Settings;
+    class ResourceSettings;
 
     //-------------------------------------------------------------------------
 
@@ -20,13 +20,10 @@ namespace KRG::Resource
 
     public:
 
-        NetworkResourceProvider( Settings const* pSettings );
-
+        using ResourceProvider::ResourceProvider;
         virtual bool IsReady() const override final;
 
     private:
-
-        NetworkResourceProvider() = delete;
 
         virtual bool Initialize() override final;
         virtual void Shutdown() override final;

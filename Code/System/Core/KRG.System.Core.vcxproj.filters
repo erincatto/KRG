@@ -258,12 +258,6 @@
     <ClCompile Include="Systems\SystemRegistry.cpp">
       <Filter>Systems</Filter>
     </ClCompile>
-    <ClCompile Include="Settings\DebugSettings.cpp">
-      <Filter>Settings</Filter>
-    </ClCompile>
-    <ClCompile Include="Settings\SettingsRegistry.cpp">
-      <Filter>Settings</Filter>
-    </ClCompile>
     <ClCompile Include="Platform\PlatformHelpers_Win32.cpp">
       <Filter>Platform</Filter>
     </ClCompile>
@@ -492,12 +486,6 @@
     </ClInclude>
     <ClInclude Include="Systems\SystemRegistry.h">
       <Filter>Systems</Filter>
-    </ClInclude>
-    <ClInclude Include="Settings\DebugSettings.h">
-      <Filter>Settings</Filter>
-    </ClInclude>
-    <ClInclude Include="Settings\SettingsRegistry.h">
-      <Filter>Settings</Filter>
     </ClInclude>
     <ClInclude Include="Platform\PlatformHelpers_Win32.h">
       <Filter>Platform</Filter>
@@ -1695,9 +1683,6 @@
     </ClInclude>
     <ClInclude Include="Serialization\JsonArchive.h">
       <Filter>Serialization</Filter>
-    </ClInclude>
-    <ClInclude Include="Settings\ISettings.h">
-      <Filter>Settings</Filter>
     </ClInclude>
     <ClInclude Include="KRG.h" />
     <ClInclude Include="ThirdParty\stb\stb_image.h" />

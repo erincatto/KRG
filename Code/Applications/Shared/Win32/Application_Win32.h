@@ -36,8 +36,8 @@ namespace KRG
         // Window creation
         bool TryCreateWindow();
 
-        // This function allows the application to read all commandline settings and load all ini settings. Will be called before initialize.
-        virtual bool ReadSettings( int32_t argc, char** argv ) = 0;
+        // This function allows the application to process all commandline settings. Will be called before initialize.
+        virtual bool ProcessCommandline( int32_t argc, char** argv ) { return true; }
 
         // These function allows the application to read/write any layout/positioning specific settings it needs
         virtual void WriteLayoutSettings();

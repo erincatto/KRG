@@ -2,7 +2,6 @@
 
 #include "Engine/Core/_Module/API.h"
 #include "System/Input/InputSystem.h"
-#include "System/Core/Settings/SettingsRegistry.h"
 #include "System/Render/RenderDevice.h"
 #include "Engine/Core/Entity/EntityWorldManager.h"
 #include "System/Resource/ResourceSystem.h"
@@ -30,9 +29,6 @@ namespace KRG
 
         // Core Engine Systems
         //-------------------------------------------------------------------------
-
-        inline SettingsRegistry* GetSettingsRegistry() { return m_pSettingsRegistry; }
-        inline SettingsRegistry const* GetSettingsRegistry() const { return m_pSettingsRegistry; }
 
         inline SystemRegistry* GetSystemRegistry() { return m_pSystemRegistry; }
         inline SystemRegistry const* GetSystemRegistry() const { return m_pSystemRegistry; }
@@ -68,7 +64,6 @@ namespace KRG
     private:
 
         String                              m_applicationName;
-        SettingsRegistry*                   m_pSettingsRegistry = nullptr;
         TaskSystem*                         m_pTaskSystem = nullptr;
         TypeSystem::TypeRegistry*           m_pTypeRegistry = nullptr;
         Resource::ResourceSystem*           m_pResourceSystem = nullptr;

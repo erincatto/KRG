@@ -4,9 +4,9 @@
 #include "Engine/Core/Entity/EntityWorldDebugger.h"
 #include "Engine/Core/Entity/EntityWorld.h"
 #include "Engine/Core/Systems/WorldSystem_PlayerManager.h"
+#include "Engine/Core/DebugViews/DebugView_RuntimeSettings.h"
 #include "System/Render/Imgui/ImguiX.h"
 #include "System/Input/InputSystem.h"
-#include "System/Core/Settings/SettingsRegistry.h"
 
 //-------------------------------------------------------------------------
 
@@ -170,9 +170,9 @@ namespace KRG
             ImGui::PopStyleColor();
             if ( drawDebugMenu )
             {
-                if ( ImGui::MenuItem( KRG_ICON_TUNE" Show Debug Settings", nullptr, &m_isDebugSettingsWindowOpen ) )
+                if ( ImGui::MenuItem( KRG_ICON_TUNE" Show Debug Settings", nullptr, &m_isRuntimeSettingsWindowOpen ) )
                 {
-                    m_isDebugSettingsWindowOpen = true;
+                    m_isRuntimeSettingsWindowOpen = true;
                 }
 
                 if ( ImGui::MenuItem( KRG_ICON_CLOCK" Show Time Controls", nullptr, &m_isTimeControlWindowOpen ) )
@@ -302,10 +302,10 @@ namespace KRG
             m_isLogWindowOpen = m_systemLogView.Draw( context );
         }
 
-        if ( m_isDebugSettingsWindowOpen )
+        if ( m_isRuntimeSettingsWindowOpen )
         {
             ImGui::SetNextWindowBgAlpha( 0.75f );
-            m_isDebugSettingsWindowOpen = SystemDebugView::DrawDebugSettingsView( context );
+            m_isRuntimeSettingsWindowOpen = RuntimeSettingsDebugView::DrawRuntimeSettingsView( context );
         }
 
         //-------------------------------------------------------------------------

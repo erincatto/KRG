@@ -5,18 +5,15 @@
 
 //-------------------------------------------------------------------------
 
-namespace KRG
+namespace KRG::Game
 {
-    namespace Game
+    class KRG_GAME_CORE_API GameModule : public IModule
     {
-        class KRG_GAME_CORE_API GameModule : public IModule
-        {
-            KRG_REGISTER_MODULE;
+        KRG_REGISTER_MODULE;
 
-        public:
+    public:
 
-            virtual bool Initialize( ModuleContext& context ) override final;
-            virtual void Shutdown( ModuleContext& context ) override final;
-        };
-    }
+        virtual bool Initialize( ModuleContext& context, IniFile const& iniFile ) override final;
+        virtual void Shutdown( ModuleContext& context ) override final;
+    };
 }

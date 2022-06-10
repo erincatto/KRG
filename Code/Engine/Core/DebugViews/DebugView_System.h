@@ -7,7 +7,6 @@
 #if KRG_DEVELOPMENT_TOOLS
 namespace KRG
 {
-    class DebugSetting;
     class UpdateContext;
 
     //-------------------------------------------------------------------------
@@ -15,10 +14,6 @@ namespace KRG
     class KRG_ENGINE_CORE_API SystemDebugView final : public EntityWorldDebugView
     {
         KRG_REGISTER_TYPE( SystemDebugView );
-
-    public:
-
-        static bool DrawDebugSettingsView( UpdateContext const& context );
 
     public:
 

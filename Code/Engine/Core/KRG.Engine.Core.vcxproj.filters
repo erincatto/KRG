@@ -108,6 +108,8 @@
     <ClCompile Include="Components\Component_Cameras.cpp" />
     <ClCompile Include="Entity\EntitySerialization.cpp" />
     <ClCompile Include="Components\Component_Volumes.cpp" />
+    <ClCompile Include="RuntimeSettings\RuntimeSettings.cpp" />
+    <ClCompile Include="DebugViews\DebugView_RuntimeSettings.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Math\Easing.h">
@@ -196,5 +198,7 @@
     <ClInclude Include="Update\UpdateStage.h" />
     <ClInclude Include="Entity\EntitySerialization.h" />
     <ClInclude Include="Entity\EntityAccessor.h" />
+    <ClInclude Include="RuntimeSettings\RuntimeSettings.h" />
+    <ClInclude Include="DebugViews\DebugView_RuntimeSettings.h" />
   </ItemGroup>
 </Project>

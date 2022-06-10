@@ -20,7 +20,7 @@ namespace KRG::Navmesh
 
     public:
 
-        static void DrawNavmeshDebugSettings( NavmeshWorldSystem* pNavmeshWorldSystem );
+        static void DrawNavmeshRuntimeSettings( NavmeshWorldSystem* pNavmeshWorldSystem );
 
     public:
 

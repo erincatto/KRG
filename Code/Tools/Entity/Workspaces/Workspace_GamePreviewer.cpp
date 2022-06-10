@@ -1,5 +1,6 @@
 #include "Workspace_GamePreviewer.h"
 #include "Engine/Core/Entity/EntityWorld.h"
+#include "System/Core/ThirdParty/iniparser/krg_ini.h"
 
 //-------------------------------------------------------------------------
 

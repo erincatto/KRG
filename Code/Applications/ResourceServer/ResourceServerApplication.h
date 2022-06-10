@@ -31,7 +31,6 @@ namespace KRG
 
     private:
 
-        virtual bool ReadSettings( int32_t argc, char** argv ) override;
         virtual bool Initialize() override;
         virtual bool Shutdown() override;
         virtual bool ApplicationLoop() override;
@@ -56,7 +55,6 @@ namespace KRG
 
         //-------------------------------------------------------------------------
 
-        SettingsRegistry                        m_settingsRegistry;
         Seconds                                 m_deltaTime = 0.0f;
 
         ImGuiX::ImguiSystem                     m_imguiSystem;
@@ -67,7 +65,6 @@ namespace KRG
         Render::ImguiRenderer                   m_imguiRenderer;
 
         // Resource
-        Resource::Settings                      m_settings;
         Resource::ResourceServer                m_resourceServer;
         Resource::ResourceServerUI              m_resourceServerUI;
     };
