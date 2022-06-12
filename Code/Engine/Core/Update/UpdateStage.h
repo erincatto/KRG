@@ -52,7 +52,7 @@ namespace KRG
     public:
 
         UpdateStage     m_stage;
-        uint8_t           m_priority = (uint8_t) UpdatePriority::Default;
+        uint8_t         m_priority = (uint8_t) UpdatePriority::Default;
     };
 
     // Syntactic sugar for use in macro declarations

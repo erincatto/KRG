@@ -218,7 +218,11 @@ namespace KRG::VisualGraph
 
     ImColor BaseNode::GetNodeBorderColor( DrawContext const& ctx, NodeVisualState visualState ) const
     {
-        if ( visualState == NodeVisualState::Hovered )
+        if ( visualState == NodeVisualState::Active )
+        {
+            return VisualSettings::s_genericActiveColor;
+        }
+        else if ( visualState == NodeVisualState::Hovered )
         {
             return VisualSettings::s_genericHoverColor;
         }

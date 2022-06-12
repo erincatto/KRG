@@ -2,6 +2,7 @@
 #include "System/Animation/AnimationPose.h"
 #include "Engine/Core/Update/UpdateContext.h"
 #include "System/Core/Profiling/Profiling.h"
+#include "System/Core/Logging/Log.h"
 
 //-------------------------------------------------------------------------
 
@@ -27,7 +28,19 @@ namespace KRG::Animation
 
     void AnimationClipPlayerComponent::SetAnimTime( Seconds inTime )
     {
-        KRG_ASSERT( m_pAnimation != nullptr && m_pAnimation.IsLoaded() );
+        if ( !IsInitialized() )
+        {
+            KRG_LOG_ERROR( "Animation", "Anim Clip Player - Try to set anim time on an uninitialized component!" );
+            return;
+        }
+
+        if ( m_pAnimation == nullptr )
+        {
+            KRG_LOG_ERROR( "Animation", "Anim Clip Player - Try to set anim time on a player with no animation set!" );
+            return;
+        }
+
+        KRG_ASSERT( m_pAnimation.IsLoaded() );
         Percentage const percentage( inTime / m_pAnimation->GetDuration() );
         SetAnimTime( percentage );
     }
@@ -37,8 +50,12 @@ namespace KRG::Animation
     void AnimationClipPlayerComponent::Initialize()
     {
         EntityComponent::Initialize();
-        KRG_ASSERT( m_pAnimation != nullptr && m_pAnimation.IsLoaded() );
-        m_pPose = KRG::New<Pose>( m_pAnimation->GetSkeleton() );
+
+        if ( m_pAnimation != nullptr )
+        {
+            KRG_ASSERT( m_pAnimation.IsLoaded() );
+            m_pPose = KRG::New<Pose>( m_pAnimation->GetSkeleton() );
+        }
     }
 
     void AnimationClipPlayerComponent::Shutdown()
@@ -52,14 +69,19 @@ namespace KRG::Animation
 
     Skeleton const* AnimationClipPlayerComponent::GetSkeleton() const
     {
-        KRG_ASSERT( m_pAnimation != nullptr );
-        return m_pAnimation->GetSkeleton();
+        return ( m_pAnimation != nullptr ) ? m_pAnimation->GetSkeleton() : nullptr;
     }
 
     void AnimationClipPlayerComponent::Update( Seconds deltaTime, Transform const& characterTransform )
     {
         KRG_PROFILE_FUNCTION_ANIMATION();
-        KRG_ASSERT( m_pAnimation != nullptr && m_pPose != nullptr );
+        
+        if ( m_pAnimation == nullptr )
+        {
+            return;
+        }
+
+        KRG_ASSERT( m_pPose != nullptr );
 
         //-------------------------------------------------------------------------
 

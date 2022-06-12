@@ -20,7 +20,7 @@ namespace KRG::Animation
             ImGui::TableHeadersRow();
 
             int32_t const numControlParameters = pGraphComponent->m_pGraphInstance->GetNumControlParameters();
-            for ( GraphNodeIndex i = 0; i < numControlParameters; i++ )
+            for ( int16_t i = 0; i < numControlParameters; i++ )
             {
                 StringID const nodeID = pGraphComponent->m_pGraphInstance->GetControlParameterID( i );
                 GraphValueType const valueType = pGraphComponent->m_pGraphInstance->GetControlParameterType( i );

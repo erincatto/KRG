@@ -14,7 +14,7 @@ namespace KRG::Animation::GraphNodes
         CreateInputPin( "Physics Blend Weight", GraphValueType::Float );
     }
 
-    GraphNodeIndex PoweredRagdollEditorNode::Compile( GraphCompilationContext& context ) const
+    int16_t PoweredRagdollEditorNode::Compile( GraphCompilationContext& context ) const
     {
         PoweredRagdollNode::Settings* pSettings = nullptr;
         NodeCompilationState const state = context.GetSettings<PoweredRagdollNode>( this, pSettings );
@@ -23,7 +23,7 @@ namespace KRG::Animation::GraphNodes
             auto pInputNode = GetConnectedInputNode<EditorGraphNode>( 0 );
             if ( pInputNode != nullptr )
             {
-                GraphNodeIndex const compiledNodeIdx = pInputNode->Compile( context );
+                int16_t const compiledNodeIdx = pInputNode->Compile( context );
                 if ( compiledNodeIdx != InvalidIndex )
                 {
                     pSettings->m_childNodeIdx = compiledNodeIdx;
@@ -44,7 +44,7 @@ namespace KRG::Animation::GraphNodes
             pInputNode = GetConnectedInputNode<EditorGraphNode>( 1 );
             if ( pInputNode != nullptr )
             {
-                GraphNodeIndex const compiledNodeIdx = pInputNode->Compile( context );
+                int16_t const compiledNodeIdx = pInputNode->Compile( context );
                 if ( compiledNodeIdx != InvalidIndex )
                 {
                     pSettings->m_physicsBlendWeightNodeIdx = compiledNodeIdx;

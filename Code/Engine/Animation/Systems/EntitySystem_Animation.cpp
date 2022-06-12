@@ -14,7 +14,8 @@ namespace KRG::Animation
 {
     AnimationSystem::~AnimationSystem()
     {
-        KRG_ASSERT( m_animGraphs.empty() && m_animPlayers.empty() && m_meshComponents.empty());
+        KRG_ASSERT( m_animGraphs.empty() && m_animPlayers.empty() && m_meshComponents.empty() );
+        KRG_ASSERT( m_pRootComponent == nullptr );
     }
 
     //-------------------------------------------------------------------------
@@ -34,6 +35,14 @@ namespace KRG::Animation
         {
             m_animGraphs.emplace_back( pGraphComponent );
         }
+
+        //-------------------------------------------------------------------------
+
+        auto pSpatialComponent = TryCast<SpatialEntityComponent>( pComponent );
+        if ( pSpatialComponent != nullptr && pSpatialComponent->IsRootComponent() )
+        {
+            m_pRootComponent = pSpatialComponent;
+        }
     }
 
     void AnimationSystem::UnregisterComponent( EntityComponent* pComponent )
@@ -50,6 +59,14 @@ namespace KRG::Animation
         else if ( auto pGraphComponent = TryCast<AnimationGraphComponent>( pComponent ) )
         {
             m_animGraphs.erase_first_unsorted( pGraphComponent );
+        }
+
+        //-------------------------------------------------------------------------
+
+        auto pSpatialComponent = TryCast<SpatialEntityComponent>( pComponent );
+        if ( pSpatialComponent != nullptr && pSpatialComponent->IsRootComponent() )
+        {
+            m_pRootComponent = nullptr;
         }
     }
 
@@ -85,6 +102,11 @@ namespace KRG::Animation
 
         for ( auto pMeshComponent : m_meshComponents )
         {
+            if ( !pMeshComponent->HasMeshResourceSet() )
+            {
+                continue;
+            }
+
             pMeshComponent->FinalizePose();
         }
     }
@@ -96,9 +118,25 @@ namespace KRG::Animation
         {
             for ( auto pAnimComponent : m_animPlayers )
             {
+                if ( !pAnimComponent->HasAnimationSet() )
+                {
+                    continue;
+                }
+
+                //-------------------------------------------------------------------------
+
                 if ( !pAnimComponent->RequiresManualUpdate() )
                 {
                     pAnimComponent->Update( ctx.GetDeltaTime(), characterWorldTransform );
+
+                    // Apply the root motion if desired
+                    if ( m_pRootComponent != nullptr && pAnimComponent->ShouldApplyRootMotionToEntity() )
+                    {
+                        Transform rootMotionDelta = pAnimComponent->GetRootMotionDelta();
+                        Transform worldTransform = m_pRootComponent->GetWorldTransform();
+                        worldTransform = rootMotionDelta * worldTransform;
+                        m_pRootComponent->SetWorldTransform( worldTransform );
+                    }
                 }
 
                 //-------------------------------------------------------------------------
@@ -133,10 +171,26 @@ namespace KRG::Animation
 
             for ( auto pAnimComponent : m_animGraphs )
             {
+                if ( !pAnimComponent->HasGraph() )
+                {
+                    continue;
+                }
+
                 if ( !pAnimComponent->RequiresManualUpdate() )
                 {
+                    // Evaluate the graph nodes and calculate the root motion delta
                     pAnimComponent->EvaluateGraph( ctx.GetDeltaTime(), characterWorldTransform, pPhysicsWorldSystem->GetScene() );
-                    // TODO: apply root motion here!
+
+                    // Apply the root motion if desired
+                    if ( m_pRootComponent != nullptr && pAnimComponent->ShouldApplyRootMotionToEntity() )
+                    {
+                        Transform rootMotionDelta = pAnimComponent->GetRootMotionDelta();
+                        Transform worldTransform = m_pRootComponent->GetWorldTransform();
+                        worldTransform = rootMotionDelta * worldTransform;
+                        m_pRootComponent->SetWorldTransform( worldTransform );
+                    }
+
+                    // Calculate pose tasks
                     pAnimComponent->ExecutePrePhysicsTasks( characterWorldTransform );
                 }
             }
@@ -145,12 +199,21 @@ namespace KRG::Animation
         {
             for ( auto pAnimComponent : m_animGraphs )
             {
+                if ( !pAnimComponent->HasGraph() )
+                {
+                    continue;
+                }
+
+                // Calculate the final pose tasks
                 if ( !pAnimComponent->RequiresManualUpdate() )
                 {
                     pAnimComponent->ExecutePostPhysicsTasks();
                 }
 
+                // Set poses
                 //-------------------------------------------------------------------------
+                // Note:    for components requiring manual update, the users need to ensure the manual update occurs before this update
+                //          This update is already set to the lowest priority so in general users wont need to do anything
 
                 auto const* pPose = pAnimComponent->GetPose();
                 KRG_ASSERT( pPose->HasGlobalTransforms() );

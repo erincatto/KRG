@@ -83,6 +83,43 @@ namespace KRG::Animation
 
     GraphPoseNodeResult GraphInstance::UpdateGraph( GraphContext& context )
     {
-        return m_pRootNode->Update( context );
+        auto result = m_pRootNode->Update( context );
+
+        #if KRG_DEVELOPMENT_TOOLS
+        m_activeNodes = context.GetActiveNodes();
+        #endif
+
+        return result;
     }
+
+    //-------------------------------------------------------------------------
+
+    #if KRG_DEVELOPMENT_TOOLS
+    void GraphInstance::DrawDebug( GraphContext& context, Drawing::DrawContext& drawContext )
+    {
+        if ( m_debugMode == GraphDebugMode::Off )
+        {
+            return;
+        }
+
+        //-------------------------------------------------------------------------
+
+        for ( auto graphNodeIdx : m_activeNodes )
+        {
+            // Filter nodes
+            if( !m_debugFilterNodes.empty() && !VectorContains( m_debugFilterNodes, graphNodeIdx ) )
+            {
+                continue;
+            }
+
+            // Draw debug
+            auto pGraphNode = m_nodes[graphNodeIdx];
+            if ( pGraphNode->GetValueType() == GraphValueType::Pose )
+            {
+                auto pPoseNode = static_cast<PoseNode*>( pGraphNode );
+                pPoseNode->DrawDebug( context, drawContext );
+            }
+        }
+    }
+    #endif
 }

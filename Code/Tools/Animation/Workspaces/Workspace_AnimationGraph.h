@@ -102,6 +102,7 @@ namespace KRG::Animation
         Transform                           m_previewStartTransform = Transform::Identity;
         bool                                m_startPaused = false;
         bool                                m_isPreviewing = false;
+        GraphDebugMode                      m_graphDebugMode = GraphDebugMode::Off;
         RootMotionRecorderDebugMode         m_rootMotionDebugMode = RootMotionRecorderDebugMode::Off;
         TaskSystemDebugMode                 m_taskSystemDebugMode = TaskSystemDebugMode::Off;
         bool                                m_isFirstPreviewFrame = false;

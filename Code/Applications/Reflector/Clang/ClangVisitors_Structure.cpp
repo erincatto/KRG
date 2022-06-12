@@ -149,6 +149,14 @@ namespace KRG::TypeSystem::Reflection
                     pClass->m_properties.push_back( ReflectedProperty( ClangUtils::GetCursorDisplayName( cr ), lineNumber ) );
                     ReflectedProperty& propertyDesc = pClass->m_properties.back();
 
+                    // Set property description
+                    CXString const commentString = clang_Cursor_getBriefCommentText( cr );
+                    if ( commentString.data != nullptr )
+                    {
+                        propertyDesc.m_description = clang_getCString( commentString );
+                    }
+                    clang_disposeString( commentString );
+
                     // Set whether this is a registered or exposed property
                     propertyDesc.m_flags.SetFlag( PropertyInfo::Flags::IsExposed, iter->m_isExposed );
 

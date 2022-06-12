@@ -24,14 +24,10 @@ namespace KRG::Timeline
 
     //-------------------------------------------------------------------------
 
-    static ImVec4 const g_playheadDefaultColor = ImColor( 0xFF808080 );
+    static ImVec4 const g_playheadDefaultColor = ImColor( 0xFF32CD32 );
     static ImVec4 const g_playheadHoveredColor = Float4( g_playheadDefaultColor ) * 1.20f;
     static ImVec4 const g_playheadShadowColor = ImColor( 0x44000000 );
     static ImVec4 const g_playheadBorderColor = Float4( g_playheadDefaultColor ) * 1.25f;
-    static ImU32 const g_playheadMarkerLineColor( 0x99AAFFAA );
-
-    float const g_playHeadVerticalPadding = 4.0f;
-    float const g_playheadHalfWidth = 6.0f;
 
     //-------------------------------------------------------------------------
 
@@ -380,8 +376,8 @@ namespace KRG::Timeline
     void TimelineEditor::UpdateViewRange()
     {
         ImVec2 const canvasSize = ImGui::GetContentRegionAvail();
-        float const trackAreaWidth = ( canvasSize.x - g_trackHeaderWidth - g_playheadHalfWidth );
-        int32_t const maxVisibleFrames = Math::Max( 0, Math::FloorToInt( ( canvasSize.x - g_trackHeaderWidth - g_playheadHalfWidth ) / m_pixelsPerFrame ) );
+        float const trackAreaWidth = ( canvasSize.x - g_trackHeaderWidth );
+        int32_t const maxVisibleFrames = Math::Max( 0, Math::FloorToInt( ( canvasSize.x - g_trackHeaderWidth ) / m_pixelsPerFrame ) );
 
         // Adjust visible range based on the canvas size
         if ( m_viewRange.GetLength() != maxVisibleFrames )
@@ -644,8 +640,6 @@ namespace KRG::Timeline
         // Add tracks button
         //-------------------------------------------------------------------------
 
-        //ImGuiX::VerticalSeparator( ImVec2( 9, -1 ) );
-
         ImVec2 const addTracksButtonSize( 26, -1 );
 
         ImGui::SameLine( 0, 0 );
@@ -704,7 +698,7 @@ namespace KRG::Timeline
 
         for ( int32_t i = 0; i <= visibleRangeLength; i += numFramesForSmallInterval )
         {
-            float const lineOffsetX = startPosX + int32_t( i * m_pixelsPerFrame );
+            float const lineOffsetX = startPosX + Math::Round( i * m_pixelsPerFrame );
             if ( lineOffsetX < startPosX || lineOffsetX > endPosX )
             {
                 continue;
@@ -726,9 +720,12 @@ namespace KRG::Timeline
                 pDrawList->AddLine( ImVec2( lineOffsetX, startPosY + lineOffsetY ), ImVec2( lineOffsetX, endPosY ), lineColor, 1 );
 
                 // Draw text label
-                InlineString label;
-                label.sprintf( "%d", m_viewRange.m_begin + i );
-                pDrawList->AddText( ImVec2( lineOffsetX + g_timelineLabelLeftPadding, startPosY ), g_headerLabelColor, label.c_str() );
+                if ( !isRangeEndLine )
+                {
+                    InlineString label;
+                    label.sprintf( "%d", m_viewRange.m_begin + i );
+                    pDrawList->AddText( ImVec2( lineOffsetX + g_timelineLabelLeftPadding, startPosY ), g_headerLabelColor, label.c_str() );
+                }
             }
             else if( isMediumLine )
             {
@@ -753,23 +750,33 @@ namespace KRG::Timeline
 
         //-------------------------------------------------------------------------
 
+        constexpr static float const playHeadVerticalPadding = 3.0f;
+        constexpr static float const playheadHalfWidth = 7.0f;
+
         float const playheadStartOffsetX = ConvertFramesToPixels( m_playheadTime - m_viewRange.m_begin );
-        float const playheadHeight = g_headerHeight - ( g_playHeadVerticalPadding * 2 );
-        ImVec2 const playheadPosition( playheadPosX + playheadStartOffsetX, playheadPosY - g_playHeadVerticalPadding );
+        float const playheadHeight = g_headerHeight - ( playHeadVerticalPadding * 2 );
+        ImVec2 const playheadPosition( playheadPosX + playheadStartOffsetX, playheadPosY - playHeadVerticalPadding );
 
-        ImGui::SetCursorPos( playheadPosition - ImVec2{ g_playheadHalfWidth, playheadHeight } - ImGui::GetWindowPos() );
+        ImGui::SetCursorPos( playheadPosition - ImVec2{ playheadHalfWidth, playheadHeight } - ImGui::GetWindowPos() );
         ImGui::SetItemAllowOverlap();
-        ImGui::InvisibleButton( "##Playhead", ImVec2( g_playheadHalfWidth * 2.0f, playheadHeight ) );
+        ImGui::InvisibleButton( "##Playhead", ImVec2( playheadHalfWidth * 2.0f, playheadHeight ) );
 
-        // Update playhead position
+        // Handle Mouse
         //-------------------------------------------------------------------------
 
         ImVec2 const mousePos = ImGui::GetMousePos();
 
+        // Draw tooltip
+        bool const isMouseWithinPlayhead = playheadRect.Contains( mousePos ) && mousePos.y < ( playheadRect.Min.y + g_headerHeight );
+        if ( isMouseWithinPlayhead )
+        {
+            ImGui::SetTooltip( "%.2f", m_playheadTime );
+        }
+
         // If the mouse is clicked over the header, start dragging operation
         if ( ImGui::IsMouseClicked( ImGuiMouseButton_Left ) || ImGui::IsMouseClicked( ImGuiMouseButton_Right ) )
         {
-            if ( playheadRect.Contains( mousePos ) && mousePos.y < ( playheadRect.Min.y + g_headerHeight ) )
+            if ( isMouseWithinPlayhead )
             {
                 m_isDraggingPlayhead = true;
             }
@@ -783,6 +790,7 @@ namespace KRG::Timeline
             m_isDraggingPlayhead = false;
         }
 
+        // Dragging
         //-------------------------------------------------------------------------
 
         if ( m_isDraggingPlayhead )
@@ -810,31 +818,24 @@ namespace KRG::Timeline
             return;
         }
 
-        ImVec4 const playheadColor = ImGui::IsItemHovered() ? g_playheadHoveredColor : g_playheadDefaultColor;
-
+        ImColor const playheadColor = ImGui::IsItemHovered() ? g_playheadHoveredColor : g_playheadDefaultColor;
+        ImVec2 const playheadMarkerPosition = playheadPosition + ImVec2( 0.5f, 0.5f );
         ImVec2 points[5] =
         {
-            playheadPosition,
-            playheadPosition - ImVec2{ -g_playheadHalfWidth, playheadHeight / 2.0f },
-            playheadPosition - ImVec2{ -g_playheadHalfWidth, playheadHeight },
-            playheadPosition - ImVec2{ g_playheadHalfWidth, playheadHeight },
-            playheadPosition - ImVec2{ g_playheadHalfWidth, playheadHeight / 2.0f }
+            playheadMarkerPosition,
+            playheadMarkerPosition + ImVec2{ -playheadHalfWidth, -playheadHeight / 2.0f },
+            playheadMarkerPosition + ImVec2{ -playheadHalfWidth, -playheadHeight },
+            playheadMarkerPosition + ImVec2{ playheadHalfWidth, -playheadHeight },
+            playheadMarkerPosition + ImVec2{ playheadHalfWidth, -playheadHeight / 2.0f }
         };
 
-        ImVec2 shadow[5];
-        for ( int i = 0; i < 5; i++ )
-        {
-            shadow[i] = points[i] + ImVec2{ 1.0f, 1.0f };
-        }
-
-        pDrawList->AddConvexPolyFilled( shadow, 5, ImColor( g_playheadShadowColor ) );
         pDrawList->AddConvexPolyFilled( points, 5, ImColor( playheadColor ) );
-        pDrawList->AddPolyline( points, 5, ImColor( g_playheadBorderColor ), true, 1.0f );
 
         // Draw marker lines
         //-------------------------------------------------------------------------
 
-        pDrawList->AddLine( playheadPosition, ImVec2( playheadPosition.x, playheadRect.GetBR().y ), g_playheadMarkerLineColor );
+        //pDrawList->AddLine( points[0], points[1], 0xFF00FF00 );
+        pDrawList->AddLine( playheadPosition, ImVec2( playheadPosition.x, playheadRect.GetBR().y ), playheadColor );
     }
 
     void TimelineEditor::DrawTracks( ImRect const& fullTrackAreaRect )

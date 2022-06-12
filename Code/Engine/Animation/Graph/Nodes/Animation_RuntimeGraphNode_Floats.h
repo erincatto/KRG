@@ -26,7 +26,7 @@ namespace KRG::Animation::GraphNodes
 
             virtual void InstantiateNode( TVector<GraphNode*> const& nodePtrs, GraphDataSet const* pDataSet, InitOptions options ) const override;
 
-            GraphNodeIndex              m_inputValueNodeIdx = InvalidIndex;
+            int16_t              m_inputValueNodeIdx = InvalidIndex;
             RemapRange                  m_inputRange;
             RemapRange                  m_outputRange;
         };
@@ -56,7 +56,7 @@ namespace KRG::Animation::GraphNodes
 
             virtual void InstantiateNode( TVector<GraphNode*> const& nodePtrs, GraphDataSet const* pDataSet, InitOptions options ) const override;
 
-            GraphNodeIndex              m_inputValueNodeIdx = InvalidIndex;
+            int16_t              m_inputValueNodeIdx = InvalidIndex;
             FloatRange                  m_clampRange = FloatRange( 0 );
         };
 
@@ -85,7 +85,7 @@ namespace KRG::Animation::GraphNodes
 
             virtual void InstantiateNode( TVector<GraphNode*> const& nodePtrs, GraphDataSet const* pDataSet, InitOptions options ) const override;
 
-            GraphNodeIndex              m_inputValueNodeIdx = InvalidIndex;
+            int16_t              m_inputValueNodeIdx = InvalidIndex;
         };
 
     private:
@@ -115,7 +115,7 @@ namespace KRG::Animation::GraphNodes
 
             float                       m_easeTime = 1.0f;
             float                       m_initalValue = -1.0f;
-            GraphNodeIndex              m_inputValueNodeIdx = InvalidIndex;
+            int16_t              m_inputValueNodeIdx = InvalidIndex;
             Math::Easing::Type          m_easingType = Math::Easing::Type::Linear;
         };
 
@@ -146,7 +146,7 @@ namespace KRG::Animation::GraphNodes
 
             virtual void InstantiateNode( TVector<GraphNode*> const& nodePtrs, GraphDataSet const* pDataSet, InitOptions options ) const override;
 
-            GraphNodeIndex              m_inputValueNodeIdx = InvalidIndex;
+            int16_t              m_inputValueNodeIdx = InvalidIndex;
             FloatCurve                  m_curve;
         };
 
@@ -186,8 +186,8 @@ namespace KRG::Animation::GraphNodes
 
             virtual void InstantiateNode( TVector<GraphNode*> const& nodePtrs, GraphDataSet const* pDataSet, InitOptions options ) const override;
 
-            GraphNodeIndex                   m_inputValueNodeIdxA = InvalidIndex;
-            GraphNodeIndex                   m_inputValueNodeIdxB = InvalidIndex; // Optional
+            int16_t                   m_inputValueNodeIdxA = InvalidIndex;
+            int16_t                   m_inputValueNodeIdxB = InvalidIndex; // Optional
             bool                        m_returnAbsoluteResult = false;
             Operator                    m_operator = Operator::Add;
             float                       m_valueB = 0.0f;
@@ -230,8 +230,8 @@ namespace KRG::Animation::GraphNodes
 
             virtual void InstantiateNode( TVector<GraphNode*> const& nodePtrs, GraphDataSet const* pDataSet, InitOptions options ) const override;
 
-            GraphNodeIndex                          m_inputValueNodeIdx = InvalidIndex;
-            GraphNodeIndex                          m_comparandValueNodeIdx = InvalidIndex;
+            int16_t                          m_inputValueNodeIdx = InvalidIndex;
+            int16_t                          m_comparandValueNodeIdx = InvalidIndex;
             Comparison                              m_comparison = Comparison::GreaterThanEqual;
             float                                   m_epsilon = 0.0f;
             float                                   m_comparisonValue = 0.0f;
@@ -264,7 +264,7 @@ namespace KRG::Animation::GraphNodes
             virtual void InstantiateNode( TVector<GraphNode*> const& nodePtrs, GraphDataSet const* pDataSet, InitOptions options ) const override;
 
             FloatRange                              m_range;
-            GraphNodeIndex                          m_inputValueNodeIdx = InvalidIndex;
+            int16_t                          m_inputValueNodeIdx = InvalidIndex;
             bool                                    m_isInclusiveCheck = true;
         };
 
@@ -293,9 +293,9 @@ namespace KRG::Animation::GraphNodes
 
             virtual void InstantiateNode( TVector<GraphNode*> const& nodePtrs, GraphDataSet const* pDataSet, InitOptions options ) const override;
 
-            GraphNodeIndex                    m_switchValueNodeIdx = InvalidIndex;
-            GraphNodeIndex                    m_trueValueNodeIdx = InvalidIndex;
-            GraphNodeIndex                    m_falseValueNodeIdx = InvalidIndex;
+            int16_t                    m_switchValueNodeIdx = InvalidIndex;
+            int16_t                    m_trueValueNodeIdx = InvalidIndex;
+            int16_t                    m_falseValueNodeIdx = InvalidIndex;
         };
 
     private:
@@ -325,7 +325,7 @@ namespace KRG::Animation::GraphNodes
 
             virtual void InstantiateNode( TVector<GraphNode*> const& nodePtrs, GraphDataSet const* pDataSet, InitOptions options ) const override;
 
-            GraphNodeIndex              m_inputValueNodeIdx = InvalidIndex;
+            int16_t              m_inputValueNodeIdx = InvalidIndex;
         };
 
     private:

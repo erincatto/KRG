@@ -1040,6 +1040,7 @@ namespace KRG::CPP
             file << "            #if KRG_DEVELOPMENT_TOOLS\n";
             file << "            propertyInfo.m_friendlyName = \"" << prop.GetFriendlyName().c_str() << "\";\n";
             file << "            propertyInfo.m_category = \"" << prop.GetCategory().c_str() << "\";\n";
+            file << "            propertyInfo.m_description = \"" << prop.m_description.c_str() << "\";\n";
 
             if ( prop.m_isDevOnly )
             {

@@ -123,10 +123,10 @@ namespace KRG::Animation
         //-------------------------------------------------------------------------
 
         m_gizmo.SetTargetTransform( &m_gizmoTransform );
+        m_gizmo.SetCoordinateSystemSpace( CoordinateSpace::Local );
         m_gizmo.SetOption( ImGuiX::Gizmo::Options::DrawManipulationPlanes, true );
         m_gizmo.SetOption( ImGuiX::Gizmo::Options::AllowScale, false );
         m_gizmo.SetOption( ImGuiX::Gizmo::Options::AllowCoordinateSpaceSwitching, false );
-        m_gizmo.SetCoordinateSystemSpace( CoordinateSpace::Local );
         m_gizmo.SwitchMode( ImGuiX::Gizmo::GizmoMode::Translation );
 
         // Bind events
@@ -257,9 +257,19 @@ namespace KRG::Animation
         }
         else
         {
-            if ( m_propertyGrid.GetEditedType() != selection.back().m_pNode )
+            auto pSelectedNode = selection.back().m_pNode;
+            if ( m_propertyGrid.GetEditedType() != pSelectedNode )
             {
-                m_propertyGrid.SetTypeToEdit( selection.back().m_pNode );
+                // Handle control parameters as a special case
+                auto pReferenceNode = TryCast<GraphNodes::ParameterReferenceEditorNode>( pSelectedNode );
+                if ( pReferenceNode != nullptr && pReferenceNode->IsReferencingControlParameter() )
+                {
+                    m_propertyGrid.SetTypeToEdit( pReferenceNode->GetReferencedControlParameter() );
+                }
+                else
+                {
+                    m_propertyGrid.SetTypeToEdit( pSelectedNode );
+                }
             }
         }
 
@@ -322,7 +332,15 @@ namespace KRG::Animation
 
         if ( ImGui::BeginMenu( KRG_ICON_COG" Debug Options" ) )
         {
-            ImGuiX::TextSeparator( "Root Motion debug" );
+            ImGuiX::TextSeparator( "Graph Debug" );
+
+            bool isGraphDebugEnabled = ( m_graphDebugMode == GraphDebugMode::On );
+            if ( ImGui::Checkbox( "Enable Graph Debug", &isGraphDebugEnabled ) )
+            {
+                m_graphDebugMode = isGraphDebugEnabled ? GraphDebugMode::On : GraphDebugMode::Off;
+            }
+
+            ImGuiX::TextSeparator( "Root Motion Debug" );
 
             bool const isRootVisualizationOff = m_rootMotionDebugMode == RootMotionRecorderDebugMode::Off;
             if ( ImGui::RadioButton( "No Visualization##Root", isRootVisualizationOff ) )
@@ -431,48 +449,102 @@ namespace KRG::Animation
         GraphNodes::TargetControlParameterEditorNode* pSelectedTargetControlParameter = nullptr;
         if ( !m_editorContext.GetSelectedNodes().empty() )
         {
-            pSelectedTargetControlParameter = TryCast<GraphNodes::TargetControlParameterEditorNode>( m_editorContext.GetSelectedNodes().back().m_pNode );
+            auto pSelectedNode = m_editorContext.GetSelectedNodes().back().m_pNode;
+            pSelectedTargetControlParameter = TryCast<GraphNodes::TargetControlParameterEditorNode>( pSelectedNode );
+
+            // Handle reference nodes
+            if ( pSelectedTargetControlParameter == nullptr )
+            {
+                auto pReferenceNode = TryCast<GraphNodes::ParameterReferenceEditorNode>( pSelectedNode );
+                if ( pReferenceNode != nullptr && pReferenceNode->GetParameterValueType() == GraphValueType::Target && pReferenceNode->IsReferencingControlParameter() )
+                {
+                    pSelectedTargetControlParameter = TryCast<GraphNodes::TargetControlParameterEditorNode>( pReferenceNode->GetReferencedControlParameter() );
+                }
+            }
         }
 
         // Allow for in-viewport manipulation of the parameter preview value
-        if ( pSelectedTargetControlParameter != nullptr && !pSelectedTargetControlParameter->IsBoneTarget() )
+        if ( pSelectedTargetControlParameter != nullptr )
         {
-            if ( m_isViewportFocused )
-            {
-                if ( ImGui::IsKeyPressed( ImGuiKey_Space ) )
-                {
-                    m_gizmo.SwitchToNextMode();
-                }
-            }
-
+            bool drawGizmo = m_gizmo.IsManipulating();
             if ( !m_gizmo.IsManipulating() )
             {
-                m_gizmoTransform = pSelectedTargetControlParameter->GetPreviewTargetTransform();
+                if ( IsPreviewing() )
+                {
+                    if ( m_pGraphComponent->HasGraphInstance() )
+                    {
+                        int16_t const parameterIdx = m_pGraphComponent->GetControlParameterIndex( StringID( pSelectedTargetControlParameter->GetParameterName() ) );
+                        KRG_ASSERT( parameterIdx != InvalidIndex );
+                        Target const targetValue = m_pGraphComponent->GetControlParameterValue<Target>( parameterIdx );
+                        if ( !targetValue.IsBoneTarget() )
+                        {
+                            m_gizmoTransform = targetValue.GetTransform();
+                            drawGizmo = true;
+                        }
+                    }
+                }
+                else
+                {
+                    if ( !pSelectedTargetControlParameter->IsBoneTarget() )
+                    {
+                        m_gizmoTransform = pSelectedTargetControlParameter->GetPreviewTargetTransform();
+                        drawGizmo = true;
+                    }
+                }
             }
 
-            switch ( m_gizmo.Draw( *pViewport ) )
+            //-------------------------------------------------------------------------
+
+            if ( drawGizmo )
             {
-                case ImGuiX::Gizmo::Result::StartedManipulating:
+                if ( m_isViewportFocused )
                 {
-                    m_editorContext.BeginGraphModification();
+                    if ( ImGui::IsKeyPressed( ImGuiKey_Space ) )
+                    {
+                        m_gizmo.SwitchToNextMode();
+                    }
                 }
-                break;
 
-                case ImGuiX::Gizmo::Result::Manipulating:
+                switch ( m_gizmo.Draw( *pViewport ) )
                 {
+                    case ImGuiX::Gizmo::Result::StartedManipulating:
+                    {
+                        if ( IsPreviewing() )
+                        {
+                            // Do Nothing
+                        }
+                        else
+                        {
+                            m_editorContext.BeginGraphModification();
+                        }
+                    }
+                    break;
 
-                }
-                break;
+                    case ImGuiX::Gizmo::Result::Manipulating:
+                    {
+                        // Do Nothing
+                    }
+                    break;
 
-                case ImGuiX::Gizmo::Result::StoppedManipulating:
-                {
-                    pSelectedTargetControlParameter->SetPreviewTargetTransform( m_gizmoTransform );
-                    m_editorContext.EndGraphModification();
+                    case ImGuiX::Gizmo::Result::StoppedManipulating:
+                    {
+                        if ( IsPreviewing() )
+                        {
+                            KRG_ASSERT( m_pGraphComponent->HasGraphInstance() );
+                            int16_t const parameterIdx = m_pGraphComponent->GetControlParameterIndex( StringID( pSelectedTargetControlParameter->GetParameterName() ) );
+                            KRG_ASSERT( parameterIdx != InvalidIndex );
+                            m_pGraphComponent->SetControlParameterValue<Target>( parameterIdx, Target( m_gizmoTransform ) );
+                        }
+                        else
+                        {
+                            pSelectedTargetControlParameter->SetPreviewTargetTransform( m_gizmoTransform );
+                            m_editorContext.EndGraphModification();
+                        }
+                    }
+                    break;
                 }
-                break;
             }
         }
-
     }
 
     //-------------------------------------------------------------------------
@@ -679,6 +751,7 @@ namespace KRG::Animation
             //-------------------------------------------------------------------------
 
             auto drawingContext = updateContext.GetDrawingContext();
+            m_pGraphComponent->SetGraphDebugMode( m_graphDebugMode );
             m_pGraphComponent->SetRootMotionDebugMode( m_rootMotionDebugMode );
             m_pGraphComponent->SetTaskSystemDebugMode( m_taskSystemDebugMode );
             m_pGraphComponent->DrawDebug( drawingContext );
@@ -691,7 +764,7 @@ namespace KRG::Animation
 
         for ( auto pControlParameter : m_editorContext.GetControlParameters() )
         {
-            GraphNodeIndex const parameterIdx = m_pGraphComponent->GetControlParameterIndex( StringID( pControlParameter->GetParameterName() ) );
+            int16_t const parameterIdx = m_pGraphComponent->GetControlParameterIndex( StringID( pControlParameter->GetParameterName() ) );
 
             switch ( pControlParameter->GetValueType() )
             {

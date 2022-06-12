@@ -11,7 +11,7 @@ namespace KRG::Animation::GraphNodes
         CreateOutputPin( "Result", GraphValueType::Bool, true );
     }
 
-    GraphNodeIndex StateCompletedConditionEditorNode::Compile( GraphCompilationContext& context ) const
+    int16_t StateCompletedConditionEditorNode::Compile( GraphCompilationContext& context ) const
     {
         StateCompletedConditionNode::Settings* pSettings = nullptr;
         NodeCompilationState const state = context.GetSettings<StateCompletedConditionNode>( this, pSettings );
@@ -39,7 +39,7 @@ namespace KRG::Animation::GraphNodes
         CreateOutputPin( "Time Value (optional)", GraphValueType::Float, true );
     }
 
-    GraphNodeIndex TimeConditionEditorNode::Compile( GraphCompilationContext& context ) const
+    int16_t TimeConditionEditorNode::Compile( GraphCompilationContext& context ) const
     {
         TimeConditionNode::Settings* pSettings = nullptr;
         NodeCompilationState const state = context.GetSettings<TimeConditionNode>( this, pSettings );
@@ -48,7 +48,7 @@ namespace KRG::Animation::GraphNodes
             auto pInputNode = GetConnectedInputNode<EditorGraphNode>( 0 );
             if ( pInputNode != nullptr )
             {
-                GraphNodeIndex const compiledNodeIdx = pInputNode->Compile( context );
+                int16_t const compiledNodeIdx = pInputNode->Compile( context );
                 if ( compiledNodeIdx != InvalidIndex )
                 {
                     pSettings->m_inputValueNodeIdx = compiledNodeIdx;

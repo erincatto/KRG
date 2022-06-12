@@ -158,6 +158,12 @@ namespace KRG::ImGuiX
     {
         if ( m_pTargetTransform == nullptr )
         {
+            if ( m_manipulationMode != ManipulationMode::None )
+            {
+                m_manipulationMode = ManipulationMode::None;
+                return Result::StoppedManipulating;
+            }
+
             return Result::NoResult;
         }
 
@@ -171,6 +177,13 @@ namespace KRG::ImGuiX
 
         if ( !viewport.GetViewVolume().Contains( m_origin_WS ) )
         {
+            // If we were manipulating, ensure that we cancel the manipulation
+            if ( m_manipulationMode != ManipulationMode::None )
+            {
+                m_manipulationMode = ManipulationMode::None;
+                return Result::StoppedManipulating;
+            }
+
             return Result::NoResult;
         }
 
@@ -256,8 +269,6 @@ namespace KRG::ImGuiX
             Scale_DrawAndUpdate( viewport );
         }
 
-        bool const isManipulating = m_manipulationMode != ManipulationMode::None;
-
         //-------------------------------------------------------------------------
 
         // Set the hovered ID so that we disable any click through in the UI
@@ -269,6 +280,7 @@ namespace KRG::ImGuiX
         // Determine result
         //-------------------------------------------------------------------------
 
+        bool const isManipulating = m_manipulationMode != ManipulationMode::None && ImGui::IsWindowHovered();
         Result result = isManipulating ? Result::Manipulating : Result::NoResult;
 
         if ( wasManipulating && !isManipulating )

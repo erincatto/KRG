@@ -194,7 +194,7 @@ namespace KRG::VisualGraph
             nodeTitleColor = ImGuiX::ConvertColor( Colors::Green );
         }
 
-        NodeVisualState visualState = NodeVisualState::None;
+        NodeVisualState visualState = pNode->IsActive( ctx ) ? NodeVisualState::Active : NodeVisualState::None;
         if ( IsNodeSelected( pNode ) )
         {
             visualState = NodeVisualState::Selected;
@@ -224,7 +224,7 @@ namespace KRG::VisualGraph
     {
         KRG_ASSERT( pNode != nullptr );
 
-        if ( !pNode->IsVisibleNode() )
+        if ( !pNode->IsVisible() )
         {
             return;
         }
@@ -304,7 +304,7 @@ namespace KRG::VisualGraph
         //-------------------------------------------------------------------------
 
         pTransition->m_isHovered = false;
-        NodeVisualState visualState = NodeVisualState::None;
+        NodeVisualState visualState = pTransition->IsActive( ctx ) ? NodeVisualState::Active : NodeVisualState::None;
 
         ImVec2 const closestPointOnTransitionToMouse = ImLineClosestPoint( startPoint, endPoint, ctx.m_mouseCanvasPos );
         if ( m_isViewHovered && ImLengthSqr( ctx.m_mouseCanvasPos - closestPointOnTransitionToMouse ) < Math::Pow( VisualSettings::s_connectionSelectionExtraRadius, 2 ) )
@@ -495,7 +495,7 @@ namespace KRG::VisualGraph
         ctx.m_pDrawList->AddRectFilled( rectMin, rectMax, VisualSettings::s_genericNodeBackgroundColor, 3, ImDrawFlags_RoundCornersAll );
         ctx.m_pDrawList->AddRectFilled( rectMin, rectTitleBarMax, pNode->GetNodeTitleColor(), 3, ImDrawFlags_RoundCornersTop );
 
-        NodeVisualState visualState = NodeVisualState::None;
+        NodeVisualState visualState = pNode->IsActive( ctx ) ? NodeVisualState::Active : NodeVisualState::None;
 
         if ( IsNodeSelected( pNode ) )
         {
@@ -513,7 +513,7 @@ namespace KRG::VisualGraph
     {
         KRG_ASSERT( pNode != nullptr );
 
-        if ( !pNode->IsVisibleNode() )
+        if ( !pNode->IsVisible() )
         {
             return;
         }

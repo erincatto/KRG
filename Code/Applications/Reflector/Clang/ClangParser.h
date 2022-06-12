@@ -5,39 +5,33 @@
 
 //-------------------------------------------------------------------------
 
-namespace KRG
+namespace KRG::TypeSystem::Reflection
 {
-    namespace TypeSystem
+    class ClangParser
     {
-        namespace Reflection
+    public:
+
+        enum Pass
         {
-            class ClangParser
-            {
-            public:
+            FirstPass,
+            SecondPass
+        };
 
-                enum Pass
-                {
-                    FirstPass,
-                    SecondPass
-                };
+    public:
 
-            public:
+        ClangParser( SolutionInfo* pSolution, ReflectionDatabase* pDatabase, FileSystem::Path const& reflectionDataPath );
 
-                ClangParser( SolutionInfo* pSolution, ReflectionDatabase* pDatabase, FileSystem::Path const& reflectionDataPath );
+        inline Milliseconds GetParsingTime() const { return m_totalParsingTime; }
+        inline Milliseconds GetVisitingTime() const { return m_totalVisitingTime; }
 
-                inline Milliseconds GetParsingTime() const { return m_totalParsingTime; }
-                inline Milliseconds GetVisitingTime() const { return m_totalVisitingTime; }
+        bool Parse( TVector<HeaderInfo*> const& headers, Pass pass );
+        String GetErrorMessage() const { return m_context.GetErrorMessage(); }
 
-                bool Parse( TVector<HeaderInfo*> const& headers, Pass pass );
-                String GetErrorMessage() const { return m_context.GetErrorMessage(); }
+    private:
 
-            private:
-
-                ClangParserContext                  m_context;
-                Milliseconds                        m_totalParsingTime;
-                Milliseconds                        m_totalVisitingTime;
-                FileSystem::Path                    m_reflectionDataPath;
-            };
-        }
-    }
+        ClangParserContext                  m_context;
+        Milliseconds                        m_totalParsingTime;
+        Milliseconds                        m_totalVisitingTime;
+        FileSystem::Path                    m_reflectionDataPath;
+    };
 }

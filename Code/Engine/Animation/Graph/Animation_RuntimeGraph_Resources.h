@@ -62,17 +62,17 @@ namespace KRG::Animation
         virtual bool IsValid() const override { return m_rootNodeIdx != InvalidIndex; }
 
         #if KRG_DEVELOPMENT_TOOLS
-        String const& GetNodePath( GraphNodeIndex nodeIdx ) const{ return m_nodePaths[nodeIdx]; }
+        String const& GetNodePath( int16_t nodeIdx ) const{ return m_nodePaths[nodeIdx]; }
         #endif
 
     protected:
 
-        TVector<GraphNodeIndex>                     m_persistentNodeIndices;
+        TVector<int16_t>                     m_persistentNodeIndices;
         TVector<uint32_t>                           m_instanceNodeStartOffsets;
         uint32_t                                    m_instanceRequiredMemory = 0;
         uint32_t                                    m_instanceRequiredAlignment = 0;
         int32_t                                     m_numControlParameters = 0;
-        GraphNodeIndex                              m_rootNodeIdx = InvalidIndex;
+        int16_t                              m_rootNodeIdx = InvalidIndex;
         TVector<StringID>                           m_controlParameterIDs;
 
         #if KRG_DEVELOPMENT_TOOLS

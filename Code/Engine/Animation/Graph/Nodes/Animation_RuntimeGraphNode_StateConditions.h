@@ -22,8 +22,8 @@ namespace KRG::Animation::GraphNodes
 
         public:
 
-            GraphNodeIndex                       m_sourceStateNodeIdx = InvalidIndex;
-            GraphNodeIndex                       m_transitionDurationOverrideNodeIdx = InvalidIndex;
+            int16_t                       m_sourceStateNodeIdx = InvalidIndex;
+            int16_t                       m_transitionDurationOverrideNodeIdx = InvalidIndex;
             float                           m_transitionDuration = 0.0f;
         };
 
@@ -78,8 +78,8 @@ namespace KRG::Animation::GraphNodes
 
         public:
 
-            GraphNodeIndex                               m_sourceStateNodeIdx = InvalidIndex;
-            GraphNodeIndex                               m_inputValueNodeIdx = InvalidIndex;
+            int16_t                               m_sourceStateNodeIdx = InvalidIndex;
+            int16_t                               m_inputValueNodeIdx = InvalidIndex;
             float                                   m_comparand = 0.0f;
             ComparisonType                          m_type = ComparisonType::ElapsedTime;
             Operator                                m_operator = Operator::LessThan;

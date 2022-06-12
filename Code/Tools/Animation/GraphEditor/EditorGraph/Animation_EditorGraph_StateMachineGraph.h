@@ -133,7 +133,7 @@ namespace KRG::Animation
 
         private:
 
-            virtual bool IsVisibleNode() const override { return false; }
+            virtual bool IsVisible() const override { return false; }
             virtual ImColor GetNodeTitleColor() const override { return ImGuiX::ConvertColor( Colors::SlateBlue ); }
             virtual char const* GetTypeName() const override { return "Entry Overrides"; }
             virtual bool IsUserCreatable() const override { return false; }
@@ -259,7 +259,7 @@ namespace KRG::Animation
 
         private:
 
-            virtual bool IsVisibleNode() const override { return false; }
+            virtual bool IsVisible() const override { return false; }
             virtual ImColor GetNodeTitleColor() const override { return ImGuiX::ConvertColor( Colors::OrangeRed ); }
             virtual char const* GetTypeName() const override { return "Global Transitions"; }
             virtual bool IsUserCreatable() const override { return false; }
@@ -323,12 +323,12 @@ namespace KRG::Animation
             virtual ImColor GetNodeTitleColor() const override { return ImGuiX::ConvertColor( Colors::CornflowerBlue ); }
 
             virtual TBitFlags<GraphType> GetAllowedParentGraphTypes() const override { return TBitFlags<GraphType>( GraphType::BlendTree ); }
-            virtual GraphNodeIndex Compile( GraphCompilationContext& context ) const override;
+            virtual int16_t Compile( GraphCompilationContext& context ) const override;
 
         private:
 
-            GraphNodeIndex CompileState( GraphCompilationContext& context, StateBaseEditorNode const* pBaseStateNode ) const;
-            GraphNodeIndex CompileTransition( GraphCompilationContext& context, TransitionEditorNode const* pTransitionNode, GraphNodeIndex targetStateNodeIdx ) const;
+            int16_t CompileState( GraphCompilationContext& context, StateBaseEditorNode const* pBaseStateNode ) const;
+            int16_t CompileTransition( GraphCompilationContext& context, TransitionEditorNode const* pTransitionNode, int16_t targetStateNodeIdx ) const;
 
         private:
 

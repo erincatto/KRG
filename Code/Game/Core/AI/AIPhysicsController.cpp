@@ -75,7 +75,7 @@ namespace KRG::AI
         // Apply rotation delta and move character
         Transform newCharacterTransform = m_pCharacterComponent->CalculateWorldTransformFromCapsuleTransform( finalCapsuleWorldTransform );
         newCharacterTransform.AddRotation( deltaRotation );
-        m_pCharacterComponent->MoveCharacter( ctx.GetDeltaTime(), newCharacterTransform);
+        m_pCharacterComponent->MoveCharacter( ctx.GetDeltaTime(), newCharacterTransform );
         return true;
     }
 }

@@ -12,7 +12,7 @@ namespace KRG::Animation::GraphNodes
         CreateOutputPin( "Value", GraphValueType::Bool, true );
     }
 
-    GraphNodeIndex ConstBoolEditorNode::Compile( GraphCompilationContext& context ) const
+    int16_t ConstBoolEditorNode::Compile( GraphCompilationContext& context ) const
     {
         ConstBoolNode::Settings* pSettings = nullptr;
         NodeCompilationState const state = context.GetSettings<ConstBoolNode>( this, pSettings );
@@ -36,7 +36,7 @@ namespace KRG::Animation::GraphNodes
         CreateOutputPin( "Value", GraphValueType::ID, true );
     }
 
-    GraphNodeIndex ConstIDEditorNode::Compile( GraphCompilationContext& context ) const
+    int16_t ConstIDEditorNode::Compile( GraphCompilationContext& context ) const
     {
         ConstIDNode::Settings* pSettings = nullptr;
         if ( context.GetSettings<ConstIDNode>( this, pSettings ) == NodeCompilationState::NeedCompilation )
@@ -59,7 +59,7 @@ namespace KRG::Animation::GraphNodes
         CreateOutputPin( "Value", GraphValueType::Int, true );
     }
 
-    GraphNodeIndex ConstIntEditorNode::Compile( GraphCompilationContext& context ) const
+    int16_t ConstIntEditorNode::Compile( GraphCompilationContext& context ) const
     {
         ConstIntNode::Settings* pSettings = nullptr;
         if ( context.GetSettings<ConstIntNode>( this, pSettings ) == NodeCompilationState::NeedCompilation )
@@ -82,7 +82,7 @@ namespace KRG::Animation::GraphNodes
         CreateOutputPin( "Value", GraphValueType::Float, true );
     }
 
-    GraphNodeIndex ConstFloatEditorNode::Compile( GraphCompilationContext& context ) const
+    int16_t ConstFloatEditorNode::Compile( GraphCompilationContext& context ) const
     {
         ConstFloatNode::Settings* pSettings = nullptr;
         if ( context.GetSettings<ConstFloatNode>( this, pSettings ) == NodeCompilationState::NeedCompilation )
@@ -105,7 +105,7 @@ namespace KRG::Animation::GraphNodes
         CreateOutputPin( "Value", GraphValueType::Vector, true );
     }
 
-    GraphNodeIndex ConstVectorEditorNode::Compile( GraphCompilationContext& context ) const
+    int16_t ConstVectorEditorNode::Compile( GraphCompilationContext& context ) const
     {
         ConstVectorNode::Settings* pSettings = nullptr;
         if ( context.GetSettings<ConstVectorNode>( this, pSettings ) == NodeCompilationState::NeedCompilation )
@@ -128,7 +128,7 @@ namespace KRG::Animation::GraphNodes
         CreateOutputPin( "Value", GraphValueType::Target, true );
     }
 
-    GraphNodeIndex ConstTargetEditorNode::Compile( GraphCompilationContext& context ) const
+    int16_t ConstTargetEditorNode::Compile( GraphCompilationContext& context ) const
     {
         ConstTargetNode::Settings* pSettings = nullptr;
         if ( context.GetSettings<ConstTargetNode>( this, pSettings ) == NodeCompilationState::NeedCompilation )

@@ -87,7 +87,7 @@ namespace KRG::Animation
 
         auto const resultNodes = pRootGraph->FindAllNodesOfType<ResultEditorNode>();
         KRG_ASSERT( resultNodes.size() == 1 );
-        GraphNodeIndex const rootNodeIdx = resultNodes[0]->Compile( m_context );
+        int16_t const rootNodeIdx = resultNodes[0]->Compile( m_context );
         m_context.m_persistentNodeIndices.emplace_back( rootNodeIdx );
 
         // The last offset is actual the required memory

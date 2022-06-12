@@ -83,7 +83,7 @@ namespace KRG::Animation::GraphNodes
         auto pDebugContext = reinterpret_cast<DebugContext*>( ctx.m_pUserContext );
         if ( pDebugContext != nullptr )
         {
-            GraphNodeIndex runtimeNodeIdx = pDebugContext->GetRuntimeGraphNodeIndex( GetID() );
+            int16_t runtimeNodeIdx = pDebugContext->GetRuntimeGraphNodeIndex( GetID() );
             if ( runtimeNodeIdx != InvalidIndex && pDebugContext->IsNodeActive( runtimeNodeIdx ) )
             {
                 PoseNodeDebugInfo const debugInfo = pDebugContext->GetPoseNodeDebugInfo( runtimeNodeIdx );
@@ -459,7 +459,7 @@ namespace KRG::Animation::GraphNodes
         SetChildGraph( KRG::New<StateMachineGraph>() );
     }
 
-    GraphNodeIndex StateMachineEditorNode::Compile( GraphCompilationContext& context ) const
+    int16_t StateMachineEditorNode::Compile( GraphCompilationContext& context ) const
     {
         StateMachineNode::Settings* pSettings = nullptr;
         NodeCompilationState const state = context.GetSettings<StateMachineNode>( this, pSettings );
@@ -485,7 +485,7 @@ namespace KRG::Animation::GraphNodes
         //-------------------------------------------------------------------------
 
         THashMap<UUID, StateMachineNode::StateIndex> IDToStateIdxMap;
-        THashMap<UUID, GraphNodeIndex> IDToCompiledNodeIdxMap;
+        THashMap<UUID, int16_t> IDToCompiledNodeIdxMap;
 
         for ( auto i = 0; i < numStateNodes; i++ )
         {
@@ -512,7 +512,7 @@ namespace KRG::Animation::GraphNodes
             }
 
             IDToStateIdxMap.insert( TPair<UUID, StateMachineNode::StateIndex>( pStateNode->GetID(), (StateMachineNode::StateIndex) i ) );
-            IDToCompiledNodeIdxMap.insert( TPair<UUID, GraphNodeIndex>( pStateNode->GetID(), stateSettings.m_stateNodeIdx ) );
+            IDToCompiledNodeIdxMap.insert( TPair<UUID, int16_t>( pStateNode->GetID(), stateSettings.m_stateNodeIdx ) );
         }
 
         // Compile all transitions
@@ -639,7 +639,7 @@ namespace KRG::Animation::GraphNodes
         return pSettings->m_nodeIdx;
     }
 
-    GraphNodeIndex StateMachineEditorNode::CompileState( GraphCompilationContext& context, StateBaseEditorNode const* pBaseStateNode ) const
+    int16_t StateMachineEditorNode::CompileState( GraphCompilationContext& context, StateBaseEditorNode const* pBaseStateNode ) const
     {
         KRG_ASSERT( pBaseStateNode != nullptr );
 
@@ -718,7 +718,7 @@ namespace KRG::Animation::GraphNodes
         return pSettings->m_nodeIdx;
     }
 
-    GraphNodeIndex StateMachineEditorNode::CompileTransition( GraphCompilationContext& context, TransitionEditorNode const* pTransitionNode, GraphNodeIndex targetStateNodeIdx ) const
+    int16_t StateMachineEditorNode::CompileTransition( GraphCompilationContext& context, TransitionEditorNode const* pTransitionNode, int16_t targetStateNodeIdx ) const
     {
         KRG_ASSERT( pTransitionNode != nullptr );
         TransitionNode::Settings* pSettings = nullptr;

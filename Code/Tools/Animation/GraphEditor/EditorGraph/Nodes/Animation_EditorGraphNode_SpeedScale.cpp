@@ -14,7 +14,7 @@ namespace KRG::Animation::GraphNodes
         CreateInputPin( "Scale", GraphValueType::Float );
     }
 
-    GraphNodeIndex SpeedScaleEditorNode::Compile( GraphCompilationContext& context ) const
+    int16_t SpeedScaleEditorNode::Compile( GraphCompilationContext& context ) const
     {
         SpeedScaleNode::Settings* pSettings = nullptr;
         NodeCompilationState const state = context.GetSettings<SpeedScaleNode>( this, pSettings );
@@ -23,7 +23,7 @@ namespace KRG::Animation::GraphNodes
             auto pInputNode = GetConnectedInputNode<EditorGraphNode>( 0 );
             if ( pInputNode != nullptr )
             {
-                GraphNodeIndex const compiledNodeIdx = pInputNode->Compile( context );
+                int16_t const compiledNodeIdx = pInputNode->Compile( context );
                 if ( compiledNodeIdx != InvalidIndex )
                 {
                     pSettings->m_childNodeIdx = compiledNodeIdx;
@@ -44,7 +44,7 @@ namespace KRG::Animation::GraphNodes
             pInputNode = GetConnectedInputNode<EditorGraphNode>( 1 );
             if ( pInputNode != nullptr )
             {
-                GraphNodeIndex const compiledNodeIdx = pInputNode->Compile( context );
+                int16_t const compiledNodeIdx = pInputNode->Compile( context );
                 if ( compiledNodeIdx != InvalidIndex )
                 {
                     pSettings->m_scaleValueNodeIdx = compiledNodeIdx;
@@ -78,7 +78,7 @@ namespace KRG::Animation::GraphNodes
         CreateInputPin( "Scale", GraphValueType::Float );
     }
 
-    GraphNodeIndex VelocityBasedSpeedScaleEditorNode::Compile( GraphCompilationContext& context ) const
+    int16_t VelocityBasedSpeedScaleEditorNode::Compile( GraphCompilationContext& context ) const
     {
         VelocityBasedSpeedScaleNode::Settings* pSettings = nullptr;
         NodeCompilationState const state = context.GetSettings<VelocityBasedSpeedScaleNode>( this, pSettings );
@@ -87,7 +87,7 @@ namespace KRG::Animation::GraphNodes
             auto pInputNode = GetConnectedInputNode<EditorGraphNode>( 0 );
             if ( pInputNode != nullptr )
             {
-                GraphNodeIndex const compiledNodeIdx = pInputNode->Compile( context );
+                int16_t const compiledNodeIdx = pInputNode->Compile( context );
                 if ( compiledNodeIdx != InvalidIndex )
                 {
                     pSettings->m_childNodeIdx = compiledNodeIdx;
@@ -108,7 +108,7 @@ namespace KRG::Animation::GraphNodes
             pInputNode = GetConnectedInputNode<EditorGraphNode>( 1 );
             if ( pInputNode != nullptr )
             {
-                GraphNodeIndex const compiledNodeIdx = pInputNode->Compile( context );
+                int16_t const compiledNodeIdx = pInputNode->Compile( context );
                 if ( compiledNodeIdx != InvalidIndex )
                 {
                     pSettings->m_desiredVelocityValueNodeIdx = compiledNodeIdx;

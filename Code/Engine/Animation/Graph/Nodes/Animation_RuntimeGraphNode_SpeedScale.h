@@ -18,7 +18,7 @@ namespace KRG::Animation::GraphNodes
 
             virtual void InstantiateNode( TVector<GraphNode*> const& nodePtrs, GraphDataSet const* pDataSet, InitOptions options ) const override;
 
-            GraphNodeIndex          m_scaleValueNodeIdx = InvalidIndex;
+            int16_t          m_scaleValueNodeIdx = InvalidIndex;
             FloatRange              m_scaleLimits = FloatRange( 0, 0 );
             float                   m_blendTime = 0.2f;
         };
@@ -57,8 +57,8 @@ namespace KRG::Animation::GraphNodes
 
             virtual void InstantiateNode( TVector<GraphNode*> const& nodePtrs, GraphDataSet const* pDataSet, InitOptions options ) const override;
 
-            GraphNodeIndex          m_childNodeIdx = InvalidIndex;
-            GraphNodeIndex          m_desiredVelocityValueNodeIdx = InvalidIndex;
+            int16_t          m_childNodeIdx = InvalidIndex;
+            int16_t          m_desiredVelocityValueNodeIdx = InvalidIndex;
             float                   m_blendTime = 0.2f;
         };
 

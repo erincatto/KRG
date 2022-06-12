@@ -20,8 +20,9 @@ namespace KRG::VisualGraph
     enum class NodeVisualState
     {
         None,
+        Active,
         Selected,
-        Hovered
+        Hovered,
     };
 
     //-------------------------------------------------------------------------
@@ -79,7 +80,7 @@ namespace KRG::VisualGraph
         virtual char const* GetTypeName() const = 0;
 
         // Should this node be drawn?
-        virtual bool IsVisibleNode() const { return true; }
+        virtual bool IsVisible() const { return true; }
 
         // Can this node be created and added to a graph by a user? i.e. Does it show up in the context menu
         virtual bool IsUserCreatable() const { return true; }
@@ -104,6 +105,9 @@ namespace KRG::VisualGraph
 
         // Get node highlight color
         virtual ImColor GetNodeTitleColor() const { return VisualSettings::s_genericNodeTitleColor; }
+
+        // Optional function that can be overridden in derived classes to draw a border around the node to signify an active state
+        virtual bool IsActive( DrawContext const& ctx ) const { return false; }
 
         // Get node highlight color
         virtual ImColor GetNodeBorderColor( DrawContext const& ctx, NodeVisualState visualState ) const;

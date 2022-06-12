@@ -58,7 +58,7 @@ namespace KRG::Animation::GraphNodes
 
             virtual void InstantiateNode( TVector<GraphNode*> const& nodePtrs, GraphDataSet const* pDataSet, InitOptions options ) const override;
 
-            GraphNodeIndex                           m_poseTimeValueNodeIdx = InvalidIndex;
+            int16_t                           m_poseTimeValueNodeIdx = InvalidIndex;
             DataSetSlotIndex                    m_dataSlotIndex = InvalidIndex;
             FloatRange                          m_inputTimeRemapRange = FloatRange( 0, 1 ); // Time range allows for remapping a time value that is not a normalized time to the animation
         };

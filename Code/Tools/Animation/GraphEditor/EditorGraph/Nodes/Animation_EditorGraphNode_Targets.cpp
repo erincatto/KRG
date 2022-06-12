@@ -12,7 +12,7 @@ namespace KRG::Animation::GraphNodes
         CreateInputPin( "Target", GraphValueType::Target );
     }
 
-    GraphNodeIndex IsTargetSetEditorNode::Compile( GraphCompilationContext& context ) const
+    int16_t IsTargetSetEditorNode::Compile( GraphCompilationContext& context ) const
     {
         IsTargetSetNode::Settings* pSettings = nullptr;
         NodeCompilationState const state = context.GetSettings<IsTargetSetNode>( this, pSettings );
@@ -21,7 +21,7 @@ namespace KRG::Animation::GraphNodes
             auto pInputNode = GetConnectedInputNode<EditorGraphNode>( 0 );
             if ( pInputNode != nullptr )
             {
-                GraphNodeIndex const compiledNodeIdx = pInputNode->Compile( context );
+                int16_t const compiledNodeIdx = pInputNode->Compile( context );
                 if ( compiledNodeIdx != InvalidIndex )
                 {
                     pSettings->m_inputValueNodeIdx = compiledNodeIdx;
@@ -49,7 +49,7 @@ namespace KRG::Animation::GraphNodes
         CreateInputPin( "Target", GraphValueType::Target );
     }
 
-    GraphNodeIndex TargetInfoEditorNode::Compile( GraphCompilationContext& context ) const
+    int16_t TargetInfoEditorNode::Compile( GraphCompilationContext& context ) const
     {
         TargetInfoNode::Settings* pSettings = nullptr;
         NodeCompilationState const state = context.GetSettings<TargetInfoNode>( this, pSettings );
@@ -58,7 +58,7 @@ namespace KRG::Animation::GraphNodes
             auto pInputNode = GetConnectedInputNode<EditorGraphNode>( 0 );
             if ( pInputNode != nullptr )
             {
-                GraphNodeIndex const compiledNodeIdx = pInputNode->Compile( context );
+                int16_t const compiledNodeIdx = pInputNode->Compile( context );
                 if ( compiledNodeIdx != InvalidIndex )
                 {
                     pSettings->m_inputValueNodeIdx = compiledNodeIdx;
@@ -160,7 +160,7 @@ namespace KRG::Animation::GraphNodes
         CreateInputPin( "Target", GraphValueType::Target );
     }
 
-    GraphNodeIndex TargetOffsetEditorNode::Compile( GraphCompilationContext& context ) const
+    int16_t TargetOffsetEditorNode::Compile( GraphCompilationContext& context ) const
     {
         TargetOffsetNode::Settings* pSettings = nullptr;
         NodeCompilationState const state = context.GetSettings<TargetOffsetNode>( this, pSettings );
@@ -169,7 +169,7 @@ namespace KRG::Animation::GraphNodes
             auto pInputNode = GetConnectedInputNode<EditorGraphNode>( 0 );
             if ( pInputNode != nullptr )
             {
-                GraphNodeIndex const compiledNodeIdx = pInputNode->Compile( context );
+                int16_t const compiledNodeIdx = pInputNode->Compile( context );
                 if ( compiledNodeIdx != InvalidIndex )
                 {
                     pSettings->m_inputValueNodeIdx = compiledNodeIdx;

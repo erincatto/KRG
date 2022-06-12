@@ -64,7 +64,7 @@ namespace KRG::Animation
         QuantizationRange                       m_scaleRangeX;
         QuantizationRange                       m_scaleRangeY;
         QuantizationRange                       m_scaleRangeZ;
-        uint32_t                                  m_trackStartIndex = 0; // The start offset for this track in the compressed data block (in number of uint16s)
+        uint32_t                                m_trackStartIndex = 0; // The start offset for this track in the compressed data block (in number of uint16s)
 
     private:
 
@@ -203,9 +203,9 @@ namespace KRG::Animation
     private:
 
         TResourcePtr<Skeleton>                  m_pSkeleton;
-        uint32_t                                  m_numFrames = 0;
+        uint32_t                                m_numFrames = 0;
         Seconds                                 m_duration = 0.0f;
-        TVector<uint16_t>                         m_compressedPoseData;
+        TVector<uint16_t>                       m_compressedPoseData;
         TVector<TrackCompressionSettings>       m_trackCompressionSettings;
         TVector<Event*>                         m_events;
         SyncTrack                               m_syncTrack;

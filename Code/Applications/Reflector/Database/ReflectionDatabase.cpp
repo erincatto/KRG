@@ -714,7 +714,7 @@ namespace KRG::TypeSystem::Reflection
             return false;
         }
 
-        if ( !ExecuteSimpleQuery( "CREATE TABLE IF NOT EXISTS `Properties` ( `PropertyID` INTEGER, `LineNumber` INTEGER, `OwnerTypeID` INTEGER, `TypeID` INTEGER, `Name` TEXT, `TypeName` TEXT, `TemplateTypeName` TEXT, `PropertyFlags` INTEGER, `ArraySize` INTEGER DEFAULT -1, PRIMARY KEY( PropertyID, OwnerTypeID ) );" ) )
+        if ( !ExecuteSimpleQuery( "CREATE TABLE IF NOT EXISTS `Properties` ( `PropertyID` INTEGER, `LineNumber` INTEGER, `OwnerTypeID` INTEGER, `TypeID` INTEGER, `Name` TEXT, `Description` TEXT, `TypeName` TEXT, `TemplateTypeName` TEXT, `PropertyFlags` INTEGER, `ArraySize` INTEGER DEFAULT -1, PRIMARY KEY( PropertyID, OwnerTypeID ) );" ) )
         {
             return false;
         }
@@ -838,10 +838,11 @@ namespace KRG::TypeSystem::Reflection
                 propDesc.m_lineNumber = sqlite3_column_int( pStatement, 1 );
                 propDesc.m_typeID = sqlite3_column_int( pStatement, 3 );
                 propDesc.m_name = (char const*) sqlite3_column_text( pStatement, 4 );
-                propDesc.m_typeName = (char const*) sqlite3_column_text( pStatement, 5 );
-                propDesc.m_templateArgTypeName = (char const*) sqlite3_column_text( pStatement, 6 );
-                propDesc.m_flags.Set( (uint32_t) sqlite3_column_int( pStatement, 7 ) );
-                propDesc.m_arraySize = sqlite3_column_int( pStatement, 8 );
+                propDesc.m_description = (char const*) sqlite3_column_text( pStatement, 5 );
+                propDesc.m_typeName = (char const*) sqlite3_column_text( pStatement, 6 );
+                propDesc.m_templateArgTypeName = (char const*) sqlite3_column_text( pStatement, 7 );
+                propDesc.m_flags.Set( (uint32_t) sqlite3_column_int( pStatement, 8 ) );
+                propDesc.m_arraySize = sqlite3_column_int( pStatement, 9 );
                 propDesc.m_propertyID = StringID( propDesc.m_name );
                 KRG_ASSERT( propDesc.m_propertyID == (uint32_t) sqlite3_column_int( pStatement, 0 ) ); // Ensure the property ID matches the recorded one
                 type.m_properties.push_back( propDesc );
@@ -919,7 +920,7 @@ namespace KRG::TypeSystem::Reflection
         // Update properties
         for ( auto& propertyDesc : type.m_properties )
         {
-            if ( !ExecuteSimpleQuery( "INSERT OR REPLACE INTO `Properties`(`PropertyID`, `LineNumber`, `OwnerTypeID`,`TypeID`,`Name`,`TypeName`,`TemplateTypeName`,`PropertyFlags`,`ArraySize`) VALUES ( %u, %d, %u, %u, \"%s\", \"%s\", \"%s\", %u, %d );", (uint32_t) propertyDesc.m_propertyID, propertyDesc.m_lineNumber, (uint32_t) type.m_ID, (uint32_t) propertyDesc.m_typeID, propertyDesc.m_name.c_str(), propertyDesc.m_typeName.c_str(), propertyDesc.m_templateArgTypeName.c_str(), (uint32_t) propertyDesc.m_flags, propertyDesc.m_arraySize ) )
+            if ( !ExecuteSimpleQuery( "INSERT OR REPLACE INTO `Properties`(`PropertyID`, `LineNumber`, `OwnerTypeID`,`TypeID`,`Name`,`Description`,`TypeName`,`TemplateTypeName`,`PropertyFlags`,`ArraySize`) VALUES ( %u, %d, %u, %u, \"%s\", \"%s\", \"%s\", \"%s\", %u, %d );", (uint32_t) propertyDesc.m_propertyID, propertyDesc.m_lineNumber, (uint32_t) type.m_ID, (uint32_t) propertyDesc.m_typeID, propertyDesc.m_name.c_str(), propertyDesc.m_description.c_str(), propertyDesc.m_typeName.c_str(), propertyDesc.m_templateArgTypeName.c_str(), (uint32_t) propertyDesc.m_flags, propertyDesc.m_arraySize ) )
             {
                 return false;
             }

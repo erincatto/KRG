@@ -94,10 +94,10 @@ namespace KRG::TypeSystem
         TypeID                      m_typeID;                               // Property Type ID
         TypeID                      m_parentTypeID;                         // The type ID for the parent type that this property belongs to
         TypeID                      m_templateArgumentTypeID;               // A property's contained TypeID for templatized types i.e. the specialization type for a TResourcePtr
-        int32_t                       m_size = -1;                            // uint8_t size of property / total array byte size for static array properties
-        int32_t                       m_offset = -1;                          // The byte offset from its owning type
-        int32_t                       m_arraySize = -1;                       // Number of elements the array (for static arrays this is the static dimensions, for dynamic arrays this is the default size)
-        int32_t                       m_arrayElementSize = -1;                // uint8_t size of an individual array element
+        int32_t                     m_size = -1;                            // uint8_t size of property / total array byte size for static array properties
+        int32_t                     m_offset = -1;                          // The byte offset from its owning type
+        int32_t                     m_arraySize = -1;                       // Number of elements the array (for static arrays this is the static dimensions, for dynamic arrays this is the default size)
+        int32_t                     m_arrayElementSize = -1;                // uint8_t size of an individual array element
         void const*                 m_pDefaultValue = nullptr;              // A ptr to the default value of the property
         void const*                 m_pDefaultArrayData = nullptr;          // A ptr to the contained data within the default value array
         TBitFlags<Flags>            m_flags;                                // Info about property type
@@ -106,6 +106,7 @@ namespace KRG::TypeSystem
         bool                        m_isForDevelopmentUseOnly = false;      // Whether this property only exists in development builds
         String                      m_friendlyName;
         String                      m_category;
+        String                      m_description;                          // Generated from the comments for the property
         #endif
     };
 }

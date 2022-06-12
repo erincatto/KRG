@@ -32,7 +32,7 @@ namespace KRG::Animation
 
     struct DebugContext
     {
-        inline GraphNodeIndex GetRuntimeGraphNodeIndex( UUID const& nodeID ) const
+        inline int16_t GetRuntimeGraphNodeIndex( UUID const& nodeID ) const
         {
             auto const foundIter = m_nodeIDtoIndexMap.find( nodeID );
             if ( foundIter != m_nodeIDtoIndexMap.end() )
@@ -42,14 +42,14 @@ namespace KRG::Animation
             return InvalidIndex;
         }
 
-        bool IsNodeActive( GraphNodeIndex nodeIdx ) const;
+        bool IsNodeActive( int16_t nodeIdx ) const;
         
         #if KRG_DEVELOPMENT_TOOLS
-        PoseNodeDebugInfo GetPoseNodeDebugInfo( GraphNodeIndex runtimeNodeIdx ) const;
+        PoseNodeDebugInfo GetPoseNodeDebugInfo( int16_t runtimeNodeIdx ) const;
         #endif
 
         template<typename T>
-        inline T GetRuntimeNodeValue( GraphNodeIndex runtimeNodeIdx ) const
+        inline T GetRuntimeNodeValue( int16_t runtimeNodeIdx ) const
         {
             return m_pGraphComponent->GetRuntimeNodeValue<T>( runtimeNodeIdx );
         }
@@ -57,7 +57,7 @@ namespace KRG::Animation
     public:
 
         AnimationGraphComponent*             m_pGraphComponent = nullptr;
-        THashMap<UUID, GraphNodeIndex>       m_nodeIDtoIndexMap;
+        THashMap<UUID, int16_t>       m_nodeIDtoIndexMap;
     };
 
     //-------------------------------------------------------------------------

@@ -15,7 +15,7 @@ namespace KRG::Animation
 
         virtual void DrawPreviewEditor( DebugContext* pDebugContext ) override
         {
-            GraphNodeIndex const parameterIdx = pDebugContext->GetRuntimeGraphNodeIndex( m_pParameter->GetID() );
+            int16_t const parameterIdx = pDebugContext->GetRuntimeGraphNodeIndex( m_pParameter->GetID() );
 
             auto value = pDebugContext->m_pGraphComponent->GetControlParameterValue<bool>( parameterIdx );
             if ( ImGui::Checkbox( "##bp", &value ) )
@@ -31,7 +31,7 @@ namespace KRG::Animation
 
         virtual void DrawPreviewEditor( DebugContext* pDebugContext ) override
         {
-            GraphNodeIndex const parameterIdx = pDebugContext->GetRuntimeGraphNodeIndex( m_pParameter->GetID() );
+            int16_t const parameterIdx = pDebugContext->GetRuntimeGraphNodeIndex( m_pParameter->GetID() );
 
             auto value = pDebugContext->m_pGraphComponent->GetControlParameterValue<int32_t>( parameterIdx );
             ImGui::SetNextItemWidth( -1 );
@@ -54,7 +54,7 @@ namespace KRG::Animation
 
         virtual void DrawPreviewEditor( DebugContext* pDebugContext ) override
         {
-            GraphNodeIndex const parameterIdx = pDebugContext->GetRuntimeGraphNodeIndex( m_pParameter->GetID() );
+            int16_t const parameterIdx = pDebugContext->GetRuntimeGraphNodeIndex( m_pParameter->GetID() );
             float value = pDebugContext->m_pGraphComponent->GetControlParameterValue<float>( parameterIdx );
 
             //-------------------------------------------------------------------------
@@ -108,7 +108,7 @@ namespace KRG::Animation
 
         virtual void DrawPreviewEditor( DebugContext* pDebugContext ) override
         {
-            GraphNodeIndex const parameterIdx = pDebugContext->GetRuntimeGraphNodeIndex( m_pParameter->GetID() );
+            int16_t const parameterIdx = pDebugContext->GetRuntimeGraphNodeIndex( m_pParameter->GetID() );
 
             auto value = pDebugContext->m_pGraphComponent->GetControlParameterValue<Vector>( parameterIdx ).ToFloat4();
             ImGui::SetNextItemWidth( -1 );
@@ -125,7 +125,7 @@ namespace KRG::Animation
 
         virtual void DrawPreviewEditor( DebugContext* pDebugContext ) override
         {
-            GraphNodeIndex const parameterIdx = pDebugContext->GetRuntimeGraphNodeIndex( m_pParameter->GetID() );
+            int16_t const parameterIdx = pDebugContext->GetRuntimeGraphNodeIndex( m_pParameter->GetID() );
             auto value = pDebugContext->m_pGraphComponent->GetControlParameterValue<StringID>( parameterIdx );
             if ( value.IsValid() )
             {
@@ -154,7 +154,7 @@ namespace KRG::Animation
 
         virtual void DrawPreviewEditor( DebugContext* pDebugContext ) override
         {
-            GraphNodeIndex const parameterIdx = pDebugContext->GetRuntimeGraphNodeIndex( m_pParameter->GetID() );
+            int16_t const parameterIdx = pDebugContext->GetRuntimeGraphNodeIndex( m_pParameter->GetID() );
             Target value = pDebugContext->m_pGraphComponent->GetControlParameterValue<Target>( parameterIdx );
 
             // Reflect actual state
@@ -793,7 +793,7 @@ namespace KRG::Animation
         auto DrawControlParameterEditorRow = [this, pDebugContext] ( ParameterPreviewState* pPreviewState )
         {
             auto pControlParameter = pPreviewState->m_pParameter;
-            GraphNodeIndex const parameterIdx = pDebugContext->GetRuntimeGraphNodeIndex( pControlParameter->GetID() );
+            int16_t const parameterIdx = pDebugContext->GetRuntimeGraphNodeIndex( pControlParameter->GetID() );
 
             ImGui::PushID( pControlParameter );
             ImGui::TableNextRow();

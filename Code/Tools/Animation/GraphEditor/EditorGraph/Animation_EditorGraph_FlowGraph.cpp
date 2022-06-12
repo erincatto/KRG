@@ -25,7 +25,7 @@ namespace KRG::Animation::GraphNodes
 
     void EditorGraphNode::DrawExtraControls( VisualGraph::DrawContext const& ctx )
     {
-        GraphNodeIndex runtimeNodeIdx = InvalidIndex;
+        int16_t runtimeNodeIdx = InvalidIndex;
         auto pDebugContext = reinterpret_cast<DebugContext*>( ctx.m_pUserContext );
         if ( pDebugContext != nullptr )
         {
@@ -147,6 +147,22 @@ namespace KRG::Animation::GraphNodes
         //-------------------------------------------------------------------------
 
         DrawInfoText( ctx );
+    }
+
+    bool EditorGraphNode::IsActive( VisualGraph::DrawContext const& ctx ) const
+    {
+        auto pDebugContext = reinterpret_cast<DebugContext*>( ctx.m_pUserContext );
+        if ( pDebugContext != nullptr )
+        {
+            // Some nodes dont have runtime representations
+            auto const runtimeNodeIdx = pDebugContext->GetRuntimeGraphNodeIndex( GetID() );
+            if ( runtimeNodeIdx != InvalidIndex )
+            {
+                return pDebugContext->IsNodeActive( runtimeNodeIdx );
+            }
+        }
+
+        return false;
     }
 
     //-------------------------------------------------------------------------
@@ -334,7 +350,7 @@ namespace KRG::Animation::GraphNodes
         CreateInputPin( "Out", m_valueType );
     }
 
-    GraphNodeIndex ResultEditorNode::Compile( GraphCompilationContext& context ) const
+    int16_t ResultEditorNode::Compile( GraphCompilationContext& context ) const
     {
         // Get connected node and compile it
         auto pConnectedNode = GetConnectedInputNode<EditorGraphNode>( 0 );
@@ -420,7 +436,7 @@ namespace KRG::Animation::GraphNodes
         KRG_ASSERT( !m_name.empty() );
     }
 
-    GraphNodeIndex ControlParameterEditorNode::Compile( GraphCompilationContext& context ) const
+    int16_t ControlParameterEditorNode::Compile( GraphCompilationContext& context ) const
     {
         switch ( GetValueType() )
         {
@@ -512,7 +528,7 @@ namespace KRG::Animation::GraphNodes
         SetChildGraph( pParameterGraph );
     }
 
-    GraphNodeIndex VirtualParameterEditorNode::Compile( GraphCompilationContext& context ) const
+    int16_t VirtualParameterEditorNode::Compile( GraphCompilationContext& context ) const
     {
         auto const resultNodes = GetChildGraph()->FindAllNodesOfType<ResultEditorNode>();
         KRG_ASSERT( resultNodes.size() == 1 );
@@ -558,7 +574,7 @@ namespace KRG::Animation::GraphNodes
         CreateOutputPin( "Value", m_pParameter->GetValueType(), true );
     }
 
-    GraphNodeIndex ParameterReferenceEditorNode::Compile( GraphCompilationContext& context ) const
+    int16_t ParameterReferenceEditorNode::Compile( GraphCompilationContext& context ) const
     {
         return m_pParameter->Compile( context );
     }

@@ -32,7 +32,7 @@ namespace KRG::Animation::GraphNodes
 
             virtual void InstantiateNode( TVector<GraphNode*> const& nodePtrs, GraphDataSet const* pDataSet, InitOptions options ) const override;
 
-            GraphNodeIndex                                   m_playInReverseValueNodeIdx = InvalidIndex;
+            int16_t                                   m_playInReverseValueNodeIdx = InvalidIndex;
             bool                                        m_sampleRootMotion = true;
             bool                                        m_allowLooping = false;
             DataSetSlotIndex                            m_dataSlotIdx = InvalidIndex;

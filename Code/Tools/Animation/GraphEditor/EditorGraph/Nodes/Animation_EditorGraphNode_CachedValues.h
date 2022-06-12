@@ -17,7 +17,7 @@ namespace KRG::Animation::GraphNodes
         virtual char const* GetTypeName() const override { return "Cached Bool"; }
         virtual char const* GetCategory() const override { return "Values/Bool"; }
         virtual TBitFlags<GraphType> GetAllowedParentGraphTypes() const override { return TBitFlags<GraphType>( GraphType::BlendTree, GraphType::ValueTree, GraphType::TransitionTree ); }
-        virtual GraphNodeIndex Compile( GraphCompilationContext& context ) const override;
+        virtual int16_t Compile( GraphCompilationContext& context ) const override;
         virtual void DrawInfoText( VisualGraph::DrawContext const& ctx ) override;
 
     private:
@@ -38,7 +38,7 @@ namespace KRG::Animation::GraphNodes
         virtual char const* GetTypeName() const override { return "Cached ID"; }
         virtual char const* GetCategory() const override { return "Values/ID"; }
         virtual TBitFlags<GraphType> GetAllowedParentGraphTypes() const override { return TBitFlags<GraphType>( GraphType::BlendTree, GraphType::ValueTree, GraphType::TransitionTree ); }
-        virtual GraphNodeIndex Compile( GraphCompilationContext& context ) const override;
+        virtual int16_t Compile( GraphCompilationContext& context ) const override;
         virtual void DrawInfoText( VisualGraph::DrawContext const& ctx ) override;
 
     private:
@@ -59,7 +59,7 @@ namespace KRG::Animation::GraphNodes
         virtual char const* GetTypeName() const override { return "Cached Int"; }
         virtual char const* GetCategory() const override { return "Values/Int"; }
         virtual TBitFlags<GraphType> GetAllowedParentGraphTypes() const override { return TBitFlags<GraphType>( GraphType::BlendTree, GraphType::ValueTree, GraphType::TransitionTree ); }
-        virtual GraphNodeIndex Compile( GraphCompilationContext& context ) const override;
+        virtual int16_t Compile( GraphCompilationContext& context ) const override;
         virtual void DrawInfoText( VisualGraph::DrawContext const& ctx ) override;
 
     private:
@@ -80,7 +80,7 @@ namespace KRG::Animation::GraphNodes
         virtual char const* GetTypeName() const override { return "Cached Float"; }
         virtual char const* GetCategory() const override { return "Values/Float"; }
         virtual TBitFlags<GraphType> GetAllowedParentGraphTypes() const override { return TBitFlags<GraphType>( GraphType::BlendTree, GraphType::ValueTree, GraphType::TransitionTree ); }
-        virtual GraphNodeIndex Compile( GraphCompilationContext& context ) const override;
+        virtual int16_t Compile( GraphCompilationContext& context ) const override;
         virtual void DrawInfoText( VisualGraph::DrawContext const& ctx ) override;
 
     private:
@@ -101,7 +101,7 @@ namespace KRG::Animation::GraphNodes
         virtual char const* GetTypeName() const override { return "Cached Vector"; }
         virtual char const* GetCategory() const override { return "Values/Vector"; }
         virtual TBitFlags<GraphType> GetAllowedParentGraphTypes() const override { return TBitFlags<GraphType>( GraphType::BlendTree, GraphType::ValueTree, GraphType::TransitionTree ); }
-        virtual GraphNodeIndex Compile( GraphCompilationContext& context ) const override;
+        virtual int16_t Compile( GraphCompilationContext& context ) const override;
         virtual void DrawInfoText( VisualGraph::DrawContext const& ctx ) override;
 
     private:
@@ -122,7 +122,7 @@ namespace KRG::Animation::GraphNodes
         virtual char const* GetTypeName() const override { return "Cached Target"; }
         virtual char const* GetCategory() const override { return "Values/Target"; }
         virtual TBitFlags<GraphType> GetAllowedParentGraphTypes() const override { return TBitFlags<GraphType>( GraphType::BlendTree, GraphType::ValueTree, GraphType::TransitionTree ); }
-        virtual GraphNodeIndex Compile( GraphCompilationContext& context ) const override;
+        virtual int16_t Compile( GraphCompilationContext& context ) const override;
         virtual void DrawInfoText( VisualGraph::DrawContext const& ctx ) override;
 
     private:

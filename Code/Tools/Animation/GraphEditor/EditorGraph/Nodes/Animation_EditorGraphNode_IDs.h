@@ -17,7 +17,7 @@ namespace KRG::Animation::GraphNodes
         virtual char const* GetTypeName() const override { return "ID Comparison"; }
         virtual char const* GetCategory() const override { return "Values/ID"; }
         virtual TBitFlags<GraphType> GetAllowedParentGraphTypes() const override { return TBitFlags<GraphType>( GraphType::BlendTree, GraphType::ValueTree, GraphType::TransitionTree ); }
-        virtual GraphNodeIndex Compile( GraphCompilationContext& context ) const override;
+        virtual int16_t Compile( GraphCompilationContext& context ) const override;
 
         virtual void DrawInfoText( VisualGraph::DrawContext const& ctx ) override;
 
@@ -48,7 +48,7 @@ namespace KRG::Animation::GraphNodes
         virtual char const* GetTypeName() const override { return "ID to Float"; }
         virtual char const* GetCategory() const override { return "Values/ID"; }
         virtual TBitFlags<GraphType> GetAllowedParentGraphTypes() const override { return TBitFlags<GraphType>( GraphType::BlendTree, GraphType::ValueTree, GraphType::TransitionTree ); }
-        virtual GraphNodeIndex Compile( GraphCompilationContext& context ) const override;
+        virtual int16_t Compile( GraphCompilationContext& context ) const override;
 
     private:
 

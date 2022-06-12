@@ -1,7 +1,8 @@
 #include "Animation_RuntimeGraphNode_Warping.h"
-#include "System/Core/Logging/Log.h"
 #include "Engine/Animation/AnimationClip.h"
-#include "../../Events/AnimationEvent_Warp.h"
+#include "Engine/Animation/Events/AnimationEvent_Warp.h"
+#include "System/Core/Logging/Log.h"
+#include "System/Core/Drawing/DebugDrawing.h"
 
 //-------------------------------------------------------------------------
 
@@ -85,9 +86,15 @@ namespace KRG::Animation::GraphNodes
     {
         KRG_ASSERT( context.IsValid() );
         KRG_ASSERT( m_pTargetValueNode != nullptr );
+
         PoseNode::InitializeInternal( context, initialTime );
         m_pClipReferenceNode->Initialize( context, initialTime );
         m_pTargetValueNode->Initialize( context );
+
+        //-------------------------------------------------------------------------
+
+        auto pSettings = GetSettings<TargetWarpNode>();
+        m_samplingMode = pSettings->m_samplingMode;
 
         //-------------------------------------------------------------------------
 
@@ -96,6 +103,8 @@ namespace KRG::Animation::GraphNodes
             auto pAnimation = m_pClipReferenceNode->GetAnimation();
             KRG_ASSERT( pAnimation != nullptr );
          
+            m_warpStartTransform = context.m_worldTransform;
+
             // Read warp events
             //-------------------------------------------------------------------------
 
@@ -137,6 +146,25 @@ namespace KRG::Animation::GraphNodes
         PoseNode::ShutdownInternal( context );
     }
 
+    bool TargetWarpNode::TryReadTarget( GraphContext& context )
+    {
+        Target const warpTarget = m_pTargetValueNode->GetValue<Target>( context );
+        if ( !warpTarget.IsTargetSet() )
+        {
+            KRG_LOG_ERROR( "Animation", "Invalid target detected for warp node!" );
+            return false;
+        }
+
+        if ( warpTarget.IsBoneTarget() )
+        {
+            KRG_LOG_ERROR( "Animation", "Invalid target detected for warp node!" );
+            return false;
+        }
+
+        m_warpTarget = warpTarget.GetTransform();
+        return true;
+    }
+
     void TargetWarpNode::PerformWarp( GraphContext& context, Percentage startTime )
     {
         auto pAnimation = m_pClipReferenceNode->GetAnimation();
@@ -155,20 +183,10 @@ namespace KRG::Animation::GraphNodes
         // Read Target
         //-------------------------------------------------------------------------
 
-        Target const warpTarget = m_pTargetValueNode->GetValue<Target>( context );
-        if ( !warpTarget.IsTargetSet() )
+        if ( !TryReadTarget( context ) )
         {
-            KRG_LOG_ERROR( "Animation", "Invalid target detected for warp node!" );
             return;
         }
-
-        if ( warpTarget.IsBoneTarget() )
-        {
-            KRG_LOG_ERROR( "Animation", "Invalid target detected for warp node!" );
-            return;
-        }
-
-        m_warpTarget = warpTarget.GetTransform();
 
         // Perform Warp
         //-------------------------------------------------------------------------
@@ -185,65 +203,111 @@ namespace KRG::Animation::GraphNodes
             return;
         }
 
-        // Read Target
-        //-------------------------------------------------------------------------
-
-        Target const warpTarget = m_pTargetValueNode->GetValue<Target>( context );
-        if ( !warpTarget.IsTargetSet() )
+        // Cannot update an invalid warp
+        if ( !m_warpedRootMotion.IsValid() )
         {
-            KRG_LOG_ERROR( "Animation", "Invalid target detected for warp node!" );
             return;
         }
 
-        if ( warpTarget.IsBoneTarget() )
+        // Check if the target has changed
+        //-------------------------------------------------------------------------
+
+        Transform const previousTarget = m_warpTarget;
+
+        if ( !TryReadTarget( context ) )
         {
-            KRG_LOG_ERROR( "Animation", "Invalid target detected for warp node!" );
             return;
         }
 
-        m_warpTarget = warpTarget.GetTransform();
+        // TODO: check for significant difference
+        if ( m_warpTarget == previousTarget )
+        {
+            return;
+        }
 
-        // Check Target against existing target
+        // Recalculate the warp
         //-------------------------------------------------------------------------
 
-  
-
-        // If the target has changed and we still have warp events, warp the warped track
+        // TODO
     }
 
-    Transform TargetWarpNode::CalculateWarpedRootMotionDelta( GraphContext& context ) const
-    {
-        KRG_ASSERT( m_warpedRootMotion.IsValid() );
-        return m_warpedRootMotion.GetDelta( m_pClipReferenceNode->GetPreviousTime(), m_pClipReferenceNode->GetCurrentTime() );
-    }
+    //-------------------------------------------------------------------------
 
     GraphPoseNodeResult TargetWarpNode::Update( GraphContext& context )
     {
-        auto result = m_pClipReferenceNode->Update( context );
-        m_duration = m_pClipReferenceNode->GetDuration();
-        m_previousTime = m_pClipReferenceNode->GetPreviousTime();
-        m_currentTime = m_pClipReferenceNode->GetCurrentTime();
-
-        UpdateWarp( context );
-        if ( m_warpedRootMotion.IsValid() )
-        {
-            result.m_rootMotionDelta = CalculateWarpedRootMotionDelta( context );
-        }
+        MarkNodeActive( context );
+        GraphPoseNodeResult result = m_pClipReferenceNode->Update( context );
+        UpdateShared( context, result );
         return result;
     }
 
     GraphPoseNodeResult TargetWarpNode::Update( GraphContext& context, SyncTrackTimeRange const& updateRange )
     {
-        auto result = m_pClipReferenceNode->Update( context, updateRange );
+        MarkNodeActive( context );
+        GraphPoseNodeResult result = m_pClipReferenceNode->Update( context, updateRange );
+        UpdateShared( context, result );
+        return result;
+    }
+
+    void TargetWarpNode::UpdateShared( GraphContext& context, GraphPoseNodeResult& result )
+    {
+        auto pSettings = GetSettings<TargetWarpNode>();
+
         m_duration = m_pClipReferenceNode->GetDuration();
         m_previousTime = m_pClipReferenceNode->GetPreviousTime();
         m_currentTime = m_pClipReferenceNode->GetCurrentTime();
 
+        if ( !m_warpedRootMotion.IsValid() )
+        {
+            return;
+        }
+
+        //-------------------------------------------------------------------------
+
         UpdateWarp( context );
+
+        // If we are sampling accurately then we need to match the exact world space position each update
+        if( m_samplingMode == SamplingMode::Accurate )
+        {
+            // Calculate error between current and expected position
+            Transform const expectedTransform = m_warpedRootMotion.GetTransform( m_previousTime );
+            float const positionErrorSq = expectedTransform.GetTranslation().GetDistanceSquared3( context.m_worldTransform.GetTranslation() );
+            if( positionErrorSq <= pSettings->m_samplingPositionErrorThresholdSq )
+            {
+                Transform const desiredFinalTransform = m_warpedRootMotion.GetTransform( m_currentTime );
+                result.m_rootMotionDelta = Transform::Delta( context.m_worldTransform, desiredFinalTransform );
+            }
+            else // Exceeded the error threshold, so fallback to inaccurate sampling
+            {
+                m_samplingMode = SamplingMode::Inaccurate;
+            }
+        }
+
+        // Just sample the delta and return that
+        if ( m_samplingMode == SamplingMode::Inaccurate )
+        {
+            result.m_rootMotionDelta = m_warpedRootMotion.GetDelta( m_pClipReferenceNode->GetPreviousTime(), m_pClipReferenceNode->GetCurrentTime() );
+        }
+    }
+
+    //-------------------------------------------------------------------------
+
+    #if  KRG_DEVELOPMENT_TOOLS
+    void TargetWarpNode::DrawDebug( GraphContext& graphContext, Drawing::DrawContext& drawCtx )
+    {
+        if ( !IsValid() )
+        {
+            return;
+        }
+
+        // Draw Target
+        drawCtx.DrawAxis( m_warpTarget, 0.5f, 5.0f );
+       
+        // Draw Warped Root Motion
         if ( m_warpedRootMotion.IsValid() )
         {
-            result.m_rootMotionDelta = CalculateWarpedRootMotionDelta( context );
+            m_warpedRootMotion.DrawDebug( drawCtx, m_warpStartTransform );
         }
-        return result;
     }
+    #endif
 }

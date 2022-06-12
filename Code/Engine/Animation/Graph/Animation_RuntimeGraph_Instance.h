@@ -1,12 +1,25 @@
 #pragma once
 #include "Animation_RuntimeGraph_Resources.h"
-#include "Animation_RuntimeGraph_Contexts.h"
 #include "Animation_RuntimeGraph_Node.h"
 
 //-------------------------------------------------------------------------
 
 namespace KRG::Animation
 {
+    class GraphContext;
+
+    //-------------------------------------------------------------------------
+
+    #if KRG_DEVELOPMENT_TOOLS
+    enum class GraphDebugMode
+    {
+        Off,
+        On,
+    };
+    #endif
+
+    //-------------------------------------------------------------------------
+
     class GraphInstance
     {
     public:
@@ -32,7 +45,7 @@ namespace KRG::Animation
         // General Node Info
         //-------------------------------------------------------------------------
 
-        inline bool IsValidNodeIndex( GraphNodeIndex nodeIdx ) const 
+        inline bool IsValidNodeIndex( int16_t nodeIdx ) const 
         {
             return nodeIdx < m_pGraphVariation->m_pGraphDefinition->m_nodeSettings.size();
         }
@@ -42,9 +55,9 @@ namespace KRG::Animation
 
         inline int32_t GetNumControlParameters() const { return m_pGraphVariation->m_pGraphDefinition->m_numControlParameters; }
 
-        inline GraphNodeIndex GetControlParameterIndex( StringID parameterID ) const
+        inline int16_t GetControlParameterIndex( StringID parameterID ) const
         {
-            for ( GraphNodeIndex i = 0; i < m_pGraphVariation->m_pGraphDefinition->m_numControlParameters; i++ )
+            for ( int16_t i = 0; i < m_pGraphVariation->m_pGraphDefinition->m_numControlParameters; i++ )
             {
                 if ( m_pGraphVariation->m_pGraphDefinition->m_controlParameterIDs[i] == parameterID )
                 {
@@ -55,27 +68,27 @@ namespace KRG::Animation
             return InvalidIndex;
         }
 
-        inline StringID GetControlParameterID( GraphNodeIndex parameterNodeIdx )
+        inline StringID GetControlParameterID( int16_t parameterNodeIdx )
         {
             KRG_ASSERT( IsControlParameter( parameterNodeIdx ) );
             return m_pGraphVariation->m_pGraphDefinition->m_controlParameterIDs[parameterNodeIdx];
         }
 
-        inline GraphValueType GetControlParameterType( GraphNodeIndex parameterNodeIdx )
+        inline GraphValueType GetControlParameterType( int16_t parameterNodeIdx )
         {
             KRG_ASSERT( IsControlParameter( parameterNodeIdx ) );
             return static_cast<ValueNode*>( m_nodes[parameterNodeIdx] )->GetValueType();
         }
 
         template<typename T>
-        inline void SetControlParameterValue( GraphContext& context, GraphNodeIndex parameterNodeIdx, T const& value )
+        inline void SetControlParameterValue( GraphContext& context, int16_t parameterNodeIdx, T const& value )
         {
             KRG_ASSERT( IsControlParameter( parameterNodeIdx ) );
             static_cast<ValueNode*>( m_nodes[parameterNodeIdx] )->SetValue<T>( context, value );
         }
 
         template<typename T>
-        inline T GetControlParameterValue( GraphContext& context, GraphNodeIndex parameterNodeIdx ) const
+        inline T GetControlParameterValue( GraphContext& context, int16_t parameterNodeIdx ) const
         {
             KRG_ASSERT( IsControlParameter( parameterNodeIdx ) );
             return static_cast<ValueNode*>( m_nodes[parameterNodeIdx] )->GetValue<T>( context );
@@ -85,14 +98,19 @@ namespace KRG::Animation
         //-------------------------------------------------------------------------
         
         #if KRG_DEVELOPMENT_TOOLS
-        inline bool IsNodeActive( GraphContext& context, GraphNodeIndex nodeIdx ) const
+        inline GraphDebugMode GetDebugMode() const { return m_debugMode; }
+        inline void SetDebugMode( GraphDebugMode mode ) { m_debugMode = mode; }
+        inline void SetNodeDebugFilterList( TVector<int16_t> const& filterList ) { m_debugFilterNodes = filterList; }
+        void DrawDebug( GraphContext& context, Drawing::DrawContext& drawContext );
+
+        inline bool IsNodeActive( GraphContext& context, int16_t nodeIdx ) const
         {
             KRG_ASSERT( IsValidNodeIndex( nodeIdx ) );
             auto pNode = m_nodes[nodeIdx];
             return pNode->IsNodeActive( context );
         }
 
-        inline PoseNodeDebugInfo GetPoseNodeDebugInfo( GraphContext& context, GraphNodeIndex nodeIdx ) const
+        inline PoseNodeDebugInfo GetPoseNodeDebugInfo( GraphContext& context, int16_t nodeIdx ) const
         {
             KRG_ASSERT( IsValidNodeIndex( nodeIdx ) );
             KRG_ASSERT( m_nodes[nodeIdx]->GetValueType() == GraphValueType::Pose );
@@ -101,7 +119,7 @@ namespace KRG::Animation
         }
 
         template<typename T>
-        inline T GetRuntimeNodeValue( GraphContext& context, GraphNodeIndex nodeIdx ) const
+        inline T GetRuntimeNodeValue( GraphContext& context, int16_t nodeIdx ) const
         {
             KRG_ASSERT( IsValidNodeIndex( nodeIdx ) );
             auto pValueNode = static_cast<ValueNode*>( const_cast<GraphNode*>( m_nodes[nodeIdx] ) );
@@ -111,7 +129,7 @@ namespace KRG::Animation
 
     private:
 
-        KRG_FORCE_INLINE bool IsControlParameter( GraphNodeIndex nodeIdx ) const 
+        KRG_FORCE_INLINE bool IsControlParameter( int16_t nodeIdx ) const 
         {
             return nodeIdx < m_pGraphVariation->m_pGraphDefinition->m_numControlParameters;
         }
@@ -125,7 +143,13 @@ namespace KRG::Animation
 
         GraphVariation const* const             m_pGraphVariation = nullptr;
         TVector<GraphNode*>                     m_nodes;
-        uint8_t*                                   m_pAllocatedInstanceMemory = nullptr;
+        uint8_t*                                m_pAllocatedInstanceMemory = nullptr;
         PoseNode*                               m_pRootNode = nullptr;
+
+        #if KRG_DEVELOPMENT_TOOLS
+        TVector<int16_t>                        m_activeNodes;
+        GraphDebugMode                          m_debugMode = GraphDebugMode::Off;
+        TVector<int16_t>                        m_debugFilterNodes; // The list of nodes that are allowed to debug draw (if this is empty all nodes will draw)
+        #endif
     };
 }

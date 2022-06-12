@@ -19,7 +19,7 @@ namespace KRG::Animation::GraphNodes
         {
             KRG_SERIALIZE_MEMBERS( m_layerNodeIdx, m_isSynchronized, m_ignoreEvents, m_blendOptions );
 
-            GraphNodeIndex                                       m_layerNodeIdx = InvalidIndex;
+            int16_t                                       m_layerNodeIdx = InvalidIndex;
             bool                                            m_isSynchronized = false;
             bool                                            m_ignoreEvents = false;
             TBitFlags<PoseBlendOptions>                     m_blendOptions;
@@ -34,7 +34,7 @@ namespace KRG::Animation::GraphNodes
 
             virtual void InstantiateNode( TVector<GraphNode*> const& nodePtrs, GraphDataSet const* pDataSet, InitOptions options ) const override;
 
-            GraphNodeIndex                                       m_baseNodeIdx = InvalidIndex;
+            int16_t                                       m_baseNodeIdx = InvalidIndex;
             bool                                            m_onlySampleBaseRootMotion = true;
             TInlineVector<LayerSettings, 3>                 m_layerSettings;
         };

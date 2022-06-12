@@ -12,7 +12,7 @@ namespace KRG::Animation::GraphNodes
         CreateOutputPin( "Pose", GraphValueType::Pose );
     }
 
-    GraphNodeIndex ZeroPoseEditorNode::Compile( GraphCompilationContext& context ) const
+    int16_t ZeroPoseEditorNode::Compile( GraphCompilationContext& context ) const
     {
         ZeroPoseNode::Settings* pSettings = nullptr;
         NodeCompilationState const state = context.GetSettings<ZeroPoseNode>( this, pSettings );
@@ -27,7 +27,7 @@ namespace KRG::Animation::GraphNodes
         CreateOutputPin( "Pose", GraphValueType::Pose );
     }
 
-    GraphNodeIndex ReferencePoseEditorNode::Compile( GraphCompilationContext& context ) const
+    int16_t ReferencePoseEditorNode::Compile( GraphCompilationContext& context ) const
     {
         ReferencePoseNode::Settings* pSettings = nullptr;
         NodeCompilationState const state = context.GetSettings<ReferencePoseNode>( this, pSettings );
@@ -43,7 +43,7 @@ namespace KRG::Animation::GraphNodes
         CreateInputPin( "Time", GraphValueType::Float );
     }
 
-    GraphNodeIndex AnimationPoseEditorNode::Compile( GraphCompilationContext& context ) const
+    int16_t AnimationPoseEditorNode::Compile( GraphCompilationContext& context ) const
     {
         AnimationPoseNode::Settings* pSettings = nullptr;
         NodeCompilationState const state = context.GetSettings<AnimationPoseNode>( this, pSettings );

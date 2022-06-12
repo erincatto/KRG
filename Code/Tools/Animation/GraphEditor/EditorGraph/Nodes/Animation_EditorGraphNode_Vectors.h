@@ -17,7 +17,7 @@ namespace KRG::Animation::GraphNodes
         virtual char const* GetTypeName() const override { return "Vector Info"; }
         virtual char const* GetCategory() const override { return "Values/Vector"; }
         virtual TBitFlags<GraphType> GetAllowedParentGraphTypes() const override { return TBitFlags<GraphType>( GraphType::BlendTree, GraphType::ValueTree, GraphType::TransitionTree ); }
-        virtual GraphNodeIndex Compile( GraphCompilationContext& context ) const override;
+        virtual int16_t Compile( GraphCompilationContext& context ) const override;
 
     private:
 
@@ -37,6 +37,6 @@ namespace KRG::Animation::GraphNodes
         virtual char const* GetTypeName() const override { return "Vector Negate"; }
         virtual char const* GetCategory() const override { return "Values/Vector"; }
         virtual TBitFlags<GraphType> GetAllowedParentGraphTypes() const override { return TBitFlags<GraphType>( GraphType::BlendTree, GraphType::ValueTree, GraphType::TransitionTree ); }
-        virtual GraphNodeIndex Compile( GraphCompilationContext& context ) const override;
+        virtual int16_t Compile( GraphCompilationContext& context ) const override;
     };
 }

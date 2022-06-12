@@ -33,7 +33,6 @@
     <ClInclude Include="Graph\Nodes\Animation_RuntimeGraphNode_Warping.h" />
     <ClInclude Include="Graph\Animation_RuntimeGraph_RootMotionRecorder.h" />
     <ClInclude Include="Graph\Nodes\Animation_RuntimeGraphNode_Ragdoll.h" />
-    <ClInclude Include="Graph\Animation_RuntimeGraph_Common.h" />
     <ClInclude Include="Graph\Animation_RuntimeGraph_Contexts.h" />
     <ClInclude Include="Graph\Animation_RuntimeGraph_Controller.h" />
     <ClInclude Include="Graph\Animation_RuntimeGraph_Events.h" />
@@ -96,7 +95,6 @@
     <ClCompile Include="Graph\Nodes\Animation_RuntimeGraphNode_Warping.cpp" />
     <ClCompile Include="Graph\Animation_RuntimeGraph_RootMotionRecorder.cpp" />
     <ClCompile Include="Graph\Nodes\Animation_RuntimeGraphNode_Ragdoll.cpp" />
-    <ClCompile Include="Graph\Animation_RuntimeGraph_Common.cpp" />
     <ClCompile Include="Graph\Animation_RuntimeGraph_Contexts.cpp" />
     <ClCompile Include="Graph\Animation_RuntimeGraph_Controller.cpp" />
     <ClCompile Include="Graph\Animation_RuntimeGraph_Events.cpp" />

@@ -48,14 +48,14 @@ namespace KRG::Animation::GraphNodes
 
         public:
 
-            GraphNodeIndex                              m_childNodeIdx = InvalidIndex;
+            int16_t                              m_childNodeIdx = InvalidIndex;
             TInlineVector<StringID, 3>                  m_entryEvents;
             TInlineVector<StringID, 3>                  m_executeEvents;
             TInlineVector<StringID, 3>                  m_exitEvents;
             TInlineVector<TimedEvent, 1>                m_timedRemainingEvents;
             TInlineVector<TimedEvent, 1>                m_timedElapsedEvents;
-            GraphNodeIndex                              m_layerBoneMaskNodeIdx = InvalidIndex;
-            GraphNodeIndex                              m_layerWeightNodeIdx = InvalidIndex;
+            int16_t                              m_layerBoneMaskNodeIdx = InvalidIndex;
+            int16_t                              m_layerWeightNodeIdx = InvalidIndex;
             bool                                        m_isOffState = false;
         };
 

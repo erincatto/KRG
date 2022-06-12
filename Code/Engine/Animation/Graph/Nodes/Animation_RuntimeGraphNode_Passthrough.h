@@ -16,7 +16,7 @@ namespace KRG::Animation::GraphNodes
 
             virtual void InstantiateNode( TVector<GraphNode*> const& nodePtrs, GraphDataSet const* pDataSet, InitOptions options ) const override;
 
-            GraphNodeIndex          m_childNodeIdx = InvalidIndex;
+            int16_t          m_childNodeIdx = InvalidIndex;
         };
 
     public:

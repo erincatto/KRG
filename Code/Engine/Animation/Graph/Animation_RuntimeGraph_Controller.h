@@ -1,7 +1,6 @@
 #pragma once
 #include "Engine/Animation/_Module/API.h"
 #include "Engine/Animation/Components/Component_AnimationGraph.h"
-#include "Engine/Animation/Graph/Animation_RuntimeGraph_Common.h"
 #include "Engine/Render/Components/Component_SkeletalMesh.h"
 #include "System/Core/Algorithm/Hash.h"
 #include "System/Core/Types/StringID.h"
@@ -81,7 +80,7 @@ namespace KRG::Animation
             private:
 
                 StringID                        m_ID;
-                GraphNodeIndex                  m_index = InvalidIndex;
+                int16_t                  m_index = InvalidIndex;
             };
 
         protected:

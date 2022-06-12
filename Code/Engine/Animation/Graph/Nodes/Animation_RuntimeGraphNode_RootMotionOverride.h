@@ -28,10 +28,10 @@ namespace KRG::Animation::GraphNodes
 
             virtual void InstantiateNode( TVector<GraphNode*> const& nodePtrs, GraphDataSet const* pDataSet, InitOptions options ) const override;
 
-            GraphNodeIndex                        m_desiredHeadingVelocityNodeIdx = InvalidIndex;
-            GraphNodeIndex                        m_desiredFacingDirectionNodeIdx = InvalidIndex;
-            GraphNodeIndex                        m_linearVelocityLimitNodeIdx = InvalidIndex;
-            GraphNodeIndex                        m_angularVelocityLimitNodeIdx = InvalidIndex;
+            int16_t                        m_desiredHeadingVelocityNodeIdx = InvalidIndex;
+            int16_t                        m_desiredFacingDirectionNodeIdx = InvalidIndex;
+            int16_t                        m_linearVelocityLimitNodeIdx = InvalidIndex;
+            int16_t                        m_angularVelocityLimitNodeIdx = InvalidIndex;
             float                            m_maxLinearVelocity = -1.0f;
             float                            m_maxAngularVelocity = -1.0f;
             TBitFlags<OverrideFlags>         m_overrideFlags;

@@ -17,7 +17,7 @@ namespace KRG::Animation::GraphNodes
         virtual char const* GetTypeName() const override { return "State Completed"; }
         virtual char const* GetCategory() const override { return "Transitions"; }
         virtual TBitFlags<GraphType> GetAllowedParentGraphTypes() const override { return TBitFlags<GraphType>( GraphType::TransitionTree ); }
-        virtual GraphNodeIndex Compile( GraphCompilationContext& context ) const override;
+        virtual int16_t Compile( GraphCompilationContext& context ) const override;
     };
 
     //-------------------------------------------------------------------------
@@ -33,7 +33,7 @@ namespace KRG::Animation::GraphNodes
         virtual char const* GetTypeName() const override { return "Time Condition"; }
         virtual char const* GetCategory() const override { return "Transitions"; }
         virtual TBitFlags<GraphType> GetAllowedParentGraphTypes() const override { return TBitFlags<GraphType>( GraphType::TransitionTree ); }
-        virtual GraphNodeIndex Compile( GraphCompilationContext& context ) const override;
+        virtual int16_t Compile( GraphCompilationContext& context ) const override;
 
     private:
 

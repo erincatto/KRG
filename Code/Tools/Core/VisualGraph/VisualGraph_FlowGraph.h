@@ -46,7 +46,7 @@ namespace KRG::VisualGraph
 
             UUID                    m_ID = UUID::GenerateID();
             String                  m_name;
-            uint32_t                  m_type; // Generic type that allows user to set custom data be it StringIDs or enum values
+            uint32_t                m_type; // Generic type that allows user to set custom data be it StringIDs or enum values
             Direction               m_direction;
             ImVec2                  m_screenPosition = ImVec2( 0, 0 ); // Updated each frame (Screen Space)
             ImVec2                  m_size = ImVec2( -1, -1 ); // Updated each frame

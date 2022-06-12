@@ -32,10 +32,19 @@ namespace KRG::Animation
 
         //-------------------------------------------------------------------------
 
+        inline bool HasAnimationSet() const { return m_pAnimation != nullptr; }
         Skeleton const* GetSkeleton() const;
         Pose const* GetPose() const { return m_pPose; }
-        inline Transform const& GetRootMotionDelta() const { return m_rootMotionDelta; }
+
+        // Does this component require a manual update via a custom entity system?
         inline bool RequiresManualUpdate() const { return m_requiresManualUpdate; }
+
+        // Should we apply the root motion delta automatically to the character once we evaluate the graph 
+        // (Note: only works if we dont require a manual update)
+        inline bool ShouldApplyRootMotionToEntity() const { return m_applyRootMotionToEntity; }
+
+        // Gets the root motion delta for the last update (Note: this delta is in character space!)
+        inline Transform const& GetRootMotionDelta() const { return m_rootMotionDelta; }
 
         //-------------------------------------------------------------------------
 
@@ -73,6 +82,7 @@ namespace KRG::Animation
         Pose*                                           m_pPose = nullptr;
         Percentage                                      m_previousAnimTime = Percentage( 0.0f );
         Percentage                                      m_animTime = Percentage( 0.0f );
-        KRG_EXPOSE bool                                 m_requiresManualUpdate = false;
+        KRG_EXPOSE bool                                 m_requiresManualUpdate = false; // Does this component require a manual update via a custom entity system?
+        KRG_EXPOSE bool                                 m_applyRootMotionToEntity = false; // Should we apply the root motion delta automatically to the character once we evaluate the graph. (Note: only works if we dont require a manual update)
     };
 }

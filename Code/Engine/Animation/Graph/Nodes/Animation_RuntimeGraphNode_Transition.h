@@ -52,9 +52,9 @@ namespace KRG::Animation::GraphNodes
 
         public:
 
-            GraphNodeIndex                      m_targetStateNodeIdx = InvalidIndex;
-            GraphNodeIndex                      m_durationOverrideNodeIdx = InvalidIndex;
-            GraphNodeIndex                      m_syncEventOffsetOverrideNodeIdx = InvalidIndex;
+            int16_t                      m_targetStateNodeIdx = InvalidIndex;
+            int16_t                      m_durationOverrideNodeIdx = InvalidIndex;
+            int16_t                      m_syncEventOffsetOverrideNodeIdx = InvalidIndex;
             Math::Easing::Type                  m_blendWeightEasingType = Math::Easing::Type::Linear;
             RootMotionBlendMode                 m_rootMotionBlend = RootMotionBlendMode::Blend;
             Seconds                             m_duration = 0;

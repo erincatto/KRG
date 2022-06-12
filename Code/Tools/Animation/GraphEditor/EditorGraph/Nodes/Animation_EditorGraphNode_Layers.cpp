@@ -76,7 +76,7 @@ namespace KRG::Animation::GraphNodes
         }
     }
 
-    GraphNodeIndex LayerEditorNode::Compile( GraphCompilationContext& context ) const
+    int16_t LayerEditorNode::Compile( GraphCompilationContext& context ) const
     {
         LayerBlendNode::Settings* pSettings = nullptr;
         NodeCompilationState const state = context.GetSettings<LayerBlendNode>( this, pSettings );

@@ -47,12 +47,13 @@ namespace KRG::TypeSystem::Reflection
     public:
 
         StringID                                        m_propertyID;
-        int32_t                                           m_lineNumber = -1;
+        int32_t                                         m_lineNumber = -1;
         TypeID                                          m_typeID;
         String                                          m_name;
+        String                                          m_description;
         String                                          m_typeName;
         String                                          m_templateArgTypeName;
-        int32_t                                           m_arraySize = -1;
+        int32_t                                         m_arraySize = -1;
         TBitFlags<PropertyInfo::Flags>                  m_flags;
         bool                                            m_isDevOnly = true;
     };
@@ -62,7 +63,7 @@ namespace KRG::TypeSystem::Reflection
     struct ReflectedEnumConstant
     {
         String                                          m_label;
-        int32_t                                           m_value;
+        int32_t                                         m_value;
     };
 
     struct ReflectedType

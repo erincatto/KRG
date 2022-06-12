@@ -1,4 +1,5 @@
 #include "Animation_RuntimeGraphNode_Transition.h"
+#include "Engine/Animation/Graph/Animation_RuntimeGraph_RootMotionRecorder.h"
 #include "Engine/Animation/TaskSystem/Animation_TaskSystem.h"
 #include "Engine/Animation/TaskSystem/Tasks/Animation_Task_CachedPose.h"
 #include "Engine/Animation/TaskSystem/Tasks/Animation_Task_Blend.h"

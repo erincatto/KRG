@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Engine/Animation/AnimationEvent.h"
-#include "Animation_RuntimeGraph_Common.h"
 
 //-------------------------------------------------------------------------
 
@@ -43,10 +42,10 @@ namespace KRG::Animation
     public:
 
         SampledEvent() = default;
-        SampledEvent( GraphNodeIndex sourceNodeIdx, Event const* pEvent, Percentage percentageThrough );
-        SampledEvent( GraphNodeIndex sourceNodeIdx, Flags stateEventType, StringID ID, Percentage percentageThrough );
+        SampledEvent( int16_t sourceNodeIdx, Event const* pEvent, Percentage percentageThrough );
+        SampledEvent( int16_t sourceNodeIdx, Flags stateEventType, StringID ID, Percentage percentageThrough );
 
-        inline GraphNodeIndex GetSourceNodeIndex() const { return m_sourceNodeIdx; }
+        inline int16_t GetSourceNodeIndex() const { return m_sourceNodeIdx; }
         inline bool IsStateEvent() const { return m_flags.AreAnyFlagsSet( Flags::StateEntry, Flags::StateExecute, Flags::StateExit, Flags::StateTimed ); }
         inline bool IsFromActiveBranch() const { return !m_flags.IsFlagSet( Flags::FromInactiveBranch ); }
         inline StringID GetStateEventID() const { KRG_ASSERT( IsStateEvent() ); return m_eventData.m_stateEventID; }
@@ -95,7 +94,7 @@ namespace KRG::Animation
         float                               m_weight = 1.0f;                // The weight of the event when sampled
         Percentage                          m_percentageThrough = 1.0f;     // The percentage through the event we were when sampling
         TBitFlags<Flags>                    m_flags;                        // Misc flags
-        GraphNodeIndex                      m_sourceNodeIdx = InvalidIndex; // The index of the node that this event was sampled from
+        int16_t                             m_sourceNodeIdx = InvalidIndex; // The index of the node that this event was sampled from
     };
 
     //-------------------------------------------------------------------------
@@ -169,12 +168,12 @@ namespace KRG::Animation
 
         //-------------------------------------------------------------------------
 
-        inline SampledEvent& EmplaceAnimEvent( GraphNodeIndex sourceNodeIdx, Event const* pEvent, Percentage percentageThrough )
+        inline SampledEvent& EmplaceAnimEvent( int16_t sourceNodeIdx, Event const* pEvent, Percentage percentageThrough )
         {
             return m_events.emplace_back( sourceNodeIdx, pEvent, percentageThrough );
         }
 
-        inline SampledEvent& EmplaceStateEvent( GraphNodeIndex sourceNodeIdx, SampledEvent::Flags stateEventType, StringID ID )
+        inline SampledEvent& EmplaceStateEvent( int16_t sourceNodeIdx, SampledEvent::Flags stateEventType, StringID ID )
         {
             KRG_ASSERT( stateEventType >= SampledEvent::Flags::StateEntry );
             return m_events.emplace_back( sourceNodeIdx, stateEventType, ID, 1.0f );

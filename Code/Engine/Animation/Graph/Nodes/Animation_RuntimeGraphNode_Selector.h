@@ -17,8 +17,8 @@ namespace KRG::Animation::GraphNodes
 
             virtual void InstantiateNode( TVector<GraphNode*> const& nodePtrs, GraphDataSet const* pDataSet, InitOptions options ) const override;
 
-            TInlineVector<GraphNodeIndex, 5>                     m_optionNodeIndices;
-            TInlineVector<GraphNodeIndex, 5>                     m_conditionNodeIndices;
+            TInlineVector<int16_t, 5>                     m_optionNodeIndices;
+            TInlineVector<int16_t, 5>                     m_conditionNodeIndices;
         };
 
     public:
@@ -58,8 +58,8 @@ namespace KRG::Animation::GraphNodes
 
             virtual void InstantiateNode( TVector<GraphNode*> const& nodePtrs, GraphDataSet const* pDataSet, InitOptions options ) const override;
 
-            TInlineVector<GraphNodeIndex, 5>                     m_optionNodeIndices;
-            TInlineVector<GraphNodeIndex, 5>                     m_conditionNodeIndices;
+            TInlineVector<int16_t, 5>                     m_optionNodeIndices;
+            TInlineVector<int16_t, 5>                     m_conditionNodeIndices;
         };
 
     public:

@@ -12,7 +12,7 @@ namespace KRG::Animation::GraphNodes
         CreateInputPin( "Value", GraphValueType::Bool );
     }
 
-    GraphNodeIndex CachedBoolEditorNode::Compile( GraphCompilationContext& context ) const
+    int16_t CachedBoolEditorNode::Compile( GraphCompilationContext& context ) const
     {
         CachedBoolNode::Settings* pSettings = nullptr;
         NodeCompilationState const state = context.GetSettings<CachedBoolNode>( this, pSettings );
@@ -21,7 +21,7 @@ namespace KRG::Animation::GraphNodes
             auto pInputNode = GetConnectedInputNode<EditorGraphNode>( 0 );
             if ( pInputNode != nullptr )
             {
-                GraphNodeIndex const compiledNodeIdx = pInputNode->Compile( context );
+                int16_t const compiledNodeIdx = pInputNode->Compile( context );
                 if ( compiledNodeIdx != InvalidIndex )
                 {
                     pSettings->m_inputValueNodeIdx = compiledNodeIdx;
@@ -58,7 +58,7 @@ namespace KRG::Animation::GraphNodes
         CreateInputPin( "Value", GraphValueType::ID );
     }
 
-    GraphNodeIndex CachedIDEditorNode::Compile( GraphCompilationContext& context ) const
+    int16_t CachedIDEditorNode::Compile( GraphCompilationContext& context ) const
     {
         CachedIDNode::Settings* pSettings = nullptr;
         if ( context.GetSettings<CachedIDNode>( this, pSettings ) == NodeCompilationState::NeedCompilation )
@@ -66,7 +66,7 @@ namespace KRG::Animation::GraphNodes
             auto pInputNode = GetConnectedInputNode<EditorGraphNode>( 0 );
             if ( pInputNode != nullptr )
             {
-                GraphNodeIndex const compiledNodeIdx = pInputNode->Compile( context );
+                int16_t const compiledNodeIdx = pInputNode->Compile( context );
                 if ( compiledNodeIdx != InvalidIndex )
                 {
                     pSettings->m_inputValueNodeIdx = compiledNodeIdx;
@@ -103,7 +103,7 @@ namespace KRG::Animation::GraphNodes
         CreateInputPin( "Value", GraphValueType::Int );
     }
 
-    GraphNodeIndex CachedIntEditorNode::Compile( GraphCompilationContext& context ) const
+    int16_t CachedIntEditorNode::Compile( GraphCompilationContext& context ) const
     {
         CachedIntNode::Settings* pSettings = nullptr;
         if ( context.GetSettings<CachedIntNode>( this, pSettings ) == NodeCompilationState::NeedCompilation )
@@ -111,7 +111,7 @@ namespace KRG::Animation::GraphNodes
             auto pInputNode = GetConnectedInputNode<EditorGraphNode>( 0 );
             if ( pInputNode != nullptr )
             {
-                GraphNodeIndex const compiledNodeIdx = pInputNode->Compile( context );
+                int16_t const compiledNodeIdx = pInputNode->Compile( context );
                 if ( compiledNodeIdx != InvalidIndex )
                 {
                     pSettings->m_inputValueNodeIdx = compiledNodeIdx;
@@ -148,7 +148,7 @@ namespace KRG::Animation::GraphNodes
         CreateInputPin( "Value", GraphValueType::Float );
     }
 
-    GraphNodeIndex CachedFloatEditorNode::Compile( GraphCompilationContext& context ) const
+    int16_t CachedFloatEditorNode::Compile( GraphCompilationContext& context ) const
     {
         CachedFloatNode::Settings* pSettings = nullptr;
         if ( context.GetSettings<CachedFloatNode>( this, pSettings ) == NodeCompilationState::NeedCompilation )
@@ -156,7 +156,7 @@ namespace KRG::Animation::GraphNodes
             auto pInputNode = GetConnectedInputNode<EditorGraphNode>( 0 );
             if ( pInputNode != nullptr )
             {
-                GraphNodeIndex const compiledNodeIdx = pInputNode->Compile( context );
+                int16_t const compiledNodeIdx = pInputNode->Compile( context );
                 if ( compiledNodeIdx != InvalidIndex )
                 {
                     pSettings->m_inputValueNodeIdx = compiledNodeIdx;
@@ -193,7 +193,7 @@ namespace KRG::Animation::GraphNodes
         CreateInputPin( "Value", GraphValueType::Vector );
     }
 
-    GraphNodeIndex CachedVectorEditorNode::Compile( GraphCompilationContext& context ) const
+    int16_t CachedVectorEditorNode::Compile( GraphCompilationContext& context ) const
     {
         CachedVectorNode::Settings* pSettings = nullptr;
         if ( context.GetSettings<CachedVectorNode>( this, pSettings ) == NodeCompilationState::NeedCompilation )
@@ -201,7 +201,7 @@ namespace KRG::Animation::GraphNodes
             auto pInputNode = GetConnectedInputNode<EditorGraphNode>( 0 );
             if ( pInputNode != nullptr )
             {
-                GraphNodeIndex const compiledNodeIdx = pInputNode->Compile( context );
+                int16_t const compiledNodeIdx = pInputNode->Compile( context );
                 if ( compiledNodeIdx != InvalidIndex )
                 {
                     pSettings->m_inputValueNodeIdx = compiledNodeIdx;
@@ -238,7 +238,7 @@ namespace KRG::Animation::GraphNodes
         CreateInputPin( "Value", GraphValueType::Target );
     }
 
-    GraphNodeIndex CachedTargetEditorNode::Compile( GraphCompilationContext& context ) const
+    int16_t CachedTargetEditorNode::Compile( GraphCompilationContext& context ) const
     {
         CachedTargetNode::Settings* pSettings = nullptr;
         if ( context.GetSettings<CachedTargetNode>( this, pSettings ) == NodeCompilationState::NeedCompilation )
@@ -246,7 +246,7 @@ namespace KRG::Animation::GraphNodes
             auto pInputNode = GetConnectedInputNode<EditorGraphNode>( 0 );
             if ( pInputNode != nullptr )
             {
-                GraphNodeIndex const compiledNodeIdx = pInputNode->Compile( context );
+                int16_t const compiledNodeIdx = pInputNode->Compile( context );
                 if ( compiledNodeIdx != InvalidIndex )
                 {
                     pSettings->m_inputValueNodeIdx = compiledNodeIdx;

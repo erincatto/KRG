@@ -17,7 +17,7 @@ namespace KRG::Animation::GraphNodes
         CreateInputPin( "Angular Velocity Limit (Optional)", GraphValueType::Float );
     }
 
-    GraphNodeIndex RootMotionOverrideEditorNode::Compile( GraphCompilationContext& context ) const
+    int16_t RootMotionOverrideEditorNode::Compile( GraphCompilationContext& context ) const
     {
         RootMotionOverrideNode::Settings* pSettings = nullptr;
         NodeCompilationState const state = context.GetSettings<RootMotionOverrideNode>( this, pSettings );
@@ -26,7 +26,7 @@ namespace KRG::Animation::GraphNodes
             auto pInputNode = GetConnectedInputNode<EditorGraphNode>( 0 );
             if ( pInputNode != nullptr )
             {
-                GraphNodeIndex const compiledNodeIdx = pInputNode->Compile( context );
+                int16_t const compiledNodeIdx = pInputNode->Compile( context );
                 if ( compiledNodeIdx != InvalidIndex )
                 {
                     pSettings->m_childNodeIdx = compiledNodeIdx;
@@ -47,7 +47,7 @@ namespace KRG::Animation::GraphNodes
             pInputNode = GetConnectedInputNode<EditorGraphNode>( 1 );
             if ( pInputNode != nullptr )
             {
-                GraphNodeIndex const compiledNodeIdx = pInputNode->Compile( context );
+                int16_t const compiledNodeIdx = pInputNode->Compile( context );
                 if ( compiledNodeIdx != InvalidIndex )
                 {
                     pSettings->m_desiredHeadingVelocityNodeIdx = compiledNodeIdx;
@@ -68,7 +68,7 @@ namespace KRG::Animation::GraphNodes
             pInputNode = GetConnectedInputNode<EditorGraphNode>( 2 );
             if ( pInputNode != nullptr )
             {
-                GraphNodeIndex const compiledNodeIdx = pInputNode->Compile( context );
+                int16_t const compiledNodeIdx = pInputNode->Compile( context );
                 if ( compiledNodeIdx != InvalidIndex )
                 {
                     pSettings->m_desiredFacingDirectionNodeIdx = compiledNodeIdx;
@@ -89,7 +89,7 @@ namespace KRG::Animation::GraphNodes
             pInputNode = GetConnectedInputNode<EditorGraphNode>( 3 );
             if ( pInputNode != nullptr )
             {
-                GraphNodeIndex const compiledNodeIdx = pInputNode->Compile( context );
+                int16_t const compiledNodeIdx = pInputNode->Compile( context );
                 if ( compiledNodeIdx != InvalidIndex )
                 {
                     pSettings->m_linearVelocityLimitNodeIdx = compiledNodeIdx;
@@ -105,7 +105,7 @@ namespace KRG::Animation::GraphNodes
             pInputNode = GetConnectedInputNode<EditorGraphNode>( 4 );
             if ( pInputNode != nullptr )
             {
-                GraphNodeIndex const compiledNodeIdx = pInputNode->Compile( context );
+                int16_t const compiledNodeIdx = pInputNode->Compile( context );
                 if ( compiledNodeIdx != InvalidIndex )
                 {
                     pSettings->m_angularVelocityLimitNodeIdx = compiledNodeIdx;

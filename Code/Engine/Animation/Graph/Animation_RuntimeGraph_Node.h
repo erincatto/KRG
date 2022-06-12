@@ -5,8 +5,11 @@
 #include "Engine/Animation/AnimationTarget.h"
 #include "System/TypeSystem/TypeRegistrationMacros.h"
 #include "System/Core/Serialization/BinaryArchive.h"
+#include "System/Core/Types/Color.h"
 
 //-------------------------------------------------------------------------
+
+namespace KRG::Drawing { class DrawContext; }
 
 namespace KRG::Animation
 {
@@ -18,6 +21,28 @@ namespace KRG::Animation
 
 namespace KRG::Animation
 {
+    enum class GraphValueType
+    {
+        KRG_REGISTER_ENUM
+
+        Unknown = 0,
+        Bool,
+        ID,
+        Int,
+        Float,
+        Vector,
+        Target,
+        BoneMask,
+        Pose
+    };
+
+    #if KRG_DEVELOPMENT_TOOLS
+    KRG_ENGINE_ANIMATION_API Color GetColorForValueType( GraphValueType type );
+    KRG_ENGINE_ANIMATION_API char const* GetNameForValueType( GraphValueType type );
+    #endif
+
+    //-------------------------------------------------------------------------
+
     class KRG_ENGINE_ANIMATION_API GraphNode
     {
         friend class PoseNode;
@@ -40,21 +65,21 @@ namespace KRG::Animation
         protected:
 
             template<typename T>
-            KRG_FORCE_INLINE static void SetNodePtrFromIndex( TVector<GraphNode*> const& nodePtrs, GraphNodeIndex nodeIdx, T*& pTargetPtr )
+            KRG_FORCE_INLINE static void SetNodePtrFromIndex( TVector<GraphNode*> const& nodePtrs, int16_t nodeIdx, T*& pTargetPtr )
             {
                 KRG_ASSERT( nodeIdx >= 0 && nodeIdx < nodePtrs.size() );
                 pTargetPtr = static_cast<T*>( nodePtrs[nodeIdx] );
             }
 
             template<typename T>
-            KRG_FORCE_INLINE static void SetNodePtrFromIndex( TVector<GraphNode*> const& nodePtrs, GraphNodeIndex nodeIdx, T const*& pTargetPtr )
+            KRG_FORCE_INLINE static void SetNodePtrFromIndex( TVector<GraphNode*> const& nodePtrs, int16_t nodeIdx, T const*& pTargetPtr )
             {
                 KRG_ASSERT( nodeIdx >= 0 && nodeIdx < nodePtrs.size() );
                 pTargetPtr = static_cast<T const*>( nodePtrs[nodeIdx] );
             }
 
             template<typename T>
-            KRG_FORCE_INLINE static void SetOptionalNodePtrFromIndex( TVector<GraphNode*> const& nodePtrs, GraphNodeIndex nodeIdx, T*& pTargetPtr )
+            KRG_FORCE_INLINE static void SetOptionalNodePtrFromIndex( TVector<GraphNode*> const& nodePtrs, int16_t nodeIdx, T*& pTargetPtr )
             {
                 if ( nodeIdx == InvalidIndex )
                 {
@@ -68,7 +93,7 @@ namespace KRG::Animation
             }
 
             template<typename T>
-            KRG_FORCE_INLINE static void SetOptionalNodePtrFromIndex( TVector<GraphNode*> const& nodePtrs, GraphNodeIndex nodeIdx, T const*& pTargetPtr )
+            KRG_FORCE_INLINE static void SetOptionalNodePtrFromIndex( TVector<GraphNode*> const& nodePtrs, int16_t nodeIdx, T const*& pTargetPtr )
             {
                 if ( nodeIdx == InvalidIndex )
                 {
@@ -110,7 +135,7 @@ namespace KRG::Animation
 
         public:
 
-            GraphNodeIndex                      m_nodeIdx = InvalidIndex; // The index of this node in the graph, we currently only support graphs with max of 32k nodes
+            int16_t                      m_nodeIdx = InvalidIndex; // The index of this node in the graph, we currently only support graphs with max of 32k nodes
         };
 
     public:
@@ -123,7 +148,7 @@ namespace KRG::Animation
 
         virtual bool IsValid() const { return true; }
         virtual GraphValueType GetValueType() const = 0;
-        inline GraphNodeIndex GetNodeIndex() const { return m_pSettings->m_nodeIdx; }
+        inline int16_t GetNodeIndex() const { return m_pSettings->m_nodeIdx; }
 
         inline bool IsInitialized() const { return m_initializationCount > 0; }
         virtual void Initialize( GraphContext& context );
@@ -218,7 +243,7 @@ namespace KRG::Animation
         PoseNodeDebugInfo GetDebugInfo() const;
 
         // Perform debug drawing for the pose node
-        virtual void DrawDebug( Drawing::DrawContext& drawCtx, GraphContext& graphContext ) {}
+        virtual void DrawDebug( GraphContext& graphContext, Drawing::DrawContext& drawCtx ) {}
         #endif
 
     private:

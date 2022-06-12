@@ -271,7 +271,7 @@ namespace KRG::Resource
         }
 
         // If we have a record, then schedule a recompile task
-        CreateResourceRequest( resourceID );
+        CreateResourceRequest( resourceID, 0, CompilationRequest::Origin::FileWatcher );
     }
 
     void ResourceServer::CleanupCompletedRequests()

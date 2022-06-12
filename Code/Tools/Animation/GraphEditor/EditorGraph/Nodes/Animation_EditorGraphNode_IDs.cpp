@@ -12,7 +12,7 @@ namespace KRG::Animation::GraphNodes
         CreateInputPin( "ID", GraphValueType::ID );
     }
 
-    GraphNodeIndex IDComparisonEditorNode::Compile( GraphCompilationContext& context ) const
+    int16_t IDComparisonEditorNode::Compile( GraphCompilationContext& context ) const
     {
         IDComparisonNode::Settings* pSettings = nullptr;
         NodeCompilationState const state = context.GetSettings<IDComparisonNode>( this, pSettings );
@@ -21,7 +21,7 @@ namespace KRG::Animation::GraphNodes
             auto pInputNode = GetConnectedInputNode<EditorGraphNode>( 0 );
             if ( pInputNode != nullptr )
             {
-                GraphNodeIndex const compiledNodeIdx = pInputNode->Compile( context );
+                int16_t const compiledNodeIdx = pInputNode->Compile( context );
                 if ( compiledNodeIdx != InvalidIndex )
                 {
                     pSettings->m_inputValueNodeIdx = compiledNodeIdx;
@@ -88,7 +88,7 @@ namespace KRG::Animation::GraphNodes
         CreateInputPin( "ID", GraphValueType::ID );
     }
 
-    GraphNodeIndex IDToFloatEditorNode::Compile( GraphCompilationContext& context ) const
+    int16_t IDToFloatEditorNode::Compile( GraphCompilationContext& context ) const
     {
         IDToFloatNode::Settings* pSettings = nullptr;
         NodeCompilationState const state = context.GetSettings<IDToFloatNode>( this, pSettings );
@@ -97,7 +97,7 @@ namespace KRG::Animation::GraphNodes
             auto pInputNode = GetConnectedInputNode<EditorGraphNode>( 0 );
             if ( pInputNode != nullptr )
             {
-                GraphNodeIndex const compiledNodeIdx = pInputNode->Compile( context );
+                int16_t const compiledNodeIdx = pInputNode->Compile( context );
                 if ( compiledNodeIdx != InvalidIndex )
                 {
                     pSettings->m_inputValueNodeIdx = compiledNodeIdx;

@@ -17,7 +17,7 @@ namespace KRG::Animation::GraphNodes
         virtual char const* GetTypeName() const override { return "Is Target Set"; }
         virtual char const* GetCategory() const override { return "Values/Target"; }
         virtual TBitFlags<GraphType> GetAllowedParentGraphTypes() const override { return TBitFlags<GraphType>( GraphType::BlendTree, GraphType::ValueTree, GraphType::TransitionTree ); }
-        virtual GraphNodeIndex Compile( GraphCompilationContext& context ) const override;
+        virtual int16_t Compile( GraphCompilationContext& context ) const override;
     };
 
     //-------------------------------------------------------------------------
@@ -33,7 +33,7 @@ namespace KRG::Animation::GraphNodes
         virtual char const* GetTypeName() const override { return "Target Info"; }
         virtual char const* GetCategory() const override { return "Values/Target"; }
         virtual TBitFlags<GraphType> GetAllowedParentGraphTypes() const override { return TBitFlags<GraphType>( GraphType::BlendTree, GraphType::ValueTree, GraphType::TransitionTree ); }
-        virtual GraphNodeIndex Compile( GraphCompilationContext& context ) const override;
+        virtual int16_t Compile( GraphCompilationContext& context ) const override;
         virtual void DrawInfoText( VisualGraph::DrawContext const& ctx ) override;
 
     private:
@@ -55,7 +55,7 @@ namespace KRG::Animation::GraphNodes
         virtual char const* GetTypeName() const override { return "Target Offset"; }
         virtual char const* GetCategory() const override { return "Values/Target"; }
         virtual TBitFlags<GraphType> GetAllowedParentGraphTypes() const override { return TBitFlags<GraphType>( GraphType::BlendTree, GraphType::ValueTree, GraphType::TransitionTree ); }
-        virtual GraphNodeIndex Compile( GraphCompilationContext& context ) const override;
+        virtual int16_t Compile( GraphCompilationContext& context ) const override;
 
     private:
 

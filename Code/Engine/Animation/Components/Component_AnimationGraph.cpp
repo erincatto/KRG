@@ -3,6 +3,7 @@
 #include "Engine/Core/Update/UpdateContext.h"
 #include "System/Animation/AnimationPose.h"
 #include "System/Core/Profiling/Profiling.h"
+#include "System/Core/Logging/Log.h"
 
 //-------------------------------------------------------------------------
 
@@ -17,8 +18,16 @@ namespace KRG::Animation
 
     void AnimationGraphComponent::Initialize()
     {
-        KRG_ASSERT( m_pGraphVariation != nullptr && m_pGraphVariation.IsLoaded() );
         EntityComponent::Initialize();
+
+        if ( m_pGraphVariation == nullptr )
+        {
+            return;
+        }
+
+        //-------------------------------------------------------------------------
+
+        KRG_ASSERT( m_pGraphVariation.IsLoaded() );
 
         #if KRG_DEVELOPMENT_TOOLS
         m_pRootMotionActionRecorder = KRG::New<RootMotionRecorder>();
@@ -40,11 +49,15 @@ namespace KRG::Animation
 
     void AnimationGraphComponent::Shutdown()
     {
-        if ( m_pGraphInstance->IsInitialized() )
+        // If we actually instantiated a graph
+        if ( m_pGraphInstance != nullptr )
         {
-            m_pGraphInstance->Shutdown( m_graphContext );
+            if ( m_pGraphInstance->IsInitialized() )
+            {
+                m_pGraphInstance->Shutdown( m_graphContext );
+            }
+            m_graphContext.Shutdown();
         }
-        m_graphContext.Shutdown();
 
         #if KRG_DEVELOPMENT_TOOLS
         KRG::Delete( m_pRootMotionActionRecorder );
@@ -71,14 +84,20 @@ namespace KRG::Animation
 
     Skeleton const* AnimationGraphComponent::GetSkeleton() const
     {
-        KRG_ASSERT( m_pGraphVariation != nullptr );
-        return m_pGraphVariation->GetSkeleton();
+        return ( m_pGraphVariation != nullptr ) ? m_pGraphVariation->GetSkeleton() : nullptr;
     }
 
     void AnimationGraphComponent::ResetGraphState()
     {
-        KRG_ASSERT( m_pGraphInstance->IsInitialized() );
-        m_pGraphInstance->Reset( m_graphContext );
+        if ( m_pGraphInstance != nullptr )
+        {
+            KRG_ASSERT( m_pGraphInstance->IsInitialized() );
+            m_pGraphInstance->Reset( m_graphContext );
+        }
+        else
+        {
+            KRG_LOG_ERROR( "Animation", "Trying to reset graph state on a animgraph component that has no state!" );
+        }
     }
 
     void AnimationGraphComponent::EvaluateGraph( Seconds deltaTime, Transform const& characterWorldTransform, Physics::Scene* pPhysicsScene )
@@ -86,6 +105,7 @@ namespace KRG::Animation
         KRG_PROFILE_FUNCTION_ANIMATION();
         m_graphContext.Update( deltaTime, characterWorldTransform, pPhysicsScene );
 
+        // Notify the root motion recorder we're starting an update
         #if KRG_DEVELOPMENT_TOOLS
         m_pRootMotionActionRecorder->StartCharacterUpdate( characterWorldTransform );
         #endif
@@ -108,6 +128,12 @@ namespace KRG::Animation
     {
         KRG_PROFILE_FUNCTION_ANIMATION();
 
+        if ( !HasGraph() )
+        {
+            return;
+        }
+
+        // Notify the root motion recorder we're done with the character position update so it can track expected vs actual position
         #if KRG_DEVELOPMENT_TOOLS
         m_pRootMotionActionRecorder->EndCharacterUpdate( characterWorldTransform );
         #endif
@@ -118,6 +144,12 @@ namespace KRG::Animation
     void AnimationGraphComponent::ExecutePostPhysicsTasks()
     {
         KRG_PROFILE_FUNCTION_ANIMATION();
+
+        if ( !HasGraph() )
+        {
+            return;
+        }
+
         m_pTaskSystem->UpdatePostPhysics( *m_pPose );
     }
 
@@ -126,27 +158,79 @@ namespace KRG::Animation
     #if KRG_DEVELOPMENT_TOOLS
     void AnimationGraphComponent::DrawDebug( Drawing::DrawContext& drawingContext )
     {
+        if ( !HasGraph() )
+        {
+            return;
+        }
+
         m_pTaskSystem->DrawDebug( drawingContext );
+        m_pGraphInstance->DrawDebug( m_graphContext, drawingContext );
         m_graphContext.GetRootMotionActionRecorder()->DrawDebug( drawingContext );
+    }
+
+    void AnimationGraphComponent::SetGraphDebugMode( GraphDebugMode mode )
+    {
+        if ( m_pGraphInstance != nullptr )
+        {
+            m_pGraphInstance->SetDebugMode( mode );
+        }
+        else
+        {
+            KRG_LOG_ERROR( "Animation", "Trying to set debug state on a animgraph component that has no state!" );
+        }
+    }
+
+    GraphDebugMode AnimationGraphComponent::GetGraphDebugMode() const
+    {
+        KRG_ASSERT( HasGraphInstance() );
+        return m_pGraphInstance->GetDebugMode();
+    }
+
+    void AnimationGraphComponent::SetGraphNodeDebugFilterList( TVector<int16_t> const& filterList )
+    {
+        if ( m_pGraphInstance != nullptr )
+        {
+            m_pGraphInstance->SetNodeDebugFilterList( filterList );
+        }
+        else
+        {
+            KRG_LOG_ERROR( "Animation", "Trying to set debug state on a animgraph component that has no state!" );
+        }
     }
 
     void AnimationGraphComponent::SetTaskSystemDebugMode( TaskSystemDebugMode mode )
     {
-        m_pTaskSystem->SetDebugMode( mode );
+        if ( m_pGraphInstance != nullptr )
+        {
+            m_pTaskSystem->SetDebugMode( mode );
+        }
+        else
+        {
+            KRG_LOG_ERROR( "Animation", "Trying to set debug state on a animgraph component that has no state!" );
+        }
     }
 
     TaskSystemDebugMode AnimationGraphComponent::GetTaskSystemDebugMode() const
     {
+        KRG_ASSERT( HasGraphInstance() );
         return m_pTaskSystem->GetDebugMode();
     }
 
     void AnimationGraphComponent::SetRootMotionDebugMode( RootMotionRecorderDebugMode mode )
     {
-        m_graphContext.GetRootMotionActionRecorder()->SetDebugMode( mode );
+        if ( m_pGraphInstance != nullptr )
+        {
+            m_graphContext.GetRootMotionActionRecorder()->SetDebugMode( mode );
+        }
+        else
+        {
+            KRG_LOG_ERROR( "Animation", "Trying to set debug state on a animgraph component that has no state!" );
+        }
     }
 
     RootMotionRecorderDebugMode AnimationGraphComponent::GetRootMotionDebugMode() const
     {
+        KRG_ASSERT( HasGraphInstance() );
         return m_graphContext.GetRootMotionActionRecorder()->GetDebugMode();
     }
     #endif

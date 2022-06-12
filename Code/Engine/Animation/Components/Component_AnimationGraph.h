@@ -10,6 +10,7 @@
 namespace KRG::Animation
 {
     enum class TaskSystemDebugMode;
+    enum class RootMotionRecorderDebugMode;
 
     //-------------------------------------------------------------------------
 
@@ -27,10 +28,20 @@ namespace KRG::Animation
 
         //-------------------------------------------------------------------------
 
+        inline bool HasGraph() const { return m_pGraphVariation != nullptr; }
+        inline bool HasGraphInstance() const { return m_pGraphInstance != nullptr; }
         Skeleton const* GetSkeleton() const;
         Pose const* GetPose() const { return m_pPose; }
-        inline Transform const& GetRootMotionDelta() const { return m_rootMotionDelta; }
+
+        // Does this component require a manual update via a custom entity system?
         inline bool RequiresManualUpdate() const { return m_requiresManualUpdate; }
+
+        // Should we apply the root motion delta automatically to the character once we evaluate the graph 
+        // (Note: only works if we dont require a manual update)
+        inline bool ShouldApplyRootMotionToEntity() const { return m_applyRootMotionToEntity; }
+
+        // Gets the root motion delta for the last update (Note: this delta is in character space!)
+        inline Transform const& GetRootMotionDelta() const { return m_rootMotionDelta; }
 
         // Get the graph variation ID
         inline ResourceID const& GetGraphVariationID() const { return m_pGraphVariation.GetResourceID(); }
@@ -57,24 +68,28 @@ namespace KRG::Animation
         //-------------------------------------------------------------------------
 
         template<typename ParameterType>
-        void SetControlParameterValue( GraphNodeIndex parameterIdx, ParameterType const& value )
+        void SetControlParameterValue( int16_t parameterIdx, ParameterType const& value )
         {
+            KRG_ASSERT( m_pGraphInstance != nullptr );
             m_pGraphInstance->SetControlParameterValue( m_graphContext, parameterIdx, value );
         }
 
         template<typename ParameterType>
-        ParameterType GetControlParameterValue( GraphNodeIndex parameterIdx ) const
+        ParameterType GetControlParameterValue( int16_t parameterIdx ) const
         {
+            KRG_ASSERT( m_pGraphInstance != nullptr );
             return m_pGraphInstance->GetControlParameterValue<ParameterType>( const_cast<GraphContext&>( m_graphContext ), parameterIdx );
         }
 
-        KRG_FORCE_INLINE GraphNodeIndex GetControlParameterIndex( StringID parameterID ) const
+        KRG_FORCE_INLINE int16_t GetControlParameterIndex( StringID parameterID ) const
         {
+            KRG_ASSERT( m_pGraphInstance != nullptr );
             return m_pGraphInstance->GetControlParameterIndex( parameterID );
         }
 
-        KRG_FORCE_INLINE GraphValueType GetControlParameterValueType( GraphNodeIndex parameterIdx ) const
+        KRG_FORCE_INLINE GraphValueType GetControlParameterValueType( int16_t parameterIdx ) const
         {
+            KRG_ASSERT( m_pGraphInstance != nullptr );
             return m_pGraphInstance->GetControlParameterType( parameterIdx );
         }
 
@@ -82,24 +97,29 @@ namespace KRG::Animation
         //-------------------------------------------------------------------------
 
         #if KRG_DEVELOPMENT_TOOLS
-        inline bool IsNodeActive( GraphNodeIndex nodeIdx ) const
+        inline bool IsNodeActive( int16_t nodeIdx ) const
         {
             KRG_ASSERT( m_pGraphInstance != nullptr );
             return m_pGraphInstance->IsNodeActive( const_cast<GraphContext&>( m_graphContext ), nodeIdx );
         }
 
-        inline PoseNodeDebugInfo GetPoseNodeDebugInfo( GraphNodeIndex nodeIdx ) const
+        inline PoseNodeDebugInfo GetPoseNodeDebugInfo( int16_t nodeIdx ) const
         {
             KRG_ASSERT( m_pGraphInstance != nullptr );
             return m_pGraphInstance->GetPoseNodeDebugInfo( const_cast<GraphContext&>( m_graphContext ), nodeIdx );
         }
 
         template<typename T>
-        inline T GetRuntimeNodeValue( GraphNodeIndex nodeIdx ) const
+        inline T GetRuntimeNodeValue( int16_t nodeIdx ) const
         {
             KRG_ASSERT( m_pGraphInstance != nullptr );
             return m_pGraphInstance->GetRuntimeNodeValue<T>( const_cast<GraphContext&>( m_graphContext ), nodeIdx );
         }
+
+        // Graph debug
+        void SetGraphDebugMode( GraphDebugMode mode );
+        GraphDebugMode GetGraphDebugMode() const;
+        void SetGraphNodeDebugFilterList( TVector<int16_t> const& filterList );
 
         // Task system debug
         void SetTaskSystemDebugMode( TaskSystemDebugMode mode );
@@ -128,7 +148,8 @@ namespace KRG::Animation
         Transform                                               m_rootMotionDelta = Transform::Identity;
         GraphContext                                            m_graphContext;
         Pose*                                                   m_pPose = nullptr;
-        KRG_EXPOSE bool                                         m_requiresManualUpdate = false;
+        KRG_EXPOSE bool                                         m_requiresManualUpdate = false;  // Does this component require a manual update via a custom entity system?
+        KRG_EXPOSE bool                                         m_applyRootMotionToEntity = false; // Should we apply the root motion delta automatically to the character once we evaluate the graph. (Note: only works if we dont require a manual update)
 
         #if KRG_DEVELOPMENT_TOOLS
         RootMotionRecorder*                                     m_pRootMotionActionRecorder = nullptr; // Allows nodes to record root motion operations

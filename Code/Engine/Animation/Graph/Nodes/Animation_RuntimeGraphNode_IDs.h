@@ -23,7 +23,7 @@ namespace KRG::Animation::GraphNodes
 
             virtual void InstantiateNode( TVector<GraphNode*> const& nodePtrs, GraphDataSet const* pDataSet, InitOptions options ) const override;
 
-            GraphNodeIndex                               m_inputValueNodeIdx = InvalidIndex;
+            int16_t                               m_inputValueNodeIdx = InvalidIndex;
             Comparison                              m_comparison = Comparison::Matches;
             TInlineVector<StringID, 4>              m_comparisionIDs;
         };
@@ -53,7 +53,7 @@ namespace KRG::Animation::GraphNodes
 
             virtual void InstantiateNode( TVector<GraphNode*> const& nodePtrs, GraphDataSet const* pDataSet, InitOptions options ) const override;
 
-            GraphNodeIndex                   m_inputValueNodeIdx = InvalidIndex;
+            int16_t                   m_inputValueNodeIdx = InvalidIndex;
             float                       m_defaultValue = 0.0f;
             TInlineVector<StringID, 5>  m_IDs;
             TInlineVector<float, 5>     m_values;

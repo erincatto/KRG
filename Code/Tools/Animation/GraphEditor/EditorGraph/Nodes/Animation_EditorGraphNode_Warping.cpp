@@ -15,7 +15,7 @@ namespace KRG::Animation::GraphNodes
         CreateInputPin( "Angle Offset", GraphValueType::Float );
     }
 
-    GraphNodeIndex OrientationWarpEditorNode::Compile( GraphCompilationContext& context ) const
+    int16_t OrientationWarpEditorNode::Compile( GraphCompilationContext& context ) const
     {
         OrientationWarpNode::Settings* pSettings = nullptr;
         NodeCompilationState const state = context.GetSettings<OrientationWarpNode>( this, pSettings );
@@ -24,7 +24,7 @@ namespace KRG::Animation::GraphNodes
             auto pInputNode = GetConnectedInputNode<EditorGraphNode>( 0 );
             if ( pInputNode != nullptr )
             {
-                GraphNodeIndex const compiledNodeIdx = pInputNode->Compile( context );
+                int16_t const compiledNodeIdx = pInputNode->Compile( context );
                 if ( compiledNodeIdx != InvalidIndex )
                 {
                     pSettings->m_clipReferenceNodeIdx = compiledNodeIdx;
@@ -45,7 +45,7 @@ namespace KRG::Animation::GraphNodes
             pInputNode = GetConnectedInputNode<EditorGraphNode>( 1 );
             if ( pInputNode != nullptr )
             {
-                GraphNodeIndex const compiledNodeIdx = pInputNode->Compile( context );
+                int16_t const compiledNodeIdx = pInputNode->Compile( context );
                 if ( compiledNodeIdx != InvalidIndex )
                 {
                     pSettings->m_angleOffsetValueNodeIdx = compiledNodeIdx;
@@ -85,7 +85,7 @@ namespace KRG::Animation::GraphNodes
         CreateInputPin( "World Target", GraphValueType::Target );
     }
 
-    GraphNodeIndex TargetWarpEditorNode::Compile( GraphCompilationContext& context ) const
+    int16_t TargetWarpEditorNode::Compile( GraphCompilationContext& context ) const
     {
         TargetWarpNode::Settings* pSettings = nullptr;
         NodeCompilationState const state = context.GetSettings<TargetWarpNode>( this, pSettings );
@@ -94,7 +94,7 @@ namespace KRG::Animation::GraphNodes
             auto pInputNode = GetConnectedInputNode<EditorGraphNode>( 0 );
             if ( pInputNode != nullptr )
             {
-                GraphNodeIndex const compiledNodeIdx = pInputNode->Compile( context );
+                int16_t const compiledNodeIdx = pInputNode->Compile( context );
                 if ( compiledNodeIdx != InvalidIndex )
                 {
                     pSettings->m_clipReferenceNodeIdx = compiledNodeIdx;
@@ -115,7 +115,7 @@ namespace KRG::Animation::GraphNodes
             pInputNode = GetConnectedInputNode<EditorGraphNode>( 1 );
             if ( pInputNode != nullptr )
             {
-                GraphNodeIndex const compiledNodeIdx = pInputNode->Compile( context );
+                int16_t const compiledNodeIdx = pInputNode->Compile( context );
                 if ( compiledNodeIdx != InvalidIndex )
                 {
                     pSettings->m_targetValueNodeIdx = compiledNodeIdx;
@@ -136,7 +136,7 @@ namespace KRG::Animation::GraphNodes
 
         pSettings->m_allowTargetUpdate = m_allowTargetUpdate;
         pSettings->m_samplingMode = m_samplingMode;
-        pSettings->m_samplingPositionErrorThreshold = m_samplingPositionErrorThreshold;
+        pSettings->m_samplingPositionErrorThresholdSq = Math::Sqr( m_samplingPositionErrorThreshold );
 
         return pSettings->m_nodeIdx;
     }

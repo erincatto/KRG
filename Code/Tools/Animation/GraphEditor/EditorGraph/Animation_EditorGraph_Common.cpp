@@ -12,13 +12,13 @@ namespace KRG::Animation
 
     //-------------------------------------------------------------------------
 
-    bool DebugContext::IsNodeActive( GraphNodeIndex nodeIdx ) const
+    bool DebugContext::IsNodeActive( int16_t nodeIdx ) const
     {
         return m_pGraphComponent->IsNodeActive( nodeIdx );
     }
 
     #if KRG_DEVELOPMENT_TOOLS
-    PoseNodeDebugInfo DebugContext::GetPoseNodeDebugInfo( GraphNodeIndex runtimeNodeIdx ) const
+    PoseNodeDebugInfo DebugContext::GetPoseNodeDebugInfo( int16_t runtimeNodeIdx ) const
     {
         return m_pGraphComponent->GetPoseNodeDebugInfo( runtimeNodeIdx );
     }

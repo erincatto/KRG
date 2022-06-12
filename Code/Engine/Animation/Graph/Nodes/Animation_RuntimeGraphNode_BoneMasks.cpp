@@ -99,7 +99,7 @@ namespace KRG::Animation::GraphNodes
     {
         auto pNode = CreateNode<BoneMaskSelectorNode>( nodePtrs, options );
 
-        for ( GraphNodeIndex const maskNodeIdx : m_maskNodeIndices )
+        for ( int16_t const maskNodeIdx : m_maskNodeIndices )
         {
             SetNodePtrFromIndex( nodePtrs, maskNodeIdx, pNode->m_boneMaskOptionNodes.emplace_back() );
         }

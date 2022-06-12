@@ -26,7 +26,7 @@ namespace KRG::Animation::GraphNodes
 
             virtual void InstantiateNode( TVector<GraphNode*> const& nodePtrs, GraphDataSet const* pDataSet, InitOptions options ) const override;
 
-            GraphNodeIndex               m_physicsBlendWeightNodeIdx = InvalidIndex;
+            int16_t               m_physicsBlendWeightNodeIdx = InvalidIndex;
             DataSetSlotIndex        m_dataSlotIdx = InvalidIndex;
             StringID                m_profileID;
             float                   m_physicsBlendWeight = 1.0f;

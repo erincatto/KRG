@@ -34,7 +34,7 @@ namespace KRG::Animation::GraphNodes
 
             virtual void InstantiateNode( TVector<GraphNode*> const& nodePtrs, GraphDataSet const* pDataSet, InitOptions options ) const override;
 
-            GraphNodeIndex                   m_inputValueNodeIdx = InvalidIndex;
+            int16_t                   m_inputValueNodeIdx = InvalidIndex;
             Info                        m_desiredInfo = Info::X;
         };
 
@@ -63,7 +63,7 @@ namespace KRG::Animation::GraphNodes
 
             virtual void InstantiateNode( TVector<GraphNode*> const& nodePtrs, GraphDataSet const* pDataSet, InitOptions options ) const override;
 
-            GraphNodeIndex                   m_inputValueNodeIdx = InvalidIndex;
+            int16_t                   m_inputValueNodeIdx = InvalidIndex;
         };
 
     private:

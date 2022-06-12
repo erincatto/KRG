@@ -1,8 +1,6 @@
 #pragma once
 
 #include "Animation_RuntimeGraph_Events.h"
-#include "Animation_RuntimeGraph_Common.h"
-#include "Animation_RuntimeGraph_RootMotionRecorder.h"
 #include "Engine/Animation/AnimationBoneMask.h"
 #include "System/Core/Math/Transform.h"
 #include "System/Core/Time/Time.h"
@@ -18,6 +16,15 @@ namespace KRG::Animation
     class RootMotionRecorder;
     class TaskSystem;
     class Pose;
+
+    //-------------------------------------------------------------------------
+
+    // Used to signify if a node or node output is coming from an active state (i.e. a state we are not transitioning away from)
+    enum class BranchState
+    {
+        Active,
+        Inactive,
+    };
 
     //-------------------------------------------------------------------------
     // Layer Context
@@ -69,10 +76,15 @@ namespace KRG::Animation
         //-------------------------------------------------------------------------
 
         #if KRG_DEVELOPMENT_TOOLS
-        inline void TrackActiveNode( GraphNodeIndex nodeIdx ) { KRG_ASSERT( nodeIdx != InvalidIndex ); m_activeNodes.emplace_back( nodeIdx ); }
-        inline TVector<GraphNodeIndex> const& GetActiveNodes() const { return m_activeNodes; }
+
+        // Active nodes
+        inline void TrackActiveNode( int16_t nodeIdx ) { KRG_ASSERT( nodeIdx != InvalidIndex ); m_activeNodes.emplace_back( nodeIdx ); }
+        inline TVector<int16_t> const& GetActiveNodes() const { return m_activeNodes; }
+
+        // Root Motion
         inline RootMotionRecorder* GetRootMotionActionRecorder() { return m_pRootMotionActionRecorder; }
         inline RootMotionRecorder const* GetRootMotionActionRecorder() const { return m_pRootMotionActionRecorder; }
+
         #endif
 
     private:
@@ -82,14 +94,14 @@ namespace KRG::Animation
 
     public:
 
-        uint64_t                                  m_graphUserID = 0;
+        uint64_t                                m_graphUserID = 0;
         TaskSystem* const                       m_pTaskSystem = nullptr;
         Skeleton const* const                   m_pSkeleton = nullptr;
         Pose const* const                       m_pPreviousPose = nullptr;
         Transform                               m_worldTransform = Transform::Identity;
         Transform                               m_worldTransformInverse = Transform::Identity;
         SampledEventsBuffer                     m_sampledEvents;
-        uint32_t                                  m_updateID = 0;
+        uint32_t                                m_updateID = 0;
         BranchState                             m_branchState = BranchState::Active;
         Physics::Scene*                         m_pPhysicsScene = nullptr;
 
@@ -101,7 +113,7 @@ namespace KRG::Animation
 
         #if KRG_DEVELOPMENT_TOOLS
         RootMotionRecorder* const               m_pRootMotionActionRecorder = nullptr; // Allows nodes to record root motion operations
-        TVector<GraphNodeIndex>                 m_activeNodes;
+        TVector<int16_t>                        m_activeNodes;
         #endif
     };
 

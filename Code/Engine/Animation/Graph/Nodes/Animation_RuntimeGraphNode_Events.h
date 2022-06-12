@@ -44,7 +44,7 @@ namespace KRG::Animation::GraphNodes
 
         public:
 
-            GraphNodeIndex                                   m_sourceStateNodeIdx = InvalidIndex;
+            int16_t                                   m_sourceStateNodeIdx = InvalidIndex;
             Operator                                    m_operator = Operator::Or;
             EventSearchMode                             m_searchMode = EventSearchMode::SearchAll;
             TInlineVector<StringID, 5>                  m_eventIDs;
@@ -79,7 +79,7 @@ namespace KRG::Animation::GraphNodes
 
         public:
 
-            GraphNodeIndex                                   m_sourceStateNodeIdx = InvalidIndex;
+            int16_t                                   m_sourceStateNodeIdx = InvalidIndex;
             EventSearchMode                             m_searchMode = EventSearchMode::SearchAll;
             bool                                        m_preferHighestPercentageThrough = false;
             StringID                                    m_eventID;
@@ -112,7 +112,7 @@ namespace KRG::Animation::GraphNodes
 
         public:
 
-            GraphNodeIndex                                   m_sourceStateNodeIdx = InvalidIndex;
+            int16_t                                   m_sourceStateNodeIdx = InvalidIndex;
             FootEvent::PhaseCondition                   m_phaseCondition = FootEvent::PhaseCondition::LeftFootDown;
             bool                                        m_preferHighestPercentageThrough = false;
         };
@@ -144,7 +144,7 @@ namespace KRG::Animation::GraphNodes
 
         public:
 
-            GraphNodeIndex                                   m_sourceStateNodeIdx = InvalidIndex;
+            int16_t                                   m_sourceStateNodeIdx = InvalidIndex;
             FootEvent::PhaseCondition                   m_phaseCondition = FootEvent::PhaseCondition::LeftFootDown;
             bool                                        m_preferHighestPercentageThrough = false;
         };
@@ -184,7 +184,7 @@ namespace KRG::Animation::GraphNodes
 
         public:
 
-            GraphNodeIndex                                   m_sourceStateNodeIdx = InvalidIndex;
+            int16_t                                   m_sourceStateNodeIdx = InvalidIndex;
             TriggerMode                                 m_triggerMode = TriggerMode::ExactlyAtEventIndex;
             int32_t                                       m_syncEventIdx = InvalidIndex;
         };
@@ -219,7 +219,7 @@ namespace KRG::Animation::GraphNodes
 
         public:
 
-            GraphNodeIndex                                   m_sourceStateNodeIdx = InvalidIndex;
+            int16_t                                   m_sourceStateNodeIdx = InvalidIndex;
         };
 
     private:

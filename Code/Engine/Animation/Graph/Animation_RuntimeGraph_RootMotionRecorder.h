@@ -1,6 +1,5 @@
 #pragma once
 
-#include "Animation_RuntimeGraph_Common.h"
 #include "System/Core/Math/Transform.h"
 #include "System/Core/Time/Time.h"
 #include "System/Core/Types/Containers.h"
@@ -41,14 +40,14 @@ namespace KRG::Animation
 
         struct RecordedAction
         {
-            RecordedAction( GraphNodeIndex nodeIdx, ActionType actionType, Transform const& rootMotionDelta )
+            RecordedAction( int16_t nodeIdx, ActionType actionType, Transform const& rootMotionDelta )
                 : m_rootMotionDelta( rootMotionDelta )
                 , m_nodeIdx( nodeIdx )
                 , m_actionType( actionType )
             {}
 
             Transform                   m_rootMotionDelta;
-            GraphNodeIndex              m_nodeIdx;
+            int16_t              m_nodeIdx;
             ActionType                  m_actionType;
             TInlineVector<int16_t, 2>     m_dependencies;
         };
@@ -77,7 +76,7 @@ namespace KRG::Animation
 
         KRG_FORCE_INLINE int16_t GetLastActionIndex() const { return (int16_t) m_recordedActions.size() - 1; }
 
-        KRG_FORCE_INLINE int16_t RecordSampling( GraphNodeIndex nodeIdx, Transform const& rootMotionDelta )
+        KRG_FORCE_INLINE int16_t RecordSampling( int16_t nodeIdx, Transform const& rootMotionDelta )
         {
             KRG_ASSERT( nodeIdx != InvalidIndex );
             int16_t const idx = (int16_t) m_recordedActions.size();
@@ -85,7 +84,7 @@ namespace KRG::Animation
             return idx;
         }
 
-        KRG_FORCE_INLINE int16_t RecordModification( GraphNodeIndex nodeIdx, Transform const& rootMotionDelta )
+        KRG_FORCE_INLINE int16_t RecordModification( int16_t nodeIdx, Transform const& rootMotionDelta )
         {
             KRG_ASSERT( nodeIdx != InvalidIndex );
             int16_t const previousIdx = GetLastActionIndex();
@@ -97,7 +96,7 @@ namespace KRG::Animation
         }
 
         // Blend operations automatically pop a blend context
-        KRG_FORCE_INLINE int16_t RecordBlend( GraphNodeIndex nodeIdx, int16_t originalRootMotionActionIdx0, int16_t originalRootMotionActionIdx1, Transform const& rootMotionDelta )
+        KRG_FORCE_INLINE int16_t RecordBlend( int16_t nodeIdx, int16_t originalRootMotionActionIdx0, int16_t originalRootMotionActionIdx1, Transform const& rootMotionDelta )
         {
             KRG_ASSERT( nodeIdx != InvalidIndex );
             int16_t const idx = (int16_t) m_recordedActions.size();

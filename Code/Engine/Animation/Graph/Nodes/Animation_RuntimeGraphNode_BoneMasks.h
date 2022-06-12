@@ -48,9 +48,9 @@ namespace KRG::Animation::GraphNodes
 
             virtual void InstantiateNode( TVector<GraphNode*> const& nodePtrs, GraphDataSet const* pDataSet, InitOptions options ) const override;
 
-            GraphNodeIndex                           m_sourceMaskNodeIdx = InvalidIndex;
-            GraphNodeIndex                           m_targetMaskNodeIdx = InvalidIndex;
-            GraphNodeIndex                           m_blendWeightValueNodeIdx = InvalidIndex;
+            int16_t                           m_sourceMaskNodeIdx = InvalidIndex;
+            int16_t                           m_targetMaskNodeIdx = InvalidIndex;
+            int16_t                           m_blendWeightValueNodeIdx = InvalidIndex;
         };
 
     private:
@@ -80,10 +80,10 @@ namespace KRG::Animation::GraphNodes
 
             virtual void InstantiateNode( TVector<GraphNode*> const& nodePtrs, GraphDataSet const* pDataSet, InitOptions options ) const override;
 
-            GraphNodeIndex                                       m_defaultMaskNodeIdx = InvalidIndex;
-            GraphNodeIndex                                       m_parameterValueNodeIdx = InvalidIndex;
+            int16_t                                       m_defaultMaskNodeIdx = InvalidIndex;
+            int16_t                                       m_parameterValueNodeIdx = InvalidIndex;
             bool                                            m_switchDynamically = false;
-            TInlineVector<GraphNodeIndex, 7>                     m_maskNodeIndices;
+            TInlineVector<int16_t, 7>                     m_maskNodeIndices;
             TInlineVector<StringID, 7>                      m_parameterValues;
             Seconds                                         m_blendTime = 0.1f;
         };

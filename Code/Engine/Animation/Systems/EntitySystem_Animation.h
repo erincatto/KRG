@@ -8,6 +8,7 @@
 namespace KRG
 {
     class Transform;
+    class SpatialEntityComponent;
 }
 
 namespace KRG::Render
@@ -26,7 +27,7 @@ namespace KRG::Animation
 
     class KRG_ENGINE_ANIMATION_API AnimationSystem : public EntitySystem
     {
-        KRG_REGISTER_ENTITY_SYSTEM( AnimationSystem, RequiresUpdate( UpdateStage::PrePhysics ), RequiresUpdate( UpdateStage::PostPhysics ) );
+        KRG_REGISTER_ENTITY_SYSTEM( AnimationSystem, RequiresUpdate( UpdateStage::PrePhysics ), RequiresUpdate( UpdateStage::PostPhysics, UpdatePriority::Low ) );
 
     public:
 
@@ -46,5 +47,6 @@ namespace KRG::Animation
         TVector<AnimationClipPlayerComponent*>          m_animPlayers;
         TVector<AnimationGraphComponent*>               m_animGraphs;
         TVector<Render::SkeletalMeshComponent*>         m_meshComponents;
+        SpatialEntityComponent*                         m_pRootComponent = nullptr;
     };
 }

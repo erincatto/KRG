@@ -1,8 +1,9 @@
 #include "Animation_RuntimeGraphNode_Blends.h"
+#include "Animation_RuntimeGraphNode_AnimationClip.h"
 #include "Engine/Animation/AnimationClip.h"
 #include "Engine/Animation/TaskSystem/Animation_TaskSystem.h"
 #include "Engine/Animation/TaskSystem/Tasks/Animation_Task_Blend.h"
-#include "Animation_RuntimeGraphNode_AnimationClip.h"
+#include "Engine/Animation/Graph/Animation_RuntimeGraph_RootMotionRecorder.h"
 #include "EASTL/sort.h"
 
 //-------------------------------------------------------------------------
@@ -433,7 +434,7 @@ namespace KRG::Animation::GraphNodes
 
             TInlineVector<float, 5> values;
             int32_t const numSources = (int32_t) pSettings->m_sourceNodeIndices.size();
-            for ( GraphNodeIndex i = 0; i < numSources; i++ )
+            for ( int16_t i = 0; i < numSources; i++ )
             {
                 // The editor tooling guarantees that the source nodes are actually clip references!
                 AnimationClip const* pAnimation = static_cast<AnimationClipReferenceNode const*>( m_sourceNodes[i] )->GetAnimation();

@@ -192,7 +192,6 @@ namespace KRG
         }
 
         bool showContents = false;
-
         {
             ImGuiX::ScopedFont const sf( ImGuiX::Font::Small );
 
@@ -206,6 +205,12 @@ namespace KRG
             else
             {
                 ImGui::Text( propertyName.c_str() );
+            }
+
+            // Description
+            if ( !propertyInfo.m_description.empty() && ImGui::IsItemHovered() )
+            {
+                ImGui::SetTooltip( propertyInfo.m_description.c_str() );
             }
         }
 
@@ -233,6 +238,11 @@ namespace KRG
                 {
                     ScopedChangeNotifier cn( this, &propertyInfo );
                     pPropertyEditor->UpdateInstanceValue();
+                }
+
+                if ( !propertyInfo.m_description.empty() )
+                {
+                    ImGuiX::ItemTooltip( propertyInfo.m_description.c_str() );
                 }
             }
             else
@@ -338,6 +348,12 @@ namespace KRG
             {
                 showContents = true;
             }
+        }
+
+        // Description
+        if ( !propertyInfo.m_description.empty() && ImGui::IsItemHovered() )
+        {
+            ImGui::SetTooltip( propertyInfo.m_description.c_str() );
         }
 
         // Editor

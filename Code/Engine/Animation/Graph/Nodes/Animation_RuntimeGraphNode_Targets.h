@@ -16,7 +16,7 @@ namespace KRG::Animation::GraphNodes
 
             virtual void InstantiateNode( TVector<GraphNode*> const& nodePtrs, GraphDataSet const* pDataSet, InitOptions options ) const override;
 
-            GraphNodeIndex                   m_inputValueNodeIdx = InvalidIndex;
+            int16_t                   m_inputValueNodeIdx = InvalidIndex;
         };
 
     private:
@@ -60,7 +60,7 @@ namespace KRG::Animation::GraphNodes
 
             virtual void InstantiateNode( TVector<GraphNode*> const& nodePtrs, GraphDataSet const* pDataSet, InitOptions options ) const override;
 
-            GraphNodeIndex                   m_inputValueNodeIdx = InvalidIndex;
+            int16_t                   m_inputValueNodeIdx = InvalidIndex;
             Info                        m_infoType = Info::Distance;
             bool                        m_isWorldSpaceTarget = true;
         };
@@ -91,7 +91,7 @@ namespace KRG::Animation::GraphNodes
 
             virtual void InstantiateNode( TVector<GraphNode*> const& nodePtrs, GraphDataSet const* pDataSet, InitOptions options ) const override;
 
-            GraphNodeIndex               m_inputValueNodeIdx = InvalidIndex;
+            int16_t               m_inputValueNodeIdx = InvalidIndex;
             bool                    m_isBoneSpaceOffset = true;
             Quaternion              m_rotationOffset = Quaternion::Identity;
             Vector                  m_translationOffset = Vector::Zero;

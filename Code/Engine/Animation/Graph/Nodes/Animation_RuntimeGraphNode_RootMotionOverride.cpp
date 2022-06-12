@@ -1,4 +1,5 @@
 #include "Animation_RuntimeGraphNode_RootMotionOverride.h"
+#include "Engine/Animation/Graph/Animation_RuntimeGraph_RootMotionRecorder.h"
 
 //-------------------------------------------------------------------------
 

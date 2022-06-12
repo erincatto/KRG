@@ -17,8 +17,9 @@ namespace KRG::VisualGraph
         constexpr static uint32_t const   s_genericNodeTitleColor = IM_COL32( 28, 28, 28, 255 );
         constexpr static uint32_t const   s_genericNodeBackgroundColor = IM_COL32( 75, 75, 75, 255 );
         constexpr static uint32_t const   s_genericNodeBorderColorSelected = IM_COL32( 255, 255, 255, 255 );
+        constexpr static uint32_t const   s_genericActiveColor = IM_COL32( 50, 205, 50, 255 );
         constexpr static uint32_t const   s_genericHoverColor = IM_COL32( 200, 200, 200, 255 );
-        constexpr static uint32_t const   s_genericSelectionColor = IM_COL32( 50, 205, 50, 255 );
+        constexpr static uint32_t const   s_genericSelectionColor = IM_COL32( 255, 216, 0, 255 );
 
         constexpr static uint32_t const   s_connectionColor = IM_COL32( 185, 185, 185, 255 );
         constexpr static uint32_t const   s_connectionColorValid = IM_COL32( 0, 255, 0, 255 );

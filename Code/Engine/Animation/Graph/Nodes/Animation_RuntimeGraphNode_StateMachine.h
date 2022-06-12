@@ -18,16 +18,16 @@ namespace KRG::Animation::GraphNodes
             KRG_SERIALIZE_MEMBERS( m_targetStateIdx, m_transitionNodeIdx, m_conditionNodeIdx );
 
             StateIndex                                              m_targetStateIdx = InvalidIndex;
-            GraphNodeIndex                                          m_conditionNodeIdx = InvalidIndex;
-            GraphNodeIndex                                          m_transitionNodeIdx = InvalidIndex;
+            int16_t                                          m_conditionNodeIdx = InvalidIndex;
+            int16_t                                          m_transitionNodeIdx = InvalidIndex;
         };
 
         struct StateSettings
         {
             KRG_SERIALIZE_MEMBERS( m_stateNodeIdx, m_entryConditionNodeIdx, m_transitionSettings );
 
-            GraphNodeIndex                                          m_stateNodeIdx = InvalidIndex;
-            GraphNodeIndex                                          m_entryConditionNodeIdx = InvalidIndex;
+            int16_t                                          m_stateNodeIdx = InvalidIndex;
+            int16_t                                          m_entryConditionNodeIdx = InvalidIndex;
             TInlineVector<TransitionSettings, 5>                    m_transitionSettings;
         };
 
