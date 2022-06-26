@@ -5,11 +5,11 @@
 
 namespace KRG::Animation::GraphNodes
 {
-    class KRG_ENGINE_ANIMATION_API PassthroughNode : public PoseNode
+    class KRG_ENGINE_API PassthroughNode : public PoseNode
     {
     public:
 
-        struct KRG_ENGINE_ANIMATION_API Settings : public PoseNode::Settings
+        struct KRG_ENGINE_API Settings : public PoseNode::Settings
         {
             KRG_REGISTER_TYPE( Settings );
             KRG_SERIALIZE_GRAPHNODESETTINGS( PoseNode::Settings, m_childNodeIdx );

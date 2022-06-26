@@ -1,7 +1,7 @@
 #pragma once
 #ifdef _WIN32
 
-#include "System/Render/_Module/API.h"
+#include "System/_Module/API.h"
 
 #include "System/Render/RenderStates.h"
 #include "System/Render/RenderShader.h"
@@ -19,7 +19,7 @@ namespace KRG
 {
     namespace Render
     {
-        class KRG_SYSTEM_RENDER_API RenderContext
+        class KRG_SYSTEM_API RenderContext
         {
             friend class RenderDevice;
 

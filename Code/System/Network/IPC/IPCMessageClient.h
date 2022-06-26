@@ -1,6 +1,6 @@
 #pragma once
 
-#include "System/Network/_Module/API.h"
+#include "System/_Module/API.h"
 #include "IPCMessage.h"
 #include "System/Network/NetworkSystem.h"
 
@@ -8,7 +8,7 @@
 
 namespace KRG::Network::IPC
 {
-    class KRG_SYSTEM_NETWORK_API Client final : public ClientConnection
+    class KRG_SYSTEM_API Client final : public ClientConnection
     {
     public:
 

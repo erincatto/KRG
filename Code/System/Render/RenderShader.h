@@ -12,7 +12,7 @@ namespace KRG
     {
         //-------------------------------------------------------------------------
 
-        class KRG_SYSTEM_RENDER_API Shader : public Resource::IResource
+        class KRG_SYSTEM_API Shader : public Resource::IResource
         {
             friend class RenderDevice;
             friend class ShaderCompiler;
@@ -63,7 +63,7 @@ namespace KRG
 
         //-------------------------------------------------------------------------
 
-        class KRG_SYSTEM_RENDER_API PixelShader : public Shader
+        class KRG_SYSTEM_API PixelShader : public Shader
         {
             KRG_REGISTER_RESOURCE( 'psdr', "Pixel Shader" );
 
@@ -77,7 +77,7 @@ namespace KRG
 
         //-------------------------------------------------------------------------
 
-        class KRG_SYSTEM_RENDER_API GeometryShader : public Shader
+        class KRG_SYSTEM_API GeometryShader : public Shader
         {
             KRG_REGISTER_RESOURCE( 'gsdr', "Geometry Shader");
 
@@ -91,7 +91,7 @@ namespace KRG
 
         //-------------------------------------------------------------------------
 
-        class KRG_SYSTEM_RENDER_API VertexShader : public Shader
+        class KRG_SYSTEM_API VertexShader : public Shader
         {
             KRG_SERIALIZE_MEMBERS( KRG_SERIALIZE_BASE( Shader ), m_vertexLayoutDesc );
             KRG_REGISTER_RESOURCE( 'vsdr', "Vertex Shader" );
@@ -113,7 +113,7 @@ namespace KRG
             VertexLayoutDescriptor m_vertexLayoutDesc;
         };
 
-        class KRG_SYSTEM_RENDER_API ComputeShader : public Shader
+        class KRG_SYSTEM_API ComputeShader : public Shader
         {
             KRG_REGISTER_RESOURCE( 'csdr', "Compute Shader" );
 

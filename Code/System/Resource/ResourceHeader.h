@@ -1,7 +1,7 @@
 #pragma once
 
 #include "ResourceID.h"
-#include "System/Core/Serialization/Serialization.h"
+#include "System/Serialization/Serialization.h"
 
 //-------------------------------------------------------------------------
 

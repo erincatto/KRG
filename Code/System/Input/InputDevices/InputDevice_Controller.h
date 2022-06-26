@@ -1,7 +1,7 @@
 #pragma once
 
-#include "InputDevice.h"
-#include "System\Input\InputStates\InputState_Controller.h"
+#include "System/Input/InputDevice.h"
+#include "System/Input/InputStates/InputState_Controller.h"
 
 //-------------------------------------------------------------------------
 

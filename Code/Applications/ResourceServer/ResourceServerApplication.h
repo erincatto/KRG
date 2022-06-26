@@ -3,15 +3,15 @@
 #include "ApplicationGlobalState.h"
 #include "ResourceServer.h"
 #include "ResourceServerUI.h"
+#include "Win32/Application_Win32.h"
 #include "Engine/Render/Renderers/ImguiRenderer.h"
+#include "Engine/UpdateContext.h"
 #include "System/Render/RenderDevice.h"
 #include "System/Resource/ResourceSettings.h"
-#include "System/Render/Imgui/ImguiSystem.h"
+#include "System/Imgui/ImguiSystem.h"
 #include "System/Render/RenderViewport.h"
-#include "System/Core/Types/String.h"
-#include "System/Core/KRG.h"
-#include "Engine/Core/Update/UpdateContext.h"
-#include "Win32/Application_Win32.h"
+#include "System/Types/String.h"
+#include "System/KRG.h"
 #include <shellapi.h>
 
 //-------------------------------------------------------------------------

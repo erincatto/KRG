@@ -1,10 +1,10 @@
 #include "NetworkResourceProvider.h"
 #include "System/Resource/ResourceRequest.h"
 #include "System/Resource/ResourceSettings.h"
-#include "System/Core/ThirdParty/cereal/archives/json.hpp"
-#include "System/Core/FileSystem/FileSystem.h"
-#include "System/Core/Profiling/Profiling.h"
-#include "System/Core/Logging/Log.h"
+#include "System/ThirdParty/cereal/archives/json.hpp"
+#include "System/FileSystem/FileSystem.h"
+#include "System/Profiling.h"
+#include "System/Log.h"
 
 //-------------------------------------------------------------------------
 

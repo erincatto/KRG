@@ -2,7 +2,7 @@
 
 #include "ReflectionDataTypes.h"
 #include "System/Resource/ResourceTypeID.h"
-#include "System/Core/FileSystem/FileSystemPath.h"
+#include "System/FileSystem/FileSystemPath.h"
 #include "System/TypeSystem/PropertyPath.h"
 #include <sqlite3.h>
 

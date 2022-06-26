@@ -1,7 +1,7 @@
 #include "RenderDefaultResources.h"
 #include "RenderDevice.h"
-#include "System/Core/Algorithm/Encoding.h"
-#include "System/Core/ThirdParty/stb/stb_image.h"
+#include "System/Algorithm/Encoding.h"
+#include "System/ThirdParty/stb/stb_image.h"
 
 //-------------------------------------------------------------------------
 

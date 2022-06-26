@@ -3,12 +3,12 @@
 #include "ResourceServerWorker.h"
 #include "ResourceCompilationRequest.h"
 #include "CompiledResourceDatabase.h"
-#include "Tools/Core/FileSystem/FileSystemWatcher.h"
-#include "Tools/Core/Resource/Compilers/ResourceCompilerRegistry.h"
+#include "EngineTools/Core/FileSystem/FileSystemWatcher.h"
+#include "EngineTools/Resource/Compilers/ResourceCompilerRegistry.h"
 #include "System/Network/IPC/IPCMessageServer.h"
 #include "System/Resource/ResourceSettings.h"
 #include "System/TypeSystem/TypeRegistry.h"
-#include "System/Core/Threading/TaskSystem.h"
+#include "System/Threading/TaskSystem.h"
 
 //-------------------------------------------------------------------------
 // The network resource server

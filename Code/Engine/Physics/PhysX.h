@@ -1,10 +1,10 @@
 #pragma once
-#include "_Module/API.h"
-#include "System/Core/Math/Transform.h"
-#include "System/Core/Math/Plane.h"
-#include "System/Core/Math/BoundingVolumes.h"
-#include "System/Core/Types/Color.h"
-#include "System/Core/Logging/Log.h"
+#include "Engine/_Module/API.h"
+#include "System/Math/Transform.h"
+#include "System/Math/Plane.h"
+#include "System/Math/BoundingVolumes.h"
+#include "System/Types/Color.h"
+#include "System/Log.h"
 
 #include <PxPhysicsAPI.h>
 #include <extensions/PxDefaultAllocator.h>
@@ -14,7 +14,7 @@
 
 namespace KRG::Physics
 {
-    struct KRG_ENGINE_PHYSICS_API Constants
+    struct KRG_ENGINE_API Constants
     {
         static constexpr float const    s_lengthScale = 1.0f;
         static constexpr float const    s_speedScale = 9.81f;
@@ -25,7 +25,7 @@ namespace KRG::Physics
     // Shared Resources
     //-------------------------------------------------------------------------
 
-    struct KRG_ENGINE_PHYSICS_API SharedMeshes
+    struct KRG_ENGINE_API SharedMeshes
     {
         static physx::PxConvexMesh*     s_pUnitCylinderMesh;
     };

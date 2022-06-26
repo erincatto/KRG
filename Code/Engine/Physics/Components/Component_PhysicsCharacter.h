@@ -1,16 +1,16 @@
 #pragma once
 
-#include "Engine/Physics/_Module/API.h"
+#include "Engine/_Module/API.h"
 #include "Engine/Physics/PhysX.h"
 #include "Engine/Physics/PhysicsLayers.h"
-#include "Engine/Core/Entity/EntitySpatialComponent.h"
-#include "System/Core/Time/Time.h"
+#include "Engine/Entity/EntitySpatialComponent.h"
+#include "System/Time/Time.h"
 
 //-------------------------------------------------------------------------
 
 namespace KRG::Physics
 {
-    class KRG_ENGINE_PHYSICS_API CharacterComponent : public SpatialEntityComponent
+    class KRG_ENGINE_API CharacterComponent : public SpatialEntityComponent
     {
         KRG_REGISTER_SINGLETON_ENTITY_COMPONENT( CharacterComponent );
 

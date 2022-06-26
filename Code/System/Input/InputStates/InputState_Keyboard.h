@@ -1,6 +1,6 @@
 #pragma once
 
-#include "InputState.h"
+#include "System/Input/InputState.h"
 
 //-------------------------------------------------------------------------
 

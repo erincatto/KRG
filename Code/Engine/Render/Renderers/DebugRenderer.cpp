@@ -1,7 +1,7 @@
 #include "DebugRenderer.h"
-#include "System/Core/Profiling/Profiling.h"
-#include "System/Core/Types/Function.h"
-#include "Engine/Core/Entity/EntityWorld.h"
+#include "System/Profiling.h"
+#include "System/Types/Function.h"
+#include "Engine/Entity/EntityWorld.h"
 
 //-------------------------------------------------------------------------
 

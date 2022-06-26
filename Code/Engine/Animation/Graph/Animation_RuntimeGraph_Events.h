@@ -10,7 +10,7 @@ namespace KRG::Animation
     // A sampled event from the graph
     //-------------------------------------------------------------------------
 
-    struct KRG_ENGINE_ANIMATION_API SampledEvent
+    struct KRG_ENGINE_API SampledEvent
     {
         friend class SampledEventsBuffer;
 
@@ -123,7 +123,7 @@ namespace KRG::Animation
     // Sample Event Buffer
     //-------------------------------------------------------------------------
 
-    class KRG_ENGINE_ANIMATION_API SampledEventsBuffer
+    class KRG_ENGINE_API SampledEventsBuffer
     {
     public:
 

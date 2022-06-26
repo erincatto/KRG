@@ -1,10 +1,10 @@
 #pragma once
-#include "Engine/Animation/_Module/API.h"
+#include "Engine/_Module/API.h"
 #include "Engine/Animation/Components/Component_AnimationGraph.h"
 #include "Engine/Render/Components/Component_SkeletalMesh.h"
-#include "System/Core/Algorithm/Hash.h"
-#include "System/Core/Types/StringID.h"
-#include "System/Core/Logging/Log.h"
+#include "System/Algorithm/Hash.h"
+#include "System/Types/StringID.h"
+#include "System/Log.h"
 
 //-------------------------------------------------------------------------
 // Animation Graph Controller
@@ -16,7 +16,7 @@ namespace KRG::Animation
 {
     namespace Internal
     {
-        class KRG_ENGINE_ANIMATION_API GraphControllerBase
+        class KRG_ENGINE_API GraphControllerBase
         {
 
         public:
@@ -124,7 +124,7 @@ namespace KRG::Animation
     // Sub Graph Controller
     //-------------------------------------------------------------------------
 
-    class KRG_ENGINE_ANIMATION_API SubGraphController : public Internal::GraphControllerBase
+    class KRG_ENGINE_API SubGraphController : public Internal::GraphControllerBase
     {
         friend class GraphController;
 
@@ -143,7 +143,7 @@ namespace KRG::Animation
     // Main Graph Controller
     //-------------------------------------------------------------------------
 
-    class KRG_ENGINE_ANIMATION_API GraphController : public Internal::GraphControllerBase
+    class KRG_ENGINE_API GraphController : public Internal::GraphControllerBase
     {
     public:
 

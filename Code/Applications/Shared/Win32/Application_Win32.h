@@ -1,10 +1,10 @@
 #ifdef _WIN32
 #pragma once
 
-#include "System/Core/KRG.h"
-#include "System/Core/Types/String.h"
+#include "System/KRG.h"
+#include "System/Types/String.h"
 #include "ApplicationGlobalState.h"
-#include "System/Core/Math/Math.h"
+#include "System/Math/Math.h"
 #include <windows.h>
 
 //-------------------------------------------------------------------------

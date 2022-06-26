@@ -2,8 +2,8 @@
 
 #include "Animation_RuntimeGraph_Events.h"
 #include "Engine/Animation/AnimationBoneMask.h"
-#include "System/Core/Math/Transform.h"
-#include "System/Core/Time/Time.h"
+#include "System/Math/Transform.h"
+#include "System/Time/Time.h"
 
 //-------------------------------------------------------------------------
 

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Animation_TaskPosePool.h"
-#include "System/Core/Types/Color.h"
+#include "System/Types/Color.h"
 
 //-------------------------------------------------------------------------
 

@@ -1,12 +1,12 @@
 #pragma once
 
-#include "_Module/API.h"
+#include "System/_Module/API.h"
 #include "ResourcePtr.h"
-#include "System/Core/Threading/Threading.h"
-#include "System/Core/Threading/TaskSystem.h"
-#include "System/Core/Systems/ISystem.h"
-#include "System/Core/Types/Event.h"
-#include "System/Core/Time/TimeStamp.h"
+#include "System/Threading/Threading.h"
+#include "System/Threading/TaskSystem.h"
+#include "System/Systems.h"
+#include "System/Types/Event.h"
+#include "System/Time/TimeStamp.h"
 #include <ctime>
 
 //-------------------------------------------------------------------------
@@ -24,7 +24,7 @@ namespace KRG::Resource
 
     //-------------------------------------------------------------------------
 
-    class KRG_SYSTEM_RESOURCE_API ResourceSystem : public ISystem
+    class KRG_SYSTEM_API ResourceSystem : public ISystem
     {
         friend class ResourceDebugView;
 

@@ -1,9 +1,9 @@
 #include "DebugView_Render.h"
 #include "Engine/Render/Systems/WorldSystem_Renderer.h"
 #include "Engine/Render/Components/Component_Lights.h"
-#include "Engine/Core/Entity/EntityWorld.h"
-#include "Engine/Core/Entity/EntityWorldUpdateContext.h"
-#include "System/Render/Imgui/ImguiX.h"
+#include "Engine/Entity/EntityWorld.h"
+#include "Engine/Entity/EntityWorldUpdateContext.h"
+#include "System/Imgui/ImguiX.h"
 
 //-------------------------------------------------------------------------
 

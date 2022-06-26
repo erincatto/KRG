@@ -1,0 +1,816 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="Animation\Events\AnimationEventData.cpp">
+      <Filter>Animation\Events</Filter>
+    </ClCompile>
+    <ClCompile Include="Animation\Events\AnimationEventEditor.cpp">
+      <Filter>Animation\Events</Filter>
+    </ClCompile>
+    <ClCompile Include="Animation\GraphEditor\AnimationGraphEditor_CompilationLog.cpp">
+      <Filter>Animation\GraphEditor</Filter>
+    </ClCompile>
+    <ClCompile Include="Animation\GraphEditor\AnimationGraphEditor_Context.cpp">
+      <Filter>Animation\GraphEditor</Filter>
+    </ClCompile>
+    <ClCompile Include="Animation\GraphEditor\AnimationGraphEditor_ControlParameterEditor.cpp">
+      <Filter>Animation\GraphEditor</Filter>
+    </ClCompile>
+    <ClCompile Include="Animation\GraphEditor\AnimationGraphEditor_GraphEditor.cpp">
+      <Filter>Animation\GraphEditor</Filter>
+    </ClCompile>
+    <ClCompile Include="Animation\GraphEditor\AnimationGraphEditor_VariationEditor.cpp">
+      <Filter>Animation\GraphEditor</Filter>
+    </ClCompile>
+    <ClCompile Include="Animation\GraphEditor\EditorGraph\Animation_EditorGraph_Common.cpp">
+      <Filter>Animation\GraphEditor\EditorGraph</Filter>
+    </ClCompile>
+    <ClCompile Include="Animation\GraphEditor\EditorGraph\Animation_EditorGraph_Compilation.cpp">
+      <Filter>Animation\GraphEditor\EditorGraph</Filter>
+    </ClCompile>
+    <ClCompile Include="Animation\GraphEditor\EditorGraph\Animation_EditorGraph_Definition.cpp">
+      <Filter>Animation\GraphEditor\EditorGraph</Filter>
+    </ClCompile>
+    <ClCompile Include="Animation\GraphEditor\EditorGraph\Animation_EditorGraph_FlowGraph.cpp">
+      <Filter>Animation\GraphEditor\EditorGraph</Filter>
+    </ClCompile>
+    <ClCompile Include="Animation\GraphEditor\EditorGraph\Animation_EditorGraph_StateMachineGraph.cpp">
+      <Filter>Animation\GraphEditor\EditorGraph</Filter>
+    </ClCompile>
+    <ClCompile Include="Animation\GraphEditor\EditorGraph\Animation_EditorGraph_Variations.cpp">
+      <Filter>Animation\GraphEditor\EditorGraph</Filter>
+    </ClCompile>
+    <ClCompile Include="Animation\GraphEditor\EditorGraph\Nodes\Animation_EditorGraphNode_AnimationClip.cpp">
+      <Filter>Animation\GraphEditor\EditorGraph\Nodes</Filter>
+    </ClCompile>
+    <ClCompile Include="Animation\GraphEditor\EditorGraph\Nodes\Animation_EditorGraphNode_Blends.cpp">
+      <Filter>Animation\GraphEditor\EditorGraph\Nodes</Filter>
+    </ClCompile>
+    <ClCompile Include="Animation\GraphEditor\EditorGraph\Nodes\Animation_EditorGraphNode_BoneMasks.cpp">
+      <Filter>Animation\GraphEditor\EditorGraph\Nodes</Filter>
+    </ClCompile>
+    <ClCompile Include="Animation\GraphEditor\EditorGraph\Nodes\Animation_EditorGraphNode_Bools.cpp">
+      <Filter>Animation\GraphEditor\EditorGraph\Nodes</Filter>
+    </ClCompile>
+    <ClCompile Include="Animation\GraphEditor\EditorGraph\Nodes\Animation_EditorGraphNode_CachedValues.cpp">
+      <Filter>Animation\GraphEditor\EditorGraph\Nodes</Filter>
+    </ClCompile>
+    <ClCompile Include="Animation\GraphEditor\EditorGraph\Nodes\Animation_EditorGraphNode_ConstValues.cpp">
+      <Filter>Animation\GraphEditor\EditorGraph\Nodes</Filter>
+    </ClCompile>
+    <ClCompile Include="Animation\GraphEditor\EditorGraph\Nodes\Animation_EditorGraphNode_ControlParameters.cpp">
+      <Filter>Animation\GraphEditor\EditorGraph\Nodes</Filter>
+    </ClCompile>
+    <ClCompile Include="Animation\GraphEditor\EditorGraph\Nodes\Animation_EditorGraphNode_Events.cpp">
+      <Filter>Animation\GraphEditor\EditorGraph\Nodes</Filter>
+    </ClCompile>
+    <ClCompile Include="Animation\GraphEditor\EditorGraph\Nodes\Animation_EditorGraphNode_Floats.cpp">
+      <Filter>Animation\GraphEditor\EditorGraph\Nodes</Filter>
+    </ClCompile>
+    <ClCompile Include="Animation\GraphEditor\EditorGraph\Nodes\Animation_EditorGraphNode_IDs.cpp">
+      <Filter>Animation\GraphEditor\EditorGraph\Nodes</Filter>
+    </ClCompile>
+    <ClCompile Include="Animation\GraphEditor\EditorGraph\Nodes\Animation_EditorGraphNode_Layers.cpp">
+      <Filter>Animation\GraphEditor\EditorGraph\Nodes</Filter>
+    </ClCompile>
+    <ClCompile Include="Animation\GraphEditor\EditorGraph\Nodes\Animation_EditorGraphNode_Pose.cpp">
+      <Filter>Animation\GraphEditor\EditorGraph\Nodes</Filter>
+    </ClCompile>
+    <ClCompile Include="Animation\GraphEditor\EditorGraph\Nodes\Animation_EditorGraphNode_Ragdoll.cpp">
+      <Filter>Animation\GraphEditor\EditorGraph\Nodes</Filter>
+    </ClCompile>
+    <ClCompile Include="Animation\GraphEditor\EditorGraph\Nodes\Animation_EditorGraphNode_RootMotionOverride.cpp">
+      <Filter>Animation\GraphEditor\EditorGraph\Nodes</Filter>
+    </ClCompile>
+    <ClCompile Include="Animation\GraphEditor\EditorGraph\Nodes\Animation_EditorGraphNode_Selector.cpp">
+      <Filter>Animation\GraphEditor\EditorGraph\Nodes</Filter>
+    </ClCompile>
+    <ClCompile Include="Animation\GraphEditor\EditorGraph\Nodes\Animation_EditorGraphNode_SpeedScale.cpp">
+      <Filter>Animation\GraphEditor\EditorGraph\Nodes</Filter>
+    </ClCompile>
+    <ClCompile Include="Animation\GraphEditor\EditorGraph\Nodes\Animation_EditorGraphNode_StateConditions.cpp">
+      <Filter>Animation\GraphEditor\EditorGraph\Nodes</Filter>
+    </ClCompile>
+    <ClCompile Include="Animation\GraphEditor\EditorGraph\Nodes\Animation_EditorGraphNode_Targets.cpp">
+      <Filter>Animation\GraphEditor\EditorGraph\Nodes</Filter>
+    </ClCompile>
+    <ClCompile Include="Animation\GraphEditor\EditorGraph\Nodes\Animation_EditorGraphNode_Vectors.cpp">
+      <Filter>Animation\GraphEditor\EditorGraph\Nodes</Filter>
+    </ClCompile>
+    <ClCompile Include="Animation\GraphEditor\EditorGraph\Nodes\Animation_EditorGraphNode_Warping.cpp">
+      <Filter>Animation\GraphEditor\EditorGraph\Nodes</Filter>
+    </ClCompile>
+    <ClCompile Include="Animation\ResourceCompilers\ResourceCompiler_AnimationClip.cpp">
+      <Filter>Animation\ResourceCompilers</Filter>
+    </ClCompile>
+    <ClCompile Include="Animation\ResourceCompilers\ResourceCompiler_AnimationGraph.cpp">
+      <Filter>Animation\ResourceCompilers</Filter>
+    </ClCompile>
+    <ClCompile Include="Animation\ResourceCompilers\ResourceCompiler_AnimationSkeleton.cpp">
+      <Filter>Animation\ResourceCompilers</Filter>
+    </ClCompile>
+    <ClCompile Include="Animation\Workspaces\Workspace_AnimationClip.cpp">
+      <Filter>Animation\Workspaces</Filter>
+    </ClCompile>
+    <ClCompile Include="Animation\Workspaces\Workspace_AnimationGraph.cpp">
+      <Filter>Animation\Workspaces</Filter>
+    </ClCompile>
+    <ClCompile Include="Animation\Workspaces\Workspace_Skeleton.cpp">
+      <Filter>Animation\Workspaces</Filter>
+    </ClCompile>
+    <ClCompile Include="Entity\EntityEditor\EntityEditor_BaseWorkspace.cpp">
+      <Filter>Entity\EntityEditor</Filter>
+    </ClCompile>
+    <ClCompile Include="Entity\EntityEditor\EntityEditor_Context.cpp">
+      <Filter>Entity\EntityEditor</Filter>
+    </ClCompile>
+    <ClCompile Include="Entity\EntityEditor\EntityEditor_Inspector.cpp">
+      <Filter>Entity\EntityEditor</Filter>
+    </ClCompile>
+    <ClCompile Include="Entity\EntityEditor\EntityEditor_Outliner.cpp">
+      <Filter>Entity\EntityEditor</Filter>
+    </ClCompile>
+    <ClCompile Include="Entity\EntityEditor\EntityEditor_PropertyGrid.cpp">
+      <Filter>Entity\EntityEditor</Filter>
+    </ClCompile>
+    <ClCompile Include="Entity\ResourceCompilers\ResourceCompiler_EntityCollection.cpp">
+      <Filter>Entity\ResourceCompilers</Filter>
+    </ClCompile>
+    <ClCompile Include="Entity\ResourceCompilers\ResourceCompiler_Map.cpp">
+      <Filter>Entity\ResourceCompilers</Filter>
+    </ClCompile>
+    <ClCompile Include="Entity\Workspaces\Workspace_EntityCollectionEditor.cpp">
+      <Filter>Entity\Workspaces</Filter>
+    </ClCompile>
+    <ClCompile Include="Entity\Workspaces\Workspace_GamePreviewer.cpp">
+      <Filter>Entity\Workspaces</Filter>
+    </ClCompile>
+    <ClCompile Include="Entity\Workspaces\Workspace_MapEditor.cpp">
+      <Filter>Entity\Workspaces</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\FileSystem\FileSystemWatcher.cpp">
+      <Filter>Core\FileSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Helpers\CommonDialogs.cpp">
+      <Filter>Core\Helpers</Filter>
+    </ClCompile>
+    <ClCompile Include="Navmesh\NavmeshGenerator.cpp">
+      <Filter>Navmesh</Filter>
+    </ClCompile>
+    <ClCompile Include="Navmesh\NavmeshGeneratorDialog.cpp">
+      <Filter>Navmesh</Filter>
+    </ClCompile>
+    <ClCompile Include="Navmesh\ResourceCompilers\ResourceCompiler_Navmesh.cpp">
+      <Filter>Navmesh\ResourceCompilers</Filter>
+    </ClCompile>
+    <ClCompile Include="Physics\ResourceCompilers\ResourceCompiler_PhysicsMaterialDatabase.cpp">
+      <Filter>Physics\ResourceCompilers</Filter>
+    </ClCompile>
+    <ClCompile Include="Physics\ResourceCompilers\ResourceCompiler_PhysicsMesh.cpp">
+      <Filter>Physics\ResourceCompilers</Filter>
+    </ClCompile>
+    <ClCompile Include="Physics\ResourceCompilers\ResourceCompiler_PhysicsRagdoll.cpp">
+      <Filter>Physics\ResourceCompilers</Filter>
+    </ClCompile>
+    <ClCompile Include="Physics\Workspaces\Workspace_Ragdoll.cpp">
+      <Filter>Physics\Workspaces</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\PropertyGrid\PropertyGrid.cpp">
+      <Filter>Core\PropertyGrid</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\PropertyGrid\PropertyGridEditors.cpp">
+      <Filter>Core\PropertyGrid</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\ResourceCompilers\ResourceCompiler_RenderMaterial.cpp">
+      <Filter>Render\ResourceCompilers</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\ResourceCompilers\ResourceCompiler_RenderMesh.cpp">
+      <Filter>Render\ResourceCompilers</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\ResourceCompilers\ResourceCompiler_RenderShader.cpp">
+      <Filter>Render\ResourceCompilers</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\ResourceCompilers\ResourceCompiler_RenderTexture.cpp">
+      <Filter>Render\ResourceCompilers</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\TextureTools\ExtendedFormats\ExtendedBMP.cpp">
+      <Filter>Render\TextureTools\ExtendedFormats</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\TextureTools\ExtendedFormats\PortablePixMap.cpp">
+      <Filter>Render\TextureTools\ExtendedFormats</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\TextureTools\TextureConverter.cpp">
+      <Filter>Render\TextureTools</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\Workspaces\Workspace_Material.cpp">
+      <Filter>Render\Workspaces</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\Workspaces\Workspace_SkeletalMesh.cpp">
+      <Filter>Render\Workspaces</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\Workspaces\Workspace_StaticMesh.cpp">
+      <Filter>Render\Workspaces</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\Workspaces\Workspace_Texture.cpp">
+      <Filter>Render\Workspaces</Filter>
+    </ClCompile>
+    <ClCompile Include="Resource\Compilers\ResourceCompiler.cpp">
+      <Filter>Resource\Compilers</Filter>
+    </ClCompile>
+    <ClCompile Include="Resource\Compilers\ResourceCompilerRegistry.cpp">
+      <Filter>Resource\Compilers</Filter>
+    </ClCompile>
+    <ClCompile Include="Resource\Compilers\ResourceDescriptor.cpp">
+      <Filter>Resource\Compilers</Filter>
+    </ClCompile>
+    <ClCompile Include="RawAssets\Fbx\FbxAnimation.cpp">
+      <Filter>Resource\RawAssets\Fbx</Filter>
+    </ClCompile>
+    <ClCompile Include="RawAssets\Fbx\FbxMesh.cpp">
+      <Filter>Resource\RawAssets\Fbx</Filter>
+    </ClCompile>
+    <ClCompile Include="RawAssets\Fbx\FbxSceneContext.cpp">
+      <Filter>Resource\RawAssets\Fbx</Filter>
+    </ClCompile>
+    <ClCompile Include="RawAssets\Fbx\FbxSkeleton.cpp">
+      <Filter>Resource\RawAssets\Fbx</Filter>
+    </ClCompile>
+    <ClCompile Include="RawAssets\gltf\gltfAnimation.cpp">
+      <Filter>Resource\RawAssets\gltf</Filter>
+    </ClCompile>
+    <ClCompile Include="RawAssets\gltf\gltfMesh.cpp">
+      <Filter>Resource\RawAssets\gltf</Filter>
+    </ClCompile>
+    <ClCompile Include="RawAssets\gltf\gltfSceneContext.cpp">
+      <Filter>Resource\RawAssets\gltf</Filter>
+    </ClCompile>
+    <ClCompile Include="RawAssets\gltf\gltfSkeleton.cpp">
+      <Filter>Resource\RawAssets\gltf</Filter>
+    </ClCompile>
+    <ClCompile Include="RawAssets\RawAnimation.cpp">
+      <Filter>Resource\RawAssets</Filter>
+    </ClCompile>
+    <ClCompile Include="RawAssets\RawAssetReader.cpp">
+      <Filter>Resource\RawAssets</Filter>
+    </ClCompile>
+    <ClCompile Include="RawAssets\RawMesh.cpp">
+      <Filter>Resource\RawAssets</Filter>
+    </ClCompile>
+    <ClCompile Include="RawAssets\RawSkeleton.cpp">
+      <Filter>Resource\RawAssets</Filter>
+    </ClCompile>
+    <ClCompile Include="Resource\ResourceDatabase.cpp">
+      <Filter>Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="Resource\ResourceFilePicker.cpp">
+      <Filter>Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="ThirdParty\sqlite\SqliteHelpers.cpp">
+      <Filter>ThirdParty\sqlite</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\TimelineEditor\TimelineData.cpp">
+      <Filter>Core\TimelineEditor</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\TimelineEditor\TimelineEditor.cpp">
+      <Filter>Core\TimelineEditor</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\UndoStack.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\VisualGraph\VisualGraph_BaseGraph.cpp">
+      <Filter>Core\VisualGraph</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\VisualGraph\VisualGraph_DrawingContext.cpp">
+      <Filter>Core\VisualGraph</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\VisualGraph\VisualGraph_FlowGraph.cpp">
+      <Filter>Core\VisualGraph</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\VisualGraph\VisualGraph_StateMachineGraph.cpp">
+      <Filter>Core\VisualGraph</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\VisualGraph\VisualGraph_View.cpp">
+      <Filter>Core\VisualGraph</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Widgets\CurveEditor.cpp">
+      <Filter>Core\Widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Widgets\InterfaceHelpers.cpp">
+      <Filter>Core\Widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Widgets\TreeListView.cpp">
+      <Filter>Core\Widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Workspaces\EditorWorkspace.cpp">
+      <Filter>Core\Workspaces</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Workspaces\ResourceWorkspace.cpp">
+      <Filter>Core\Workspaces</Filter>
+    </ClCompile>
+    <ClCompile Include="_Module\EngineToolsModule.cpp">
+      <Filter>_Module</Filter>
+    </ClCompile>
+    <ClCompile Include="_Module\_AutoGenerated\_module.cpp">
+      <Filter>_Module\_AutoGenerated</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Animation\Events\AnimationEventData.h">
+      <Filter>Animation\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="Animation\Events\AnimationEventEditor.h">
+      <Filter>Animation\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="Animation\GraphEditor\AnimationGraphEditor_CompilationLog.h">
+      <Filter>Animation\GraphEditor</Filter>
+    </ClInclude>
+    <ClInclude Include="Animation\GraphEditor\AnimationGraphEditor_Context.h">
+      <Filter>Animation\GraphEditor</Filter>
+    </ClInclude>
+    <ClInclude Include="Animation\GraphEditor\AnimationGraphEditor_ControlParameterEditor.h">
+      <Filter>Animation\GraphEditor</Filter>
+    </ClInclude>
+    <ClInclude Include="Animation\GraphEditor\AnimationGraphEditor_GraphEditor.h">
+      <Filter>Animation\GraphEditor</Filter>
+    </ClInclude>
+    <ClInclude Include="Animation\GraphEditor\AnimationGraphEditor_VariationEditor.h">
+      <Filter>Animation\GraphEditor</Filter>
+    </ClInclude>
+    <ClInclude Include="Animation\GraphEditor\EditorGraph\Animation_EditorGraph_Common.h">
+      <Filter>Animation\GraphEditor\EditorGraph</Filter>
+    </ClInclude>
+    <ClInclude Include="Animation\GraphEditor\EditorGraph\Animation_EditorGraph_Compilation.h">
+      <Filter>Animation\GraphEditor\EditorGraph</Filter>
+    </ClInclude>
+    <ClInclude Include="Animation\GraphEditor\EditorGraph\Animation_EditorGraph_Definition.h">
+      <Filter>Animation\GraphEditor\EditorGraph</Filter>
+    </ClInclude>
+    <ClInclude Include="Animation\GraphEditor\EditorGraph\Animation_EditorGraph_FlowGraph.h">
+      <Filter>Animation\GraphEditor\EditorGraph</Filter>
+    </ClInclude>
+    <ClInclude Include="Animation\GraphEditor\EditorGraph\Animation_EditorGraph_StateMachineGraph.h">
+      <Filter>Animation\GraphEditor\EditorGraph</Filter>
+    </ClInclude>
+    <ClInclude Include="Animation\GraphEditor\EditorGraph\Animation_EditorGraph_Variations.h">
+      <Filter>Animation\GraphEditor\EditorGraph</Filter>
+    </ClInclude>
+    <ClInclude Include="Animation\GraphEditor\EditorGraph\Nodes\Animation_EditorGraphNode_AnimationClip.h">
+      <Filter>Animation\GraphEditor\EditorGraph\Nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="Animation\GraphEditor\EditorGraph\Nodes\Animation_EditorGraphNode_Blends.h">
+      <Filter>Animation\GraphEditor\EditorGraph\Nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="Animation\GraphEditor\EditorGraph\Nodes\Animation_EditorGraphNode_BoneMasks.h">
+      <Filter>Animation\GraphEditor\EditorGraph\Nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="Animation\GraphEditor\EditorGraph\Nodes\Animation_EditorGraphNode_Bools.h">
+      <Filter>Animation\GraphEditor\EditorGraph\Nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="Animation\GraphEditor\EditorGraph\Nodes\Animation_EditorGraphNode_CachedValues.h">
+      <Filter>Animation\GraphEditor\EditorGraph\Nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="Animation\GraphEditor\EditorGraph\Nodes\Animation_EditorGraphNode_ConstValues.h">
+      <Filter>Animation\GraphEditor\EditorGraph\Nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="Animation\GraphEditor\EditorGraph\Nodes\Animation_EditorGraphNode_ControlParameters.h">
+      <Filter>Animation\GraphEditor\EditorGraph\Nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="Animation\GraphEditor\EditorGraph\Nodes\Animation_EditorGraphNode_Events.h">
+      <Filter>Animation\GraphEditor\EditorGraph\Nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="Animation\GraphEditor\EditorGraph\Nodes\Animation_EditorGraphNode_Floats.h">
+      <Filter>Animation\GraphEditor\EditorGraph\Nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="Animation\GraphEditor\EditorGraph\Nodes\Animation_EditorGraphNode_IDs.h">
+      <Filter>Animation\GraphEditor\EditorGraph\Nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="Animation\GraphEditor\EditorGraph\Nodes\Animation_EditorGraphNode_Layers.h">
+      <Filter>Animation\GraphEditor\EditorGraph\Nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="Animation\GraphEditor\EditorGraph\Nodes\Animation_EditorGraphNode_Pose.h">
+      <Filter>Animation\GraphEditor\EditorGraph\Nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="Animation\GraphEditor\EditorGraph\Nodes\Animation_EditorGraphNode_Ragdoll.h">
+      <Filter>Animation\GraphEditor\EditorGraph\Nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="Animation\GraphEditor\EditorGraph\Nodes\Animation_EditorGraphNode_RootMotionOverride.h">
+      <Filter>Animation\GraphEditor\EditorGraph\Nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="Animation\GraphEditor\EditorGraph\Nodes\Animation_EditorGraphNode_Selector.h">
+      <Filter>Animation\GraphEditor\EditorGraph\Nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="Animation\GraphEditor\EditorGraph\Nodes\Animation_EditorGraphNode_SpeedScale.h">
+      <Filter>Animation\GraphEditor\EditorGraph\Nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="Animation\GraphEditor\EditorGraph\Nodes\Animation_EditorGraphNode_StateConditions.h">
+      <Filter>Animation\GraphEditor\EditorGraph\Nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="Animation\GraphEditor\EditorGraph\Nodes\Animation_EditorGraphNode_Targets.h">
+      <Filter>Animation\GraphEditor\EditorGraph\Nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="Animation\GraphEditor\EditorGraph\Nodes\Animation_EditorGraphNode_Vectors.h">
+      <Filter>Animation\GraphEditor\EditorGraph\Nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="Animation\GraphEditor\EditorGraph\Nodes\Animation_EditorGraphNode_Warping.h">
+      <Filter>Animation\GraphEditor\EditorGraph\Nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="Animation\ResourceCompilers\ResourceCompiler_AnimationClip.h">
+      <Filter>Animation\ResourceCompilers</Filter>
+    </ClInclude>
+    <ClInclude Include="Animation\ResourceCompilers\ResourceCompiler_AnimationGraph.h">
+      <Filter>Animation\ResourceCompilers</Filter>
+    </ClInclude>
+    <ClInclude Include="Animation\ResourceCompilers\ResourceCompiler_AnimationSkeleton.h">
+      <Filter>Animation\ResourceCompilers</Filter>
+    </ClInclude>
+    <ClInclude Include="Animation\ResourceDescriptors\ResourceDescriptor_AnimationClip.h">
+      <Filter>Animation\ResourceDescriptors</Filter>
+    </ClInclude>
+    <ClInclude Include="Animation\ResourceDescriptors\ResourceDescriptor_AnimationGraph.h">
+      <Filter>Animation\ResourceDescriptors</Filter>
+    </ClInclude>
+    <ClInclude Include="Animation\ResourceDescriptors\ResourceDescriptor_AnimationSkeleton.h">
+      <Filter>Animation\ResourceDescriptors</Filter>
+    </ClInclude>
+    <ClInclude Include="Animation\Workspaces\Workspace_AnimationClip.h">
+      <Filter>Animation\Workspaces</Filter>
+    </ClInclude>
+    <ClInclude Include="Animation\Workspaces\Workspace_AnimationGraph.h">
+      <Filter>Animation\Workspaces</Filter>
+    </ClInclude>
+    <ClInclude Include="Animation\Workspaces\Workspace_Skeleton.h">
+      <Filter>Animation\Workspaces</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity\EntityEditor\EntityEditor_BaseWorkspace.h">
+      <Filter>Entity\EntityEditor</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity\EntityEditor\EntityEditor_Context.h">
+      <Filter>Entity\EntityEditor</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity\EntityEditor\EntityEditor_Inspector.h">
+      <Filter>Entity\EntityEditor</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity\EntityEditor\EntityEditor_Outliner.h">
+      <Filter>Entity\EntityEditor</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity\EntityEditor\EntityEditor_PropertyGrid.h">
+      <Filter>Entity\EntityEditor</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity\ResourceCompilers\ResourceCompiler_EntityCollection.h">
+      <Filter>Entity\ResourceCompilers</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity\ResourceCompilers\ResourceCompiler_Map.h">
+      <Filter>Entity\ResourceCompilers</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity\Workspaces\Workspace_EntityCollectionEditor.h">
+      <Filter>Entity\Workspaces</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity\Workspaces\Workspace_GamePreviewer.h">
+      <Filter>Entity\Workspaces</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity\Workspaces\Workspace_MapEditor.h">
+      <Filter>Entity\Workspaces</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\FileSystem\FileSystemWatcher.h">
+      <Filter>Core\FileSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Helpers\CategoryTree.h">
+      <Filter>Core\Helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Helpers\CommonDialogs.h">
+      <Filter>Core\Helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Helpers\GlobalRegistryBase.h">
+      <Filter>Core\Helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="Navmesh\NavmeshGenerator.h">
+      <Filter>Navmesh</Filter>
+    </ClInclude>
+    <ClInclude Include="Navmesh\NavmeshGeneratorDialog.h">
+      <Filter>Navmesh</Filter>
+    </ClInclude>
+    <ClInclude Include="Navmesh\ResourceCompilers\ResourceCompiler_Navmesh.h">
+      <Filter>Navmesh\ResourceCompilers</Filter>
+    </ClInclude>
+    <ClInclude Include="Physics\ResourceCompilers\ResourceCompiler_PhysicsMaterialDatabase.h">
+      <Filter>Physics\ResourceCompilers</Filter>
+    </ClInclude>
+    <ClInclude Include="Physics\ResourceCompilers\ResourceCompiler_PhysicsMesh.h">
+      <Filter>Physics\ResourceCompilers</Filter>
+    </ClInclude>
+    <ClInclude Include="Physics\ResourceCompilers\ResourceCompiler_PhysicsRagdoll.h">
+      <Filter>Physics\ResourceCompilers</Filter>
+    </ClInclude>
+    <ClInclude Include="Physics\ResourceDescriptors\ResourceDescriptor_PhysicsMaterialDatabase.h">
+      <Filter>Physics\ResourceDescriptors</Filter>
+    </ClInclude>
+    <ClInclude Include="Physics\ResourceDescriptors\ResourceDescriptor_PhysicsMesh.h">
+      <Filter>Physics\ResourceDescriptors</Filter>
+    </ClInclude>
+    <ClInclude Include="Physics\ResourceDescriptors\ResourceDescriptor_PhysicsRagdoll.h">
+      <Filter>Physics\ResourceDescriptors</Filter>
+    </ClInclude>
+    <ClInclude Include="Physics\Workspaces\Workspace_Ragdoll.h">
+      <Filter>Physics\Workspaces</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\PropertyGrid\PropertyGrid.h">
+      <Filter>Core\PropertyGrid</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\PropertyGrid\PropertyGridEditors.h">
+      <Filter>Core\PropertyGrid</Filter>
+    </ClInclude>
+    <ClInclude Include="Render\ResourceCompilers\ResourceCompiler_RenderMaterial.h">
+      <Filter>Render\ResourceCompilers</Filter>
+    </ClInclude>
+    <ClInclude Include="Render\ResourceCompilers\ResourceCompiler_RenderMesh.h">
+      <Filter>Render\ResourceCompilers</Filter>
+    </ClInclude>
+    <ClInclude Include="Render\ResourceCompilers\ResourceCompiler_RenderShader.h">
+      <Filter>Render\ResourceCompilers</Filter>
+    </ClInclude>
+    <ClInclude Include="Render\ResourceCompilers\ResourceCompiler_RenderTexture.h">
+      <Filter>Render\ResourceCompilers</Filter>
+    </ClInclude>
+    <ClInclude Include="Render\ResourceDescriptors\ResourceDescriptor_RenderMaterial.h">
+      <Filter>Render\ResourceDescriptors</Filter>
+    </ClInclude>
+    <ClInclude Include="Render\ResourceDescriptors\ResourceDescriptor_RenderMesh.h">
+      <Filter>Render\ResourceDescriptors</Filter>
+    </ClInclude>
+    <ClInclude Include="Render\ResourceDescriptors\ResourceDescriptor_RenderShader.h">
+      <Filter>Render\ResourceDescriptors</Filter>
+    </ClInclude>
+    <ClInclude Include="Render\ResourceDescriptors\ResourceDescriptor_RenderTexture.h">
+      <Filter>Render\ResourceDescriptors</Filter>
+    </ClInclude>
+    <ClInclude Include="Render\TextureTools\TextureTools.h">
+      <Filter>Render\TextureTools</Filter>
+    </ClInclude>
+    <ClInclude Include="Render\Workspaces\Workspace_Material.h">
+      <Filter>Render\Workspaces</Filter>
+    </ClInclude>
+    <ClInclude Include="Render\Workspaces\Workspace_SkeletalMesh.h">
+      <Filter>Render\Workspaces</Filter>
+    </ClInclude>
+    <ClInclude Include="Render\Workspaces\Workspace_StaticMesh.h">
+      <Filter>Render\Workspaces</Filter>
+    </ClInclude>
+    <ClInclude Include="Render\Workspaces\Workspace_Texture.h">
+      <Filter>Render\Workspaces</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource\Compilers\ResourceCompiler.h">
+      <Filter>Resource\Compilers</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource\Compilers\ResourceCompilerRegistry.h">
+      <Filter>Resource\Compilers</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource\Compilers\ResourceDescriptor.h">
+      <Filter>Resource\Compilers</Filter>
+    </ClInclude>
+    <ClInclude Include="RawAssets\Fbx\FbxAnimation.h">
+      <Filter>Resource\RawAssets\Fbx</Filter>
+    </ClInclude>
+    <ClInclude Include="RawAssets\Fbx\FbxMesh.h">
+      <Filter>Resource\RawAssets\Fbx</Filter>
+    </ClInclude>
+    <ClInclude Include="RawAssets\Fbx\FbxSceneContext.h">
+      <Filter>Resource\RawAssets\Fbx</Filter>
+    </ClInclude>
+    <ClInclude Include="RawAssets\Fbx\FbxSkeleton.h">
+      <Filter>Resource\RawAssets\Fbx</Filter>
+    </ClInclude>
+    <ClInclude Include="RawAssets\gltf\gltfAnimation.h">
+      <Filter>Resource\RawAssets\gltf</Filter>
+    </ClInclude>
+    <ClInclude Include="RawAssets\gltf\gltfMesh.h">
+      <Filter>Resource\RawAssets\gltf</Filter>
+    </ClInclude>
+    <ClInclude Include="RawAssets\gltf\gltfSceneContext.h">
+      <Filter>Resource\RawAssets\gltf</Filter>
+    </ClInclude>
+    <ClInclude Include="RawAssets\gltf\gltfSkeleton.h">
+      <Filter>Resource\RawAssets\gltf</Filter>
+    </ClInclude>
+    <ClInclude Include="RawAssets\RawAnimation.h">
+      <Filter>Resource\RawAssets</Filter>
+    </ClInclude>
+    <ClInclude Include="RawAssets\RawAsset.h">
+      <Filter>Resource\RawAssets</Filter>
+    </ClInclude>
+    <ClInclude Include="RawAssets\RawAssetInfo.h">
+      <Filter>Resource\RawAssets</Filter>
+    </ClInclude>
+    <ClInclude Include="RawAssets\RawAssetReader.h">
+      <Filter>Resource\RawAssets</Filter>
+    </ClInclude>
+    <ClInclude Include="RawAssets\RawMesh.h">
+      <Filter>Resource\RawAssets</Filter>
+    </ClInclude>
+    <ClInclude Include="RawAssets\RawSkeleton.h">
+      <Filter>Resource\RawAssets</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource\ResourceDatabase.h">
+      <Filter>Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource\ResourceFilePicker.h">
+      <Filter>Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\cgltf\cgltf.h">
+      <Filter>ThirdParty\cgltf</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\cgltf\cgltf_write.h">
+      <Filter>ThirdParty\cgltf</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\pfd\portable-file-dialogs.h">
+      <Filter>ThirdParty\pfd</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\sqlite\SqliteHelpers.h">
+      <Filter>ThirdParty\sqlite</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\subprocess\subprocess.h">
+      <Filter>ThirdParty\subprocess</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\TimelineEditor\TimelineData.h">
+      <Filter>Core\TimelineEditor</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\TimelineEditor\TimelineEditor.h">
+      <Filter>Core\TimelineEditor</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\ToolsContext.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\UndoStack.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\VisualGraph\VisualGraph_BaseGraph.h">
+      <Filter>Core\VisualGraph</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\VisualGraph\VisualGraph_DrawingContext.h">
+      <Filter>Core\VisualGraph</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\VisualGraph\VisualGraph_FlowGraph.h">
+      <Filter>Core\VisualGraph</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\VisualGraph\VisualGraph_StateMachineGraph.h">
+      <Filter>Core\VisualGraph</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\VisualGraph\VisualGraph_View.h">
+      <Filter>Core\VisualGraph</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Widgets\CurveEditor.h">
+      <Filter>Core\Widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Widgets\InterfaceHelpers.h">
+      <Filter>Core\Widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Widgets\TreeListView.h">
+      <Filter>Core\Widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Workspaces\EditorWorkspace.h">
+      <Filter>Core\Workspaces</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Workspaces\ResourceWorkspace.h">
+      <Filter>Core\Workspaces</Filter>
+    </ClInclude>
+    <ClInclude Include="_Module\API.h">
+      <Filter>_Module</Filter>
+    </ClInclude>
+    <ClInclude Include="_Module\EngineToolsModule.h">
+      <Filter>_Module</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Animation">
+      <UniqueIdentifier>{12889893-9950-4ba9-8a68-c3d5035ead5b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Animation\Events">
+      <UniqueIdentifier>{ffc40a63-5574-42f1-9c82-214df96d34ce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Animation\GraphEditor">
+      <UniqueIdentifier>{afb95020-f35e-4ad4-8452-1920a4b501cc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Animation\GraphEditor\EditorGraph">
+      <UniqueIdentifier>{26c55790-b42b-4612-87f6-d1089e6d1f72}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Animation\GraphEditor\EditorGraph\Nodes">
+      <UniqueIdentifier>{f0c22bf6-8bcd-406c-b501-76cb5634c11c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Animation\ResourceCompilers">
+      <UniqueIdentifier>{33be4555-9ab0-427f-aa52-9c2819775c92}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Animation\Workspaces">
+      <UniqueIdentifier>{06a6cf17-a78d-40f9-9e5e-7b8046c2ed8e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Entity">
+      <UniqueIdentifier>{d392bcc3-afba-42c0-8189-956b11d6a802}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Entity\EntityEditor">
+      <UniqueIdentifier>{3a3107cc-528f-41f6-94fe-782681547e6a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Entity\ResourceCompilers">
+      <UniqueIdentifier>{718cde4f-75e9-4bf0-aac0-04b05b529086}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Entity\Workspaces">
+      <UniqueIdentifier>{0f0ab6f2-c05c-4cd5-ac86-5cd76c0512a5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core">
+      <UniqueIdentifier>{eb22ea3d-09ac-4dcf-94e0-6bac0ed119f2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\FileSystem">
+      <UniqueIdentifier>{862ffcc7-68a1-45d9-a4cb-43835334d7ea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Helpers">
+      <UniqueIdentifier>{6d83e3ed-77ee-4716-afeb-d639d4a273c7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Navmesh">
+      <UniqueIdentifier>{9aa92f0c-9b5d-44f0-93b6-e98bb5f73db4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Navmesh\ResourceCompilers">
+      <UniqueIdentifier>{e162ac00-e343-4c00-98d4-8b71fc69f1b3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Physics">
+      <UniqueIdentifier>{a526d02f-ad89-4353-a15d-81b5c0a502bf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Physics\ResourceCompilers">
+      <UniqueIdentifier>{4e515b4b-ec17-46d8-8e72-c98b193626d4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Physics\Workspaces">
+      <UniqueIdentifier>{69b4a6b5-38ff-46b8-a9bb-c46addefa0d1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\PropertyGrid">
+      <UniqueIdentifier>{aa3dabd5-b3b9-4e21-93c5-efcad912ade9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Render">
+      <UniqueIdentifier>{eac14c77-c402-470b-b614-78b111e5ba67}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Render\ResourceCompilers">
+      <UniqueIdentifier>{4c11b6d9-280c-491a-afbb-008fc3cafd56}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Render\TextureTools">
+      <UniqueIdentifier>{e574162e-80cd-45ee-8dc9-da11f7b9270e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Render\TextureTools\ExtendedFormats">
+      <UniqueIdentifier>{ae349ea5-ecea-4c1a-8a17-283edd08bdcb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Render\Workspaces">
+      <UniqueIdentifier>{2ce21cb3-3aa0-4085-b41a-175a28ec3f4b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource">
+      <UniqueIdentifier>{8cf0ce47-e9cb-4edd-91a6-0f2f9a5a3787}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource\Compilers">
+      <UniqueIdentifier>{f38be402-0042-4dab-9ef1-bde3ec3ad600}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource\RawAssets">
+      <UniqueIdentifier>{16e4f625-06e4-402a-a224-3cc81b61b53b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource\RawAssets\Fbx">
+      <UniqueIdentifier>{24daee59-4f8f-4b3e-bb61-20a83edd23a8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource\RawAssets\gltf">
+      <UniqueIdentifier>{da4ebdd9-ee15-4698-9b59-9986e7dfbb63}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ThirdParty">
+      <UniqueIdentifier>{8ec3f5f5-2afb-44dd-8422-d379d081f8ef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ThirdParty\sqlite">
+      <UniqueIdentifier>{63746e6a-c1d5-466e-94c0-a1c136e39249}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\TimelineEditor">
+      <UniqueIdentifier>{97952a5c-a115-40e4-b83f-a375eb9c1303}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\VisualGraph">
+      <UniqueIdentifier>{175ce1a6-221e-4303-93b9-c7e139d43e80}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Widgets">
+      <UniqueIdentifier>{7aa3b58d-b7d4-4117-b953-7f09ffd0ba60}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Workspaces">
+      <UniqueIdentifier>{da33eee1-1fb5-48b3-b652-6830bdeaeee1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="_Module">
+      <UniqueIdentifier>{e9fec1f6-e40a-4baf-b103-ea0d1b4fa597}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="_Module\_AutoGenerated">
+      <UniqueIdentifier>{496a1d2d-3a7a-4eef-81e7-bc0e2f9a7b34}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Animation\ResourceDescriptors">
+      <UniqueIdentifier>{943ebcc2-64e1-47b3-82d5-0eb54a166d24}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Physics\ResourceDescriptors">
+      <UniqueIdentifier>{dbedc8d9-b68b-466d-883f-944821e7a20c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Render\ResourceDescriptors">
+      <UniqueIdentifier>{77ab4b37-9022-47d9-b057-c44a53d74b49}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ThirdParty\cgltf">
+      <UniqueIdentifier>{7c2c8273-1858-4d86-8767-71ee989248bf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ThirdParty\pfd">
+      <UniqueIdentifier>{bb1e6284-1204-4be0-8fcc-a7d61234838d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ThirdParty\subprocess">
+      <UniqueIdentifier>{2c27feed-80e8-4754-8bee-283a3fd7faed}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

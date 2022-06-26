@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Engine/Physics/_Module/API.h"
+#include "Engine/_Module/API.h"
 #include "Engine/Physics/PhysicsQuery.h"
 #include "Engine/Physics/PhysX.h"
 
@@ -13,7 +13,7 @@ namespace KRG::Physics
 
     //-------------------------------------------------------------------------
 
-    class KRG_ENGINE_PHYSICS_API Scene final
+    class KRG_ENGINE_API Scene final
     {
         friend class PhysicsWorldSystem;
 

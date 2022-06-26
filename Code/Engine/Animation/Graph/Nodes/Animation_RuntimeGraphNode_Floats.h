@@ -1,17 +1,17 @@
 #pragma once
 #include "Engine/Animation/Graph/Animation_RuntimeGraph_Node.h"
-#include "Engine/Core/Math/Easing.h"
-#include "System/Core/Math/FloatCurve.h"
+#include "Engine/Math/Easing.h"
+#include "System/Math/FloatCurve.h"
 
 //-------------------------------------------------------------------------
 
 namespace KRG::Animation::GraphNodes
 {
-    class KRG_ENGINE_ANIMATION_API FloatRemapNode final : public FloatValueNode
+    class KRG_ENGINE_API FloatRemapNode final : public FloatValueNode
     {
     public:
 
-        struct KRG_ENGINE_ANIMATION_API RemapRange : public IRegisteredType
+        struct KRG_ENGINE_API RemapRange : public IRegisteredType
         {
             KRG_REGISTER_TYPE( RemapRange );
 
@@ -19,7 +19,7 @@ namespace KRG::Animation::GraphNodes
             float                       m_end = 0;
         };
 
-        struct KRG_ENGINE_ANIMATION_API Settings final : public FloatValueNode::Settings
+        struct KRG_ENGINE_API Settings final : public FloatValueNode::Settings
         {
             KRG_REGISTER_TYPE( Settings );
             KRG_SERIALIZE_GRAPHNODESETTINGS( FloatValueNode::Settings, m_inputValueNodeIdx, m_inputRange, m_outputRange );
@@ -45,11 +45,11 @@ namespace KRG::Animation::GraphNodes
 
     //-------------------------------------------------------------------------
 
-    class KRG_ENGINE_ANIMATION_API FloatClampNode final : public FloatValueNode
+    class KRG_ENGINE_API FloatClampNode final : public FloatValueNode
     {
     public:
 
-        struct KRG_ENGINE_ANIMATION_API Settings final : public FloatValueNode::Settings
+        struct KRG_ENGINE_API Settings final : public FloatValueNode::Settings
         {
             KRG_REGISTER_TYPE( Settings );
             KRG_SERIALIZE_GRAPHNODESETTINGS( FloatValueNode::Settings, m_inputValueNodeIdx, m_clampRange );
@@ -74,11 +74,11 @@ namespace KRG::Animation::GraphNodes
 
     //-------------------------------------------------------------------------
 
-    class KRG_ENGINE_ANIMATION_API FloatAbsNode final : public FloatValueNode
+    class KRG_ENGINE_API FloatAbsNode final : public FloatValueNode
     {
     public:
 
-        struct KRG_ENGINE_ANIMATION_API Settings final : public FloatValueNode::Settings
+        struct KRG_ENGINE_API Settings final : public FloatValueNode::Settings
         {
             KRG_REGISTER_TYPE( Settings );
             KRG_SERIALIZE_GRAPHNODESETTINGS( FloatValueNode::Settings, m_inputValueNodeIdx );
@@ -102,11 +102,11 @@ namespace KRG::Animation::GraphNodes
 
     //-------------------------------------------------------------------------
 
-    class KRG_ENGINE_ANIMATION_API FloatEaseNode final : public FloatValueNode
+    class KRG_ENGINE_API FloatEaseNode final : public FloatValueNode
     {
     public:
 
-        struct KRG_ENGINE_ANIMATION_API Settings final : public FloatValueNode::Settings
+        struct KRG_ENGINE_API Settings final : public FloatValueNode::Settings
         {
             KRG_REGISTER_TYPE( Settings );
             KRG_SERIALIZE_GRAPHNODESETTINGS( FloatValueNode::Settings, m_inputValueNodeIdx, m_easeTime, m_initalValue, m_easingType, m_easeTime );
@@ -135,11 +135,11 @@ namespace KRG::Animation::GraphNodes
 
     //-------------------------------------------------------------------------
 
-    class KRG_ENGINE_ANIMATION_API FloatCurveNode final : public FloatValueNode
+    class KRG_ENGINE_API FloatCurveNode final : public FloatValueNode
     {
     public:
 
-        struct KRG_ENGINE_ANIMATION_API Settings final : public FloatValueNode::Settings
+        struct KRG_ENGINE_API Settings final : public FloatValueNode::Settings
         {
             KRG_REGISTER_TYPE( Settings );
             KRG_SERIALIZE_GRAPHNODESETTINGS( FloatValueNode::Settings, m_inputValueNodeIdx, m_curve );
@@ -165,7 +165,7 @@ namespace KRG::Animation::GraphNodes
 
     //-------------------------------------------------------------------------
 
-    class KRG_ENGINE_ANIMATION_API FloatMathNode final : public FloatValueNode
+    class KRG_ENGINE_API FloatMathNode final : public FloatValueNode
     {
     public:
 
@@ -179,7 +179,7 @@ namespace KRG::Animation::GraphNodes
             Div,
         };
 
-        struct KRG_ENGINE_ANIMATION_API Settings final : public FloatValueNode::Settings
+        struct KRG_ENGINE_API Settings final : public FloatValueNode::Settings
         {
             KRG_REGISTER_TYPE( Settings );
             KRG_SERIALIZE_GRAPHNODESETTINGS( FloatValueNode::Settings, m_inputValueNodeIdxA, m_inputValueNodeIdxB, m_returnAbsoluteResult, m_operator, m_valueB );
@@ -208,7 +208,7 @@ namespace KRG::Animation::GraphNodes
 
     //-------------------------------------------------------------------------
 
-    class KRG_ENGINE_ANIMATION_API FloatComparisonNode final : public BoolValueNode
+    class KRG_ENGINE_API FloatComparisonNode final : public BoolValueNode
     {
     public:
 
@@ -223,7 +223,7 @@ namespace KRG::Animation::GraphNodes
             LessThan,
         };
 
-        struct KRG_ENGINE_ANIMATION_API Settings final : public BoolValueNode::Settings
+        struct KRG_ENGINE_API Settings final : public BoolValueNode::Settings
         {
             KRG_REGISTER_TYPE( Settings );
             KRG_SERIALIZE_GRAPHNODESETTINGS( BoolValueNode::Settings, m_inputValueNodeIdx, m_comparandValueNodeIdx, m_comparison, m_epsilon, m_comparisonValue );
@@ -252,11 +252,11 @@ namespace KRG::Animation::GraphNodes
 
     //-------------------------------------------------------------------------
 
-    class KRG_ENGINE_ANIMATION_API FloatRangeComparisonNode final : public BoolValueNode
+    class KRG_ENGINE_API FloatRangeComparisonNode final : public BoolValueNode
     {
     public:
 
-        struct KRG_ENGINE_ANIMATION_API Settings final : public BoolValueNode::Settings
+        struct KRG_ENGINE_API Settings final : public BoolValueNode::Settings
         {
             KRG_REGISTER_TYPE( Settings );
             KRG_SERIALIZE_GRAPHNODESETTINGS( BoolValueNode::Settings, m_inputValueNodeIdx, m_range, m_isInclusiveCheck );
@@ -282,11 +282,11 @@ namespace KRG::Animation::GraphNodes
 
     //-------------------------------------------------------------------------
 
-    class KRG_ENGINE_ANIMATION_API FloatSwitchNode final : public FloatValueNode
+    class KRG_ENGINE_API FloatSwitchNode final : public FloatValueNode
     {
     public:
 
-        struct KRG_ENGINE_ANIMATION_API Settings final : public FloatValueNode::Settings
+        struct KRG_ENGINE_API Settings final : public FloatValueNode::Settings
         {
             KRG_REGISTER_TYPE( Settings );
             KRG_SERIALIZE_GRAPHNODESETTINGS( FloatValueNode::Settings, m_switchValueNodeIdx, m_trueValueNodeIdx, m_falseValueNodeIdx );
@@ -314,11 +314,11 @@ namespace KRG::Animation::GraphNodes
 
     //-------------------------------------------------------------------------
 
-    class KRG_ENGINE_ANIMATION_API FloatReverseDirectionNode final : public FloatValueNode
+    class KRG_ENGINE_API FloatReverseDirectionNode final : public FloatValueNode
     {
     public:
 
-        struct KRG_ENGINE_ANIMATION_API Settings final : public FloatValueNode::Settings
+        struct KRG_ENGINE_API Settings final : public FloatValueNode::Settings
         {
             KRG_REGISTER_TYPE( Settings );
             KRG_SERIALIZE_GRAPHNODESETTINGS( FloatValueNode::Settings, m_inputValueNodeIdx );

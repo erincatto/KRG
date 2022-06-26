@@ -1,10 +1,10 @@
 #pragma once
 
-#include "_Module/API.h"
+#include "Engine/_Module/API.h"
 #include "PhysX.h"
 #include "PhysicsMaterial.h"
-#include "Engine/Core/Update/UpdateContext.h"
-#include "System/Core/Systems/ISystem.h"
+#include "Engine/UpdateContext.h"
+#include "System/Systems.h"
 
 //-------------------------------------------------------------------------
 
@@ -19,7 +19,7 @@ namespace KRG::Physics
     //-------------------------------------------------------------------------
     // This is effectively a singleton since PhysX only allows a single instance of the foundation class
 
-    class KRG_ENGINE_PHYSICS_API PhysicsSystem : public ISystem
+    class KRG_ENGINE_API PhysicsSystem : public ISystem
     {
         friend class ScopeLock;
         friend class PhysicsDebugView;

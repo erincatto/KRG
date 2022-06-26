@@ -1,10 +1,10 @@
 #include "ApplicationGlobalState.h"
 #include "System/TypeSystem/CoreTypeIDs.h"
-#include "System/Core/Memory/Memory.h"
-#include "System/Core/Types/StringID.h"
-#include "System/Core/Profiling/Profiling.h"
-#include "System/Core/Threading/Threading.h"
-#include "System/Core/Logging/Log.h"
+#include "System/Memory/Memory.h"
+#include "System/Types/StringID.h"
+#include "System/Profiling.h"
+#include "System/Threading/Threading.h"
+#include "System/Log.h"
 
 //-------------------------------------------------------------------------
 

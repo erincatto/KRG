@@ -1,5 +1,5 @@
 #pragma once
-#include "System/Core/KRG.h"
+#include "System/KRG.h"
 
 //-------------------------------------------------------------------------
 

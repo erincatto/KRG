@@ -1,5 +1,5 @@
 #include "CompiledResourceDatabase.h"
-#include "System/Core/FileSystem/FileSystem.h"
+#include "System/FileSystem/FileSystem.h"
 #include <sqlite3.h>
 
 //-------------------------------------------------------------------------

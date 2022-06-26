@@ -1,15 +1,15 @@
 #pragma once
 
-#include "../_Module/API.h"
+#include "Engine/_Module/API.h"
 #include "Engine/Navmesh/NavmeshData.h"
 #include "System/Resource/ResourcePtr.h"
-#include "Engine/Core/Entity/EntitySpatialComponent.h"
+#include "Engine/Entity/EntitySpatialComponent.h"
 
 //-------------------------------------------------------------------------
 
 namespace KRG::Navmesh
 {
-    struct KRG_ENGINE_NAVMESH_API NavmeshLayerBuildSettings : public IRegisteredType
+    struct KRG_ENGINE_API NavmeshLayerBuildSettings : public IRegisteredType
     {
         KRG_REGISTER_TYPE( NavmeshLayerBuildSettings );
 
@@ -32,7 +32,7 @@ namespace KRG::Navmesh
 
     //-------------------------------------------------------------------------
 
-    struct KRG_ENGINE_NAVMESH_API NavmeshBuildSettings : public IRegisteredType
+    struct KRG_ENGINE_API NavmeshBuildSettings : public IRegisteredType
     {
         KRG_REGISTER_TYPE( NavmeshBuildSettings );
 
@@ -43,7 +43,7 @@ namespace KRG::Navmesh
 
     //-------------------------------------------------------------------------
 
-    class KRG_ENGINE_NAVMESH_API NavmeshComponent : public SpatialEntityComponent
+    class KRG_ENGINE_API NavmeshComponent : public SpatialEntityComponent
     {
         KRG_REGISTER_SINGLETON_ENTITY_COMPONENT( NavmeshComponent );
         friend class NavmeshWorldSystem;

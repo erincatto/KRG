@@ -1,6 +1,6 @@
 #include "ResourceLoader_RenderTexture.h"
-#include "System/Core/Serialization/BinaryArchive.h"
-#include "System/Core/Logging/Log.h"
+#include "System/Serialization/BinaryArchive.h"
+#include "System/Log.h"
 
 //-------------------------------------------------------------------------
 

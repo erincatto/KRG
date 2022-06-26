@@ -6,7 +6,7 @@
 
 namespace KRG::TypeSystem
 {
-    struct KRG_SYSTEM_TYPESYSTEM_API ResourceInfo
+    struct KRG_SYSTEM_API ResourceInfo
     {
         inline bool IsValid() const { return m_typeID.IsValid() && m_resourceTypeID.IsValid(); }
 

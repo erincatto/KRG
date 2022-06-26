@@ -1,8 +1,8 @@
 #include "ReflectionDatabase.h"
 #include "Applications/Reflector/ReflectorSettingsAndUtils.h"
-#include "System/Core/FileSystem/FileSystem.h"
+#include "System/FileSystem/FileSystem.h"
 #include "System/TypeSystem/TypeRegistry.h"
-#include "System/Core/Logging/Log.h"
+#include "System/Log.h"
 #include <sqlite3.h>
 
 //-------------------------------------------------------------------------

@@ -4,7 +4,7 @@
 #include "Engine/Animation/TaskSystem/Tasks/Animation_Task_DefaultPose.h"
 #include "Engine/Physics/PhysicsRagdoll.h"
 #include "Engine/Physics/PhysicsScene.h"
-#include "System/Core/Logging/Log.h"
+#include "System/Log.h"
 
 //-------------------------------------------------------------------------
 
@@ -81,7 +81,7 @@ namespace KRG::Animation::GraphNodes
         }
         else
         {
-            result.m_taskIdx = context.m_pTaskSystem->RegisterTask<Tasks::DefaultPoseTask>( GetNodeIndex(), Pose::InitialState::ReferencePose );
+            result.m_taskIdx = context.m_pTaskSystem->RegisterTask<Tasks::DefaultPoseTask>( GetNodeIndex(), Pose::Type::ReferencePose );
         }
 
         return result;
@@ -98,7 +98,7 @@ namespace KRG::Animation::GraphNodes
         }
         else
         {
-            result.m_taskIdx = context.m_pTaskSystem->RegisterTask<Tasks::DefaultPoseTask>( GetNodeIndex(), Pose::InitialState::ReferencePose );
+            result.m_taskIdx = context.m_pTaskSystem->RegisterTask<Tasks::DefaultPoseTask>( GetNodeIndex(), Pose::Type::ReferencePose );
         }
 
         return result;

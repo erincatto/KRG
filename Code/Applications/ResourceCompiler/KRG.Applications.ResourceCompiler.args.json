@@ -145,6 +145,10 @@
         {
           "Id": "2464fa86-53b9-4f1e-832a-21d36c275665",
           "Command": "-compile data://cubemaps/cubemap.cbmp"
+        },
+        {
+          "Id": "8cd2a9ba-a24d-4549-9a15-9c3a549c7a6e",
+          "Command": "-compile data://packs/br/characters/sk_chr_gothfemale_01.smsh"
         }
       ]
     },
@@ -161,16 +165,12 @@
           "Command": "-compile data://test/ar_walk_fwd.anim"
         },
         {
-          "Id": "8cd2a9ba-a24d-4549-9a15-9c3a549c7a6e",
-          "Command": "-compile data://packs/br/characters/sk_chr_gothfemale_01.smsh"
-        },
-        {
           "Id": "71618f6d-9aa2-4324-8bb1-6f17b1243534",
           "Command": "-compile data://test/syntyskel.skel"
         },
         {
           "Id": "21374f48-740a-4048-a7a3-41e6d784c18f",
-          "Command": "-compile data://test/test.anim"
+          "Command": "-compile data://testanim.anim"
         },
         {
           "Id": "193c9740-984a-41d8-823e-ef810d861cc9",

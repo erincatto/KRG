@@ -1,14 +1,14 @@
 #pragma once
 
 #include "Engine/Animation/AnimationClip.h"
-#include "Engine/Core/Entity/EntityComponent.h"
+#include "Engine/Entity/EntityComponent.h"
 #include "System/Resource/ResourcePtr.h"
 
 //-------------------------------------------------------------------------
 
 namespace KRG::Animation
 {
-    class KRG_ENGINE_ANIMATION_API AnimationClipPlayerComponent final : public EntityComponent
+    class KRG_ENGINE_API AnimationClipPlayerComponent final : public EntityComponent
     {
         KRG_REGISTER_ENTITY_COMPONENT( AnimationClipPlayerComponent );
 

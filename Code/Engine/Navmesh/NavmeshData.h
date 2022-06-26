@@ -1,13 +1,13 @@
 #pragma once
 
-#include "_Module/API.h"
+#include "Engine/_Module/API.h"
 #include "System/Resource/IResource.h"
 
 //-------------------------------------------------------------------------
 
 namespace KRG::Navmesh
 {
-    class KRG_ENGINE_NAVMESH_API NavmeshData : public Resource::IResource
+    class KRG_ENGINE_API NavmeshData : public Resource::IResource
     {
         KRG_REGISTER_RESOURCE( 'nav', "Navmesh");
         friend class NavmeshGenerator;

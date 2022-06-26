@@ -1,6 +1,6 @@
 #pragma once
 
-#include "_Module/API.h"
+#include "System/_Module/API.h"
 #include "ResourcePtr.h"
 #include "IResource.h"
 
@@ -28,7 +28,7 @@ namespace KRG
 
         //-------------------------------------------------------------------------
 
-        class KRG_SYSTEM_RESOURCE_API ResourceLoader
+        class KRG_SYSTEM_API ResourceLoader
         {
 
         protected:

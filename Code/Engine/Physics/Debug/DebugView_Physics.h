@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../_Module/API.h"
-#include "Engine/Core/Entity/EntityWorldDebugView.h"
+#include "Engine/_Module/API.h"
+#include "Engine/Entity/EntityWorldDebugView.h"
 
 //-------------------------------------------------------------------------
 
@@ -19,7 +19,7 @@ namespace KRG::Physics
 
     //-------------------------------------------------------------------------
 
-    class KRG_ENGINE_PHYSICS_API PhysicsDebugView : public EntityWorldDebugView
+    class KRG_ENGINE_API PhysicsDebugView : public EntityWorldDebugView
     {
         KRG_REGISTER_TYPE( PhysicsDebugView );
 

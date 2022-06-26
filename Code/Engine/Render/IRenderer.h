@@ -1,10 +1,10 @@
 #pragma once
 
-#include "Engine/Render/_Module/API.h"
-#include "System/Core/KRG.h"
-#include "System/Core/Algorithm/Hash.h"
-#include "System/Core/Time/Time.h"
-#include "System/Core/Types/UUID.h"
+#include "Engine/_Module/API.h"
+#include "System/KRG.h"
+#include "System/Algorithm/Hash.h"
+#include "System/Time/Time.h"
+#include "System/Types/UUID.h"
 
 //-------------------------------------------------------------------------
 
@@ -30,7 +30,7 @@ namespace KRG::Render
 
     //-------------------------------------------------------------------------
 
-    class KRG_ENGINE_RENDER_API IRenderer
+    class KRG_ENGINE_API IRenderer
     {
 
     public:

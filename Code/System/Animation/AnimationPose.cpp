@@ -1,11 +1,11 @@
 #include "AnimationPose.h"
-#include "System/Core/Drawing/DebugDrawing.h"
+#include "System/Drawing/DebugDrawing.h"
 
 //-------------------------------------------------------------------------
 
 namespace KRG::Animation
 {
-    Pose::Pose( Skeleton const* pSkeleton, InitialState initialState )
+    Pose::Pose( Skeleton const* pSkeleton, Type initialState )
         : m_pSkeleton( pSkeleton )
         , m_localTransforms( pSkeleton->GetNumBones() )
     {
@@ -39,17 +39,17 @@ namespace KRG::Animation
 
     //-------------------------------------------------------------------------
 
-    void Pose::Reset( InitialState initialState, bool calcGlobalPose )
+    void Pose::Reset( Type initialState, bool calcGlobalPose )
     {
         switch ( initialState )
         {
-            case InitialState::ReferencePose:
+            case Type::ReferencePose:
             {
                 SetToReferencePose( calcGlobalPose );
             }
             break;
 
-            case InitialState::ZeroPose:
+            case Type::ZeroPose:
             {
                 SetToZeroPose( calcGlobalPose );
             }

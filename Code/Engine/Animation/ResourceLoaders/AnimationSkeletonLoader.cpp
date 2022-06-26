@@ -1,6 +1,6 @@
 #include "AnimationSkeletonLoader.h"
 #include "System/Animation/AnimationSkeleton.h"
-#include "System/Core/Serialization/BinaryArchive.h"
+#include "System/Serialization/BinaryArchive.h"
 
 //-------------------------------------------------------------------------
 

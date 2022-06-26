@@ -1,10 +1,10 @@
 #pragma once
 
-#include "_Module/API.h"
+#include "System/_Module/API.h"
 #include "System/Resource/IResource.h"
-#include "System/Core/Types/StringID.h"
-#include "System/Core/Math/Transform.h"
-#include "System/Core/Types/BitFlags.h"
+#include "System/Types/StringID.h"
+#include "System/Math/Transform.h"
+#include "System/Types/BitFlags.h"
 
 //-------------------------------------------------------------------------
 
@@ -22,7 +22,7 @@ namespace KRG::Animation
 
     //-------------------------------------------------------------------------
 
-    class KRG_SYSTEM_ANIMATION_API Skeleton : public Resource::IResource
+    class KRG_SYSTEM_API Skeleton : public Resource::IResource
     {
         KRG_REGISTER_RESOURCE( 'skel', "Animation Skeleton" );
         KRG_SERIALIZE_MEMBERS( m_boneIDs, m_localReferencePose, m_parentIndices, m_boneFlags );
@@ -105,6 +105,6 @@ namespace KRG::Animation
     //-------------------------------------------------------------------------
 
     #if KRG_DEVELOPMENT_TOOLS
-    KRG_SYSTEM_ANIMATION_API void DrawRootBone( Drawing::DrawContext& ctx, Transform const& transform );
+    KRG_SYSTEM_API void DrawRootBone( Drawing::DrawContext& ctx, Transform const& transform );
     #endif
 }

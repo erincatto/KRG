@@ -1,9 +1,9 @@
 #pragma once
 
-#include "_Module/API.h"
-#include "System/Core/FileSystem/FileSystemPath.h"
-#include "System/Core/Serialization/Serialization.h"
-#include "System/Core/Types/String.h"
+#include "System/_Module/API.h"
+#include "System/FileSystem/FileSystemPath.h"
+#include "System/Serialization/Serialization.h"
+#include "System/Types/String.h"
 
 //-------------------------------------------------------------------------
 // Resource Path
@@ -14,7 +14,7 @@
 
 namespace KRG
 {
-    class KRG_SYSTEM_RESOURCE_API ResourcePath
+    class KRG_SYSTEM_API ResourcePath
     {
         friend cereal::access;
 

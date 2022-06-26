@@ -2,12 +2,12 @@
 #include "Engine/Render/Renderers/WorldRenderer.h"
 #include "Engine/Render/Renderers/DebugRenderer.h"
 #include "Engine/Render/Renderers/ImguiRenderer.h"
-#include "Engine/Core/Entity/EntityWorldManager.h"
+#include "Engine/Entity/EntityWorldManager.h"
 #include "System/Render/RenderDevice.h"
-#include "Engine/Core/Update/UpdateContext.h"
-#include "System/Core/Profiling/Profiling.h"
-#include "System/Core/Math/ViewVolume.h"
-#include "Engine/Core/Entity/EntityWorld.h"
+#include "Engine/UpdateContext.h"
+#include "System/Profiling.h"
+#include "System/Math/ViewVolume.h"
+#include "Engine/Entity/EntityWorld.h"
 
 //-------------------------------------------------------------------------
 

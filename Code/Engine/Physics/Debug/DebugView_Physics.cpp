@@ -4,9 +4,9 @@
 #include "Engine/Physics/Components/Component_PhysicsCapsule.h"
 #include "Engine/Physics/Components/Component_PhysicsSphere.h"
 #include "Engine/Physics/Components/Component_PhysicsBox.h"
-#include "Engine/Core/Entity/EntityWorld.h"
-#include "Engine/Core/Entity/EntityWorldUpdateContext.h"
-#include "System/Render/Imgui/ImguiX.h"
+#include "Engine/Entity/EntityWorld.h"
+#include "Engine/Entity/EntityWorldUpdateContext.h"
+#include "System/Imgui/ImguiX.h"
 
 //-------------------------------------------------------------------------
 

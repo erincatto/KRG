@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Engine/Physics/_Module/API.h"
+#include "Engine/_Module/API.h"
 #include "Component_PhysicsShape.h"
 #include "Engine/Physics/PhysicsMesh.h"
 #include "System/Resource/ResourcePtr.h"
@@ -13,7 +13,7 @@ namespace KRG::Physics
 
     //-------------------------------------------------------------------------
 
-    class KRG_ENGINE_PHYSICS_API PhysicsMeshComponent final : public PhysicsShapeComponent
+    class KRG_ENGINE_API PhysicsMeshComponent final : public PhysicsShapeComponent
     {
         KRG_REGISTER_ENTITY_COMPONENT( PhysicsMeshComponent );
 

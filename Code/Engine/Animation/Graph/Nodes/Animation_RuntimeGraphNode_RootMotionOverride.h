@@ -6,7 +6,7 @@
 
 namespace KRG::Animation::GraphNodes
 {
-    class KRG_ENGINE_ANIMATION_API RootMotionOverrideNode final : public PassthroughNode
+    class KRG_ENGINE_API RootMotionOverrideNode final : public PassthroughNode
     {
     public:
 
@@ -21,7 +21,7 @@ namespace KRG::Animation::GraphNodes
             FacingZ,
         };
 
-        struct KRG_ENGINE_ANIMATION_API Settings final : public PassthroughNode::Settings
+        struct KRG_ENGINE_API Settings final : public PassthroughNode::Settings
         {
             KRG_REGISTER_TYPE( Settings );
             KRG_SERIALIZE_GRAPHNODESETTINGS( PassthroughNode::Settings, m_desiredHeadingVelocityNodeIdx, m_desiredFacingDirectionNodeIdx, m_linearVelocityLimitNodeIdx, m_angularVelocityLimitNodeIdx, m_maxLinearVelocity, m_maxAngularVelocity, m_overrideFlags );

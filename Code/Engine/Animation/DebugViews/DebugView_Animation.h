@@ -1,9 +1,9 @@
 #pragma once
 
-#include "Engine/Animation/_Module/API.h"
+#include "Engine/_Module/API.h"
 #include "Engine/Animation/TaskSystem/Animation_TaskSystem.h"
-#include "Engine/Core/Entity/EntityWorldDebugView.h"
-#include "Engine/Core/Entity/EntityIDs.h"
+#include "Engine/Entity/EntityWorldDebugView.h"
+#include "Engine/Entity/EntityIDs.h"
 
 //-------------------------------------------------------------------------
 
@@ -17,7 +17,7 @@ namespace KRG::Animation
 
     //-------------------------------------------------------------------------
 
-    class KRG_ENGINE_ANIMATION_API AnimationDebugView : public EntityWorldDebugView
+    class KRG_ENGINE_API AnimationDebugView : public EntityWorldDebugView
     {
         KRG_REGISTER_TYPE( AnimationDebugView );
 

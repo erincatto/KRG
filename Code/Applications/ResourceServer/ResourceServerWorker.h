@@ -1,10 +1,10 @@
 #pragma once
 
 #include "ResourceCompilationRequest.h"
-#include "Tools/Core/ThirdParty/subprocess/subprocess.h"
-#include "System/Core/Types/String.h"
-#include "System/Core/Threading/Threading.h"
-#include "System/Core/Threading/TaskSystem.h"
+#include "EngineTools/ThirdParty/subprocess/subprocess.h"
+#include "System/Types/String.h"
+#include "System/Threading/Threading.h"
+#include "System/Threading/TaskSystem.h"
 
 //-------------------------------------------------------------------------
 

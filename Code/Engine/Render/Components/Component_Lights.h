@@ -1,14 +1,14 @@
 #pragma once
 
-#include "Engine/Render/_Module/API.h"
-#include "Engine/Core/Entity/EntitySpatialComponent.h"
-#include "System/Core/Types/Color.h"
+#include "Engine/_Module/API.h"
+#include "Engine/Entity/EntitySpatialComponent.h"
+#include "System/Types/Color.h"
 
 //-------------------------------------------------------------------------
 
 namespace KRG::Render
 {
-    class KRG_ENGINE_RENDER_API LightComponent : public SpatialEntityComponent
+    class KRG_ENGINE_API LightComponent : public SpatialEntityComponent
     {
         KRG_REGISTER_ENTITY_COMPONENT( LightComponent );
         friend class RenderDebugView;
@@ -29,7 +29,7 @@ namespace KRG::Render
 
     //-------------------------------------------------------------------------
 
-    class KRG_ENGINE_RENDER_API DirectionalLightComponent: public LightComponent
+    class KRG_ENGINE_API DirectionalLightComponent: public LightComponent
     {
         KRG_REGISTER_ENTITY_COMPONENT( DirectionalLightComponent );
         friend class RenderDebugView;
@@ -42,7 +42,7 @@ namespace KRG::Render
 
     //-------------------------------------------------------------------------
 
-    class KRG_ENGINE_RENDER_API PointLightComponent : public LightComponent
+    class KRG_ENGINE_API PointLightComponent : public LightComponent
     {
         KRG_REGISTER_ENTITY_COMPONENT( PointLightComponent );
         friend class RenderDebugView;
@@ -58,7 +58,7 @@ namespace KRG::Render
 
     //-------------------------------------------------------------------------
 
-    class KRG_ENGINE_RENDER_API SpotLightComponent : public LightComponent
+    class KRG_ENGINE_API SpotLightComponent : public LightComponent
     {
         KRG_REGISTER_ENTITY_COMPONENT( SpotLightComponent );
         friend class RenderDebugView;

@@ -1,10 +1,10 @@
 #pragma once
 
-#include "_Module/API.h"
+#include "System/_Module/API.h"
 #include "InputDevices/InputDevice_KeyboardMouse.h"
 #include "InputDevices/InputDevice_Controller.h"
-#include "System/Core/Types/Containers.h"
-#include "System/Core/Systems/ISystem.h"
+#include "System/Types/Containers.h"
+#include "System/Systems.h"
 
 //-------------------------------------------------------------------------
 
@@ -17,7 +17,7 @@ namespace KRG::Input
     //-------------------------------------------------------------------------
     // The global KRG input system, manages all hardware devices and updates their state
 
-    class KRG_SYSTEM_INPUT_API InputSystem : public ISystem
+    class KRG_SYSTEM_API InputSystem : public ISystem
     {
         friend class InputDebugView;
 
@@ -97,7 +97,7 @@ namespace KRG::Input
     //-------------------------------------------------------------------------
     // A copy of the input state, used to contextually manage input state per system/world/etc...
 
-    class KRG_SYSTEM_INPUT_API InputState
+    class KRG_SYSTEM_API InputState
     {
         friend class InputSystem;
 

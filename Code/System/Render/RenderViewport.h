@@ -1,9 +1,9 @@
 #pragma once
 
-#include "_Module/API.h"
+#include "System/_Module/API.h"
 #include "RenderTarget.h"
-#include "System/Core/Math/ViewVolume.h"
-#include "System/Core/Math/Rectangle.h"
+#include "System/Math/ViewVolume.h"
+#include "System/Math/Rectangle.h"
 
 //-------------------------------------------------------------------------
 // KRG viewport
@@ -20,7 +20,7 @@ namespace KRG::Render
 
     //-------------------------------------------------------------------------
 
-    class KRG_SYSTEM_RENDER_API Viewport
+    class KRG_SYSTEM_API Viewport
     {
     public:
 

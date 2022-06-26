@@ -43,7 +43,7 @@ namespace KRG::Animation::Tasks
         }
         else // Set the result buffer to reference
         {
-            pPoseBuffer->m_pose.Reset( Pose::InitialState::ReferencePose );
+            pPoseBuffer->m_pose.Reset( Pose::Type::ReferencePose );
         }
 
         MarkTaskComplete( context );

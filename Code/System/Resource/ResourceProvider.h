@@ -1,6 +1,6 @@
 #pragma once
 
-#include "_Module/API.h"
+#include "System/_Module/API.h"
 #include "ResourceID.h"
 #include "ResourceSettings.h"
 
@@ -22,7 +22,7 @@ namespace KRG::Resource
 
     //-------------------------------------------------------------------------
 
-    class KRG_SYSTEM_RESOURCE_API ResourceProvider
+    class KRG_SYSTEM_API ResourceProvider
     {
 
     public:

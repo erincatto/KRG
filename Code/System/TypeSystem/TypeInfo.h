@@ -2,7 +2,7 @@
 
 #include "PropertyInfo.h"
 #include "ITypeHelper.h"
-#include "System/Core/Types/Containers.h"
+#include "System/Types/Containers.h"
 
 //-------------------------------------------------------------------------
 
@@ -18,7 +18,7 @@ namespace KRG::TypeSystem
 
     //-------------------------------------------------------------------------
 
-    struct KRG_SYSTEM_TYPESYSTEM_API TypeInfo
+    struct KRG_SYSTEM_API TypeInfo
     {
 
     public:

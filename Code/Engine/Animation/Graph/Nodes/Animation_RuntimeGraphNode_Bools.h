@@ -5,11 +5,11 @@
 
 namespace KRG::Animation::GraphNodes
 {
-    class KRG_ENGINE_ANIMATION_API AndNode final : public BoolValueNode
+    class KRG_ENGINE_API AndNode final : public BoolValueNode
     {
     public:
 
-        struct KRG_ENGINE_ANIMATION_API Settings final : public BoolValueNode::Settings
+        struct KRG_ENGINE_API Settings final : public BoolValueNode::Settings
         {
             KRG_REGISTER_TYPE( Settings );
             KRG_SERIALIZE_GRAPHNODESETTINGS( BoolValueNode::Settings, m_conditionNodeIndices );
@@ -33,11 +33,11 @@ namespace KRG::Animation::GraphNodes
 
     //-------------------------------------------------------------------------
 
-    class KRG_ENGINE_ANIMATION_API OrNode final : public BoolValueNode
+    class KRG_ENGINE_API OrNode final : public BoolValueNode
     {
     public:
 
-        struct KRG_ENGINE_ANIMATION_API Settings final : public BoolValueNode::Settings
+        struct KRG_ENGINE_API Settings final : public BoolValueNode::Settings
         {
             KRG_REGISTER_TYPE( Settings );
             KRG_SERIALIZE_GRAPHNODESETTINGS( BoolValueNode::Settings, m_conditionNodeIndices );
@@ -61,11 +61,11 @@ namespace KRG::Animation::GraphNodes
 
     //-------------------------------------------------------------------------
 
-    class KRG_ENGINE_ANIMATION_API NotNode final : public BoolValueNode
+    class KRG_ENGINE_API NotNode final : public BoolValueNode
     {
     public:
 
-        struct KRG_ENGINE_ANIMATION_API Settings final : public BoolValueNode::Settings
+        struct KRG_ENGINE_API Settings final : public BoolValueNode::Settings
         {
             KRG_REGISTER_TYPE( Settings );
             KRG_SERIALIZE_GRAPHNODESETTINGS( BoolValueNode::Settings, m_inputValueNodeIdx );

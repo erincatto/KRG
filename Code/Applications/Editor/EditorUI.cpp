@@ -1,14 +1,14 @@
 #include "EditorUI.h"
-#include "Tools/Entity/Workspaces/Workspace_MapEditor.h"
-#include "Tools/Entity/Workspaces/Workspace_GamePreviewer.h"
-#include "Tools/Core/Workspaces/EditorWorkspace.h"
+#include "EngineTools/Entity/Workspaces/Workspace_MapEditor.h"
+#include "EngineTools/Entity/Workspaces/Workspace_GamePreviewer.h"
+#include "EngineTools/Core/Workspaces/EditorWorkspace.h"
 #include "Engine/Physics/Debug/DebugView_Physics.h"
-#include "Engine/Core/ToolsUI/OrientationGuide.h"
-#include "Engine/Core/Entity/EntityWorld.h"
-#include "Engine/Core/DebugViews/DebugView_Resource.h"
-#include "Engine/Core/DebugViews/DebugView_RuntimeSettings.h"
-#include "Engine/Core/Entity/EntityWorldManager.h"
-#include "Engine/Core/Entity/EntityWorldUpdateContext.h"
+#include "Engine/ToolsUI/OrientationGuide.h"
+#include "Engine/Entity/EntityWorld.h"
+#include "Engine/DebugViews/DebugView_Resource.h"
+#include "Engine/DebugViews/DebugView_RuntimeSettings.h"
+#include "Engine/Entity/EntityWorldManager.h"
+#include "Engine/Entity/EntityWorldUpdateContext.h"
 #include "Engine/Render/Debug/DebugView_Render.h"
 
 //-------------------------------------------------------------------------
@@ -452,28 +452,7 @@ namespace KRG
 
         ImGui::SameLine( frameLimiterOffset, 0 );
 
-        if ( ImGui::BeginMenu( KRG_ICON_CAR_SPEED_LIMITER ) )
-        {
-            bool noLimit = !context.HasFrameRateLimit();
-            if ( ImGui::MenuItem( "None", nullptr, &noLimit ) )
-            {
-                const_cast<UpdateContext&>( context ).SetFrameRateLimit( 0.0f );
-            }
-
-            bool is30FPS = context.HasFrameRateLimit() && context.GetFrameRateLimit() == 30.0f;
-            if ( ImGui::MenuItem( "30 FPS", nullptr, &is30FPS ) )
-            {
-                const_cast<UpdateContext&>( context ).SetFrameRateLimit( 30.0f );
-            }
-
-            bool is60FPS = context.HasFrameRateLimit() && context.GetFrameRateLimit() == 60.0f;
-            if ( ImGui::MenuItem( "60 FPS", nullptr, &is60FPS ) )
-            {
-                const_cast<UpdateContext&>( context ).SetFrameRateLimit( 60.0f );
-            }
-
-            ImGui::EndMenu();
-        }
+        SystemDebugView::DrawFrameLimiterMenu( const_cast<UpdateContext&>( context ) );
 
         ImGui::SameLine( perfStatsOffset );
         ImGui::Text( perfStats.c_str() );

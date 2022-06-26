@@ -1,7 +1,7 @@
 #include "WorldSystem_Renderer.h"
-#include "Engine/Core/Entity/Entity.h"
-#include "Engine/Core/Entity/EntityWorldUpdateContext.h"
-#include "Engine/Core/RuntimeSettings/RuntimeSettings.h"
+#include "Engine/Entity/Entity.h"
+#include "Engine/Entity/EntityWorldUpdateContext.h"
+#include "Engine/RuntimeSettings/RuntimeSettings.h"
 #include "Engine/Render/Components/Component_StaticMesh.h"
 #include "Engine/Render/Components/Component_SkeletalMesh.h"
 #include "Engine/Render/Components/Component_Lights.h"
@@ -9,8 +9,8 @@
 #include "Engine/Render/Shaders/EngineShaders.h"
 #include "System/Render/RenderDefaultResources.h"
 #include "System/Render/RenderViewport.h"
-#include "System/Core/Profiling/Profiling.h"
-#include "System/Core/Logging/Log.h"
+#include "System/Profiling.h"
+#include "System/Log.h"
 
 //-------------------------------------------------------------------------
 

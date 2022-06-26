@@ -5,7 +5,7 @@
 
 namespace KRG::Render
 {
-    class KRG_ENGINE_RENDER_API SkeletalMesh : public Mesh
+    class KRG_ENGINE_API SkeletalMesh : public Mesh
     {
         friend class SkeletalMeshCompiler;
         friend class MeshLoader;

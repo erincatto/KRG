@@ -2,13 +2,13 @@
 
 #include "ResourceRecord.h"
 #include "ResourceLoader.h"
-#include "System/Core/Types/Function.h"
+#include "System/Types/Function.h"
 
 //-------------------------------------------------------------------------
 
 namespace KRG::Resource
 {
-    class KRG_SYSTEM_RESOURCE_API ResourceRequest
+    class KRG_SYSTEM_API ResourceRequest
     {
     public:
 

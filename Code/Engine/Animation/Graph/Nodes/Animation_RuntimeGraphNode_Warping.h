@@ -1,23 +1,17 @@
 #pragma once
 
 #include "Animation_RuntimeGraphNode_AnimationClip.h"
-
-//-------------------------------------------------------------------------
-
-namespace KRG::Animation::Warping
-{
-
-}
+#include "Engine/Animation/Events/AnimationEvent_Warp.h"
 
 //-------------------------------------------------------------------------
 
 namespace KRG::Animation::GraphNodes
 {
-    class KRG_ENGINE_ANIMATION_API OrientationWarpNode final : public PoseNode
+    class KRG_ENGINE_API OrientationWarpNode final : public PoseNode
     {
     public:
 
-        struct KRG_ENGINE_ANIMATION_API Settings final : public PoseNode::Settings
+        struct KRG_ENGINE_API Settings final : public PoseNode::Settings
         {
             KRG_REGISTER_TYPE( Settings );
             KRG_SERIALIZE_GRAPHNODESETTINGS( PoseNode::Settings, m_clipReferenceNodeIdx, m_angleOffsetValueNodeIdx );
@@ -47,17 +41,19 @@ namespace KRG::Animation::GraphNodes
 
     //-------------------------------------------------------------------------
 
-    class KRG_ENGINE_ANIMATION_API TargetWarpNode final : public PoseNode
+    class KRG_ENGINE_API TargetWarpNode final : public PoseNode
     {
+    public:
+
         struct WarpSection
         {
             int32_t                     m_startFrame = 0;
             int32_t                     m_endFrame = 0;
-            bool                        m_rotationAllowed = false;
-            bool                        m_translationAllowed = false;
+            Transform                   m_deltaTransform;
+            TVector<float>              m_progressPerFrameAlongSection;
+            float                       m_length = 0;
+            WarpEvent::Type             m_type;
         };
-
-    public:
 
         enum class SamplingMode
         {
@@ -67,7 +63,7 @@ namespace KRG::Animation::GraphNodes
             Accurate,       // Will return a delta that attempts to move the character to the expected world space position
         };
 
-        struct KRG_ENGINE_ANIMATION_API Settings final : public PoseNode::Settings
+        struct KRG_ENGINE_API Settings final : public PoseNode::Settings
         {
             KRG_REGISTER_TYPE( Settings );
             KRG_SERIALIZE_GRAPHNODESETTINGS( PoseNode::Settings, m_clipReferenceNodeIdx, m_targetValueNodeIdx, m_samplingPositionErrorThresholdSq, m_samplingMode, m_allowTargetUpdate );
@@ -91,8 +87,11 @@ namespace KRG::Animation::GraphNodes
         void UpdateShared( GraphContext& context, GraphPoseNodeResult& result );
 
         bool TryReadTarget( GraphContext& context );
-        void PerformWarp( GraphContext& context, Percentage startTime );
+        bool CalculateWarpedRootMotion( GraphContext& context, Percentage startTime );
         void UpdateWarp( GraphContext& context );
+
+        void WarpRotation( int32_t sectionIdx, Transform const& sectionStartTransform, Transform const& target );
+        void WarpMotion( int32_t sectionIdx, Transform const& startTransform, Transform const& endTransform );
 
         #if KRG_DEVELOPMENT_TOOLS
         virtual void DrawDebug( GraphContext& graphContext, Drawing::DrawContext& drawCtx ) override;
@@ -104,8 +103,16 @@ namespace KRG::Animation::GraphNodes
         TargetValueNode*                m_pTargetValueNode = nullptr;
         Transform                       m_warpTarget;
         Transform                       m_warpStartTransform;
+        TVector<Transform>              m_deltaTransforms;
+        TVector<Transform>              m_inverseDeltaTransforms;
         RootMotionData                  m_warpedRootMotion;
         TInlineVector<WarpSection, 3>   m_warpSections;
         SamplingMode                    m_samplingMode;
+
+        TVector<Vector>                 m_test;
+
+        #if KRG_DEVELOPMENT_TOOLS
+        Transform                       m_actualStartTransform;
+        #endif
     };
 }

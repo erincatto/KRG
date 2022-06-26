@@ -1,7 +1,7 @@
 #pragma once
 #include "Applications/Editor/EditorContext.h"
-#include "Tools/Core/Widgets/TreeListView.h"
-#include "Tools/Core/FileSystem/FileSystemWatcher.h"
+#include "EngineTools/Core/Widgets/TreeListView.h"
+#include "EngineTools/Core/FileSystem/FileSystemWatcher.h"
 
 //-------------------------------------------------------------------------
 

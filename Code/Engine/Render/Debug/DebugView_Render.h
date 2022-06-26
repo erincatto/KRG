@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../_Module/API.h"
-#include "Engine/Core/Entity/EntityWorldDebugView.h"
+#include "Engine/_Module/API.h"
+#include "Engine/Entity/EntityWorldDebugView.h"
 
 //-------------------------------------------------------------------------
 
@@ -13,7 +13,7 @@ namespace KRG::Render
 
     //-------------------------------------------------------------------------
 
-    class KRG_ENGINE_RENDER_API RenderDebugView : public EntityWorldDebugView
+    class KRG_ENGINE_API RenderDebugView : public EntityWorldDebugView
     {
         KRG_REGISTER_TYPE( RenderDebugView );
 

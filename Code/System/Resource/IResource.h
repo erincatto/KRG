@@ -11,7 +11,7 @@
 
 namespace KRG::Resource
 {
-    class KRG_SYSTEM_RESOURCE_API IResource
+    class KRG_SYSTEM_API IResource
     {
         friend class ResourceLoader;
 

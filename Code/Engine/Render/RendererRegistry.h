@@ -1,14 +1,14 @@
 #pragma once
 
 #include "IRenderer.h"
-#include "System/Core/Types/Containers.h"
-#include "System/Core/Systems/ISystem.h"
+#include "System/Types/Containers.h"
+#include "System/Systems.h"
 
 //-------------------------------------------------------------------------
 
 namespace KRG::Render
 {
-    class KRG_ENGINE_RENDER_API RendererRegistry : public ISystem
+    class KRG_ENGINE_API RendererRegistry : public ISystem
     {
     public:
 

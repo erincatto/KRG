@@ -1,8 +1,8 @@
 #include "DebugView_Navmesh.h"
 #include "Engine/Navmesh/Systems/WorldSystem_Navmesh.h"
-#include "Engine/Core/Entity/EntityWorld.h"
-#include "Engine/Core/Entity/EntityWorldUpdateContext.h"
-#include "System/Render/Imgui/ImguiX.h"
+#include "Engine/Entity/EntityWorld.h"
+#include "Engine/Entity/EntityWorldUpdateContext.h"
+#include "System/Imgui/ImguiX.h"
 
 //-------------------------------------------------------------------------
 

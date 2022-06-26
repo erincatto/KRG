@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ImportGroup Label="PropertySheets">
-    <Import Project="$(SolutionDir)Code\PropertySheets\KRG.Render.props" />
+    <Import Project="$(SolutionDir)Code\PropertySheets\KRG_Win32.props" />
     <Import Project="$(SolutionDir)Code\PropertySheets\EA.props" />
     <Import Project="$(SolutionDir)Code\PropertySheets\Imgui.props" />
     <Import Project="$(SolutionDir)Code\PropertySheets\SuperLuminal.props" />
@@ -10,9 +10,9 @@
     <Import Project="$(SolutionDir)Code\PropertySheets\Optick.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros">
-    <KRG_CORE_THIRD_PARTY_INCLUDE_DIR>$(SolutionDir)Code\System\Core\ThirdParty\</KRG_CORE_THIRD_PARTY_INCLUDE_DIR>
     <KRG_ROOT_DIR>$(SolutionDir)</KRG_ROOT_DIR>
     <KRG_BUILD_DIR>$(SolutionDir)Build\</KRG_BUILD_DIR>
+    <KRG_SYSTEM_THIRDPARTY_INCLUDE_DIR>$(SolutionDir)Code\System\ThirdParty\</KRG_SYSTEM_THIRDPARTY_INCLUDE_DIR>
     <OutDir>$(KRG_BUILD_DIR)$(Platform)_$(Configuration)\</OutDir>
     <IntDir>$(KRG_BUILD_DIR)_Temp\$(Platform)_$(Configuration)\$(ProjectName)\</IntDir>
   </PropertyGroup>
@@ -25,7 +25,7 @@
       <WarningLevel>Level4</WarningLevel>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <AdditionalOptions>/Zo /Zc:inline %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalIncludeDirectories>$(SolutionDir)Code;$(KRG_CORE_THIRD_PARTY_INCLUDE_DIR);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Code;$(KRG_SYSTEM_THIRDPARTY_INCLUDE_DIR);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>$(ProjectName.ToUpper().Replace('.', '_'));_HAS_EXCEPTIONS=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PreprocessorDefinitions Condition="$(Platform) == 'x64'">NDEBUG;NOMINMAX;WIN32_LEAN_AND_MEAN;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PreprocessorDefinitions Condition="$(Configuration) == 'Debug'">KRG_DEBUG=1;KRG_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -35,15 +35,18 @@
       <WholeProgramOptimization Condition="$(Configuration) == 'Release'">false</WholeProgramOptimization>
       <WholeProgramOptimization Condition="$(Configuration) == 'Shipping'">true</WholeProgramOptimization>
       <DisableSpecificWarnings>4505;4251;4100;4127;4189;4101;4201;4577;4464;4668;4710;4820;5052;4619;4625;4626;5026;5027;5045;26495;</DisableSpecificWarnings>
-      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <IntrinsicFunctions Condition="$(Configuration) == 'Debug'">true</IntrinsicFunctions>
+      <IntrinsicFunctions Condition="$(Configuration) != 'Debug'">false</IntrinsicFunctions>
+      <FunctionLevelLinking Condition="$(Configuration) == 'Debug'">true</FunctionLevelLinking>
+      <FunctionLevelLinking Condition="$(Configuration) != 'Debug'">true</FunctionLevelLinking>
       <InlineFunctionExpansion Condition="$(Configuration) == 'Debug'">OnlyExplicitInline</InlineFunctionExpansion>
       <InlineFunctionExpansion Condition="$(Configuration) != 'Debug'">AnySuitable</InlineFunctionExpansion>
+      <Optimization Condition="$(Configuration) == 'Debug'">Disabled</Optimization>
+      <Optimization Condition="$(Configuration) != 'Debug'">MaxSpeed</Optimization>
       <MinimalRebuild>false</MinimalRebuild>
       <TreatWarningAsError>true</TreatWarningAsError>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <ExceptionHandling>false</ExceptionHandling>
-      <Optimization Condition="$(Configuration) != 'Debug'">MaxSpeed</Optimization>
-      <Optimization Condition="$(Configuration) == 'Debug'">Disabled</Optimization>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <FloatingPointModel>Fast</FloatingPointModel>
@@ -62,6 +65,9 @@
       <EnableCOMDATFolding Condition="$(Configuration) == 'Shipping'">true</EnableCOMDATFolding>
       <AdditionalOptions>%(AdditionalOptions)</AdditionalOptions>
     </Link>
+    <PreBuildEvent>
+      <Command>taskkill /F /IM KrugerResourceServer.exe 2&gt;&amp;1 | exit /B 0</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <Target Name="KRG_CopyINI" BeforeTargets="Build">
     <Copy SkipUnchangedFiles="True" SourceFiles="$(SolutionDir)Code\KRG.ini" DestinationFolder="$(OutDir)" />

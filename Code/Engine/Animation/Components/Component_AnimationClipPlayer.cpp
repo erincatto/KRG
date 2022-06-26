@@ -1,8 +1,8 @@
 #include "Component_AnimationClipPlayer.h"
 #include "System/Animation/AnimationPose.h"
-#include "Engine/Core/Update/UpdateContext.h"
-#include "System/Core/Profiling/Profiling.h"
-#include "System/Core/Logging/Log.h"
+#include "Engine/UpdateContext.h"
+#include "System/Profiling.h"
+#include "System/Log.h"
 
 //-------------------------------------------------------------------------
 

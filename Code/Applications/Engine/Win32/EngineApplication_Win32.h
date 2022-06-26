@@ -3,7 +3,7 @@
 
 #include "Win32/Application_Win32.h"
 #include "Applications/EngineShared/Engine.h"
-#include "Engine/Core/ToolsUI/EngineToolsUI.h"
+#include "Engine/ToolsUI/EngineToolsUI.h"
 
 //-------------------------------------------------------------------------
 

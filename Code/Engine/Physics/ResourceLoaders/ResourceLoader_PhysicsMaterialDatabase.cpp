@@ -1,7 +1,7 @@
 #include "ResourceLoader_PhysicsMaterialDatabase.h"
 #include "Engine/Physics/PhysicsSystem.h"
 #include "Engine/Physics/PhysicsMaterial.h"
-#include "System/Core/Serialization/BinaryArchive.h"
+#include "System/Serialization/BinaryArchive.h"
 
 //-------------------------------------------------------------------------
 
@@ -15,7 +15,7 @@ namespace KRG::Physics
         m_loadableTypes.push_back( PhysicsMaterialDatabase::GetStaticResourceTypeID() );
     }
 
-    void PhysicsMaterialDatabaseLoader::SetPhysics( PhysicsSystem* pPhysicsSystem )
+    void PhysicsMaterialDatabaseLoader::SetPhysicsSystemPtr( PhysicsSystem* pPhysicsSystem )
     {
         KRG_ASSERT( pPhysicsSystem != nullptr && m_pPhysicsSystem == nullptr );
         m_pPhysicsSystem = pPhysicsSystem;

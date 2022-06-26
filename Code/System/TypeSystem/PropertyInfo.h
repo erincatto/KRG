@@ -1,14 +1,14 @@
 #pragma once
 
-#include "_Module/API.h"
+#include "System/_Module/API.h"
 #include "TypeID.h"
-#include "System/Core/Types/BitFlags.h"
+#include "System/Types/BitFlags.h"
 
 //-------------------------------------------------------------------------
 
 namespace KRG::TypeSystem
 {
-    struct KRG_SYSTEM_TYPESYSTEM_API PropertyInfo
+    struct KRG_SYSTEM_API PropertyInfo
     {
         enum class Flags
         {

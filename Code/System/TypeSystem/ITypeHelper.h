@@ -1,9 +1,9 @@
 #pragma once
 
-#include "_Module/API.h"
+#include "System/_Module/API.h"
 #include "System/Resource/ResourceTypeID.h"
-#include "System/Core/Types/LoadingStatus.h"
-#include "System/Core/Types/UUID.h"
+#include "System/Types/LoadingStatus.h"
+#include "System/Types/UUID.h"
 
 //-------------------------------------------------------------------------
 
@@ -24,7 +24,7 @@ namespace KRG
 
 namespace KRG::TypeSystem
 {
-    class KRG_SYSTEM_TYPESYSTEM_API ITypeHelper
+    class KRG_SYSTEM_API ITypeHelper
     {
     public:
 
@@ -67,7 +67,7 @@ namespace KRG::TypeSystem
     namespace TypeHelpers
     {
         template<typename T>
-        class KRG_SYSTEM_TYPESYSTEM_API TTypeHelper : public ITypeHelper
+        class KRG_SYSTEM_API TTypeHelper : public ITypeHelper
         {};
     }
 }

@@ -1,5 +1,5 @@
 #include "ResourcePath.h"
-#include "System/Core/FileSystem/FileSystem.h"
+#include "System/FileSystem/FileSystem.h"
 
 //-------------------------------------------------------------------------
 

@@ -10,7 +10,7 @@ namespace KRG::Animation::GraphNodes
 
     //-------------------------------------------------------------------------
 
-    class KRG_ENGINE_ANIMATION_API LayerBlendNode final : public PoseNode
+    class KRG_ENGINE_API LayerBlendNode final : public PoseNode
     {
 
     public:
@@ -27,7 +27,7 @@ namespace KRG::Animation::GraphNodes
 
         //-------------------------------------------------------------------------
 
-        struct KRG_ENGINE_ANIMATION_API Settings : public PoseNode::Settings
+        struct KRG_ENGINE_API Settings : public PoseNode::Settings
         {
             KRG_REGISTER_TYPE( Settings );
             KRG_SERIALIZE_GRAPHNODESETTINGS( PoseNode::Settings, m_baseNodeIdx, m_onlySampleBaseRootMotion, m_layerSettings );

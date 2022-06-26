@@ -1,7 +1,7 @@
 #include "PhysicsDebugRenderer.h"
 #include "Engine/Physics/Systems/WorldSystem_Physics.h"
-#include "Engine/Core/Entity/EntityWorld.h"
-#include "System/Core/Profiling/Profiling.h"
+#include "Engine/Entity/EntityWorld.h"
+#include "System/Profiling.h"
 
 //-------------------------------------------------------------------------
 

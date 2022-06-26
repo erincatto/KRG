@@ -1,5 +1,5 @@
 #include "IPCMessageServer.h"
-#include "System/Core/Logging/Log.h"
+#include "System/Log.h"
 #include "steam/isteamnetworkingsockets.h"
 
 //-------------------------------------------------------------------------

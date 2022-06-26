@@ -1,9 +1,9 @@
 #pragma once
 
-#include "_Module/API.h"
-#include "System/Core/Time/Time.h"
+#include "Engine/_Module/API.h"
+#include "System/Time/Time.h"
 #include "System/TypeSystem/TypeRegistrationMacros.h"
-#include "System/Core/Math/NumericRange.h"
+#include "System/Math/NumericRange.h"
 
 //-------------------------------------------------------------------------
 // Animation Event
@@ -12,7 +12,7 @@
 
 namespace KRG::Animation
 {
-    class KRG_ENGINE_ANIMATION_API Event : public IRegisteredType
+    class KRG_ENGINE_API Event : public IRegisteredType
     {
         KRG_REGISTER_TYPE( Event );
 

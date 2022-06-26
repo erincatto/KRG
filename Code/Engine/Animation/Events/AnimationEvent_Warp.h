@@ -1,12 +1,12 @@
 #pragma once
 #include "Engine/Animation/AnimationEvent.h"
-#include "System/Core/Types/StringID.h"
+#include "System/Types/StringID.h"
 
 //-------------------------------------------------------------------------
 
 namespace KRG::Animation
 {
-    class KRG_ENGINE_ANIMATION_API WarpEvent final : public Event
+    class KRG_ENGINE_API WarpEvent final : public Event
     {
         KRG_REGISTER_TYPE( WarpEvent );
 
@@ -17,16 +17,13 @@ namespace KRG::Animation
         {
             KRG_REGISTER_ENUM
 
-            RotationAndTranslation = 0,
-            Rotation,
-            Translation,
+            Full = 0, // Allows both rotating and stretching/compressing the original motion
+            RotationOnly, // Only allows for rotation adjustment of the original motion
         };
 
     public:
 
-        inline Type GetAllowedWarping() const { return m_type; }
-        inline bool IsRotationAllowed() const { return m_type != Type::Translation; }
-        inline bool IsTranslationAllowed() const { return m_type != Type::Rotation; }
+        inline Type GetWarpAdjustmentType() const { return m_type; }
 
         #if KRG_DEVELOPMENT_TOOLS
         virtual char const* GetEventName() const override { return "Warp"; }
@@ -37,6 +34,7 @@ namespace KRG::Animation
 
     private:
 
-        KRG_EXPOSE Type         m_type = Type::RotationAndTranslation;
+        KRG_EXPOSE Type         m_type = Type::Full;
+        KRG_EXPOSE bool         m_allowWarpInZ = true;
     };
-}
+} 

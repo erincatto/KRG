@@ -1,7 +1,7 @@
 #include "PhysicsSystem.h"
 #include "PhysicsScene.h"
 #include "PhysicsSimulationFilter.h"
-#include "System/Core/Profiling/Profiling.h"
+#include "System/Profiling.h"
 
 //-------------------------------------------------------------------------
 

@@ -1,5 +1,5 @@
 #include "Animation_RuntimeGraphNode_Targets.h"
-#include "System\Core\Logging\Log.h"
+#include "System\Log.h"
 
 //-------------------------------------------------------------------------
 

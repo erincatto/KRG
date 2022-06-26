@@ -1,6 +1,6 @@
 #include "Animation_RuntimeGraph_RootMotionRecorder.h"
 #include "System/Animation/AnimationSkeleton.h"
-#include "System/Core/Drawing/DebugDrawing.h"
+#include "System/Drawing/DebugDrawing.h"
 
 //-------------------------------------------------------------------------
 

@@ -1,7 +1,7 @@
 #pragma once
 
-#include "System/Core/Math/Transform.h"
-#include "System/Core/Types/StringID.h"
+#include "System/Math/Transform.h"
+#include "System/Types/StringID.h"
 
 //-------------------------------------------------------------------------
 

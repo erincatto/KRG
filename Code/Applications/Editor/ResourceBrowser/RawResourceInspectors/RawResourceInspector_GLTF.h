@@ -1,6 +1,6 @@
 #pragma once
 #include "RawResourceInspector.h"
-#include "Tools/Core/Resource/RawAssets/gltf/gltfSceneContext.h"
+#include "EngineTools/RawAssets/gltf/gltfSceneContext.h"
 
 //-------------------------------------------------------------------------
 

@@ -1,8 +1,8 @@
 #pragma once
 
-#include "_Module/API.h"
-#include "System/Core/Types/String.h"
-#include "System/Core/Serialization/Serialization.h"
+#include "System/_Module/API.h"
+#include "System/Types/String.h"
+#include "System/Serialization/Serialization.h"
 
 //-------------------------------------------------------------------------
 // Resource Type ID
@@ -12,7 +12,7 @@
 
 namespace KRG
 {
-    class KRG_SYSTEM_RESOURCE_API ResourceTypeID
+    class KRG_SYSTEM_API ResourceTypeID
     {
         KRG_SERIALIZE_MEMBERS( KRG_NVP( m_ID ) );
 

@@ -1,13 +1,13 @@
 #pragma once
 
-#include "Engine/Physics/_Module/API.h"
+#include "Engine/_Module/API.h"
 #include "Component_PhysicsShape.h"
 
 //-------------------------------------------------------------------------
 
 namespace KRG::Physics
 {
-    class KRG_ENGINE_PHYSICS_API BoxComponent : public PhysicsShapeComponent
+    class KRG_ENGINE_API BoxComponent : public PhysicsShapeComponent
     {
         KRG_REGISTER_ENTITY_COMPONENT( BoxComponent );
 

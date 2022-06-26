@@ -1,5 +1,5 @@
 #pragma once
-#include "_Module/API.h"
+#include "System/_Module/API.h"
 #include "TypeRegistrationMacros.h"
 #include "PropertyPath.h"
 #include "CoreTypeIDs.h"
@@ -14,7 +14,7 @@ namespace KRG::TypeSystem
     class TypeRegistry;
     struct TypeInfo;
 
-    struct KRG_SYSTEM_TYPESYSTEM_API PropertyDescriptor
+    struct KRG_SYSTEM_API PropertyDescriptor
     {
         KRG_SERIALIZE_MEMBERS( m_path, m_byteValue );
 
@@ -95,7 +95,7 @@ namespace KRG::TypeSystem
     //-------------------------------------------------------------------------
     // A serialized description of a KRG type with all property overrides
 
-    class KRG_SYSTEM_TYPESYSTEM_API TypeDescriptor
+    class KRG_SYSTEM_API TypeDescriptor
     {
         KRG_SERIALIZE_MEMBERS( m_typeID, m_properties );
 
@@ -200,7 +200,7 @@ namespace KRG::TypeSystem
     // * Statically - all types are created in a single contiguous array of memory, this is immutable
     // * Dynamically - each type is individually allocated, these types can be destroyed individually at runtime
 
-    struct KRG_SYSTEM_TYPESYSTEM_API TypeDescriptorCollection
+    struct KRG_SYSTEM_API TypeDescriptorCollection
     {
         KRG_SERIALIZE_MEMBERS( m_descriptors );
 

@@ -1,10 +1,10 @@
 #include "ResourceServerApplication.h"
 #include "Resources/Resource.h"
-#include "System/Core/Logging/Log.h"
-#include "System/Core/Time/Timers.h"
-#include "System/Core/FileSystem/FileSystemUtils.h"
-#include "System/Render/Imgui/Platform/ImguiPlatform_win32.h"
-#include "System/Core/ThirdParty/iniparser/krg_ini.h"
+#include "System/Log.h"
+#include "System/Time/Timers.h"
+#include "System/FileSystem/FileSystemUtils.h"
+#include "System/Imgui/Platform/ImguiPlatform_win32.h"
+#include "System/ThirdParty/iniparser/krg_ini.h"
 #include <tchar.h>
 
 #if KRG_ENABLE_LPP

@@ -1,5 +1,5 @@
 #include "InputDevice_Controller.h"
-#include "System\Core\Math\Vector.h"
+#include "System\Math\Vector.h"
 
 //-------------------------------------------------------------------------
 

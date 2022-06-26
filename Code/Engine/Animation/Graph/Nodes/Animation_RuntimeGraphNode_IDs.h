@@ -5,7 +5,7 @@
 
 namespace KRG::Animation::GraphNodes
 {
-    class KRG_ENGINE_ANIMATION_API IDComparisonNode final : public BoolValueNode
+    class KRG_ENGINE_API IDComparisonNode final : public BoolValueNode
     {
     public:
 
@@ -16,7 +16,7 @@ namespace KRG::Animation::GraphNodes
             DoesntMatch,
         };
 
-        struct KRG_ENGINE_ANIMATION_API Settings final : public BoolValueNode::Settings
+        struct KRG_ENGINE_API Settings final : public BoolValueNode::Settings
         {
             KRG_REGISTER_TYPE( Settings );
             KRG_SERIALIZE_GRAPHNODESETTINGS( BoolValueNode::Settings, m_inputValueNodeIdx, m_comparison, m_comparisionIDs );
@@ -42,11 +42,11 @@ namespace KRG::Animation::GraphNodes
 
     //-------------------------------------------------------------------------
 
-    class KRG_ENGINE_ANIMATION_API IDToFloatNode final : public FloatValueNode
+    class KRG_ENGINE_API IDToFloatNode final : public FloatValueNode
     {
     public:
 
-        struct KRG_ENGINE_ANIMATION_API Settings final : public FloatValueNode::Settings
+        struct KRG_ENGINE_API Settings final : public FloatValueNode::Settings
         {
             KRG_REGISTER_TYPE( Settings );
             KRG_SERIALIZE_GRAPHNODESETTINGS( FloatValueNode::Settings, m_inputValueNodeIdx, m_defaultValue, m_IDs, m_values );

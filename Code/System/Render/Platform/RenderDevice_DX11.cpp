@@ -1,9 +1,9 @@
 #include "RenderDevice_DX11.h"
 #include "TextureLoader_Win32.h"
 #include "System/Render/RenderDefaultResources.h"
-#include "System/Core/ThirdParty/iniparser/krg_ini.h"
-#include "System/Core/Profiling/Profiling.h"
-#include "System/Core/Logging/Log.h"
+#include "System/ThirdParty/iniparser/krg_ini.h"
+#include "System/Profiling.h"
+#include "System/Log.h"
 
 //-------------------------------------------------------------------------
 

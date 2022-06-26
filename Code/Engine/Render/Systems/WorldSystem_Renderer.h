@@ -1,14 +1,14 @@
 #pragma once
 
-#include "Engine/Render/_Module/API.h"
-#include "Engine/Core/Entity/EntityWorldSystem.h"
+#include "Engine/_Module/API.h"
+#include "Engine/Entity/EntityWorldSystem.h"
 #include "Engine/Render/Components/Component_StaticMesh.h"
 #include "Engine/Render/Mesh/SkeletalMesh.h"
 #include "System/Render/RenderDevice.h"
-#include "System/Core/Math/BVH/AABBTree.h"
-#include "System/Core/Types/Event.h"
-#include "System/Core/Systems/ISystem.h"
-#include "System/Core/Types/IDVector.h"
+#include "System/Math/AABBTree.h"
+#include "System/Types/Event.h"
+#include "System/Systems.h"
+#include "System/Types/IDVector.h"
 
 //-------------------------------------------------------------------------
 
@@ -23,7 +23,7 @@ namespace KRG::Render
 
     //-------------------------------------------------------------------------
 
-    class KRG_ENGINE_RENDER_API RendererWorldSystem final : public IWorldEntitySystem
+    class KRG_ENGINE_API RendererWorldSystem final : public IWorldEntitySystem
     {
         friend class WorldRenderer;
         friend class RenderDebugView;

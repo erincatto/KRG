@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../_Module/API.h"
+#include "Engine/_Module/API.h"
 #include "System/Render/RenderDevice.h"
 #include "System/Render/RenderTexture.h"
 #include "System/Resource/ResourceLoader.h"
@@ -19,7 +19,7 @@ namespace KRG::Render
             m_loadableTypes.push_back( CubemapTexture::GetStaticResourceTypeID() );
         }
 
-        inline void SetRenderDevice( RenderDevice* pRenderDevice )
+        inline void SetRenderDevicePtr( RenderDevice* pRenderDevice )
         {
             KRG_ASSERT( pRenderDevice != nullptr );
             m_pRenderDevice = pRenderDevice;

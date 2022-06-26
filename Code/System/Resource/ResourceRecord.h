@@ -2,8 +2,8 @@
 
 #include "IResource.h"
 #include "ResourceRequesterID.h"
-#include "System/Core/Types/LoadingStatus.h"
-#include "System/Core/Types/UUID.h"
+#include "System/Types/LoadingStatus.h"
+#include "System/Types/UUID.h"
 
 //-------------------------------------------------------------------------
 
@@ -16,7 +16,7 @@ namespace KRG
         //-------------------------------------------------------------------------
         // The resource record is not threadsafe so the resource system needs to ensure that all external access is threadsafe
 
-        class KRG_SYSTEM_RESOURCE_API ResourceRecord
+        class KRG_SYSTEM_API ResourceRecord
         {
             friend class ResourceSystem;
             friend class ResourceRequest;

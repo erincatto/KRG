@@ -2,8 +2,8 @@
 #include "Engine/Render/Mesh/StaticMesh.h"
 #include "Engine/Render/Mesh/SkeletalMesh.h"
 #include "System/Render/RenderDevice.h"
-#include "System/Core/Serialization/BinaryArchive.h"
-#include "System/Core/Logging/Log.h"
+#include "System/Serialization/BinaryArchive.h"
+#include "System/Log.h"
 
 //-------------------------------------------------------------------------
 

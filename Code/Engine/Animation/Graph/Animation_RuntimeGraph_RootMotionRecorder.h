@@ -1,9 +1,9 @@
 #pragma once
 
-#include "System/Core/Math/Transform.h"
-#include "System/Core/Time/Time.h"
-#include "System/Core/Types/Containers.h"
-#include "System/Core/Types/Pool.h"
+#include "System/Math/Transform.h"
+#include "System/Time/Time.h"
+#include "System/Types/Containers.h"
+#include "System/Types/Pool.h"
 
 //-------------------------------------------------------------------------
 
@@ -123,7 +123,7 @@ namespace KRG::Animation
         Transform                       m_startWorldTransform;
         Transform                       m_endWorldTransform;
         TVector<RecordedPosition>       m_recordedRootTransforms; // Circular buffer
-        int32_t                           m_freeBufferIdx = 0;
+        int32_t                         m_freeBufferIdx = 0;
         RootMotionRecorderDebugMode     m_debugMode = RootMotionRecorderDebugMode::Off;
     };
 }

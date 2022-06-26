@@ -4,11 +4,11 @@
 #include "PhysicsMaterial.h"
 #include "System/Animation/AnimationSkeleton.h"
 #include "System/Resource/ResourcePtr.h"
-#include "System/Core/Math/Transform.h"
-#include "System/Core/Math/NumericRange.h"
-#include "System/Core/Types/Containers.h"
-#include "System/Core/Types/StringID.h"
-#include "System/Core/Time/Time.h"
+#include "System/Math/Transform.h"
+#include "System/Math/NumericRange.h"
+#include "System/Types/Containers.h"
+#include "System/Types/StringID.h"
+#include "System/Time/Time.h"
 
 //-------------------------------------------------------------------------
 
@@ -30,7 +30,7 @@ namespace KRG::Physics
     // Ragdoll Settings
     //-------------------------------------------------------------------------
 
-    struct KRG_ENGINE_PHYSICS_API RagdollBodyMaterialSettings : public IRegisteredType
+    struct KRG_ENGINE_API RagdollBodyMaterialSettings : public IRegisteredType
     {
         KRG_SERIALIZE_MEMBERS( m_staticFriction, m_dynamicFriction, m_restitution, m_frictionCombineMode, m_restitutionCombineMode );
         KRG_REGISTER_TYPE( RagdollBodyMaterialSettings );
@@ -53,7 +53,7 @@ namespace KRG::Physics
 
     //-------------------------------------------------------------------------
 
-    struct KRG_ENGINE_PHYSICS_API RagdollRootControlBodySettings : public IRegisteredType
+    struct KRG_ENGINE_API RagdollRootControlBodySettings : public IRegisteredType
     {
         KRG_SERIALIZE_MEMBERS( m_driveType, m_maxDistance, m_tolerance, m_stiffness, m_damping );
         KRG_REGISTER_TYPE( RagdollRootControlBodySettings );
@@ -82,7 +82,7 @@ namespace KRG::Physics
 
     //-------------------------------------------------------------------------
 
-    struct KRG_ENGINE_PHYSICS_API RagdollBodySettings : public IRegisteredType
+    struct KRG_ENGINE_API RagdollBodySettings : public IRegisteredType
     {
         KRG_SERIALIZE_MEMBERS( m_mass, m_enableCCD, m_enableSelfCollision );
         KRG_REGISTER_TYPE( RagdollBodySettings );
@@ -102,7 +102,7 @@ namespace KRG::Physics
 
     //-------------------------------------------------------------------------
 
-    struct KRG_ENGINE_PHYSICS_API RagdollJointSettings : public IRegisteredType
+    struct KRG_ENGINE_API RagdollJointSettings : public IRegisteredType
     {
         KRG_SERIALIZE_MEMBERS(  m_driveType, m_stiffness, m_damping, m_internalCompliance, m_externalCompliance,
                                 m_twistLimitEnabled, m_twistLimitMin, m_twistLimitMax, m_twistLimitContactDistance,
@@ -159,7 +159,7 @@ namespace KRG::Physics
     //-------------------------------------------------------------------------
     // This defines a ragdoll: The bodies and joints as well as the various joint profiles
 
-    struct KRG_ENGINE_PHYSICS_API RagdollDefinition : public Resource::IResource, public IRegisteredType
+    struct KRG_ENGINE_API RagdollDefinition : public Resource::IResource, public IRegisteredType
     {
         KRG_SERIALIZE_MEMBERS( m_ID, m_pSkeleton, m_bodies, m_profiles );
         KRG_REGISTER_TYPE_RESOURCE( 'rgdl', "Physics Ragdoll", RagdollDefinition );
@@ -168,7 +168,7 @@ namespace KRG::Physics
 
         constexpr static uint32_t const s_maxNumBodies = 64;
 
-        struct KRG_ENGINE_PHYSICS_API BodyDefinition : public IRegisteredType
+        struct KRG_ENGINE_API BodyDefinition : public IRegisteredType
         {
             KRG_SERIALIZE_MEMBERS( m_boneID, m_offsetTransform, m_radius, m_halfHeight, m_jointTransform );
             KRG_REGISTER_TYPE( BodyDefinition );
@@ -187,7 +187,7 @@ namespace KRG::Physics
 
         //-------------------------------------------------------------------------
 
-        struct KRG_ENGINE_PHYSICS_API Profile : public IRegisteredType
+        struct KRG_ENGINE_API Profile : public IRegisteredType
         {
             KRG_SERIALIZE_MEMBERS
             (
@@ -270,7 +270,7 @@ namespace KRG::Physics
 
     using RagdollPose = TInlineVector<Transform, 40>;
 
-    class KRG_ENGINE_PHYSICS_API Ragdoll
+    class KRG_ENGINE_API Ragdoll
     {
         friend class PhysicsWorldSystem;
 

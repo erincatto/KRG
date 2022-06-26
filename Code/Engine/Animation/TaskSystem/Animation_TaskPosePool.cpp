@@ -10,7 +10,7 @@ namespace KRG::Animation
 
     void PoseBuffer::Reset()
     {
-        m_pose.Reset( Pose::InitialState::None );
+        m_pose.Reset( Pose::Type::None );
         m_isUsed = false;
     }
 

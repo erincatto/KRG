@@ -1,7 +1,7 @@
 #include "AnimationClipLoader.h"
 #include "Engine/Animation/AnimationClip.h"
 #include "System/TypeSystem/TypeDescriptors.h"
-#include "System/Core/Serialization/BinaryArchive.h"
+#include "System/Serialization/BinaryArchive.h"
 
 //-------------------------------------------------------------------------
 
@@ -12,7 +12,7 @@ namespace KRG::Animation
         m_loadableTypes.push_back( AnimationClip::GetStaticResourceTypeID() );
     }
 
-    void AnimationClipLoader::SetTypeRegistry( TypeSystem::TypeRegistry const* pTypeRegistry )
+    void AnimationClipLoader::SetTypeRegistryPtr( TypeSystem::TypeRegistry const* pTypeRegistry )
     {
         KRG_ASSERT( pTypeRegistry != nullptr );
         m_pTypeRegistry = pTypeRegistry;

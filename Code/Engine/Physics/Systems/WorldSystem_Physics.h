@@ -1,13 +1,13 @@
 #pragma once
 
-#include "Engine/Physics/_Module/API.h"
+#include "Engine/_Module/API.h"
 #include "Engine/Physics/PhysX.h"
-#include "Engine/Core/Entity/EntityWorldSystem.h"
-#include "Engine/Core/Update/UpdateContext.h"
-#include "System/Core/Systems/ISystem.h"
-#include "System/Core/Types/IDVector.h"
-#include "System/Core/Types/ScopedValue.h"
-#include "System/Core/Types/Event.h"
+#include "Engine/Entity/EntityWorldSystem.h"
+#include "Engine/UpdateContext.h"
+#include "System/Systems.h"
+#include "System/Types/IDVector.h"
+#include "System/Types/ScopedValue.h"
+#include "System/Types/Event.h"
 
 //-------------------------------------------------------------------------
 
@@ -27,7 +27,7 @@ namespace KRG::Physics
 
     //-------------------------------------------------------------------------
 
-    class KRG_ENGINE_PHYSICS_API PhysicsWorldSystem final : public IWorldEntitySystem
+    class KRG_ENGINE_API PhysicsWorldSystem final : public IWorldEntitySystem
     {
         friend class PhysicsDebugView;
         friend class PhysicsRenderer;

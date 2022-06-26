@@ -1,14 +1,14 @@
 #pragma once
 
-#include "Engine/Render/_Module/API.h"
-#include "Engine/Core/Entity/EntitySpatialComponent.h"
+#include "Engine/_Module/API.h"
+#include "Engine/Entity/EntitySpatialComponent.h"
 #include "System/Render/RenderTexture.h"
 #include "System/Resource/ResourcePtr.h"
 
 //-------------------------------------------------------------------------
 namespace KRG::Render
 {
-    class KRG_ENGINE_RENDER_API LocalEnvironmentMapComponent : public SpatialEntityComponent
+    class KRG_ENGINE_API LocalEnvironmentMapComponent : public SpatialEntityComponent
     {
         KRG_REGISTER_ENTITY_COMPONENT( LocalEnvironmentMapComponent );
 
@@ -23,7 +23,7 @@ namespace KRG::Render
 
     //-------------------------------------------------------------------------
 
-    class KRG_ENGINE_RENDER_API GlobalEnvironmentMapComponent : public EntityComponent
+    class KRG_ENGINE_API GlobalEnvironmentMapComponent : public EntityComponent
     {
         KRG_REGISTER_SINGLETON_ENTITY_COMPONENT( GlobalEnvironmentMapComponent );
 

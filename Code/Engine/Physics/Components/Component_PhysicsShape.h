@@ -1,11 +1,11 @@
 #pragma once
 
-#include "Engine/Physics/_Module/API.h"
+#include "Engine/_Module/API.h"
 #include "Engine/Physics/PhysX.h"
 #include "Engine/Physics/PhysicsMaterial.h"
 #include "Engine/Physics/PhysicsLayers.h"
-#include "Engine/Core/Entity/EntitySpatialComponent.h"
-#include "System/Core/Types/Event.h"
+#include "Engine/Entity/EntitySpatialComponent.h"
+#include "System/Types/Event.h"
 
 //-------------------------------------------------------------------------
 
@@ -42,7 +42,7 @@ namespace KRG::Physics
     // Each physics component will create a new actor in the scene
     // TODO: provide option to simple weld the shape from the component to its parent actor
 
-    class KRG_ENGINE_PHYSICS_API PhysicsShapeComponent : public SpatialEntityComponent
+    class KRG_ENGINE_API PhysicsShapeComponent : public SpatialEntityComponent
     {
         KRG_REGISTER_ENTITY_COMPONENT( PhysicsShapeComponent );
 

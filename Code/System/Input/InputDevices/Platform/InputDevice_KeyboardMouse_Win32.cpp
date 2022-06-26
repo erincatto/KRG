@@ -1,8 +1,8 @@
 #ifdef _WIN32
 #include "System/Input/InputDevices/InputDevice_KeyboardMouse.h"
-#include "System/Core/Math/Vector.h"
-#include "System/Core/Types/Containers.h"
-#include "System/Core/Logging/Log.h"
+#include "System/Math/Vector.h"
+#include "System/Types/Containers.h"
+#include "System/Log.h"
 #include <windows.h>
 #include <XInput.h>
 

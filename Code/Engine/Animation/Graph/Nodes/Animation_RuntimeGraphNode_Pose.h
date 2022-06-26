@@ -7,11 +7,11 @@
 
 namespace KRG::Animation::GraphNodes
 {
-    class KRG_ENGINE_ANIMATION_API ZeroPoseNode final : public PoseNode
+    class KRG_ENGINE_API ZeroPoseNode final : public PoseNode
     {
     public:
 
-        struct KRG_ENGINE_ANIMATION_API Settings final : public PoseNode::Settings
+        struct KRG_ENGINE_API Settings final : public PoseNode::Settings
         {
             KRG_REGISTER_TYPE( Settings );
             virtual void InstantiateNode( TVector<GraphNode*> const& nodePtrs, GraphDataSet const* pDataSet, InitOptions options ) const override;
@@ -27,11 +27,11 @@ namespace KRG::Animation::GraphNodes
 
     //-------------------------------------------------------------------------
 
-    class KRG_ENGINE_ANIMATION_API ReferencePoseNode final : public PoseNode
+    class KRG_ENGINE_API ReferencePoseNode final : public PoseNode
     {
     public:
 
-        struct KRG_ENGINE_ANIMATION_API Settings final : public PoseNode::Settings
+        struct KRG_ENGINE_API Settings final : public PoseNode::Settings
         {
             KRG_REGISTER_TYPE( Settings );
             virtual void InstantiateNode( TVector<GraphNode*> const& nodePtrs, GraphDataSet const* pDataSet, InitOptions options ) const override;
@@ -47,11 +47,11 @@ namespace KRG::Animation::GraphNodes
 
     //-------------------------------------------------------------------------
 
-    class KRG_ENGINE_ANIMATION_API AnimationPoseNode final : public PoseNode
+    class KRG_ENGINE_API AnimationPoseNode final : public PoseNode
     {
     public:
 
-        struct KRG_ENGINE_ANIMATION_API Settings final : public PoseNode::Settings
+        struct KRG_ENGINE_API Settings final : public PoseNode::Settings
         {
             KRG_REGISTER_TYPE( Settings );
             KRG_SERIALIZE_GRAPHNODESETTINGS( PoseNode::Settings, m_poseTimeValueNodeIdx, m_dataSlotIndex, m_inputTimeRemapRange );

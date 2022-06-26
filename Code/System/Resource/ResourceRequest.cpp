@@ -1,8 +1,8 @@
 #include "ResourceRequest.h"
-#include "System/Core/FileSystem/FileSystem.h"
-#include "System/Core/Profiling/Profiling.h"
-#include "System/Core/Threading/Threading.h"
-#include "System/Core/Logging/Log.h"
+#include "System/FileSystem/FileSystem.h"
+#include "System/Profiling.h"
+#include "System/Threading/Threading.h"
+#include "System/Log.h"
 
 //-------------------------------------------------------------------------
 

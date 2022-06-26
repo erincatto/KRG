@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../_Module/API.h"
+#include "Engine/_Module/API.h"
 #include "imgui.h"
 #include "Engine/Render/IRenderer.h"
 #include "System/Render/RenderDevice.h"
@@ -14,7 +14,7 @@ namespace KRG::Render
 
     //-------------------------------------------------------------------------\
 
-    class KRG_ENGINE_RENDER_API ImguiRenderer final : public IRenderer
+    class KRG_ENGINE_API ImguiRenderer final : public IRenderer
     {
     public:
 

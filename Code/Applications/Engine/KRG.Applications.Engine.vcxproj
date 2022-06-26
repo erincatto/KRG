@@ -111,53 +111,20 @@
     <Image Include="Win32\Engine.ico" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Engine\Animation\KRG.Engine.Animation.vcxproj">
-      <Project>{6e63a255-0e1a-4d43-b225-376b5a6c757e}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Engine\Core\KRG.Engine.Core.vcxproj">
-      <Project>{2cfadbdc-ee40-4484-94d0-62a90206209e}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Engine\Navmesh\KRG.Engine.Navmesh.vcxproj">
-      <Project>{cda27aca-1a2f-4dac-8a7f-ee13a597f0bc}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Engine\Physics\KRG.Engine.Physics.vcxproj">
-      <Project>{bb1a9d99-f719-49f6-9fa5-bce50ac60f02}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Engine\Render\KRG.Engine.Render.vcxproj">
-      <Project>{88bbae2e-f1b2-4157-ba64-3e5c7ebd2a9c}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Game\Core\KRG.Game.Core.vcxproj">
-      <Project>{20c5d09a-3da8-4cea-9269-65dc6e6cd460}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Scripts\Prebuild\KRG.Scripts.Prebuild.vcxproj">
-      <Project>{f3d9d4ba-4d04-402b-b8d8-9a4a9400bfb6}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\System\Animation\KRG.System.Animation.vcxproj">
-      <Project>{b976ae91-669b-4ed6-beb6-6b2a459e60f9}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\System\Core\KRG.System.Core.vcxproj">
-      <Project>{07414ba8-87a7-449b-8ab7-551254b57fb3}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\System\Input\KRG.System.Input.vcxproj">
-      <Project>{42511c8d-2df8-4bf2-a87e-80707563573d}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\System\Network\KRG.System.Network.vcxproj">
-      <Project>{06468eb7-9750-4756-ada8-10a51f777752}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\System\Render\KRG.System.Render.vcxproj">
-      <Project>{9f9f2d36-a465-46a8-b95a-fdad4fb56de0}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\System\Resource\KRG.System.Resource.vcxproj">
-      <Project>{7870de8e-6569-4857-93f9-b1abc1fc0543}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\System\TypeSystem\KRG.System.TypeSystem.vcxproj">
-      <Project>{ec1a0a10-5c84-4971-a883-c13e7f76c327}</Project>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Text Update="D:\Kruger\Code\Applications\Shared\cmdParser\LICENSE">
       <FileType>Document</FileType>
     </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Engine\KRG.Engine..vcxproj">
+      <Project>{2cfadbdc-ee40-4484-94d0-62a90206209e}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Game\KRG.Game.vcxproj">
+      <Project>{20c5d09a-3da8-4cea-9269-65dc6e6cd460}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\System\KRG.System.vcxproj">
+      <Project>{07414ba8-87a7-449b-8ab7-551254b57fb3}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

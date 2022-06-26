@@ -1,6 +1,6 @@
 #pragma once
 
-#include "System/Core/Math/Math.h"
+#include "System/Math/Math.h"
 #include "RenderAPI.h"
 
 //-------------------------------------------------------------------------

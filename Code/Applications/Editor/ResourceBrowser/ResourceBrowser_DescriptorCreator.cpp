@@ -1,11 +1,11 @@
 #include "ResourceBrowser_DescriptorCreator.h"
 #include "Applications/Editor/EditorContext.h"
-#include "Tools/Core/ThirdParty/pfd/portable-file-dialogs.h"
-#include "Tools/Core/Resource/Compilers/ResourceDescriptor.h"
-#include "Tools/Core/Helpers/CommonDialogs.h"
+#include "EngineTools/ThirdParty/pfd/portable-file-dialogs.h"
+#include "EngineTools/Resource/Compilers/ResourceDescriptor.h"
+#include "EngineTools/Core/Helpers/CommonDialogs.h"
 #include "System/TypeSystem/TypeRegistry.h"
-#include "System/Core/Math/MathStringHelpers.h"
-#include "System/Core/Logging/Log.h"
+#include "System/Math/MathStringHelpers.h"
+#include "System/Log.h"
 
 //-------------------------------------------------------------------------
 

@@ -7,7 +7,7 @@
 
 namespace KRG::Network::IPC
 {
-    class KRG_SYSTEM_NETWORK_API Server final : public ServerConnection
+    class KRG_SYSTEM_API Server final : public ServerConnection
     {
 
     public:

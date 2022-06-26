@@ -1,14 +1,14 @@
 #pragma once
 #include "TypeID.h"
 #include "System/Resource/ResourcePtr.h"
-#include "System/Core/Types/Percentage.h"
-#include "System/Core/Types/Color.h"
-#include "System/Core/Types/BitFlags.h"
-#include "System/Core/Types/Tag.h"
-#include "System/Core/Time/Time.h"
-#include "System/Core/Math/Transform.h"
-#include "System/Core/Math/NumericRange.h"
-#include "System/Core/Math/FloatCurve.h"
+#include "System/Types/Percentage.h"
+#include "System/Types/Color.h"
+#include "System/Types/BitFlags.h"
+#include "System/Types/Tag.h"
+#include "System/Time/Time.h"
+#include "System/Math/Transform.h"
+#include "System/Math/NumericRange.h"
+#include "System/Math/FloatCurve.h"
 
 //-------------------------------------------------------------------------
 
@@ -71,7 +71,7 @@ namespace KRG::TypeSystem
     // Core Type Registry
     //-------------------------------------------------------------------------
 
-    class KRG_SYSTEM_TYPESYSTEM_API CoreTypeRegistry
+    class KRG_SYSTEM_API CoreTypeRegistry
     {
         struct CoreTypeRecord
         {

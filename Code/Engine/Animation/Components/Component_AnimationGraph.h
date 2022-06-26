@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Engine/Core/Entity/EntityComponent.h"
+#include "Engine/Entity/EntityComponent.h"
 #include "Engine/Animation/Graph/Animation_RuntimeGraph_Resources.h"
 #include "Engine/Animation/Graph/Animation_RuntimeGraph_Instance.h"
 #include "Engine/Animation/Graph/Animation_RuntimeGraph_RootMotionRecorder.h"
@@ -14,7 +14,7 @@ namespace KRG::Animation
 
     //-------------------------------------------------------------------------
 
-    class KRG_ENGINE_ANIMATION_API AnimationGraphComponent final : public EntityComponent
+    class KRG_ENGINE_API AnimationGraphComponent final : public EntityComponent
     {
         KRG_REGISTER_ENTITY_COMPONENT( AnimationGraphComponent );
 

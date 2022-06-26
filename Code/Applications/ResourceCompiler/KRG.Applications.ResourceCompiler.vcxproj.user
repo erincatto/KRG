@@ -3,8 +3,8 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LocalDebuggerWorkingDirectory>$(OutDir)</LocalDebuggerWorkingDirectory>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
-    <LocalDebuggerCommandArguments>-compile data://physics/physicsmaterials.pmdb</LocalDebuggerCommandArguments>
-    <RemoteDebuggerCommandArguments>-compile data://physics/physicsmaterials.pmdb</RemoteDebuggerCommandArguments>
+    <LocalDebuggerCommandArguments>-compile data://testanim.anim</LocalDebuggerCommandArguments>
+    <RemoteDebuggerCommandArguments>-compile data://testanim.anim</RemoteDebuggerCommandArguments>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LocalDebuggerWorkingDirectory>$(OutDir)</LocalDebuggerWorkingDirectory>

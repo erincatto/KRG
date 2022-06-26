@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../_Module/API.h"
+#include "Engine/_Module/API.h"
 #include "Engine/Render/Renderers/DebugRenderStates.h"
 #include "Engine/Render/IRenderer.h"
 #include "System/Render/RenderDevice.h"
@@ -24,7 +24,7 @@ namespace KRG::Physics
 
     //-------------------------------------------------------------------------
 
-    class KRG_ENGINE_PHYSICS_API PhysicsRenderer final : public Render::IRenderer
+    class KRG_ENGINE_API PhysicsRenderer final : public Render::IRenderer
     {
         KRG_RENDERER_ID( PhysicsRenderer, Render::RendererPriorityLevel::Debug );
 

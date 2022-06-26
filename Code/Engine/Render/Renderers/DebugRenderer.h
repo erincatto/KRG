@@ -3,14 +3,14 @@
 #include "DebugRenderStates.h"
 #include "Engine/Render/IRenderer.h"
 #include "System/Render/RenderDevice.h"
-#include "System/Core/Drawing/DebugDrawing.h"
+#include "System/Drawing/DebugDrawing.h"
 
 //-------------------------------------------------------------------------
 
 #if KRG_DEVELOPMENT_TOOLS
 namespace KRG::Render
 {
-    class KRG_ENGINE_RENDER_API DebugRenderer final : public IRenderer
+    class KRG_ENGINE_API DebugRenderer final : public IRenderer
     {
     public:
 

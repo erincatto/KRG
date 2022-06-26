@@ -1,10 +1,10 @@
 #include "RawResourceInspector.h"
-#include "Tools/Core/Resource/Compilers/ResourceDescriptor.h"
-#include "Tools/Core/Resource/ResourceDatabase.h"
-#include "Tools/Core/ThirdParty/pfd/portable-file-dialogs.h"
-#include "Tools/Core/ToolsContext.h"
-#include "System/Core/FileSystem/FileSystem.h"
-#include "imgui.h"
+#include "EngineTools/Resource/Compilers/ResourceDescriptor.h"
+#include "EngineTools/Resource/ResourceDatabase.h"
+#include "EngineTools/ThirdParty/pfd/portable-file-dialogs.h"
+#include "EngineTools/Core/ToolsContext.h"
+#include "System/FileSystem/FileSystem.h"
+#include "System/Imgui/ImguiX.h"
 
 //-------------------------------------------------------------------------
 
@@ -101,7 +101,7 @@ namespace KRG::Resource
 
         //-------------------------------------------------------------------------
 
-        TypeSystem::Serialization::TypeWriter typeWriter( *m_pToolsContext->m_pTypeRegistry );
+        Serialization::TypeWriter typeWriter( *m_pToolsContext->m_pTypeRegistry );
         typeWriter << pDescriptor;
         return typeWriter.WriteToFile( newDescriptorPath );
     }

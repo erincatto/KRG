@@ -106,7 +106,7 @@ namespace KRG::Animation::GraphNodes
             // We need to register a task at the base layer in all cases - since we blend the layers tasks on top of it
             if ( !Result.HasRegisteredTasks() )
             {
-                Result.m_taskIdx = context.m_pTaskSystem->RegisterTask<Tasks::DefaultPoseTask>( GetNodeIndex(), Pose::InitialState::ReferencePose );
+                Result.m_taskIdx = context.m_pTaskSystem->RegisterTask<Tasks::DefaultPoseTask>( GetNodeIndex(), Pose::Type::ReferencePose );
             }
 
             UpdateLayers( context, Result );
@@ -144,7 +144,7 @@ namespace KRG::Animation::GraphNodes
             // We need to register a task at the base layer in all cases - since we blend the layers tasks on top of it
             if ( !result.HasRegisteredTasks() )
             {
-                result.m_taskIdx = context.m_pTaskSystem->RegisterTask<Tasks::DefaultPoseTask>( GetNodeIndex(), Pose::InitialState::ReferencePose );
+                result.m_taskIdx = context.m_pTaskSystem->RegisterTask<Tasks::DefaultPoseTask>( GetNodeIndex(), Pose::Type::ReferencePose );
             }
 
             UpdateLayers( context, result );

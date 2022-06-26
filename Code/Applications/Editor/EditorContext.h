@@ -1,5 +1,5 @@
 #pragma once
-#include "Tools/Core/Workspaces/EditorWorkspace.h"
+#include "EngineTools/Core/Workspaces/EditorWorkspace.h"
 
 //-------------------------------------------------------------------------
 

@@ -1,8 +1,8 @@
 #pragma once
 #include "RawResourceInspector.h"
-#include "Tools/Core/Resource/RawAssets/Fbx/FbxSceneContext.h"
+#include "EngineTools/RawAssets/Fbx/FbxSceneContext.h"
 
-#include "System/Core/Time/Time.h"
+#include "System/Time/Time.h"
 
 //-------------------------------------------------------------------------
 

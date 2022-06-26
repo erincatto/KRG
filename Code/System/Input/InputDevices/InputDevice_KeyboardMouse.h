@@ -1,6 +1,6 @@
 #pragma once
 
-#include "InputDevice.h"
+#include "System/Input/InputDevice.h"
 #include "System/Input/InputStates/InputState_Mouse.h"
 #include "System/Input/InputStates/InputState_Keyboard.h"
 

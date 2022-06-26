@@ -1,5 +1,5 @@
 #include "AnimationRootMotion.h"
-#include "System/Core/Drawing/DebugDrawing.h"
+#include "System/Drawing/DebugDrawing.h"
 
 //-------------------------------------------------------------------------
 

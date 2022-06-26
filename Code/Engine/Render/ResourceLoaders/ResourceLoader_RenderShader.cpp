@@ -1,5 +1,5 @@
 #include "ResourceLoader_RenderShader.h"
-#include "System/Core/Serialization/BinaryArchive.h"
+#include "System/Serialization/BinaryArchive.h"
 
 //-------------------------------------------------------------------------
 

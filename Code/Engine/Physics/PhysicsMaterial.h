@@ -1,6 +1,6 @@
 #pragma once
 
-#include "_Module/API.h"
+#include "Engine/_Module/API.h"
 #include "PhysX.h"
 #include "System/TypeSystem/TypeRegistrationMacros.h"
 #include "System/Resource/IResource.h"
@@ -14,7 +14,7 @@ namespace KRG::Physics
     //-------------------------------------------------------------------------
     // Physics material instance, created from the serialized settings
 
-    struct KRG_ENGINE_PHYSICS_API PhysicsMaterial
+    struct KRG_ENGINE_API PhysicsMaterial
     {
         constexpr static char const* const DefaultID = "Default";
         constexpr static float const DefaultStaticFriction = 0.5f;
@@ -51,7 +51,7 @@ namespace KRG::Physics
     //-------------------------------------------------------------------------
     // Serialized physical material settings
 
-    struct KRG_ENGINE_PHYSICS_API PhysicsMaterialSettings : public IRegisteredType
+    struct KRG_ENGINE_API PhysicsMaterialSettings : public IRegisteredType
     {
         KRG_REGISTER_TYPE( PhysicsMaterialSettings );
         KRG_SERIALIZE_MEMBERS( m_ID, m_dynamicFriction, m_staticFriction, m_restitution, m_frictionCombineMode, m_restitutionCombineMode );
@@ -77,7 +77,7 @@ namespace KRG::Physics
     //-------------------------------------------------------------------------
     // Empty resource - acts as a placeholder for the actual data being loaded - see PhysicsMaterialDatabaseLoader for details
 
-    class KRG_ENGINE_PHYSICS_API PhysicsMaterialDatabase final : public Resource::IResource
+    class KRG_ENGINE_API PhysicsMaterialDatabase final : public Resource::IResource
     {
         KRG_REGISTER_RESOURCE( 'pmdb', "Physics Material DB" );
         friend class PhysicsMaterialDatabaseCompiler;

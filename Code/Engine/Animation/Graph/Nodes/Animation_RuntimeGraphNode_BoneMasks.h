@@ -6,11 +6,11 @@
 
 namespace KRG::Animation::GraphNodes
 {
-    class KRG_ENGINE_ANIMATION_API BoneMaskNode final : public BoneMaskValueNode
+    class KRG_ENGINE_API BoneMaskNode final : public BoneMaskValueNode
     {
     public:
 
-        struct KRG_ENGINE_ANIMATION_API Settings final : public BoneMaskValueNode::Settings
+        struct KRG_ENGINE_API Settings final : public BoneMaskValueNode::Settings
         {
             KRG_REGISTER_TYPE( Settings );
             KRG_SERIALIZE_GRAPHNODESETTINGS( BoneMaskValueNode::Settings, m_rootMotionWeight, m_weights );
@@ -37,11 +37,11 @@ namespace KRG::Animation::GraphNodes
 
     //-------------------------------------------------------------------------
 
-    class KRG_ENGINE_ANIMATION_API BoneMaskBlendNode final : public BoneMaskValueNode
+    class KRG_ENGINE_API BoneMaskBlendNode final : public BoneMaskValueNode
     {
     public:
 
-        struct KRG_ENGINE_ANIMATION_API Settings final : public BoneMaskValueNode::Settings
+        struct KRG_ENGINE_API Settings final : public BoneMaskValueNode::Settings
         {
             KRG_REGISTER_TYPE( Settings );
             KRG_SERIALIZE_GRAPHNODESETTINGS( BoneMaskValueNode::Settings, m_sourceMaskNodeIdx, m_targetMaskNodeIdx, m_blendWeightValueNodeIdx );
@@ -69,11 +69,11 @@ namespace KRG::Animation::GraphNodes
 
     //-------------------------------------------------------------------------
 
-    class KRG_ENGINE_ANIMATION_API BoneMaskSelectorNode final : public BoneMaskValueNode
+    class KRG_ENGINE_API BoneMaskSelectorNode final : public BoneMaskValueNode
     {
     public:
 
-        struct KRG_ENGINE_ANIMATION_API Settings final : public BoneMaskValueNode::Settings
+        struct KRG_ENGINE_API Settings final : public BoneMaskValueNode::Settings
         {
             KRG_REGISTER_TYPE( Settings );
             KRG_SERIALIZE_GRAPHNODESETTINGS( BoneMaskValueNode::Settings, m_defaultMaskNodeIdx, m_parameterValueNodeIdx, m_switchDynamically, m_maskNodeIndices, m_parameterValues, m_blendTime );

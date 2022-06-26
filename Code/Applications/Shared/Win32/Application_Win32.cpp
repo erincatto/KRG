@@ -1,7 +1,7 @@
 #ifdef _WIN32
 #include "Application_Win32.h"
 #include "iniparser/krg_ini.h"
-#include "System/Core/Logging/Log.h"
+#include "System/Log.h"
 
 #include "../Platform/PlatformHelpers_Win32.h"
 

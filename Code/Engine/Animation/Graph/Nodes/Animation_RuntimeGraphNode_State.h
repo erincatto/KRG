@@ -6,7 +6,7 @@
 
 namespace KRG::Animation::GraphNodes
 {
-    class KRG_ENGINE_ANIMATION_API StateNode final : public PoseNode
+    class KRG_ENGINE_API StateNode final : public PoseNode
     {
         friend class TransitionNode;
 
@@ -37,7 +37,7 @@ namespace KRG::Animation::GraphNodes
 
         //-------------------------------------------------------------------------
 
-        struct KRG_ENGINE_ANIMATION_API Settings : public PoseNode::Settings
+        struct KRG_ENGINE_API Settings : public PoseNode::Settings
         {
             KRG_REGISTER_TYPE( Settings );
             KRG_SERIALIZE_GRAPHNODESETTINGS( PoseNode::Settings, m_childNodeIdx, m_entryEvents, m_executeEvents, m_exitEvents, m_timedRemainingEvents, m_timedElapsedEvents, m_layerBoneMaskNodeIdx, m_layerWeightNodeIdx, m_isOffState );

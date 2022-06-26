@@ -1,9 +1,9 @@
 #pragma once 
 
-#include "_Module/API.h"
+#include "System/_Module/API.h"
 #include "AnimationSkeleton.h"
-#include "System/Core/Math/Math.h"
-#include "System/Core/Types/Color.h"
+#include "System/Math/Math.h"
+#include "System/Types/Color.h"
 
 //-------------------------------------------------------------------------
 
@@ -13,14 +13,14 @@ namespace KRG::Drawing { class DrawContext; }
 
 namespace KRG::Animation
 {
-    class KRG_SYSTEM_ANIMATION_API Pose
+    class KRG_SYSTEM_API Pose
     {
         friend class Blender;
         friend class AnimationClip;
 
     public:
 
-        enum class InitialState
+        enum class Type
         {
             None,
             ReferencePose,
@@ -38,7 +38,7 @@ namespace KRG::Animation
 
     public:
 
-        Pose( Skeleton const* pSkeleton, InitialState intialState = InitialState::ReferencePose );
+        Pose( Skeleton const* pSkeleton, Type initialPoseType = Type::ReferencePose );
 
         // Move
         Pose( Pose&& rhs );
@@ -59,7 +59,7 @@ namespace KRG::Animation
         // Pose state
         //-------------------------------------------------------------------------
 
-        void Reset( InitialState initState = InitialState::None, bool calcGlobalPose = false );
+        void Reset( Type initState = Type::None, bool calcGlobalPose = false );
 
         inline bool IsPoseSet() const { return m_state != State::Unset; }
         inline bool IsReferencePose() const { return m_state == State::ReferencePose; }

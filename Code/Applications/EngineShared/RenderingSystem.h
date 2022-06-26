@@ -2,7 +2,7 @@
 
 #include "Engine/Render/RendererRegistry.h"
 #include "System/Render/RenderViewport.h"
-#include "System/Core/Systems/ISystem.h"
+#include "System/Systems.h"
 
 //-------------------------------------------------------------------------
 // KRG Renderer System

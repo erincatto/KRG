@@ -1,6 +1,6 @@
 #include "TypeDescriptors.h"
 #include "TypeRegistry.h"
-#include "System/Core/Logging/Log.h"
+#include "System/Log.h"
 
 //-------------------------------------------------------------------------
 
@@ -11,9 +11,9 @@ namespace KRG::TypeSystem
         struct ResolvedPathElement
         {
             StringID                m_propertyID;
-            int32_t                   m_arrayElementIdx;
+            int32_t                 m_arrayElementIdx;
             PropertyInfo const*     m_pPropertyInfo;
-            uint8_t*                   m_pAddress;
+            uint8_t*                m_pAddress;
         };
 
         struct ResolvedPath

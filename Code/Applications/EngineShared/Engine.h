@@ -1,17 +1,12 @@
 #pragma once
 
 #include "RenderingSystem.h"
-#include "Engine/Core/Modules/EngineModuleContext.h"
-#include "Engine/Core/ToolsUI/IToolsUI.h"
-#include "System/Core/Types/Function.h"
-#include "Engine/Core/Update/UpdateContext.h"
+#include "Engine/ToolsUI/IToolsUI.h"
+#include "System/Types/Function.h"
+#include "Engine/UpdateContext.h"
 
-#include "Engine/Core/_Module/Module.h"
-#include "Engine/Physics/_Module/Module.h"
-#include "Engine/Render/_Module/Module.h"
-#include "Engine/Animation/_Module/Module.h"
-#include "Engine/Navmesh/_Module/Module.h"
-#include "Game/Core/_Module/Module.h"
+#include "Engine/_Module/EngineModule.h"
+#include "Game/_Module/GameModule.h"
 
 //-------------------------------------------------------------------------
 
@@ -49,13 +44,6 @@ namespace KRG
         void DestroyToolsUI() { KRG::Delete( m_pToolsUI ); }
         #endif
 
-        //-------------------------------------------------------------------------
-
-        bool InitializeNonCoreModules( IniFile const& iniFile );
-        void LoadModuleResources( Resource::ResourceSystem& resourceSystem );
-        void UnloadModuleResources( Resource::ResourceSystem& resourceSystem );
-        void ShutdownNonCoreModules();
-
     protected:
 
         TFunction<bool( KRG::String const& error )>     m_fatalErrorHandler;
@@ -63,19 +51,12 @@ namespace KRG
         // Modules
         //-------------------------------------------------------------------------
 
-        TVector<IModule*>                               m_modules;
-
-        EngineCore::EngineModule                        m_module_engine_core;
-        Physics::EngineModule                           m_module_engine_physics;
-        Render::EngineModule                            m_module_engine_render;
-        Animation::EngineModule                         m_module_engine_animation;
-        Navmesh::EngineModule                           m_module_engine_navmesh;
-        Game::GameModule                                m_module_game_core;
+        EngineModule                                    m_engineModule;
+        GameModule                                      m_gameModule;
 
         // Contexts
         //-------------------------------------------------------------------------
 
-        ModuleContext                                   m_moduleContext;
         EngineUpdateContext                             m_updateContext;
 
         // Core Engine Systems

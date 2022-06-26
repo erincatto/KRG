@@ -6,11 +6,11 @@
 
 namespace KRG::Animation::GraphNodes
 {
-    class KRG_ENGINE_ANIMATION_API ParameterizedBlendNode : public PoseNode
+    class KRG_ENGINE_API ParameterizedBlendNode : public PoseNode
     {
     public:
 
-        struct KRG_ENGINE_ANIMATION_API Settings : public PoseNode::Settings
+        struct KRG_ENGINE_API Settings : public PoseNode::Settings
         {
             KRG_REGISTER_TYPE( Settings );
             KRG_SERIALIZE_GRAPHNODESETTINGS( PoseNode::Settings, m_sourceNodeIndices, m_inputParameterValueNodeIdx, m_isSynchronized );
@@ -38,7 +38,7 @@ namespace KRG::Animation::GraphNodes
             FloatRange                              m_parameterValueRange = FloatRange( 0 );
         };
 
-        struct KRG_ENGINE_ANIMATION_API Parameterization
+        struct KRG_ENGINE_API Parameterization
         {
             KRG_SERIALIZE_MEMBERS( m_blendRanges, m_parameterRange );
 
@@ -93,7 +93,7 @@ namespace KRG::Animation::GraphNodes
     {
     public:
 
-        struct KRG_ENGINE_ANIMATION_API Settings final : public ParameterizedBlendNode::Settings
+        struct KRG_ENGINE_API Settings final : public ParameterizedBlendNode::Settings
         {
             KRG_REGISTER_TYPE( Settings );
             KRG_SERIALIZE_GRAPHNODESETTINGS( ParameterizedBlendNode::Settings, m_parameterization );
@@ -114,7 +114,7 @@ namespace KRG::Animation::GraphNodes
     {
     public:
 
-        struct KRG_ENGINE_ANIMATION_API Settings final : public ParameterizedBlendNode::Settings
+        struct KRG_ENGINE_API Settings final : public ParameterizedBlendNode::Settings
         {
             KRG_REGISTER_TYPE( Settings );
             virtual void InstantiateNode( TVector<GraphNode*> const& nodePtrs, GraphDataSet const* pDataSet, InitOptions options ) const override;

@@ -5,11 +5,11 @@
 
 namespace KRG::Animation::GraphNodes
 {
-    class KRG_ENGINE_ANIMATION_API ConstBoolNode final : public BoolValueNode
+    class KRG_ENGINE_API ConstBoolNode final : public BoolValueNode
     {
     public:
 
-        struct KRG_ENGINE_ANIMATION_API Settings final : public BoolValueNode::Settings
+        struct KRG_ENGINE_API Settings final : public BoolValueNode::Settings
         {
             KRG_REGISTER_TYPE( Settings );
             KRG_SERIALIZE_GRAPHNODESETTINGS( BoolValueNode::Settings, m_value );
@@ -26,11 +26,11 @@ namespace KRG::Animation::GraphNodes
 
     //-------------------------------------------------------------------------
 
-    class KRG_ENGINE_ANIMATION_API ConstIDNode final : public IDValueNode
+    class KRG_ENGINE_API ConstIDNode final : public IDValueNode
     {
     public:
 
-        struct KRG_ENGINE_ANIMATION_API Settings final : public IDValueNode::Settings
+        struct KRG_ENGINE_API Settings final : public IDValueNode::Settings
         {
             KRG_REGISTER_TYPE( Settings );
             KRG_SERIALIZE_GRAPHNODESETTINGS( IDValueNode::Settings, m_value );
@@ -47,11 +47,11 @@ namespace KRG::Animation::GraphNodes
 
     //-------------------------------------------------------------------------
 
-    class KRG_ENGINE_ANIMATION_API ConstIntNode final : public IntValueNode
+    class KRG_ENGINE_API ConstIntNode final : public IntValueNode
     {
     public:
 
-        struct KRG_ENGINE_ANIMATION_API Settings final : public IntValueNode::Settings
+        struct KRG_ENGINE_API Settings final : public IntValueNode::Settings
         {
             KRG_REGISTER_TYPE( Settings );
             KRG_SERIALIZE_GRAPHNODESETTINGS( IntValueNode::Settings, m_value );
@@ -68,11 +68,11 @@ namespace KRG::Animation::GraphNodes
 
     //-------------------------------------------------------------------------
 
-    class KRG_ENGINE_ANIMATION_API ConstFloatNode final : public FloatValueNode
+    class KRG_ENGINE_API ConstFloatNode final : public FloatValueNode
     {
     public:
 
-        struct KRG_ENGINE_ANIMATION_API Settings final : public FloatValueNode::Settings
+        struct KRG_ENGINE_API Settings final : public FloatValueNode::Settings
         {
             KRG_REGISTER_TYPE( Settings );
             KRG_SERIALIZE_GRAPHNODESETTINGS( FloatValueNode::Settings, m_value );
@@ -89,11 +89,11 @@ namespace KRG::Animation::GraphNodes
 
     //-------------------------------------------------------------------------
 
-    class KRG_ENGINE_ANIMATION_API ConstVectorNode final : public VectorValueNode
+    class KRG_ENGINE_API ConstVectorNode final : public VectorValueNode
     {
     public:
 
-        struct KRG_ENGINE_ANIMATION_API Settings final : public VectorValueNode::Settings
+        struct KRG_ENGINE_API Settings final : public VectorValueNode::Settings
         {
             KRG_REGISTER_TYPE( Settings );
             KRG_SERIALIZE_GRAPHNODESETTINGS( VectorValueNode::Settings, m_value );
@@ -110,11 +110,11 @@ namespace KRG::Animation::GraphNodes
 
     //-------------------------------------------------------------------------
 
-    class KRG_ENGINE_ANIMATION_API ConstTargetNode final : public TargetValueNode
+    class KRG_ENGINE_API ConstTargetNode final : public TargetValueNode
     {
     public:
 
-        struct KRG_ENGINE_ANIMATION_API Settings final : public TargetValueNode::Settings
+        struct KRG_ENGINE_API Settings final : public TargetValueNode::Settings
         {
             KRG_REGISTER_TYPE( Settings );
             KRG_SERIALIZE_GRAPHNODESETTINGS( TargetValueNode::Settings, m_value );

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "_Module/API.h"
+#include "System/_Module/API.h"
 #include "RenderTexture.h"
 
 //-------------------------------------------------------------------------
@@ -18,7 +18,7 @@ namespace KRG::Render
 
     //-------------------------------------------------------------------------
 
-    class KRG_SYSTEM_RENDER_API RenderTarget
+    class KRG_SYSTEM_API RenderTarget
     {
         friend class RenderDevice;
 

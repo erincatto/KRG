@@ -6,11 +6,11 @@
 
 namespace KRG::Animation::GraphNodes
 {
-    class KRG_ENGINE_ANIMATION_API SelectorNode final : public PoseNode
+    class KRG_ENGINE_API SelectorNode final : public PoseNode
     {
     public:
 
-        struct KRG_ENGINE_ANIMATION_API Settings final : public PoseNode::Settings
+        struct KRG_ENGINE_API Settings final : public PoseNode::Settings
         {
             KRG_REGISTER_TYPE( Settings );
             KRG_SERIALIZE_GRAPHNODESETTINGS( PoseNode::Settings, m_optionNodeIndices, m_conditionNodeIndices );
@@ -47,11 +47,11 @@ namespace KRG::Animation::GraphNodes
 
     //-------------------------------------------------------------------------
 
-    class KRG_ENGINE_ANIMATION_API AnimationClipSelectorNode final : public AnimationClipReferenceNode
+    class KRG_ENGINE_API AnimationClipSelectorNode final : public AnimationClipReferenceNode
     {
     public:
 
-        struct KRG_ENGINE_ANIMATION_API Settings final : public PoseNode::Settings
+        struct KRG_ENGINE_API Settings final : public PoseNode::Settings
         {
             KRG_REGISTER_TYPE( Settings );
             KRG_SERIALIZE_GRAPHNODESETTINGS( PoseNode::Settings, m_optionNodeIndices, m_conditionNodeIndices );

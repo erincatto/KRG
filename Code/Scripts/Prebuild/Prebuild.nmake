@@ -1,4 +1,0 @@
-prebuild:
-    taskkill /F /IM KrugerResourceServer.exe 2>&1 | exit /B 0
-
-clean:

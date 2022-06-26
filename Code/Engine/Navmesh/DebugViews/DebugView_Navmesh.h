@@ -1,8 +1,8 @@
 #pragma once
 
-#include "../_Module/API.h"
+#include "Engine/_Module/API.h"
 #include "Engine/Physics/PhysicsSystem.h"
-#include "Engine/Core/Entity/EntityWorldDebugView.h"
+#include "Engine/Entity/EntityWorldDebugView.h"
 
 //-------------------------------------------------------------------------
 
@@ -14,7 +14,7 @@ namespace KRG::Navmesh
 
     //-------------------------------------------------------------------------
 
-    class KRG_ENGINE_NAVMESH_API NavmeshDebugView : public EntityWorldDebugView
+    class KRG_ENGINE_API NavmeshDebugView : public EntityWorldDebugView
     {
         KRG_REGISTER_TYPE( NavmeshDebugView );
 

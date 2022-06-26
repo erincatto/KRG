@@ -1,7 +1,7 @@
 #include "ResourceLoader_PhysicsRagdoll.h"
 #include "Engine/Physics/PhysicsRagdoll.h"
 #include "Engine/Physics/PhysicsSystem.h"
-#include "System/Core/Serialization/BinaryArchive.h"
+#include "System/Serialization/BinaryArchive.h"
 
 //-------------------------------------------------------------------------
 
@@ -16,7 +16,7 @@ namespace KRG::Physics
         m_loadableTypes.push_back( RagdollDefinition::GetStaticResourceTypeID() );
     }
 
-    void RagdollLoader::SetPhysics( PhysicsSystem* pPhysicsSystem )
+    void RagdollLoader::SetPhysicsSystemPtr( PhysicsSystem* pPhysicsSystem )
     {
         KRG_ASSERT( pPhysicsSystem != nullptr && m_pPhysicsSystem == nullptr );
         m_pPhysicsSystem = pPhysicsSystem;

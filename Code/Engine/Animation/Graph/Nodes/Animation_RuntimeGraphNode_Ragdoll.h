@@ -15,11 +15,11 @@ namespace KRG::Physics
 
 namespace KRG::Animation::GraphNodes
 {
-    class KRG_ENGINE_ANIMATION_API PoweredRagdollNode final : public PassthroughNode
+    class KRG_ENGINE_API PoweredRagdollNode final : public PassthroughNode
     {
     public:
 
-        struct KRG_ENGINE_ANIMATION_API Settings final : public PassthroughNode::Settings
+        struct KRG_ENGINE_API Settings final : public PassthroughNode::Settings
         {
             KRG_REGISTER_TYPE( Settings );
             KRG_SERIALIZE_GRAPHNODESETTINGS( PassthroughNode::Settings, m_physicsBlendWeightNodeIdx, m_physicsBlendWeight, m_profileID, m_dataSlotIdx, m_isGravityEnabled );

@@ -1,5 +1,5 @@
 #include "SkeletalMesh.h"
-#include "System/Core/Drawing/DebugDrawing.h"
+#include "System/Drawing/DebugDrawing.h"
 
 //-------------------------------------------------------------------------
 

@@ -2,9 +2,9 @@
 
 #include "EditorContext.h"
 #include "ResourceBrowser/ResourceBrowser.h"
-#include "Engine/Core/ToolsUI/IToolsUI.h"
-#include "Engine/Core/DebugViews/DebugView_System.h"
-#include "Tools/Core/Resource/ResourceDatabase.h"
+#include "Engine/ToolsUI/IToolsUI.h"
+#include "Engine/DebugViews/DebugView_System.h"
+#include "EngineTools/Resource/ResourceDatabase.h"
 
 //-------------------------------------------------------------------------
 

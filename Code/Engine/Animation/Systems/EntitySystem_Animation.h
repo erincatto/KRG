@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Engine/Animation/_Module/API.h"
-#include "Engine/Core/Entity/EntitySystem.h"
+#include "Engine/_Module/API.h"
+#include "Engine/Entity/EntitySystem.h"
 
 //-------------------------------------------------------------------------
 
@@ -25,7 +25,7 @@ namespace KRG::Animation
 
     //-------------------------------------------------------------------------
 
-    class KRG_ENGINE_ANIMATION_API AnimationSystem : public EntitySystem
+    class KRG_ENGINE_API AnimationSystem : public EntitySystem
     {
         KRG_REGISTER_ENTITY_SYSTEM( AnimationSystem, RequiresUpdate( UpdateStage::PrePhysics ), RequiresUpdate( UpdateStage::PostPhysics, UpdatePriority::Low ) );
 

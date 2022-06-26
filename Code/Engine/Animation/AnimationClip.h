@@ -1,14 +1,14 @@
 #pragma once
 
-#include "_Module/API.h"
+#include "Engine/_Module/API.h"
 #include "AnimationSyncTrack.h"
 #include "AnimationEvent.h"
 #include "AnimationRootMotion.h"
 #include "System/Animation/AnimationSkeleton.h"
 #include "System/Resource/ResourcePtr.h"
-#include "System/Core/Math/NumericRange.h"
-#include "System/Core/Time/Time.h"
-#include "System/Core/Algorithm/Quantization.h"
+#include "System/Math/NumericRange.h"
+#include "System/Time/Time.h"
+#include "System/Algorithm/Quantization.h"
 
 //-------------------------------------------------------------------------
 
@@ -74,7 +74,7 @@ namespace KRG::Animation
 
     //-------------------------------------------------------------------------
 
-    class KRG_ENGINE_ANIMATION_API AnimationClip : public Resource::IResource
+    class KRG_ENGINE_API AnimationClip : public Resource::IResource
     {
         KRG_REGISTER_RESOURCE( 'anim', "Animation Clip" );
         KRG_SERIALIZE_MEMBERS( m_pSkeleton, m_numFrames, m_duration, m_compressedPoseData, m_trackCompressionSettings, m_rootMotion, m_isAdditive );

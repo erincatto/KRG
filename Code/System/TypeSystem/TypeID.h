@@ -1,14 +1,14 @@
 #pragma once
 
-#include "_Module/API.h"
-#include "System/Core/Types/StringID.h"
-#include "System/Core/Serialization/Serialization.h"
+#include "System/_Module/API.h"
+#include "System/Types/StringID.h"
+#include "System/Serialization/Serialization.h"
 
 //-------------------------------------------------------------------------
 
 namespace KRG::TypeSystem
 {
-    class KRG_SYSTEM_TYPESYSTEM_API TypeID
+    class KRG_SYSTEM_API TypeID
     {
         KRG_SERIALIZE_MEMBERS( KRG_NVP( m_ID ) );
 

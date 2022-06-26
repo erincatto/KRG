@@ -1,8 +1,8 @@
 #include "DebugRenderStates.h"
 #include "Engine/Render/Shaders/DebugShaders.h"
-#include "System/Core/ThirdParty/stb/stb_truetype.h"
-#include "System/Render/Fonts/FontData_Proggy.h"
-#include "System/Render/Fonts/FontDecompressor.h"
+#include "System/ThirdParty/stb/stb_truetype.h"
+#include "System/Fonts/FontData_Proggy.h"
+#include "System/Fonts/FontDecompressor.h"
 
 //-------------------------------------------------------------------------
 

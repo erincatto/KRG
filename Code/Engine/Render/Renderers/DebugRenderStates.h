@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Engine/Render/_Module/API.h"
+#include "Engine/_Module/API.h"
 #include "System/Render/RenderDevice.h"
 #include "System/Render/RenderViewport.h"
 
@@ -13,7 +13,7 @@ namespace KRG::Render
     // Primitives
     //-------------------------------------------------------------------------
 
-    struct KRG_ENGINE_RENDER_API DebugLineRenderState
+    struct KRG_ENGINE_API DebugLineRenderState
     {
         constexpr static uint32_t const MaxLinesPerDrawCall = 100000;
 
@@ -39,7 +39,7 @@ namespace KRG::Render
 
     //-------------------------------------------------------------------------
 
-    struct KRG_ENGINE_RENDER_API DebugPointRenderState
+    struct KRG_ENGINE_API DebugPointRenderState
     {
         constexpr static uint32_t const MaxPointsPerDrawCall = 100000;
 
@@ -65,7 +65,7 @@ namespace KRG::Render
 
     //-------------------------------------------------------------------------
 
-    struct KRG_ENGINE_RENDER_API DebugPrimitiveRenderState
+    struct KRG_ENGINE_API DebugPrimitiveRenderState
     {
         constexpr static uint32_t const MaxTrianglesPerDrawCall = 100000;
 
@@ -110,7 +110,7 @@ namespace KRG::Render
 
     //-------------------------------------------------------------------------
 
-    class KRG_ENGINE_RENDER_API DebugTextFontAtlas
+    class KRG_ENGINE_API DebugTextFontAtlas
     {
 
     public:
@@ -177,7 +177,7 @@ namespace KRG::Render
 
     //-------------------------------------------------------------------------
 
-    struct KRG_ENGINE_RENDER_API DebugTextRenderState
+    struct KRG_ENGINE_API DebugTextRenderState
     {
         constexpr static uint32_t const MaxGlyphsPerDrawCall = 10000;
         static Float4 const ClipSpaceTopLeft;

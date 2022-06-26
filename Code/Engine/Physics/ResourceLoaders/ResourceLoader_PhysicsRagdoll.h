@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../_Module/API.h"
+#include "Engine/_Module/API.h"
 #include "System/Resource/ResourceLoader.h"
 
 //-------------------------------------------------------------------------
@@ -18,8 +18,8 @@ namespace KRG::Physics
         RagdollLoader();
         ~RagdollLoader() { KRG_ASSERT( m_pPhysicsSystem == nullptr ); }
 
-        void SetPhysics( PhysicsSystem* pPhysicsSystem );
-        void ClearPhysics() { m_pPhysicsSystem = nullptr; }
+        void SetPhysicsSystemPtr( PhysicsSystem* pPhysicsSystem );
+        void ClearPhysicsSystemPtr() { m_pPhysicsSystem = nullptr; }
 
     private:
 

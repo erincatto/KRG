@@ -12,7 +12,7 @@ namespace KRG::Animation { class Pose; }
 
 namespace KRG::Render
 {
-    class KRG_ENGINE_RENDER_API SkeletalMeshComponent : public MeshComponent
+    class KRG_ENGINE_API SkeletalMeshComponent : public MeshComponent
     {
         KRG_REGISTER_ENTITY_COMPONENT( SkeletalMeshComponent );
 
@@ -103,7 +103,7 @@ namespace KRG::Render
 
     // We often have the need to find the specific mesh component that is the main character mesh.
     // This class makes it explicit, no need for name or tag matching!
-    class KRG_ENGINE_RENDER_API CharacterMeshComponent final : public SkeletalMeshComponent
+    class KRG_ENGINE_API CharacterMeshComponent final : public SkeletalMeshComponent
     {
         KRG_REGISTER_SINGLETON_ENTITY_COMPONENT( CharacterMeshComponent );
 

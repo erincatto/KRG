@@ -1,8 +1,8 @@
 #pragma once
 
-#include "_Module/API.h"
-#include "System/Core/Math/Math.h"
-#include "System/Core/FileSystem/FileSystemPath.h"
+#include "System/_Module/API.h"
+#include "System/Math/Math.h"
+#include "System/FileSystem/FileSystemPath.h"
 
 //-------------------------------------------------------------------------
 
@@ -12,7 +12,7 @@ namespace KRG { class IniFile; }
 
 namespace KRG::Resource
 {
-    class KRG_SYSTEM_RESOURCE_API ResourceSettings
+    class KRG_SYSTEM_API ResourceSettings
     {
     public:
 

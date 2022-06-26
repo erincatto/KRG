@@ -1,5 +1,5 @@
 #pragma once
-#include "_Module/API.h"
+#include "System/_Module/API.h"
 #include "TypeInfo.h"
 
 //-------------------------------------------------------------------------
@@ -34,7 +34,7 @@ namespace KRG
     //-------------------------------------------------------------------------
 
     // Interface to enforce virtual destructors and type-info overrides
-    class KRG_SYSTEM_TYPESYSTEM_API IRegisteredType
+    class KRG_SYSTEM_API IRegisteredType
     {
         KRG_SERIALIZE_NONE();
 

@@ -2,8 +2,8 @@
 #include "ClangVisitors_TranslationUnit.h"
 #include "Applications/Reflector/ReflectorSettingsAndUtils.h"
 #include "Applications/Reflector/Database/ReflectionDatabase.h"
-#include "System/Core/Time/Timers.h"
-#include "System/Core/Platform/PlatformHelpers_Win32.h"
+#include "System/Time/Timers.h"
+#include "System/Platform/PlatformHelpers_Win32.h"
 #include <fstream>
 
 //-------------------------------------------------------------------------
@@ -79,7 +79,7 @@ namespace KRG::TypeSystem::Reflection
         // Exclude dev tools
         if ( pass == SecondPass )
         {
-            clangArgs.push_back( "-D KRG_SHIPPING" );
+            clangArgs.push_back( Settings::g_devToolsExclusionDefine );
         }
 
         //-------------------------------------------------------------------------

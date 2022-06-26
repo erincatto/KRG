@@ -1,6 +1,6 @@
 #include "NetworkSystem.h"
-#include "System/Core/Threading/Threading.h"
-#include "System/Core/Logging/Log.h"
+#include "System/Threading/Threading.h"
+#include "System/Log.h"
 
 #include <steam/steamnetworkingsockets.h>
 #include <steam/isteamnetworkingutils.h>

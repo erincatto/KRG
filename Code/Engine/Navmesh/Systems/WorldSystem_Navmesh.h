@@ -1,9 +1,9 @@
 #pragma once
 
-#include "Engine/Navmesh/_Module/API.h"
+#include "Engine/_Module/API.h"
 #include "Engine/Navmesh/NavPower.h"
-#include "Engine/Core/Entity/EntityWorldSystem.h"
-#include "Engine/Core/Update/UpdateContext.h"
+#include "Engine/Entity/EntityWorldSystem.h"
+#include "Engine/UpdateContext.h"
 
 //-------------------------------------------------------------------------
 // Navmesh World System
@@ -18,7 +18,7 @@ namespace KRG::Navmesh
 
     //-------------------------------------------------------------------------
 
-    class KRG_ENGINE_NAVMESH_API NavmeshWorldSystem : public IWorldEntitySystem
+    class KRG_ENGINE_API NavmeshWorldSystem : public IWorldEntitySystem
     {
         friend class NavmeshDebugView;
         friend class NavmeshDebugRenderer;

@@ -1,7 +1,7 @@
 #pragma once
 
-#include "System/Render/_Module/API.h"
-#include "System/Core/Types/Containers.h"
+#include "System/_Module/API.h"
+#include "System/Types/Containers.h"
 
 //-------------------------------------------------------------------------
 
@@ -15,6 +15,6 @@ namespace KRG::Render
         void Initialize( RenderDevice* pRenderDevice );
         void Shutdown( RenderDevice* pRenderDevice );
 
-        KRG_SYSTEM_RENDER_API Texture const* GetDefaultTexture();
+        KRG_SYSTEM_API Texture const* GetDefaultTexture();
     };
 }

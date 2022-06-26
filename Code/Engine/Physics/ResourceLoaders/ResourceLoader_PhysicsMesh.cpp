@@ -1,7 +1,7 @@
 #include "ResourceLoader_PhysicsMesh.h"
 #include "Engine/Physics/PhysicsSystem.h"
 #include "Engine/Physics/PhysicsMesh.h"
-#include "System/Core/Serialization/BinaryArchive.h"
+#include "System/Serialization/BinaryArchive.h"
 
 //-------------------------------------------------------------------------
 
@@ -39,7 +39,7 @@ namespace KRG::Physics
         m_loadableTypes.push_back( PhysicsMesh::GetStaticResourceTypeID() );
     }
 
-    void PhysicsMeshLoader::SetPhysics( PhysicsSystem* pPhysicsSystem )
+    void PhysicsMeshLoader::SetPhysicsSystemPtr( PhysicsSystem* pPhysicsSystem )
     {
         KRG_ASSERT( pPhysicsSystem != nullptr && m_pPhysicsSystem == nullptr );
         m_pPhysicsSystem = pPhysicsSystem;

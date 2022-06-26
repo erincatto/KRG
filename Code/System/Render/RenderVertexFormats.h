@@ -1,16 +1,16 @@
 #pragma once
 
-#include "_Module/API.h"
+#include "System/_Module/API.h"
 #include "RenderAPI.h"
-#include "System/Core/Serialization/Serialization.h"
-#include "System/Core/Types/Containers.h"
-#include "System/Core/Math/Math.h"
+#include "System/Serialization/Serialization.h"
+#include "System/Types/Containers.h"
+#include "System/Math/Math.h"
 
 //-------------------------------------------------------------------------
 
 namespace KRG::Render
 {
-    KRG_SYSTEM_RENDER_API uint32_t GetDataTypeFormatByteSize( DataFormat format );
+    KRG_SYSTEM_API uint32_t GetDataTypeFormatByteSize( DataFormat format );
 
     //-------------------------------------------------------------------------
 
@@ -40,7 +40,7 @@ namespace KRG::Render
 
     //-------------------------------------------------------------------------
 
-    struct KRG_SYSTEM_RENDER_API VertexLayoutDescriptor
+    struct KRG_SYSTEM_API VertexLayoutDescriptor
     {
         KRG_SERIALIZE_MEMBERS( m_elementDescriptors, m_byteSize );
 
@@ -77,6 +77,6 @@ namespace KRG::Render
 
     namespace VertexLayoutRegistry
     {
-        KRG_SYSTEM_RENDER_API VertexLayoutDescriptor GetDescriptorForFormat( VertexFormat format );
+        KRG_SYSTEM_API VertexLayoutDescriptor GetDescriptorForFormat( VertexFormat format );
     }
 }

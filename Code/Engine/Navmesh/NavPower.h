@@ -1,10 +1,9 @@
 #pragma once
 #if KRG_ENABLE_NAVPOWER
-#include "_Module/API.h"
-#include "System/Core/Math/Transform.h"
-#include "System/Core/Types/Color.h"
-#include "System/Core/Memory/Memory.h"
-#include "System/Core/Systems/ISystem.h"
+#include "Engine/_Module/API.h"
+#include "System/Math/Transform.h"
+#include "System/Types/Color.h"
+#include "System/Memory/Memory.h"
 
 #include <bfxSystemSpace.h>
 #include <bfxPlannerSpace.h>
@@ -117,23 +116,6 @@ namespace KRG::Navmesh
         virtual void CustomFree( void* ptr ) override final { KRG::Free( ptr ); }
         virtual bool IsThreadSafe() const override final { return true; }
         virtual const char* GetName() const override { return "KRUGER"; }
-    };
-
-    class KRG_ENGINE_NAVMESH_API NavmeshSystem : public ISystem
-    {
-        friend class NavmeshWorldSystem;
-
-    public:
-
-        KRG_SYSTEM_ID( NavmeshSystem );
-
-    public:
-
-        NavmeshSystem() = default;
-
-    private:
-
-        NavPowerAllocator                               m_allocator;
     };
 }
 #endif

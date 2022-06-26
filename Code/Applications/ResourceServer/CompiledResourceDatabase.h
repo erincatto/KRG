@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Tools/Core/ThirdParty/sqlite/SqliteHelpers.h"
+#include "EngineTools/ThirdParty/sqlite/SqliteHelpers.h"
 #include "System/Resource/ResourceID.h"
-#include "System/Core/FileSystem/FileSystemPath.h"
+#include "System/FileSystem/FileSystemPath.h"
 
 //-------------------------------------------------------------------------
 

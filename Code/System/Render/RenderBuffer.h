@@ -1,15 +1,15 @@
 #pragma once
 
-#include "_Module/API.h"
+#include "System/_Module/API.h"
 #include "System/Render/RenderAPI.h"
 #include "System/Render/RenderVertexFormats.h"
-#include "System/Core/Serialization/Serialization.h"
+#include "System/Serialization/Serialization.h"
 
 //-------------------------------------------------------------------------
 
 namespace KRG::Render
 {
-    class KRG_SYSTEM_RENDER_API RenderBuffer
+    class KRG_SYSTEM_API RenderBuffer
     {
         friend class RenderDevice;
 
@@ -57,7 +57,7 @@ namespace KRG::Render
 
     //-------------------------------------------------------------------------
 
-    class KRG_SYSTEM_RENDER_API VertexBuffer : public RenderBuffer
+    class KRG_SYSTEM_API VertexBuffer : public RenderBuffer
     {
         friend class RenderDevice;
         KRG_SERIALIZE_MEMBERS( KRG_SERIALIZE_BASE( RenderBuffer ), KRG_NVP( m_vertexFormat ) );

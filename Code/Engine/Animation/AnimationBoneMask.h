@@ -1,9 +1,9 @@
 #pragma once
 
-#include "_Module/API.h"
-#include "System/Core/Types/Containers.h"
-#include "System/Core/Types/StringID.h"
-#include "System/Core/Serialization/Serialization.h"
+#include "Engine/_Module/API.h"
+#include "System/Types/Containers.h"
+#include "System/Types/StringID.h"
+#include "System/Serialization/Serialization.h"
 #include "System/TypeSystem/TypeRegistrationMacros.h"
 
 //-------------------------------------------------------------------------
@@ -14,7 +14,7 @@ namespace KRG::Animation
 
     //-------------------------------------------------------------------------
 
-    struct KRG_ENGINE_ANIMATION_API BoneWeight
+    struct KRG_ENGINE_API BoneWeight
     {
         KRG_SERIALIZE_MEMBERS( m_boneID, m_weight );
 
@@ -24,7 +24,7 @@ namespace KRG::Animation
 
     //-------------------------------------------------------------------------
 
-    class KRG_ENGINE_ANIMATION_API BoneMask
+    class KRG_ENGINE_API BoneMask
     {
 
     public:

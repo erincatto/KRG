@@ -10,7 +10,7 @@ namespace KRG::Resource
 
     //-------------------------------------------------------------------------
 
-    class KRG_SYSTEM_RESOURCE_API PackagedResourceProvider final : public ResourceProvider
+    class KRG_SYSTEM_API PackagedResourceProvider final : public ResourceProvider
     {
 
     public:

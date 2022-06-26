@@ -5,12 +5,12 @@
 #include "Engine/Render/Components/Component_SkeletalMesh.h"
 #include "Engine/Render/Shaders/EngineShaders.h"
 #include "Engine/Render/Systems/WorldSystem_Renderer.h"
-#include "Engine/Core/Entity/Entity.h"
-#include "Engine/Core/Entity/EntityWorldUpdateContext.h"
-#include "Engine/Core/Entity/EntityWorld.h"
+#include "Engine/Entity/Entity.h"
+#include "Engine/Entity/EntityWorldUpdateContext.h"
+#include "Engine/Entity/EntityWorld.h"
 #include "System/Render/RenderDefaultResources.h"
 #include "System/Render/RenderViewport.h"
-#include "System/Core/Profiling/Profiling.h"
+#include "System/Profiling.h"
 
 //-------------------------------------------------------------------------
 

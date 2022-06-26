@@ -1,5 +1,5 @@
 #include "AnimationSkeleton.h"
-#include "System/Core/Drawing/DebugDrawing.h"
+#include "System/Drawing/DebugDrawing.h"
 
 //-------------------------------------------------------------------------
 
@@ -103,8 +103,8 @@ namespace KRG::Animation
 
     void DrawRootBone( Drawing::DrawContext& ctx, Transform const& worldTransform )
     {
-        constexpr static float const gizmoRadius = 0.045f;
-        constexpr static float const arrowLength = 0.1f;
+        constexpr static float const gizmoRadius = 0.015f;
+        constexpr static float const arrowLength = 0.15f;
 
         Vector const fwdDir = worldTransform.GetAxisY().GetNegated();
         Vector const arrowStartPos = Vector::MultiplyAdd( fwdDir, Vector( gizmoRadius ), worldTransform.GetTranslation() );

@@ -1,5 +1,5 @@
 #include "RenderContext_DX11.h"
-#include "System/Core/Types/Color.h"
+#include "System/Types/Color.h"
 
 //-------------------------------------------------------------------------
 

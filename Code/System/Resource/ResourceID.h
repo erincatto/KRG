@@ -2,7 +2,7 @@
 
 #include "ResourceTypeID.h"
 #include "ResourcePath.h"
-#include "System/Core/Types/UUID.h"
+#include "System/Types/UUID.h"
 
 //-------------------------------------------------------------------------
 // Unique ID for a resource - Used for resource look up and dependencies
@@ -15,7 +15,7 @@
 
 namespace KRG
 {
-    class KRG_SYSTEM_RESOURCE_API ResourceID
+    class KRG_SYSTEM_API ResourceID
     {
         friend cereal::access;
 

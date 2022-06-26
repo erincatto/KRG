@@ -4,8 +4,8 @@
 #include "Engine/Animation/AnimationSyncTrack.h"
 #include "Engine/Animation/AnimationTarget.h"
 #include "System/TypeSystem/TypeRegistrationMacros.h"
-#include "System/Core/Serialization/BinaryArchive.h"
-#include "System/Core/Types/Color.h"
+#include "System/Serialization/BinaryArchive.h"
+#include "System/Types/Color.h"
 
 //-------------------------------------------------------------------------
 
@@ -37,13 +37,13 @@ namespace KRG::Animation
     };
 
     #if KRG_DEVELOPMENT_TOOLS
-    KRG_ENGINE_ANIMATION_API Color GetColorForValueType( GraphValueType type );
-    KRG_ENGINE_ANIMATION_API char const* GetNameForValueType( GraphValueType type );
+    KRG_ENGINE_API Color GetColorForValueType( GraphValueType type );
+    KRG_ENGINE_API char const* GetNameForValueType( GraphValueType type );
     #endif
 
     //-------------------------------------------------------------------------
 
-    class KRG_ENGINE_ANIMATION_API GraphNode
+    class KRG_ENGINE_API GraphNode
     {
         friend class PoseNode;
         friend class ValueNode;
@@ -52,7 +52,7 @@ namespace KRG::Animation
 
         // This is the base for each node's individual settings
         // The settings are all shared for all graph instances since they are immutable, the nodes themselves contain the actual graph state
-        struct KRG_ENGINE_ANIMATION_API Settings : public IRegisteredType
+        struct KRG_ENGINE_API Settings : public IRegisteredType
         {
             KRG_REGISTER_TYPE( Settings );
 
@@ -211,7 +211,7 @@ namespace KRG::Animation
     };
     #endif
 
-    class KRG_ENGINE_ANIMATION_API PoseNode : public GraphNode
+    class KRG_ENGINE_API PoseNode : public GraphNode
     {
 
     public:
@@ -275,7 +275,7 @@ namespace KRG::Animation
 
     //-------------------------------------------------------------------------
 
-    class KRG_ENGINE_ANIMATION_API ValueNode : public GraphNode
+    class KRG_ENGINE_API ValueNode : public GraphNode
     {
     public:
 
@@ -303,49 +303,49 @@ namespace KRG::Animation
 
     //-------------------------------------------------------------------------
 
-    class KRG_ENGINE_ANIMATION_API BoolValueNode : public ValueNode
+    class KRG_ENGINE_API BoolValueNode : public ValueNode
     {
         virtual GraphValueType GetValueType() const override final { return GraphValueType::Bool; }
     };
 
     //-------------------------------------------------------------------------
 
-    class KRG_ENGINE_ANIMATION_API IDValueNode : public ValueNode
+    class KRG_ENGINE_API IDValueNode : public ValueNode
     {
         virtual GraphValueType GetValueType() const override final { return GraphValueType::ID; }
     };
 
     //-------------------------------------------------------------------------
 
-    class KRG_ENGINE_ANIMATION_API IntValueNode : public ValueNode
+    class KRG_ENGINE_API IntValueNode : public ValueNode
     {
         virtual GraphValueType GetValueType() const override final { return GraphValueType::Int; }
     };
 
     //-------------------------------------------------------------------------
 
-    class KRG_ENGINE_ANIMATION_API FloatValueNode : public ValueNode
+    class KRG_ENGINE_API FloatValueNode : public ValueNode
     {
         virtual GraphValueType GetValueType() const override final { return GraphValueType::Float; }
     };
 
     //-------------------------------------------------------------------------
 
-    class KRG_ENGINE_ANIMATION_API VectorValueNode : public ValueNode
+    class KRG_ENGINE_API VectorValueNode : public ValueNode
     {
         virtual GraphValueType GetValueType() const override final { return GraphValueType::Vector; }
     };
 
     //-------------------------------------------------------------------------
 
-    class KRG_ENGINE_ANIMATION_API TargetValueNode : public ValueNode
+    class KRG_ENGINE_API TargetValueNode : public ValueNode
     {
         virtual GraphValueType GetValueType() const override final { return GraphValueType::Target; }
     };
 
     //-------------------------------------------------------------------------
 
-    class KRG_ENGINE_ANIMATION_API BoneMaskValueNode : public ValueNode
+    class KRG_ENGINE_API BoneMaskValueNode : public ValueNode
     {
         virtual GraphValueType GetValueType() const override final { return GraphValueType::BoneMask; }
     };

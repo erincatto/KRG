@@ -1,8 +1,8 @@
 #pragma once
 
-#include "_Module/API.h"
-#include "Engine/Core/Entity/EntityComponent.h"
-#include "System/Core/Types/UUID.h"
+#include "Engine/_Module/API.h"
+#include "Engine/Entity/EntityComponent.h"
+#include "System/Types/UUID.h"
 #include "PhysX.h"
 
 //-------------------------------------------------------------------------

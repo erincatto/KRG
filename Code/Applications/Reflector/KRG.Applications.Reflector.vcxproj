@@ -17,7 +17,6 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{C6D6C2BD-89A1-41F2-B27D-3E87B8B678A5}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>KRG.Applications.Reflector</RootNamespace>
     <ProjectName>KRG.Applications.Reflector</ProjectName>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
@@ -182,20 +181,14 @@
     <ResourceCompile Include="Resources\KRG.Applications.Reflector.rc" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\System\Core\KRG.System.Core.vcxproj">
-      <Project>{07414ba8-87a7-449b-8ab7-551254b57fb3}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\System\Resource\KRG.System.Resource.vcxproj">
-      <Project>{7870de8e-6569-4857-93f9-b1abc1fc0543}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\System\TypeSystem\KRG.System.TypeSystem.vcxproj">
-      <Project>{ec1a0a10-5c84-4971-a883-c13e7f76c327}</Project>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Text Update="D:\Kruger\Code\Applications\Shared\cmdParser\LICENSE">
       <FileType>Document</FileType>
     </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\System\KRG.System.vcxproj">
+      <Project>{07414ba8-87a7-449b-8ab7-551254b57fb3}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

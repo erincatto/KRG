@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Game/Core/_Module/API.h"
-#include "Engine/Core/Entity/EntityWorldSystem.h"
-#include "System/Core/Types/IDVector.h"
+#include "Engine/_Module/API.h"
+#include "Engine/Entity/EntityWorldSystem.h"
+#include "System/Types/IDVector.h"
 
 //-------------------------------------------------------------------------
 

@@ -1,12 +1,12 @@
 #pragma once
 
-#include "../_Module/API.h"
+#include "Engine/_Module/API.h"
 #include "Engine/Render/Material/RenderMaterial.h"
 #include "System/Render/RenderBuffer.h"
 #include "System/Render/RenderStates.h"
 #include "System/Resource/ResourcePtr.h"
-#include "System/Core/Math/BoundingVolumes.h"
-#include "System/Core/Types/StringID.h"
+#include "System/Math/BoundingVolumes.h"
+#include "System/Types/StringID.h"
 
 //-------------------------------------------------------------------------
 
@@ -23,7 +23,7 @@ namespace KRG::Drawing { class DrawContext; }
 
 namespace KRG::Render
 {
-    class KRG_ENGINE_RENDER_API Mesh : public Resource::IResource
+    class KRG_ENGINE_API Mesh : public Resource::IResource
     {
         friend class MeshCompiler;
         friend class MeshLoader;
@@ -32,7 +32,7 @@ namespace KRG::Render
 
     public:
 
-        struct KRG_ENGINE_RENDER_API GeometrySection
+        struct KRG_ENGINE_API GeometrySection
         {
             KRG_SERIALIZE_MEMBERS( m_ID, m_startIndex, m_numIndices );
 

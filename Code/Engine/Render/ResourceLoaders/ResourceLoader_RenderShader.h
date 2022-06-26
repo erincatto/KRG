@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../_Module/API.h"
+#include "Engine/_Module/API.h"
 #include "System/Render/RenderShader.h"
 #include "System/Render/RenderDevice.h"
 #include "System/Resource/ResourceLoader.h"
@@ -19,13 +19,13 @@ namespace KRG::Render
             m_loadableTypes.push_back( VertexShader::GetStaticResourceTypeID() );
         }
 
-        inline void SetRenderDevice( RenderDevice* pRenderDevice )
+        inline void SetRenderDevicePtr( RenderDevice* pRenderDevice )
         {
             KRG_ASSERT( pRenderDevice != nullptr );
             m_pRenderDevice = pRenderDevice;
         }
 
-        inline void ClearRenderDevice() { m_pRenderDevice = nullptr; }
+        inline void ClearRenderDevicePtr() { m_pRenderDevice = nullptr; }
 
     private:
 

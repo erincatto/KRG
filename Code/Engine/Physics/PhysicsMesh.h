@@ -1,10 +1,10 @@
 #pragma once
 
-#include "_Module/API.h"
+#include "Engine/_Module/API.h"
 #include "System/Resource/IResource.h"
 #include "geometry/PxTriangleMesh.h"
 #include "geometry/PxConvexMesh.h"
-#include "System/Core/Types/StringID.h"
+#include "System/Types/StringID.h"
 
 //-------------------------------------------------------------------------
 
@@ -18,7 +18,7 @@ namespace physx
 
 namespace KRG::Physics
 {
-    class KRG_ENGINE_PHYSICS_API PhysicsMesh : public Resource::IResource
+    class KRG_ENGINE_API PhysicsMesh : public Resource::IResource
     {
         KRG_REGISTER_RESOURCE( 'pmsh', "Physics Mesh" );
         friend class PhysicsMeshCompiler;

@@ -1,8 +1,8 @@
 #pragma once
 #include "System/Resource/ResourceID.h"
-#include "System/Core/Time/Time.h"
-#include "System/Core/Types/UUID.h"
-#include "System/Core/Time/Timestamp.h"
+#include "System/Time/Time.h"
+#include "System/Types/UUID.h"
+#include "System/Time/Timestamp.h"
 
 //-------------------------------------------------------------------------
 

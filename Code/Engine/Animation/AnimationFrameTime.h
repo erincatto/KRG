@@ -1,14 +1,14 @@
 #pragma once
 
-#include "_Module/API.h"
-#include "System/Core/Types/Percentage.h"
-#include "System/Core/Time/Time.h"
+#include "Engine/_Module/API.h"
+#include "System/Types/Percentage.h"
+#include "System/Time/Time.h"
 
 //-------------------------------------------------------------------------
 
 namespace KRG::Animation
 {
-    class KRG_ENGINE_ANIMATION_API FrameTime
+    class KRG_ENGINE_API FrameTime
     {
     public:
 

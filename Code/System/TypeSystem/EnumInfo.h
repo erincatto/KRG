@@ -2,6 +2,7 @@
 
 #include "TypeID.h"
 #include "CoreTypeIDs.h"
+#include "System/Log.h"
 
 //-------------------------------------------------------------------------
 
@@ -23,8 +24,15 @@ namespace KRG::TypeSystem
         inline int64_t GetConstantValue( StringID label ) const
         {
             auto const iter = m_constants.find( label );
-            KRG_ASSERT( iter != m_constants.end() );
-            return iter->second;
+            if ( iter != m_constants.end() )
+            {
+                return iter->second;
+            }
+            else // Flag error and return first valid value
+            {
+                KRG_LOG_ERROR( "Serialization", "Invalid enum constant value (%s) for enum (%s)", label.c_str(), m_ID.c_str() );
+                return m_constants.begin()->second;
+            }
         }
 
         inline bool TryGetConstantValue( StringID label, int64_t& outValue ) const

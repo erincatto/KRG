@@ -1,9 +1,9 @@
 #pragma once
 
-#include "_Module/API.h"
-#include "System/Core/Types/Percentage.h"
-#include "System/Core/Types/Containers.h"
-#include "System/Core/Types/StringID.h"
+#include "Engine/_Module/API.h"
+#include "System/Types/Percentage.h"
+#include "System/Types/Containers.h"
+#include "System/Types/StringID.h"
 
 //-------------------------------------------------------------------------
 
@@ -73,7 +73,7 @@ namespace KRG::Animation
     // A sync track simply specifies the sync ranges in terms of events.
     // TODO: explain how sync tracks work in detail here
 
-    class KRG_ENGINE_ANIMATION_API SyncTrack
+    class KRG_ENGINE_API SyncTrack
     {
         KRG_SERIALIZE_MEMBERS( m_syncEvents, m_startEventOffset );
 

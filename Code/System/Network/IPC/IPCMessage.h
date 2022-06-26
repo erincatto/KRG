@@ -1,7 +1,7 @@
 #pragma once
-#include "System/Network/_Module/API.h"
-#include "System/Core/Types/Containers.h"
-#include "System/Core/Memory/MemoryStreamHelpers.h"
+#include "System/_Module/API.h"
+#include "System/Types/Containers.h"
+#include "System/Memory/MemoryStreamHelpers.h"
 #include "cereal/archives/json.hpp"
 
 //-------------------------------------------------------------------------
@@ -20,7 +20,7 @@ namespace KRG::Network::IPC
 
     //-------------------------------------------------------------------------
 
-    class KRG_SYSTEM_NETWORK_API Message
+    class KRG_SYSTEM_API Message
     {
         friend class Server;
         friend class Client;

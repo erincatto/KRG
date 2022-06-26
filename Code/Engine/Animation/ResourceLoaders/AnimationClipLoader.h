@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../_Module/API.h"
+#include "Engine/_Module/API.h"
 #include "System/Resource/ResourceLoader.h"
 
 //-------------------------------------------------------------------------
@@ -16,7 +16,9 @@ namespace KRG::Animation
     public:
 
         AnimationClipLoader();
-        void SetTypeRegistry( TypeSystem::TypeRegistry const* pTypeRegistry );
+        ~AnimationClipLoader() { KRG_ASSERT( m_pTypeRegistry == nullptr ); }
+        void SetTypeRegistryPtr( TypeSystem::TypeRegistry const* pTypeRegistry );
+        void ClearTypeRegistryPtr() { m_pTypeRegistry = nullptr; }
 
     private:
 

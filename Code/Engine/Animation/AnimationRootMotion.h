@@ -1,8 +1,8 @@
 #pragma once
-#include "_Module/API.h"
+#include "Engine/_Module/API.h"
 #include "AnimationFrameTime.h"
-#include "System/Core/Math/Transform.h"
-#include "System/Core/Types/Containers.h"
+#include "System/Math/Transform.h"
+#include "System/Types/Containers.h"
 
 //-------------------------------------------------------------------------
 
@@ -12,7 +12,7 @@ namespace KRG::Drawing { class DrawContext; }
 
 namespace KRG::Animation
 {
-    struct KRG_ENGINE_ANIMATION_API RootMotionData
+    struct KRG_ENGINE_API RootMotionData
     {
         KRG_SERIALIZE_MEMBERS( m_transforms, m_averageLinearVelocity, m_averageAngularVelocity, m_totalDelta );
 

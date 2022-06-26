@@ -1,14 +1,14 @@
 #pragma once
 
-#include "Engine/Render/_Module/API.h"
+#include "Engine/_Module/API.h"
 #include "Engine/Render/Material/RenderMaterial.h"
-#include "Engine/Core/Entity/EntitySpatialComponent.h"
+#include "Engine/Entity/EntitySpatialComponent.h"
 
 //-------------------------------------------------------------------------
 
 namespace KRG::Render
 {
-    class KRG_ENGINE_RENDER_API MeshComponent : public SpatialEntityComponent
+    class KRG_ENGINE_API MeshComponent : public SpatialEntityComponent
     {
         KRG_REGISTER_ENTITY_COMPONENT( MeshComponent );
 

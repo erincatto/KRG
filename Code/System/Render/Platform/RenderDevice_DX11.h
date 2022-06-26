@@ -2,8 +2,8 @@
 #ifdef _WIN32
 
 #include "RenderContext_DX11.h"
-#include "System/Core/Types/Color.h"
-#include "System/Core/Threading/Threading.h"
+#include "System/Types/Color.h"
+#include "System/Threading/Threading.h"
 
 #include <D3D11.h>
 
@@ -15,7 +15,7 @@ namespace KRG { class IniFile; }
 
 namespace KRG::Render
 {
-    class KRG_SYSTEM_RENDER_API RenderDevice
+    class KRG_SYSTEM_API RenderDevice
     {
 
     public:

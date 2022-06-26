@@ -1,8 +1,8 @@
 #pragma once
-#include "_Module\API.h"
-#include "System\Core\Types\Containers.h"
-#include "System\Core\Types\Function.h"
-#include "System\Core\Types\String.h"
+#include "System/_Module/API.h"
+#include "System/Types/Containers.h"
+#include "System/Types/Function.h"
+#include "System/Types/String.h"
 
 //-------------------------------------------------------------------------
 
@@ -16,7 +16,7 @@ namespace KRG::Network
 
     //-------------------------------------------------------------------------
 
-    class KRG_SYSTEM_NETWORK_API ServerConnection
+    class KRG_SYSTEM_API ServerConnection
     {
         friend NetworkSystem;
         friend struct NetworkCallbackHandler;
@@ -89,7 +89,7 @@ namespace KRG::Network
 
     //-------------------------------------------------------------------------
 
-    class KRG_SYSTEM_NETWORK_API ClientConnection
+    class KRG_SYSTEM_API ClientConnection
     {
         friend NetworkSystem;
         friend struct NetworkCallbackHandler;
@@ -137,7 +137,7 @@ namespace KRG::Network
 
     //-------------------------------------------------------------------------
 
-    class KRG_SYSTEM_NETWORK_API NetworkSystem final
+    class KRG_SYSTEM_API NetworkSystem final
     {
         friend struct NetworkCallbackHandler;
 

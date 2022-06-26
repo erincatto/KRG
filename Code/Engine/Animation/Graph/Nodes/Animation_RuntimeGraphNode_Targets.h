@@ -5,11 +5,11 @@
 
 namespace KRG::Animation::GraphNodes
 {
-    class KRG_ENGINE_ANIMATION_API IsTargetSetNode final : public BoolValueNode
+    class KRG_ENGINE_API IsTargetSetNode final : public BoolValueNode
     {
     public:
 
-        struct KRG_ENGINE_ANIMATION_API Settings final : public BoolValueNode::Settings
+        struct KRG_ENGINE_API Settings final : public BoolValueNode::Settings
         {
             KRG_REGISTER_TYPE( Settings );
             KRG_SERIALIZE_GRAPHNODESETTINGS( BoolValueNode::Settings, m_inputValueNodeIdx );
@@ -33,7 +33,7 @@ namespace KRG::Animation::GraphNodes
 
     //-------------------------------------------------------------------------
 
-    class KRG_ENGINE_ANIMATION_API TargetInfoNode final : public FloatValueNode
+    class KRG_ENGINE_API TargetInfoNode final : public FloatValueNode
     {
     public:
 
@@ -53,7 +53,7 @@ namespace KRG::Animation::GraphNodes
             DeltaOrientationZ,
         };
 
-        struct KRG_ENGINE_ANIMATION_API Settings final : public TargetValueNode::Settings
+        struct KRG_ENGINE_API Settings final : public TargetValueNode::Settings
         {
             KRG_REGISTER_TYPE( Settings );
             KRG_SERIALIZE_GRAPHNODESETTINGS( TargetValueNode::Settings, m_inputValueNodeIdx, m_isWorldSpaceTarget, m_infoType );
@@ -79,12 +79,12 @@ namespace KRG::Animation::GraphNodes
 
     //-------------------------------------------------------------------------
 
-    class KRG_ENGINE_ANIMATION_API TargetOffsetNode final : public TargetValueNode
+    class KRG_ENGINE_API TargetOffsetNode final : public TargetValueNode
     {
 
     public:
 
-        struct KRG_ENGINE_ANIMATION_API Settings final : public TargetValueNode::Settings
+        struct KRG_ENGINE_API Settings final : public TargetValueNode::Settings
         {
             KRG_REGISTER_TYPE( Settings );
             KRG_SERIALIZE_GRAPHNODESETTINGS( TargetValueNode::Settings, m_inputValueNodeIdx, m_isBoneSpaceOffset, m_rotationOffset, m_translationOffset );

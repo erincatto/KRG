@@ -2,7 +2,7 @@
 
 #include "Component_RenderMesh.h"
 #include "Engine/Render/Mesh/StaticMesh.h"
-#include "System/Core/Types/Event.h"
+#include "System/Types/Event.h"
 
 //-------------------------------------------------------------------------
 
@@ -18,7 +18,7 @@ namespace KRG::Render
 
     //-------------------------------------------------------------------------
 
-    class KRG_ENGINE_RENDER_API StaticMeshComponent final : public MeshComponent
+    class KRG_ENGINE_API StaticMeshComponent final : public MeshComponent
     {
         KRG_REGISTER_ENTITY_COMPONENT( StaticMeshComponent );
 

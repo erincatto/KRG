@@ -1,10 +1,10 @@
 #pragma once
 
-#include "_Module/API.h"
+#include "Engine/_Module/API.h"
 #include "AnimationBoneMask.h"
 #include "System/Animation/AnimationPose.h"
-#include "System/Core/Math/Quaternion.h"
-#include "System/Core/Types/BitFlags.h"
+#include "System/Math/Quaternion.h"
+#include "System/Types/BitFlags.h"
 #include "System/TypeSystem/TypeRegistrationMacros.h"
 
 //-------------------------------------------------------------------------
@@ -31,7 +31,7 @@ namespace KRG::Animation
 
     //-------------------------------------------------------------------------
 
-    class KRG_ENGINE_ANIMATION_API Blender
+    class KRG_ENGINE_API Blender
     {
     private:
 

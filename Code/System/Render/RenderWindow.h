@@ -5,7 +5,7 @@
 
 namespace KRG::Render
 {
-    class KRG_SYSTEM_RENDER_API RenderWindow
+    class KRG_SYSTEM_API RenderWindow
     {
         friend class RenderDevice;
         friend class RenderContext;

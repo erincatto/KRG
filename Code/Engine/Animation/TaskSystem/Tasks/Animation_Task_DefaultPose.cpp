@@ -4,7 +4,7 @@
 
 namespace KRG::Animation::Tasks
 {
-    DefaultPoseTask::DefaultPoseTask( TaskSourceID sourceID, Pose::InitialState type )
+    DefaultPoseTask::DefaultPoseTask( TaskSourceID sourceID, Pose::Type type )
         : Task( sourceID )
         , m_type( type )
     {}

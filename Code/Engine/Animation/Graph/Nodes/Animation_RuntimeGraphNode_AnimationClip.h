@@ -9,7 +9,7 @@
 namespace KRG::Animation::GraphNodes
 {
     // An interface to directly access a selected animation, this is needed to ensure certain animation nodes only operate on animations directly
-    class KRG_ENGINE_ANIMATION_API AnimationClipReferenceNode : public PoseNode
+    class KRG_ENGINE_API AnimationClipReferenceNode : public PoseNode
     {
     public:
 
@@ -20,12 +20,12 @@ namespace KRG::Animation::GraphNodes
 
     //-------------------------------------------------------------------------
 
-    class KRG_ENGINE_ANIMATION_API AnimationClipNode final : public AnimationClipReferenceNode
+    class KRG_ENGINE_API AnimationClipNode final : public AnimationClipReferenceNode
     {
 
     public:
 
-        struct KRG_ENGINE_ANIMATION_API Settings final : public PoseNode::Settings
+        struct KRG_ENGINE_API Settings final : public PoseNode::Settings
         {
             KRG_REGISTER_TYPE( Settings );
             KRG_SERIALIZE_GRAPHNODESETTINGS( PoseNode::Settings, m_playInReverseValueNodeIdx, m_sampleRootMotion, m_allowLooping, m_dataSlotIdx );

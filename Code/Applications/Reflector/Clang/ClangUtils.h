@@ -6,7 +6,7 @@
 #include <clang/AST/Type.h>
 #include <clang-c/Index.h>
 
-#include "System/Core/FileSystem/FileSystemPath.h"
+#include "System/FileSystem/FileSystemPath.h"
 
 //-------------------------------------------------------------------------
 

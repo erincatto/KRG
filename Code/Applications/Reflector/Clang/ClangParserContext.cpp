@@ -111,11 +111,6 @@ namespace KRG::TypeSystem::Reflection
         }
     }
 
-    bool ClangParserContext::IsValidModuleName( String const& moduleClassName )
-    {
-        return Reflection::Utils::IsValidModuleName( moduleClassName );
-    }
-
     bool ClangParserContext::SetModuleClassName( FileSystem::Path const& headerFilePath, String const& moduleClassName )
     {
         for ( auto& prj : m_pSolution->m_projects )

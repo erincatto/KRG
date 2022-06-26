@@ -1,10 +1,10 @@
 #pragma once
 
-#include "_Module/API.h"
+#include "System/_Module/API.h"
 #include "RenderAPI.h"
 #include "System/Resource/IResource.h"
-#include "System/Core/Serialization/Serialization.h"
-#include "System/Core/Math/Math.h"
+#include "System/Serialization/Serialization.h"
+#include "System/Math/Math.h"
 
 //-------------------------------------------------------------------------
 
@@ -48,7 +48,7 @@ namespace KRG::Render
     //-------------------------------------------------------------------------
     // Abstraction for a render texture resource
 
-    class KRG_SYSTEM_RENDER_API Texture : public Resource::IResource
+    class KRG_SYSTEM_API Texture : public Resource::IResource
     {
         friend class RenderDevice;
         friend class TextureCompiler;
@@ -101,7 +101,7 @@ namespace KRG::Render
     // Abstraction for a cubemap render texture resource
     // Needed to define a new resource type
 
-    class KRG_SYSTEM_RENDER_API CubemapTexture : public Texture
+    class KRG_SYSTEM_API CubemapTexture : public Texture
     {
         friend class RenderDevice;
         friend class TextureCompiler;

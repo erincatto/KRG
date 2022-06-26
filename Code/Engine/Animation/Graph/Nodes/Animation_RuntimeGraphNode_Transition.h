@@ -3,13 +3,13 @@
 #include "Animation_RuntimeGraphNode_State.h"
 #include "Engine/Animation/AnimationBoneMask.h"
 #include "Engine/Animation/AnimationBlender.h"
-#include "Engine/Core/Math/Easing.h"
+#include "Engine/Math/Easing.h"
 
 //-------------------------------------------------------------------------
 
 namespace KRG::Animation::GraphNodes
 {
-    class KRG_ENGINE_ANIMATION_API TransitionNode final : public PoseNode
+    class KRG_ENGINE_API TransitionNode final : public PoseNode
     {
         enum class SourceType
         {
@@ -35,7 +35,7 @@ namespace KRG::Animation::GraphNodes
             bool                                m_shouldCachePose = false;
         };
 
-        struct KRG_ENGINE_ANIMATION_API Settings : public PoseNode::Settings
+        struct KRG_ENGINE_API Settings : public PoseNode::Settings
         {
             KRG_REGISTER_TYPE( Settings );
             KRG_SERIALIZE_GRAPHNODESETTINGS( PoseNode::Settings, m_targetStateNodeIdx, m_durationOverrideNodeIdx, m_syncEventOffsetOverrideNodeIdx, m_blendWeightEasingType, m_rootMotionBlend, m_duration, m_syncEventOffset, m_transitionOptions );

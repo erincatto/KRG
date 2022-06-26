@@ -3,7 +3,7 @@
 #include "ClangUtils.h"
 #include "Applications/Reflector/ReflectorSettingsAndUtils.h"
 #include "Applications/Reflector/Database/ReflectionProjectTypes.h"
-#include "System/Core/Types/StringID.h"
+#include "System/Types/StringID.h"
 
 //-------------------------------------------------------------------------
 
@@ -108,7 +108,6 @@ namespace KRG::TypeSystem::Reflection
         void PushNamespace( String const& name );
         void PopNamespace();
 
-        bool IsValidModuleName( String const& moduleClassName );
         bool SetModuleClassName( FileSystem::Path const& headerFilePath, String const& moduleClassName );
         inline StringID GenerateTypeID( String const& fullyQualifiedTypeName ) const { return StringID( fullyQualifiedTypeName ); }
 

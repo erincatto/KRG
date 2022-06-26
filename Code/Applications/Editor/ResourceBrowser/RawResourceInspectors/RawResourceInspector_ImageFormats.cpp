@@ -1,9 +1,9 @@
 #include "RawResourceInspector_ImageFormats.h"
-#include "Tools/Core/Resource/RawAssets/RawAssetReader.h"
-#include "Tools/Render/ResourceDescriptors/ResourceDescriptor_RenderTexture.h"
-#include "System/Render/Imgui/ImguiX.h"
-#include "System/Core/Math/MathStringHelpers.h"
-#include "System/Core/FileSystem/FileSystem.h"
+#include "EngineTools/RawAssets/RawAssetReader.h"
+#include "EngineTools/Render/ResourceDescriptors/ResourceDescriptor_RenderTexture.h"
+#include "System/Imgui/ImguiX.h"
+#include "System/Math/MathStringHelpers.h"
+#include "System/FileSystem/FileSystem.h"
 
 //-------------------------------------------------------------------------
 

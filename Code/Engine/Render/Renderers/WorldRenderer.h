@@ -2,7 +2,7 @@
 
 #include "Engine/Render/IRenderer.h"
 #include "System/Render/RenderDevice.h"
-#include "System/Core/Math/Matrix.h"
+#include "System/Math/Matrix.h"
 
 //-------------------------------------------------------------------------
 
@@ -20,7 +20,7 @@ namespace KRG::Render
 
     //-------------------------------------------------------------------------
 
-    class KRG_ENGINE_RENDER_API WorldRenderer : public IRenderer
+    class KRG_ENGINE_API WorldRenderer : public IRenderer
     {
         enum
         {

@@ -6,9 +6,9 @@
 #include "Engine/Physics/Components/Component_PhysicsCapsule.h"
 #include "Engine/Physics/Components/Component_PhysicsSphere.h"
 #include "Engine/Physics/Components/Component_PhysicsBox.h"
-#include "Engine/Core/Entity/Entity.h"
-#include "Engine/Core/Entity/EntityWorldUpdateContext.h"
-#include "System/Core/Profiling/Profiling.h"
+#include "Engine/Entity/Entity.h"
+#include "Engine/Entity/EntityWorldUpdateContext.h"
+#include "System/Profiling.h"
 
 //-------------------------------------------------------------------------
 

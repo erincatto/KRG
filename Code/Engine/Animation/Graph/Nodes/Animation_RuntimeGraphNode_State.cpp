@@ -1,5 +1,5 @@
 #include "Animation_RuntimeGraphNode_State.h"
-#include "System/Core/Types/ScopedValue.h"
+#include "System/Types/ScopedValue.h"
 #include "Engine/Animation/AnimationBoneMask.h"
 
 //-------------------------------------------------------------------------

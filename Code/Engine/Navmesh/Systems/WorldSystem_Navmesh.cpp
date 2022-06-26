@@ -1,10 +1,11 @@
 #include "WorldSystem_Navmesh.h"
 #include "Engine/Navmesh/NavPower.h"
 #include "Engine/Navmesh/Components/Component_Navmesh.h"
-#include "Engine/Core/Entity/Entity.h"
-#include "Engine/Core/Entity/EntityWorldUpdateContext.h"
+#include "Engine/Navmesh/NavmeshSystem.h"
+#include "Engine/Entity/Entity.h"
+#include "Engine/Entity/EntityWorldUpdateContext.h"
 #include "System/Render/RenderViewport.h"
-#include "System/Core/Profiling/Profiling.h"
+#include "System/Profiling.h"
 
 //-------------------------------------------------------------------------
 
@@ -15,7 +16,7 @@ namespace KRG::Navmesh
         #if KRG_ENABLE_NAVPOWER
         auto pNavmeshSystem = systemRegistry.GetSystem<NavmeshSystem>();
 
-        m_pInstance = bfx::SystemCreate( bfx::SystemParams( 2.0f, bfx::Z_UP ), &pNavmeshSystem->m_allocator );
+        m_pInstance = bfx::SystemCreate( bfx::SystemParams( 2.0f, bfx::Z_UP ), pNavmeshSystem->m_pAllocator );
         bfx::SetCurrentInstance( nullptr );
 
         bfx::RegisterPlannerSystem( m_pInstance );

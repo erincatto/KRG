@@ -11,7 +11,7 @@ namespace KRG::Animation::Tasks
 
     public:
 
-        DefaultPoseTask( TaskSourceID sourceID, Pose::InitialState type );
+        DefaultPoseTask( TaskSourceID sourceID, Pose::Type type );
         virtual void Execute( TaskContext const& context ) override;
 
         #if KRG_DEVELOPMENT_TOOLS
@@ -21,6 +21,6 @@ namespace KRG::Animation::Tasks
 
     private:
 
-        Pose::InitialState  m_type;
+        Pose::Type m_type;
     };
 }

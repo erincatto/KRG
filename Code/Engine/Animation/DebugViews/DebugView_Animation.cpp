@@ -1,10 +1,10 @@
 #include "DebugView_Animation.h"
 #include "Engine/Animation/Systems/WorldSystem_Animation.h"
 #include "Engine/Animation/Components/Component_AnimationGraph.h"
-#include "Engine/Core/Entity/EntityWorld.h"
-#include "Engine/Core/Entity/EntityWorldUpdateContext.h"
-#include "System/Render/Imgui/ImguiX.h"
-#include "System/Core/Math/MathStringHelpers.h"
+#include "Engine/Entity/EntityWorld.h"
+#include "Engine/Entity/EntityWorldUpdateContext.h"
+#include "System/Imgui/ImguiX.h"
+#include "System/Math/MathStringHelpers.h"
 
 //-------------------------------------------------------------------------
 

@@ -1,6 +1,6 @@
 #include "Animation_RuntimeGraphNode_Vectors.h"
-#include "System/Core/Logging/Log.h"
-#include "System/Core/Math/MathHelpers.h"
+#include "System/Log.h"
+#include "System/Math/MathHelpers.h"
 
 //-------------------------------------------------------------------------
 

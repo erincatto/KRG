@@ -1,7 +1,7 @@
 #ifdef _WIN32
 #include "System/Input/InputDevices/InputDevice_XBoxController.h"
-#include "System/Core/Math/Vector.h"
-#include "System/Core/Types/Containers.h"
+#include "System/Math/Vector.h"
+#include "System/Types/Containers.h"
 #include <windows.h>
 #include <XInput.h>
 

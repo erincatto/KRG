@@ -7,18 +7,12 @@ namespace KRG::Animation
     #if KRG_DEVELOPMENT_TOOLS
     InlineString WarpEvent::GetDisplayText() const
     {
-        if ( m_type == Type::Rotation )
+        if ( m_type == Type::RotationOnly )
         {
-            return "Rot";
+            return "Rotation Only";
         }
-        else if ( m_type == Type::Translation )
-        {
-            return "Trans";
-        }
-        else
-        {
-            return "Rot & Trans";
-        }
+
+        return "Full";
     }
     #endif
 }

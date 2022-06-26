@@ -356,19 +356,6 @@ namespace KRG::TypeSystem::Reflection
             {
                 String const moduleName = pContext->GetCurrentNamespace() + cursorName;
 
-                if ( !pContext->IsValidModuleName( cursorName ) )
-                {
-                    String const errorMessage = Reflection::Utils::GetModuleNameErrorMessage();
-                    pContext->LogError( "Invalid module name: %s (%s) - %s", moduleName.c_str(), headerFilePath.c_str(), errorMessage.c_str() );
-                    return CXChildVisit_Break;
-                }
-
-                if ( headerFilePath.ToString().find( Reflection::Settings::g_moduleHeaderFilePath ) == String::npos )
-                {
-                    pContext->LogError( "Detected module registration macro in a non-module header: %s (%s) - module registration macro may only exist in a file named 'Module.h'", moduleName.c_str(), headerFilePath.c_str() );
-                    return CXChildVisit_Break;
-                }
-
                 if ( !pContext->SetModuleClassName( headerFilePath, moduleName ) )
                 {
                     // Could not find originating project for detected registered module class

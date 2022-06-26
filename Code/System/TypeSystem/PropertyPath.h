@@ -1,8 +1,8 @@
 #pragma once
 
-#include "_Module/API.h"
+#include "System/_Module/API.h"
 #include "TypeID.h"
-#include "System/Core/Types/Containers.h"
+#include "System/Types/Containers.h"
 
 //-------------------------------------------------------------------------
 // The path to a property within a reflected type
@@ -15,7 +15,7 @@ namespace KRG
 {
     namespace TypeSystem
     {
-        class KRG_SYSTEM_TYPESYSTEM_API PropertyPath
+        class KRG_SYSTEM_API PropertyPath
         {
             KRG_SERIALIZE_MEMBERS( m_pathElements );
 

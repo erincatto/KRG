@@ -1,9 +1,9 @@
 #include "Component_AnimationGraph.h"
 #include "Engine/Animation/TaskSystem/Animation_TaskSystem.h"
-#include "Engine/Core/Update/UpdateContext.h"
+#include "Engine/UpdateContext.h"
 #include "System/Animation/AnimationPose.h"
-#include "System/Core/Profiling/Profiling.h"
-#include "System/Core/Logging/Log.h"
+#include "System/Profiling.h"
+#include "System/Log.h"
 
 //-------------------------------------------------------------------------
 

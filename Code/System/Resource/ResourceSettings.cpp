@@ -1,7 +1,7 @@
 #include "ResourceSettings.h"
-#include "System/Core/ThirdParty/iniparser/krg_ini.h"
-#include "System/Core/Logging/Log.h"
-#include "System/Core/FileSystem/FileSystemUtils.h"
+#include "System/ThirdParty/iniparser/krg_ini.h"
+#include "System/Log.h"
+#include "System/FileSystem/FileSystemUtils.h"
 
 //-------------------------------------------------------------------------
 

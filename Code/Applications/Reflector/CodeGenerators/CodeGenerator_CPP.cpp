@@ -3,8 +3,8 @@
 #include "CodeGenerator_CPP_Enum.h"
 #include "Applications/Reflector/ReflectorSettingsAndUtils.h"
 #include "System/TypeSystem/TypeID.h"
-#include "System/Core/FileSystem/FileSystemUtils.h"
-#include "System/Core/Algorithm/TopologicalSort.h"
+#include "System/FileSystem/FileSystemUtils.h"
+#include "System/Algorithm/TopologicalSort.h"
 
 #include <fstream>
 #include <string>
@@ -91,7 +91,7 @@ namespace KRG::CPP
             // Ignore tools modules for engine headers
             if ( headerType == TypeRegistrationHeaderType::Engine )
             {
-                if ( Reflection::Utils::IsToolsModule( modules[i].m_moduleClassName ) )
+                if ( modules[i].m_isToolsModule )
                 {
                     modules.erase_unsorted( modules.begin() + i );
                     i--;

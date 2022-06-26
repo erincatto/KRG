@@ -26,7 +26,7 @@ namespace KRG::Animation::GraphNodes
 
         GraphPoseNodeResult Result;
         Result.m_sampledEventRange = SampledEventRange( context.m_sampledEvents.GetNumEvents() );
-        Result.m_taskIdx = context.m_pTaskSystem->RegisterTask<Tasks::DefaultPoseTask>( GetNodeIndex(), Pose::InitialState::ZeroPose );
+        Result.m_taskIdx = context.m_pTaskSystem->RegisterTask<Tasks::DefaultPoseTask>( GetNodeIndex(), Pose::Type::ZeroPose );
         return Result;
     }
 
@@ -51,7 +51,7 @@ namespace KRG::Animation::GraphNodes
 
         GraphPoseNodeResult Result;
         Result.m_sampledEventRange = SampledEventRange( context.m_sampledEvents.GetNumEvents() );
-        Result.m_taskIdx = context.m_pTaskSystem->RegisterTask<Tasks::DefaultPoseTask>( GetNodeIndex(), Pose::InitialState::ReferencePose );
+        Result.m_taskIdx = context.m_pTaskSystem->RegisterTask<Tasks::DefaultPoseTask>( GetNodeIndex(), Pose::Type::ReferencePose );
         return Result;
     }
 

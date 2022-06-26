@@ -3,8 +3,8 @@
 #include "ResourceNetworkMessages.h"
 #include "System/Resource/ResourceProvider.h"
 #include "System/Network/IPC/IPCMessageClient.h"
-#include "System/Core/Time/Timers.h"
-#include "System/Core/Threading/Threading.h"
+#include "System/Time/Timers.h"
+#include "System/Threading/Threading.h"
 
 //-------------------------------------------------------------------------
 
@@ -15,7 +15,7 @@ namespace KRG::Resource
 
     //-------------------------------------------------------------------------
 
-    class KRG_SYSTEM_RESOURCE_API NetworkResourceProvider final : public ResourceProvider
+    class KRG_SYSTEM_API NetworkResourceProvider final : public ResourceProvider
     {
 
     public:

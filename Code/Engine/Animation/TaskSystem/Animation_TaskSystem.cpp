@@ -1,8 +1,8 @@
 #include "Animation_TaskSystem.h"
 #include "Tasks/Animation_Task_DefaultPose.h"
 #include "Engine/Animation/AnimationBlender.h"
-#include "System/Core/Logging/Log.h"
-#include "System/Core/Drawing/DebugDrawing.h"
+#include "System/Log.h"
+#include "System/Drawing/DebugDrawing.h"
 
 //-------------------------------------------------------------------------
 
@@ -112,7 +112,7 @@ namespace KRG::Animation
             if ( m_hasCodependentPhysicsTasks )
             {
                 KRG_LOG_WARNING( "Animation", "Co-dependent physics tasks detected!" );
-                RegisterTask<Tasks::DefaultPoseTask>( (int16_t) InvalidIndex, Pose::InitialState::ReferencePose );
+                RegisterTask<Tasks::DefaultPoseTask>( (int16_t) InvalidIndex, Pose::Type::ReferencePose );
                 m_tasks.back()->Execute( m_taskContext );
             }
             else // Execute pre-physics tasks
@@ -169,7 +169,7 @@ namespace KRG::Animation
             // Always return a non-additive pose
             if ( pResultPose->IsAdditivePose() )
             {
-                outPose.Reset( Pose::InitialState::ReferencePose );
+                outPose.Reset( Pose::Type::ReferencePose );
                 TBitFlags<PoseBlendOptions> blendOptions( PoseBlendOptions::Additive );
                 Blender::Blend( &outPose, pResultPose, 1.0f, blendOptions, nullptr, &outPose );
             }
@@ -184,7 +184,7 @@ namespace KRG::Animation
         }
         else
         {
-            outPose.Reset( Pose::InitialState::ReferencePose, true );
+            outPose.Reset( Pose::Type::ReferencePose, true );
         }
     }
 

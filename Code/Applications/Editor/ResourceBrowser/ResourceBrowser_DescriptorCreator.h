@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Tools/Core/PropertyGrid/PropertyGrid.h"
-#include "System/Core/FileSystem/FileSystemPath.h"
+#include "EngineTools/Core/PropertyGrid/PropertyGrid.h"
+#include "System/FileSystem/FileSystemPath.h"
 #include "System/Resource/ResourceID.h"
 
 namespace KRG {}

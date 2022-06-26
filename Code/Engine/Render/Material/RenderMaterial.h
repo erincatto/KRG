@@ -1,18 +1,18 @@
 #pragma once
 
-#include "../_Module/API.h"
+#include "Engine/_Module/API.h"
 #include "System/Render/RenderShader.h"
 #include "System/Render/RenderStates.h"
 #include "System/Render/RenderPipelineState.h"
 #include "System/Render/RenderTexture.h"
 #include "System/Resource/ResourcePtr.h"
-#include "System/Core/Types/Color.h"
+#include "System/Types/Color.h"
 
 //-------------------------------------------------------------------------
 
 namespace KRG::Render
 {
-    class KRG_ENGINE_RENDER_API Material : public Resource::IResource
+    class KRG_ENGINE_API Material : public Resource::IResource
     {
         KRG_REGISTER_RESOURCE( 'mtrl', "Render Material" );
         friend class MaterialCompiler;

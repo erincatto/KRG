@@ -1,12 +1,12 @@
 #pragma once
 #include "Engine/Animation/Graph/Animation_RuntimeGraph_Node.h"
-#include "Engine/Core/Math/Easing.h"
+#include "Engine/Math/Easing.h"
 
 //-------------------------------------------------------------------------
 
 namespace KRG::Animation::GraphNodes
 {
-    class KRG_ENGINE_ANIMATION_API VectorInfoNode final : public FloatValueNode
+    class KRG_ENGINE_API VectorInfoNode final : public FloatValueNode
     {
     public:
 
@@ -27,7 +27,7 @@ namespace KRG::Animation::GraphNodes
 
     public:
 
-        struct KRG_ENGINE_ANIMATION_API Settings final : public FloatValueNode::Settings
+        struct KRG_ENGINE_API Settings final : public FloatValueNode::Settings
         {
             KRG_REGISTER_TYPE( Settings );
             KRG_SERIALIZE_GRAPHNODESETTINGS( FloatValueNode::Settings, m_inputValueNodeIdx, m_desiredInfo );
@@ -52,11 +52,11 @@ namespace KRG::Animation::GraphNodes
 
     //-------------------------------------------------------------------------
 
-    class KRG_ENGINE_ANIMATION_API VectorNegateNode final : public VectorValueNode
+    class KRG_ENGINE_API VectorNegateNode final : public VectorValueNode
     {
     public:
 
-        struct KRG_ENGINE_ANIMATION_API Settings final : public VectorValueNode::Settings
+        struct KRG_ENGINE_API Settings final : public VectorValueNode::Settings
         {
             KRG_REGISTER_TYPE( Settings );
             KRG_SERIALIZE_GRAPHNODESETTINGS( VectorValueNode::Settings, m_inputValueNodeIdx );

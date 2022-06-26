@@ -1,9 +1,9 @@
 #include "ResourceServerUI.h"
 #include "ResourceServer.h"
-#include "System/Render/Imgui/ImguiX.h"
-#include "System/Render/Imgui/ImguiStyle.h"
-#include "System/Core/Types/Color.h"
-#include "System/Core/Platform/PlatformHelpers_Win32.h"
+#include "System/Imgui/ImguiX.h"
+#include "System/Imgui/ImguiStyle.h"
+#include "System/Types/Color.h"
+#include "System/Platform/PlatformHelpers_Win32.h"
 
 //-------------------------------------------------------------------------
 

@@ -1,7 +1,7 @@
 #include "ResourceSystem.h"
 #include "ResourceProvider.h"
 #include "ResourceRequest.h"
-#include "System/Core/Profiling/Profiling.h"
+#include "System/Profiling.h"
 
 //-------------------------------------------------------------------------
 

@@ -1,12 +1,12 @@
 #pragma once
 #include "Engine/Animation/AnimationEvent.h"
-#include "System/Core/Types/StringID.h"
+#include "System/Types/StringID.h"
 
 //-------------------------------------------------------------------------
 
 namespace KRG::Animation
 {
-    class KRG_ENGINE_ANIMATION_API FootEvent final : public Event
+    class KRG_ENGINE_API FootEvent final : public Event
     {
         KRG_REGISTER_TYPE( FootEvent );
 

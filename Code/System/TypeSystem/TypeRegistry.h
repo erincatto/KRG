@@ -3,7 +3,7 @@
 #include "ResourceInfo.h"
 #include "TypeInfo.h"
 #include "CoreTypeIDs.h"
-#include "System/Core/Systems/ISystem.h"
+#include "System/Systems.h"
 
 //-------------------------------------------------------------------------
 
@@ -15,7 +15,7 @@ namespace KRG::TypeSystem
 
     //-------------------------------------------------------------------------
 
-    class KRG_SYSTEM_TYPESYSTEM_API TypeRegistry : public ISystem
+    class KRG_SYSTEM_API TypeRegistry : public ISystem
     {
     public:
 

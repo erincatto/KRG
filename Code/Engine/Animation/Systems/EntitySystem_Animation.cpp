@@ -3,10 +3,10 @@
 #include "Engine/Animation/Components/Component_AnimationGraph.h"
 #include "Engine/Render/Components/Component_SkeletalMesh.h"
 #include "Engine/Physics/Systems/WorldSystem_Physics.h"
-#include "Engine/Core/Entity/EntityWorldUpdateContext.h"
+#include "Engine/Entity/EntityWorldUpdateContext.h"
 #include "System/Animation/AnimationPose.h"
-#include "System/Core/Profiling/Profiling.h"
-#include "System/Core/Logging/Log.h"
+#include "System/Profiling.h"
+#include "System/Log.h"
 
 //-------------------------------------------------------------------------
 

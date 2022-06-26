@@ -1,7 +1,7 @@
 #include "PhysicsRagdoll.h"
 #include "System/Animation/AnimationPose.h"
-#include "System/Core/Drawing/DebugDrawing.h"
-#include "System/Core/Math/MathHelpers.h"
+#include "System/Drawing/DebugDrawing.h"
+#include "System/Math/MathHelpers.h"
 
 //-------------------------------------------------------------------------
 
