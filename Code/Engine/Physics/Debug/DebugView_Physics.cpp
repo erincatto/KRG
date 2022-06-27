@@ -8,6 +8,8 @@
 #include "Engine/Entity/EntityWorldUpdateContext.h"
 #include "System/Imgui/ImguiX.h"
 
+#include <PxVisualizationParameter.h>
+
 //-------------------------------------------------------------------------
 
 #if KRG_DEVELOPMENT_TOOLS

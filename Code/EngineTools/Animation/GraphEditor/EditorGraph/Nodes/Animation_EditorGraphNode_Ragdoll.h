@@ -1,6 +1,5 @@
 #pragma once
 #include "EngineTools/Animation/GraphEditor/EditorGraph/Animation_EditorGraph_FlowGraph.h"
-#include "Engine/Physics/PhysicsRagdoll.h"
 
 //-------------------------------------------------------------------------
 
@@ -20,7 +19,7 @@ namespace KRG::Animation::GraphNodes
         virtual int16_t Compile( GraphCompilationContext& context ) const override;
 
         virtual char const* const GetDefaultSlotName() const override { return "Ragdoll"; }
-        virtual ResourceTypeID GetSlotResourceTypeID() const override { return Physics::RagdollDefinition::GetStaticResourceTypeID(); }
+        virtual ResourceTypeID GetSlotResourceTypeID() const override;
 
     private:
 

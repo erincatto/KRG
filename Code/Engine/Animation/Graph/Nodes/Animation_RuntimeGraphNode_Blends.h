@@ -1,6 +1,7 @@
 #pragma once
 #include "Engine/Animation/Graph/Animation_RuntimeGraph_Node.h"
 #include "Engine/Animation/AnimationBlender.h"
+#include "System/Math/NumericRange.h"
 
 //-------------------------------------------------------------------------
 

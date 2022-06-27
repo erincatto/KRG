@@ -6,6 +6,7 @@
 #include "Engine/Entity/EntityWorldUpdateContext.h"
 #include "System/Render/RenderViewport.h"
 #include "System/Profiling.h"
+#include "System/Math/BoundingVolumes.h"
 
 //-------------------------------------------------------------------------
 

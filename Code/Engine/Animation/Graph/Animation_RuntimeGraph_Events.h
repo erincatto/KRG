@@ -1,11 +1,17 @@
 #pragma once
 
-#include "Engine/Animation/AnimationEvent.h"
+#include "Engine/_Module/API.h"
+#include "System/Types/Percentage.h"
+#include "System/Types/StringID.h"
+#include "System/Types/BitFlags.h"
+#include "System/Types/Containers.h"
 
 //-------------------------------------------------------------------------
 
 namespace KRG::Animation
 {
+    class Event;
+
     //-------------------------------------------------------------------------
     // A sampled event from the graph
     //-------------------------------------------------------------------------

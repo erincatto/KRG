@@ -7,6 +7,10 @@
 
 //-------------------------------------------------------------------------
 
+namespace KRG::Animation { struct GraphLayerContext; }
+
+//-------------------------------------------------------------------------
+
 namespace KRG::Animation::GraphNodes
 {
     class KRG_ENGINE_API TransitionNode final : public PoseNode

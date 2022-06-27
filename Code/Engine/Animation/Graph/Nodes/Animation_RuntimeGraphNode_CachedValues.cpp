@@ -1,4 +1,5 @@
 #include "Animation_RuntimeGraphNode_CachedValues.h"
+#include "Engine/Animation/Graph/Animation_RuntimeGraph_Contexts.h"
 
 //-------------------------------------------------------------------------
 

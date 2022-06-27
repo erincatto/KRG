@@ -1,10 +1,24 @@
 #pragma once
 
 #include "Engine/_Module/API.h"
-#include "PhysX.h"
+
 #include "PhysicsMaterial.h"
 #include "Engine/UpdateContext.h"
 #include "System/Systems.h"
+
+namespace physx
+{ 
+    class PxFoundation;
+    class PxPhysics;
+    class PxCooking;
+    class PxCpuDispatcher;
+    class PxAllocatorCallback;
+    class PxErrorCallback;
+    class PxSimulationEventCallback;
+    class PxMaterial;
+    class PxPvd;
+    class PxPvdTransport;
+}
 
 //-------------------------------------------------------------------------
 

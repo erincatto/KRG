@@ -3,6 +3,9 @@
 #include "Engine/Physics/PhysicsMesh.h"
 #include "System/Serialization/BinaryArchive.h"
 
+#include <PxPhysics.h>
+#include <foundation/PxIO.h>
+
 //-------------------------------------------------------------------------
 
 using namespace physx;
@@ -59,13 +62,15 @@ namespace KRG::Physics
 
         PhysXSerializedInputData cooked( cookedMeshData );
         {
+            physx::PxPhysics* pPhysics = m_pPhysicsSystem->GetPxPhysics();
+
             if ( pPhysicsMesh->m_isConvexMesh )
             {
-                pPhysicsMesh->m_pMesh = m_pPhysicsSystem->GetPxPhysics()->createConvexMesh( cooked );
+                pPhysicsMesh->m_pMesh = pPhysics->createConvexMesh( cooked );
             }
             else
             {
-                pPhysicsMesh->m_pMesh = m_pPhysicsSystem->GetPxPhysics()->createTriangleMesh( cooked );
+                pPhysicsMesh->m_pMesh = pPhysics->createTriangleMesh( cooked );
             }
         }
 

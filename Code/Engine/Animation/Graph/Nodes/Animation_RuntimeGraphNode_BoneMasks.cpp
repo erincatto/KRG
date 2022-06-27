@@ -1,4 +1,5 @@
 #include "Animation_RuntimeGraphNode_BoneMasks.h"
+#include "Engine/Animation/Graph/Animation_RuntimeGraph_Contexts.h"
 
 //-------------------------------------------------------------------------
 

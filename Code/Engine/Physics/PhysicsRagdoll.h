@@ -1,6 +1,5 @@
 #pragma once
 
-#include "PhysX.h"
 #include "PhysicsMaterial.h"
 #include "System/Animation/AnimationSkeleton.h"
 #include "System/Resource/ResourcePtr.h"
@@ -15,6 +14,9 @@
 namespace physx
 {
     class PxScene;
+    class PxArticulationLink;
+    class PxDistanceJoint;
+    class PxRigidDynamic;
 }
 
 namespace KRG::Animation
@@ -174,7 +176,7 @@ namespace KRG::Physics
             KRG_REGISTER_TYPE( BodyDefinition );
 
             KRG_REGISTER StringID                           m_boneID;
-            int32_t                                           m_parentBodyIdx = InvalidIndex;
+            int32_t                                         m_parentBodyIdx = InvalidIndex;
             KRG_EXPOSE float                                m_radius = 0.075f;
             KRG_EXPOSE float                                m_halfHeight = 0.025f;
             KRG_EXPOSE Transform                            m_offsetTransform;
@@ -195,6 +197,8 @@ namespace KRG::Physics
                 m_solverPositionIterations, m_solverVelocityIterations, m_maxProjectionIterations, m_internalDriveIterations, m_externalDriveIterations, m_separationTolerance, m_stabilizationThreshold, m_sleepThreshold
             );
             KRG_REGISTER_TYPE( Profile );
+
+            Profile();
 
             bool IsValid() const;
 
@@ -217,16 +221,16 @@ namespace KRG::Physics
             KRG_REGISTER TVector<RagdollBodyMaterialSettings>   m_materialSettings;
 
             // Solver Settings
-            KRG_EXPOSE uint32_t                                   m_solverPositionIterations = 4;
-            KRG_EXPOSE uint32_t                                   m_solverVelocityIterations = 4;
-            KRG_EXPOSE uint32_t                                   m_maxProjectionIterations = 4;
-            KRG_EXPOSE uint32_t                                   m_internalDriveIterations = 4;
-            KRG_EXPOSE uint32_t                                   m_externalDriveIterations = 4;
+            KRG_EXPOSE uint32_t                                 m_solverPositionIterations = 4;
+            KRG_EXPOSE uint32_t                                 m_solverVelocityIterations = 4;
+            KRG_EXPOSE uint32_t                                 m_maxProjectionIterations = 4;
+            KRG_EXPOSE uint32_t                                 m_internalDriveIterations = 4;
+            KRG_EXPOSE uint32_t                                 m_externalDriveIterations = 4;
             KRG_EXPOSE float                                    m_separationTolerance = 0.1f;
-            KRG_EXPOSE float                                    m_stabilizationThreshold = 0.01f * Constants::s_speedScale * Constants::s_speedScale;
+            KRG_EXPOSE float                                    m_stabilizationThreshold;
             KRG_EXPOSE float                                    m_sleepThreshold = 1;
 
-            TVector<uint64_t>                                     m_selfCollisionRules;
+            TVector<uint64_t>                                   m_selfCollisionRules;
         };
 
     public:
@@ -258,8 +262,8 @@ namespace KRG::Physics
         KRG_REGISTER TVector<Profile>                           m_profiles;
 
         // Runtime Data
-        TVector<int32_t>                                          m_boneToBodyMap;
-        TVector<int32_t>                                          m_bodyToBoneMap;
+        TVector<int32_t>                                        m_boneToBodyMap;
+        TVector<int32_t>                                        m_bodyToBoneMap;
     };
 
     //-------------------------------------------------------------------------
@@ -376,37 +380,10 @@ namespace KRG::Physics
         void UpdateSolverSettings();
         void UpdateJointSettings();
 
-        inline void LockWriteScene()
-        {
-            if ( auto pScene = m_pArticulation->getScene() )
-            {
-                pScene->lockWrite();
-            }
-        }
-
-        inline void UnlockWriteScene()
-        {
-            if ( auto pScene = m_pArticulation->getScene() )
-            {
-                pScene->unlockWrite();
-            }
-        }
-
-        inline void LockReadScene() const
-        {
-            if ( auto pScene = m_pArticulation->getScene() )
-            {
-                pScene->lockRead();
-            }
-        }
-
-        inline void UnlockReadScene() const
-        {
-            if ( auto pScene = m_pArticulation->getScene() )
-            {
-                pScene->unlockRead();
-            }
-        }
+        void LockWriteScene();
+        void UnlockWriteScene();
+        void LockReadScene() const;
+        void UnlockReadScene() const;
 
     private:
 
@@ -414,7 +391,7 @@ namespace KRG::Physics
         RagdollDefinition const*                                m_pDefinition = nullptr;
         RagdollDefinition::Profile const*                       m_pProfile = nullptr;
         physx::PxArticulation*                                  m_pArticulation = nullptr;
-        uint64_t                                                  m_userID = 0;
+        uint64_t                                                m_userID = 0;
         TVector<physx::PxArticulationLink*>                     m_links;
 
         physx::PxRigidDynamic*                                  m_pRootControlActor = nullptr;
@@ -425,7 +402,7 @@ namespace KRG::Physics
         mutable TVector<Transform>                              m_globalBoneTransforms;
 
         #if KRG_DEVELOPMENT_TOOLS
-        TInlineString<100>                                       m_ragdollName;
+        TInlineString<100>                                      m_ragdollName;
         #endif
     };
 }

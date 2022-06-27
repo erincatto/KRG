@@ -1,4 +1,5 @@
 #include "Animation_RuntimeGraphNode_Bools.h"
+#include "Engine/Animation/Graph/Animation_RuntimeGraph_Contexts.h"
 
 //-------------------------------------------------------------------------
 

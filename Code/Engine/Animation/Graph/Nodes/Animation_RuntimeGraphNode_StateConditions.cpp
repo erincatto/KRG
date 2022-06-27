@@ -1,5 +1,6 @@
 #include "Animation_RuntimeGraphNode_StateConditions.h"
 #include "Animation_RuntimeGraphNode_State.h"
+#include "Engine/Animation/Graph/Animation_RuntimeGraph_Contexts.h"
 
 //-------------------------------------------------------------------------
 

@@ -5,6 +5,7 @@
 #include "Game/Player/PlayerPhysicsController.h"
 #include "Game/Player/PlayerCameraController.h"
 #include "Engine/Physics/Components/Component_PhysicsCharacter.h"
+#include "System/Drawing/DebugDrawingSystem.h"
 #include "System/Input/InputSystem.h"
 #include "System/Math/MathHelpers.h"
 

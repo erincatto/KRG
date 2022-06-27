@@ -1,4 +1,5 @@
 #include "Component_PhysicsShape.h"
+#include "Engine/Physics/PhysX.h"
 
 //-------------------------------------------------------------------------
 

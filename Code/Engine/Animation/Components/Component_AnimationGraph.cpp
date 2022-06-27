@@ -1,6 +1,7 @@
 #include "Component_AnimationGraph.h"
 #include "Engine/Animation/TaskSystem/Animation_TaskSystem.h"
 #include "Engine/UpdateContext.h"
+#include "Engine/Physics/PhysicsScene.h"
 #include "System/Animation/AnimationPose.h"
 #include "System/Profiling.h"
 #include "System/Log.h"

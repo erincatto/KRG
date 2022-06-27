@@ -1,4 +1,5 @@
 #include "Animation_RuntimeGraphNode_Floats.h"
+#include "Engine/Animation/Graph/Animation_RuntimeGraph_Contexts.h"
 #include "System/Log.h"
 #include "System/Math/MathHelpers.h"
 

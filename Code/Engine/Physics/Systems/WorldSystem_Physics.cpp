@@ -6,9 +6,12 @@
 #include "Engine/Physics/Components/Component_PhysicsCapsule.h"
 #include "Engine/Physics/Components/Component_PhysicsSphere.h"
 #include "Engine/Physics/Components/Component_PhysicsBox.h"
+#include "Engine/Physics/PhysX.h"
 #include "Engine/Entity/Entity.h"
 #include "Engine/Entity/EntityWorldUpdateContext.h"
+#include "System/Math/BoundingVolumes.h"
 #include "System/Profiling.h"
+#include "System/Drawing/DebugDrawing.h"
 
 //-------------------------------------------------------------------------
 
@@ -617,7 +620,7 @@ namespace KRG::Physics
             KRG_PROFILE_SCOPE_PHYSICS( "Update Dynamic Objects" );
 
             #if KRG_DEVELOPMENT_TOOLS
-            auto drawingContext = ctx.GetDrawingContext();
+            Drawing::DrawContext drawingContext = ctx.GetDrawingContext();
             #endif
 
             m_pScene->AcquireReadLock();

@@ -1,10 +1,17 @@
 #pragma once
 
 #include "Engine/_Module/API.h"
-#include "Engine/Physics/PhysX.h"
 #include "Engine/Physics/PhysicsLayers.h"
 #include "Engine/Entity/EntitySpatialComponent.h"
 #include "System/Time/Time.h"
+
+//-------------------------------------------------------------------------
+
+namespace physx
+{
+    class PxShape;
+    class PxRigidActor;
+}
 
 //-------------------------------------------------------------------------
 

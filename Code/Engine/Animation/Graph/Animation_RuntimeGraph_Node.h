@@ -1,26 +1,28 @@
 #pragma once
 
-#include "Animation_RuntimeGraph_Contexts.h"
+#include "Animation_RuntimeGraph_Events.h"
 #include "Engine/Animation/AnimationSyncTrack.h"
 #include "Engine/Animation/AnimationTarget.h"
 #include "System/TypeSystem/TypeRegistrationMacros.h"
 #include "System/Serialization/BinaryArchive.h"
 #include "System/Types/Color.h"
+#include "System/Time/Time.h"
 
 //-------------------------------------------------------------------------
 
 namespace KRG::Drawing { class DrawContext; }
 
-namespace KRG::Animation
-{
-    class AnimationClip;
-    class GraphDataSet;
-}
-
 //-------------------------------------------------------------------------
 
 namespace KRG::Animation
 {
+    class AnimationClip;
+    class GraphDataSet;
+    class GraphContext;
+    class BoneMask;
+
+    //-------------------------------------------------------------------------
+
     enum class GraphValueType
     {
         KRG_REGISTER_ENUM
@@ -158,7 +160,7 @@ namespace KRG::Animation
         //-------------------------------------------------------------------------
 
         // Is this node active i.e. was it updated this frame
-        KRG_FORCE_INLINE bool IsNodeActive( GraphContext& context ) const { return m_lastUpdateID == context.m_updateID; }
+        bool IsNodeActive( GraphContext& context ) const;
 
         // Was this node updated this frame, this is syntactic sugar for value nodes
         KRG_FORCE_INLINE bool WasUpdated( GraphContext& context ) const { return IsNodeActive( context ); }
@@ -234,7 +236,7 @@ namespace KRG::Animation
         virtual GraphPoseNodeResult Update( GraphContext& context, SyncTrackTimeRange const& updateRange ) = 0;
 
         // Deactivate a previous active branch, this is needed when trigger transitions
-        virtual void DeactivateBranch( GraphContext& context ) { KRG_ASSERT( context.m_branchState == BranchState::Inactive && IsNodeActive( context ) ); }
+        virtual void DeactivateBranch( GraphContext& context );
 
         //-------------------------------------------------------------------------
 

@@ -4,6 +4,7 @@
 #include "EditorGraph/Nodes/Animation_EditorGraphNode_Ragdoll.h"
 #include "EditorGraph/Animation_EditorGraph_Definition.h"
 #include "EngineTools/Resource/ResourceDatabase.h"
+#include "Engine/Physics/PhysicsRagdoll.h"
 #include "Engine/UpdateContext.h"
 #include "System/TypeSystem/TypeRegistry.h"
 #include "EASTL/sort.h"

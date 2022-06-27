@@ -1,4 +1,5 @@
 #include "Animation_RuntimeGraph_Node.h"
+#include "Animation_RuntimeGraph_Contexts.h"
 
 //-------------------------------------------------------------------------
 
@@ -129,6 +130,11 @@ namespace KRG::Animation
         m_lastUpdateID = 0xFFFFFFFF;
     }
 
+    bool GraphNode::IsNodeActive( GraphContext& context ) const
+    {
+        return m_lastUpdateID == context.m_updateID;
+    }
+
     //-------------------------------------------------------------------------
 
     void PoseNode::Initialize( GraphContext& context, SyncTrackTime const& initialTime )
@@ -152,6 +158,11 @@ namespace KRG::Animation
         m_duration = 0.0f;
         m_previousTime = 0.0f;
         m_currentTime = m_previousTime;
+    }
+
+    void PoseNode::DeactivateBranch( GraphContext& context )
+    {
+        KRG_ASSERT( context.m_branchState == BranchState::Inactive && IsNodeActive( context ) );
     }
 
     #if KRG_DEVELOPMENT_TOOLS

@@ -60,7 +60,7 @@ namespace KRG::Player
         template<typename T> inline T* GetAnimSubGraphController() const { return m_pAnimationController->GetSubGraphController<T>(); }
 
         #if KRG_DEVELOPMENT_TOOLS
-        KRG_FORCE_INLINE Drawing::DrawContext GetDrawingContext() const { return m_pEntityWorldUpdateContext->GetDrawingContext(); }
+        Drawing::DrawContext GetDrawingContext() const;
         #endif
 
     public:

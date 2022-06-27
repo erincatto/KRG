@@ -2,6 +2,7 @@
 #include "System/Animation/AnimationPose.h"
 #include "System/Drawing/DebugDrawing.h"
 #include "System/Math/MathHelpers.h"
+#include "PhysX.h"
 
 //-------------------------------------------------------------------------
 
@@ -521,6 +522,11 @@ namespace KRG::Physics
         //-------------------------------------------------------------------------
 
         return updated;
+    }
+
+    RagdollDefinition::Profile::Profile()
+    {
+        m_stabilizationThreshold = 0.01f * Constants::s_speedScale * Constants::s_speedScale;
     }
 
     RagdollDefinition::Profile* RagdollDefinition::GetProfile( StringID profileID )
@@ -1299,6 +1305,40 @@ namespace KRG::Physics
         for ( auto i = 0; i < numBodies; i++ )
         {
             pose[i] = FromPx( m_links[i]->getGlobalPose() );
+        }
+    }
+
+    //-------------------------------------------------------------------------
+
+    void Ragdoll::LockWriteScene()
+    {
+        if ( auto pScene = m_pArticulation->getScene() )
+        {
+            pScene->lockWrite();
+        }
+    }
+
+    void Ragdoll::UnlockWriteScene()
+    {
+        if ( auto pScene = m_pArticulation->getScene() )
+        {
+            pScene->unlockWrite();
+        }
+    }
+
+    void Ragdoll::LockReadScene() const
+    {
+        if ( auto pScene = m_pArticulation->getScene() )
+        {
+            pScene->lockRead();
+        }
+    }
+
+    void Ragdoll::UnlockReadScene() const
+    {
+        if ( auto pScene = m_pArticulation->getScene() )
+        {
+            pScene->unlockRead();
         }
     }
 

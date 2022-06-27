@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Engine/_Module/API.h"
-#include "Engine/Physics/PhysX.h"
+
 #include "Engine/Entity/EntityWorldSystem.h"
 #include "Engine/UpdateContext.h"
 #include "System/Systems.h"
@@ -14,6 +14,16 @@
 namespace physx
 {
     class PxPhysics;
+    class PxScene;
+    class PxRigidActor;
+    class PxShape;
+}
+
+//-------------------------------------------------------------------------
+
+namespace KRG
+{
+    struct AABB;
 }
 
 //-------------------------------------------------------------------------
@@ -107,7 +117,7 @@ namespace KRG::Physics
         #if KRG_DEVELOPMENT_TOOLS
         bool                                                    m_drawDynamicActorBounds = false;
         bool                                                    m_drawKinematicActorBounds = false;
-        uint32_t                                                  m_sceneDebugFlags = 0;
+        uint32_t                                                m_sceneDebugFlags = 0;
         float                                                   m_debugDrawDistance = 10.0f;
         #endif
     };

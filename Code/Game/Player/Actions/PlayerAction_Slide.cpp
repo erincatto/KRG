@@ -6,6 +6,7 @@
 #include "Game/Player/PlayerAnimationController.h"
 #include "Engine/Physics/Components/Component_PhysicsCharacter.h"
 #include "System/Input/InputSystem.h"
+#include "System/Drawing/DebugDrawing.h"
 
 // hack for now
 #include "Game/Player/GraphControllers/PlayerGraphController_Locomotion.h"

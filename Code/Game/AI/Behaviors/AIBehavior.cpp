@@ -1,6 +1,7 @@
 #include "AIBehavior.h"
 #include "Game/AI/AIAnimationController.h"
 #include "Engine/Physics/Components/Component_PhysicsCharacter.h"
+#include "System/Drawing/DebugDrawing.h"
 
 //-------------------------------------------------------------------------
 
@@ -32,4 +33,10 @@ namespace KRG::AI
 
         return m_pEntityWorldUpdateContext != nullptr && m_pNavmeshSystem != nullptr && m_pPhysicsScene != nullptr;
     }
+
+    Drawing::DrawContext BehaviorContext::GetDrawingContext() const
+    {
+        return m_pEntityWorldUpdateContext->GetDrawingContext();
+    }
+
 }

@@ -9,6 +9,7 @@
 #include "Engine/Render/Shaders/EngineShaders.h"
 #include "System/Render/RenderDefaultResources.h"
 #include "System/Render/RenderViewport.h"
+#include "System/Drawing/DebugDrawing.h"
 #include "System/Profiling.h"
 #include "System/Log.h"
 

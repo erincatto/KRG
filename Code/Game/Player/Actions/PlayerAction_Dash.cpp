@@ -6,6 +6,7 @@
 #include "Game/Player/PlayerAnimationController.h"
 #include "Engine/Physics/Components/Component_PhysicsCharacter.h"
 #include "System/Input/InputSystem.h"
+#include "System/Drawing/DebugDrawing.h"
 
 // hack for now
 #include "Game/Player/GraphControllers/PlayerGraphController_Locomotion.h"
@@ -112,7 +113,7 @@ namespace KRG::Player
         }
 
         #if KRG_DEVELOPMENT_TOOLS
-        auto drawingCtx = ctx.m_pEntityWorldUpdateContext->GetDrawingContext();
+        Drawing::DrawContext drawingCtx = ctx.m_pEntityWorldUpdateContext->GetDrawingContext();
         if( g_debugDashDistance )
         {
             Vector const Origin = ctx.m_pCharacterComponent->GetPosition();

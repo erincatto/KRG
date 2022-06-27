@@ -1,9 +1,9 @@
 #pragma once
 
 #include "Engine/_Module/API.h"
-#include "PhysX.h"
 #include "System/TypeSystem/TypeRegistrationMacros.h"
 #include "System/Resource/IResource.h"
+#include "PxMaterial.h"
 
 //-------------------------------------------------------------------------
 

@@ -12,6 +12,10 @@
 // Manages navmesh registration, obstacles creation/destruction, etc...
 // Primarily also needed to get the space handle needed for any queries ( GetSpaceHandle )
 
+namespace KRG { struct AABB; }
+
+//-------------------------------------------------------------------------
+
 namespace KRG::Navmesh
 {
     class NavmeshComponent;

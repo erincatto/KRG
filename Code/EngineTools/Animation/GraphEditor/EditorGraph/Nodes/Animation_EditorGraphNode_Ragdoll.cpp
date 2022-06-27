@@ -1,6 +1,7 @@
 #include "Animation_EditorGraphNode_Ragdoll.h"
 #include "EngineTools/Animation/GraphEditor/EditorGraph/Animation_EditorGraph_Compilation.h"
 #include "Engine/Animation/Graph/Nodes/Animation_RuntimeGraphNode_Ragdoll.h"
+#include "Engine/Physics/PhysicsRagdoll.h"
 
 //-------------------------------------------------------------------------
 
@@ -64,5 +65,10 @@ namespace KRG::Animation::GraphNodes
             pSettings->m_isGravityEnabled = m_isGravityEnabled;
         }
         return pSettings->m_nodeIdx;
+    }
+
+    KRG::ResourceTypeID PoweredRagdollEditorNode::GetSlotResourceTypeID() const
+    {
+        return Physics::RagdollDefinition::GetStaticResourceTypeID();
     }
 }

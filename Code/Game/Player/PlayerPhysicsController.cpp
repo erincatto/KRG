@@ -2,6 +2,8 @@
 #include "Engine/Physics/PhysicsScene.h"
 #include "Engine/Physics/Components/Component_PhysicsCharacter.h"
 #include "Engine/Entity/EntityWorldUpdateContext.h"
+
+#include "System/Drawing/DebugDrawing.h"
 #include "System/Math/MathHelpers.h"
 
 //-------------------------------------------------------------------------
@@ -381,7 +383,7 @@ namespace KRG::Player
 
                     auto const depenetratedResult = SweepCapsuleVertical( ctx, pPhysicsScene, cylinderHalfHeight, cylinderRadius, correctedStartPosition, deltaTranslation, stepHeight, idx );
                     moveResult.ApplyCorrectiveMove( depenetratedResult );
-					return moveResult;
+                    return moveResult;
                 }
                 else // Collision
                 {
@@ -394,7 +396,7 @@ namespace KRG::Player
                     #endif
 
                     moveResult.FinalizePosition( sweepResults );
-					return moveResult;
+                    return moveResult;
                 }
             }
             else // No collision
@@ -408,7 +410,7 @@ namespace KRG::Player
                 #endif
 
                 moveResult.FinalizePosition( sweepResults );
-				return moveResult;
+                return moveResult;
             }   
         }
         // sweep going down, we need to account for the step height
@@ -640,31 +642,31 @@ namespace KRG::Player
         Transform startTrans( m_pCharacterComponent->GetOrientation(), startPosition );
         Transform endTrans( m_pCharacterComponent->GetOrientation(), endPosition );
 
-        auto Renderer = ctx.GetDrawingContext();
+        Drawing::DrawContext drawContext = ctx.GetDrawingContext();
         if( resultType != DebugSweepResultType::initialPenetration )
         {
             if( shapeType == DebugSweepShapeType::cylinder )
             {
-                Renderer.DrawCylinder( startTrans, cylinderRadius, cylinderHalfHeight, startColor );
-                Renderer.DrawLine( startPosition, endPosition, endColor );
-                Renderer.DrawCylinder( endTrans, cylinderRadius, cylinderHalfHeight, endColor );
+                drawContext.DrawCylinder( startTrans, cylinderRadius, cylinderHalfHeight, startColor );
+                drawContext.DrawLine( startPosition, endPosition, endColor );
+                drawContext.DrawCylinder( endTrans, cylinderRadius, cylinderHalfHeight, endColor );
             }
             else if( shapeType == DebugSweepShapeType::capsule )
             {
-                Renderer.DrawCapsule( startTrans, cylinderRadius, cylinderHalfHeight, startColor );
-                Renderer.DrawLine( startPosition, endPosition, endColor );
-                Renderer.DrawCapsule( endTrans, cylinderRadius, cylinderHalfHeight, endColor );
+                drawContext.DrawCapsule( startTrans, cylinderRadius, cylinderHalfHeight, startColor );
+                drawContext.DrawLine( startPosition, endPosition, endColor );
+                drawContext.DrawCapsule( endTrans, cylinderRadius, cylinderHalfHeight, endColor );
             }
         }
         else
         {
             if( shapeType == DebugSweepShapeType::cylinder )
             {
-                Renderer.DrawCylinder( startTrans, cylinderRadius, cylinderHalfHeight, endColor );
+                drawContext.DrawCylinder( startTrans, cylinderRadius, cylinderHalfHeight, endColor );
             }
             else if( shapeType == DebugSweepShapeType::capsule )
             {
-                Renderer.DrawCapsule( startTrans, cylinderRadius, cylinderHalfHeight, endColor );
+                drawContext.DrawCapsule( startTrans, cylinderRadius, cylinderHalfHeight, endColor );
             }
         }
     }

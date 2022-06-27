@@ -4,6 +4,7 @@
 #include "Engine/Animation/Graph/Animation_RuntimeGraph_Resources.h"
 #include "Engine/Animation/Graph/Animation_RuntimeGraph_Instance.h"
 #include "Engine/Animation/Graph/Animation_RuntimeGraph_RootMotionRecorder.h"
+#include "Engine/Animation/Graph/Animation_RuntimeGraph_Contexts.h"
 
 //-------------------------------------------------------------------------
 

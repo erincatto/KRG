@@ -2,6 +2,7 @@
 #include "PhysicsScene.h"
 #include "PhysicsSimulationFilter.h"
 #include "System/Profiling.h"
+#include "PhysX.h"
 
 //-------------------------------------------------------------------------
 

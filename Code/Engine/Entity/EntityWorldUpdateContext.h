@@ -12,6 +12,7 @@ namespace KRG
     namespace Input { class InputState; }
     namespace Render { class Viewport; }
     namespace EntityModel{ class EntityMap; }
+    namespace Drawing { class DrawingSystem; class DrawContext; }
 
     //-------------------------------------------------------------------------
 
@@ -54,8 +55,8 @@ namespace KRG
 
         // Get the debug drawing context for this world - threadsafe
         #if KRG_DEVELOPMENT_TOOLS
-        Drawing::DrawContext GetDrawingContext() const;
-        Drawing::DrawingSystem* GetDebugDrawingSystem() const;
+        [[nodiscard]] Drawing::DrawContext GetDrawingContext() const;
+        [[nodiscard]] Drawing::DrawingSystem* GetDebugDrawingSystem() const;
         #endif
 
     private:

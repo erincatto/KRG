@@ -3,6 +3,7 @@
 #include "Game/Player/PlayerPhysicsController.h"
 #include "Game/Player/PlayerAnimationController.h"
 #include "Engine/Physics/Components/Component_PhysicsCharacter.h"
+#include "System/Drawing/DebugDrawing.h"
 
 //-------------------------------------------------------------------------
 
@@ -33,5 +34,10 @@ namespace KRG::Player
         }
 
         return m_pEntityWorldUpdateContext != nullptr && m_pCameraController != nullptr && m_pInputState != nullptr && m_pPhysicsScene != nullptr && m_pCharacterController != nullptr;
+    }
+
+    Drawing::DrawContext ActionContext::GetDrawingContext() const
+    {
+        return m_pEntityWorldUpdateContext->GetDrawingContext();
     }
 }

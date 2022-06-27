@@ -1,4 +1,5 @@
 #include "ResourceCompiler_PhysicsMesh.h"
+#include "Engine/Physics/PhysX.h"
 #include "EngineTools/Physics/ResourceDescriptors/ResourceDescriptor_PhysicsMesh.h"
 #include "EngineTools/RawAssets/RawAssetReader.h"
 #include "EngineTools/RawAssets/RawMesh.h"

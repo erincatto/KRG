@@ -6,6 +6,13 @@
 
 //-------------------------------------------------------------------------
 
+namespace KRG
+{
+    class StringID;
+}
+
+//-------------------------------------------------------------------------
+
 namespace KRG::Physics
 {
     class Ragdoll;
@@ -30,34 +37,15 @@ namespace KRG::Physics
         // Locks
         //-------------------------------------------------------------------------
 
-        inline void AcquireReadLock()
-        {
-            m_pScene->lockRead();
-            KRG_DEVELOPMENT_TOOLS_ONLY( ++m_readLockCount );
-        }
-
-        inline void ReleaseReadLock()
-        {
-            m_pScene->unlockRead();
-            KRG_DEVELOPMENT_TOOLS_ONLY( --m_readLockCount );
-        }
-
-        inline void AcquireWriteLock()
-        {
-            m_pScene->lockWrite();
-            KRG_DEVELOPMENT_TOOLS_ONLY( m_writeLockAcquired = true );
-        }
-
-        inline void ReleaseWriteLock()
-        {
-            m_pScene->unlockWrite();
-            KRG_DEVELOPMENT_TOOLS_ONLY( m_writeLockAcquired = false );
-        }
+        void AcquireReadLock();
+        void ReleaseReadLock();
+        void AcquireWriteLock();
+        void ReleaseWriteLock();
 
         // Ragdoll Factory
         //-------------------------------------------------------------------------
 
-        Ragdoll* CreateRagdoll( RagdollDefinition const* pDefinition, StringID const profileID, uint64_t userID );
+        Ragdoll* CreateRagdoll( RagdollDefinition const* pDefinition, StringID const& profileID, uint64_t userID );
 
         // Queries
         //-------------------------------------------------------------------------

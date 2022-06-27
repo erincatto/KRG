@@ -1,11 +1,9 @@
 #pragma once
 
-#include "System/Time/Time.h"
-#include "System/Math/Transform.h"
-#include "System/Types/Containers.h"
 #include "Engine/Entity/EntityIDs.h"
-#include "Engine/Physics/PhysicsLayers.h"
 #include "Engine/Physics/PhysicsQuery.h"
+#include "Engine/Physics/PhysicsLayers.h"
+#include "System/Types/Containers.h"
 #include "System/Time/Timers.h"
 
 //-------------------------------------------------------------------------
@@ -35,7 +33,7 @@ namespace KRG::Player
             Radians                             m_wallSlideAngle = Radians( Degrees( 60 ) );
             Radians                             m_maxNavigableSlopeAngle = Radians( Degrees( 45 ) );
 
-            uint32_t                              m_physicsLayerMask = Physics::CreateLayerMask( Physics::Layers::Environment, Physics::Layers::Characters );
+            uint32_t                            m_physicsLayerMask = Physics::CreateLayerMask( Physics::Layers::Environment, Physics::Layers::Characters );
             TInlineVector<EntityID, 5>          m_ignoredActors;
         };
 

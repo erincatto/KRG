@@ -3,11 +3,8 @@
 #include "System/Math/Vector.h"
 #include "Engine/Entity/EntityWorldUpdateContext.h"
 
-#if KRG_DEVELOPMENT_TOOLS
-#include "imgui.h"
-#endif
-
 //-------------------------------------------------------------------------
+
 namespace KRG
 {
     class EntityWorldUpdateContext;
@@ -32,7 +29,7 @@ namespace KRG::Weapon
         template<typename T> inline T* GetAnimSubGraphController() const { return m_pAnimationController->GetSubGraphController<T>(); }
 
         #if KRG_DEVELOPMENT_TOOLS
-        KRG_FORCE_INLINE Drawing::DrawContext GetDrawingContext() const { return m_pEntityWorldUpdateContext->GetDrawingContext(); }
+        Drawing::DrawContext GetDrawingContext() const;
         #endif
 
     public:
@@ -60,6 +57,5 @@ namespace KRG::Weapon
 
         DmgModifiers m_dmgModifiers;
         float m_range = 300.f;
-
     };
 }

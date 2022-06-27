@@ -1,9 +1,24 @@
 #pragma once
 
 #include "Engine/_Module/API.h"
-#include "Engine/Entity/EntityComponent.h"
+#include "Engine/Entity/EntityIDs.h"
 #include "System/Types/UUID.h"
-#include "PhysX.h"
+#include "System/Math/Quaternion.h"
+#include "System/Types/Containers.h"
+
+#include <PxQueryReport.h>
+#include <PxQueryFiltering.h>
+
+// Needed to suppress warning for exporting class derived from PxQueryFilterCallback
+#if _MSC_VER
+#pragma warning(push, 0)
+#pragma warning( disable : 4275 )
+#endif
+
+//-------------------------------------------------------------------------
+
+namespace KRG { class EntityComponent; }
+namespace physx { class PxShape; class PxRigidActor; }
 
 //-------------------------------------------------------------------------
 
@@ -107,7 +122,7 @@ namespace KRG::Physics
     // Currently word0 in the filter data is used to specify the layer to query against (all other words are currently left unset)
     // For the currently define layers in the engine, please refer to "PhysicsLayers.h"
 
-    class QueryFilter final : public physx::PxQueryFilterCallback
+    class KRG_ENGINE_API QueryFilter final : public physx::PxQueryFilterCallback
     {
     public:
 
@@ -192,38 +207,8 @@ namespace KRG::Physics
 
     private:
 
-        virtual physx::PxQueryHitType::Enum preFilter( physx::PxFilterData const& filterData, physx::PxShape const* pShape, physx::PxRigidActor const* pActor, physx::PxHitFlags& queryFlags ) override
-        {
-            for ( auto const& ignoredComponentID : m_ignoredComponents )
-            {
-                auto pOwnerComponent = reinterpret_cast<EntityComponent const*>( pActor->userData );
-                if ( pOwnerComponent->GetID() == ignoredComponentID )
-                {
-                    return physx::PxQueryHitType::eNONE;
-                }
-            }
-
-            //-------------------------------------------------------------------------
-
-            for ( auto const& ignoredEntityID : m_ignoredEntities )
-            {
-                auto pOwnerComponent = reinterpret_cast<EntityComponent const*>( pActor->userData );
-                if ( pOwnerComponent->GetEntityID() == ignoredEntityID )
-                {
-                    return physx::PxQueryHitType::eNONE;
-                }
-            }
-
-            //-------------------------------------------------------------------------
-
-            return physx::PxQueryHitType::eBLOCK;
-        }
-
-        virtual physx::PxQueryHitType::Enum postFilter( physx::PxFilterData const& filterData, physx::PxQueryHit const& hit ) override
-        {
-            KRG_UNREACHABLE_CODE(); // Not currently used
-            return physx::PxQueryHitType::eBLOCK;
-        }
+        virtual physx::PxQueryHitType::Enum preFilter( physx::PxFilterData const& filterData, physx::PxShape const* pShape, physx::PxRigidActor const* pActor, physx::PxHitFlags& queryFlags ) override;
+        virtual physx::PxQueryHitType::Enum postFilter( physx::PxFilterData const& filterData, physx::PxQueryHit const& hit ) override;
 
     public:
 
@@ -233,3 +218,7 @@ namespace KRG::Physics
         TInlineVector<EntityID, 2>                          m_ignoredEntities;
     };
 }
+
+#if _MSC_VER
+#pragma warning(pop)
+#endif

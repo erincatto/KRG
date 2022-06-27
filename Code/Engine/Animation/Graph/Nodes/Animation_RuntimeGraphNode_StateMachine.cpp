@@ -1,4 +1,5 @@
 #include "Animation_RuntimeGraphNode_StateMachine.h"
+#include "Engine/Animation/Graph/Animation_RuntimeGraph_Contexts.h"
 
 //-------------------------------------------------------------------------
 
