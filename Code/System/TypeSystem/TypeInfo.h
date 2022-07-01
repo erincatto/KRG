@@ -2,7 +2,8 @@
 
 #include "PropertyInfo.h"
 #include "ITypeHelper.h"
-#include "System/Types/Containers.h"
+#include "System/Types/Arrays.h"
+#include "System/Types/HashMap.h"
 
 //-------------------------------------------------------------------------
 

@@ -4,7 +4,7 @@
 #include "Engine/UpdateStage.h"
 #include "Engine/Entity/EntityIDs.h"
 #include "System/TypeSystem/TypeRegistrationMacros.h"
-#include "System/Types/Containers.h"
+#include "System/Types/Arrays.h"
 #include "System/Algorithm/Hash.h"
 
 //-------------------------------------------------------------------------

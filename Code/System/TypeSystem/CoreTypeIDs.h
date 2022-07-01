@@ -1,14 +1,50 @@
 #pragma once
 #include "TypeID.h"
-#include "System/Resource/ResourcePtr.h"
-#include "System/Types/Percentage.h"
-#include "System/Types/Color.h"
-#include "System/Types/BitFlags.h"
-#include "System/Types/Tag.h"
-#include "System/Time/Time.h"
-#include "System/Math/Transform.h"
-#include "System/Math/NumericRange.h"
-#include "System/Math/FloatCurve.h"
+#include "System/Types/Arrays_ForwardDecl.h"
+
+//-------------------------------------------------------------------------
+
+namespace KRG
+{
+    class UUID;
+    class Tag;
+    struct Color;
+    struct Float2;
+    struct Float3;
+    struct Float4;
+    class Vector;
+    class Quaternion;
+    class Transform;
+    class Matrix;
+    class Quaternion;
+    class Microseconds;
+    class Milliseconds;
+    class Seconds;
+    class Percentage;
+    struct Degrees;
+    struct Radians;
+    struct EulerAngles;
+
+    struct IntRange;
+    struct FloatRange;
+    class FloatCurve;
+    class BitFlags;
+
+    class ResourceID;
+    class ResourceTypeID;
+    class ResourcePath;
+
+    template<typename T>
+    class TBitFlags;
+
+    namespace Resource
+    {
+        class ResourcePtr;
+    }
+
+    template<typename T>
+    class TResourcePtr;
+}
 
 //-------------------------------------------------------------------------
 
@@ -84,8 +120,8 @@ namespace KRG::TypeSystem
 
     private:
 
-        static TArray<CoreTypeRecord, (uint8_t) CoreTypeID::NumTypes>  s_coreTypeRecords;
-        static bool                                                 s_areCoreTypeRecordsInitialized;
+        static CoreTypeRecord               s_coreTypeRecords[(uint8_t) CoreTypeID::NumTypes];
+        static bool                         s_areCoreTypeRecordsInitialized;
 
     public:
 
@@ -120,54 +156,6 @@ namespace KRG::TypeSystem
     KRG_FORCE_INLINE TypeID GetCoreTypeID( CoreTypeID coreType ) { return CoreTypeRegistry::GetTypeID( coreType ); }
     KRG_FORCE_INLINE CoreTypeID GetCoreType( TypeID typeID ) { return CoreTypeRegistry::GetType( typeID ); }
     KRG_FORCE_INLINE bool IsCoreType( TypeID typeID ){ return CoreTypeRegistry::IsCoreType( typeID ); }
-
-    template<typename T> inline bool IsCoreType() { return false; }
-    template<template<typename> typename C> inline bool IsCoreType() { return false; }
-
-    //-------------------------------------------------------------------------
-
-    template<> inline bool IsCoreType<bool>() { return true; }
-    template<> inline bool IsCoreType<int8_t>() { return true; }
-    template<> inline bool IsCoreType<int16_t>() { return true; }
-    template<> inline bool IsCoreType<int32_t>() { return true; }
-    template<> inline bool IsCoreType<int64_t>() { return true; }
-    template<> inline bool IsCoreType<uint8_t>() { return true; }
-    template<> inline bool IsCoreType<uint16_t>() { return true; }
-    template<> inline bool IsCoreType<uint32_t>() { return true; }
-    template<> inline bool IsCoreType<uint64_t>() { return true; }
-    template<> inline bool IsCoreType<float>() { return true; }
-    template<> inline bool IsCoreType<double>() { return true; }
-    template<> inline bool IsCoreType<UUID>() { return true; }
-    template<> inline bool IsCoreType<StringID>() { return true; }
-    template<> inline bool IsCoreType<Tag>() { return true; }
-    template<> inline bool IsCoreType<TypeID>() { return true; }
-    template<> inline bool IsCoreType<String>() { return true; }
-    template<> inline bool IsCoreType<Color>() { return true; }
-    template<> inline bool IsCoreType<Float2>() { return true; }
-    template<> inline bool IsCoreType<Float3>() { return true; }
-    template<> inline bool IsCoreType<Float4>() { return true; }
-    template<> inline bool IsCoreType<Vector>() { return true; }
-    template<> inline bool IsCoreType<Quaternion>() { return true; }
-    template<> inline bool IsCoreType<Matrix>() { return true; }
-    template<> inline bool IsCoreType<Transform>() { return true; }
-    template<> inline bool IsCoreType<Microseconds>() { return true; }
-    template<> inline bool IsCoreType<Milliseconds>() { return true; }
-    template<> inline bool IsCoreType<Seconds>() { return true; }
-    template<> inline bool IsCoreType<Percentage>() { return true; }
-    template<> inline bool IsCoreType<Degrees>() { return true; }
-    template<> inline bool IsCoreType<Radians>() { return true; }
-    template<> inline bool IsCoreType<EulerAngles >() { return true; }
-    template<> inline bool IsCoreType<IntRange>() { return true; }
-    template<> inline bool IsCoreType<FloatRange>() { return true; }
-    template<> inline bool IsCoreType<FloatCurve>() { return true; }
-    template<> inline bool IsCoreType<BitFlags>() { return true; }
-    template<> inline bool IsCoreType<TBitFlags>() { return true; }
-    template<> inline bool IsCoreType<TVector>() { return true; }
-    template<> inline bool IsCoreType<ResourcePath>() { return true; }
-    template<> inline bool IsCoreType<ResourceTypeID>() { return true; }
-    template<> inline bool IsCoreType<ResourceID>() { return true; }
-    template<> inline bool IsCoreType<Resource::ResourcePtr>() { return true; }
-    template<> inline bool IsCoreType<TResourcePtr>() { return true; }
 
     //-------------------------------------------------------------------------
 

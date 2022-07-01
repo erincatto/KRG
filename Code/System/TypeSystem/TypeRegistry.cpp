@@ -6,6 +6,7 @@
 #include "System/Log.h"
 #include "TypeRegistrationMacros.h"
 #include "TypeHelpers.h"
+#include "EASTL/sort.h"
 
 //-------------------------------------------------------------------------
 

@@ -7,6 +7,11 @@
 #include "System/TypeSystem/TypeRegistrationMacros.h"
 #include "System/Math/Transform.h"
 #include "System/Resource/ResourcePtr.h"
+#include "System/Time/Time.h"
+#include "System/Types/Percentage.h"
+#include "System/Math/NumericRange.h"
+#include "System/Math/FloatCurve.h"
+#include "System/Types/Tag.h"
 
 //-------------------------------------------------------------------------
 

@@ -9,7 +9,7 @@
 #include "Engine/DebugViews/DebugView_RuntimeSettings.h"
 #include "Engine/Entity/EntityWorldManager.h"
 #include "Engine/Entity/EntityWorldUpdateContext.h"
-#include "Engine/Render/Debug/DebugView_Render.h"
+#include "Engine/Render/DebugViews/DebugView_Render.h"
 
 //-------------------------------------------------------------------------
 

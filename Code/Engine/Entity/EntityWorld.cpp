@@ -5,6 +5,7 @@
 #include "System/Resource/ResourceSystem.h"
 #include "System/Profiling.h"
 #include "System/TypeSystem/TypeRegistry.h"
+#include <eastl/sort.h>
 
 //-------------------------------------------------------------------------
 

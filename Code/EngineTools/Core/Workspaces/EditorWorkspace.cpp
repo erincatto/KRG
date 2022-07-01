@@ -1,5 +1,5 @@
 #include "EditorWorkspace.h"
-#include "Engine/Render/Debug/DebugView_Render.h"
+#include "Engine/Render/DebugViews/DebugView_Render.h"
 #include "Engine/Player/Systems/WorldSystem_PlayerManager.h"
 #include "Engine/Camera/DebugViews/DebugView_Camera.h"
 #include "Engine/Entity/EntityWorld.h"

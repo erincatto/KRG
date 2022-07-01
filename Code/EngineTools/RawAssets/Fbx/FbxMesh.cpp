@@ -535,8 +535,6 @@ namespace KRG
                 FbxRawSkeleton& rawSkeleton = static_cast<FbxRawSkeleton&>( rawMesh.m_skeleton );
 
                 auto const numVertices = geometryData.m_vertices.size();
-                TVector<TVector<TPair<uint16_t, float>>> vertexSkinMapping( numVertices );
-
                 auto const numClusters = pSkin->GetClusterCount();
                 for ( auto c = 0; c < numClusters; c++ )
                 {

@@ -2,8 +2,9 @@
 
 #include "Engine/_Module/API.h"
 #include "System/Math/Math.h"
-#include "System/Types/Containers.h"
+#include "System/Types/Arrays.h"
 #include "System/Systems.h"
+#include "System/Types/HashMap.h"
 
 //-------------------------------------------------------------------------
 // Runtime Settings

@@ -3,6 +3,7 @@
 #include "System/FileSystem/FileSystem.h"
 #include "System/TypeSystem/TypeRegistry.h"
 #include "System/Log.h"
+#include <eastl/sort.h>
 #include <sqlite3.h>
 
 //-------------------------------------------------------------------------

@@ -2,7 +2,7 @@
 
 #include "System/_Module/API.h"
 #include "PropertyInfo.h"
-#include "System/Types/Containers.h"
+#include "System/Types/Arrays_ForwardDecl.h"
 
 //-------------------------------------------------------------------------
 

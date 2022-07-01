@@ -2,6 +2,7 @@
 #include "System/Memory/Memory.h"
 #include "System/Algorithm/Hash.h"
 #include "System/Threading/Threading.h"
+#include "String.h"
 
 //-------------------------------------------------------------------------
 
@@ -75,6 +76,10 @@ namespace KRG
             }
         }
     }
+
+    StringID::StringID( String const& str )
+        : StringID( str.c_str() )
+    {}
 
     char const* StringID::c_str() const
     {

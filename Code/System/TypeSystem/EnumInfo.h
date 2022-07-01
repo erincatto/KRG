@@ -3,6 +3,7 @@
 #include "TypeID.h"
 #include "CoreTypeIDs.h"
 #include "System/Log.h"
+#include "System/Types/HashMap.h"
 
 //-------------------------------------------------------------------------
 

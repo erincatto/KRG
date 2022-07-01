@@ -36,8 +36,10 @@ namespace KRG::Player
         return m_pEntityWorldUpdateContext != nullptr && m_pCameraController != nullptr && m_pInputState != nullptr && m_pPhysicsScene != nullptr && m_pCharacterController != nullptr;
     }
 
+    #if KRG_DEVELOPMENT_TOOLS
     Drawing::DrawContext ActionContext::GetDrawingContext() const
     {
         return m_pEntityWorldUpdateContext->GetDrawingContext();
     }
+    #endif
 }

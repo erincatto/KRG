@@ -10,6 +10,7 @@
 #include "System/FileSystem/FileSystem.h"
 #include "System/Serialization/BinaryArchive.h"
 #include "System/Math/MathHelpers.h"
+#include <eastl/sort.h>
 
 //-------------------------------------------------------------------------
 

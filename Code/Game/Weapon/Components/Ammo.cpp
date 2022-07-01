@@ -59,8 +59,10 @@ namespace KRG::Weapon
         return true;
     }
 
+    #if KRG_DEVELOPMENT_TOOLS
     Drawing::DrawContext AmmoContext::GetDrawingContext() const
     {
         return m_pEntityWorldUpdateContext->GetDrawingContext();
     }
+    #endif
 }

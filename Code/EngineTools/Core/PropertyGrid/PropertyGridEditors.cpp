@@ -4,6 +4,7 @@
 #include "EngineTools/Core/Widgets/CurveEditor.h"
 #include "EngineTools/ThirdParty/pfd/portable-file-dialogs.h"
 #include "System/Imgui/ImguiX.h"
+#include "System/Resource/ResourcePtr.h"
 #include "System/TypeSystem/PropertyInfo.h"
 #include "System/TypeSystem/EnumInfo.h"
 #include "System/TypeSystem/TypeRegistry.h"

@@ -3,6 +3,7 @@
 #include "System/Resource/ResourceID.h"
 #include "System/Types/StringID.h"
 #include "System/Types/Event.h"
+#include "System/Types/HashMap.h"
 
 //-------------------------------------------------------------------------
 

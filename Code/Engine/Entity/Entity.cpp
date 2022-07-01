@@ -4,7 +4,9 @@
 #include "EntityActivationContext.h"
 #include "EntityLoadingContext.h"
 #include "EntityDescriptors.h"
+#include "System/Resource/ResourceRequesterID.h"
 #include "System/TypeSystem/TypeRegistry.h"
+#include <eastl/sort.h>
 
 //-------------------------------------------------------------------------
 

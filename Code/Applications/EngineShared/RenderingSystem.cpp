@@ -8,6 +8,7 @@
 #include "System/Profiling.h"
 #include "System/Math/ViewVolume.h"
 #include "Engine/Entity/EntityWorld.h"
+#include <eastl/sort.h>
 
 //-------------------------------------------------------------------------
 

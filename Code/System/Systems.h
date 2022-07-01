@@ -2,7 +2,7 @@
 
 #include "System/_Module/API.h"
 #include "System/Algorithm/Hash.h"
-#include "System/Types/Containers.h"
+#include "System/Types/Arrays.h"
 
 //-------------------------------------------------------------------------
 // Defines an interface for an engine system

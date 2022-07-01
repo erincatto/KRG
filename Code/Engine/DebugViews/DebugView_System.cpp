@@ -37,6 +37,12 @@ namespace KRG
                 context.SetFrameRateLimit( 120.0f );
             }
 
+            bool is144FPS = context.HasFrameRateLimit() && context.GetFrameRateLimit() == 144.0f;
+            if ( ImGui::MenuItem( "144 FPS", nullptr, &is144FPS ) )
+            {
+                context.SetFrameRateLimit( 144.0f );
+            }
+
             ImGui::EndMenu();
         }
     }

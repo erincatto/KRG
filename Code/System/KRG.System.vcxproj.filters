@@ -85,9 +85,6 @@
     <ClCompile Include="Render\RenderVertexFormats.cpp">
       <Filter>Render</Filter>
     </ClCompile>
-    <ClCompile Include="Render\RenderViewport.cpp">
-      <Filter>Render</Filter>
-    </ClCompile>
     <ClCompile Include="Resource\ResourceID.cpp">
       <Filter>Resource</Filter>
     </ClCompile>
@@ -461,9 +458,6 @@
       <Filter>Render</Filter>
     </ClInclude>
     <ClInclude Include="Render\RenderVertexFormats.h">
-      <Filter>Render</Filter>
-    </ClInclude>
-    <ClInclude Include="Render\RenderViewport.h">
       <Filter>Render</Filter>
     </ClInclude>
     <ClInclude Include="Render\RenderWindow.h">
@@ -1795,7 +1789,7 @@
     <ClInclude Include="Types\Color.h">
       <Filter>Types</Filter>
     </ClInclude>
-    <ClInclude Include="Types\Containers.h">
+    <ClInclude Include="Types\Arrays.h">
       <Filter>Types</Filter>
     </ClInclude>
     <ClInclude Include="Types\BitFlags.h">
@@ -1924,6 +1918,9 @@
     <ClInclude Include="_Module\API.h">
       <Filter>_Module</Filter>
     </ClInclude>
+    <ClInclude Include="Types\String_ForwardDecl.h" />
+    <ClInclude Include="Types\HashMap.h" />
+    <ClInclude Include="Types\Arrays_ForwardDecl.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ThirdParty\EA\EABase\doc\EABase.html">

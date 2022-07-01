@@ -1,5 +1,6 @@
 #pragma once
-#include "Containers.h"
+#include "Arrays.h"
+#include "HashMap.h"
 
 //-------------------------------------------------------------------------
 // ID Vector
@@ -164,7 +165,7 @@ namespace KRG
 
     private:
 
-        TVector<ItemType>               m_vector;
-        THashMap<IDType, int32_t>         m_indexMap; // A mapping between the ID type and the item index in the flat array
+        TVector<ItemType>                   m_vector;
+        THashMap<IDType, int32_t>           m_indexMap; // A mapping between the ID type and the item index in the flat array
     };
 }

@@ -4,6 +4,8 @@
 #include "EntityDescriptors.h"
 #include "System/Types/Event.h"
 #include "System/Threading/Threading.h"
+#include "System/Resource/ResourcePtr.h"
+#include "System/Math/Transform.h"
 
 //-------------------------------------------------------------------------
 

@@ -1,4 +1,5 @@
 #include "PropertyPath.h"
+#include "System/Types/String.h"
 
 //-------------------------------------------------------------------------
 

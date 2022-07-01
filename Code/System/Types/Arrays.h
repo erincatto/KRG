@@ -4,7 +4,6 @@
 #include <EASTL/vector.h>
 #include <EASTL/fixed_vector.h>
 #include <EASTL/array.h>
-#include <EASTL/hash_map.h>
 
 //-------------------------------------------------------------------------
 
@@ -17,8 +16,6 @@ namespace KRG
     template<typename T> using TVector = eastl::vector<T>;
     template<typename T, eastl_size_t S> using TInlineVector = eastl::fixed_vector<T, S, true>;
     template<typename T, eastl_size_t S> using TArray = eastl::array<T, S>;
-    template<typename K, typename V, typename H = eastl::hash<K>> using THashMap = eastl::hash_map<K, V, H>;
-    template<typename K, typename V> using TPair = eastl::pair<K, V>;
 
     //-------------------------------------------------------------------------
     // Simple utility functions to improve syntactic usage of container types

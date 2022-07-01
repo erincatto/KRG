@@ -1,4 +1,13 @@
 #include "CoreTypeIDs.h"
+#include "System/Resource/ResourcePtr.h"
+#include "System/Types/Percentage.h"
+#include "System/Types/Color.h"
+#include "System/Types/BitFlags.h"
+#include "System/Types/Tag.h"
+#include "System/Time/Time.h"
+#include "System/Math/Transform.h"
+#include "System/Math/NumericRange.h"
+#include "System/Math/FloatCurve.h"
 
 //-------------------------------------------------------------------------
 
@@ -26,7 +35,7 @@ CoreTypeRegistry::s_coreTypeRecords[(uint8_t)coreTypeEnum] = { ID, sizeof( fully
 
 namespace KRG::TypeSystem
 {
-    TArray<CoreTypeRegistry::CoreTypeRecord, (uint8_t) CoreTypeID::NumTypes> CoreTypeRegistry::s_coreTypeRecords;
+    CoreTypeRegistry::CoreTypeRecord CoreTypeRegistry::s_coreTypeRecords[(uint8_t) CoreTypeID::NumTypes];
     bool CoreTypeRegistry::s_areCoreTypeRecordsInitialized = false;
 
     //-------------------------------------------------------------------------
@@ -71,10 +80,9 @@ namespace KRG::TypeSystem
         REGISTER_TYPE_RECORD( CoreTypeID::IntRange, KRG::IntRange );
         REGISTER_TYPE_RECORD( CoreTypeID::FloatRange, KRG::FloatRange );
         REGISTER_TYPE_RECORD( CoreTypeID::FloatCurve, KRG::FloatCurve );
-
         REGISTER_TYPE_RECORD( CoreTypeID::BitFlags, KRG::BitFlags );
-        REGISTER_TEMPLATE_TYPE_RECORD_GENERIC( CoreTypeID::TBitFlags, KRG::TBitFlags, enum class TempEnum );
 
+        REGISTER_TEMPLATE_TYPE_RECORD_GENERIC( CoreTypeID::TBitFlags, KRG::TBitFlags, enum class TempEnum );
         REGISTER_TEMPLATE_TYPE_RECORD_GENERIC( CoreTypeID::TVector, KRG::TVector, uint8_t );
 
         // Resources
@@ -98,7 +106,15 @@ namespace KRG::TypeSystem
     bool CoreTypeRegistry::IsCoreType( TypeID typeID )
     {
         KRG_ASSERT( s_areCoreTypeRecordsInitialized );
-        return eastl::find( s_coreTypeRecords.begin(), s_coreTypeRecords.end(), typeID ) != s_coreTypeRecords.end();
+        for ( auto i = 0; i < (uint8_t) CoreTypeID::NumTypes; i++ )
+        {
+            if ( s_coreTypeRecords[i].m_ID == typeID )
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     CoreTypeID CoreTypeRegistry::GetType( TypeID typeID )
@@ -120,17 +136,31 @@ namespace KRG::TypeSystem
     {
         KRG_ASSERT( s_areCoreTypeRecordsInitialized );
 
-        auto recordIter = eastl::find( s_coreTypeRecords.begin(), s_coreTypeRecords.end(), typeID );
-        KRG_ASSERT( recordIter != s_coreTypeRecords.end() );
-        return recordIter->m_typeSize;
+        for ( auto i = 0; i < (uint8_t) CoreTypeID::NumTypes; i++ )
+        {
+            if ( s_coreTypeRecords[i].m_ID == typeID )
+            {
+                return s_coreTypeRecords[i].m_typeSize;
+            }
+        }
+
+        KRG_UNREACHABLE_CODE();
+        return 0;
     }
 
     size_t CoreTypeRegistry::GetTypeAlignment( TypeID typeID )
     {
         KRG_ASSERT( s_areCoreTypeRecordsInitialized );
 
-        auto recordIter = eastl::find( s_coreTypeRecords.begin(), s_coreTypeRecords.end(), typeID );
-        KRG_ASSERT( recordIter != s_coreTypeRecords.end() );
-        return recordIter->m_typeAlignment;
+        for ( auto i = 0; i < (uint8_t) CoreTypeID::NumTypes; i++ )
+        {
+            if ( s_coreTypeRecords[i].m_ID == typeID )
+            {
+                return s_coreTypeRecords[i].m_typeAlignment;
+            }
+        }
+
+        KRG_UNREACHABLE_CODE();
+        return 0;
     }
 }

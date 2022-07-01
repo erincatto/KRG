@@ -7,6 +7,7 @@
 #include "System/FileSystem/FileSystemUtils.h"
 #include "System/Profiling.h"
 #include "System/Platform/PlatformHelpers_Win32.h"
+#include <eastl/sort.h>
 
 //-------------------------------------------------------------------------
 

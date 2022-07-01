@@ -7,7 +7,7 @@
 #include "System/Systems.h"
 #include "System/Types/Event.h"
 #include "System/Time/TimeStamp.h"
-#include <ctime>
+#include "System/Types/HashMap.h"
 
 //-------------------------------------------------------------------------
 

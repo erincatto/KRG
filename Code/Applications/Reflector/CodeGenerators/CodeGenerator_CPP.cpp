@@ -6,6 +6,7 @@
 #include "System/FileSystem/FileSystemUtils.h"
 #include "System/Algorithm/TopologicalSort.h"
 
+#include <eastl/sort.h>
 #include <fstream>
 #include <string>
 

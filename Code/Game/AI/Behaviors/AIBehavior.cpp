@@ -34,9 +34,10 @@ namespace KRG::AI
         return m_pEntityWorldUpdateContext != nullptr && m_pNavmeshSystem != nullptr && m_pPhysicsScene != nullptr;
     }
 
+    #if KRG_DEVELOPMENT_TOOLS
     Drawing::DrawContext BehaviorContext::GetDrawingContext() const
     {
         return m_pEntityWorldUpdateContext->GetDrawingContext();
     }
-
+    #endif
 }

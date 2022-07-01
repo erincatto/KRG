@@ -1,8 +1,8 @@
 #pragma once
 
 #include "System/_Module/API.h"
+#include "System/Types/String_ForwardDecl.h"
 #include "EASTL/hash_map.h"
-#include "String.h"
 
 //-------------------------------------------------------------------------
 // String ID
@@ -32,7 +32,7 @@ namespace KRG
         explicit StringID( nullptr_t ) : m_ID( 0 ) {}
         explicit StringID( char const* pStr );
         explicit StringID( uint32_t ID ) : m_ID( ID ) {}
-        inline explicit StringID( String const& str ) : StringID( str.c_str() ) {}
+        explicit StringID( String const& str );
 
         inline bool IsValid() const { return m_ID != 0; }
         inline uint32_t GetID() const { return m_ID; }

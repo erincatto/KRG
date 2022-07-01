@@ -2,7 +2,7 @@
 
 #include "System/_Module/API.h"
 #include "TypeID.h"
-#include "System/Types/Containers.h"
+#include "System/Types/Arrays.h"
 
 //-------------------------------------------------------------------------
 // The path to a property within a reflected type

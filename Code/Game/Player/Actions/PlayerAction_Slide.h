@@ -2,6 +2,7 @@
 
 #include "PlayerAction.h"
 #include "System\Time\Timers.h"
+#include "System\Math\Vector.h"
 
 //-------------------------------------------------------------------------
 

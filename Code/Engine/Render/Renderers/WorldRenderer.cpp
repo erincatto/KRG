@@ -9,7 +9,7 @@
 #include "Engine/Entity/EntityWorldUpdateContext.h"
 #include "Engine/Entity/EntityWorld.h"
 #include "System/Render/RenderDefaultResources.h"
-#include "System/Render/RenderViewport.h"
+#include "Engine/Render/RenderViewport.h"
 #include "System/Profiling.h"
 
 //-------------------------------------------------------------------------

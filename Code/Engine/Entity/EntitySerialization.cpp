@@ -7,6 +7,7 @@
 #include "System/Log.h"
 #include "Engine/Entity/Entity.h"
 #include "EntityMap.h"
+#include <eastl/sort.h>
 
 #if KRG_DEVELOPMENT_TOOLS
 

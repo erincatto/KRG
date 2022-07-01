@@ -6,6 +6,7 @@
 #include "System/FileSystem/FileSystemPath.h"
 #include "System/Math/Transform.h"
 #include "System/Threading/TaskSystem.h"
+#include "System/Types/HashMap.h"
 #include <bfxBuilder.h>
 
 //-------------------------------------------------------------------------

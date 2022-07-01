@@ -121,6 +121,7 @@
     <ClCompile Include="Camera\Components\Component_FreeLookCamera.cpp" />
     <ClCompile Include="Camera\Components\Component_OrbitCamera.cpp" />
     <ClCompile Include="Component_SerializationTest.cpp" />
+    <ClCompile Include="Render\RenderViewport.cpp" />
     <ClCompile Include="Volumes\Components\Component_Volumes.cpp" />
     <ClCompile Include="Camera\DebugViews\DebugView_Camera.cpp" />
     <ClCompile Include="Entity\DebugViews\DebugView_EntityWorld.cpp" />
@@ -170,7 +171,7 @@
     <ClCompile Include="Render\Components\Component_RenderMesh.cpp" />
     <ClCompile Include="Render\Components\Component_SkeletalMesh.cpp" />
     <ClCompile Include="Render\Components\Component_StaticMesh.cpp" />
-    <ClCompile Include="Render\Debug\DebugView_Render.cpp" />
+    <ClCompile Include="Render\DebugViews\DebugView_Render.cpp" />
     <ClCompile Include="Render\Material\RenderMaterial.cpp" />
     <ClCompile Include="Render\Mesh\RenderMesh.cpp" />
     <ClCompile Include="Render\Mesh\SkeletalMesh.cpp" />
@@ -258,6 +259,7 @@
     <ClInclude Include="Camera\Components\Component_FreeLookCamera.h" />
     <ClInclude Include="Camera\Components\Component_OrbitCamera.h" />
     <ClInclude Include="Component_SerializationTest.h" />
+    <ClInclude Include="Render\RenderViewport.h" />
     <ClInclude Include="Volumes\Components\Component_Volumes.h" />
     <ClInclude Include="Camera\DebugViews\DebugView_Camera.h" />
     <ClInclude Include="Entity\DebugViews\DebugView_EntityWorld.h" />
@@ -320,7 +322,7 @@
     <ClInclude Include="Render\Components\Component_RenderMesh.h" />
     <ClInclude Include="Render\Components\Component_SkeletalMesh.h" />
     <ClInclude Include="Render\Components\Component_StaticMesh.h" />
-    <ClInclude Include="Render\Debug\DebugView_Render.h" />
+    <ClInclude Include="Render\DebugViews\DebugView_Render.h" />
     <ClInclude Include="Render\IRenderer.h" />
     <ClInclude Include="Render\Material\RenderMaterial.h" />
     <ClInclude Include="Render\Mesh\RenderMesh.h" />
@@ -349,7 +351,6 @@
     <ClInclude Include="UpdateStage.h" />
     <ClInclude Include="_Module\API.h" />
     <ClInclude Include="_Module\EngineModule.h" />
-
     <FxCompile Include="Render\Shaders\Engine\PS_LitPicking.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>

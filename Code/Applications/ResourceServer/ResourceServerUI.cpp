@@ -4,6 +4,7 @@
 #include "System/Imgui/ImguiStyle.h"
 #include "System/Types/Color.h"
 #include "System/Platform/PlatformHelpers_Win32.h"
+#include <eastl/sort.h>
 
 //-------------------------------------------------------------------------
 

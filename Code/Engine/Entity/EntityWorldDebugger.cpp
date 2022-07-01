@@ -2,6 +2,7 @@
 #include "System/Imgui/ImguiX.h"
 #include "Engine/Entity/EntityWorld.h"
 #include "Engine/Entity/EntityWorldUpdateContext.h"
+#include <eastl/sort.h>
 
 //-------------------------------------------------------------------------
 

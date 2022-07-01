@@ -1,8 +1,8 @@
 #pragma once
 
-#include "System/_Module/API.h"
 #include "TypeID.h"
 #include "System/Types/BitFlags.h"
+#include "System/Types/String.h"
 
 //-------------------------------------------------------------------------
 
