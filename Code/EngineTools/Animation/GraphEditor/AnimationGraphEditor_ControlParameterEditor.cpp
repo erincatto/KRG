@@ -110,7 +110,7 @@ namespace KRG::Animation
         {
             int16_t const parameterIdx = pDebugContext->GetRuntimeGraphNodeIndex( m_pParameter->GetID() );
 
-            auto value = pDebugContext->m_pGraphComponent->GetControlParameterValue<Vector>( parameterIdx ).ToFloat4();
+            Vector value = pDebugContext->m_pGraphComponent->GetControlParameterValue<Vector>( parameterIdx );
             ImGui::SetNextItemWidth( -1 );
             if ( ImGui::InputFloat4( "##vp", &value.m_x ) )
             {
