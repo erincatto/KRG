@@ -1,4 +1,4 @@
-#include "RawResourceInspector_GLTF.h"
+#include "RawFileInspector_GLTF.h"
 #include "EngineTools/RawAssets/RawAssetReader.h"
 #include "EngineTools/Render/ResourceDescriptors/ResourceDescriptor_RenderMesh.h"
 #include "EngineTools/Render/ResourceDescriptors/ResourceDescriptor_RenderTexture.h"
@@ -16,25 +16,25 @@
 
 namespace KRG::Resource
 {
-    KRG_RAW_FILE_INSPECTOR_FACTORY( InspectorFactoryGltf, "gltf", ResourceInspectorGLTF );
-    KRG_RAW_FILE_INSPECTOR_FACTORY( InspectorFactoryGlb, "glb", ResourceInspectorGLTF );
+    KRG_RAW_FILE_INSPECTOR_FACTORY( InspectorFactoryGltf, "gltf", RawFileInspectorGLTF );
+    KRG_RAW_FILE_INSPECTOR_FACTORY( InspectorFactoryGlb, "glb", RawFileInspectorGLTF );
 
     //-------------------------------------------------------------------------
 
-    ResourceInspectorGLTF::ResourceInspectorGLTF( ToolsContext const* pToolsContext, FileSystem::Path const& filePath )
-        : RawResourceInspector( pToolsContext, filePath )
+    RawFileInspectorGLTF::RawFileInspectorGLTF( ToolsContext const* pToolsContext, FileSystem::Path const& filePath )
+        : RawFileInspector( pToolsContext, filePath )
         , m_sceneContext( filePath )
     {
         KRG_ASSERT( FileSystem::Exists( filePath ) );
         
     }
 
-    void ResourceInspectorGLTF::DrawFileInfo()
+    void RawFileInspectorGLTF::DrawFileInfo()
     {
         ImGui::Text( "Raw File: %s", m_filePath.c_str() );
     }
 
-    void ResourceInspectorGLTF::DrawFileContents()
+    void RawFileInspectorGLTF::DrawFileContents()
     {
         ImGui::Text( "Raw File: %s", m_filePath.c_str() );
 
@@ -203,7 +203,7 @@ namespace KRG::Resource
         //}
     }
 
-    void ResourceInspectorGLTF::DrawResourceDescriptorCreator()
+    void RawFileInspectorGLTF::DrawResourceDescriptorCreator()
     {
         ImGui::Text( "TODO" );
     }

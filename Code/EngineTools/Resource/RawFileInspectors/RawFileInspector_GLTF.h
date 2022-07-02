@@ -1,16 +1,16 @@
 #pragma once
-#include "RawResourceInspector.h"
+#include "EngineTools/Resource/RawFileInspector.h"
 #include "EngineTools/RawAssets/gltf/gltfSceneContext.h"
 
 //-------------------------------------------------------------------------
 
 namespace KRG::Resource
 {
-    class ResourceInspectorGLTF : public RawResourceInspector
+    class RawFileInspectorGLTF : public RawFileInspector
     {
     public:
 
-        ResourceInspectorGLTF( ToolsContext const* pToolsContext, FileSystem::Path const& filePath );
+        RawFileInspectorGLTF( ToolsContext const* pToolsContext, FileSystem::Path const& filePath );
 
     private:
 

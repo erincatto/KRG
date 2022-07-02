@@ -4,7 +4,7 @@
 #include "ResourceCompilationRequest.h"
 #include "CompiledResourceDatabase.h"
 #include "EngineTools/Core/FileSystem/FileSystemWatcher.h"
-#include "EngineTools/Resource/Compilers/ResourceCompilerRegistry.h"
+#include "EngineTools/Resource/ResourceCompilerRegistry.h"
 #include "System/Network/IPC/IPCMessageServer.h"
 #include "System/Resource/ResourceSettings.h"
 #include "System/TypeSystem/TypeRegistry.h"
@@ -21,6 +21,14 @@ namespace KRG::Resource
 {
     class ResourceServer : public FileSystem::IFileSystemChangeListener
     {
+    public:
+
+        struct BusyState
+        {
+            int32_t     m_completedRequests = 0;
+            int32_t     m_totalRequests = 0;
+            bool        m_isBusy = false;
+        };
 
     public:
 
@@ -31,7 +39,7 @@ namespace KRG::Resource
         void Shutdown();
         void Update();
 
-        inline bool IsBusy() const { return m_pendingRequests.size() + m_activeRequests.size() > 0; }
+        BusyState GetBusyState() const;
 
         inline String const& GetErrorMessage() const { return m_errorMessage; }
         inline String const& GetNetworkAddress() const { return m_settings.m_resourceServerNetworkAddress; }
@@ -153,6 +161,9 @@ namespace KRG::Resource
         TVector<ResourceID>                     m_resourcesToBePackaged;
         TVector<ResourceID>                     m_completedPackagingRequests;
         bool                                    m_isPackaging = false;
+
+        // Busy state tracker
+        int32_t                                 m_numRequestedResources = 0; // Counter that is request each time the server becomes idle
 
         // File System Watcher
         FileSystem::FileSystemWatcher           m_fileSystemWatcher;

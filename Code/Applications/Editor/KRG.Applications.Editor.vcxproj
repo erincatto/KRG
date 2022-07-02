@@ -98,24 +98,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="EditorUI.cpp" />
-    <ClCompile Include="ResourceBrowser\ResourceBrowser.cpp" />
     <ClCompile Include="EditorContext.cpp" />
-    <ClCompile Include="ResourceBrowser\ResourceBrowser_DescriptorCreator.cpp" />
-    <ClCompile Include="ResourceBrowser\RawResourceInspectors\RawResourceInspector.cpp" />
-    <ClCompile Include="ResourceBrowser\RawResourceInspectors\RawResourceInspector_FBX.cpp" />
-    <ClCompile Include="ResourceBrowser\RawResourceInspectors\RawResourceInspector_GLTF.cpp" />
-    <ClCompile Include="ResourceBrowser\RawResourceInspectors\RawResourceInspector_ImageFormats.cpp" />
     <ClCompile Include="Win32\EditorApplication_Win32.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="EditorUI.h" />
-    <ClInclude Include="ResourceBrowser\ResourceBrowser.h" />
     <ClInclude Include="EditorContext.h" />
-    <ClInclude Include="ResourceBrowser\ResourceBrowser_DescriptorCreator.h" />
-    <ClInclude Include="ResourceBrowser\RawResourceInspectors\RawResourceInspector.h" />
-    <ClInclude Include="ResourceBrowser\RawResourceInspectors\RawResourceInspector_FBX.h" />
-    <ClInclude Include="ResourceBrowser\RawResourceInspectors\RawResourceInspector_GLTF.h" />
-    <ClInclude Include="ResourceBrowser\RawResourceInspectors\RawResourceInspector_ImageFormats.h" />
     <ClInclude Include="Win32\Resource.h" />
     <ClInclude Include="Win32\EditorApplication_Win32.h" />
   </ItemGroup>

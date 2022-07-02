@@ -69,21 +69,6 @@
     <Image Include="Resources\ResourceServer.ico">
       <Filter>ResourceServer\Resources</Filter>
     </Image>
-    <Image Include="Resources\ResourceServer.png">
-      <Filter>ResourceServer\Resources</Filter>
-    </Image>
-    <Image Include="Resources\TrayIconBusy.ico">
-      <Filter>ResourceServer\Resources</Filter>
-    </Image>
-    <Image Include="Resources\TrayIconBusy.png">
-      <Filter>ResourceServer\Resources</Filter>
-    </Image>
-    <Image Include="Resources\TrayIconIdle.ico">
-      <Filter>ResourceServer\Resources</Filter>
-    </Image>
-    <Image Include="Resources\TrayIconIdle.png">
-      <Filter>ResourceServer\Resources</Filter>
-    </Image>
-    <Image Include="Resources\icon2.ico" />
+    <Image Include="Resources\ResourceServerBusyOverlay.ico" />
   </ItemGroup>
 </Project>

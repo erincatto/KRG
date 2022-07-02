@@ -1,5 +1,5 @@
 #include "ResourceWorkspace.h"
-#include "EngineTools/Resource/Compilers/ResourceDescriptor.h"
+#include "EngineTools/Resource/ResourceDescriptor.h"
 #include "System/Serialization/TypeSerialization.h"
 
 //-------------------------------------------------------------------------
@@ -319,6 +319,9 @@ namespace KRG
         auto resourceTypeID = resourceID.GetResourceTypeID();
         KRG_ASSERT( resourceTypeID.IsValid() );
 
+        // Check if we have a custom workspace for this type
+        //-------------------------------------------------------------------------
+
         auto pCurrentFactory = s_pHead;
         while ( pCurrentFactory != nullptr )
         {
@@ -333,6 +336,16 @@ namespace KRG
         // Create generic descriptor workspace
         //-------------------------------------------------------------------------
 
-        return KRG::New<GenericResourceWorkspace>( pToolsContext, pWorld, resourceID );
+        auto const resourceDescriptorTypes = pToolsContext->m_pTypeRegistry->GetAllDerivedTypes( Resource::ResourceDescriptor::GetStaticTypeID(), false, false );
+        for ( auto pResourceDescriptorTypeInfo : resourceDescriptorTypes )
+        {
+            auto pDefaultInstance = Cast<Resource::ResourceDescriptor>( pResourceDescriptorTypeInfo->GetDefaultInstance() );
+            if ( pDefaultInstance->GetCompiledResourceTypeID() == resourceID.GetResourceTypeID() )
+            {
+                return KRG::New<GenericResourceWorkspace>( pToolsContext, pWorld, resourceID );
+            }
+        }
+
+        return nullptr;
     }
 }

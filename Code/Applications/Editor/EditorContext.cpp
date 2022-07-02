@@ -138,11 +138,13 @@ namespace KRG
             pPreviewWorld->LoadMap( ResourcePath( "data://Editor/EditorMap.map" ) );
             m_pRenderingSystem->CreateCustomRenderTargetForViewport( pPreviewWorld->GetViewport() );
 
-            // Create workspace
+            // Try create workspace
             auto pCreatedWorkspace = ResourceWorkspaceFactory::TryCreateWorkspace( this, pPreviewWorld, resourceID );
-            KRG_ASSERT( pCreatedWorkspace != nullptr );
-            pCreatedWorkspace->Initialize( context );
-            m_workspaces.emplace_back( pCreatedWorkspace );
+            if ( pCreatedWorkspace != nullptr )
+            {
+                pCreatedWorkspace->Initialize( context );
+                m_workspaces.emplace_back( pCreatedWorkspace );
+            }
         }
         else
         {

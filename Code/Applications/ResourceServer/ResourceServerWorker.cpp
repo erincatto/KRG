@@ -10,6 +10,9 @@ namespace KRG::Resource
     {
         KRG_ASSERT( pTaskSystem != nullptr && !m_workerFullPath.empty() );
         m_SetSize = 1;
+
+        // No default ctor for subprocess struct, so zero-init
+        Memory::MemsetZero( &m_subProcess );
     }
 
     ResourceServerWorker::~ResourceServerWorker()

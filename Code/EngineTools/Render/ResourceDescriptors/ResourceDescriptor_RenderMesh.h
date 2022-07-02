@@ -1,7 +1,7 @@
 #pragma once
 
 #include "EngineTools/_Module/API.h"
-#include "EngineTools/Resource/Compilers/ResourceDescriptor.h"
+#include "EngineTools/Resource/ResourceDescriptor.h"
 #include "Engine/Render/Material/RenderMaterial.h"
 #include "Engine/Render/Mesh/StaticMesh.h"
 #include "Engine/Render/Mesh/SkeletalMesh.h"

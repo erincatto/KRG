@@ -1,7 +1,7 @@
 #pragma once
 
 #include "EngineTools/_Module/API.h"
-#include "EngineTools/Resource/Compilers/ResourceDescriptor.h"
+#include "EngineTools/Resource/ResourceDescriptor.h"
 #include "Engine/Animation/Graph/Animation_RuntimeGraph_Resources.h"
 
 //-------------------------------------------------------------------------

@@ -1,15 +1,15 @@
 #pragma once
-#include "RawResourceInspector.h"
+#include "EngineTools/Resource/RawFileInspector.h"
 
 //-------------------------------------------------------------------------
 
 namespace KRG::Resource
 {
-    class ResourceInspectorImageFormats : public RawResourceInspector
+    class RawFileInspectorImages : public RawFileInspector
     {
     public:
 
-        ResourceInspectorImageFormats( ToolsContext const* pToolsContext, FileSystem::Path const& filePath );
+        RawFileInspectorImages( ToolsContext const* pToolsContext, FileSystem::Path const& filePath );
 
     private:
 

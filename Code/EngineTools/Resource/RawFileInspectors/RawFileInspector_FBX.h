@@ -1,5 +1,5 @@
 #pragma once
-#include "RawResourceInspector.h"
+#include "EngineTools/Resource/RawFileInspector.h"
 #include "EngineTools/RawAssets/Fbx/FbxSceneContext.h"
 
 #include "System/Time/Time.h"
@@ -8,7 +8,7 @@
 
 namespace KRG::Resource
 {
-    class ResourceInspectorFBX : public RawResourceInspector
+    class RawFileInspectorFBX : public RawFileInspector
     {
         enum class InfoType
         {
@@ -46,7 +46,7 @@ namespace KRG::Resource
 
     public:
 
-        ResourceInspectorFBX( ToolsContext const* pToolsContext, FileSystem::Path const& filePath );
+        RawFileInspectorFBX( ToolsContext const* pToolsContext, FileSystem::Path const& filePath );
 
     private:
 

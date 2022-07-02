@@ -1,7 +1,7 @@
 #pragma once
 
 #include "EngineTools/_Module/API.h"
-#include "EngineTools/Resource/Compilers/ResourceCompiler.h"
+#include "EngineTools/Resource/ResourceCompiler.h"
 
 //-------------------------------------------------------------------------
 

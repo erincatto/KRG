@@ -103,13 +103,8 @@
     <ClCompile Include="ResourceServerWorker.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="Resources\icon2.ico" />
     <Image Include="Resources\ResourceServer.ico" />
-    <Image Include="Resources\ResourceServer.png" />
-    <Image Include="Resources\TrayIconBusy.ico" />
-    <Image Include="Resources\TrayIconBusy.png" />
-    <Image Include="Resources\TrayIconIdle.ico" />
-    <Image Include="Resources\TrayIconIdle.png" />
+    <Image Include="Resources\ResourceServerBusyOverlay.ico" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Resources\KRG.Applications.ResourceServer.rc" />

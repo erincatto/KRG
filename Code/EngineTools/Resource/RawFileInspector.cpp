@@ -1,5 +1,5 @@
-#include "RawResourceInspector.h"
-#include "EngineTools/Resource/Compilers/ResourceDescriptor.h"
+#include "RawFileInspector.h"
+#include "EngineTools/Resource/ResourceDescriptor.h"
 #include "EngineTools/Resource/ResourceDatabase.h"
 #include "EngineTools/ThirdParty/pfd/portable-file-dialogs.h"
 #include "EngineTools/Core/ToolsContext.h"
@@ -10,7 +10,7 @@
 
 namespace KRG::Resource
 {
-    RawResourceInspector::RawResourceInspector( ToolsContext const* pToolsContext, FileSystem::Path const& filePath )
+    RawFileInspector::RawFileInspector( ToolsContext const* pToolsContext, FileSystem::Path const& filePath )
         : m_pToolsContext( pToolsContext )
         , m_rawResourceDirectory( pToolsContext->m_pResourceDatabase->GetRawResourceDirectoryPath() )
         , m_filePath( filePath )
@@ -20,12 +20,12 @@ namespace KRG::Resource
         KRG_ASSERT( filePath.IsFilePath() && FileSystem::Exists( filePath ) );
     }
 
-    RawResourceInspector::~RawResourceInspector()
+    RawFileInspector::~RawFileInspector()
     {
         KRG::Delete( m_pDescriptor );
     }
 
-    bool RawResourceInspector::DrawDialog()
+    bool RawFileInspector::DrawDialog()
     {
         if ( !ImGui::IsPopupOpen( GetInspectorTitle() ) )
         {
@@ -69,7 +69,7 @@ namespace KRG::Resource
         return isOpen && ImGui::IsPopupOpen( GetInspectorTitle() );
     }
 
-    bool RawResourceInspector::CreateNewDescriptor( ResourceTypeID resourceTypeID, Resource::ResourceDescriptor const* pDescriptor ) const
+    bool RawFileInspector::CreateNewDescriptor( ResourceTypeID resourceTypeID, Resource::ResourceDescriptor const* pDescriptor ) const
     {
         KRG_ASSERT( resourceTypeID.IsValid() );
 
@@ -108,11 +108,11 @@ namespace KRG::Resource
 
     //-------------------------------------------------------------------------
 
-    KRG_DEFINE_GLOBAL_REGISTRY( RawResourceInspectorFactory );
+    KRG_DEFINE_GLOBAL_REGISTRY( RawFileInspectorFactory );
 
     //-------------------------------------------------------------------------
 
-    bool RawResourceInspectorFactory::CanCreateInspector( FileSystem::Path const& filePath )
+    bool RawFileInspectorFactory::CanCreateInspector( FileSystem::Path const& filePath )
     {
         KRG_ASSERT( filePath.IsValid() );
 
@@ -130,7 +130,7 @@ namespace KRG::Resource
         return false;
     }
 
-    RawResourceInspector* RawResourceInspectorFactory::TryCreateInspector( ToolsContext const* pToolsContext, FileSystem::Path const& filePath )
+    RawFileInspector* RawFileInspectorFactory::TryCreateInspector( ToolsContext const* pToolsContext, FileSystem::Path const& filePath )
     {
         KRG_ASSERT( filePath.IsValid() );
 

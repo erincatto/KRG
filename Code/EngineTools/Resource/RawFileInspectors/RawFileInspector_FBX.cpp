@@ -1,4 +1,4 @@
-#include "RawResourceInspector_FBX.h"
+#include "RawFileInspector_FBX.h"
 #include "EngineTools/RawAssets/RawAssetReader.h"
 #include "EngineTools/Render/ResourceDescriptors/ResourceDescriptor_RenderMesh.h"
 #include "EngineTools/Render/ResourceDescriptors/ResourceDescriptor_RenderTexture.h"
@@ -23,12 +23,12 @@ using namespace fbxsdk;
 
 namespace KRG::Resource
 {
-    KRG_RAW_FILE_INSPECTOR_FACTORY( InspectorFactoryFbx, "fbx", ResourceInspectorFBX );
+    KRG_RAW_FILE_INSPECTOR_FACTORY( InspectorFactoryFbx, "fbx", RawFileInspectorFBX );
 
     //-------------------------------------------------------------------------
 
-    ResourceInspectorFBX::ResourceInspectorFBX( ToolsContext const* pToolsContext, FileSystem::Path const& filePath )
-        : RawResourceInspector( pToolsContext, filePath )
+    RawFileInspectorFBX::RawFileInspectorFBX( ToolsContext const* pToolsContext, FileSystem::Path const& filePath )
+        : RawFileInspector( pToolsContext, filePath )
         , m_sceneContext( filePath )
     {
         KRG_ASSERT( FileSystem::Exists( filePath ) );
@@ -39,7 +39,7 @@ namespace KRG::Resource
         }
     }
 
-    void ResourceInspectorFBX::ReadFileContents()
+    void RawFileInspectorFBX::ReadFileContents()
     {
         FbxGeometryConverter geomConverter( m_sceneContext.m_pManager );
         geomConverter.SplitMeshesPerMaterial( m_sceneContext.m_pScene, true );
@@ -138,7 +138,7 @@ namespace KRG::Resource
         }
     }
 
-    void ResourceInspectorFBX::DrawFileInfo()
+    void RawFileInspectorFBX::DrawFileInfo()
     {
         ImGui::PushStyleVar( ImGuiStyleVar_ChildRounding, 4.0f );
         ImGui::PushStyleVar( ImGuiStyleVar_WindowPadding, ImVec2( 8.0f, 4.0f ) );
@@ -165,7 +165,7 @@ namespace KRG::Resource
         ImGui::PopStyleVar( 2 );
     }
 
-    void ResourceInspectorFBX::DrawFileContents()
+    void RawFileInspectorFBX::DrawFileContents()
     {
         if ( m_sceneContext.IsValid() )
         {
@@ -330,7 +330,7 @@ namespace KRG::Resource
         }
     }
 
-    void ResourceInspectorFBX::DrawResourceDescriptorCreator()
+    void RawFileInspectorFBX::DrawResourceDescriptorCreator()
     {
         if ( m_selectedItemType != InfoType::None )
         {
@@ -424,7 +424,7 @@ namespace KRG::Resource
         }
     }
 
-    void ResourceInspectorFBX::OnSwitchSelectedItem()
+    void RawFileInspectorFBX::OnSwitchSelectedItem()
     {
         m_propertyGrid.SetTypeToEdit( nullptr );
         KRG::Delete( m_pDescriptor );

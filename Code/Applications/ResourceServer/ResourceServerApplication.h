@@ -16,6 +16,10 @@
 
 //-------------------------------------------------------------------------
 
+struct ITaskbarList3;
+
+//-------------------------------------------------------------------------
+
 namespace KRG
 {
     class ResourceServerApplication : public Win32Application
@@ -35,23 +39,17 @@ namespace KRG
         virtual bool Shutdown() override;
         virtual bool ApplicationLoop() override;
         virtual LRESULT WndProcess( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam ) override;
-
-        // System Tray
-        //-------------------------------------------------------------------------
-
-        void ShowApplicationWindow();
-        void HideApplicationWindow();
-
-        bool CreateSystemTrayIcon( int32_t iconID );
-        void DestroySystemTrayIcon();
-        void RefreshSystemTrayIcon( int32_t iconID );
-        bool ShowSystemTrayMenu();
+        virtual void OnWindowDestruction() override;
+        virtual bool OnExitRequest() override;
 
     private:
 
         NOTIFYICONDATA                          m_systemTrayIconData;
-        int32_t                                 m_currentIconID = 0;
-        bool                                    m_applicationWindowHidden = false;
+
+        // Taskbar Icon
+        ITaskbarList3*                          m_pTaskbarInterface = nullptr;
+        HICON                                   m_busyOverlayIcon = nullptr;
+        bool                                    m_busyOverlaySet = false;
 
         //-------------------------------------------------------------------------
 

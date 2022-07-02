@@ -7,6 +7,7 @@ namespace KRG
     class ResourceID;
     namespace Resource { class ResourceSystem; class ResourceDatabase; }
     namespace TypeSystem { class TypeRegistry; }
+    namespace FileSystem { class Path; }
 
     //-------------------------------------------------------------------------
 
@@ -15,6 +16,8 @@ namespace KRG
     public:
 
         inline bool IsValid() const { return m_pTypeRegistry != nullptr && m_pResourceDatabase != nullptr && m_pResourceSystem != nullptr; }
+        FileSystem::Path const& GetRawResourceDirectory() const;
+        FileSystem::Path const& GetCompiledResourceDirectory() const;
 
         virtual void TryOpenResource( ResourceID const& resourceID ) const = 0;
 

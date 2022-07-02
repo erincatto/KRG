@@ -10,6 +10,7 @@
 #if KRG_ENABLE_LPP
 #include "LPP_API.h"
 #endif
+#include <shobjidl_core.h>
 
 //-------------------------------------------------------------------------
 
@@ -26,19 +27,6 @@ namespace KRG
 
     LRESULT ResourceServerApplication::WndProcess( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam )
     {
-        // SysTray
-        //-------------------------------------------------------------------------
-
-        if ( message == RegisterWindowMessage( "TaskbarCreated" ) )
-        {
-            if ( !Shell_NotifyIcon( NIM_ADD, &m_systemTrayIconData ) )
-            {
-                FatalError( "Failed to recreate system tray icon after explorer crash!" );
-                RequestExit();
-                return -1;
-            }
-        }
-
         // ImGui specific message processing
         //-------------------------------------------------------------------------
 
@@ -68,156 +56,56 @@ namespace KRG
                 }
             }
             break;
-
-            //-------------------------------------------------------------------------
-
-            case g_shellIconCallbackMessageID:
-            {
-                switch ( LOWORD( lParam ) )
-                {
-                    case WM_LBUTTONDBLCLK:
-                    {
-                        ShowApplicationWindow();
-                    }
-                    break;
-
-                    case WM_RBUTTONDOWN:
-                    {
-                        if ( !ShowSystemTrayMenu() )
-                        {
-                            return -1;
-                        }
-                    }
-                    break;
-                }
-            }
-            break;
-
-            //-------------------------------------------------------------------------
-
-            case WM_COMMAND:
-            {
-                switch ( LOWORD( wParam ) )
-                {
-                    case ID_REQUEST_EXIT:
-                    {
-                        RequestExit();
-                    }
-                    break;
-                }
-            }
-            break;
-
-            //-------------------------------------------------------------------------
-
-            case WM_CLOSE:
-            {
-                HideApplicationWindow();
-                return -1;
-            }
-            break;
-
-            case WM_QUIT:
-            {
-                RequestExit();
-            }
-            break;
-
-            case WM_DESTROY:
-            {
-                PostQuitMessage( 0 );
-            }
-            break;
         }
 
         return 0;
     }
 
-    //-------------------------------------------------------------------------
-
-    void ResourceServerApplication::ShowApplicationWindow()
+    void ResourceServerApplication::OnWindowDestruction()
     {
-        ShowWindow( m_windowHandle, SW_SHOW );
-        SetForegroundWindow( m_windowHandle );
-        m_applicationWindowHidden = false;
-    }
-
-    void ResourceServerApplication::HideApplicationWindow()
-    {
-        ShowWindow( m_windowHandle, SW_HIDE );
-        m_applicationWindowHidden = true;
-    }
-
-    bool ResourceServerApplication::CreateSystemTrayIcon( int32_t iconID )
-    {
-        m_systemTrayIconData.cbSize = sizeof( NOTIFYICONDATA );
-        m_systemTrayIconData.hWnd = m_windowHandle;
-        m_systemTrayIconData.uID = IDI_TRAY_IDLE;
-        m_systemTrayIconData.uFlags = NIF_ICON | NIF_MESSAGE | NIF_TIP;
-        m_systemTrayIconData.hIcon = LoadIcon( m_pInstance, (LPCTSTR) MAKEINTRESOURCE( iconID ) );
-        m_systemTrayIconData.uCallbackMessage = g_shellIconCallbackMessageID;
-        strcpy( m_systemTrayIconData.szTip, "Kruger Resource Server" );
-
-        if ( !Shell_NotifyIcon( NIM_ADD, &m_systemTrayIconData ) )
+        if ( m_pTaskbarInterface != nullptr )
         {
-            return false;
+            m_pTaskbarInterface->SetOverlayIcon( m_windowHandle, nullptr, L"" );
+            m_pTaskbarInterface->Release();
+            m_pTaskbarInterface = nullptr;
         }
 
-        m_currentIconID = iconID;
-        return true;
+        m_busyOverlaySet = false;
+        DestroyIcon( m_busyOverlayIcon );
+
+        //-------------------------------------------------------------------------
+
+        Win32Application::OnWindowDestruction();
     }
 
-    bool ResourceServerApplication::ShowSystemTrayMenu()
+    bool ResourceServerApplication::OnExitRequest()
     {
-        HMENU hMenu, hSubMenu;
-
-        // Get mouse cursor position x and y as lParam has the Message itself
-        POINT lpClickPoint;
-        GetCursorPos( &lpClickPoint );
-
-        // Load menu resource
-        hMenu = LoadMenu( m_pInstance, MAKEINTRESOURCE( IDR_SYSTRAY_MENU ) );
-        if ( !hMenu )
+        int32_t const closeDialogResult = MessageBox( m_windowHandle, "Close Resource Server?\r\n\r\nSelect 'No' to minimize instead.", "Resource Server", MB_YESNOCANCEL | MB_ICONEXCLAMATION | MB_DEFBUTTON2 | MB_TOPMOST );
+        if ( closeDialogResult == IDYES )
         {
-            return false;
+            return true;
+        }
+        else if ( closeDialogResult == IDNO )
+        {
+            ShowWindow( m_windowHandle, SW_MINIMIZE );
         }
 
-        hSubMenu = GetSubMenu( hMenu, 0 );
-        if ( !hSubMenu )
-        {
-            DestroyMenu( hMenu );
-            return false;
-        }
-
-        // Display menu
-        SetForegroundWindow( m_windowHandle );
-        TrackPopupMenu( hSubMenu, TPM_LEFTALIGN | TPM_LEFTBUTTON | TPM_BOTTOMALIGN, lpClickPoint.x, lpClickPoint.y, 0, m_windowHandle, NULL );
-        SendMessage( m_windowHandle, WM_NULL, 0, 0 );
-
-        // Kill off objects we're done with
-        DestroyMenu( hMenu );
-
-        return true;
-    }
-
-    void ResourceServerApplication::DestroySystemTrayIcon()
-    {
-        Shell_NotifyIcon( NIM_DELETE, &m_systemTrayIconData );
-    }
-
-    void ResourceServerApplication::RefreshSystemTrayIcon( int32_t iconID )
-    {
-        if ( iconID != m_currentIconID )
-        {
-            DestroySystemTrayIcon();
-            CreateSystemTrayIcon( iconID );
-        }
+        return false;
     }
 
     //-------------------------------------------------------------------------
 
     bool ResourceServerApplication::Initialize()
     {
+        m_busyOverlayIcon = LoadIcon( m_pInstance, MAKEINTRESOURCE( IDI_RESOURCESERVER_BUSYOVERLAY ) );
+
+        if ( CoCreateInstance( CLSID_TaskbarList, NULL, CLSCTX_INPROC_SERVER, IID_PPV_ARGS( &m_pTaskbarInterface ) ) == S_OK )
+        {
+            m_pTaskbarInterface->HrInit();
+        }
+
+        //-------------------------------------------------------------------------
+
         m_pRenderDevice = KRG::New<Render::RenderDevice>();
         if ( !m_pRenderDevice->Initialize() )
         {
@@ -251,8 +139,9 @@ namespace KRG
 
         //-------------------------------------------------------------------------
 
-        CreateSystemTrayIcon( IDI_TRAY_IDLE );
-        HideApplicationWindow();
+        // Always start resource server minimized
+        ShowWindow( m_windowHandle, SW_MINIMIZE );
+
         return true;
     }
 
@@ -274,10 +163,6 @@ namespace KRG
             KRG::Delete( m_pRenderDevice );
         }
 
-        //-------------------------------------------------------------------------
-
-        DestroySystemTrayIcon();
-
         return true;
     }
 
@@ -294,20 +179,46 @@ namespace KRG
 
             m_resourceServer.Update();
 
-            if ( m_resourceServer.IsBusy() )
+            // Sleep when idle to reduce CPU load
+            auto const resourceServerBusyState = m_resourceServer.GetBusyState();
+            if( !resourceServerBusyState.m_isBusy )
             {
-                RefreshSystemTrayIcon( IDI_TRAY_BUSY );
-            }
-            else // Wait
-            {
-                RefreshSystemTrayIcon( IDI_TRAY_IDLE );
                 Threading::Sleep( 1 );
+            }
+
+            // Update task bar
+            //-------------------------------------------------------------------------
+
+            // Showing progress bar
+            if ( m_busyOverlaySet )
+            {
+                // Switch to idle
+                if ( !resourceServerBusyState.m_isBusy )
+                {
+                    m_pTaskbarInterface->SetOverlayIcon( m_windowHandle, nullptr, L"" );
+                    m_pTaskbarInterface->SetProgressState( m_windowHandle, TBPF_NOPROGRESS );
+                    m_busyOverlaySet = false;
+                }
+                else // Update percentage
+                {
+                    m_pTaskbarInterface->SetProgressValue( m_windowHandle, resourceServerBusyState.m_completedRequests, resourceServerBusyState.m_totalRequests );
+                }
+            }
+            else // Idle
+            {
+                if ( resourceServerBusyState.m_isBusy )
+                {
+                    m_pTaskbarInterface->SetOverlayIcon( m_windowHandle, m_busyOverlayIcon, L"" );
+                    m_pTaskbarInterface->SetProgressState( m_windowHandle, TBPF_NORMAL );
+                    m_pTaskbarInterface->SetProgressValue( m_windowHandle, resourceServerBusyState.m_completedRequests, resourceServerBusyState.m_totalRequests );
+                    m_busyOverlaySet = true;
+                }
             }
 
             // Draw UI
             //-------------------------------------------------------------------------
 
-            if ( !m_applicationWindowHidden )
+            if ( !IsIconic( m_windowHandle ) )
             {
                 m_imguiSystem.StartFrame( m_deltaTime );
               

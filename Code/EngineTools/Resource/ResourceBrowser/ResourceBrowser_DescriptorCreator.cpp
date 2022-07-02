@@ -1,7 +1,7 @@
 #include "ResourceBrowser_DescriptorCreator.h"
-#include "Applications/Editor/EditorContext.h"
+#include "EngineTools/Core/ToolsContext.h"
 #include "EngineTools/ThirdParty/pfd/portable-file-dialogs.h"
-#include "EngineTools/Resource/Compilers/ResourceDescriptor.h"
+#include "EngineTools/Resource/ResourceDescriptor.h"
 #include "EngineTools/Core/Helpers/CommonDialogs.h"
 #include "System/TypeSystem/TypeRegistry.h"
 #include "System/Math/MathStringHelpers.h"
@@ -11,14 +11,14 @@
 
 namespace KRG
 {
-    ResourceDescriptorCreator::ResourceDescriptorCreator( EditorContext* pEditorContext, TypeSystem::TypeID const descriptorTypeID, FileSystem::Path const& startingDir )
-        : m_pEditorContext( pEditorContext )
-        , m_propertyGrid( pEditorContext )
+    ResourceDescriptorCreator::ResourceDescriptorCreator( ToolsContext* pToolsContext, TypeSystem::TypeID const descriptorTypeID, FileSystem::Path const& startingDir )
+        : m_pToolsContext( pToolsContext )
+        , m_propertyGrid( pToolsContext )
         , m_startingPath( startingDir )
     {
-        KRG_ASSERT( m_pEditorContext != nullptr );
-        KRG_ASSERT( m_pEditorContext->GetTypeRegistry()->IsTypeDerivedFrom( descriptorTypeID, Resource::ResourceDescriptor::GetStaticTypeID() ) );
-        auto pTypeInfo = m_pEditorContext->GetTypeRegistry()->GetTypeInfo( descriptorTypeID );
+        KRG_ASSERT( m_pToolsContext != nullptr );
+        KRG_ASSERT( m_pToolsContext->m_pTypeRegistry->IsTypeDerivedFrom( descriptorTypeID, Resource::ResourceDescriptor::GetStaticTypeID() ) );
+        auto pTypeInfo = m_pToolsContext->m_pTypeRegistry->GetTypeInfo( descriptorTypeID );
         KRG_ASSERT( pTypeInfo != nullptr );
 
         m_pDescriptor = Cast<Resource::ResourceDescriptor>( pTypeInfo->m_pTypeHelper->CreateType() );
@@ -78,13 +78,9 @@ namespace KRG
 
     bool ResourceDescriptorCreator::SaveDescriptor()
     {
-        auto pTypeRegistry = m_pEditorContext->GetTypeRegistry();
-
-        //-------------------------------------------------------------------------
-
         ResourceTypeID const resourceTypeID = m_pDescriptor->GetCompiledResourceTypeID();
         TInlineString<5> const resourceTypeIDString = resourceTypeID.ToString();
-        TypeSystem::ResourceInfo const* pResourceInfo = pTypeRegistry->GetResourceInfoForResourceType( resourceTypeID );
+        TypeSystem::ResourceInfo const* pResourceInfo = m_pToolsContext->m_pTypeRegistry->GetResourceInfoForResourceType( resourceTypeID );
 
         FileSystem::Path outPath = SaveDialog( resourceTypeID, m_startingPath, pResourceInfo->m_friendlyName );
         if ( !outPath.IsValid() )
@@ -100,6 +96,6 @@ namespace KRG
         }
 
         KRG_ASSERT( m_pDescriptor != nullptr );
-        return Resource::ResourceDescriptor::TryWriteToFile( *pTypeRegistry, outPath, m_pDescriptor );
+        return Resource::ResourceDescriptor::TryWriteToFile( *m_pToolsContext->m_pTypeRegistry, outPath, m_pDescriptor );
     }
 }

@@ -1,22 +1,25 @@
 #pragma once
-#include "Applications/Editor/EditorContext.h"
+
 #include "EngineTools/Core/Widgets/TreeListView.h"
 #include "EngineTools/Core/FileSystem/FileSystemWatcher.h"
+#include "System/Resource/ResourceTypeID.h"
 
 //-------------------------------------------------------------------------
 
 namespace KRG
 {
+    class UpdateContext;
+    class ToolsContext;
     class ResourceDescriptorCreator;
-    namespace Resource{ class RawResourceInspector; }
+    namespace Resource{ class RawFileInspector; }
 
     //-------------------------------------------------------------------------
 
-    class ResourceBrowser final: public TreeListView, public FileSystem::IFileSystemChangeListener
+    class KRG_ENGINETOOLS_API ResourceBrowser final: public TreeListView, public FileSystem::IFileSystemChangeListener
     {
     public:
 
-        ResourceBrowser( EditorContext& model );
+        ResourceBrowser( ToolsContext& toolsContext );
         ~ResourceBrowser();
 
         char const* const GetWindowName() { return "Resource Browser"; }
@@ -42,17 +45,17 @@ namespace KRG
 
     private:
 
-        EditorContext&                                      m_editorContext;
+        ToolsContext&                                       m_toolsContext;
         char                                                m_nameFilterBuffer[256];
         TVector<ResourceTypeID>                             m_typeFilter;
         bool                                                m_showRawFiles = false;
         bool                                                m_showDeleteConfirmationDialog = false;
 
-        int32_t                                               m_dataDirectoryPathDepth;
+        int32_t                                             m_dataDirectoryPathDepth;
         TVector<FileSystem::Path>                           m_foundPaths;
 
         ResourceDescriptorCreator*                          m_pResourceDescriptorCreator = nullptr;
-        Resource::RawResourceInspector*                     m_pRawResourceInspector = nullptr;
+        Resource::RawFileInspector*                         m_pRawResourceInspector = nullptr;
         EventBindingID                                      m_onDoubleClickEventID;
     };
 }

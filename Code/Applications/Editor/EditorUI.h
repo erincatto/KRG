@@ -1,10 +1,10 @@
 #pragma once
 
 #include "EditorContext.h"
-#include "ResourceBrowser/ResourceBrowser.h"
+#include "EngineTools/Resource/ResourceBrowser/ResourceBrowser.h"
+#include "EngineTools/Resource/ResourceDatabase.h"
 #include "Engine/ToolsUI/IToolsUI.h"
 #include "Engine/DebugViews/DebugView_System.h"
-#include "EngineTools/Resource/ResourceDatabase.h"
 
 //-------------------------------------------------------------------------
 

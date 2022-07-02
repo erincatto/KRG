@@ -30,7 +30,10 @@ namespace KRG
                     case WM_CLOSE:
                     case WM_QUIT:
                     {
-                        g_pApplicationInstance->RequestExit();
+                        if ( g_pApplicationInstance->OnExitRequest() )
+                        {
+                            g_pApplicationInstance->Exit();
+                        }
                     }
                     break;
 
@@ -125,7 +128,7 @@ namespace KRG
         KRG_ASSERT( ( m_windowRect.right - m_windowRect.left ) > 0 );
         KRG_ASSERT( ( m_windowRect.bottom - m_windowRect.top ) > 0 );
 
-        layoutIni.TryGetBool( "WindowSettings:WasMaximized", m_startMaximized );
+        layoutIni.TryGetBool( "WindowSettings:WasMaximized", m_wasMaximized );
 
         //-------------------------------------------------------------------------
 
@@ -175,6 +178,8 @@ namespace KRG
         KRG_ASSERT( ( m_windowRect.right - m_windowRect.left ) > 0 );
         KRG_ASSERT( ( m_windowRect.bottom - m_windowRect.top ) > 0 );
 
+        m_windowIcon = LoadIcon( m_pInstance, MAKEINTRESOURCE( m_applicationIconResourceID ) );
+
         // Create the window
         //-------------------------------------------------------------------------
 
@@ -184,7 +189,7 @@ namespace KRG
         m_windowClass.cbClsExtra = 0;
         m_windowClass.cbWndExtra = 0;
         m_windowClass.hInstance = m_pInstance;
-        m_windowClass.hIcon = LoadIcon( m_pInstance, MAKEINTRESOURCE( m_applicationIconResourceID ) );
+        m_windowClass.hIcon = m_windowIcon;
         m_windowClass.hCursor = nullptr;
         m_windowClass.hbrBackground = (HBRUSH) ( COLOR_WINDOW + 1 );
         m_windowClass.lpszMenuName = 0;
@@ -214,9 +219,10 @@ namespace KRG
 
         //-------------------------------------------------------------------------
 
-        ShowWindow( m_windowHandle, m_startMaximized ? SW_MAXIMIZE : SW_SHOW );
+        ShowWindow( m_windowHandle, m_wasMaximized ? SW_MAXIMIZE : SW_SHOW );
         UpdateWindow( m_windowHandle );
         GetClientRect( m_windowHandle, &m_windowRect );
+
         return true;
     }
 
@@ -258,7 +264,7 @@ namespace KRG
         // Application loop
         //-------------------------------------------------------------------------
 
-        while ( !m_exitRequested )
+        while ( !m_shouldExit )
         {
             if ( PeekMessage( &m_message, NULL, 0, 0, PM_REMOVE ) == TRUE )
             {
@@ -267,7 +273,7 @@ namespace KRG
             }
             else // Run the application update
             {
-                m_exitRequested = !ApplicationLoop();
+                m_shouldExit = !ApplicationLoop();
             }
 
             GetWindowRect( m_windowHandle, &m_windowRect );

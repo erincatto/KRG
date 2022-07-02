@@ -15,24 +15,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="ResourceBrowser\ResourceBrowser.cpp">
-      <Filter>ResourceBrowser</Filter>
-    </ClCompile>
-    <ClCompile Include="ResourceBrowser\ResourceBrowser_DescriptorCreator.cpp">
-      <Filter>ResourceBrowser</Filter>
-    </ClCompile>
-    <ClCompile Include="ResourceBrowser\RawResourceInspectors\RawResourceInspector.cpp">
-      <Filter>ResourceBrowser\RawResourceInspectors</Filter>
-    </ClCompile>
-    <ClCompile Include="ResourceBrowser\RawResourceInspectors\RawResourceInspector_FBX.cpp">
-      <Filter>ResourceBrowser\RawResourceInspectors</Filter>
-    </ClCompile>
-    <ClCompile Include="ResourceBrowser\RawResourceInspectors\RawResourceInspector_GLTF.cpp">
-      <Filter>ResourceBrowser\RawResourceInspectors</Filter>
-    </ClCompile>
-    <ClCompile Include="ResourceBrowser\RawResourceInspectors\RawResourceInspector_ImageFormats.cpp">
-      <Filter>ResourceBrowser\RawResourceInspectors</Filter>
-    </ClCompile>
     <ClCompile Include="Win32\EditorApplication_Win32.cpp">
       <Filter>Win32</Filter>
     </ClCompile>
@@ -40,24 +22,6 @@
     <ClCompile Include="EditorContext.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ResourceBrowser\ResourceBrowser.h">
-      <Filter>ResourceBrowser</Filter>
-    </ClInclude>
-    <ClInclude Include="ResourceBrowser\ResourceBrowser_DescriptorCreator.h">
-      <Filter>ResourceBrowser</Filter>
-    </ClInclude>
-    <ClInclude Include="ResourceBrowser\RawResourceInspectors\RawResourceInspector.h">
-      <Filter>ResourceBrowser\RawResourceInspectors</Filter>
-    </ClInclude>
-    <ClInclude Include="ResourceBrowser\RawResourceInspectors\RawResourceInspector_FBX.h">
-      <Filter>ResourceBrowser\RawResourceInspectors</Filter>
-    </ClInclude>
-    <ClInclude Include="ResourceBrowser\RawResourceInspectors\RawResourceInspector_GLTF.h">
-      <Filter>ResourceBrowser\RawResourceInspectors</Filter>
-    </ClInclude>
-    <ClInclude Include="ResourceBrowser\RawResourceInspectors\RawResourceInspector_ImageFormats.h">
-      <Filter>ResourceBrowser\RawResourceInspectors</Filter>
-    </ClInclude>
     <ClInclude Include="Win32\Resource.h">
       <Filter>Win32</Filter>
     </ClInclude>

@@ -18,7 +18,7 @@ namespace KRG::Resource
 
     //-------------------------------------------------------------------------
 
-    class RawResourceInspector
+    class RawFileInspector
     {
     public:
 
@@ -31,8 +31,8 @@ namespace KRG::Resource
 
     public:
 
-        RawResourceInspector( ToolsContext const* pToolsContext, FileSystem::Path const& filePath );
-        virtual ~RawResourceInspector();
+        RawFileInspector( ToolsContext const* pToolsContext, FileSystem::Path const& filePath );
+        virtual ~RawFileInspector();
 
         // Get the actual file-path for the file
         inline FileSystem::Path const& GetFilePath() const { return m_filePath; }
@@ -55,8 +55,8 @@ namespace KRG::Resource
         // Override this to draw the asset creator window, this is where you can create new descriptors
         virtual void DrawResourceDescriptorCreator() = 0;
 
-        RawResourceInspector& operator=( RawResourceInspector const& ) = delete;
-        RawResourceInspector( RawResourceInspector const& ) = delete;
+        RawFileInspector& operator=( RawFileInspector const& ) = delete;
+        RawFileInspector( RawFileInspector const& ) = delete;
 
     protected:
 
@@ -72,14 +72,14 @@ namespace KRG::Resource
     //-------------------------------------------------------------------------
     // Used to spawn the appropriate factory
 
-    class RawResourceInspectorFactory : public TGlobalRegistryBase<RawResourceInspectorFactory>
+    class RawFileInspectorFactory : public TGlobalRegistryBase<RawFileInspectorFactory>
     {
-        KRG_DECLARE_GLOBAL_REGISTRY( RawResourceInspectorFactory );
+        KRG_DECLARE_GLOBAL_REGISTRY( RawFileInspectorFactory );
 
     public:
 
         static bool CanCreateInspector( FileSystem::Path const& filePath );
-        static RawResourceInspector* TryCreateInspector( ToolsContext const* pToolsContext, FileSystem::Path const& filePath );
+        static RawFileInspector* TryCreateInspector( ToolsContext const* pToolsContext, FileSystem::Path const& filePath );
 
     protected:
 
@@ -87,7 +87,7 @@ namespace KRG::Resource
         virtual bool IsSupportedFile( FileSystem::Path const& filePath ) const = 0;
 
         // Virtual method that will create a workspace if the resource ID matches the appropriate types
-        virtual RawResourceInspector* CreateInspector( ToolsContext const* pToolsContext, FileSystem::Path const& filePath ) const = 0;
+        virtual RawFileInspector* CreateInspector( ToolsContext const* pToolsContext, FileSystem::Path const& filePath ) const = 0;
     };
 }
 
@@ -98,10 +98,10 @@ namespace KRG::Resource
 // Note: extension needs to be lowercase
 
 #define KRG_RAW_FILE_INSPECTOR_FACTORY( FactoryName, RawFileExtension, EditorClass )\
-class FactoryName final : public RawResourceInspectorFactory\
+class FactoryName final : public RawFileInspectorFactory\
 {\
     virtual bool IsSupportedFile( FileSystem::Path const& filePath) const override { return filePath.GetLowercaseExtensionAsString() == RawFileExtension; }\
-    virtual RawResourceInspector* CreateInspector( ToolsContext const* pToolsContext, FileSystem::Path const& filePath ) const override\
+    virtual RawFileInspector* CreateInspector( ToolsContext const* pToolsContext, FileSystem::Path const& filePath ) const override\
     {\
         KRG_ASSERT( IsSupportedFile( filePath ) );\
         return KRG::New<EditorClass>( pToolsContext, filePath );\

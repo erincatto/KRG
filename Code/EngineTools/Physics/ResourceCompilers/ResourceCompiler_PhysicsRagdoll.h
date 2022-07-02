@@ -1,6 +1,6 @@
 #pragma  once
 
-#include "EngineTools/Resource/Compilers/ResourceCompiler.h"
+#include "EngineTools/Resource/ResourceCompiler.h"
 
 //-------------------------------------------------------------------------
 
