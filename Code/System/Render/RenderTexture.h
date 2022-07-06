@@ -108,21 +108,7 @@ namespace KRG::Render
         friend class TextureLoader;
 
         KRG_REGISTER_RESOURCE( 'cbmp', "Render Cubemap Texture" );
-        //KRG_SERIALIZE( KRG_SERIALIZE_BASE( Texture ) );
-
-        friend Serialization::Internal::Archive;
-
-        Serialization::Internal::Archive<Serialization::BinaryReader>& Serialize( Serialization::Internal::Archive<Serialization::BinaryReader>& ar )
-        {
-            ar.Serialize( Serialization::Internal::SerializeBaseType<Texture>( this ) );
-            return ar; 
-        }
-
-        Serialization::Internal::Archive<Serialization::BinaryWriter>& Serialize( Serialization::Internal::Archive<Serialization::BinaryWriter>& ar ) 
-        {
-            ar.Serialize( Serialization::Internal::SerializeBaseType<Texture>( this ) ); 
-            return ar; 
-        }
+        KRG_SERIALIZE( KRG_SERIALIZE_BASE( Texture ) );
 
     public:
 

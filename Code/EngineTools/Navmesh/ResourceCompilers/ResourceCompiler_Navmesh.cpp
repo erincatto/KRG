@@ -15,7 +15,11 @@
 namespace KRG::Navmesh
 {
     NavmeshCompiler::NavmeshCompiler()
+        #if KRG_ENABLE_NAVPOWER
         : Resource::Compiler( "NavmeshCompiler", NavmeshGenerator::s_version )
+        #else
+        : Resource::Compiler( "NavmeshCompiler", 0 )
+        #endif
     {
         m_outputTypes.push_back( NavmeshData::GetStaticResourceTypeID() );
     }

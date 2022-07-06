@@ -406,7 +406,8 @@ namespace KRG::Serialization
 //-------------------------------------------------------------------------
 
 #define KRG_SERIALIZE( ... )\
-friend Serialization::Internal::Archive;\
+friend Serialization::Internal::Archive<Serialization::BinaryReader>;\
+friend Serialization::Internal::Archive<Serialization::BinaryWriter>;\
 Serialization::Internal::Archive<Serialization::BinaryReader>& Serialize( Serialization::Internal::Archive<Serialization::BinaryReader>& ar ) { ar.Serialize( __VA_ARGS__ ); return ar; }\
 Serialization::Internal::Archive<Serialization::BinaryWriter>& Serialize( Serialization::Internal::Archive<Serialization::BinaryWriter>& ar ) { ar.Serialize( __VA_ARGS__ ); return ar; }
 
@@ -415,7 +416,8 @@ Serialization::Internal::Archive<Serialization::BinaryWriter>& Serialize( Serial
 //-------------------------------------------------------------------------
 
 #define KRG_CUSTOM_SERIALIZE_READ_FUNCTION( archive )\
-friend Serialization::Internal::Archive;\
+friend Serialization::Internal::Archive<Serialization::BinaryReader>;\
+friend Serialization::Internal::Archive<Serialization::BinaryWriter>;\
 Serialization::Internal::Archive<Serialization::BinaryReader>& Serialize( Serialization::Internal::Archive<Serialization::BinaryReader>& archive )
 
 #define KRG_CUSTOM_SERIALIZE_WRITE_FUNCTION( archive ) Serialization::Internal::Archive<Serialization::BinaryWriter>& Serialize( Serialization::Internal::Archive<Serialization::BinaryWriter>& archive )

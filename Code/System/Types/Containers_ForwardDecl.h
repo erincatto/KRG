@@ -19,7 +19,6 @@ namespace eastl
     template <typename T, int nodeCount, bool bEnableOverflow, typename OverflowAllocator>
     class fixed_string;
 
-
     template <typename T, typename Allocator>
     class vector;
 
@@ -47,5 +46,5 @@ namespace KRG
 
     using Blob = TVector<uint8_t>;
 
-    template<typename K, typename V, typename H = eastl::hash<K>> using THashMap = eastl::hash_map<K, V, H, eastl::equal_to<K>, eastl::allocator, false>;
+    template<typename K, typename V> using THashMap = eastl::hash_map<K, V, eastl::hash<K>, eastl::equal_to<K>, eastl::allocator, false>;
 }
