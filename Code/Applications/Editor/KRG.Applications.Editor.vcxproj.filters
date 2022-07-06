@@ -1,35 +1,26 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="ResourceBrowser">
-      <UniqueIdentifier>{febd9861-40ab-4b17-8bf1-eaf05a024df8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ResourceBrowser\RawResourceInspectors">
-      <UniqueIdentifier>{500f7ede-b37e-4f24-bc9b-d378655d512c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="MapEditor">
-      <UniqueIdentifier>{f1f746db-92b1-46f7-9daa-5bf9a7f91237}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Win32">
-      <UniqueIdentifier>{180f5713-0f7e-4ea9-ab5a-f9b4062d1d49}</UniqueIdentifier>
-    </Filter>
-  </ItemGroup>
-  <ItemGroup>
+    <ClCompile Include="EditorUI.cpp" />
+    <ClCompile Include="EditorContext.cpp" />
     <ClCompile Include="Win32\EditorApplication_Win32.cpp">
       <Filter>Win32</Filter>
     </ClCompile>
-    <ClCompile Include="EditorUI.cpp" />
-    <ClCompile Include="EditorContext.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="EditorUI.h" />
+    <ClInclude Include="EditorContext.h" />
     <ClInclude Include="Win32\Resource.h">
       <Filter>Win32</Filter>
     </ClInclude>
     <ClInclude Include="Win32\EditorApplication_Win32.h">
       <Filter>Win32</Filter>
     </ClInclude>
-    <ClInclude Include="EditorUI.h" />
-    <ClInclude Include="EditorContext.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Win32">
+      <UniqueIdentifier>{2f85a086-5782-419d-9cca-aca483a00439}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Win32\Apps.Editor.rc">

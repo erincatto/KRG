@@ -1,17 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Clang">
-      <UniqueIdentifier>{7ca5fd30-3f9b-455e-aec1-7bd008e22758}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="CodeGenerators">
-      <UniqueIdentifier>{1d8ed0bd-c7ce-4cb9-a6f4-2a99438230b2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Database">
-      <UniqueIdentifier>{04e14969-3bf0-4c08-893b-99b928ef2fe5}</UniqueIdentifier>
-    </Filter>
-  </ItemGroup>
-  <ItemGroup>
+    <ClCompile Include="ReflectorSettingsAndUtils.cpp" />
+    <ClCompile Include="Reflector.cpp" />
     <ClCompile Include="Clang\ClangParserContext.cpp">
       <Filter>Clang</Filter>
     </ClCompile>
@@ -48,10 +39,13 @@
     <ClCompile Include="Database\ReflectionDataTypes.cpp">
       <Filter>Database</Filter>
     </ClCompile>
-    <ClCompile Include="ReflectorSettingsAndUtils.cpp" />
-    <ClCompile Include="Reflector.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Reflector.h" />
+    <ClInclude Include="ReflectorSettingsAndUtils.h" />
+    <ClInclude Include="Resources\Resource.h">
+      <Filter>Resources</Filter>
+    </ClInclude>
     <ClInclude Include="Clang\ClangParserContext.h">
       <Filter>Clang</Filter>
     </ClInclude>
@@ -91,14 +85,29 @@
     <ClInclude Include="Database\ReflectionProjectTypes.h">
       <Filter>Database</Filter>
     </ClInclude>
-    <ClInclude Include="Reflector.h" />
-    <ClInclude Include="ReflectorSettingsAndUtils.h" />
-    <ClInclude Include="Resources\Resource.h" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="Resources\KRG.Applications.Reflector.rc" />
+    <Filter Include="Resources">
+      <UniqueIdentifier>{a7e94abf-f07c-4c97-8c51-df44fb3d16ef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Clang">
+      <UniqueIdentifier>{6638ab7f-1c6b-4079-a1c7-e3577d3e6f20}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="CodeGenerators">
+      <UniqueIdentifier>{2e4b0447-c482-44ff-9122-8f02193dd4f6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Database">
+      <UniqueIdentifier>{282c0b75-2ea6-4f31-a337-5dbf14c15e6b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="Resources\Reflector.ico" />
+    <ResourceCompile Include="Resources\KRG.Applications.Reflector.rc">
+      <Filter>Resources</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Resources\Reflector.ico">
+      <Filter>Resources</Filter>
+    </Image>
   </ItemGroup>
 </Project>

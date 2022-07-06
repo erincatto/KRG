@@ -116,7 +116,7 @@
     </Text>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Engine\KRG.Engine..vcxproj">
+    <ProjectReference Include="..\..\Engine\KRG.Engine.vcxproj">
       <Project>{2cfadbdc-ee40-4484-94d0-62a90206209e}</Project>
     </ProjectReference>
     <ProjectReference Include="..\..\Game\KRG.Game.vcxproj">

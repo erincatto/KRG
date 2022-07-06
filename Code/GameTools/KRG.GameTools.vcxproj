@@ -41,7 +41,7 @@
     <ProjectReference Include="..\EngineTools\KRG.EngineTools.vcxproj">
       <Project>{821afa79-df18-4414-9775-e0c0f45bad78}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\Engine\KRG.Engine..vcxproj">
+    <ProjectReference Include="..\Engine\KRG.Engine.vcxproj">
       <Project>{2cfadbdc-ee40-4484-94d0-62a90206209e}</Project>
     </ProjectReference>
     <ProjectReference Include="..\Game\KRG.Game.vcxproj">
