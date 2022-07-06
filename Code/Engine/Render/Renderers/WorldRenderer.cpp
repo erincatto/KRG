@@ -813,7 +813,7 @@ namespace KRG::Render
                 lightingFlags |= LIGHTING_ENABLE_SKYLIGHT;
                 renderData.m_pSkyboxRadianceTexture = pGlobalEnvironmentMapComponent->GetSkyboxRadianceTexture();
                 renderData.m_pSkyboxTexture = pGlobalEnvironmentMapComponent->GetSkyboxTexture();
-                renderData.m_lightData.m_SunColorRoughnessOneLevel.m_w = std::max( floor( log2f( (float) renderData.m_pSkyboxRadianceTexture->GetDimensions().m_x ) ) - 1.0f, 0.0f );
+                renderData.m_lightData.m_SunColorRoughnessOneLevel.m_w = Math::Max( Math::Floor( Math::Log2f( (float) renderData.m_pSkyboxRadianceTexture->GetDimensions().m_x ) ) - 1.0f, 0.0f );
                 renderData.m_lightData.m_SunDirIndirectIntensity.m_w = pGlobalEnvironmentMapComponent->GetSkyboxIntensity();
                 renderData.m_lightData.m_manualExposure = pGlobalEnvironmentMapComponent->GetExposure();
             }

@@ -152,7 +152,7 @@ namespace KRG::VisualGraph::Flow
 
     //-------------------------------------------------------------------------
 
-    void Node::SerializeCustom( TypeSystem::TypeRegistry const& typeRegistry, RapidJsonValue const& nodeObjectValue )
+    void Node::SerializeCustom( TypeSystem::TypeRegistry const& typeRegistry, Serialization::JsonValue const& nodeObjectValue )
     {
         KRG_ASSERT( nodeObjectValue.IsObject() );
 
@@ -183,7 +183,7 @@ namespace KRG::VisualGraph::Flow
         }
     }
 
-    void Node::SerializeCustom( TypeSystem::TypeRegistry const& typeRegistry, RapidJsonWriter& writer ) const
+    void Node::SerializeCustom( TypeSystem::TypeRegistry const& typeRegistry, Serialization::JsonWriter& writer ) const
     {
         writer.Key( s_inputPinsKey );
         writer.StartArray();
@@ -463,7 +463,7 @@ namespace KRG::VisualGraph
 
     //-------------------------------------------------------------------------
 
-    void FlowGraph::SerializeCustom( TypeSystem::TypeRegistry const& typeRegistry, RapidJsonValue const& graphObjectValue )
+    void FlowGraph::SerializeCustom( TypeSystem::TypeRegistry const& typeRegistry, Serialization::JsonValue const& graphObjectValue )
     {
         KRG_ASSERT( graphObjectValue.IsObject() );
 
@@ -485,7 +485,7 @@ namespace KRG::VisualGraph
         }
     }
 
-    void FlowGraph::SerializeCustom( TypeSystem::TypeRegistry const& typeRegistry, RapidJsonWriter& writer ) const
+    void FlowGraph::SerializeCustom( TypeSystem::TypeRegistry const& typeRegistry, Serialization::JsonWriter& writer ) const
     {
         writer.Key( s_connectionsKey );
         writer.StartArray();
@@ -498,7 +498,7 @@ namespace KRG::VisualGraph
         writer.EndArray();
     }
 
-    void FlowGraph::SerializeConnection( RapidJsonWriter& writer, Flow::Connection const& connection ) const
+    void FlowGraph::SerializeConnection( Serialization::JsonWriter& writer, Flow::Connection const& connection ) const
     {
         writer.StartObject();
 

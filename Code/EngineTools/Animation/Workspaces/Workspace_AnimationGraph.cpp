@@ -44,16 +44,16 @@ namespace KRG::Animation
 
         virtual void Undo() override
         {
-            JsonReader reader;
-            reader.ReadFromString( m_valueBefore.c_str() );
-            m_pWorkspace->m_editorContext.LoadGraph( reader.GetDocument() );
+            Serialization::JsonArchiveReader archive;
+            archive.ReadFromString( m_valueBefore.c_str() );
+            m_pWorkspace->m_editorContext.LoadGraph( archive.GetDocument() );
         }
 
         virtual void Redo() override
         {
-            JsonReader reader;
-            reader.ReadFromString( m_valueAfter.c_str() );
-            m_pWorkspace->m_editorContext.LoadGraph( reader.GetDocument() );
+            Serialization::JsonArchiveReader archive;
+            archive.ReadFromString( m_valueAfter.c_str() );
+            m_pWorkspace->m_editorContext.LoadGraph( archive.GetDocument() );
         }
 
         void SerializeBeforeState()
@@ -63,18 +63,18 @@ namespace KRG::Animation
                 m_pWorkspace->StopPreview();
             }
 
-            JsonWriter writer;
-            m_pWorkspace->m_editorContext.SaveGraph( *writer.GetWriter() );
-            m_valueBefore.resize( writer.GetStringBuffer().GetSize() );
-            memcpy( m_valueBefore.data(), writer.GetStringBuffer().GetString(), writer.GetStringBuffer().GetSize() );
+            Serialization::JsonArchiveWriter archive;
+            m_pWorkspace->m_editorContext.SaveGraph( *archive.GetWriter() );
+            m_valueBefore.resize( archive.GetStringBuffer().GetSize() );
+            memcpy( m_valueBefore.data(), archive.GetStringBuffer().GetString(), archive.GetStringBuffer().GetSize() );
         }
 
         void SerializeAfterState()
         {
-            JsonWriter writer;
-            m_pWorkspace->m_editorContext.SaveGraph( *writer.GetWriter() );
-            m_valueAfter.resize( writer.GetStringBuffer().GetSize() );
-            memcpy( m_valueAfter.data(), writer.GetStringBuffer().GetString(), writer.GetStringBuffer().GetSize() );
+            Serialization::JsonArchiveWriter archive;
+            m_pWorkspace->m_editorContext.SaveGraph( *archive.GetWriter() );
+            m_valueAfter.resize( archive.GetStringBuffer().GetSize() );
+            memcpy( m_valueAfter.data(), archive.GetStringBuffer().GetString(), archive.GetStringBuffer().GetSize() );
         }
 
     private:
@@ -102,14 +102,14 @@ namespace KRG::Animation
             bool graphLoadFailed = false;
 
             // Try read JSON data
-            JsonReader reader;
-            if ( !reader.ReadFromFile( m_graphFilePath ) )
+            Serialization::JsonArchiveReader archive;
+            if ( !archive.ReadFromFile( m_graphFilePath ) )
             {
                 graphLoadFailed = true;
             }
 
             // Try to load the graph from the file
-            if ( !m_editorContext.LoadGraph( reader.GetDocument() ) )
+            if ( !m_editorContext.LoadGraph( archive.GetDocument() ) )
             {
                 KRG_LOG_ERROR( "Animation", "Failed to load graph definition: %s", m_graphFilePath.c_str() );
             }
@@ -577,9 +577,9 @@ namespace KRG::Animation
     bool AnimationGraphWorkspace::Save()
     {
         KRG_ASSERT( m_graphFilePath.IsValid() );
-        JsonWriter writer;
-        m_editorContext.SaveGraph( *writer.GetWriter() );
-        if ( writer.WriteToFile( m_graphFilePath ) )
+        Serialization::JsonArchiveWriter archive;
+        m_editorContext.SaveGraph( *archive.GetWriter() );
+        if ( archive.WriteToFile( m_graphFilePath ) )
         {
             GenerateAnimGraphVariationDescriptors();
             m_editorContext.ClearDirty();

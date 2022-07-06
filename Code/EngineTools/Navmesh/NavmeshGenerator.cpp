@@ -13,7 +13,7 @@
 #include "Engine/Entity/EntityDescriptors.h"
 #include "System/Resource/ResourceHeader.h"
 #include "System/TypeSystem/TypeRegistry.h"
-#include "System/Serialization/BinaryArchive.h"
+#include "System/Serialization/BinarySerialization.h"
 #include <bfxSystem.h>
 
 //-------------------------------------------------------------------------
@@ -399,10 +399,11 @@ namespace KRG::Navmesh
         Printf( m_progressMessage, 256, "Step 4/4: Saving Navmesh" );
         m_progress = 1.0f;
 
-        Serialization::BinaryFileArchive archive( Serialization::Mode::Write, m_outputPath );
-        if ( archive.IsValid() )
+        Serialization::BinaryOutputArchive archive;
+        archive << Resource::ResourceHeader( s_version, Navmesh::NavmeshData::GetStaticResourceTypeID() ) << navmeshData;
+
+        if ( archive.WriteToFile( m_outputPath ) )
         {
-            archive << Resource::ResourceHeader( s_version, Navmesh::NavmeshData::GetStaticResourceTypeID() ) << navmeshData;
             return true;
         }
 

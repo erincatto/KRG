@@ -21,7 +21,7 @@ namespace KRG::Animation
 
     struct QuantizationRange
     {
-        KRG_SERIALIZE_MEMBERS( m_rangeStart, m_rangeLength );
+        KRG_SERIALIZE( m_rangeStart, m_rangeLength );
 
         QuantizationRange() = default;
 
@@ -42,7 +42,7 @@ namespace KRG::Animation
 
     struct TrackCompressionSettings
     {
-        KRG_SERIALIZE_MEMBERS( m_translationRangeX, m_translationRangeY, m_translationRangeZ, m_scaleRangeX, m_scaleRangeY, m_scaleRangeZ, m_trackStartIndex, m_isTranslationStatic, m_isScaleStatic );
+        KRG_SERIALIZE( m_translationRangeX, m_translationRangeY, m_translationRangeZ, m_scaleRangeX, m_scaleRangeY, m_scaleRangeZ, m_trackStartIndex, m_isTranslationStatic, m_isScaleStatic );
 
         friend class AnimationClipCompiler;
 
@@ -77,7 +77,7 @@ namespace KRG::Animation
     class KRG_ENGINE_API AnimationClip : public Resource::IResource
     {
         KRG_REGISTER_RESOURCE( 'anim', "Animation Clip" );
-        KRG_SERIALIZE_MEMBERS( m_pSkeleton, m_numFrames, m_duration, m_compressedPoseData, m_trackCompressionSettings, m_rootMotion, m_isAdditive );
+        KRG_SERIALIZE( m_pSkeleton, m_numFrames, m_duration, m_compressedPoseData, m_trackCompressionSettings, m_rootMotion, m_isAdditive );
 
         friend class AnimationClipCompiler;
         friend class AnimationClipLoader;

@@ -2,7 +2,7 @@
 
 #include "Engine/_Module/API.h"
 #include "Engine/UpdateStage.h"
-#include "System/TypeSystem/TypeRegistrationMacros.h"
+#include "System/TypeSystem/RegisteredType.h"
 
 //-------------------------------------------------------------------------
 

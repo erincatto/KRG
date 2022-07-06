@@ -4,6 +4,7 @@
 #include "System/KRG.h"
 #include <cstring>
 #include <malloc.h>
+#include <utility>
 
 //-------------------------------------------------------------------------
 
@@ -115,7 +116,7 @@ namespace KRG
     //-------------------------------------------------------------------------
 
     template< typename T, typename ... ConstructorParams >
-    [[nodiscard]] KRG_FORCE_INLINE T* NewArray( size_t const numElements )
+    [[nodiscard]] KRG_FORCE_INLINE T* NewArray( size_t const numElements, ConstructorParams&&... params )
     {
         size_t const requiredAlignment = std::max( alignof( T ), size_t( 16 ) );
         size_t const requiredExtraMemory = std::max( requiredAlignment, size_t( 4 ) );
@@ -135,7 +136,7 @@ namespace KRG
         uint32_t* pNumElements = reinterpret_cast<uint32_t*>( pArrayAddress ) - 1;
         *pNumElements = uint32_t( numElements );
 
-        return pArrayAddress;
+        return reinterpret_cast<T*>( pArrayAddress );
     }
 
     template< typename T >

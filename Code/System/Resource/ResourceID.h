@@ -17,19 +17,17 @@ namespace KRG
 {
     class KRG_SYSTEM_API ResourceID
     {
-        friend cereal::access;
-
-        template <class Archive>
-        void save( Archive& ar ) const
+        KRG_CUSTOM_SERIALIZE_WRITE_FUNCTION( archive )
         {
-            ar( m_path );
+            archive << m_path;
+            return archive;
         }
 
-        template <class Archive>
-        void load( Archive& ar )
+        KRG_CUSTOM_SERIALIZE_READ_FUNCTION( archive )
         {
-            ar( m_path );
+            archive << m_path;
             OnPathChanged();
+            return archive;
         }
 
     public:

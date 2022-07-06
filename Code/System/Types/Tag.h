@@ -1,6 +1,6 @@
 #pragma once
 #include "System/Types/StringID.h"
-#include "System/Serialization/Serialization.h"
+#include "System/Serialization/BinarySerialization.h"
 #include "Arrays.h"
 
 //-------------------------------------------------------------------------
@@ -13,7 +13,7 @@ namespace KRG
 {
     class KRG_SYSTEM_API Tag
     {
-        KRG_SERIALIZE_MEMBERS( m_c );
+        KRG_SERIALIZE( m_c );
 
         enum State
         {

@@ -2,7 +2,7 @@
 
 #include "System/_Module/API.h"
 #include "System/Types/String.h"
-#include "System/Serialization/Serialization.h"
+#include "System/Serialization/BinarySerialization.h"
 
 //-------------------------------------------------------------------------
 // Resource Type ID
@@ -14,7 +14,7 @@ namespace KRG
 {
     class KRG_SYSTEM_API ResourceTypeID
     {
-        KRG_SERIALIZE_MEMBERS( KRG_NVP( m_ID ) );
+        KRG_SERIALIZE( m_ID );
 
     public:
 

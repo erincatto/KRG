@@ -148,9 +148,6 @@
     <ClCompile Include="TypeSystem\TypeDescriptors.cpp">
       <Filter>TypeSystem</Filter>
     </ClCompile>
-    <ClCompile Include="TypeSystem\TypeHelpers.cpp">
-      <Filter>TypeSystem</Filter>
-    </ClCompile>
     <ClCompile Include="TypeSystem\TypeInfo.cpp">
       <Filter>TypeSystem</Filter>
     </ClCompile>
@@ -222,9 +219,6 @@
     </ClCompile>
     <ClCompile Include="Platform\PlatformHelpers_Win32.cpp">
       <Filter>Platform</Filter>
-    </ClCompile>
-    <ClCompile Include="ThirdParty\KRG_RapidJson.cpp">
-      <Filter>ThirdParty</Filter>
     </ClCompile>
     <ClCompile Include="ThirdParty\stb\krg_stb.cpp">
       <Filter>ThirdParty\stb</Filter>
@@ -313,9 +307,6 @@
     <ClCompile Include="Memory\Memory.cpp">
       <Filter>Memory</Filter>
     </ClCompile>
-    <ClCompile Include="Memory\MemoryStreamHelpers.cpp">
-      <Filter>Memory</Filter>
-    </ClCompile>
     <ClCompile Include="Log.cpp" />
     <ClCompile Include="Systems.cpp" />
     <ClCompile Include="Threading\TaskSystem.cpp">
@@ -337,12 +328,10 @@
     <ClCompile Include="Algorithm\Encoding.cpp">
       <Filter>Algorithm</Filter>
     </ClCompile>
-    <ClCompile Include="Serialization\JsonArchive.cpp">
-      <Filter>Serialization</Filter>
-    </ClCompile>
-    <ClCompile Include="Serialization\BinaryArchive.cpp">
-      <Filter>Serialization</Filter>
-    </ClCompile>
+    <ClCompile Include="TypeSystem\RegisteredType.cpp" />
+    <ClCompile Include="Serialization\JsonSerialization.cpp" />
+    <ClCompile Include="Serialization\BinarySerialization.cpp" />
+    <ClCompile Include="ThirdParty\mpack\mpack.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation\AnimationPose.h">
@@ -541,9 +530,6 @@
     <ClInclude Include="TypeSystem\EnumInfo.h">
       <Filter>TypeSystem</Filter>
     </ClInclude>
-    <ClInclude Include="TypeSystem\ITypeHelper.h">
-      <Filter>TypeSystem</Filter>
-    </ClInclude>
     <ClInclude Include="TypeSystem\PropertyInfo.h">
       <Filter>TypeSystem</Filter>
     </ClInclude>
@@ -556,16 +542,13 @@
     <ClInclude Include="TypeSystem\TypeDescriptors.h">
       <Filter>TypeSystem</Filter>
     </ClInclude>
-    <ClInclude Include="TypeSystem\TypeHelpers.h">
-      <Filter>TypeSystem</Filter>
-    </ClInclude>
     <ClInclude Include="TypeSystem\TypeID.h">
       <Filter>TypeSystem</Filter>
     </ClInclude>
     <ClInclude Include="TypeSystem\TypeInfo.h">
       <Filter>TypeSystem</Filter>
     </ClInclude>
-    <ClInclude Include="TypeSystem\TypeRegistrationMacros.h">
+    <ClInclude Include="TypeSystem\RegisteredType.h">
       <Filter>TypeSystem</Filter>
     </ClInclude>
     <ClInclude Include="TypeSystem\TypeRegistry.h">
@@ -657,9 +640,6 @@
     </ClInclude>
     <ClInclude Include="Platform\PlatformHelpers_Win32.h">
       <Filter>Platform</Filter>
-    </ClInclude>
-    <ClInclude Include="ThirdParty\KRG_RapidJson.h">
-      <Filter>ThirdParty</Filter>
     </ClInclude>
     <ClInclude Include="ThirdParty\stb\stb_image.h">
       <Filter>ThirdParty\stb</Filter>
@@ -1504,261 +1484,6 @@
     <ClInclude Include="ThirdParty\pcg\include\pcg_uint128.hpp">
       <Filter>ThirdParty\pcg\include</Filter>
     </ClInclude>
-    <ClInclude Include="ThirdParty\cereal\specialize.hpp">
-      <Filter>ThirdParty\cereal</Filter>
-    </ClInclude>
-    <ClInclude Include="ThirdParty\cereal\version.hpp">
-      <Filter>ThirdParty\cereal</Filter>
-    </ClInclude>
-    <ClInclude Include="ThirdParty\cereal\access.hpp">
-      <Filter>ThirdParty\cereal</Filter>
-    </ClInclude>
-    <ClInclude Include="ThirdParty\cereal\cereal.hpp">
-      <Filter>ThirdParty\cereal</Filter>
-    </ClInclude>
-    <ClInclude Include="ThirdParty\cereal\macros.hpp">
-      <Filter>ThirdParty\cereal</Filter>
-    </ClInclude>
-    <ClInclude Include="ThirdParty\cereal\types\atomic.hpp">
-      <Filter>ThirdParty\cereal\types</Filter>
-    </ClInclude>
-    <ClInclude Include="ThirdParty\cereal\types\optional.hpp">
-      <Filter>ThirdParty\cereal\types</Filter>
-    </ClInclude>
-    <ClInclude Include="ThirdParty\cereal\types\variant.hpp">
-      <Filter>ThirdParty\cereal\types</Filter>
-    </ClInclude>
-    <ClInclude Include="ThirdParty\cereal\types\array.hpp">
-      <Filter>ThirdParty\cereal\types</Filter>
-    </ClInclude>
-    <ClInclude Include="ThirdParty\cereal\types\base_class.hpp">
-      <Filter>ThirdParty\cereal\types</Filter>
-    </ClInclude>
-    <ClInclude Include="ThirdParty\cereal\types\bitset.hpp">
-      <Filter>ThirdParty\cereal\types</Filter>
-    </ClInclude>
-    <ClInclude Include="ThirdParty\cereal\types\boost_variant.hpp">
-      <Filter>ThirdParty\cereal\types</Filter>
-    </ClInclude>
-    <ClInclude Include="ThirdParty\cereal\types\chrono.hpp">
-      <Filter>ThirdParty\cereal\types</Filter>
-    </ClInclude>
-    <ClInclude Include="ThirdParty\cereal\types\common.hpp">
-      <Filter>ThirdParty\cereal\types</Filter>
-    </ClInclude>
-    <ClInclude Include="ThirdParty\cereal\types\complex.hpp">
-      <Filter>ThirdParty\cereal\types</Filter>
-    </ClInclude>
-    <ClInclude Include="ThirdParty\cereal\types\deque.hpp">
-      <Filter>ThirdParty\cereal\types</Filter>
-    </ClInclude>
-    <ClInclude Include="ThirdParty\cereal\types\forward_list.hpp">
-      <Filter>ThirdParty\cereal\types</Filter>
-    </ClInclude>
-    <ClInclude Include="ThirdParty\cereal\types\functional.hpp">
-      <Filter>ThirdParty\cereal\types</Filter>
-    </ClInclude>
-    <ClInclude Include="ThirdParty\cereal\types\list.hpp">
-      <Filter>ThirdParty\cereal\types</Filter>
-    </ClInclude>
-    <ClInclude Include="ThirdParty\cereal\types\map.hpp">
-      <Filter>ThirdParty\cereal\types</Filter>
-    </ClInclude>
-    <ClInclude Include="ThirdParty\cereal\types\memory.hpp">
-      <Filter>ThirdParty\cereal\types</Filter>
-    </ClInclude>
-    <ClInclude Include="ThirdParty\cereal\types\polymorphic.hpp">
-      <Filter>ThirdParty\cereal\types</Filter>
-    </ClInclude>
-    <ClInclude Include="ThirdParty\cereal\types\queue.hpp">
-      <Filter>ThirdParty\cereal\types</Filter>
-    </ClInclude>
-    <ClInclude Include="ThirdParty\cereal\types\set.hpp">
-      <Filter>ThirdParty\cereal\types</Filter>
-    </ClInclude>
-    <ClInclude Include="ThirdParty\cereal\types\stack.hpp">
-      <Filter>ThirdParty\cereal\types</Filter>
-    </ClInclude>
-    <ClInclude Include="ThirdParty\cereal\types\string.hpp">
-      <Filter>ThirdParty\cereal\types</Filter>
-    </ClInclude>
-    <ClInclude Include="ThirdParty\cereal\types\tuple.hpp">
-      <Filter>ThirdParty\cereal\types</Filter>
-    </ClInclude>
-    <ClInclude Include="ThirdParty\cereal\types\unordered_map.hpp">
-      <Filter>ThirdParty\cereal\types</Filter>
-    </ClInclude>
-    <ClInclude Include="ThirdParty\cereal\types\unordered_set.hpp">
-      <Filter>ThirdParty\cereal\types</Filter>
-    </ClInclude>
-    <ClInclude Include="ThirdParty\cereal\types\utility.hpp">
-      <Filter>ThirdParty\cereal\types</Filter>
-    </ClInclude>
-    <ClInclude Include="ThirdParty\cereal\types\valarray.hpp">
-      <Filter>ThirdParty\cereal\types</Filter>
-    </ClInclude>
-    <ClInclude Include="ThirdParty\cereal\types\vector.hpp">
-      <Filter>ThirdParty\cereal\types</Filter>
-    </ClInclude>
-    <ClInclude Include="ThirdParty\cereal\types\concepts\pair_associative_container.hpp">
-      <Filter>ThirdParty\cereal\types\concepts</Filter>
-    </ClInclude>
-    <ClInclude Include="ThirdParty\cereal\details\helpers.hpp">
-      <Filter>ThirdParty\cereal\details</Filter>
-    </ClInclude>
-    <ClInclude Include="ThirdParty\cereal\details\polymorphic_impl.hpp">
-      <Filter>ThirdParty\cereal\details</Filter>
-    </ClInclude>
-    <ClInclude Include="ThirdParty\cereal\details\polymorphic_impl_fwd.hpp">
-      <Filter>ThirdParty\cereal\details</Filter>
-    </ClInclude>
-    <ClInclude Include="ThirdParty\cereal\details\static_object.hpp">
-      <Filter>ThirdParty\cereal\details</Filter>
-    </ClInclude>
-    <ClInclude Include="ThirdParty\cereal\details\traits.hpp">
-      <Filter>ThirdParty\cereal\details</Filter>
-    </ClInclude>
-    <ClInclude Include="ThirdParty\cereal\details\util.hpp">
-      <Filter>ThirdParty\cereal\details</Filter>
-    </ClInclude>
-    <ClInclude Include="ThirdParty\cereal\archives\xml.hpp">
-      <Filter>ThirdParty\cereal\archives</Filter>
-    </ClInclude>
-    <ClInclude Include="ThirdParty\cereal\archives\adapters.hpp">
-      <Filter>ThirdParty\cereal\archives</Filter>
-    </ClInclude>
-    <ClInclude Include="ThirdParty\cereal\archives\binary.hpp">
-      <Filter>ThirdParty\cereal\archives</Filter>
-    </ClInclude>
-    <ClInclude Include="ThirdParty\cereal\archives\json.hpp">
-      <Filter>ThirdParty\cereal\archives</Filter>
-    </ClInclude>
-    <ClInclude Include="ThirdParty\cereal\archives\portable_binary.hpp">
-      <Filter>ThirdParty\cereal\archives</Filter>
-    </ClInclude>
-    <ClInclude Include="ThirdParty\cereal\external\base64.hpp">
-      <Filter>ThirdParty\cereal\external</Filter>
-    </ClInclude>
-    <ClInclude Include="ThirdParty\cereal\external\rapidxml\rapidxml.hpp">
-      <Filter>ThirdParty\cereal\external\rapidxml</Filter>
-    </ClInclude>
-    <ClInclude Include="ThirdParty\cereal\external\rapidxml\rapidxml_iterators.hpp">
-      <Filter>ThirdParty\cereal\external\rapidxml</Filter>
-    </ClInclude>
-    <ClInclude Include="ThirdParty\cereal\external\rapidxml\rapidxml_print.hpp">
-      <Filter>ThirdParty\cereal\external\rapidxml</Filter>
-    </ClInclude>
-    <ClInclude Include="ThirdParty\cereal\external\rapidxml\rapidxml_utils.hpp">
-      <Filter>ThirdParty\cereal\external\rapidxml</Filter>
-    </ClInclude>
-    <ClInclude Include="ThirdParty\cereal\external\rapidjson\cursorstreamwrapper.h">
-      <Filter>ThirdParty\cereal\external\rapidjson</Filter>
-    </ClInclude>
-    <ClInclude Include="ThirdParty\cereal\external\rapidjson\allocators.h">
-      <Filter>ThirdParty\cereal\external\rapidjson</Filter>
-    </ClInclude>
-    <ClInclude Include="ThirdParty\cereal\external\rapidjson\document.h">
-      <Filter>ThirdParty\cereal\external\rapidjson</Filter>
-    </ClInclude>
-    <ClInclude Include="ThirdParty\cereal\external\rapidjson\encodedstream.h">
-      <Filter>ThirdParty\cereal\external\rapidjson</Filter>
-    </ClInclude>
-    <ClInclude Include="ThirdParty\cereal\external\rapidjson\encodings.h">
-      <Filter>ThirdParty\cereal\external\rapidjson</Filter>
-    </ClInclude>
-    <ClInclude Include="ThirdParty\cereal\external\rapidjson\filereadstream.h">
-      <Filter>ThirdParty\cereal\external\rapidjson</Filter>
-    </ClInclude>
-    <ClInclude Include="ThirdParty\cereal\external\rapidjson\filewritestream.h">
-      <Filter>ThirdParty\cereal\external\rapidjson</Filter>
-    </ClInclude>
-    <ClInclude Include="ThirdParty\cereal\external\rapidjson\fwd.h">
-      <Filter>ThirdParty\cereal\external\rapidjson</Filter>
-    </ClInclude>
-    <ClInclude Include="ThirdParty\cereal\external\rapidjson\istreamwrapper.h">
-      <Filter>ThirdParty\cereal\external\rapidjson</Filter>
-    </ClInclude>
-    <ClInclude Include="ThirdParty\cereal\external\rapidjson\memorybuffer.h">
-      <Filter>ThirdParty\cereal\external\rapidjson</Filter>
-    </ClInclude>
-    <ClInclude Include="ThirdParty\cereal\external\rapidjson\memorystream.h">
-      <Filter>ThirdParty\cereal\external\rapidjson</Filter>
-    </ClInclude>
-    <ClInclude Include="ThirdParty\cereal\external\rapidjson\ostreamwrapper.h">
-      <Filter>ThirdParty\cereal\external\rapidjson</Filter>
-    </ClInclude>
-    <ClInclude Include="ThirdParty\cereal\external\rapidjson\pointer.h">
-      <Filter>ThirdParty\cereal\external\rapidjson</Filter>
-    </ClInclude>
-    <ClInclude Include="ThirdParty\cereal\external\rapidjson\prettywriter.h">
-      <Filter>ThirdParty\cereal\external\rapidjson</Filter>
-    </ClInclude>
-    <ClInclude Include="ThirdParty\cereal\external\rapidjson\rapidjson.h">
-      <Filter>ThirdParty\cereal\external\rapidjson</Filter>
-    </ClInclude>
-    <ClInclude Include="ThirdParty\cereal\external\rapidjson\reader.h">
-      <Filter>ThirdParty\cereal\external\rapidjson</Filter>
-    </ClInclude>
-    <ClInclude Include="ThirdParty\cereal\external\rapidjson\schema.h">
-      <Filter>ThirdParty\cereal\external\rapidjson</Filter>
-    </ClInclude>
-    <ClInclude Include="ThirdParty\cereal\external\rapidjson\stream.h">
-      <Filter>ThirdParty\cereal\external\rapidjson</Filter>
-    </ClInclude>
-    <ClInclude Include="ThirdParty\cereal\external\rapidjson\stringbuffer.h">
-      <Filter>ThirdParty\cereal\external\rapidjson</Filter>
-    </ClInclude>
-    <ClInclude Include="ThirdParty\cereal\external\rapidjson\writer.h">
-      <Filter>ThirdParty\cereal\external\rapidjson</Filter>
-    </ClInclude>
-    <ClInclude Include="ThirdParty\cereal\external\rapidjson\error\en.h">
-      <Filter>ThirdParty\cereal\external\rapidjson\error</Filter>
-    </ClInclude>
-    <ClInclude Include="ThirdParty\cereal\external\rapidjson\error\error.h">
-      <Filter>ThirdParty\cereal\external\rapidjson\error</Filter>
-    </ClInclude>
-    <ClInclude Include="ThirdParty\cereal\external\rapidjson\internal\biginteger.h">
-      <Filter>ThirdParty\cereal\external\rapidjson\internal</Filter>
-    </ClInclude>
-    <ClInclude Include="ThirdParty\cereal\external\rapidjson\internal\diyfp.h">
-      <Filter>ThirdParty\cereal\external\rapidjson\internal</Filter>
-    </ClInclude>
-    <ClInclude Include="ThirdParty\cereal\external\rapidjson\internal\dtoa.h">
-      <Filter>ThirdParty\cereal\external\rapidjson\internal</Filter>
-    </ClInclude>
-    <ClInclude Include="ThirdParty\cereal\external\rapidjson\internal\ieee754.h">
-      <Filter>ThirdParty\cereal\external\rapidjson\internal</Filter>
-    </ClInclude>
-    <ClInclude Include="ThirdParty\cereal\external\rapidjson\internal\itoa.h">
-      <Filter>ThirdParty\cereal\external\rapidjson\internal</Filter>
-    </ClInclude>
-    <ClInclude Include="ThirdParty\cereal\external\rapidjson\internal\meta.h">
-      <Filter>ThirdParty\cereal\external\rapidjson\internal</Filter>
-    </ClInclude>
-    <ClInclude Include="ThirdParty\cereal\external\rapidjson\internal\pow10.h">
-      <Filter>ThirdParty\cereal\external\rapidjson\internal</Filter>
-    </ClInclude>
-    <ClInclude Include="ThirdParty\cereal\external\rapidjson\internal\regex.h">
-      <Filter>ThirdParty\cereal\external\rapidjson\internal</Filter>
-    </ClInclude>
-    <ClInclude Include="ThirdParty\cereal\external\rapidjson\internal\stack.h">
-      <Filter>ThirdParty\cereal\external\rapidjson\internal</Filter>
-    </ClInclude>
-    <ClInclude Include="ThirdParty\cereal\external\rapidjson\internal\strfunc.h">
-      <Filter>ThirdParty\cereal\external\rapidjson\internal</Filter>
-    </ClInclude>
-    <ClInclude Include="ThirdParty\cereal\external\rapidjson\internal\strtod.h">
-      <Filter>ThirdParty\cereal\external\rapidjson\internal</Filter>
-    </ClInclude>
-    <ClInclude Include="ThirdParty\cereal\external\rapidjson\internal\swap.h">
-      <Filter>ThirdParty\cereal\external\rapidjson\internal</Filter>
-    </ClInclude>
-    <ClInclude Include="ThirdParty\cereal\external\rapidjson\msinttypes\inttypes.h">
-      <Filter>ThirdParty\cereal\external\rapidjson\msinttypes</Filter>
-    </ClInclude>
-    <ClInclude Include="ThirdParty\cereal\external\rapidjson\msinttypes\stdint.h">
-      <Filter>ThirdParty\cereal\external\rapidjson\msinttypes</Filter>
-    </ClInclude>
     <ClInclude Include="ThirdParty\concurrentqueue\blockingconcurrentqueue.h">
       <Filter>ThirdParty\concurrentqueue</Filter>
     </ClInclude>
@@ -1767,9 +1492,6 @@
     </ClInclude>
     <ClInclude Include="ThirdParty\concurrentqueue\lightweightsemaphore.h">
       <Filter>ThirdParty\concurrentqueue</Filter>
-    </ClInclude>
-    <ClInclude Include="Types\AdvancedContainers.h">
-      <Filter>Types</Filter>
     </ClInclude>
     <ClInclude Include="Types\Event.h">
       <Filter>Types</Filter>
@@ -1837,9 +1559,6 @@
     <ClInclude Include="Memory\Pointers.h">
       <Filter>Memory</Filter>
     </ClInclude>
-    <ClInclude Include="Memory\MemoryStreamHelpers.h">
-      <Filter>Memory</Filter>
-    </ClInclude>
     <ClInclude Include="Log.h" />
     <ClInclude Include="Systems.h" />
     <ClInclude Include="Threading\TaskSystem.h">
@@ -1861,66 +1580,55 @@
     <ClInclude Include="Algorithm\Encoding.h">
       <Filter>Algorithm</Filter>
     </ClInclude>
-    <ClInclude Include="Serialization\JsonArchive.h">
-      <Filter>Serialization</Filter>
-    </ClInclude>
-    <ClInclude Include="Serialization\Serialization.h">
-      <Filter>Serialization</Filter>
-    </ClInclude>
-    <ClInclude Include="Serialization\BinaryArchive.h">
-      <Filter>Serialization</Filter>
-    </ClInclude>
-    <ClInclude Include="Serialization\UserTypes\eastl_fixed_vector.hpp">
-      <Filter>Serialization\UserTypes</Filter>
-    </ClInclude>
-    <ClInclude Include="Serialization\UserTypes\eastl_bitset.hpp">
-      <Filter>Serialization\UserTypes</Filter>
-    </ClInclude>
-    <ClInclude Include="Serialization\UserTypes\eastl_deque.hpp">
-      <Filter>Serialization\UserTypes</Filter>
-    </ClInclude>
-    <ClInclude Include="Serialization\UserTypes\eastl_hash_map.hpp">
-      <Filter>Serialization\UserTypes</Filter>
-    </ClInclude>
-    <ClInclude Include="Serialization\UserTypes\eastl_hash_set.hpp">
-      <Filter>Serialization\UserTypes</Filter>
-    </ClInclude>
-    <ClInclude Include="Serialization\UserTypes\eastl_list.hpp">
-      <Filter>Serialization\UserTypes</Filter>
-    </ClInclude>
-    <ClInclude Include="Serialization\UserTypes\eastl_map.hpp">
-      <Filter>Serialization\UserTypes</Filter>
-    </ClInclude>
-    <ClInclude Include="Serialization\UserTypes\eastl_queue.hpp">
-      <Filter>Serialization\UserTypes</Filter>
-    </ClInclude>
-    <ClInclude Include="Serialization\UserTypes\eastl_set.hpp">
-      <Filter>Serialization\UserTypes</Filter>
-    </ClInclude>
-    <ClInclude Include="Serialization\UserTypes\eastl_stack.hpp">
-      <Filter>Serialization\UserTypes</Filter>
-    </ClInclude>
-    <ClInclude Include="Serialization\UserTypes\eastl_string.hpp">
-      <Filter>Serialization\UserTypes</Filter>
-    </ClInclude>
-    <ClInclude Include="Serialization\UserTypes\eastl_tuple.hpp">
-      <Filter>Serialization\UserTypes</Filter>
-    </ClInclude>
-    <ClInclude Include="Serialization\UserTypes\eastl_utility.hpp">
-      <Filter>Serialization\UserTypes</Filter>
-    </ClInclude>
-    <ClInclude Include="Serialization\UserTypes\eastl_vector.hpp">
-      <Filter>Serialization\UserTypes</Filter>
-    </ClInclude>
-    <ClInclude Include="Serialization\UserTypes\krg_stringid.hpp">
-      <Filter>Serialization\UserTypes</Filter>
-    </ClInclude>
     <ClInclude Include="_Module\API.h">
       <Filter>_Module</Filter>
     </ClInclude>
-    <ClInclude Include="Types\String_ForwardDecl.h" />
+    <ClInclude Include="Types\Containers_ForwardDecl.h" />
     <ClInclude Include="Types\HashMap.h" />
-    <ClInclude Include="Types\Arrays_ForwardDecl.h" />
+    <ClInclude Include="Math\MathConstants.h" />
+    <ClInclude Include="TypeSystem\DefaultTypeInfos.h" />
+    <ClInclude Include="Serialization\JsonSerialization.h" />
+    <ClInclude Include="ThirdParty\rapidjson\error\en.h" />
+    <ClInclude Include="ThirdParty\rapidjson\error\error.h" />
+    <ClInclude Include="ThirdParty\rapidjson\internal\biginteger.h" />
+    <ClInclude Include="ThirdParty\rapidjson\internal\clzll.h" />
+    <ClInclude Include="ThirdParty\rapidjson\internal\diyfp.h" />
+    <ClInclude Include="ThirdParty\rapidjson\internal\dtoa.h" />
+    <ClInclude Include="ThirdParty\rapidjson\internal\ieee754.h" />
+    <ClInclude Include="ThirdParty\rapidjson\internal\itoa.h" />
+    <ClInclude Include="ThirdParty\rapidjson\internal\meta.h" />
+    <ClInclude Include="ThirdParty\rapidjson\internal\pow10.h" />
+    <ClInclude Include="ThirdParty\rapidjson\internal\regex.h" />
+    <ClInclude Include="ThirdParty\rapidjson\internal\stack.h" />
+    <ClInclude Include="ThirdParty\rapidjson\internal\strfunc.h" />
+    <ClInclude Include="ThirdParty\rapidjson\internal\strtod.h" />
+    <ClInclude Include="ThirdParty\rapidjson\internal\swap.h" />
+    <ClInclude Include="ThirdParty\rapidjson\msinttypes\inttypes.h" />
+    <ClInclude Include="ThirdParty\rapidjson\msinttypes\stdint.h" />
+    <ClInclude Include="ThirdParty\rapidjson\allocators.h" />
+    <ClInclude Include="ThirdParty\rapidjson\cursorstreamwrapper.h" />
+    <ClInclude Include="ThirdParty\rapidjson\document.h" />
+    <ClInclude Include="ThirdParty\rapidjson\encodedstream.h" />
+    <ClInclude Include="ThirdParty\rapidjson\encodings.h" />
+    <ClInclude Include="ThirdParty\rapidjson\filereadstream.h" />
+    <ClInclude Include="ThirdParty\rapidjson\filewritestream.h" />
+    <ClInclude Include="ThirdParty\rapidjson\fwd.h" />
+    <ClInclude Include="ThirdParty\rapidjson\istreamwrapper.h" />
+    <ClInclude Include="ThirdParty\rapidjson\memorybuffer.h" />
+    <ClInclude Include="ThirdParty\rapidjson\memorystream.h" />
+    <ClInclude Include="ThirdParty\rapidjson\ostreamwrapper.h" />
+    <ClInclude Include="ThirdParty\rapidjson\pointer.h" />
+    <ClInclude Include="ThirdParty\rapidjson\prettywriter.h" />
+    <ClInclude Include="ThirdParty\rapidjson\rapidjson.h" />
+    <ClInclude Include="ThirdParty\rapidjson\reader.h" />
+    <ClInclude Include="ThirdParty\rapidjson\schema.h" />
+    <ClInclude Include="ThirdParty\rapidjson\stream.h" />
+    <ClInclude Include="ThirdParty\rapidjson\stringbuffer.h" />
+    <ClInclude Include="ThirdParty\rapidjson\uri.h" />
+    <ClInclude Include="ThirdParty\rapidjson\writer.h" />
+    <ClInclude Include="Serialization\BinarySerialization.h" />
+    <ClInclude Include="ThirdParty\mpack\mpack.h" />
+    <ClInclude Include="ThirdParty\mpack\mpack-config.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ThirdParty\EA\EABase\doc\EABase.html">

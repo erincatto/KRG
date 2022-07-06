@@ -1,7 +1,7 @@
 #pragma once
 
 #include "ResourceID.h"
-#include "System/Serialization/Serialization.h"
+#include "System/Serialization/BinarySerialization.h"
 
 //-------------------------------------------------------------------------
 
@@ -12,7 +12,7 @@ namespace KRG
         // Describes the contents of a resource, every resource has a header
         struct ResourceHeader
         {
-            KRG_SERIALIZE_MEMBERS( KRG_NVP( m_version ), KRG_NVP( m_resourceType ), KRG_NVP( m_installDependencies ) );
+            KRG_SERIALIZE( m_version, m_resourceType, m_installDependencies );
 
         public:
 

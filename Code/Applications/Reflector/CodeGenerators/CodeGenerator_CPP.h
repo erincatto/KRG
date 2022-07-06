@@ -24,8 +24,7 @@ namespace KRG::CPP
     private:
 
         // File specific functions
-        void GenerateHeaderFileHeader( HeaderInfo const& hdr );
-        void GenerateCodeFileHeader( String const& generatedHeaderFilePath );
+        void GenerateTypeInfoFileHeader( HeaderInfo const& hdr );
         void GenerateModuleCodeFile( ProjectInfo const& prj, TVector<ReflectedType> const& typesInModule );
 
         // Utils
@@ -35,8 +34,7 @@ namespace KRG::CPP
     private:
 
         ReflectionDatabase const*           m_pDatabase;
-        std::stringstream                   m_headerFile;
-        std::stringstream                   m_cppFile;
+        std::stringstream                   m_typeInfoFile;
         std::stringstream                   m_moduleFile;
         std::stringstream                   m_engineTypeRegistrationFile;
         std::stringstream                   m_toolsTypeRegistrationFile;

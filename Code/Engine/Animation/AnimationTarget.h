@@ -13,7 +13,7 @@ namespace KRG::Animation
 
     class Target
     {
-        KRG_SERIALIZE_MEMBERS( m_transform, m_boneID, m_isUsingBoneSpaceOffsets, m_hasOffsets, m_isSet );
+        KRG_SERIALIZE( m_transform, m_boneID, m_isUsingBoneSpaceOffsets, m_hasOffsets, m_isSet );
 
     public:
 

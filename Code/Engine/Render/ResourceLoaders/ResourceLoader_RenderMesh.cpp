@@ -2,7 +2,7 @@
 #include "Engine/Render/Mesh/StaticMesh.h"
 #include "Engine/Render/Mesh/SkeletalMesh.h"
 #include "System/Render/RenderDevice.h"
-#include "System/Serialization/BinaryArchive.h"
+#include "System/Serialization/BinarySerialization.h"
 #include "System/Log.h"
 
 //-------------------------------------------------------------------------
@@ -15,10 +15,9 @@ namespace KRG::Render
         m_loadableTypes.push_back( SkeletalMesh::GetStaticResourceTypeID() );
     }
 
-    bool MeshLoader::LoadInternal( ResourceID const& resourceID, Resource::ResourceRecord* pResourceRecord, Serialization::BinaryMemoryArchive& archive ) const
+    bool MeshLoader::LoadInternal( ResourceID const& resourceID, Resource::ResourceRecord* pResourceRecord, Serialization::BinaryInputArchive& archive ) const
     {
         KRG_ASSERT( m_pRenderDevice != nullptr );
-        KRG_ASSERT( archive.IsValid() );
 
         Mesh* pMeshResource = nullptr;
 
@@ -26,13 +25,13 @@ namespace KRG::Render
         if ( resourceID.GetResourceTypeID() == StaticMesh::GetStaticResourceTypeID() )
         {
             StaticMesh* pStaticMesh = KRG::New<StaticMesh>();
-            archive >> *pStaticMesh;
+            archive << *pStaticMesh;
             pMeshResource = pStaticMesh;
         }
         else // Skeletal Mesh
         {
             SkeletalMesh* pSkeletalMesh = KRG::New<SkeletalMesh>();
-            archive >> *pSkeletalMesh;
+            archive << *pSkeletalMesh;
             pMeshResource = pSkeletalMesh;
         }
 

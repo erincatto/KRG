@@ -76,7 +76,7 @@ namespace KRG::Animation
         int32_t numAvailableTracks = 0;
         for ( auto pTypeInfo : m_eventTypes )
         {
-            Event const* const pDefaultEventInstance = reinterpret_cast<Event const*>( pTypeInfo->m_pTypeHelper->GetDefaultTypeInstancePtr() );
+            Event const* const pDefaultEventInstance = reinterpret_cast<Event const*>( pTypeInfo->m_pDefaultInstance );
 
             bool isAllowedTrackType = true;
             if ( !pDefaultEventInstance->AllowMultipleTracks() )
@@ -141,7 +141,7 @@ namespace KRG::Animation
 
     //-------------------------------------------------------------------------
 
-    bool EventEditor::Serialize( TypeSystem::TypeRegistry const& typeRegistry, RapidJsonValue const& objectValue )
+    bool EventEditor::Serialize( TypeSystem::TypeRegistry const& typeRegistry, Serialization::JsonValue const& objectValue )
     {
         if ( !TimelineEditor::Serialize( typeRegistry, objectValue ) )
         {

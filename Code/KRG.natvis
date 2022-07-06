@@ -4,14 +4,14 @@
   <Type Name="KRG::StringID">
     <Expand>
       <CustomListItems>
-        <Variable Name="buckets" InitialValue="{,,KRG.System.Core} KRG::StringID::s_stringCache.mpBucketArray" />
-        <Variable Name="num_buckets" InitialValue="{,,KRG.System.Core} KRG::StringID::s_stringCache.mnBucketCount" />
+        <Variable Name="buckets" InitialValue="{,,KRG.System} KRG::StringID::s_pDebuggerInfo->m_pBuckets" />
+        <Variable Name="num_buckets" InitialValue="{,,KRG.System} KRG::StringID::s_pDebuggerInfo->m_numBuckets" />
         <Variable Name="start_bucket" InitialValue="m_ID % num_buckets" />
         <Variable Name="i" InitialValue="start_bucket" />
         <Variable Name="bucket_item" InitialValue="buckets[i]"/>
         <Loop>
           <If Condition="bucket_item == 0">
-            <Item Name="Value">"Invalid"</Item>
+            <Item Name="Value">"INVALID_STRING_ID"</Item>
             <Break />
           </If>
           <If Condition="bucket_item->mValue.first == m_ID">

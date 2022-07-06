@@ -1,14 +1,32 @@
 #pragma once
 
 #include "PropertyInfo.h"
-#include "ITypeHelper.h"
 #include "System/Types/Arrays.h"
 #include "System/Types/HashMap.h"
+#include "System/Types/LoadingStatus.h"
+
+//-------------------------------------------------------------------------
+
+namespace KRG
+{
+    class IRegisteredType;
+    class ResourceTypeID;
+}
+
+namespace KRG::Resource
+{
+    class ResourceSystem;
+    class ResourceRequesterID;
+}
 
 //-------------------------------------------------------------------------
 
 namespace KRG::TypeSystem
 {
+    class ITypeDataManager;
+
+    //-------------------------------------------------------------------------
+
     enum class TypeInfoMetaData
     {
         Abstract,
@@ -19,12 +37,17 @@ namespace KRG::TypeSystem
 
     //-------------------------------------------------------------------------
 
-    struct KRG_SYSTEM_API TypeInfo
+    class KRG_SYSTEM_API TypeInfo
     {
 
     public:
 
         TypeInfo() = default;
+
+        inline IRegisteredType const* GetDefaultInstance() const { return m_pDefaultInstance; }
+
+        // Basic Type Info
+        //-------------------------------------------------------------------------
 
         inline char const* GetTypeName() const { return m_ID.ToStringID().c_str(); }
 
@@ -40,9 +63,7 @@ namespace KRG::TypeSystem
         template<typename T>
         inline bool IsDerivedFrom() const { return IsDerivedFrom( T::GetStaticTypeID() ); }
 
-        inline IRegisteredType const* GetDefaultInstance() const { return m_pTypeHelper->GetDefaultTypeInstancePtr(); }
-
-        // Properties
+        // Property Info
         //-------------------------------------------------------------------------
 
         PropertyInfo const* GetPropertyInfo( StringID propertyID ) const;
@@ -51,7 +72,49 @@ namespace KRG::TypeSystem
         template<typename T>
         void RegisterProperties( IRegisteredType const* pDefaultTypeInstance )
         {
-            KRG_UNIMPLEMENTED_FUNCTION(); // Default implementation should never be called
+            KRG_HALT(); // Default implementation should never be called
+        }
+
+        // Type Factories
+        //-------------------------------------------------------------------------
+
+        virtual IRegisteredType* CreateType() const = 0;
+        virtual void CreateTypeInPlace( IRegisteredType* pAllocatedMemory ) const = 0;
+
+        // Resource Helpers
+        //-------------------------------------------------------------------------
+
+        virtual void LoadResources( Resource::ResourceSystem* pResourceSystem, Resource::ResourceRequesterID const& requesterID, IRegisteredType* pType ) const = 0;
+        virtual void UnloadResources( Resource::ResourceSystem* pResourceSystem, Resource::ResourceRequesterID const& requesterID, IRegisteredType* pType ) const = 0;
+        virtual LoadingStatus GetResourceLoadingStatus( IRegisteredType* pType ) const = 0;
+        virtual LoadingStatus GetResourceUnloadingStatus( IRegisteredType* pType ) const = 0;
+        virtual ResourceTypeID GetExpectedResourceTypeForProperty( IRegisteredType* pType, uint32_t propertyID ) const = 0;
+
+        // Array helpers
+        //-------------------------------------------------------------------------
+
+        virtual uint8_t* GetArrayElementDataPtr( IRegisteredType* pTypeInstance, uint32_t arrayID, size_t arrayIdx ) const = 0;
+        virtual size_t GetArraySize( IRegisteredType const* pTypeInstance, uint32_t arrayID ) const = 0;
+        virtual size_t GetArrayElementSize( uint32_t arrayID ) const = 0;
+        virtual void ClearArray( IRegisteredType* pTypeInstance, uint32_t arrayID ) const = 0;
+        virtual void AddArrayElement( IRegisteredType* pTypeInstance, uint32_t arrayID ) const = 0;
+        virtual void RemoveArrayElement( IRegisteredType* pTypeInstance, uint32_t arrayID, size_t arrayIdx ) const = 0;
+
+        // Default value helpers
+        //-------------------------------------------------------------------------
+
+        virtual bool AreAllPropertyValuesEqual( IRegisteredType const* pTypeInstance, IRegisteredType const* pOtherTypeInstance ) const = 0;
+        virtual bool IsPropertyValueEqual( IRegisteredType const* pTypeInstance, IRegisteredType const* pOtherTypeInstance, uint32_t propertyID, int32_t arrayIdx = InvalidIndex ) const = 0;
+        virtual void ResetToDefault( IRegisteredType* pTypeInstance, uint32_t propertyID ) const = 0;
+
+        inline bool AreAllPropertiesSetToDefault( IRegisteredType const* pTypeInstance ) const
+        {
+            return AreAllPropertyValuesEqual( pTypeInstance, m_pDefaultInstance );
+        }
+
+        inline bool IsPropertyValueSetToDefault( IRegisteredType const* pTypeInstance, uint32_t propertyID, int32_t arrayIdx = InvalidIndex ) const
+        {
+            return IsPropertyValueEqual( pTypeInstance, m_pDefaultInstance, propertyID, arrayIdx );
         }
 
     public:
@@ -60,7 +123,8 @@ namespace KRG::TypeSystem
         int32_t                                 m_size = -1;
         int32_t                                 m_alignment = -1;
         TBitFlags<TypeInfoMetaData>             m_metadata;
-        ITypeHelper*                            m_pTypeHelper = nullptr;
+        ITypeDataManager*                       m_pTypeManager = nullptr;
+        IRegisteredType const*                  m_pDefaultInstance;
         TVector<TypeInfo const*>                m_parentTypes;
         TVector<PropertyInfo>                   m_properties;
         THashMap<StringID, int32_t>             m_propertyMap;
@@ -71,58 +135,10 @@ namespace KRG::TypeSystem
         String                                  m_category;
         #endif
     };
-}
 
-//-------------------------------------------------------------------------
+    //-------------------------------------------------------------------------
 
-namespace KRG
-{
     template<typename T>
-    bool IsOfType( IRegisteredType const* pType )
-    {
-        KRG_ASSERT( pType != nullptr );
-        return pType->GetTypeInfo()->IsDerivedFrom( T::GetStaticTypeID() );
-    }
-
-    // This is a assumed safe cast, it will validate the cast only in dev builds. Doesnt accept null arguments
-    template<typename T>
-    T* Cast( IRegisteredType* pType )
-    {
-        KRG_ASSERT( pType != nullptr );
-        KRG_ASSERT( pType->GetTypeInfo()->IsDerivedFrom( T::GetStaticTypeID() ) );
-        return static_cast<T*>( pType );
-    }
-
-    // This is a assumed safe cast, it will validate the cast only in dev builds. Doesnt accept null arguments
-    template<typename T>
-    T const* Cast( IRegisteredType const* pType )
-    {
-        KRG_ASSERT( pType != nullptr );
-        KRG_ASSERT( pType->GetTypeInfo()->IsDerivedFrom( T::GetStaticTypeID() ) );
-        return static_cast<T const*>( pType );
-    }
-
-    // This will try to cast to the specified type but can fail. Also accepts null arguments
-    template<typename T>
-    T* TryCast( IRegisteredType* pType )
-    {
-        if ( pType != nullptr && pType->GetTypeInfo()->IsDerivedFrom( T::GetStaticTypeID() ) )
-        {
-            return static_cast<T*>( pType );
-        }
-
-        return nullptr;
-    }
-
-    // This will try to cast to the specified type but can fail. Also accepts null arguments
-    template<typename T>
-    T const* TryCast( IRegisteredType const* pType )
-    {
-        if ( pType != nullptr && pType->GetTypeInfo()->IsDerivedFrom( T::GetStaticTypeID() ) )
-        {
-            return static_cast<T const*>( pType );
-        }
-
-        return nullptr;
-    }
+    class TTypeInfo : public TypeInfo
+    {};
 }

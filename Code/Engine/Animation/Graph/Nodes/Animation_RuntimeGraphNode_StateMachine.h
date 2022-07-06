@@ -15,7 +15,7 @@ namespace KRG::Animation::GraphNodes
 
         struct TransitionSettings
         {
-            KRG_SERIALIZE_MEMBERS( m_targetStateIdx, m_transitionNodeIdx, m_conditionNodeIdx );
+            KRG_SERIALIZE( m_targetStateIdx, m_transitionNodeIdx, m_conditionNodeIdx );
 
             StateIndex                                              m_targetStateIdx = InvalidIndex;
             int16_t                                          m_conditionNodeIdx = InvalidIndex;
@@ -24,7 +24,7 @@ namespace KRG::Animation::GraphNodes
 
         struct StateSettings
         {
-            KRG_SERIALIZE_MEMBERS( m_stateNodeIdx, m_entryConditionNodeIdx, m_transitionSettings );
+            KRG_SERIALIZE( m_stateNodeIdx, m_entryConditionNodeIdx, m_transitionSettings );
 
             int16_t                                          m_stateNodeIdx = InvalidIndex;
             int16_t                                          m_entryConditionNodeIdx = InvalidIndex;

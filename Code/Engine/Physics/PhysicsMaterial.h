@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Engine/_Module/API.h"
-#include "System/TypeSystem/TypeRegistrationMacros.h"
+#include "System/TypeSystem/RegisteredType.h"
 #include "System/Resource/IResource.h"
 #include "PxMaterial.h"
 
@@ -54,7 +54,7 @@ namespace KRG::Physics
     struct KRG_ENGINE_API PhysicsMaterialSettings : public IRegisteredType
     {
         KRG_REGISTER_TYPE( PhysicsMaterialSettings );
-        KRG_SERIALIZE_MEMBERS( m_ID, m_dynamicFriction, m_staticFriction, m_restitution, m_frictionCombineMode, m_restitutionCombineMode );
+        KRG_SERIALIZE( m_ID, m_dynamicFriction, m_staticFriction, m_restitution, m_frictionCombineMode, m_restitutionCombineMode );
 
         bool IsValid() const;
 
@@ -83,7 +83,7 @@ namespace KRG::Physics
         friend class PhysicsMaterialDatabaseCompiler;
         friend class PhysicsMaterialDatabaseLoader;
 
-        KRG_SERIALIZE_NONE();
+        KRG_SERIALIZE();
 
     public:
 

@@ -297,7 +297,7 @@ namespace KRG::Animation
         virtual bool CanDeleteNode( VisualGraph::BaseNode const* pNode ) const override;
         virtual UUID RegenerateIDs( THashMap<UUID, UUID>& IDMapping ) override;
         virtual VisualGraph::SM::TransitionConduit* CreateTransitionNode() const override;
-        virtual void SerializeCustom( TypeSystem::TypeRegistry const& typeRegistry, RapidJsonValue const& graphObjectValue ) override;
+        virtual void SerializeCustom( TypeSystem::TypeRegistry const& typeRegistry, Serialization::JsonValue const& graphObjectValue ) override;
         virtual void PostPasteNodes( TInlineVector<VisualGraph::BaseNode*, 20> const& pastedNodes ) override;
 
     private:

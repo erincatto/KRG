@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../_Module/API.h"
-#include "System/Serialization/Serialization.h"
+#include "System/Serialization/BinarySerialization.h"
 #include "System/Math/Math.h"
 
 //-------------------------------------------------------------------------
@@ -10,7 +10,7 @@ namespace KRG
 {
     class KRG_SYSTEM_API Percentage
     {
-        KRG_SERIALIZE_MEMBERS( m_value );
+        KRG_SERIALIZE( m_value );
 
     public:
 

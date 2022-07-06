@@ -17,6 +17,8 @@ namespace KRG
     template<typename T, eastl_size_t S> using TInlineVector = eastl::fixed_vector<T, S, true>;
     template<typename T, eastl_size_t S> using TArray = eastl::array<T, S>;
 
+    using Blob = TVector<uint8_t>;
+
     //-------------------------------------------------------------------------
     // Simple utility functions to improve syntactic usage of container types
     //-------------------------------------------------------------------------
@@ -70,7 +72,7 @@ namespace KRG
     template<typename T, typename V, typename Predicate>
     inline bool VectorContains( TVector<T>& vector, Predicate predicate )
     {
-        return eastl::find_if( vector.begin(), vector.end(), value, eastl::forward<Predicate>( predicate ) ) != vector.end();
+        return eastl::find_if( vector.begin(), vector.end(), eastl::forward<Predicate>( predicate ) ) != vector.end();
     }
 
     template<typename T>
@@ -106,7 +108,7 @@ namespace KRG
     template<typename T, typename V, typename Predicate>
     inline int32_t VectorFindIndex( TVector<T> const& vector, Predicate predicate )
     {
-        auto iter = eastl::find_if( vector.begin(), vector.end(), value, predicate );
+        auto iter = eastl::find_if( vector.begin(), vector.end(), predicate );
         if ( iter == vector.end() )
         {
             return InvalidIndex;

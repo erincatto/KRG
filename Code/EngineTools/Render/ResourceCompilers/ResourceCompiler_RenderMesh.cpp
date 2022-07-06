@@ -5,7 +5,7 @@
 #include "Engine/Render/Mesh/StaticMesh.h"
 #include "Engine/Render/Mesh/SkeletalMesh.h"
 #include "System/FileSystem/FileSystem.h"
-#include "System/Serialization/BinaryArchive.h"
+#include "System/Serialization/BinarySerialization.h"
 
 #include <MeshOptimizer.h>
 
@@ -255,14 +255,19 @@ namespace KRG::Render
         // Serialize
         //-------------------------------------------------------------------------
 
-        Serialization::BinaryFileArchive archive( Serialization::Mode::Write, ctx.m_outputFilePath );
-        if ( archive.IsValid() )
+        Resource::ResourceHeader hdr( s_version, StaticMesh::GetStaticResourceTypeID() );
+        SetMeshInstallDependencies( staticMesh, hdr );
+
+        Serialization::BinaryOutputArchive archive;
+        archive << hdr << staticMesh;
+
+        if ( archive.WriteToFile( ctx.m_outputFilePath ) )
         {
-            Resource::ResourceHeader hdr( s_version, StaticMesh::GetStaticResourceTypeID() );
-
-            SetMeshInstallDependencies( staticMesh, hdr );
-
-            archive << hdr << staticMesh;
+            /*Resource::ResourceHeader hdr2;
+            StaticMesh mesh2;
+            Serialization::BinaryInputArchive in2;
+            in2.ReadFromFile( ctx.m_outputFilePath );
+            in2 << hdr2 << mesh2;*/
 
             if ( pRawMesh->HasWarnings() )
             {
@@ -328,15 +333,14 @@ namespace KRG::Render
         // Serialize
         //-------------------------------------------------------------------------
 
-        Serialization::BinaryFileArchive archive( Serialization::Mode::Write, ctx.m_outputFilePath );
-        if ( archive.IsValid() )
+        Resource::ResourceHeader hdr( s_version, SkeletalMesh::GetStaticResourceTypeID() );
+        SetMeshInstallDependencies( skeletalMesh, hdr );
+
+        Serialization::BinaryOutputArchive archive;
+        archive << hdr << skeletalMesh;
+
+        if ( archive.WriteToFile( ctx.m_outputFilePath ) )
         {
-            Resource::ResourceHeader hdr( s_version, SkeletalMesh::GetStaticResourceTypeID() );
-
-            SetMeshInstallDependencies( skeletalMesh, hdr );
-
-            archive << hdr << skeletalMesh;
-
             if ( pRawMesh->HasWarnings() )
             {
                 return CompilationSucceededWithWarnings( ctx );

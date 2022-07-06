@@ -3,10 +3,6 @@
   "Id": "8778c386-a74a-4545-8297-ce68639d4ade",
   "Items": [
     {
-      "Id": "6b06941a-84ee-430b-8777-3e6768fe958f",
-      "Command": "-map data://maps/Prototype_3Cs_Minimal.map"
-    },
-    {
       "Id": "cb09576f-23ca-42c1-8113-3e6d333a9e59",
       "Command": "-map data://maps/Prototype_Combat_Minimal.map"
     },

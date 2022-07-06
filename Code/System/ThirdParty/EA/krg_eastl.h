@@ -43,7 +43,7 @@
 
 //-------------------------------------------------------------------------
 
-inline int Vsnprintf8( char8_t*  pDestination, size_t n, const char8_t*  pFormat, va_list arguments )
+inline int Vsnprintf8( char8_t* pDestination, size_t n, const char8_t* pFormat, va_list arguments )
 {
     return vsnprintf( pDestination, n, pFormat, arguments );
 }

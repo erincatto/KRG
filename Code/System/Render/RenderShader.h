@@ -2,7 +2,7 @@
 
 #include "RenderBuffer.h"
 #include "System/Resource/IResource.h"
-#include "System/TypeSystem/TypeRegistrationMacros.h"
+#include "System/TypeSystem/RegisteredType.h"
 
 //-------------------------------------------------------------------------
 
@@ -18,14 +18,14 @@ namespace KRG
             friend class ShaderCompiler;
             friend class ShaderLoader;
 
-            KRG_SERIALIZE_MEMBERS( m_cbuffers, m_resourceBindings, m_byteCode );
+            KRG_SERIALIZE( m_cbuffers, m_resourceBindings, m_byteCode );
             KRG_REGISTER_RESOURCE( 'shdr', "Render Shader" );
 
         public:
 
             struct ResourceBinding
             {
-                KRG_SERIALIZE_MEMBERS( m_ID, m_slot );
+                KRG_SERIALIZE( m_ID, m_slot );
 
                 ResourceBinding() : m_slot( 0 ) {}
                 ResourceBinding( uint32_t ID, uint32_t slot ) : m_ID( ID ), m_slot( slot ) {}
@@ -55,7 +55,7 @@ namespace KRG
         protected:
 
             ShaderHandle                        m_shaderHandle;
-            TVector<uint8_t>                      m_byteCode;
+            Blob                      m_byteCode;
             TVector<RenderBuffer>               m_cbuffers;
             TVector<ResourceBinding>            m_resourceBindings;
             PipelineStage                       m_pipelineStage;
@@ -93,7 +93,7 @@ namespace KRG
 
         class KRG_SYSTEM_API VertexShader : public Shader
         {
-            KRG_SERIALIZE_MEMBERS( KRG_SERIALIZE_BASE( Shader ), m_vertexLayoutDesc );
+            KRG_SERIALIZE( KRG_SERIALIZE_BASE( Shader ), m_vertexLayoutDesc );
             KRG_REGISTER_RESOURCE( 'vsdr', "Vertex Shader" );
 
             friend class RenderDevice;

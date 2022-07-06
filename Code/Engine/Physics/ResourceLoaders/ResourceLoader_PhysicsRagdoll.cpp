@@ -1,7 +1,7 @@
 #include "ResourceLoader_PhysicsRagdoll.h"
 #include "Engine/Physics/PhysicsRagdoll.h"
 #include "Engine/Physics/PhysicsSystem.h"
-#include "System/Serialization/BinaryArchive.h"
+#include "System/Serialization/BinarySerialization.h"
 
 //-------------------------------------------------------------------------
 
@@ -22,11 +22,10 @@ namespace KRG::Physics
         m_pPhysicsSystem = pPhysicsSystem;
     }
 
-    bool RagdollLoader::LoadInternal( ResourceID const& resID, Resource::ResourceRecord* pResourceRecord, Serialization::BinaryMemoryArchive& archive ) const
+    bool RagdollLoader::LoadInternal( ResourceID const& resID, Resource::ResourceRecord* pResourceRecord, Serialization::BinaryInputArchive& archive ) const
     {
-        KRG_ASSERT( archive.IsValid() );
         RagdollDefinition* pRagdoll = KRG::New<RagdollDefinition>();
-        archive >> *pRagdoll;
+        archive << *pRagdoll;
 
         pResourceRecord->SetResourceData( pRagdoll );
         return pRagdoll->IsValid();

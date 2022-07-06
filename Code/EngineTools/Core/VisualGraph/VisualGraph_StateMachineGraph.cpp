@@ -85,7 +85,7 @@ namespace KRG::VisualGraph
         BaseGraph::PostDestroyNode( nodeID );
     }
 
-    void StateMachineGraph::SerializeCustom( TypeSystem::TypeRegistry const& typeRegistry, RapidJsonValue const& graphObjectValue )
+    void StateMachineGraph::SerializeCustom( TypeSystem::TypeRegistry const& typeRegistry, Serialization::JsonValue const& graphObjectValue )
     {
         BaseGraph::SerializeCustom( typeRegistry, graphObjectValue );
 

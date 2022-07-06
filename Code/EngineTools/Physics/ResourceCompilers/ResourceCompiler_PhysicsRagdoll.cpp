@@ -3,7 +3,7 @@
 #include "Engine/Physics/PhysicsRagdoll.h"
 #include "System/Serialization/TypeSerialization.h"
 #include "System/FileSystem/FileSystem.h"
-#include "System/Serialization/BinaryArchive.h"
+#include "System/Serialization/BinarySerialization.h"
 
 //-------------------------------------------------------------------------
 
@@ -35,12 +35,14 @@ namespace KRG::Physics
         // Serialize
         //-------------------------------------------------------------------------
 
-        Serialization::BinaryFileArchive archive( Serialization::Mode::Write, ctx.m_outputFilePath );
-        if ( archive.IsValid() )
+        Resource::ResourceHeader hdr( s_version, RagdollDefinition::GetStaticResourceTypeID() );
+        hdr.AddInstallDependency( resourceDescriptor.m_definition.m_pSkeleton.GetResourceID() );
+
+        Serialization::BinaryOutputArchive archive;
+        archive << hdr << resourceDescriptor.m_definition;
+
+        if ( archive.WriteToFile( ctx.m_outputFilePath ) )
         {
-            Resource::ResourceHeader hdr( s_version, RagdollDefinition::GetStaticResourceTypeID() );
-            hdr.AddInstallDependency( resourceDescriptor.m_definition.m_pSkeleton.GetResourceID() );
-            archive << hdr << resourceDescriptor.m_definition;
             return CompilationSucceeded( ctx );
         }
         else

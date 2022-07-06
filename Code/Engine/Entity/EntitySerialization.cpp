@@ -1,15 +1,16 @@
 #include "EntitySerialization.h"
+#include "EntityMap.h"
 #include "Engine/Entity/EntityDescriptors.h"
+#include "Engine/Entity/Entity.h"
 #include "System/Serialization/TypeSerialization.h"
 #include "System/TypeSystem/TypeRegistry.h"
-#include "System/ThirdParty/cereal/external/rapidjson/error/en.h"
 #include "System/FileSystem/FileSystem.h"
 #include "System/Log.h"
-#include "Engine/Entity/Entity.h"
-#include "EntityMap.h"
 #include <eastl/sort.h>
 
 #if KRG_DEVELOPMENT_TOOLS
+
+using namespace KRG::Serialization;
 
 //-------------------------------------------------------------------------
 
@@ -66,7 +67,7 @@ namespace KRG::EntityModel::Serializer
 
         //-------------------------------------------------------------------------
 
-        static bool ReadAndConvertPropertyValue( ParsingContext& ctx, TypeSystem::TypeInfo const* pTypeInfo, RapidJsonValue::ConstMemberIterator memberIter, TypeSystem::PropertyDescriptor& outPropertyDesc )
+        static bool ReadAndConvertPropertyValue( ParsingContext& ctx, TypeSystem::TypeInfo const* pTypeInfo, Serialization::JsonValue::ConstMemberIterator memberIter, TypeSystem::PropertyDescriptor& outPropertyDesc )
         {
             if ( !memberIter->value.IsString() )
             {
@@ -100,7 +101,7 @@ namespace KRG::EntityModel::Serializer
             return true;
         }
 
-        static bool ReadComponent( ParsingContext& ctx, RapidJsonValue const& componentObject, ComponentDescriptor& outComponentDesc )
+        static bool ReadComponent( ParsingContext& ctx, Serialization::JsonValue const& componentObject, ComponentDescriptor& outComponentDesc )
         {
             // Read name and ID
             //-------------------------------------------------------------------------
@@ -122,7 +123,7 @@ namespace KRG::EntityModel::Serializer
                 return Error( "Invalid entity component format detected for entity (%s): components must have ID, Name and Type Data values set", ctx.m_parsingContextName.c_str() );
             }
 
-            RapidJsonValue const& componentTypeDataObject = typeDataIter->value;
+            Serialization::JsonValue const& componentTypeDataObject = typeDataIter->value;
 
             auto typeIDIter = componentTypeDataObject.FindMember( Serialization::s_typeIDKey );
             if ( typeIDIter == componentTypeDataObject.MemberEnd() || !typeIDIter->value.IsString() )
@@ -205,7 +206,7 @@ namespace KRG::EntityModel::Serializer
 
         //-------------------------------------------------------------------------
 
-        static bool ReadSystemData( ParsingContext& ctx, RapidJsonValue const& systemObject, SystemDescriptor& outSystemDesc )
+        static bool ReadSystemData( ParsingContext& ctx, Serialization::JsonValue const& systemObject, SystemDescriptor& outSystemDesc )
         {
             auto typeIDIter = systemObject.FindMember( Serialization::s_typeIDKey );
             if ( typeIDIter == systemObject.MemberEnd() || !typeIDIter->value.IsString() )
@@ -224,7 +225,7 @@ namespace KRG::EntityModel::Serializer
 
         //-------------------------------------------------------------------------
 
-        static bool ReadEntityData( ParsingContext& ctx, RapidJsonValue const& entityObject, EntityDescriptor& outEntityDesc )
+        static bool ReadEntityData( ParsingContext& ctx, Serialization::JsonValue const& entityObject, EntityDescriptor& outEntityDesc )
         {
             // Read name and ID
             //-------------------------------------------------------------------------
@@ -419,7 +420,7 @@ namespace KRG::EntityModel::Serializer
             }
         }
 
-        static bool ReadEntityArray( ParsingContext& ctx, RapidJsonValue const& entitiesArrayValue, EntityCollectionDescriptor& outCollection )
+        static bool ReadEntityArray( ParsingContext& ctx, Serialization::JsonValue const& entitiesArrayValue, EntityCollectionDescriptor& outCollection )
         {
             int32_t const numEntities = (int32_t) entitiesArrayValue.Size();
             outCollection.Reserve( numEntities );
@@ -447,7 +448,7 @@ namespace KRG::EntityModel::Serializer
     // Serializer
     //-------------------------------------------------------------------------
 
-    bool ReadEntityDescriptor( TypeSystem::TypeRegistry const& typeRegistry, RapidJsonValue const& entitiesObjectValue, EntityDescriptor& outEntityDesc )
+    bool ReadEntityDescriptor( TypeSystem::TypeRegistry const& typeRegistry, Serialization::JsonValue const& entitiesObjectValue, EntityDescriptor& outEntityDesc )
     {
         if ( !entitiesObjectValue.IsObject() )
         {
@@ -458,7 +459,7 @@ namespace KRG::EntityModel::Serializer
         return ReadEntityData( ctx, entitiesObjectValue, outEntityDesc );
     }
 
-    bool ReadEntityCollectionFromJson( TypeSystem::TypeRegistry const& typeRegistry, RapidJsonValue const& entitiesArrayValue, EntityCollectionDescriptor& outCollectionDesc )
+    bool ReadEntityCollectionFromJson( TypeSystem::TypeRegistry const& typeRegistry, Serialization::JsonValue const& entitiesArrayValue, EntityCollectionDescriptor& outCollectionDesc )
     {
         if ( !entitiesArrayValue.IsArray() )
         {
@@ -502,7 +503,7 @@ namespace KRG::EntityModel::Serializer
         size_t filesize = (size_t) ftell( fp );
         fseek( fp, 0, SEEK_SET );
 
-        TVector<uint8_t> fileBuffer;
+        Blob fileBuffer;
         fileBuffer.resize( filesize + 1 );
         size_t readLength = fread( fileBuffer.data(), 1, filesize, fp );
         fileBuffer[readLength] = '\0';
@@ -515,7 +516,7 @@ namespace KRG::EntityModel::Serializer
         rapidjson::ParseResult result = entityCollectionDocument.ParseInsitu( (char*) fileBuffer.data() );
         if ( result.IsError() )
         {
-            return Error( "Failed to parse JSON: %s", rapidjson::GetParseError_En( result.Code() ) );
+            return Error( "Failed to parse JSON: %s", GetJsonErrorMessage( result.Code() ) );
         }
 
         if ( !entityCollectionDocument.HasMember( "Entities" ) || !entityCollectionDocument["Entities"].IsArray() )
@@ -538,7 +539,7 @@ namespace KRG::EntityModel::Serializer
 {
     namespace
     {
-        static bool WriteEntityComponentToJson( RapidJsonWriter& writer, TypeSystem::TypeRegistry const& typeRegistry, ComponentDescriptor const& componentDesc )
+        static bool WriteEntityComponentToJson( Serialization::JsonWriter& writer, TypeSystem::TypeRegistry const& typeRegistry, ComponentDescriptor const& componentDesc )
         {
             writer.StartObject();
 
@@ -579,7 +580,7 @@ namespace KRG::EntityModel::Serializer
             return true;
         }
 
-        static bool WriteEntitySystemToJson( RapidJsonWriter& writer, TypeSystem::TypeRegistry const& typeRegistry, SystemDescriptor const& systemDesc )
+        static bool WriteEntitySystemToJson( Serialization::JsonWriter& writer, TypeSystem::TypeRegistry const& typeRegistry, SystemDescriptor const& systemDesc )
         {
             if ( !systemDesc.m_typeID.IsValid() )
             {
@@ -596,7 +597,7 @@ namespace KRG::EntityModel::Serializer
 
     //-------------------------------------------------------------------------
 
-    bool WriteEntityToJson( TypeSystem::TypeRegistry const& typeRegistry, EntityDescriptor const& entityDesc, RapidJsonWriter& writer )
+    bool WriteEntityToJson( TypeSystem::TypeRegistry const& typeRegistry, EntityDescriptor const& entityDesc, Serialization::JsonWriter& writer )
     {
         writer.StartObject();
 
@@ -647,7 +648,7 @@ namespace KRG::EntityModel::Serializer
         return true;
     }
 
-    bool WriteEntityToJson( TypeSystem::TypeRegistry const& typeRegistry, Entity const* pEntity, RapidJsonWriter& writer )
+    bool WriteEntityToJson( TypeSystem::TypeRegistry const& typeRegistry, Entity const* pEntity, Serialization::JsonWriter& writer )
     {
         EntityDescriptor entityDesc;
         if ( !pEntity->CreateDescriptor( typeRegistry, entityDesc ) )
@@ -658,7 +659,7 @@ namespace KRG::EntityModel::Serializer
         return WriteEntityToJson( typeRegistry, entityDesc, writer );
     }
 
-    bool WriteEntityCollectionToJson( TypeSystem::TypeRegistry const& typeRegistry, EntityCollectionDescriptor const& collection, RapidJsonWriter& writer )
+    bool WriteEntityCollectionToJson( TypeSystem::TypeRegistry const& typeRegistry, EntityCollectionDescriptor const& collection, Serialization::JsonWriter& writer )
     {
         // Write collection to document
         //-------------------------------------------------------------------------
@@ -681,7 +682,7 @@ namespace KRG::EntityModel::Serializer
         return true;
     }
 
-    bool WriteMapToJson( TypeSystem::TypeRegistry const& typeRegistry, EntityMap const& map, RapidJsonWriter& writer )
+    bool WriteMapToJson( TypeSystem::TypeRegistry const& typeRegistry, EntityMap const& map, Serialization::JsonWriter& writer )
     {
         EntityCollectionDescriptor ecd;
         if ( !map.CreateDescriptor( typeRegistry, ecd ) )
@@ -695,25 +696,9 @@ namespace KRG::EntityModel::Serializer
     bool WriteEntityCollectionToFile( TypeSystem::TypeRegistry const& typeRegistry, EntityCollectionDescriptor const& collection, FileSystem::Path const& outFilePath )
     {
         KRG_ASSERT( outFilePath.IsValid() );
-
-        RapidJsonStringBuffer stringBuffer;
-        RapidJsonWriter writer( stringBuffer );
-        WriteEntityCollectionToJson( typeRegistry, collection, writer );
-
-        // Write to disk
-        //-------------------------------------------------------------------------
-
-        outFilePath.EnsureDirectoryExists();
-
-        FILE* fp = fopen( outFilePath.c_str(), "w" );
-        if ( fp == nullptr )
-        {
-            return Error( "Failed to open files: %s for writing.", outFilePath.c_str() );
-        }
-
-        fwrite( stringBuffer.GetString(), sizeof( char ), stringBuffer.GetSize(), fp );
-        fclose( fp );
-        return true;
+        JsonArchiveWriter archive;
+        WriteEntityCollectionToJson( typeRegistry, collection, *archive.GetWriter() );
+        return archive.WriteToFile( outFilePath );
     }
 
     bool WriteMapToFile( TypeSystem::TypeRegistry const& typeRegistry, EntityMap const& map, FileSystem::Path const& outFilePath )

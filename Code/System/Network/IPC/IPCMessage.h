@@ -1,8 +1,7 @@
 #pragma once
 #include "System/_Module/API.h"
 #include "System/Types/Arrays.h"
-#include "System/Memory/MemoryStreamHelpers.h"
-#include "cereal/archives/json.hpp"
+#include "System/Serialization/BinarySerialization.h"
 
 //-------------------------------------------------------------------------
 
@@ -38,13 +37,9 @@ namespace KRG::Network::IPC
         template<typename T>
         Message( MessageID ID, T&& typeToSerialize )
         {
-            std::stringstream stream;
-            {
-                cereal::JSONOutputArchive archive( stream );
-                archive << typeToSerialize;
-            }
-
-            Initialize( ID, (void*) stream.str().c_str(), (size_t) stream.str().length() );
+            Serialization::BinaryOutputArchive archive;
+            archive << typeToSerialize;
+            Initialize( ID, (void*) archive.GetBinaryData(), archive.GetBinaryDataSize() );
         }
 
         //-------------------------------------------------------------------------
@@ -76,13 +71,9 @@ namespace KRG::Network::IPC
         template<typename T>
         inline void SetData( MessageID msgID, T const& typeToSerialize )
         {
-            std::stringstream stream;
-            {
-                cereal::JSONOutputArchive archive( stream );
-                archive << typeToSerialize;
-            }
-
-            Initialize( msgID, (void*) stream.str().c_str(), (size_t) stream.str().length() );
+            Serialization::BinaryOutputArchive archive;
+            archive << typeToSerialize;
+            Initialize( msgID, (void*) archive.GetBinaryData(), archive.GetBinaryDataSize() );
         }
 
         // Serialization functions
@@ -90,9 +81,9 @@ namespace KRG::Network::IPC
         inline T GetData() const
         {
             T outType;
-            MemoryStreamView stream( GetPayloadData(), GetPayloadDataSize() );
-            cereal::JSONInputArchive archive( stream );
-            archive >> outType;
+            Serialization::BinaryInputArchive archive;
+            archive.ReadFromData( GetPayloadData(), GetPayloadDataSize() );
+            archive << outType;
             return outType;
         }
 
@@ -104,7 +95,7 @@ namespace KRG::Network::IPC
 
     private:
 
-        TInlineVector<uint8_t, sizeof( MessageID )>    m_data;
-        uint32_t                                      m_clientConnectionID = 0;
+        TInlineVector<uint8_t, sizeof( MessageID )>     m_data;
+        uint32_t                                        m_clientConnectionID = 0;
     };
 }

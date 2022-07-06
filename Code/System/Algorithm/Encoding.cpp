@@ -9,11 +9,11 @@ namespace KRG::Encoding::Base64
 
     //-------------------------------------------------------------------------
 
-    TVector<uint8_t> Encode( uint8_t const* pDataToEncode, size_t dataSize )
+    Blob Encode( uint8_t const* pDataToEncode, size_t dataSize )
     {
         KRG_ASSERT( pDataToEncode != nullptr && dataSize > 0 );
 
-        TVector<uint8_t> encodedData;
+        Blob encodedData;
         int32_t i = 0, j = 0;
         uint8_t byte3[3];
         uint8_t byte4[4];
@@ -81,10 +81,10 @@ namespace KRG::Encoding::Base64
         return (uint8_t) -1;
     }
 
-    TVector<uint8_t> Decode( uint8_t const* pDataToDecode, size_t dataSize )
+    Blob Decode( uint8_t const* pDataToDecode, size_t dataSize )
     {
         KRG_ASSERT( pDataToDecode != nullptr && dataSize > 0 );
-        TVector<uint8_t> decodedData;
+        Blob decodedData;
 
         int32_t idx = 0;
         size_t i = 0, j = 0;
@@ -145,18 +145,18 @@ namespace KRG::Encoding::Base64
 
 namespace KRG::Encoding::Base85
 {
-    TVector<uint8_t> Encode( uint8_t const* pDataToEncode, size_t dataSize )
+    Blob Encode( uint8_t const* pDataToEncode, size_t dataSize )
     {
         KRG_ASSERT( pDataToEncode != nullptr && dataSize > 0 );
-        TVector<uint8_t> encodedData;
+        Blob encodedData;
         KRG_UNIMPLEMENTED_FUNCTION();
         return encodedData;
     }
 
-    TVector<uint8_t> Decode( uint8_t const* pDataToDecode, size_t dataSize )
+    Blob Decode( uint8_t const* pDataToDecode, size_t dataSize )
     {
         KRG_ASSERT( pDataToDecode != nullptr && dataSize > 0 );
-        TVector<uint8_t> decodedData;
+        Blob decodedData;
         KRG_UNIMPLEMENTED_FUNCTION();
         return decodedData;
     }

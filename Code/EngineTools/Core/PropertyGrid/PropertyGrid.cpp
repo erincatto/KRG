@@ -152,7 +152,7 @@ namespace KRG
                 }
 
                 ImGui::TableNextRow();
-                DrawPropertyRow( *m_pTypeInfo, m_pTypeInstance, propertyInfo, reinterpret_cast<uint8_t*>( m_pTypeInstance ) + propertyInfo.m_offset );
+                DrawPropertyRow( m_pTypeInfo, m_pTypeInstance, propertyInfo, reinterpret_cast<uint8_t*>( m_pTypeInstance ) + propertyInfo.m_offset );
             }
 
             ImGui::EndTable();
@@ -160,19 +160,19 @@ namespace KRG
         ImGui::PopStyleVar();
     }
 
-    void PropertyGrid::DrawPropertyRow( TypeInfo const& typeInfo, IRegisteredType* pTypeInstance, PropertyInfo const& propertyInfo, uint8_t* pPropertyInstance )
+    void PropertyGrid::DrawPropertyRow( TypeSystem::TypeInfo const* pTypeInfo, IRegisteredType* pTypeInstance, PropertyInfo const& propertyInfo, uint8_t* pPropertyInstance )
     {
         if ( propertyInfo.IsArrayProperty() )
         {
-            DrawArrayPropertyRow( typeInfo, pTypeInstance, propertyInfo, pPropertyInstance );
+            DrawArrayPropertyRow( pTypeInfo, pTypeInstance, propertyInfo, pPropertyInstance );
         }
         else
         {
-            DrawValuePropertyRow( typeInfo, pTypeInstance, propertyInfo, pPropertyInstance );
+            DrawValuePropertyRow( pTypeInfo, pTypeInstance, propertyInfo, pPropertyInstance );
         }
     }
 
-    void PropertyGrid::DrawValuePropertyRow( TypeInfo const& typeInfo, IRegisteredType* pTypeInstance, PropertyInfo const& propertyInfo, uint8_t* pPropertyInstance, int32_t arrayIdx )
+    void PropertyGrid::DrawValuePropertyRow( TypeSystem::TypeInfo const* pTypeInfo, IRegisteredType* pTypeInstance, PropertyInfo const& propertyInfo, uint8_t* pPropertyInstance, int32_t arrayIdx )
     {
         //-------------------------------------------------------------------------
         // Name
@@ -216,7 +216,7 @@ namespace KRG
 
         //-------------------------------------------------------------------------
 
-        auto pActualPropertyInstance = propertyInfo.IsArrayProperty() ? typeInfo.m_pTypeHelper->GetArrayElementDataPtr( pTypeInstance, propertyInfo.m_ID, arrayIdx ) : pPropertyInstance;
+        auto pActualPropertyInstance = propertyInfo.IsArrayProperty() ? pTypeInfo->GetArrayElementDataPtr( pTypeInstance, propertyInfo.m_ID, arrayIdx ) : pPropertyInstance;
 
         //-------------------------------------------------------------------------
         // Editor
@@ -264,13 +264,13 @@ namespace KRG
         if ( propertyInfo.IsDynamicArrayProperty() )
         {
             KRG_ASSERT( arrayIdx != InvalidIndex );
-            auto const pArrayElementInstance = typeInfo.m_pTypeHelper->GetArrayElementDataPtr( pTypeInstance, propertyInfo.m_ID, arrayIdx );
+            auto const pArrayElementInstance = pTypeInfo->GetArrayElementDataPtr( pTypeInstance, propertyInfo.m_ID, arrayIdx );
             if ( ImGuiX::FlatButtonColored( Colors::PaleVioletRed.ToFloat4(), KRG_ICON_MINUS ) )
             {
                 command = Command::RemoveElement;
             }
         }
-        else if ( !typeInfo.m_pTypeHelper->IsPropertyValueSetToDefault( pTypeInstance, propertyInfo.m_ID, arrayIdx ) )
+        else if ( !pTypeInfo->IsPropertyValueSetToDefault( pTypeInstance, propertyInfo.m_ID, arrayIdx ) )
         {
             if ( ImGuiX::FlatButtonColored( Colors::LightGray.ToFloat4(), KRG_ICON_UNDO ) )
             {
@@ -295,7 +295,7 @@ namespace KRG
             for ( auto const& childPropertyInfo : pChildTypeInfo->m_properties )
             {
                 ImGui::TableNextRow();
-                DrawPropertyRow( *pChildTypeInfo, reinterpret_cast<IRegisteredType*>( pChildTypeInstance ), childPropertyInfo, pChildTypeInstance + childPropertyInfo.m_offset );
+                DrawPropertyRow( pChildTypeInfo, reinterpret_cast<IRegisteredType*>( pChildTypeInstance ), childPropertyInfo, pChildTypeInstance + childPropertyInfo.m_offset );
             }
 
             ImGui::TreePop();
@@ -311,14 +311,14 @@ namespace KRG
             case Command::RemoveElement:
             {
                 ScopedChangeNotifier cn( this, &propertyInfo, PropertyEditInfo::Action::RemoveArrayElement );
-                typeInfo.m_pTypeHelper->RemoveArrayElement( pTypeInstance, propertyInfo.m_ID, arrayIdx );
+                pTypeInfo->RemoveArrayElement( pTypeInstance, propertyInfo.m_ID, arrayIdx );
             }
             break;
 
             case Command::ResetToDefault:
             {
                 ScopedChangeNotifier cn( this, &propertyInfo );
-                typeInfo.m_pTypeHelper->ResetToDefault( pTypeInstance, propertyInfo.m_ID );
+                pTypeInfo->ResetToDefault( pTypeInstance, propertyInfo.m_ID );
 
                 if ( pPropertyEditor != nullptr )
                 {
@@ -329,7 +329,7 @@ namespace KRG
         }
     }
 
-    void PropertyGrid::DrawArrayPropertyRow( TypeInfo const& typeInfo, IRegisteredType* pTypeInstance, PropertyInfo const& propertyInfo, uint8_t* pPropertyInstance )
+    void PropertyGrid::DrawArrayPropertyRow( TypeSystem::TypeInfo const* pTypeInfo, IRegisteredType* pTypeInstance, PropertyInfo const& propertyInfo, uint8_t* pPropertyInstance )
     {
         KRG_ASSERT( propertyInfo.IsArrayProperty() );
 
@@ -359,7 +359,7 @@ namespace KRG
         // Editor
         //-------------------------------------------------------------------------
 
-        size_t const arraySize = typeInfo.m_pTypeHelper->GetArraySize( pTypeInstance, propertyInfo.m_ID );
+        size_t const arraySize = pTypeInfo->GetArraySize( pTypeInstance, propertyInfo.m_ID );
 
         ImGui::TableNextColumn();
         if ( propertyInfo.IsDynamicArrayProperty() )
@@ -375,12 +375,12 @@ namespace KRG
             float const actualTextWidth = ImGui::GetItemRectSize().x;
 
             ImGui::SameLine( 0, textAreaWidth - actualTextWidth + itemSpacing );
-            if ( !typeInfo.m_pTypeHelper->IsPropertyValueSetToDefault( pTypeInstance, propertyInfo.m_ID ) )
+            if ( !pTypeInfo->IsPropertyValueSetToDefault( pTypeInstance, propertyInfo.m_ID ) )
             {
                 if ( ImGuiX::FlatButtonColored( Colors::LightGray.ToFloat4(), KRG_ICON_UNDO ) )
                 {
                     ScopedChangeNotifier cn( this, &propertyInfo );
-                    typeInfo.m_pTypeHelper->ResetToDefault( pTypeInstance, propertyInfo.m_ID );
+                    pTypeInfo->ResetToDefault( pTypeInstance, propertyInfo.m_ID );
                 }
             }
         }
@@ -399,7 +399,7 @@ namespace KRG
             if ( ImGuiX::FlatButtonColored( Colors::LightGreen.ToFloat4(), KRG_ICON_PLUS ) )
             {
                 ScopedChangeNotifier cn( this, &propertyInfo, PropertyEditInfo::Action::AddArrayElement );
-                typeInfo.m_pTypeHelper->AddArrayElement( pTypeInstance, propertyInfo.m_ID );
+                pTypeInfo->AddArrayElement( pTypeInstance, propertyInfo.m_ID );
                 ImGui::GetStateStorage()->SetInt( ImGui::GetID( propertyInfo.m_ID.c_str() ), 1 );
             }
         }
@@ -410,9 +410,9 @@ namespace KRG
         if ( showContents )
         {
             // We need to ask for the array size each iteration since we may destroy a row as part of drawing it
-            for ( auto i = 0u; i < typeInfo.m_pTypeHelper->GetArraySize( pTypeInstance, propertyInfo.m_ID ); i++ )
+            for ( auto i = 0u; i < pTypeInfo->GetArraySize( pTypeInstance, propertyInfo.m_ID ); i++ )
             {
-                DrawValuePropertyRow( typeInfo, pTypeInstance, propertyInfo, pPropertyInstance, i );
+                DrawValuePropertyRow( pTypeInfo, pTypeInstance, propertyInfo, pPropertyInstance, i );
             }
 
             ImGui::TreePop();

@@ -103,7 +103,7 @@ namespace KRG::Timeline
 
     //-------------------------------------------------------------------------
 
-    bool TimelineEditor::Serialize( TypeSystem::TypeRegistry const& typeRegistry, RapidJsonValue const& objectValue )
+    bool TimelineEditor::Serialize( TypeSystem::TypeRegistry const& typeRegistry, Serialization::JsonValue const& objectValue )
     {
         ClearSelection();
         m_trackContainer.Reset();
@@ -132,7 +132,7 @@ namespace KRG::Timeline
         return true;
     }
 
-    void TimelineEditor::Serialize( TypeSystem::TypeRegistry const& typeRegistry, RapidJsonWriter& writer )
+    void TimelineEditor::Serialize( TypeSystem::TypeRegistry const& typeRegistry, Serialization::JsonWriter& writer )
     {
         writer.Key( TrackContainer::s_trackContainerKey );
         m_trackContainer.Serialize( typeRegistry, writer );

@@ -23,7 +23,7 @@ namespace KRG::Physics
 
     private:
 
-        bool CookTriangleMeshData( RawAssets::RawMesh const& rawMesh, TVector<uint8_t>& outCookedData ) const;
-        bool CookConvexMeshData( RawAssets::RawMesh const& rawMesh, TVector<uint8_t>& outCookedData ) const;
+        bool CookTriangleMeshData( RawAssets::RawMesh const& rawMesh, Blob& outCookedData ) const;
+        bool CookConvexMeshData( RawAssets::RawMesh const& rawMesh, Blob& outCookedData ) const;
     };
 }

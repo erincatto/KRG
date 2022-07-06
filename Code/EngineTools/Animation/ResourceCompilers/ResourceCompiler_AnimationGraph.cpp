@@ -34,14 +34,14 @@ namespace KRG::Animation
 
     bool AnimationGraphCompiler::LoadAndCompileGraph( FileSystem::Path const& graphFilePath, EditorGraphDefinition& editorGraph, GraphDefinitionCompiler& definitionCompiler ) const
     {
-        JsonReader jsonReader;
-        if ( !jsonReader.ReadFromFile( graphFilePath ) )
+        Serialization::JsonArchiveReader archive;
+        if ( !archive.ReadFromFile( graphFilePath ) )
         {
             Error( "Failed to read animation graph file: %s", graphFilePath.c_str() );
             return false;
         }
 
-        if ( !editorGraph.LoadFromJson( *m_pTypeRegistry, jsonReader.GetDocument() ) )
+        if ( !editorGraph.LoadFromJson( *m_pTypeRegistry, archive.GetDocument() ) )
         {
             Error( "Malformed animation graph file: %s", graphFilePath.c_str() );
             return false;
@@ -89,33 +89,33 @@ namespace KRG::Animation
 
         auto pRuntimeGraph = definitionCompiler.GetCompiledGraph();
 
-        Serialization::BinaryFileArchive archive( Serialization::Mode::Write, ctx.m_outputFilePath );
-        if ( archive.IsValid() )
+        Serialization::BinaryOutputArchive archive;
+
+        archive << Resource::ResourceHeader( s_version, GraphDefinition::GetStaticResourceTypeID() );
+        archive << *pRuntimeGraph;
+
+        // Serialize node paths only in dev builds
+        if ( ctx.IsCompilingForDevelopmentBuild() )
         {
-            archive << Resource::ResourceHeader( s_version, GraphDefinition::GetStaticResourceTypeID() );
-            archive << *pRuntimeGraph;
-            
-            // Serialize node paths only in dev builds
-            if ( ctx.IsCompilingForDevelopmentBuild() )
-            {
-                archive << pRuntimeGraph->m_nodePaths;
-            }
+            archive << pRuntimeGraph->m_nodePaths;
+        }
 
-            // Node settings type descs
-            TypeSystem::TypeDescriptorCollection settingsTypeDescriptors;
-            for ( auto pSettings : pRuntimeGraph->m_nodeSettings )
-            {
-                settingsTypeDescriptors.m_descriptors.emplace_back( TypeSystem::TypeDescriptor( *m_pTypeRegistry, pSettings ) );
-            }
-            archive << settingsTypeDescriptors;
+        // Node settings type descs
+        TypeSystem::TypeDescriptorCollection settingsTypeDescriptors;
+        for ( auto pSettings : pRuntimeGraph->m_nodeSettings )
+        {
+            settingsTypeDescriptors.m_descriptors.emplace_back( TypeSystem::TypeDescriptor( *m_pTypeRegistry, pSettings ) );
+        }
+        archive << settingsTypeDescriptors;
 
-            // Node settings data
-            cereal::BinaryOutputArchive& settingsArchive = *archive.GetOutputArchive();
-            for ( auto pSettings : pRuntimeGraph->m_nodeSettings )
-            {
-                pSettings->Save( settingsArchive );
-            }
+        // Node settings data
+        for ( auto pSettings : pRuntimeGraph->m_nodeSettings )
+        {
+            pSettings->Save( archive );
+        }
 
+        if ( archive.WriteToFile( ctx.m_outputFilePath ) )
+        {
             return CompilationSucceeded( ctx );
         }
         else
@@ -178,16 +178,16 @@ namespace KRG::Animation
 
         //-------------------------------------------------------------------------
 
-        Serialization::BinaryFileArchive archive( Serialization::Mode::Write, ctx.m_outputFilePath );
-        if ( archive.IsValid() )
+        Resource::ResourceHeader hdr( s_version, GraphDataSet::GetStaticResourceTypeID() );
+        hdr.AddInstallDependency( variation.m_pDataSet.GetResourceID() );
+        hdr.AddInstallDependency( variation.m_pGraphDefinition.GetResourceID() );
+
+        Serialization::BinaryOutputArchive archive;
+        archive << hdr;
+        archive << variation;
+
+        if ( archive.WriteToFile( ctx.m_outputFilePath ) )
         {
-            Resource::ResourceHeader hdr( s_version, GraphDataSet::GetStaticResourceTypeID() );
-            hdr.AddInstallDependency( variation.m_pDataSet.GetResourceID() );
-            hdr.AddInstallDependency( variation.m_pGraphDefinition.GetResourceID() );
-
-            archive << hdr;
-            archive << variation;
-
             return CompilationSucceeded( ctx );
         }
         else
@@ -338,24 +338,23 @@ namespace KRG::Animation
         // Serialize
         //-------------------------------------------------------------------------
 
-        FileSystem::Path const dataSetOutputPath = dataSetPath.ToFileSystemPath( ctx.m_compiledResourceDirectoryPath );
+        Resource::ResourceHeader hdr( s_version, GraphDataSet::GetStaticResourceTypeID() );
+        hdr.AddInstallDependency( dataSet.m_pSkeleton.GetResourceID() );
 
-        Serialization::BinaryFileArchive archive( Serialization::Mode::Write, dataSetOutputPath );
-        if ( archive.IsValid() )
+        for ( auto const& dataRecord : dataSet.m_resources )
         {
-            Resource::ResourceHeader hdr( s_version, GraphDataSet::GetStaticResourceTypeID() );
-
-            hdr.AddInstallDependency( dataSet.m_pSkeleton.GetResourceID() );
-
-            for ( auto const& dataRecord : dataSet.m_resources )
+            if ( dataRecord.IsValid() )
             {
-                if ( dataRecord.IsValid() )
-                {
-                    hdr.AddInstallDependency( dataRecord.GetResourceID() );
-                }
+                hdr.AddInstallDependency( dataRecord.GetResourceID() );
             }
+        }
 
-            archive << hdr << dataSet;
+        Serialization::BinaryOutputArchive archive;
+        archive << hdr << dataSet;
+
+        FileSystem::Path const dataSetOutputPath = dataSetPath.ToFileSystemPath( ctx.m_compiledResourceDirectoryPath );
+        if ( archive.WriteToFile( dataSetOutputPath ) )
+        {
             return true;
         }
         else

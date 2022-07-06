@@ -1,7 +1,7 @@
 #include "ResourceLoader_PhysicsMaterialDatabase.h"
 #include "Engine/Physics/PhysicsSystem.h"
 #include "Engine/Physics/PhysicsMaterial.h"
-#include "System/Serialization/BinaryArchive.h"
+#include "System/Serialization/BinarySerialization.h"
 
 //-------------------------------------------------------------------------
 
@@ -21,12 +21,10 @@ namespace KRG::Physics
         m_pPhysicsSystem = pPhysicsSystem;
     }
 
-    bool PhysicsMaterialDatabaseLoader::LoadInternal( ResourceID const& resID, Resource::ResourceRecord* pResourceRecord, Serialization::BinaryMemoryArchive& archive ) const
+    bool PhysicsMaterialDatabaseLoader::LoadInternal( ResourceID const& resID, Resource::ResourceRecord* pResourceRecord, Serialization::BinaryInputArchive& archive ) const
     {
-        KRG_ASSERT( archive.IsValid() );
-
         TVector<PhysicsMaterialSettings> serializedMaterials;
-        archive >> serializedMaterials;
+        archive << serializedMaterials;
 
         //-------------------------------------------------------------------------
 

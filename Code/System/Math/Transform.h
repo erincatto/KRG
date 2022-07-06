@@ -8,7 +8,7 @@ namespace KRG
 {
     class KRG_SYSTEM_API Transform
     {
-        KRG_SERIALIZE_MEMBERS( m_rotation, m_translation, m_scale );
+        KRG_SERIALIZE( m_rotation, m_translation, m_scale );
 
     public:
 

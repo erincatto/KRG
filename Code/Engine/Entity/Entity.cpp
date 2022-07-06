@@ -28,7 +28,7 @@ namespace KRG
         // Create new entity
         //-------------------------------------------------------------------------
 
-        auto pEntity = reinterpret_cast<Entity*>( pEntityTypeInfo->m_pTypeHelper->CreateType() );
+        auto pEntity = reinterpret_cast<Entity*>( pEntityTypeInfo->CreateType() );
         pEntity->m_name = entityDesc.m_name;
 
         // Create entity components
@@ -101,7 +101,7 @@ namespace KRG
         for ( auto const& systemDesc : entityDesc.m_systems )
         {
             TypeSystem::TypeInfo const* pTypeInfo = typeRegistry.GetTypeInfo( systemDesc.m_typeID );
-            auto pEntitySystem = reinterpret_cast<EntitySystem*>( pTypeInfo->m_pTypeHelper->CreateType() );
+            auto pEntitySystem = reinterpret_cast<EntitySystem*>( pTypeInfo->CreateType() );
             KRG_ASSERT( pEntitySystem != nullptr );
 
             pEntity->m_systems.push_back( pEntitySystem );
@@ -872,7 +872,7 @@ namespace KRG
         #endif
 
         // Create the new system and add it
-        auto pSystem = (EntitySystem*) pSystemTypeInfo->m_pTypeHelper->CreateType();
+        auto pSystem = (EntitySystem*) pSystemTypeInfo->CreateType();
         m_systems.emplace_back( pSystem );
 
         if ( IsActivated() )
@@ -989,7 +989,7 @@ namespace KRG
     void Entity::CreateComponent( TypeSystem::TypeInfo const* pComponentTypeInfo, ComponentID const& parentSpatialComponentID )
     {
         KRG_ASSERT( pComponentTypeInfo != nullptr && pComponentTypeInfo->IsDerivedFrom<EntityComponent>() );
-        EntityComponent* pComponent = Cast<EntityComponent>( pComponentTypeInfo->m_pTypeHelper->CreateType() );
+        EntityComponent* pComponent = Cast<EntityComponent>( pComponentTypeInfo->CreateType() );
 
         #if KRG_DEVELOPMENT_TOOLS
         pComponent->m_name = StringID( pComponentTypeInfo->GetFriendlyTypeName() );

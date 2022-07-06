@@ -4,11 +4,7 @@
   "Items": [
     {
       "Id": "ec207852-c04c-4284-8c37-9065dd1928af",
-      "Command": "-s d:\\Kruger\\KRG.sln"
-    },
-    {
-      "Id": "3b03f12c-e77f-469f-aea1-23285215d11b",
-      "Command": "-rebuild"
+      "Command": "-s d:\\KRG\\KRG.sln"
     },
     {
       "Id": "09051c7e-873c-4c3d-9ce2-e8c296a546c0",

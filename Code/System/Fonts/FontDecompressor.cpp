@@ -147,7 +147,7 @@ namespace KRG
 
     namespace Fonts
     {
-        void GetDecompressedFontData( uint8_t const* pSourceData, TVector<uint8_t>& fontData )
+        void GetDecompressedFontData( uint8_t const* pSourceData, Blob& fontData )
         {
             // Decode font data
             uint32_t const decodedDataSize = uint32_t( ( strlen( (char*) pSourceData ) + 4 ) / 5 ) * 4;

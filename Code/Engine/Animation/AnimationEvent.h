@@ -2,13 +2,20 @@
 
 #include "Engine/_Module/API.h"
 #include "System/Time/Time.h"
-#include "System/TypeSystem/TypeRegistrationMacros.h"
+#include "System/TypeSystem/RegisteredType.h"
 #include "System/Math/NumericRange.h"
 
 //-------------------------------------------------------------------------
 // Animation Event
 //-------------------------------------------------------------------------
 // Base class for all animation events
+
+namespace KRG
+{
+    class StringID;
+}
+
+//-------------------------------------------------------------------------
 
 namespace KRG::Animation
 {
@@ -45,7 +52,7 @@ namespace KRG::Animation
         KRG_FORCE_INLINE FloatRange GetTimeRange() const { return FloatRange( m_startTime, m_startTime + m_duration ); }
 
         // Optional: Allow the track to return a specific sync event ID
-        virtual StringID GetSyncEventID() const { return StringID(); }
+        virtual StringID GetSyncEventID() const;
 
         // Event properties
         //-------------------------------------------------------------------------

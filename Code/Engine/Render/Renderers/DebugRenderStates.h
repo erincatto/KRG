@@ -32,7 +32,7 @@ namespace KRG::Render
         VertexBuffer                    m_vertexBuffer;
         BlendState                      m_blendState;
         RasterizerState                 m_rasterizerState;
-        TVector<uint8_t>                  m_stagingVertexData;
+        Blob                            m_stagingVertexData;
 
         PipelineState                   m_PSO;
     };
@@ -58,7 +58,7 @@ namespace KRG::Render
         VertexBuffer                    m_vertexBuffer;
         BlendState                      m_blendState;
         RasterizerState                 m_rasterizerState;
-        TVector<uint8_t>                  m_stagingVertexData;
+        Blob                            m_stagingVertexData;
 
         PipelineState                   m_PSO;
     };
@@ -83,7 +83,7 @@ namespace KRG::Render
         VertexBuffer                    m_vertexBuffer;
         BlendState                      m_blendState;
         RasterizerState                 m_rasterizerState;
-        TVector<uint8_t>                  m_stagingVertexData;
+        Blob                            m_stagingVertexData;
 
         PipelineState                   m_PSO;
     };
@@ -105,7 +105,7 @@ namespace KRG::Render
     {
         Float2                          m_pos;
         Float2                          m_texcoord;
-        uint32_t                          m_color;
+        uint32_t                        m_color;
     };
 
     //-------------------------------------------------------------------------
@@ -117,7 +117,7 @@ namespace KRG::Render
 
         struct FontDesc
         {
-            uint8_t const*                 m_compressedFontData;
+            uint8_t const*              m_compressedFontData;
             float                       m_fontSize;
         };
 
@@ -171,7 +171,7 @@ namespace KRG::Render
 
     private:
 
-        TVector<uint8_t>                   m_atlasData;
+        Blob                   m_atlasData;
         TInlineVector<FontInfo, 3>      m_fonts;
     };
 

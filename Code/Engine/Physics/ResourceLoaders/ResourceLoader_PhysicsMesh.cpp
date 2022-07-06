@@ -1,7 +1,7 @@
 #include "ResourceLoader_PhysicsMesh.h"
 #include "Engine/Physics/PhysicsSystem.h"
 #include "Engine/Physics/PhysicsMesh.h"
-#include "System/Serialization/BinaryArchive.h"
+#include "System/Serialization/BinarySerialization.h"
 
 #include <PxPhysics.h>
 #include <foundation/PxIO.h>
@@ -17,7 +17,7 @@ namespace KRG::Physics
     {
     public:
 
-        PhysXSerializedInputData( TVector<uint8_t> const& buffer ) : m_buffer( buffer ) {}
+        PhysXSerializedInputData( Blob const& buffer ) : m_buffer( buffer ) {}
 
     private:
 
@@ -31,8 +31,8 @@ namespace KRG::Physics
 
     private:
 
-        TVector<uint8_t> const&    m_buffer;
-        size_t                  m_readByteIdx = 0;
+        Blob const&     m_buffer;
+        size_t          m_readByteIdx = 0;
     };
 
     //-------------------------------------------------------------------------
@@ -48,17 +48,15 @@ namespace KRG::Physics
         m_pPhysicsSystem = pPhysicsSystem;
     }
 
-    bool PhysicsMeshLoader::LoadInternal( ResourceID const& resID, Resource::ResourceRecord* pResourceRecord, Serialization::BinaryMemoryArchive& archive ) const
+    bool PhysicsMeshLoader::LoadInternal( ResourceID const& resID, Resource::ResourceRecord* pResourceRecord, Serialization::BinaryInputArchive& archive ) const
     {
-        KRG_ASSERT( archive.IsValid() );
-
         // Create mesh resource
         PhysicsMesh* pPhysicsMesh = KRG::New<PhysicsMesh>();
-        archive >> *pPhysicsMesh;
+        archive << *pPhysicsMesh;
 
         // Deserialize cooked mesh data
-        TVector<uint8_t> cookedMeshData;
-        archive >> cookedMeshData;
+        Blob cookedMeshData;
+        archive << cookedMeshData;
 
         PhysXSerializedInputData cooked( cookedMeshData );
         {

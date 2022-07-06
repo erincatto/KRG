@@ -103,8 +103,8 @@ namespace KRG::Timeline
         inline void MarkDirty() { m_trackContainer.MarkDirty(); }
 
         // Serialization
-        virtual bool Serialize( TypeSystem::TypeRegistry const& typeRegistry, RapidJsonValue const& objectValue );
-        virtual void Serialize( TypeSystem::TypeRegistry const& typeRegistry, RapidJsonWriter& writer );
+        virtual bool Serialize( TypeSystem::TypeRegistry const& typeRegistry, Serialization::JsonValue const& objectValue );
+        virtual void Serialize( TypeSystem::TypeRegistry const& typeRegistry, Serialization::JsonWriter& writer );
 
     protected:
 

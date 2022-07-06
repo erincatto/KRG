@@ -8,7 +8,7 @@
 #include "Engine/Animation/AnimationClip.h"
 #include "System/Resource/ResourcePtr.h"
 #include "System/FileSystem/FileSystem.h"
-#include "System/Serialization/BinaryArchive.h"
+#include "System/Serialization/BinarySerialization.h"
 #include "System/Math/MathHelpers.h"
 #include <eastl/sort.h>
 
@@ -34,7 +34,7 @@ namespace KRG::Animation
     {
         AnimationClipResourceDescriptor resourceDescriptor;
 
-        Serialization::TypeReader typeReader( *m_pTypeRegistry );
+        Serialization::TypeArchiveReader typeReader( *m_pTypeRegistry );
         if ( !typeReader.ReadFromFile( ctx.m_inputFilePath ) )
         {
             return Error( "Failed to read resource descriptor file: %s", ctx.m_inputFilePath.c_str() );
@@ -133,17 +133,16 @@ namespace KRG::Animation
         // Serialize animation data
         //-------------------------------------------------------------------------
 
-        Serialization::BinaryFileArchive archive( Serialization::Mode::Write, ctx.m_outputFilePath );
-        if ( archive.IsValid() )
+        Resource::ResourceHeader hdr( s_version, AnimationClip::GetStaticResourceTypeID() );
+        hdr.AddInstallDependency( resourceDescriptor.m_pSkeleton.GetResourceID() );
+
+        Serialization::BinaryOutputArchive archive;
+        archive << hdr << animData;
+        archive << eventData.m_syncEventMarkers;
+        archive << eventData.m_collection;
+
+        if ( archive.WriteToFile( ctx.m_outputFilePath ) )
         {
-            Resource::ResourceHeader hdr( s_version, AnimationClip::GetStaticResourceTypeID() );
-            hdr.AddInstallDependency( resourceDescriptor.m_pSkeleton.GetResourceID() );
-            archive << hdr << animData;
-
-            // Event Data
-            archive << eventData.m_syncEventMarkers;
-            archive << eventData.m_collection;
-
             if ( pRawAnimation->HasWarnings() )
             {
                 return CompilationSucceededWithWarnings( ctx );

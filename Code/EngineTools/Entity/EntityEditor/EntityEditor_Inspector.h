@@ -14,7 +14,7 @@ namespace KRG
     namespace TypeSystem
     { 
         class TypeRegistry;
-        struct TypeInfo;
+        class TypeInfo;
     }
 }
 

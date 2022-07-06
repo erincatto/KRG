@@ -77,7 +77,7 @@ namespace KRG::Render
 
         // Textures and Sampling
         void CreateDataTexture( Texture& texture, TextureFormat format, uint8_t const* rawData, size_t size );
-        inline void CreateDataTexture( Texture& texture, TextureFormat format, TVector<uint8_t> const& rawData ) { CreateDataTexture( texture, format, rawData.data(), rawData.size() ); }
+        inline void CreateDataTexture( Texture& texture, TextureFormat format, Blob const& rawData ) { CreateDataTexture( texture, format, rawData.data(), rawData.size() ); }
         void CreateTexture( Texture& texture, DataFormat format, Int2 dimensions, uint32_t usage );
         void DestroyTexture( Texture& texture );
 

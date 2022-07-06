@@ -2,7 +2,7 @@
 
 #include "System/_Module/API.h"
 #include "System/Math/Math.h"
-#include "System/Serialization/Serialization.h"
+#include "System/Serialization/BinarySerialization.h"
 
 //-------------------------------------------------------------------------
 
@@ -24,7 +24,7 @@ namespace KRG
     {
         friend Milliseconds;
         friend Seconds;
-        KRG_SERIALIZE_MEMBERS( m_value );
+        KRG_SERIALIZE( m_value );
 
     public:
 
@@ -79,7 +79,7 @@ namespace KRG
     {
         friend Microseconds;
         friend Seconds;
-        KRG_SERIALIZE_MEMBERS( m_value );
+        KRG_SERIALIZE( m_value );
 
     public:
 
@@ -134,7 +134,7 @@ namespace KRG
     {
         friend Microseconds;
         friend Milliseconds;
-        KRG_SERIALIZE_MEMBERS( m_value );
+        KRG_SERIALIZE( m_value );
 
     public:
 
@@ -209,7 +209,7 @@ namespace KRG
 
     class KRG_SYSTEM_API Nanoseconds
     {
-        KRG_SERIALIZE_MEMBERS( m_value );
+        KRG_SERIALIZE( m_value );
 
     public:
 

@@ -23,10 +23,10 @@ namespace KRG::Animation
         inline ToolsContext const* GetToolsContext() const { return &m_toolsContext; }
 
         // Load an existing graph
-        bool LoadGraph( RapidJsonValue const& graphDescriptorObjectValue );
+        bool LoadGraph( Serialization::JsonValue const& graphDescriptorObjectValue );
 
         // Saves this graph
-        void SaveGraph( RapidJsonWriter& writer ) const;
+        void SaveGraph( Serialization::JsonWriter& writer ) const;
 
         // Dirty State
         //-------------------------------------------------------------------------

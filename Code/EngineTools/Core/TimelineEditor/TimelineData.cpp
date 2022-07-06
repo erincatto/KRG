@@ -200,7 +200,7 @@ namespace KRG::Timeline
 
     //-------------------------------------------------------------------------
 
-    bool TrackContainer::Serialize( TypeSystem::TypeRegistry const& typeRegistry, RapidJsonValue const& dataObjectValue )
+    bool TrackContainer::Serialize( TypeSystem::TypeRegistry const& typeRegistry, Serialization::JsonValue const& dataObjectValue )
     {
         auto FreeTrackData = [this] ()
         {
@@ -296,7 +296,7 @@ namespace KRG::Timeline
         return true;
     }
 
-    void TrackContainer::Serialize( TypeSystem::TypeRegistry const& typeRegistry, RapidJsonWriter& writer )
+    void TrackContainer::Serialize( TypeSystem::TypeRegistry const& typeRegistry, Serialization::JsonWriter& writer )
     {
         writer.StartArray();
 

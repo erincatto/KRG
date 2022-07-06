@@ -18,7 +18,7 @@ namespace KRG::Render
         friend class MaterialCompiler;
         friend class MaterialLoader;
 
-        KRG_SERIALIZE_MEMBERS( m_pAlbedoTexture, m_pMetalnessTexture, m_pRoughnessTexture, m_pNormalMapTexture, m_pAOTexture, m_albedo, m_metalness, m_roughness, m_normalScaler );
+        KRG_SERIALIZE( m_pAlbedoTexture, m_pMetalnessTexture, m_pRoughnessTexture, m_pNormalMapTexture, m_pAOTexture, m_albedo, m_metalness, m_roughness, m_normalScaler );
 
     public:
 

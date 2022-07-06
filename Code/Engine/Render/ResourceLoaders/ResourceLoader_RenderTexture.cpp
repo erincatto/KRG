@@ -1,26 +1,26 @@
 #include "ResourceLoader_RenderTexture.h"
-#include "System/Serialization/BinaryArchive.h"
+#include "System/Serialization/BinarySerialization.h"
 #include "System/Log.h"
 
 //-------------------------------------------------------------------------
 
 namespace KRG::Render
 {
-    bool TextureLoader::LoadInternal( ResourceID const& resID, Resource::ResourceRecord* pResourceRecord, Serialization::BinaryMemoryArchive& archive ) const
+    bool TextureLoader::LoadInternal( ResourceID const& resID, Resource::ResourceRecord* pResourceRecord, Serialization::BinaryInputArchive& archive ) const
     {
-        KRG_ASSERT( m_pRenderDevice != nullptr && archive.IsValid() );
+        KRG_ASSERT( m_pRenderDevice != nullptr );
 
         Texture* pTextureResource = nullptr;
 
         if ( resID.GetResourceTypeID() == Texture::GetStaticResourceTypeID() )
         {
             pTextureResource = KRG::New<Texture>();
-            archive >> *pTextureResource;
+            archive << *pTextureResource;
         }
         else if ( resID.GetResourceTypeID() == CubemapTexture::GetStaticResourceTypeID() )
         {
             auto pCubemapTextureResource = KRG::New<CubemapTexture>();
-            archive >> *pCubemapTextureResource;
+            archive << *pCubemapTextureResource;
             KRG_ASSERT( pCubemapTextureResource->m_format == TextureFormat::DDS );
             pTextureResource = pCubemapTextureResource;
         }
@@ -66,7 +66,6 @@ namespace KRG::Render
 
     Resource::InstallResult TextureLoader::UpdateInstall( ResourceID const& resourceID, Resource::ResourceRecord* pResourceRecord ) const
     {
-        // TODO: implement when moving to theforge
         KRG_UNIMPLEMENTED_FUNCTION();
         return Resource::InstallResult::Failed;
     }

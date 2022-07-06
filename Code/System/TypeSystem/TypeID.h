@@ -2,7 +2,7 @@
 
 #include "System/_Module/API.h"
 #include "System/Types/StringID.h"
-#include "System/Serialization/Serialization.h"
+#include "System/Serialization/BinarySerialization.h"
 
 //-------------------------------------------------------------------------
 
@@ -10,7 +10,7 @@ namespace KRG::TypeSystem
 {
     class KRG_SYSTEM_API TypeID
     {
-        KRG_SERIALIZE_MEMBERS( KRG_NVP( m_ID ) );
+        KRG_SERIALIZE( m_ID );
 
     public:
 
@@ -37,10 +37,12 @@ namespace KRG::TypeSystem
 
 namespace eastl
 {
+    template <typename T> struct hash;
+
     template <>
     struct hash<KRG::TypeSystem::TypeID>
     {
-        eastl_size_t operator()( KRG::TypeSystem::TypeID const& ID ) const 
+        size_t operator()( KRG::TypeSystem::TypeID const& ID ) const 
         {
             return ID.GetID();
         }

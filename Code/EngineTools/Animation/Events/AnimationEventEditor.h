@@ -25,7 +25,7 @@ namespace KRG::Animation
         void SetAnimationLengthAndFPS( uint32_t numFrames, float FPS );
         void UpdateAndDraw( UpdateContext const& context, AnimationClipPlayerComponent* pPreviewAnimationComponent );
 
-        virtual bool Serialize( TypeSystem::TypeRegistry const& typeRegistry, RapidJsonValue const& objectValue ) override;
+        virtual bool Serialize( TypeSystem::TypeRegistry const& typeRegistry, Serialization::JsonValue const& objectValue ) override;
 
     private:
 

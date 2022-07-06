@@ -208,7 +208,7 @@ namespace KRG::FileSystem
     private:
 
         String      m_fullpath;
-        uint32_t      m_hashCode = 0;
+        uint32_t    m_hashCode = 0;
         bool        m_isDirectoryPath = false;
     };
 }
@@ -230,7 +230,7 @@ namespace KRG::FileSystem
         return EraseFile( filePath.c_str() );
     }
 
-    KRG_FORCE_INLINE bool LoadFile( Path const& filePath, TVector<uint8_t>& fileData )
+    KRG_FORCE_INLINE bool LoadFile( Path const& filePath, Blob& fileData )
     {
         KRG_ASSERT( filePath.IsFilePath() );
         return LoadFile( filePath.c_str(), fileData );

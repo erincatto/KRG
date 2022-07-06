@@ -836,8 +836,8 @@ namespace KRG::VisualGraph
 
         //-------------------------------------------------------------------------
 
-        JsonWriter jsonSerializer;
-        auto pWriter = jsonSerializer.GetWriter();
+        Serialization::JsonArchiveWriter archive;
+        auto pWriter = archive.GetWriter();
 
         pWriter->StartObject();
 
@@ -916,20 +916,20 @@ namespace KRG::VisualGraph
 
         //-------------------------------------------------------------------------
 
-        ImGui::SetClipboardText( jsonSerializer.GetStringBuffer().GetString() );
+        ImGui::SetClipboardText( archive.GetStringBuffer().GetString() );
     }
 
     void GraphView::PasteNodes( TypeSystem::TypeRegistry const& typeRegistry, ImVec2 const& canvasPastePosition )
     {
-        JsonReader jsonReader;
-        if ( !jsonReader.ReadFromString( ImGui::GetClipboardText() ) )
+        Serialization::JsonArchiveReader archive;
+        if ( !archive.ReadFromString( ImGui::GetClipboardText() ) )
         {
             return;
         }
 
         //-------------------------------------------------------------------------
 
-        auto& document = jsonReader.GetDocument();
+        auto& document = archive.GetDocument();
 
         auto copiedNodesArrayIter = document.FindMember( s_copiedNodesKey );
         if ( copiedNodesArrayIter == document.MemberEnd() )

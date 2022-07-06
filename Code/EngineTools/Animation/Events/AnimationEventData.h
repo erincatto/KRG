@@ -3,7 +3,7 @@
 #include "EngineTools/_Module/API.h"
 #include "EngineTools/Core/TimelineEditor/TimelineData.h"
 #include "Engine/Animation/AnimationEvent.h"
-#include "System/TypeSystem/TypeRegistrationMacros.h"
+#include "System/TypeSystem/RegisteredType.h"
 
 //-------------------------------------------------------------------------
 // Stores tools only information for event track data
@@ -33,8 +33,8 @@ namespace KRG::Animation
     private:
 
         virtual void SetTimeRangeInternal( FloatRange const& inRange ) override;
-        virtual void SerializeCustom( TypeSystem::TypeRegistry const& typeRegistry, RapidJsonValue const& typeObjectValue ) override;
-        virtual void SerializeCustom( TypeSystem::TypeRegistry const& typeRegistry, RapidJsonWriter& writer ) const override;
+        virtual void SerializeCustom( TypeSystem::TypeRegistry const& typeRegistry, Serialization::JsonValue const& typeObjectValue ) override;
+        virtual void SerializeCustom( TypeSystem::TypeRegistry const& typeRegistry, Serialization::JsonWriter& writer ) const override;
 
     private:
 
@@ -64,7 +64,7 @@ namespace KRG::Animation
     private:
 
         virtual void CreateItemInternal( float itemStartTime ) override;
-        virtual void SerializeCustom( TypeSystem::TypeRegistry const& typeRegistry, RapidJsonValue const& typeObjectValue ) override;
+        virtual void SerializeCustom( TypeSystem::TypeRegistry const& typeRegistry, Serialization::JsonValue const& typeObjectValue ) override;
 
     private:
 

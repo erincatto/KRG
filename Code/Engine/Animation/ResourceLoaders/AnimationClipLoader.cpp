@@ -1,7 +1,7 @@
 #include "AnimationClipLoader.h"
 #include "Engine/Animation/AnimationClip.h"
 #include "System/TypeSystem/TypeDescriptors.h"
-#include "System/Serialization/BinaryArchive.h"
+#include "System/Serialization/BinarySerialization.h"
 
 //-------------------------------------------------------------------------
 
@@ -18,26 +18,26 @@ namespace KRG::Animation
         m_pTypeRegistry = pTypeRegistry;
     }
 
-    bool AnimationClipLoader::LoadInternal( ResourceID const& resID, Resource::ResourceRecord* pResourceRecord, Serialization::BinaryMemoryArchive& archive ) const
+    bool AnimationClipLoader::LoadInternal( ResourceID const& resID, Resource::ResourceRecord* pResourceRecord, Serialization::BinaryInputArchive& archive ) const
     {
-        KRG_ASSERT( archive.IsValid() && m_pTypeRegistry != nullptr );
+        KRG_ASSERT(  m_pTypeRegistry != nullptr );
 
         auto pAnimation = KRG::New<AnimationClip>();
-        archive >> *pAnimation;
+        archive << *pAnimation;
         pResourceRecord->SetResourceData( pAnimation );
 
         // Read sync events
         //-------------------------------------------------------------------------
 
         TInlineVector<SyncTrack::EventMarker, 10> syncEventMarkers;
-        archive >> syncEventMarkers;
+        archive << syncEventMarkers;
         pAnimation->m_syncTrack = SyncTrack( syncEventMarkers, 0 );
 
         // Read events
         //-------------------------------------------------------------------------
 
         TypeSystem::TypeDescriptorCollection collectionDesc;
-        archive >> collectionDesc;
+        archive << collectionDesc;
 
         collectionDesc.CalculateCollectionRequirements( *m_pTypeRegistry );
         TypeSystem::TypeDescriptorCollection::InstantiateStaticCollection( *m_pTypeRegistry, collectionDesc, pAnimation->m_events );

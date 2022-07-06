@@ -14,6 +14,7 @@ namespace KRG::Animation::GraphNodes
         struct KRG_ENGINE_API RemapRange : public IRegisteredType
         {
             KRG_REGISTER_TYPE( RemapRange );
+            KRG_SERIALIZE( m_begin, m_end );
 
             float                       m_begin = 0;
             float                       m_end = 0;

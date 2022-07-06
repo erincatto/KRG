@@ -1,6 +1,6 @@
 #include "ResourceLoader_RenderMaterial.h"
 #include "Engine/Render/Material/RenderMaterial.h"
-#include "System/Serialization/BinaryArchive.h"
+#include "System/Serialization/BinarySerialization.h"
 #include "System/Log.h"
 
 //-------------------------------------------------------------------------
@@ -12,13 +12,11 @@ namespace KRG::Render
         m_loadableTypes.push_back( Material::GetStaticResourceTypeID() );
     }
 
-    bool MaterialLoader::LoadInternal( ResourceID const& resID, Resource::ResourceRecord* pResourceRecord, Serialization::BinaryMemoryArchive& archive ) const
+    bool MaterialLoader::LoadInternal( ResourceID const& resID, Resource::ResourceRecord* pResourceRecord, Serialization::BinaryInputArchive& archive ) const
     {
-        KRG_ASSERT( archive.IsValid() );
-
         // Create mesh resource
         Material* pMaterial = KRG::New<Material>();
-        archive >> *pMaterial;
+        archive << *pMaterial;
 
         pResourceRecord->SetResourceData( pMaterial );
         return true;

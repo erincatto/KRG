@@ -1,7 +1,7 @@
 #pragma once
 
 #include "System/KRG.h"
-#include "System/Serialization/Serialization.h"
+#include "System/Serialization/BinarySerialization.h"
 #include <type_traits>
 
 //-------------------------------------------------------------------------
@@ -13,7 +13,7 @@ namespace KRG
 {
     class BitFlags
     {
-        KRG_SERIALIZE_MEMBERS( KRG_NVP( m_flags ) );
+        KRG_SERIALIZE( m_flags );
 
     public:
 

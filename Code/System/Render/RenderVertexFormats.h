@@ -2,7 +2,7 @@
 
 #include "System/_Module/API.h"
 #include "RenderAPI.h"
-#include "System/Serialization/Serialization.h"
+#include "System/Serialization/BinarySerialization.h"
 #include "System/Types/Arrays.h"
 #include "System/Math/Math.h"
 
@@ -42,11 +42,11 @@ namespace KRG::Render
 
     struct KRG_SYSTEM_API VertexLayoutDescriptor
     {
-        KRG_SERIALIZE_MEMBERS( m_elementDescriptors, m_byteSize );
+        KRG_SERIALIZE( m_elementDescriptors, m_byteSize );
 
         struct ElementDescriptor
         {
-            KRG_SERIALIZE_MEMBERS( m_semantic, m_format, m_semanticIndex, m_offset );
+            KRG_SERIALIZE( m_semantic, m_format, m_semanticIndex, m_offset );
 
             ElementDescriptor() = default;
 

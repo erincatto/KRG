@@ -57,7 +57,7 @@ namespace KRG::TypeSystem
                 // Calculate the address of the resolved property
                 if ( pFoundPropertyInfo->IsArrayProperty() )
                 {
-                    resolvedPathElement.m_pAddress = pResolvedTypeInfo->m_pTypeHelper->GetArrayElementDataPtr( reinterpret_cast<IRegisteredType*>( pResolvedTypeInstance ), path[i].m_propertyID, path[i].m_arrayElementIdx );
+                    resolvedPathElement.m_pAddress = pResolvedTypeInfo->GetArrayElementDataPtr( reinterpret_cast<IRegisteredType*>( pResolvedTypeInstance ), path[i].m_propertyID, path[i].m_arrayElementIdx );
                 }
                 else // Structure/Type
                 {
@@ -99,10 +99,10 @@ namespace KRG::TypeSystem
                     if ( propInfo.IsArrayProperty() )
                     {
                         size_t const elementByteSize = propInfo.m_arrayElementSize;
-                        size_t const numArrayElements = propInfo.IsStaticArrayProperty() ? propInfo.m_arraySize : pTypeInfo->m_pTypeHelper->GetArraySize( pTypeInstance, propInfo.m_ID );
+                        size_t const numArrayElements = propInfo.IsStaticArrayProperty() ? propInfo.m_arraySize : pTypeInfo->GetArraySize( pTypeInstance, propInfo.m_ID );
                         if ( numArrayElements > 0 )
                         {
-                            uint8_t const* pArrayElementAddress = pTypeInfo->m_pTypeHelper->GetArrayElementDataPtr( const_cast<IRegisteredType*>( pTypeInstance ), propInfo.m_ID, 0 );
+                            uint8_t const* pArrayElementAddress = pTypeInfo->GetArrayElementDataPtr( const_cast<IRegisteredType*>( pTypeInstance ), propInfo.m_ID, 0 );
 
                             // Write array elements
                             for ( auto i = 0; i < numArrayElements; i++ )
@@ -129,7 +129,7 @@ namespace KRG::TypeSystem
                 if ( IsCoreType( propertyInfo.m_typeID ) || propertyInfo.IsEnumProperty() )
                 {
                     // Only describe non-default properties
-                    if ( !pParentTypeInfo->m_pTypeHelper->IsPropertyValueSetToDefault( pParentInstance, propertyInfo.m_ID, arrayElementIdx ) )
+                    if ( !pParentTypeInfo->IsPropertyValueSetToDefault( pParentInstance, propertyInfo.m_ID, arrayElementIdx ) )
                     {
                         PropertyDescriptor& propertyDesc = typeDesc.m_properties.emplace_back( PropertyDescriptor() );
                         propertyDesc.m_path = path;
@@ -194,19 +194,20 @@ namespace KRG::TypeSystem
         }
     }
 
-    void* TypeDescriptor::SetPropertyValues( TypeRegistry const& typeRegistry, TypeInfo const& typeInfo, void* pTypeInstance ) const
+    void* TypeDescriptor::SetPropertyValues( TypeRegistry const& typeRegistry, TypeInfo const* pTypeInfo, void* pTypeInstance ) const
     {
-        KRG_ASSERT( IsValid() && typeInfo.m_ID == m_typeID );
+        KRG_ASSERT( pTypeInfo != nullptr );
+        KRG_ASSERT( IsValid() && pTypeInfo->m_ID == m_typeID );
 
         for ( auto const& propertyValue : m_properties )
         {
             KRG_ASSERT( propertyValue.IsValid() );
 
             // Resolve a property path for a given instance
-            auto resolvedPath = ResolvePropertyPath( typeRegistry, &typeInfo, (uint8_t*) pTypeInstance, propertyValue.m_path );
+            auto resolvedPath = ResolvePropertyPath( typeRegistry, pTypeInfo, (uint8_t*) pTypeInstance, propertyValue.m_path );
             if ( !resolvedPath.IsValid() )
             {
-                KRG_LOG_ERROR( "TypeSystem", "Tried to set the value for an invalid property (%s) for type (%s)", propertyValue.m_path.ToString().c_str(), typeInfo.m_ID.ToStringID().c_str() );
+                KRG_LOG_ERROR( "TypeSystem", "Tried to set the value for an invalid property (%s) for type (%s)", propertyValue.m_path.ToString().c_str(), pTypeInfo->m_ID.ToStringID().c_str() );
                 continue;
             }
 

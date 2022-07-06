@@ -11,7 +11,7 @@ namespace KRG::Render
         friend class MeshLoader;
 
         KRG_REGISTER_RESOURCE( 'smsh', "Skeletal Mesh" );
-        KRG_SERIALIZE_MEMBERS( KRG_SERIALIZE_BASE( Mesh ), KRG_NVP( m_boneIDs ), KRG_NVP( m_parentBoneIndices ), KRG_NVP( m_bindPose ), KRG_NVP( m_inverseBindPose ) );
+        KRG_SERIALIZE( KRG_SERIALIZE_BASE( Mesh ), m_boneIDs, m_parentBoneIndices, m_bindPose, m_inverseBindPose );
 
     public:
 

@@ -4,7 +4,7 @@
 #include "EngineTools/Resource/ResourceFilePicker.h"
 #include "System/Imgui/ImguiX.h"
 #include "System/TypeSystem/TypeInfo.h"
-#include "System/TypeSystem/TypeRegistrationMacros.h"
+#include "System/TypeSystem/RegisteredType.h"
 #include "System/Types/Event.h"
 
 //-------------------------------------------------------------------------
@@ -12,7 +12,7 @@
 namespace KRG::TypeSystem 
 {
     class TypeRegistry; 
-    struct PropertyInfo;
+    class PropertyInfo;
 }
 
 namespace KRG::Resource { class ResourceDatabase; }
@@ -97,9 +97,9 @@ namespace KRG
 
     private:
 
-        void DrawPropertyRow( TypeSystem::TypeInfo const& typeInfo, IRegisteredType* pTypeInstance, TypeSystem::PropertyInfo const& propertyInfo, uint8_t* propertyInstance );
-        void DrawValuePropertyRow( TypeSystem::TypeInfo const& typeInfo, IRegisteredType* pTypeInstance, TypeSystem::PropertyInfo const& propertyInfo, uint8_t* propertyInstance, int32_t arrayIdx = InvalidIndex );
-        void DrawArrayPropertyRow( TypeSystem::TypeInfo const& typeInfo, IRegisteredType* pTypeInstance, TypeSystem::PropertyInfo const& propertyInfo, uint8_t* propertyInstance );
+        void DrawPropertyRow( TypeSystem::TypeInfo const* pTypeInfo, IRegisteredType* pTypeInstance, TypeSystem::PropertyInfo const& propertyInfo, uint8_t* propertyInstance );
+        void DrawValuePropertyRow( TypeSystem::TypeInfo const* pTypeInfo, IRegisteredType* pTypeInstance, TypeSystem::PropertyInfo const& propertyInfo, uint8_t* propertyInstance, int32_t arrayIdx = InvalidIndex );
+        void DrawArrayPropertyRow( TypeSystem::TypeInfo const* pTypeInfo, IRegisteredType* pTypeInstance, TypeSystem::PropertyInfo const& propertyInfo, uint8_t* propertyInstance );
 
         TypeSystem::PropertyEditor* GetPropertyEditor( TypeSystem::PropertyInfo const& propertyInfo, uint8_t* pActualPropertyInstance );
         void DestroyPropertyEditors();

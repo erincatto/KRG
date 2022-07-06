@@ -24,7 +24,7 @@ namespace KRG::Physics
         friend class PhysicsMeshCompiler;
         friend class PhysicsMeshLoader;
 
-        KRG_SERIALIZE_MEMBERS( m_physicsMaterialIDs, m_isConvexMesh );
+        KRG_SERIALIZE( m_physicsMaterialIDs, m_isConvexMesh );
 
     public:
 

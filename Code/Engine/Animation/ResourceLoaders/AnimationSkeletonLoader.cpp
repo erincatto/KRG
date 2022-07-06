@@ -1,6 +1,6 @@
 #include "AnimationSkeletonLoader.h"
 #include "System/Animation/AnimationSkeleton.h"
-#include "System/Serialization/BinaryArchive.h"
+#include "System/Serialization/BinarySerialization.h"
 
 //-------------------------------------------------------------------------
 
@@ -11,12 +11,10 @@ namespace KRG::Animation
         m_loadableTypes.push_back( Skeleton::GetStaticResourceTypeID() );
     }
 
-    bool SkeletonLoader::LoadInternal( ResourceID const& resID, Resource::ResourceRecord* pResourceRecord, Serialization::BinaryMemoryArchive& archive ) const
+    bool SkeletonLoader::LoadInternal( ResourceID const& resID, Resource::ResourceRecord* pResourceRecord, Serialization::BinaryInputArchive& archive ) const
     {
-        KRG_ASSERT( archive.IsValid() );
-
         Skeleton* pSkeleton = KRG::New<Skeleton>();
-        archive >> *pSkeleton;
+        archive << *pSkeleton;
         KRG_ASSERT( pSkeleton->IsValid() );
         pResourceRecord->SetResourceData( pSkeleton );
 

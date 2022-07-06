@@ -2,7 +2,7 @@
 
 #include "System/_Module/API.h"
 #include "PropertyInfo.h"
-#include "System/Types/Arrays_ForwardDecl.h"
+#include "System/Types/Containers_ForwardDecl.h"
 
 //-------------------------------------------------------------------------
 
@@ -23,9 +23,9 @@ namespace KRG::TypeSystem::Conversion
 {
     KRG_SYSTEM_API bool ConvertStringToNativeType( TypeRegistry const& typeRegistry, TypeID typeID, TypeID templateArgumentTypeID, String const& strValue, void* pValue );
     KRG_SYSTEM_API bool ConvertNativeTypeToString( TypeRegistry const& typeRegistry, TypeID typeID, TypeID templateArgumentTypeID, void const* pValue, String& strValue );
-    KRG_SYSTEM_API bool ConvertBinaryToNativeType( TypeRegistry const& typeRegistry, TypeID typeID, TypeID templateArgumentTypeID, TVector<uint8_t> const& byteArray, void* pValue );
-    KRG_SYSTEM_API bool ConvertNativeTypeToBinary( TypeRegistry const& typeRegistry, TypeID typeID, TypeID templateArgumentTypeID, void const* pValue, TVector<uint8_t>& byteArray );
-    KRG_SYSTEM_API bool ConvertStringToBinary( TypeRegistry const& typeRegistry, TypeID typeID, TypeID templateArgumentTypeID, String const& strValue, TVector<uint8_t>& byteArray );
+    KRG_SYSTEM_API bool ConvertBinaryToNativeType( TypeRegistry const& typeRegistry, TypeID typeID, TypeID templateArgumentTypeID, Blob const& byteArray, void* pValue );
+    KRG_SYSTEM_API bool ConvertNativeTypeToBinary( TypeRegistry const& typeRegistry, TypeID typeID, TypeID templateArgumentTypeID, void const* pValue, Blob& byteArray );
+    KRG_SYSTEM_API bool ConvertStringToBinary( TypeRegistry const& typeRegistry, TypeID typeID, TypeID templateArgumentTypeID, String const& strValue, Blob& byteArray );
     KRG_SYSTEM_API bool IsValidStringValueForType( TypeRegistry const& typeRegistry, TypeID typeID, TypeID templateArgumentTypeID, String const& strValue );
 
     //-------------------------------------------------------------------------
@@ -40,17 +40,17 @@ namespace KRG::TypeSystem::Conversion
         return ConvertNativeTypeToString( typeRegistry, propertyInfo.m_typeID, propertyInfo.m_templateArgumentTypeID, pValue, strValue );
     }
 
-    KRG_FORCE_INLINE bool ConvertBinaryToNativeType( TypeRegistry const& typeRegistry, PropertyInfo const& propertyInfo, TVector<uint8_t> const& byteArray, void* pValue )
+    KRG_FORCE_INLINE bool ConvertBinaryToNativeType( TypeRegistry const& typeRegistry, PropertyInfo const& propertyInfo, Blob const& byteArray, void* pValue )
     {
         return ConvertBinaryToNativeType( typeRegistry, propertyInfo.m_typeID, propertyInfo.m_templateArgumentTypeID, byteArray, pValue );
     }
 
-    KRG_FORCE_INLINE bool ConvertNativeTypeToBinary( TypeRegistry const& typeRegistry, PropertyInfo const& propertyInfo, void const* pValue, TVector<uint8_t>& byteArray )
+    KRG_FORCE_INLINE bool ConvertNativeTypeToBinary( TypeRegistry const& typeRegistry, PropertyInfo const& propertyInfo, void const* pValue, Blob& byteArray )
     {
         return ConvertNativeTypeToBinary( typeRegistry, propertyInfo.m_typeID, propertyInfo.m_templateArgumentTypeID, pValue, byteArray );
     }
 
-    KRG_FORCE_INLINE bool ConvertStringToBinary( TypeRegistry const& typeRegistry, PropertyInfo const& propertyInfo, String const& strValue, TVector<uint8_t>& byteArray )
+    KRG_FORCE_INLINE bool ConvertStringToBinary( TypeRegistry const& typeRegistry, PropertyInfo const& propertyInfo, String const& strValue, Blob& byteArray )
     {
         return ConvertStringToBinary( typeRegistry, propertyInfo.m_typeID, propertyInfo.m_templateArgumentTypeID, strValue, byteArray );
     }

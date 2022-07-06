@@ -26,7 +26,7 @@ namespace KRG::Hash
             return GetHash32( pString, strlen( pString ) );
         }
 
-        KRG_FORCE_INLINE uint32_t GetHash32( TVector<uint8_t> const& data )
+        KRG_FORCE_INLINE uint32_t GetHash32( Blob const& data )
         {
             return GetHash32( data.data(), data.size() );
         }
@@ -45,7 +45,7 @@ namespace KRG::Hash
             return GetHash64( pString, strlen( pString ) );
         }
 
-        KRG_FORCE_INLINE uint64_t GetHash64( TVector<uint8_t> const& data )
+        KRG_FORCE_INLINE uint64_t GetHash64( Blob const& data )
         {
             return GetHash64( data.data(), data.size() );
         }
@@ -93,7 +93,7 @@ namespace KRG::Hash
         return XXHash::GetHash32( pString, strlen( pString ) );
     }
 
-    KRG_FORCE_INLINE uint32_t GetHash32( TVector<uint8_t> const& data )
+    KRG_FORCE_INLINE uint32_t GetHash32( Blob const& data )
     {
         return XXHash::GetHash32( data.data(), data.size() );
     }
@@ -114,7 +114,7 @@ namespace KRG::Hash
         return XXHash::GetHash64( pString, strlen( pString ) );
     }
 
-    KRG_FORCE_INLINE uint64_t GetHash64( TVector<uint8_t> const& data )
+    KRG_FORCE_INLINE uint64_t GetHash64( Blob const& data )
     {
         return XXHash::GetHash64( data.data(), data.size() );
     }

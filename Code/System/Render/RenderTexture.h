@@ -3,7 +3,7 @@
 #include "System/_Module/API.h"
 #include "RenderAPI.h"
 #include "System/Resource/IResource.h"
-#include "System/Serialization/Serialization.h"
+#include "System/Serialization/BinarySerialization.h"
 #include "System/Math/Math.h"
 
 //-------------------------------------------------------------------------
@@ -55,7 +55,7 @@ namespace KRG::Render
         friend class TextureLoader;
 
         KRG_REGISTER_RESOURCE( 'txtr', "Render Texture" );
-        KRG_SERIALIZE_MEMBERS( m_format, m_rawData );
+        KRG_SERIALIZE( m_format, m_rawData );
 
     public:
 
@@ -92,7 +92,7 @@ namespace KRG::Render
         ViewDSHandle            m_depthStencilView;
         Int2                    m_dimensions = Int2(0, 0);
         TextureFormat           m_format;
-        TVector<uint8_t>           m_rawData; // Temporary storage for the raw data used during installation, cleared when installation completes
+        Blob                    m_rawData; // Temporary storage for the raw data used during installation, cleared when installation completes
     };
 
     //-------------------------------------------------------------------------
@@ -108,7 +108,21 @@ namespace KRG::Render
         friend class TextureLoader;
 
         KRG_REGISTER_RESOURCE( 'cbmp', "Render Cubemap Texture" );
-        KRG_SERIALIZE_MEMBERS( KRG_SERIALIZE_BASE( Texture ) );
+        //KRG_SERIALIZE( KRG_SERIALIZE_BASE( Texture ) );
+
+        friend Serialization::Internal::Archive;
+
+        Serialization::Internal::Archive<Serialization::BinaryReader>& Serialize( Serialization::Internal::Archive<Serialization::BinaryReader>& ar )
+        {
+            ar.Serialize( Serialization::Internal::SerializeBaseType<Texture>( this ) );
+            return ar; 
+        }
+
+        Serialization::Internal::Archive<Serialization::BinaryWriter>& Serialize( Serialization::Internal::Archive<Serialization::BinaryWriter>& ar ) 
+        {
+            ar.Serialize( Serialization::Internal::SerializeBaseType<Texture>( this ) ); 
+            return ar; 
+        }
 
     public:
 

@@ -25,7 +25,7 @@ namespace KRG
 
     class KRG_SYSTEM_API alignas( 16 ) Matrix
     {
-        KRG_SERIALIZE_MEMBERS( m_rows );
+        KRG_SERIALIZE( m_rows );
 
     public:
 

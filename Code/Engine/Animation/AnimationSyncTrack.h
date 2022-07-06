@@ -75,7 +75,7 @@ namespace KRG::Animation
 
     class KRG_ENGINE_API SyncTrack
     {
-        KRG_SERIALIZE_MEMBERS( m_syncEvents, m_startEventOffset );
+        KRG_SERIALIZE( m_syncEvents, m_startEventOffset );
 
     public:
 
@@ -97,7 +97,7 @@ namespace KRG::Animation
         // A simple marker used to instantiate a sync track
         struct EventMarker
         {
-            KRG_SERIALIZE_MEMBERS( m_ID, m_startTime );
+            KRG_SERIALIZE( m_ID, m_startTime );
 
             EventMarker() = default;
 
@@ -117,6 +117,8 @@ namespace KRG::Animation
         // A sync event
         struct Event
         {
+            KRG_SERIALIZE( m_ID, m_startTime, m_duration );
+
             Event() = default;
 
             Event( StringID ID, Percentage const startTime, Percentage duration = 0.0f )

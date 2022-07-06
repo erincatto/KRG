@@ -3,6 +3,7 @@
 #include "System/Algorithm/Hash.h"
 #include "System/Threading/Threading.h"
 #include "String.h"
+#include "EASTL/hash_map.h"
 
 //-------------------------------------------------------------------------
 
@@ -55,8 +56,23 @@ namespace KRG
 
     //-------------------------------------------------------------------------
 
-    StringID::StringCache const StringID::s_stringCache;
+    using CachedString = eastl::basic_string<char, StringID_CustomAllocator>;
+
+    class StringIDHashMap : public eastl::hash_map<uint32_t, CachedString, eastl::hash<uint32_t>, eastl::equal_to<uint32_t>, StringID_CustomAllocator>
+    {
+    public:
+      
+        eastl::hash_node<value_type, false> const* const* GetBuckets() const { return mpBucketArray; }
+    };
+
+    //-------------------------------------------------------------------------
+
+    StringIDHashMap g_stringCache;
     Threading::Mutex g_stringCacheMutex;
+
+    // Natvis/Debugger info to print out human-readable strings
+    StringID::DebuggerInfo g_debuggerInfo;
+    KRG::StringID::DebuggerInfo const* StringID::s_pDebuggerInfo = &g_debuggerInfo;
 
     //-------------------------------------------------------------------------
 
@@ -68,11 +84,12 @@ namespace KRG
 
             // Cache the string
             Threading::ScopeLock lock( g_stringCacheMutex );
-            auto iter = StringID::s_stringCache.find( m_ID );
-            if ( iter == StringID::s_stringCache.end() )
+            auto iter = g_stringCache.find( m_ID );
+            if ( iter == g_stringCache.end() )
             {
-                auto& nonConstStringMap = const_cast<StringID::StringCache&>( StringID::s_stringCache );
-                nonConstStringMap[m_ID] = StringID::CachedString( pStr );
+                g_stringCache[m_ID] = CachedString( pStr );
+                g_debuggerInfo.m_pBuckets = g_stringCache.GetBuckets();
+                g_debuggerInfo.m_numBuckets = g_stringCache.bucket_count();
             }
         }
     }
@@ -91,8 +108,8 @@ namespace KRG
         {
             // Get cached string
             Threading::ScopeLock lock( g_stringCacheMutex );
-            auto iter = StringID::s_stringCache.find( m_ID );
-            if ( iter != StringID::s_stringCache.end() )
+            auto iter = g_stringCache.find( m_ID );
+            if ( iter != g_stringCache.end() )
             {
                 return iter->second.c_str();
             }

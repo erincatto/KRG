@@ -1,7 +1,7 @@
 #pragma once
 
 #include "System/_Module/API.h"
-#include "System/Serialization/Serialization.h"
+#include "System/Serialization/BinarySerialization.h"
 #include "System/Memory/Memory.h"
 #include "String.h"
 
@@ -17,7 +17,7 @@ namespace KRG
 
     class KRG_SYSTEM_API UUID
     {
-        KRG_SERIALIZE_MEMBERS( KRG_NVP( m_data.m_U64 ) );
+        KRG_SERIALIZE( m_data.m_U64 );
 
         union Data
         {

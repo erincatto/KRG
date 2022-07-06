@@ -24,7 +24,7 @@ namespace KRG
 
         virtual void Undo() override
         {
-            JsonReader typeReader;
+            Serialization::JsonArchiveReader typeReader;
 
             typeReader.ReadFromString( m_valueBefore.c_str() );
             auto const& document = typeReader.GetDocument();
@@ -35,7 +35,7 @@ namespace KRG
 
         virtual void Redo() override
         {
-            JsonReader typeReader;
+            Serialization::JsonArchiveReader typeReader;
 
             typeReader.ReadFromString( m_valueAfter.c_str() );
             auto const& document = typeReader.GetDocument();
@@ -46,7 +46,7 @@ namespace KRG
 
         void SerializeBeforeState()
         {
-            JsonWriter writer;
+            Serialization::JsonArchiveWriter writer;
 
             auto pWriter = writer.GetWriter();
             pWriter->StartObject();
@@ -60,7 +60,7 @@ namespace KRG
 
         void SerializeAfterState()
         {
-            JsonWriter writer;
+            Serialization::JsonArchiveWriter writer;
 
             auto pWriter = writer.GetWriter();
             pWriter->StartObject();
@@ -143,14 +143,14 @@ namespace KRG
     {
         KRG_ASSERT( m_pDescriptor == nullptr );
 
-        JsonReader typeReader;
-        if ( !typeReader.ReadFromFile( m_descriptorPath ) )
+        Serialization::JsonArchiveReader archive;
+        if ( !archive.ReadFromFile( m_descriptorPath ) )
         {
             KRG_LOG_ERROR( "Editor", "Failed to read resource descriptor file: %s", m_descriptorPath.c_str() );
             return;
         }
 
-        auto const& document = typeReader.GetDocument();
+        auto const& document = archive.GetDocument();
         m_pDescriptor = Cast<Resource::ResourceDescriptor>( Serialization::CreateAndReadNativeType( *m_pToolsContext->m_pTypeRegistry, document ) );
         m_descriptorPropertyGrid.SetTypeToEdit( m_pDescriptor );
 
@@ -234,7 +234,7 @@ namespace KRG
         // Serialize descriptor
         //-------------------------------------------------------------------------
 
-        JsonWriter descriptorWriter;
+        Serialization::JsonArchiveWriter descriptorWriter;
         auto pWriter = descriptorWriter.GetWriter();
 
         pWriter->StartObject();

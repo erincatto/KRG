@@ -133,7 +133,7 @@ namespace KRG::Animation
             }
 
             // Check the graphs specific restrictions
-            auto pDefaultNode = Cast<EditorGraphNode>( item.m_data->m_pTypeHelper->GetDefaultTypeInstancePtr() );
+            auto pDefaultNode = Cast<EditorGraphNode>( item.m_data->m_pDefaultInstance );
             if ( !pDefaultNode->GetAllowedParentGraphTypes().AreAnyFlagsSet( pGraph->GetType() ) )
             {
                 return false;

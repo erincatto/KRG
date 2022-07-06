@@ -61,12 +61,12 @@ namespace KRG::Animation
         EventManipulator::SetEventTime( m_pEvent, startTime, duration );
     }
 
-    void EventItem::SerializeCustom( TypeSystem::TypeRegistry const& typeRegistry, RapidJsonValue const& typeObjectValue )
+    void EventItem::SerializeCustom( TypeSystem::TypeRegistry const& typeRegistry, Serialization::JsonValue const& typeObjectValue )
     {
         m_pEvent = Serialization::CreateAndReadNativeType<Event>( typeRegistry, typeObjectValue[s_eventDataKey] );
     }
 
-    void EventItem::SerializeCustom( TypeSystem::TypeRegistry const& typeRegistry, RapidJsonWriter& writer ) const
+    void EventItem::SerializeCustom( TypeSystem::TypeRegistry const& typeRegistry, Serialization::JsonWriter& writer ) const
     {
         writer.Key( s_eventDataKey );
         Serialization::WriteNativeType( typeRegistry, m_pEvent, writer );
@@ -76,7 +76,7 @@ namespace KRG::Animation
 
     const char* EventTrack::GetLabel() const
     {
-        return reinterpret_cast<Event const*>( m_pEventTypeInfo->m_pTypeHelper->GetDefaultTypeInstancePtr() )->GetEventName();
+        return reinterpret_cast<Event const*>( m_pEventTypeInfo->m_pDefaultInstance )->GetEventName();
     }
 
     void EventTrack::CreateItemInternal( float itemStartTime )
@@ -87,7 +87,7 @@ namespace KRG::Animation
 
         //-------------------------------------------------------------------------
 
-        auto pNewEvent = (Event*) m_pEventTypeInfo->m_pTypeHelper->CreateType();
+        auto pNewEvent = (Event*) m_pEventTypeInfo->CreateType();
 
         if ( m_eventType == Event::EventType::Immediate )
         {
@@ -141,7 +141,7 @@ namespace KRG::Animation
         }
     }
 
-    void EventTrack::SerializeCustom( TypeSystem::TypeRegistry const& typeRegistry, RapidJsonValue const& typeObjectValue )
+    void EventTrack::SerializeCustom( TypeSystem::TypeRegistry const& typeRegistry, Serialization::JsonValue const& typeObjectValue )
     {
         m_pEventTypeInfo = typeRegistry.GetTypeInfo( m_eventTypeID );
         KRG_ASSERT( m_pEventTypeInfo != nullptr );

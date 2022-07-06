@@ -6,7 +6,7 @@
 #include "Engine/Physics/PhysicsMesh.h"
 #include "Engine/Physics/PhysicsMaterial.h"
 #include "System/FileSystem/FileSystem.h"
-#include "System/Serialization/BinaryArchive.h"
+#include "System/Serialization/BinarySerialization.h"
 
 
 //-------------------------------------------------------------------------
@@ -23,7 +23,7 @@ namespace KRG
         {
         public:
 
-            PhysxMemoryStream( TVector<uint8_t>& destination ) : m_buffer( destination ) {}
+            PhysxMemoryStream( Blob& destination ) : m_buffer( destination ) {}
 
         private:
 
@@ -37,7 +37,7 @@ namespace KRG
 
         private:
 
-            TVector<uint8_t>& m_buffer;
+            Blob& m_buffer;
         };
 
         //-------------------------------------------------------------------------
@@ -78,7 +78,7 @@ namespace KRG
             //-------------------------------------------------------------------------
             
             PhysicsMesh physicsMesh;
-            TVector<uint8_t> cookedMeshData;
+            Blob cookedMeshData;
 
             if ( resourceDescriptor.m_isConvexMesh )
             {
@@ -119,15 +119,12 @@ namespace KRG
             // Serialize
             //-------------------------------------------------------------------------
 
-            Serialization::BinaryFileArchive archive( Serialization::Mode::Write, ctx.m_outputFilePath );
-            if ( archive.IsValid() )
+            Resource::ResourceHeader hdr( s_version, PhysicsMesh::GetStaticResourceTypeID() );
+            Serialization::BinaryOutputArchive archive;
+            archive << hdr << physicsMesh << cookedMeshData;
+
+            if ( archive.WriteToFile( ctx.m_outputFilePath ) )
             {
-                Resource::ResourceHeader hdr( s_version, PhysicsMesh::GetStaticResourceTypeID() );
-                archive << hdr << physicsMesh;
-
-                // Serialize the mesh data separately
-                archive << cookedMeshData;
-
                 if( pRawMesh->HasWarnings() )
                 {
                     return CompilationSucceededWithWarnings( ctx );
@@ -143,7 +140,7 @@ namespace KRG
             }
         }
 
-        bool PhysicsMeshCompiler::CookTriangleMeshData( RawAssets::RawMesh const& rawMesh, TVector<uint8_t>& outCookedData ) const
+        bool PhysicsMeshCompiler::CookTriangleMeshData( RawAssets::RawMesh const& rawMesh, Blob& outCookedData ) const
         {
             PhysXAllocator allocator;
             PhysXUserErrorCallback errorCallback;
@@ -235,7 +232,7 @@ namespace KRG
             return true;
         }
 
-        bool PhysicsMeshCompiler::CookConvexMeshData( RawAssets::RawMesh const& rawMesh, TVector<uint8_t>& outCookedData ) const
+        bool PhysicsMeshCompiler::CookConvexMeshData( RawAssets::RawMesh const& rawMesh, Blob& outCookedData ) const
         {
             PhysXAllocator allocator;
             PhysXUserErrorCallback errorCallback;

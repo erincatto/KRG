@@ -3,6 +3,7 @@
 #include "Engine/_Module/API.h"
 #include "Engine/Physics/PhysicsQuery.h"
 #include "Engine/Physics/PhysX.h"
+#include <atomic>
 
 //-------------------------------------------------------------------------
 
@@ -366,7 +367,7 @@ namespace KRG::Physics
         physx::PxScene*                                         m_pScene = nullptr;
 
         #if KRG_DEVELOPMENT_TOOLS
-        std::atomic<int32_t>                                      m_readLockCount = false;        // Assertion helper
+        std::atomic<int32_t>                                    m_readLockCount = false;        // Assertion helper
         std::atomic<bool>                                       m_writeLockAcquired = false;    // Assertion helper
         #endif
     };

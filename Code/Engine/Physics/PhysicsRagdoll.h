@@ -34,7 +34,7 @@ namespace KRG::Physics
 
     struct KRG_ENGINE_API RagdollBodyMaterialSettings : public IRegisteredType
     {
-        KRG_SERIALIZE_MEMBERS( m_staticFriction, m_dynamicFriction, m_restitution, m_frictionCombineMode, m_restitutionCombineMode );
+        KRG_SERIALIZE( m_staticFriction, m_dynamicFriction, m_restitution, m_frictionCombineMode, m_restitutionCombineMode );
         KRG_REGISTER_TYPE( RagdollBodyMaterialSettings );
 
     public:
@@ -57,7 +57,7 @@ namespace KRG::Physics
 
     struct KRG_ENGINE_API RagdollRootControlBodySettings : public IRegisteredType
     {
-        KRG_SERIALIZE_MEMBERS( m_driveType, m_maxDistance, m_tolerance, m_stiffness, m_damping );
+        KRG_SERIALIZE( m_driveType, m_maxDistance, m_tolerance, m_stiffness, m_damping );
         KRG_REGISTER_TYPE( RagdollRootControlBodySettings );
 
         enum DriveType : uint8_t
@@ -86,7 +86,7 @@ namespace KRG::Physics
 
     struct KRG_ENGINE_API RagdollBodySettings : public IRegisteredType
     {
-        KRG_SERIALIZE_MEMBERS( m_mass, m_enableCCD, m_enableSelfCollision );
+        KRG_SERIALIZE( m_mass, m_enableCCD, m_enableSelfCollision );
         KRG_REGISTER_TYPE( RagdollBodySettings );
 
         // Are all the settings valid
@@ -106,7 +106,7 @@ namespace KRG::Physics
 
     struct KRG_ENGINE_API RagdollJointSettings : public IRegisteredType
     {
-        KRG_SERIALIZE_MEMBERS(  m_driveType, m_stiffness, m_damping, m_internalCompliance, m_externalCompliance,
+        KRG_SERIALIZE(  m_driveType, m_stiffness, m_damping, m_internalCompliance, m_externalCompliance,
                                 m_twistLimitEnabled, m_twistLimitMin, m_twistLimitMax, m_twistLimitContactDistance,
                                 m_swingLimitEnabled, m_swingLimitY, m_swingLimitZ, m_tangentialStiffness, m_tangentialDamping, m_swingLimitContactDistance );
         KRG_REGISTER_TYPE( RagdollJointSettings );
@@ -163,7 +163,7 @@ namespace KRG::Physics
 
     struct KRG_ENGINE_API RagdollDefinition : public Resource::IResource, public IRegisteredType
     {
-        KRG_SERIALIZE_MEMBERS( m_ID, m_pSkeleton, m_bodies, m_profiles );
+        KRG_SERIALIZE( m_ID, m_pSkeleton, m_bodies, m_profiles );
         KRG_REGISTER_TYPE_RESOURCE( 'rgdl', "Physics Ragdoll", RagdollDefinition );
 
     public:
@@ -172,7 +172,7 @@ namespace KRG::Physics
 
         struct KRG_ENGINE_API BodyDefinition : public IRegisteredType
         {
-            KRG_SERIALIZE_MEMBERS( m_boneID, m_offsetTransform, m_radius, m_halfHeight, m_jointTransform );
+            KRG_SERIALIZE( m_boneID, m_offsetTransform, m_radius, m_halfHeight, m_jointTransform );
             KRG_REGISTER_TYPE( BodyDefinition );
 
             KRG_REGISTER StringID                           m_boneID;
@@ -191,7 +191,7 @@ namespace KRG::Physics
 
         struct KRG_ENGINE_API Profile : public IRegisteredType
         {
-            KRG_SERIALIZE_MEMBERS
+            KRG_SERIALIZE
             (
                 m_ID, m_rootControlBodySettings, m_bodySettings, m_jointSettings, m_materialSettings,
                 m_solverPositionIterations, m_solverVelocityIterations, m_maxProjectionIterations, m_internalDriveIterations, m_externalDriveIterations, m_separationTolerance, m_stabilizationThreshold, m_sleepThreshold

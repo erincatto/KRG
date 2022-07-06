@@ -9,8 +9,8 @@
 
 namespace KRG::TypeSystem
 {
-    struct EnumInfo;
-    struct PropertyInfo;
+    class EnumInfo;
+    class PropertyInfo;
     class PropertyPath;
 
     //-------------------------------------------------------------------------
@@ -30,8 +30,8 @@ namespace KRG::TypeSystem
         // Type Registration
         //-------------------------------------------------------------------------
 
-        TypeInfo const* RegisterType( TypeInfo const& type );
-        void UnregisterType( TypeID typeID );
+        TypeInfo const* RegisterType( TypeInfo const* pType );
+        void UnregisterType( TypeInfo const* pType );
 
         //-------------------------------------------------------------------------
         // Type Info
@@ -88,7 +88,7 @@ namespace KRG::TypeSystem
 
     private:
 
-        THashMap<TypeID, TypeInfo*>             m_registeredTypes;
+        THashMap<TypeID, TypeInfo const*>       m_registeredTypes;
         THashMap<TypeID, EnumInfo*>             m_registeredEnums;
         THashMap<TypeID, ResourceInfo>          m_registeredResourceTypes;
     };

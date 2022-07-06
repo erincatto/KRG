@@ -1,14 +1,25 @@
 #pragma once
 
 #include "System/_Module/API.h"
-#include "System/Types/String_ForwardDecl.h"
-#include "EASTL/hash_map.h"
+#include "System/Types/Containers_ForwardDecl.h"
+#include "System/KRG.h"
 
 //-------------------------------------------------------------------------
 // String ID
 //-------------------------------------------------------------------------
 // Deterministic numeric ID generated from a string
 // StringIDs are CASE-SENSITIVE!
+
+namespace eastl
+{
+    template <typename Value, bool bCacheHashCode>
+    struct hash_node;
+
+    template <typename T1, typename T2>
+    struct pair;
+}
+
+//-------------------------------------------------------------------------
 
 namespace KRG
 {
@@ -18,13 +29,17 @@ namespace KRG
 
     class KRG_SYSTEM_API StringID
     {
-
     public:
 
-        using CachedString = eastl::basic_string<char, StringID_CustomAllocator>;
-        using StringCache = eastl::hash_map<uint32_t, CachedString, eastl::hash<uint32_t>, eastl::equal_to<uint32_t>, StringID_CustomAllocator>;
+        using StringIDHashNode = eastl::hash_node<eastl::pair<const uint32_t, eastl::basic_string<char, KRG::StringID_CustomAllocator>>, false>;
 
-        static StringCache const    s_stringCache;
+        struct DebuggerInfo
+        {
+            StringIDHashNode const* const*  m_pBuckets = nullptr;
+            size_t                          m_numBuckets = 0;
+        };
+
+        static DebuggerInfo const*          s_pDebuggerInfo;
 
     public:
 
@@ -47,7 +62,7 @@ namespace KRG
 
     private:
 
-        uint32_t m_ID = 0;
+        uint32_t                            m_ID = 0;
     };
 }
 
@@ -55,9 +70,11 @@ namespace KRG
 
 namespace eastl
 {
+    template <typename T> struct hash;
+
     template <>
     struct hash<KRG::StringID>
     {
-        eastl_size_t operator()( KRG::StringID const& ID ) const { return (uint32_t) ID; }
+        size_t operator()( KRG::StringID const& ID ) const { return (uint32_t) ID; }
     };
 }

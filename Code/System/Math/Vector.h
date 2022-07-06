@@ -1,7 +1,7 @@
 #pragma once
 
 #include "System/_Module/API.h"
-#include "System/Math/Math.h"
+#include "System/Math/MathConstants.h"
 #include "SIMD.h"
 
 //-------------------------------------------------------------------------
@@ -14,7 +14,7 @@ namespace KRG
 {
     class KRG_SYSTEM_API alignas( 16 ) Vector
     {
-        KRG_SERIALIZE_MEMBERS( m_x, m_y, m_z, m_w );
+        KRG_SERIALIZE( m_x, m_y, m_z, m_w );
 
     public:
 

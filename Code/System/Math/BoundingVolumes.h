@@ -72,7 +72,7 @@ namespace KRG
 
     struct KRG_SYSTEM_API AABB
     {
-        KRG_SERIALIZE_MEMBERS( m_center, m_extents );
+        KRG_SERIALIZE( m_center, m_extents );
 
     public:
 
@@ -187,7 +187,7 @@ namespace KRG
 
     struct KRG_SYSTEM_API OBB
     {
-        KRG_SERIALIZE_MEMBERS( m_center, m_extents, m_orientation );
+        KRG_SERIALIZE( m_center, m_extents, m_orientation );
 
         OBB() = default;
         OBB( Vector center, Vector extents, Quaternion orientation = Quaternion::Identity );

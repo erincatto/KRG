@@ -2,7 +2,7 @@
 #include "TypeRegistry.h"
 #include "TypeInfo.h"
 #include "System/Resource/ResourcePtr.h"
-#include "System/Serialization/BinaryArchive.h"
+#include "System/Serialization/BinarySerialization.h"
 #include "System/Time/Time.h"
 #include "System/Types/Tag.h"
 #include "System/Types/Color.h"
@@ -232,7 +232,7 @@ namespace KRG::TypeSystem::Conversion
     //-------------------------------------------------------------------------
 
     template<typename T>
-    bool ConvertToBinary( TypeRegistry const& typeRegistry, TypeID typeID, TypeID templateArgumentTypeID, String const& strValue, TVector<uint8_t>& byteArray )
+    bool ConvertToBinary( TypeRegistry const& typeRegistry, TypeID typeID, TypeID templateArgumentTypeID, String const& strValue, Blob& byteArray )
     {
         T value;
         if ( !ConvertStringToNativeType( typeRegistry, typeID, templateArgumentTypeID, strValue, &value ) )
@@ -1004,9 +1004,9 @@ namespace KRG::TypeSystem::Conversion
         return false;
     }
 
-    bool ConvertNativeTypeToBinary( TypeRegistry const& typeRegistry, TypeID typeID, TypeID templateArgumentTypeID, void const* pValue, TVector<uint8_t>& byteArray )
+    bool ConvertNativeTypeToBinary( TypeRegistry const& typeRegistry, TypeID typeID, TypeID templateArgumentTypeID, void const* pValue, Blob& byteArray )
     {
-        Serialization::BinaryMemoryArchive archive( Serialization::Mode::Write, byteArray );
+        Serialization::BinaryOutputArchive archive;
 
         // Enums
         if ( !IsCoreType( typeID ) )
@@ -1061,7 +1061,7 @@ namespace KRG::TypeSystem::Conversion
                 break;
             }
         }
-        else  // Real core types
+        else // Real core types
         {
             CoreTypeID const typeToConvert = GetCoreType( typeID );
             switch ( typeToConvert )
@@ -1311,12 +1311,14 @@ namespace KRG::TypeSystem::Conversion
             }
         }
 
+        archive.GetAsBinaryBlob( byteArray );
         return true;
     }
 
-    bool ConvertBinaryToNativeType( TypeRegistry const& typeRegistry, TypeID typeID, TypeID templateArgumentTypeID, TVector<uint8_t> const& byteArray, void* pValue )
+    bool ConvertBinaryToNativeType( TypeRegistry const& typeRegistry, TypeID typeID, TypeID templateArgumentTypeID, Blob const& byteArray, void* pValue )
     {
-        Serialization::BinaryMemoryArchive archive( Serialization::Mode::Read, const_cast<TVector<uint8_t>&>( byteArray ) );
+        Serialization::BinaryInputArchive archive;
+        archive.ReadFromBlob( byteArray );
 
         // Enums
         if ( !IsCoreType( typeID ) )
@@ -1329,37 +1331,37 @@ namespace KRG::TypeSystem::Conversion
             {
                 case CoreTypeID::Uint8:
                 {
-                    archive >> *reinterpret_cast<uint8_t*>( pValue );
+                    archive << *reinterpret_cast<uint8_t*>( pValue );
                 }
                 break;
 
                 case CoreTypeID::Int8:
                 {
-                    archive >> *reinterpret_cast<int8_t*>( pValue );
+                    archive << *reinterpret_cast<int8_t*>( pValue );
                 }
                 break;
 
                 case CoreTypeID::Uint16:
                 {
-                    archive >> *reinterpret_cast<uint16_t*>( pValue );
+                    archive << *reinterpret_cast<uint16_t*>( pValue );
                 }
                 break;
 
                 case CoreTypeID::Int16:
                 {
-                    archive >> *reinterpret_cast<int16_t*>( pValue );
+                    archive << *reinterpret_cast<int16_t*>( pValue );
                 }
                 break;
 
                 case CoreTypeID::Uint32:
                 {
-                    archive >> *reinterpret_cast<uint32_t*>( pValue );
+                    archive << *reinterpret_cast<uint32_t*>( pValue );
                 }
                 break;
 
                 case CoreTypeID::Int32:
                 {
-                    archive >> *reinterpret_cast<int32_t*>( pValue );
+                    archive << *reinterpret_cast<int32_t*>( pValue );
                 }
                 break;
 
@@ -1371,246 +1373,246 @@ namespace KRG::TypeSystem::Conversion
                 break;
             }
         }
-        else  // Real core types
+        else // Real core types
         {
             CoreTypeID const typeToConvert = GetCoreType( typeID );
             switch ( typeToConvert )
             {
                 case CoreTypeID::Bool:
                 {
-                    archive >> *reinterpret_cast<bool*>( pValue );
+                    archive << *reinterpret_cast<bool*>( pValue );
                 }
                 break;
 
                 case CoreTypeID::Uint8:
                 {
-                    archive >> *reinterpret_cast<uint8_t*>( pValue );
+                    archive << *reinterpret_cast<uint8_t*>( pValue );
                 }
                 break;
 
                 case CoreTypeID::Int8:
                 {
-                    archive >> *reinterpret_cast<int8_t*>( pValue );
+                    archive << *reinterpret_cast<int8_t*>( pValue );
                 }
                 break;
 
                 case CoreTypeID::Uint16:
                 {
-                    archive >> *reinterpret_cast<uint16_t*>( pValue );
+                    archive << *reinterpret_cast<uint16_t*>( pValue );
                 }
                 break;
 
                 case CoreTypeID::Int16:
                 {
-                    archive >> *reinterpret_cast<int16_t*>( pValue );
+                    archive << *reinterpret_cast<int16_t*>( pValue );
                 }
                 break;
 
                 case CoreTypeID::Uint32:
                 {
-                    archive >> *reinterpret_cast<uint32_t*>( pValue );
+                    archive << *reinterpret_cast<uint32_t*>( pValue );
                 }
                 break;
 
                 case CoreTypeID::Int32:
                 {
-                    archive >> *reinterpret_cast<int32_t*>( pValue );
+                    archive << *reinterpret_cast<int32_t*>( pValue );
                 }
                 break;
 
                 case CoreTypeID::Uint64:
                 {
-                    archive >> *reinterpret_cast<uint64_t*>( pValue );
+                    archive << *reinterpret_cast<uint64_t*>( pValue );
                 }
                 break;
 
                 case CoreTypeID::Int64:
                 {
-                    archive >> *reinterpret_cast<int64_t*>( pValue );
+                    archive << *reinterpret_cast<int64_t*>( pValue );
                 }
                 break;
 
                 case CoreTypeID::Float:
                 {
-                    archive >> *reinterpret_cast<float*>( pValue );
+                    archive << *reinterpret_cast<float*>( pValue );
                 }
                 break;
 
                 case CoreTypeID::Double:
                 {
-                    archive >> *reinterpret_cast<double*>( pValue );
+                    archive << *reinterpret_cast<double*>( pValue );
                 }
                 break;
 
                 case CoreTypeID::String:
                 {
-                    archive >> *reinterpret_cast<String*>( pValue );
+                    archive << *reinterpret_cast<String*>( pValue );
                 }
                 break;
 
                 case CoreTypeID::StringID:
                 {
-                    archive >> *reinterpret_cast<StringID*>( pValue );
+                    archive << *reinterpret_cast<StringID*>( pValue );
                 }
                 break;
 
                 case CoreTypeID::Tag:
                 {
-                   archive >> *reinterpret_cast<Tag*>( pValue );
+                   archive << *reinterpret_cast<Tag*>( pValue );
                 }
                 break;
 
                 case CoreTypeID::TypeID:
                 {
                     StringID ID;
-                    archive >> ID;
+                    archive << ID;
                     *reinterpret_cast<TypeID*>( pValue ) = TypeID( ID );
                 }
                 break;
 
                 case CoreTypeID::UUID:
                 {
-                    archive >> *reinterpret_cast<UUID*>( pValue );
+                    archive << *reinterpret_cast<UUID*>( pValue );
                 }
                 break;
 
                 case CoreTypeID::Color:
                 {
-                    archive >> *reinterpret_cast<Color*>( pValue );
+                    archive << *reinterpret_cast<Color*>( pValue );
                 }
                 break;
 
                 case CoreTypeID::Float2:
                 {
-                    archive >> *reinterpret_cast<Float2*>( pValue );
+                    archive << *reinterpret_cast<Float2*>( pValue );
                 }
                 break;
 
                 case CoreTypeID::Float3:
                 {
-                    archive >> *reinterpret_cast<Float3*>( pValue );
+                    archive << *reinterpret_cast<Float3*>( pValue );
                 }
                 break;
 
                 case CoreTypeID::Float4:
                 {
-                    archive >> *reinterpret_cast<Float4*>( pValue );
+                    archive << *reinterpret_cast<Float4*>( pValue );
                 }
                 break;
 
                 case CoreTypeID::Vector:
                 {
-                    archive >> *reinterpret_cast<Vector*>( pValue );
+                    archive << *reinterpret_cast<Vector*>( pValue );
                 }
                 break;
 
                 case CoreTypeID::Quaternion:
                 {
-                    archive >> *reinterpret_cast<Quaternion*>( pValue );
+                    archive << *reinterpret_cast<Quaternion*>( pValue );
                 }
                 break;
 
                 case CoreTypeID::Matrix:
                 {
-                    archive >> *reinterpret_cast<Matrix*>( pValue );
+                    archive << *reinterpret_cast<Matrix*>( pValue );
                 }
                 break;
 
                 case CoreTypeID::Transform:
                 {
-                    archive >> *reinterpret_cast<Transform*>( pValue );
+                    archive << *reinterpret_cast<Transform*>( pValue );
                 }
                 break;
 
                 case CoreTypeID::EulerAngles:
                 {
-                    archive >> *reinterpret_cast<EulerAngles*>( pValue );
+                    archive << *reinterpret_cast<EulerAngles*>( pValue );
                 }
                 break;
 
                 case CoreTypeID::Microseconds:
                 {
-                    archive >> *reinterpret_cast<Microseconds*>( pValue );
+                    archive << *reinterpret_cast<Microseconds*>( pValue );
                 }
                 break;
 
                 case CoreTypeID::Milliseconds:
                 {
-                    archive >> *reinterpret_cast<Milliseconds*>( pValue );
+                    archive << *reinterpret_cast<Milliseconds*>( pValue );
                 }
                 break;
 
                 case CoreTypeID::Seconds:
                 {
-                    archive >> *reinterpret_cast<Seconds*>( pValue );
+                    archive << *reinterpret_cast<Seconds*>( pValue );
                 }
                 break;
 
                 case CoreTypeID::Percentage:
                 {
-                    archive >> *reinterpret_cast<Percentage*>( pValue );
+                    archive << *reinterpret_cast<Percentage*>( pValue );
                 }
                 break;
 
                 case CoreTypeID::Degrees:
                 {
-                    archive >> *reinterpret_cast<Degrees*>( pValue );
+                    archive << *reinterpret_cast<Degrees*>( pValue );
                 }
                 break;
 
                 case CoreTypeID::Radians:
                 {
-                    archive >> *reinterpret_cast<Radians*>( pValue );
+                    archive << *reinterpret_cast<Radians*>( pValue );
                 }
                 break;
 
                 case CoreTypeID::ResourcePath:
                 {
-                    archive >> *reinterpret_cast<ResourcePath*>( pValue );
+                    archive << *reinterpret_cast<ResourcePath*>( pValue );
                 }
                 break;
 
                 case CoreTypeID::IntRange:
                 {
-                    archive >> *reinterpret_cast<IntRange*>( pValue );
+                    archive << *reinterpret_cast<IntRange*>( pValue );
                 }
                 break;
 
                 case CoreTypeID::FloatRange:
                 {
-                    archive >> *reinterpret_cast<FloatRange*>( pValue );
+                    archive << *reinterpret_cast<FloatRange*>( pValue );
                 }
                 break;
 
                 case CoreTypeID::FloatCurve:
                 {
-                    archive >> *reinterpret_cast<FloatCurve*>( pValue );
+                    archive << *reinterpret_cast<FloatCurve*>( pValue );
                 }
                 break;
 
                 case CoreTypeID::ResourceTypeID:
                 {
-                    archive >> *reinterpret_cast<ResourceTypeID*>( pValue );
+                    archive << *reinterpret_cast<ResourceTypeID*>( pValue );
                 }
                 break;
 
                 case CoreTypeID::ResourcePtr:
                 case CoreTypeID::TResourcePtr:
                 {
-                    archive >> *reinterpret_cast<Resource::ResourcePtr*>( pValue );
+                    archive << *reinterpret_cast<Resource::ResourcePtr*>( pValue );
                 }
                 break;
 
                 case CoreTypeID::ResourceID:
                 {
-                    archive >> *reinterpret_cast<ResourceID*>( pValue );
+                    archive << *reinterpret_cast<ResourceID*>( pValue );
                 }
                 break;
 
                 case CoreTypeID::BitFlags:
                 case CoreTypeID::TBitFlags:
                 {
-                    archive >> *reinterpret_cast<BitFlags*>( pValue );
+                    archive << *reinterpret_cast<BitFlags*>( pValue );
                 }
                 break;
 
@@ -1626,7 +1628,7 @@ namespace KRG::TypeSystem::Conversion
         return true;
     }
 
-    bool ConvertStringToBinary( TypeRegistry const& typeRegistry, TypeID typeID, TypeID templateArgumentTypeID, String const& strValue, TVector<uint8_t>& byteArray )
+    bool ConvertStringToBinary( TypeRegistry const& typeRegistry, TypeID typeID, TypeID templateArgumentTypeID, String const& strValue, Blob& byteArray )
     {
         byteArray.clear();
 
@@ -1684,7 +1686,7 @@ namespace KRG::TypeSystem::Conversion
                 break;
             }
         }
-        else  // Real core types
+        else // Real core types
         {
             CoreTypeID const typeToConvert = GetCoreType( typeID );
             switch ( typeToConvert )

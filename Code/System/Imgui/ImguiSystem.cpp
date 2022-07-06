@@ -75,12 +75,12 @@ namespace KRG::ImGuiX
         // Decompress fonts
         //-------------------------------------------------------------------------
 
-        TVector<uint8_t> fontData, boldFontData;
+        Blob fontData, boldFontData;
         Fonts::GetDecompressedFontData( Fonts::Lexend::Regular::GetData(), fontData );
         Fonts::GetDecompressedFontData( Fonts::Lexend::Bold::GetData(), boldFontData );
 
         ImWchar const icons_ranges[] = { KRG_ICONRANGE_MIN, KRG_ICONRANGE_MAX, 0 };
-        TVector<uint8_t> iconFontData;
+        Blob iconFontData;
         Fonts::GetDecompressedFontData( (uint8_t const*) Fonts::MaterialDesignIcons::GetData(), iconFontData );
 
         // Base font configs
@@ -96,7 +96,7 @@ namespace KRG::ImGuiX
         iconFontConfig.PixelSnapH = true;
         iconFontConfig.RasterizerMultiply = 1.5f;
 
-        auto CreateFont = [&] ( TVector<uint8_t>& fontData, float fontSize, float iconFontSize, Font fontID, char const* pName, ImVec2 const& glyphOffset = ImVec2( 0, 0 ) )
+        auto CreateFont = [&] ( Blob& fontData, float fontSize, float iconFontSize, Font fontID, char const* pName, ImVec2 const& glyphOffset = ImVec2( 0, 0 ) )
         {
             Printf( fontConfig.Name, 40, pName );
             ImFont* pFont = io.Fonts->AddFontFromMemoryTTF( fontData.data(), (int32_t) fontData.size(), fontSize, &fontConfig );

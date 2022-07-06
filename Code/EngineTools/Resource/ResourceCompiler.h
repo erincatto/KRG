@@ -2,7 +2,7 @@
 
 #include "ResourceDescriptor.h"
 #include "System/Resource/ResourceHeader.h"
-#include "System/TypeSystem/TypeRegistrationMacros.h"
+#include "System/TypeSystem/RegisteredType.h"
 #include "System/Log.h"
 #include "System/Types/Function.h"
 

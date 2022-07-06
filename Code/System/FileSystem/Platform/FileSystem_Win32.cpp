@@ -185,7 +185,7 @@ namespace KRG::FileSystem
 
     //-------------------------------------------------------------------------
 
-    bool LoadFile( char const* pPath, TVector<uint8_t>& fileData )
+    bool LoadFile( char const* pPath, Blob& fileData )
     {
         KRG_ASSERT( pPath != nullptr );
 

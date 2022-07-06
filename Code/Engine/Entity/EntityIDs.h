@@ -7,7 +7,7 @@ namespace KRG
 {
     struct PointerID
     {
-        KRG_SERIALIZE_MEMBERS( m_ID );
+        KRG_SERIALIZE( m_ID );
 
         PointerID() = default;
         PointerID( void const* pV ) : m_ID( reinterpret_cast<uint64_t>( pV ) ) {}

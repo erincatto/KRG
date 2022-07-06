@@ -21,7 +21,7 @@ namespace KRG
         auto pTypeInfo = m_pToolsContext->m_pTypeRegistry->GetTypeInfo( descriptorTypeID );
         KRG_ASSERT( pTypeInfo != nullptr );
 
-        m_pDescriptor = Cast<Resource::ResourceDescriptor>( pTypeInfo->m_pTypeHelper->CreateType() );
+        m_pDescriptor = Cast<Resource::ResourceDescriptor>( pTypeInfo->CreateType() );
         KRG_ASSERT( m_pDescriptor != nullptr );
 
         m_propertyGrid.SetTypeToEdit( m_pDescriptor );

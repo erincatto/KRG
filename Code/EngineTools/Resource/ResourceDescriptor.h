@@ -2,7 +2,7 @@
 
 #include "EngineTools/_Module/API.h"
 #include "System/Serialization/TypeSerialization.h"
-#include "System/TypeSystem/TypeRegistrationMacros.h"
+#include "System/TypeSystem/RegisteredType.h"
 #include "System/Resource/ResourceID.h"
 #include "System/Types/Function.h"
 #include "System/Log.h"
@@ -22,7 +22,7 @@ namespace KRG::Resource
         {
             static_assert( std::is_base_of<ResourceDescriptor, T>::value, "T must be a child of ResourceDescriptor" );
 
-            Serialization::TypeReader typeReader( typeRegistry );
+            Serialization::TypeArchiveReader typeReader( typeRegistry );
             if ( !typeReader.ReadFromFile( descriptorPath ) )
             {
                 KRG_LOG_ERROR( "Resource", "Failed to read resource descriptor file: %s", descriptorPath.c_str() );
@@ -44,7 +44,7 @@ namespace KRG::Resource
 
             KRG_ASSERT( descriptorPath.IsFilePath() );
 
-            Serialization::TypeWriter typeWriter( typeRegistry );
+            Serialization::TypeArchiveWriter typeWriter( typeRegistry );
             typeWriter << pDescriptorData;
             return typeWriter.WriteToFile( descriptorPath );
         }

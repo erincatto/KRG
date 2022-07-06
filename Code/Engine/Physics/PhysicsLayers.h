@@ -1,7 +1,7 @@
 #pragma once
 
 #include "System/KRG.h"
-#include "System/TypeSystem/TypeRegistrationMacros.h"
+#include "System/TypeSystem/RegisteredType.h"
 
 //-------------------------------------------------------------------------
 // Physics Layers

@@ -1,6 +1,6 @@
 #pragma once
 #include "System/_Module/API.h"
-#include "TypeRegistrationMacros.h"
+#include "RegisteredType.h"
 #include "PropertyPath.h"
 #include "CoreTypeIDs.h"
 #include "CoreTypeConversions.h"
@@ -12,11 +12,11 @@
 namespace KRG::TypeSystem
 {
     class TypeRegistry;
-    struct TypeInfo;
+    class TypeInfo;
 
     struct KRG_SYSTEM_API PropertyDescriptor
     {
-        KRG_SERIALIZE_MEMBERS( m_path, m_byteValue );
+        KRG_SERIALIZE( m_path, m_byteValue );
 
         PropertyDescriptor() = default;
 
@@ -80,7 +80,7 @@ namespace KRG::TypeSystem
     public:
 
         PropertyPath                                                m_path;
-        TVector<uint8_t>                                            m_byteValue;
+        Blob                                            m_byteValue;
 
         // Not-serialized - used in tooling
         #if KRG_DEVELOPMENT_TOOLS
@@ -97,7 +97,7 @@ namespace KRG::TypeSystem
 
     class KRG_SYSTEM_API TypeDescriptor
     {
-        KRG_SERIALIZE_MEMBERS( m_typeID, m_properties );
+        KRG_SERIALIZE( m_typeID, m_properties );
 
     public:
 
@@ -123,11 +123,11 @@ namespace KRG::TypeSystem
             KRG_ASSERT( pTypeInfo->IsDerivedFrom<T>() );
 
             // Create new instance
-            void* pTypeInstance = pTypeInfo->m_pTypeHelper->CreateType();
+            void* pTypeInstance = pTypeInfo->CreateType();
             KRG_ASSERT( pTypeInstance != nullptr );
 
             // Set properties
-            SetPropertyValues( typeRegistry, *pTypeInfo, pTypeInstance );
+            SetPropertyValues( typeRegistry, pTypeInfo, pTypeInstance );
             return reinterpret_cast<T*>( pTypeInstance );
         }
 
@@ -149,10 +149,10 @@ namespace KRG::TypeSystem
 
             // Create new instance
             KRG_ASSERT( pAllocatedMemoryForInstance != nullptr );
-            pTypeInfo->m_pTypeHelper->CreateTypeInPlace( pAllocatedMemoryForInstance );
+            pTypeInfo->CreateTypeInPlace( pAllocatedMemoryForInstance );
 
             // Set properties
-            SetPropertyValues( typeRegistry, *pTypeInfo, pAllocatedMemoryForInstance );
+            SetPropertyValues( typeRegistry, pTypeInfo, pAllocatedMemoryForInstance );
             return reinterpret_cast<T*>( pAllocatedMemoryForInstance );
         }
 
@@ -184,7 +184,7 @@ namespace KRG::TypeSystem
 
     private:
 
-        void* SetPropertyValues( TypeRegistry const& typeRegistry, TypeInfo const& typeInfo, void* pTypeInstance ) const;
+        void* SetPropertyValues( TypeRegistry const& typeRegistry, TypeInfo const* pTypeInfo, void* pTypeInstance ) const;
 
     public:
 
@@ -202,7 +202,7 @@ namespace KRG::TypeSystem
 
     struct KRG_SYSTEM_API TypeDescriptorCollection
     {
-        KRG_SERIALIZE_MEMBERS( m_descriptors );
+        KRG_SERIALIZE( m_descriptors );
 
     public:
 

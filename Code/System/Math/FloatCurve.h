@@ -15,7 +15,7 @@ namespace KRG
 {
     class KRG_SYSTEM_API FloatCurve
     {
-        KRG_SERIALIZE_MEMBERS( m_points );
+        KRG_SERIALIZE( m_points );
 
         #if KRG_DEVELOPMENT_TOOLS
         static uint16_t s_pointIdentifierGenerator;
@@ -36,7 +36,7 @@ namespace KRG
         // A 1D curve point - the ID is needed for the tooling to distinguish points from one another
         struct Point
         {
-            KRG_SERIALIZE_MEMBERS( m_parameter, m_value, m_inTangent, m_outTangent, m_tangentMode );
+            KRG_SERIALIZE( m_parameter, m_value, m_inTangent, m_outTangent, m_tangentMode );
 
             inline bool operator==( Point const& rhs ) const
             {

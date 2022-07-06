@@ -1,5 +1,6 @@
 #pragma once
 #include "Applications/Reflector/Database/ReflectionDatabase.h"
+#include <sstream>
 
 //-------------------------------------------------------------------------
 
@@ -9,7 +10,5 @@ using namespace KRG::TypeSystem::Reflection;
 
 namespace KRG::CPP::EnumGenerator
 {
-    void Generate( std::stringstream& headerFile, std::stringstream& codeFile, String const& exportMacro, ReflectedType const& type );
-    void GenerateRegistrationFunctionCall( std::stringstream& file, ReflectedType const& type );
-    void GenerateUnregistrationFunctionCall( std::stringstream& file, ReflectedType const& type );
+    void Generate( std::stringstream& codeFile, String const& exportMacro, ReflectedType const& type );
 }

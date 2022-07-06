@@ -22,7 +22,7 @@ namespace KRG
 
     struct Color
     {
-        KRG_SERIALIZE_MEMBERS( m_color );
+        KRG_SERIALIZE( m_color );
 
         union
         {

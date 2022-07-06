@@ -8,8 +8,10 @@
 
 namespace KRG::TypeSystem
 {
-    struct KRG_SYSTEM_API PropertyInfo
+    class KRG_SYSTEM_API PropertyInfo
     {
+    public:
+
         enum class Flags
         {
             IsExposed = 0,

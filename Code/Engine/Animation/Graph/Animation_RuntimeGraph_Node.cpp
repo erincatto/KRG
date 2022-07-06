@@ -83,6 +83,18 @@ namespace KRG::Animation
 
     //-------------------------------------------------------------------------
 
+    void GraphNode::Settings::Load( Serialization::BinaryInputArchive& archive )
+    {
+        archive.Serialize( m_nodeIdx );
+    }
+
+    void GraphNode::Settings::Save( Serialization::BinaryOutputArchive& archive ) const
+    {
+        archive.Serialize( m_nodeIdx );
+    }
+
+    //-------------------------------------------------------------------------
+
     GraphNode::~GraphNode()
     {
         KRG_ASSERT( m_initializationCount == 0 );

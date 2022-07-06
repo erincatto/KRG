@@ -1,11 +1,10 @@
 #pragma once
 
 #include "System/_Module/API.h"
-#include "System/Serialization/Serialization.h"
+#include "MathConstants.h"
+#include "System/Serialization/BinarySerialization.h"
 #include "System/KRG.h"
 #include <math.h>
-#include <float.h>
-#include <stdlib.h>
 
 //-------------------------------------------------------------------------
 
@@ -13,29 +12,6 @@ namespace KRG
 {
     namespace Math
     {
-        // Note: Math globals do not follow the general coding convention (g_XXX) since they are treated as special types
-
-        static constexpr float const Epsilon = 1.0e-06f;
-        static constexpr float const LargeEpsilon = 1.0e-04f;
-        static constexpr float const HugeEpsilon = 1.0e-02f;
-        static constexpr float const Pi = 3.141592654f;
-        static constexpr float const TwoPi = 6.283185307f;
-        static constexpr float const OneDivPi = 0.318309886f;
-        static constexpr float const OneDivTwoPi = 0.159154943f;
-        static constexpr float const PiDivTwo = 1.570796327f;
-        static constexpr float const PiDivFour = 0.785398163f;
-
-        static constexpr float const SqrtTwo = 1.4142135623730950488016887242097f;
-        static constexpr float const OneDivSqrtTwo = 1.0f / SqrtTwo;
-
-        static constexpr float const DegreesToRadians = 0.0174532925f;
-        static constexpr float const RadiansToDegrees = 57.2957795f;
-
-        static constexpr float const Infinity = std::numeric_limits<float>::infinity();
-        static constexpr float const QNaN = std::numeric_limits<float>::quiet_NaN();
-
-        //-------------------------------------------------------------------------
-
         KRG_FORCE_INLINE float Sin( float value ) { return sinf( value ); }
         KRG_FORCE_INLINE float Cos( float value ) { return cosf( value ); }
         KRG_FORCE_INLINE float Tan( float value ) { return tanf( value ); }
@@ -49,11 +25,12 @@ namespace KRG
         KRG_FORCE_INLINE float Sec( float value ) { return 1.0f / cosf( value ); }
         KRG_FORCE_INLINE float Cot( float value ) { return 1.0f / tanf( PiDivTwo - value ); }
 
-        KRG_FORCE_INLINE float Pow( float x, float y ) { return pow( x, y ); }
+        KRG_FORCE_INLINE float Pow( float x, float y ) { return powf( x, y ); }
         KRG_FORCE_INLINE float Sqr( float value ) { return value * value; }
         KRG_FORCE_INLINE float Sqrt( float value ) { return sqrtf( value ); }
 
-        KRG_FORCE_INLINE float Log( float value ) { return log( value ); }
+        KRG_FORCE_INLINE float Log( float value ) { return logf( value ); }
+        KRG_FORCE_INLINE float Log2f( float value ) { return log2f( value ); }
 
         KRG_FORCE_INLINE float AddToMovingAverage( float currentAverage, uint64_t numCurrentSamples, float newValue )
         {
@@ -137,40 +114,34 @@ namespace KRG
             return abs( value ) <= epsilon;
         }
 
-        template<typename T>
-        KRG_FORCE_INLINE T Ceiling( T value )
+        KRG_FORCE_INLINE float Ceiling( float value )
         {
-            return ceil( value );
+            return ceilf( value );
         }
 
-        template<typename T>
-        KRG_FORCE_INLINE int32_t CeilingToInt( T value )
+        KRG_FORCE_INLINE int32_t CeilingToInt( float value )
         {
-            return (int32_t) ceil( value );
+            return (int32_t) ceilf( value );
         }
 
-        template<typename T>
-        KRG_FORCE_INLINE T Floor( T value )
+        KRG_FORCE_INLINE float Floor( float value )
         {
-            return floor( value );
+            return floorf( value );
         }
 
-        template <typename T>
-        KRG_FORCE_INLINE int32_t FloorToInt( T value )
+        KRG_FORCE_INLINE int32_t FloorToInt( float value )
         {
-            return (int32_t) floor( value );
+            return (int32_t) floorf( value );
         }
 
-        template<typename T>
-        KRG_FORCE_INLINE T Round( T value )
+        KRG_FORCE_INLINE float Round( float value )
         {
-            return round( value );
+            return roundf( value );
         }
 
-        template<typename T>
-        KRG_FORCE_INLINE int32_t RoundToInt( T value )
+        KRG_FORCE_INLINE int32_t RoundToInt( float value )
         {
-            return (int32_t) round( value );
+            return (int32_t) roundf( value );
         }
 
         inline int32_t GreatestCommonDivisor( int32_t a, int32_t b )
@@ -280,7 +251,7 @@ namespace KRG
 
     struct KRG_SYSTEM_API Int2
     {
-        KRG_SERIALIZE_MEMBERS( m_x, m_y );
+        KRG_SERIALIZE( m_x, m_y );
 
         static Int2 const Zero;
 
@@ -328,7 +299,7 @@ namespace KRG
 
     struct KRG_SYSTEM_API Int4
     {
-        KRG_SERIALIZE_MEMBERS( m_x, m_y, m_z, m_w );
+        KRG_SERIALIZE( m_x, m_y, m_z, m_w );
 
         static Int4 const Zero;
 
@@ -375,7 +346,7 @@ namespace KRG
 
     struct KRG_SYSTEM_API Float2
     {
-        KRG_SERIALIZE_MEMBERS( m_x, m_y );
+        KRG_SERIALIZE( m_x, m_y );
 
         static Float2 const Zero;
         static Float2 const One;
@@ -425,7 +396,7 @@ namespace KRG
 
     struct KRG_SYSTEM_API Float3
     {
-        KRG_SERIALIZE_MEMBERS( m_x, m_y, m_z );
+        KRG_SERIALIZE( m_x, m_y, m_z );
 
         static Float3 const Zero;
         static Float3 const One;
@@ -481,7 +452,7 @@ namespace KRG
 
     struct KRG_SYSTEM_API Float4
     {
-        KRG_SERIALIZE_MEMBERS( m_x, m_y, m_z, m_w );
+        KRG_SERIALIZE( m_x, m_y, m_z, m_w );
 
         static Float4 const Zero;
         static Float4 const One;
@@ -570,7 +541,7 @@ namespace KRG
 
     struct Degrees
     {
-        KRG_SERIALIZE_MEMBERS( m_value );
+        KRG_SERIALIZE( m_value );
 
     public:
 
@@ -719,7 +690,7 @@ namespace KRG
 
     struct KRG_SYSTEM_API Radians
     {
-        KRG_SERIALIZE_MEMBERS( m_value );
+        KRG_SERIALIZE( m_value );
 
         static Radians const Pi;
         static Radians const TwoPi;
@@ -946,7 +917,7 @@ namespace KRG
 
     struct EulerAngles
     {
-        KRG_SERIALIZE_MEMBERS( m_x, m_y, m_z );
+        KRG_SERIALIZE( m_x, m_y, m_z );
 
     public:
 
@@ -1018,7 +989,7 @@ namespace KRG
 
     struct AxisAngle
     {
-        KRG_SERIALIZE_MEMBERS( m_axis, m_angle );
+        KRG_SERIALIZE( m_axis, m_angle );
 
     public:
 

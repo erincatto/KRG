@@ -101,7 +101,7 @@ namespace KRG::Resource
 
         //-------------------------------------------------------------------------
 
-        Serialization::TypeWriter typeWriter( *m_pToolsContext->m_pTypeRegistry );
+        Serialization::TypeArchiveWriter typeWriter( *m_pToolsContext->m_pTypeRegistry );
         typeWriter << pDescriptor;
         return typeWriter.WriteToFile( newDescriptorPath );
     }

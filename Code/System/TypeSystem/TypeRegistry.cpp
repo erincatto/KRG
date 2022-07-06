@@ -4,8 +4,7 @@
 #include "EnumInfo.h"
 #include "TypeInfo.h"
 #include "System/Log.h"
-#include "TypeRegistrationMacros.h"
-#include "TypeHelpers.h"
+#include "DefaultTypeInfos.h"
 #include "EASTL/sort.h"
 
 //-------------------------------------------------------------------------
@@ -14,31 +13,33 @@ namespace KRG::TypeSystem
 {
     TypeRegistry::TypeRegistry()
     {
-        TypeHelpers::TTypeHelper<IRegisteredType>::RegisterType( *this );
+        TTypeInfo<IRegisteredType>::RegisterType( *this );
     }
 
     TypeRegistry::~TypeRegistry()
     {
-        TypeHelpers::TTypeHelper<IRegisteredType>::UnregisterType( *this );
+        TTypeInfo<IRegisteredType>::UnregisterType( *this );
         KRG_ASSERT( m_registeredEnums.empty() && m_registeredTypes.empty() && m_registeredResourceTypes.empty() );
     }
 
     //-------------------------------------------------------------------------
 
-    TypeInfo const* TypeRegistry::RegisterType( TypeInfo const& type )
+    TypeInfo const* TypeRegistry::RegisterType( TypeInfo const* pTypeInfo )
     {
-        KRG_ASSERT( type.m_ID.IsValid() && !CoreTypeRegistry::IsCoreType( type.m_ID ) );
-        KRG_ASSERT( m_registeredTypes.find( type.m_ID ) == m_registeredTypes.end() );
-        m_registeredTypes.insert( eastl::pair<TypeID, TypeInfo*>( type.m_ID, KRG::New<TypeInfo>( type ) ) );
-        return m_registeredTypes[type.m_ID];
+        KRG_ASSERT( pTypeInfo != nullptr );
+        KRG_ASSERT( pTypeInfo->m_ID.IsValid() && !CoreTypeRegistry::IsCoreType( pTypeInfo->m_ID ) );
+        KRG_ASSERT( m_registeredTypes.find( pTypeInfo->m_ID ) == m_registeredTypes.end() );
+        m_registeredTypes.insert( eastl::pair<TypeID, TypeInfo const*>( pTypeInfo->m_ID, pTypeInfo ) );
+        return m_registeredTypes[pTypeInfo->m_ID];
     }
 
-    void TypeRegistry::UnregisterType( TypeID const typeID )
+    void TypeRegistry::UnregisterType( TypeInfo const* pTypeInfo )
     {
-        KRG_ASSERT( typeID.IsValid() && !CoreTypeRegistry::IsCoreType( typeID ) );
-        auto iter = m_registeredTypes.find( typeID );
+        KRG_ASSERT( pTypeInfo != nullptr );
+        KRG_ASSERT( pTypeInfo->m_ID.IsValid() && !CoreTypeRegistry::IsCoreType( pTypeInfo->m_ID ) );
+        auto iter = m_registeredTypes.find( pTypeInfo->m_ID );
         KRG_ASSERT( iter != m_registeredTypes.end() );
-        KRG::Delete<TypeInfo>( iter->second );
+        KRG_ASSERT( iter->second == pTypeInfo );
         m_registeredTypes.erase( iter );
     }
 

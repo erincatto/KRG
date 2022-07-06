@@ -3,7 +3,7 @@
 #include "System/_Module/API.h"
 #include "System/Render/RenderAPI.h"
 #include "System/Render/RenderVertexFormats.h"
-#include "System/Serialization/Serialization.h"
+#include "System/Serialization/BinarySerialization.h"
 
 //-------------------------------------------------------------------------
 
@@ -13,7 +13,7 @@ namespace KRG::Render
     {
         friend class RenderDevice;
 
-        KRG_SERIALIZE_MEMBERS( m_ID, m_slot, m_byteSize, m_byteStride, m_usage, m_type );
+        KRG_SERIALIZE( m_ID, m_slot, m_byteSize, m_byteStride, m_usage, m_type );
 
     public:
 
@@ -43,16 +43,16 @@ namespace KRG::Render
 
     public:
 
-        uint32_t              m_ID;
-        uint32_t              m_slot = 0;
-        uint32_t              m_byteSize = 0;
-        uint32_t              m_byteStride = 0;
-        Usage               m_usage = Usage::GPU_only;
-        Type                m_type = Type::Unknown;
+        uint32_t                m_ID;
+        uint32_t                m_slot = 0;
+        uint32_t                m_byteSize = 0;
+        uint32_t                m_byteStride = 0;
+        Usage                   m_usage = Usage::GPU_only;
+        Type                    m_type = Type::Unknown;
 
     protected:
 
-        BufferHandle       m_resourceHandle;
+        BufferHandle            m_resourceHandle;
     };
 
     //-------------------------------------------------------------------------
@@ -60,7 +60,7 @@ namespace KRG::Render
     class KRG_SYSTEM_API VertexBuffer : public RenderBuffer
     {
         friend class RenderDevice;
-        KRG_SERIALIZE_MEMBERS( KRG_SERIALIZE_BASE( RenderBuffer ), KRG_NVP( m_vertexFormat ) );
+        KRG_SERIALIZE( KRG_SERIALIZE_BASE( RenderBuffer ), m_vertexFormat );
 
     public:
 
@@ -68,6 +68,6 @@ namespace KRG::Render
 
     public:
 
-        VertexFormat        m_vertexFormat = VertexFormat::StaticMesh;
+        VertexFormat            m_vertexFormat = VertexFormat::StaticMesh;
     };
 }

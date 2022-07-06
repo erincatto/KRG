@@ -1,7 +1,7 @@
 #pragma once
 
 #include "API.h"
-#include "System/TypeSystem/TypeRegistrationMacros.h"
+#include "System/TypeSystem/RegisteredType.h"
 
 //-------------------------------------------------------------------------
 

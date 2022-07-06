@@ -18,7 +18,7 @@ namespace KRG::Animation::GraphNodes
 
         struct LayerSettings
         {
-            KRG_SERIALIZE_MEMBERS( m_layerNodeIdx, m_isSynchronized, m_ignoreEvents, m_blendOptions );
+            KRG_SERIALIZE( m_layerNodeIdx, m_isSynchronized, m_ignoreEvents, m_blendOptions );
 
             int16_t                                       m_layerNodeIdx = InvalidIndex;
             bool                                            m_isSynchronized = false;

@@ -1,7 +1,7 @@
 #include "ResourceCompiler_PhysicsMaterialDatabase.h"
 #include "EngineTools/Physics/ResourceDescriptors/ResourceDescriptor_PhysicsMaterialDatabase.h"
 #include "System/FileSystem/FileSystem.h"
-#include "System/Serialization/BinaryArchive.h"
+#include "System/Serialization/BinarySerialization.h"
 
 //-------------------------------------------------------------------------
 
@@ -40,7 +40,7 @@ namespace KRG::Physics
 
             //-------------------------------------------------------------------------
 
-            Serialization::TypeReader typeReader( *m_pTypeRegistry );
+            Serialization::TypeArchiveReader typeReader( *m_pTypeRegistry );
             if ( typeReader.ReadFromFile( libraryFilePath ) )
             {
                 int32_t const numSerializedTypes = typeReader.GetNumSerializedTypes();
@@ -88,11 +88,13 @@ namespace KRG::Physics
         // Serialize
         //-------------------------------------------------------------------------
 
-        Serialization::BinaryFileArchive archive( Serialization::Mode::Write, ctx.m_outputFilePath );
-        if ( archive.IsValid() )
+        Resource::ResourceHeader hdr( s_version, PhysicsMaterialDatabase::GetStaticResourceTypeID() );
+
+        Serialization::BinaryOutputArchive archive;
+        archive << hdr << materialSettings;
+
+        if ( archive.WriteToFile( ctx.m_outputFilePath ) )
         {
-            Resource::ResourceHeader hdr( s_version, PhysicsMaterialDatabase::GetStaticResourceTypeID() );
-            archive << hdr << materialSettings;
             return CompilationSucceeded( ctx );
         }
         else

@@ -1,6 +1,6 @@
 #include "AnimationGraphLoader.h"
 #include "Engine/Animation/Graph/Animation_RuntimeGraph_Resources.h"
-#include "System/Serialization/BinaryArchive.h"
+#include "System/Serialization/BinarySerialization.h"
 #include "System/TypeSystem/TypeDescriptors.h"
 #include "System/Log.h"
 
@@ -15,38 +15,35 @@ namespace KRG::Animation
         m_loadableTypes.push_back( GraphVariation::GetStaticResourceTypeID() );
     }
 
-    bool GraphLoader::LoadInternal( ResourceID const& resID, Resource::ResourceRecord* pResourceRecord, Serialization::BinaryMemoryArchive& archive ) const
+    bool GraphLoader::LoadInternal( ResourceID const& resID, Resource::ResourceRecord* pResourceRecord, Serialization::BinaryInputArchive& archive ) const
     {
-        KRG_ASSERT( archive.IsValid() );
-
         auto const resourceTypeID = resID.GetResourceTypeID();
 
         if ( resourceTypeID == GraphDefinition::GetStaticResourceTypeID() )
         {
             auto* pGraphDef = KRG::New<GraphDefinition>();
-            archive >> *pGraphDef;
+            archive << *pGraphDef;
             pResourceRecord->SetResourceData( pGraphDef );
 
             // Deserialize debug node paths
             //-------------------------------------------------------------------------
 
             #if KRG_DEVELOPMENT_TOOLS
-            archive >> pGraphDef->m_nodePaths;
+            archive << pGraphDef->m_nodePaths;
             #endif
 
             // Create Settings
             //-------------------------------------------------------------------------
 
             TypeSystem::TypeDescriptorCollection typeDescriptors;
-            archive >> typeDescriptors;
+            archive << typeDescriptors;
 
             typeDescriptors.CalculateCollectionRequirements( *m_pTypeRegistry );
             TypeSystem::TypeDescriptorCollection::InstantiateStaticCollection( *m_pTypeRegistry, typeDescriptors, pGraphDef->m_nodeSettings );
 
-            cereal::BinaryInputArchive& settingsArchive = *archive.GetInputArchive();
             for ( auto pSettings : pGraphDef->m_nodeSettings )
             {
-                pSettings->Load( settingsArchive );
+                pSettings->Load( archive );
             }
 
             //-------------------------------------------------------------------------
@@ -56,7 +53,7 @@ namespace KRG::Animation
         else if ( resourceTypeID == GraphDataSet::GetStaticResourceTypeID() )
         {
             GraphDataSet* pDataSet = KRG::New<GraphDataSet>();
-            archive >> *pDataSet;
+            archive << *pDataSet;
             KRG_ASSERT( pDataSet->m_variationID.IsValid() && pDataSet->m_pSkeleton.IsValid() );
             pResourceRecord->SetResourceData( pDataSet );
             return true;
@@ -64,7 +61,7 @@ namespace KRG::Animation
         else if ( resourceTypeID == GraphVariation::GetStaticResourceTypeID() )
         {
             GraphVariation* pGraphVariation = KRG::New<GraphVariation>();
-            archive >> *pGraphVariation;
+            archive << *pGraphVariation;
             pResourceRecord->SetResourceData( pGraphVariation );
             return true;
         }

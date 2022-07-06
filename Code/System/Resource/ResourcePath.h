@@ -2,7 +2,7 @@
 
 #include "System/_Module/API.h"
 #include "System/FileSystem/FileSystemPath.h"
-#include "System/Serialization/Serialization.h"
+#include "System/Serialization/BinarySerialization.h"
 #include "System/Types/String.h"
 
 //-------------------------------------------------------------------------
@@ -16,19 +16,17 @@ namespace KRG
 {
     class KRG_SYSTEM_API ResourcePath
     {
-        friend cereal::access;
-
-        template <class Archive>
-        void save( Archive& ar ) const
+        KRG_CUSTOM_SERIALIZE_WRITE_FUNCTION( archive )
         {
-            ar( m_path );
+            archive << m_path;
+            return archive;
         }
 
-        template <class Archive>
-        void load( Archive& ar )
+        KRG_CUSTOM_SERIALIZE_READ_FUNCTION( archive )
         {
-            ar( m_path );
+            archive << m_path;
             OnPathMemberChanged();
+            return archive;
         }
 
     public:
@@ -132,8 +130,8 @@ namespace KRG
 
     private:
 
-        String              m_path;
-        uint32_t              m_ID = 0;
+        String                  m_path;
+        uint32_t                m_ID = 0;
     };
 }
 

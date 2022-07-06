@@ -197,8 +197,8 @@ namespace KRG::VisualGraph
             void DestroyPin( UUID const& pinID );
 
             // Serialization
-            virtual void SerializeCustom( TypeSystem::TypeRegistry const& typeRegistry, RapidJsonValue const& nodeObjectValue ) override;
-            virtual void SerializeCustom( TypeSystem::TypeRegistry const& typeRegistry, RapidJsonWriter& writer ) const override;
+            virtual void SerializeCustom( TypeSystem::TypeRegistry const& typeRegistry, Serialization::JsonValue const& nodeObjectValue ) override;
+            virtual void SerializeCustom( TypeSystem::TypeRegistry const& typeRegistry, Serialization::JsonWriter& writer ) const override;
 
         private:
 
@@ -285,9 +285,9 @@ namespace KRG::VisualGraph
         // Serialization
         //-------------------------------------------------------------------------
 
-        virtual void SerializeCustom( TypeSystem::TypeRegistry const& typeRegistry, RapidJsonValue const& graphObjectValue ) override;
-        virtual void SerializeCustom( TypeSystem::TypeRegistry const& typeRegistry, RapidJsonWriter& writer ) const override;
-        void SerializeConnection( RapidJsonWriter& writer, Flow::Connection const& connection ) const;
+        virtual void SerializeCustom( TypeSystem::TypeRegistry const& typeRegistry, Serialization::JsonValue const& graphObjectValue ) override;
+        virtual void SerializeCustom( TypeSystem::TypeRegistry const& typeRegistry, Serialization::JsonWriter& writer ) const override;
+        void SerializeConnection( Serialization::JsonWriter& writer, Flow::Connection const& connection ) const;
 
     protected:
 

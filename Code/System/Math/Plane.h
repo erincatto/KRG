@@ -13,7 +13,7 @@ namespace KRG
 
     class KRG_SYSTEM_API alignas( 16 ) Plane
     {
-        KRG_SERIALIZE_MEMBERS( a, b, c, d );
+        KRG_SERIALIZE( a, b, c, d );
 
     public:
 

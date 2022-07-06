@@ -923,7 +923,7 @@ namespace KRG::Animation
         return originalID;
     }
 
-    void StateMachineGraph::SerializeCustom( TypeSystem::TypeRegistry const& typeRegistry, RapidJsonValue const& graphObjectValue )
+    void StateMachineGraph::SerializeCustom( TypeSystem::TypeRegistry const& typeRegistry, Serialization::JsonValue const& graphObjectValue )
     {
         VisualGraph::StateMachineGraph::SerializeCustom( typeRegistry, graphObjectValue );
 

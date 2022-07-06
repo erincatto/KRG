@@ -17,7 +17,7 @@ namespace KRG::Serialization
     // Type descriptor reader needs to support both nested and unnested formats as it needs to read the outputs from both descriptor serialization and type model serialization
     struct TypeDescriptorReader
     {
-        static bool ReadArrayDescriptor( TypeRegistry const& typeRegistry, TypeInfo const* pRootTypeInfo, PropertyInfo const* pArrayPropertyInfo, RapidJsonValue const& arrayValue, TInlineVector<PropertyDescriptor, 6>& outPropertyValues, String const& propertyPathPrefix )
+        static bool ReadArrayDescriptor( TypeRegistry const& typeRegistry, TypeInfo const* pRootTypeInfo, PropertyInfo const* pArrayPropertyInfo, Serialization::JsonValue const& arrayValue, TInlineVector<PropertyDescriptor, 6>& outPropertyValues, String const& propertyPathPrefix )
         {
             KRG_ASSERT( pArrayPropertyInfo != nullptr && arrayValue.IsArray() );
 
@@ -71,7 +71,7 @@ namespace KRG::Serialization
             return true;
         }
 
-        static bool ReadTypeDescriptor( TypeRegistry const& typeRegistry, TypeInfo const* pRootTypeInfo, TypeInfo const* pTypeInfo, RapidJsonValue const& typeObjectValue, TInlineVector<PropertyDescriptor, 6>& outPropertyValues, String const& propertyPathPrefix = String() )
+        static bool ReadTypeDescriptor( TypeRegistry const& typeRegistry, TypeInfo const* pRootTypeInfo, TypeInfo const* pTypeInfo, Serialization::JsonValue const& typeObjectValue, TInlineVector<PropertyDescriptor, 6>& outPropertyValues, String const& propertyPathPrefix = String() )
         {
             // Read properties
             //-------------------------------------------------------------------------
@@ -133,7 +133,7 @@ namespace KRG::Serialization
         }
     };
 
-    bool ReadTypeDescriptorFromJSON( TypeRegistry const& typeRegistry, RapidJsonValue const& typeObjectValue, TypeDescriptor& outDesc )
+    bool ReadTypeDescriptorFromJSON( TypeRegistry const& typeRegistry, Serialization::JsonValue const& typeObjectValue, TypeDescriptor& outDesc )
     {
         if ( !typeObjectValue.IsObject() )
         {
@@ -171,13 +171,13 @@ namespace KRG::Serialization
     // Type descriptor serialization will collapse all properties into a single list per type, using the property paths as property names 
     struct TypeDescriptorWriter
     {
-        static void WriteProperty( RapidJsonWriter& writer, PropertyDescriptor const& propertyDesc )
+        static void WriteProperty( Serialization::JsonWriter& writer, PropertyDescriptor const& propertyDesc )
         {
             writer.Key( propertyDesc.m_path.ToString().c_str() );
             writer.Key( propertyDesc.m_stringValue.c_str() );
         }
 
-        static void WriteStructure( RapidJsonWriter& writer, TypeDescriptor const& typeDesc )
+        static void WriteStructure( Serialization::JsonWriter& writer, TypeDescriptor const& typeDesc )
         {
             writer.StartObject();
 
@@ -195,7 +195,7 @@ namespace KRG::Serialization
         }
     };
 
-    void WriteTypeDescriptorToJSON( TypeRegistry const& typeRegistry, RapidJsonWriter& writer, TypeDescriptor const& typeDesc )
+    void WriteTypeDescriptorToJSON( TypeRegistry const& typeRegistry, Serialization::JsonWriter& writer, TypeDescriptor const& typeDesc )
     {
         KRG_ASSERT( typeDesc.IsValid() );
         TypeDescriptorWriter::WriteStructure( writer, typeDesc );
@@ -216,7 +216,7 @@ namespace KRG::Serialization
             *( (T*) pAddress ) = value;
         }
 
-        static bool ReadCoreType( TypeRegistry const& typeRegistry, PropertyInfo const& propInfo, RapidJsonValue const& typeValue, void* pPropertyDataAddress )
+        static bool ReadCoreType( TypeRegistry const& typeRegistry, PropertyInfo const& propInfo, Serialization::JsonValue const& typeValue, void* pPropertyDataAddress )
         {
             KRG_ASSERT( pPropertyDataAddress != nullptr );
 
@@ -297,7 +297,7 @@ namespace KRG::Serialization
 
         //-------------------------------------------------------------------------
 
-        static bool ReadType( TypeRegistry const& typeRegistry, RapidJsonValue const& currentJsonValue, TypeID typeID, IRegisteredType* pTypeData )
+        static bool ReadType( TypeRegistry const& typeRegistry, Serialization::JsonValue const& currentJsonValue, TypeID typeID, IRegisteredType* pTypeData )
         {
             KRG_ASSERT( !IsCoreType( typeID ) );
 
@@ -362,16 +362,16 @@ namespace KRG::Serialization
                     else // Dynamic array
                     {
                         // If we have less elements in the json array than in the current type, clear the array as we will resize the array appropriately as part of reading the values
-                        size_t const currentArraySize = pTypeInfo->m_pTypeHelper->GetArraySize( pTypeData, propInfo.m_ID );
+                        size_t const currentArraySize = pTypeInfo->GetArraySize( pTypeData, propInfo.m_ID );
                         if ( numJSONArrayElements < currentArraySize )
                         {
-                            pTypeInfo->m_pTypeHelper->ClearArray( pTypeData, propInfo.m_ID );
+                            pTypeInfo->ClearArray( pTypeData, propInfo.m_ID );
                         }
 
                         // Do the traversal backwards to only allocate once
                         for ( int32_t i = (int32_t) ( numJSONArrayElements - 1 ); i >= 0; i-- )
                         {
-                            auto pArrayElementAddress = pTypeInfo->m_pTypeHelper->GetArrayElementDataPtr( pTypeData, propInfo.m_ID, i );
+                            auto pArrayElementAddress = pTypeInfo->GetArrayElementDataPtr( pTypeData, propInfo.m_ID, i );
                             if ( !ReadProperty( typeRegistry, jsonArrayValue[i], propInfo, pArrayElementAddress ) )
                             {
                                 return false;
@@ -399,7 +399,7 @@ namespace KRG::Serialization
             return true;
         }
 
-        static bool ReadProperty( TypeRegistry const& typeRegistry, RapidJsonValue const& currentJsonValue, PropertyInfo const& propertyInfo, void* pPropertyInstance )
+        static bool ReadProperty( TypeRegistry const& typeRegistry, Serialization::JsonValue const& currentJsonValue, PropertyInfo const& propertyInfo, void* pPropertyInstance )
         {
             if ( IsCoreType( propertyInfo.m_typeID ) || propertyInfo.IsEnumProperty() )
             {
@@ -413,7 +413,7 @@ namespace KRG::Serialization
         }
     };
 
-    bool ReadNativeType( TypeRegistry const& typeRegistry, RapidJsonValue const& typeObjectValue, IRegisteredType* pTypeInstance )
+    bool ReadNativeType( TypeRegistry const& typeRegistry, Serialization::JsonValue const& typeObjectValue, IRegisteredType* pTypeInstance )
     {
         if ( !typeObjectValue.IsObject() )
         {
@@ -434,7 +434,7 @@ namespace KRG::Serialization
     {
         KRG_ASSERT( !jsonString.empty() && pTypeInstance != nullptr );
 
-        JsonReader reader;
+        JsonArchiveReader reader;
         reader.ReadFromString( jsonString.c_str() );
         return ReadNativeType( typeRegistry, reader.GetDocument(), pTypeInstance );
     }
@@ -443,7 +443,7 @@ namespace KRG::Serialization
 
     struct NativeTypeWriter
     {
-        static void WriteType( TypeRegistry const& typeRegistry, RapidJsonWriter& writer, String& scratchBuffer, TypeID typeID, IRegisteredType const* pTypeInstance, bool createJsonObject = true )
+        static void WriteType( TypeRegistry const& typeRegistry, Serialization::JsonWriter& writer, String& scratchBuffer, TypeID typeID, IRegisteredType const* pTypeInstance, bool createJsonObject = true )
         {
             KRG_ASSERT( !IsCoreType( typeID ) );
             auto const pTypeInfo = typeRegistry.GetTypeInfo( typeID );
@@ -487,7 +487,7 @@ namespace KRG::Serialization
                     }
                     else // Dynamic array
                     {
-                        TVector<uint8_t> const& dynamicArray = *propInfo.GetPropertyAddress< TVector<uint8_t> >( pTypeInstance );
+                        Blob const& dynamicArray = *propInfo.GetPropertyAddress< Blob >( pTypeInstance );
                         size_t const arrayByteSize = dynamicArray.size();
                         numArrayElements = arrayByteSize / elementByteSize;
                         pElementAddress = dynamicArray.data();
@@ -514,7 +514,7 @@ namespace KRG::Serialization
             }
         }
 
-        static void WriteProperty( TypeRegistry const& typeRegistry, RapidJsonWriter& writer, String& scratchBuffer, PropertyInfo const& propertyInfo, void const* pPropertyInstance )
+        static void WriteProperty( TypeRegistry const& typeRegistry, Serialization::JsonWriter& writer, String& scratchBuffer, PropertyInfo const& propertyInfo, void const* pPropertyInstance )
         {
             if ( IsCoreType( propertyInfo.m_typeID ) || propertyInfo.IsEnumProperty() )
             {
@@ -528,14 +528,14 @@ namespace KRG::Serialization
         }
     };
 
-    void WriteNativeType( TypeRegistry const& typeRegistry, IRegisteredType const* pTypeInstance, RapidJsonWriter& writer )
+    void WriteNativeType( TypeRegistry const& typeRegistry, IRegisteredType const* pTypeInstance, Serialization::JsonWriter& writer )
     {
         String scratchBuffer;
         scratchBuffer.reserve( 255 );
         NativeTypeWriter::WriteType( typeRegistry, writer, scratchBuffer, pTypeInstance->GetTypeID(), pTypeInstance );
     }
 
-    void WriteNativeTypeContents( TypeRegistry const& typeRegistry, IRegisteredType const* pTypeInstance, RapidJsonWriter& writer )
+    void WriteNativeTypeContents( TypeRegistry const& typeRegistry, IRegisteredType const* pTypeInstance, Serialization::JsonWriter& writer )
     {
         String scratchBuffer;
         scratchBuffer.reserve( 255 );
@@ -544,12 +544,12 @@ namespace KRG::Serialization
 
     void WriteNativeTypeToString( TypeRegistry const& typeRegistry, IRegisteredType const* pTypeInstance, String& outString )
     {
-        JsonWriter writer;
+        JsonArchiveWriter writer;
         WriteNativeType( typeRegistry, pTypeInstance, *writer.GetWriter() );
         outString = writer.GetStringBuffer().GetString();
     }
 
-    IRegisteredType* CreateAndReadNativeType( TypeRegistry const& typeRegistry, RapidJsonValue const& typeObjectValue )
+    IRegisteredType* CreateAndReadNativeType( TypeRegistry const& typeRegistry, Serialization::JsonValue const& typeObjectValue )
     {
         auto const typeIDIter = typeObjectValue.FindMember( s_typeIDKey );
         if ( typeIDIter == typeObjectValue.MemberEnd() )
@@ -566,7 +566,7 @@ namespace KRG::Serialization
             return nullptr;
         }
 
-        IRegisteredType* pTypeInstance = pTypeInfo->m_pTypeHelper->CreateType();
+        IRegisteredType* pTypeInstance = pTypeInfo->CreateType();
 
         if ( !ReadNativeType( typeRegistry, typeObjectValue, pTypeInstance ) )
         {
@@ -584,11 +584,11 @@ namespace KRG::Serialization
 
 namespace KRG::Serialization
 {
-    TypeReader::TypeReader( TypeSystem::TypeRegistry const& typeRegistry )
+    TypeArchiveReader::TypeArchiveReader( TypeSystem::TypeRegistry const& typeRegistry )
         : m_typeRegistry( typeRegistry )
     {}
 
-    void TypeReader::OnFileReadSuccess()
+    void TypeArchiveReader::OnFileReadSuccess()
     {
         if ( m_document.IsArray() )
         {
@@ -600,14 +600,14 @@ namespace KRG::Serialization
         }
     }
 
-    void TypeReader::Reset()
+    void TypeArchiveReader::Reset()
     {
-        JsonReader::Reset();
+        JsonArchiveReader::Reset();
         m_numSerializedTypes = 0;
         m_deserializedTypeIdx = 0;
     }
 
-    RapidJsonValue const& TypeReader::GetObjectValueToBeDeserialized()
+    Serialization::JsonValue const& TypeArchiveReader::GetObjectValueToBeDeserialized()
     {
         KRG_ASSERT( m_deserializedTypeIdx < m_numSerializedTypes );
 
@@ -624,17 +624,17 @@ namespace KRG::Serialization
 
     //-------------------------------------------------------------------------
 
-    TypeWriter::TypeWriter( TypeSystem::TypeRegistry const& typeRegistry )
+    TypeArchiveWriter::TypeArchiveWriter( TypeSystem::TypeRegistry const& typeRegistry )
         : m_typeRegistry( typeRegistry )
     {}
 
-    void TypeWriter::Reset()
+    void TypeArchiveWriter::Reset()
     {
-        JsonWriter::Reset();
+        JsonArchiveWriter::Reset();
         m_numTypesSerialized = 0;
     }
 
-    void TypeWriter::PreSerializeType()
+    void TypeArchiveWriter::PreSerializeType()
     {
         if ( m_numTypesSerialized == 1 )
         {
@@ -648,7 +648,7 @@ namespace KRG::Serialization
         }
     }
 
-    void TypeWriter::FinalizeSerializedData()
+    void TypeArchiveWriter::FinalizeSerializedData()
     {
         if ( m_numTypesSerialized > 1 )
         {

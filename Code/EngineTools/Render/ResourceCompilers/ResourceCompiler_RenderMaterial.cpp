@@ -1,7 +1,7 @@
 #include "ResourceCompiler_RenderMaterial.h"
 #include "EngineTools/Render/ResourceDescriptors/ResourceDescriptor_RenderMaterial.h"
 #include "Engine/Render/Material/RenderMaterial.h"
-#include "System/Serialization/BinaryArchive.h"
+#include "System/Serialization/BinarySerialization.h"
 #include "System/FileSystem/FileSystem.h"
 
 //-------------------------------------------------------------------------
@@ -70,10 +70,11 @@ namespace KRG::Render
         // Serialize
         //-------------------------------------------------------------------------
 
-        Serialization::BinaryFileArchive archive( Serialization::Mode::Write, ctx.m_outputFilePath );
-        if ( archive.IsValid() )
+        Serialization::BinaryOutputArchive archive;
+        archive << hdr << material;
+
+        if ( archive.WriteToFile( ctx.m_outputFilePath ) )
         {
-            archive << hdr << material;
             return CompilationSucceeded( ctx );
         }
         else

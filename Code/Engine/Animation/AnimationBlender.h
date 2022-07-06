@@ -5,7 +5,7 @@
 #include "System/Animation/AnimationPose.h"
 #include "System/Math/Quaternion.h"
 #include "System/Types/BitFlags.h"
-#include "System/TypeSystem/TypeRegistrationMacros.h"
+#include "System/TypeSystem/RegisteredType.h"
 
 //-------------------------------------------------------------------------
 

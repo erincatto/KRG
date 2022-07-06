@@ -59,8 +59,8 @@ namespace KRG::FileSystem
     KRG_SYSTEM_API bool EraseFile( char const* filePath );
     KRG_FORCE_INLINE bool EraseFile( String const& filePath ) { return EraseFile( filePath.c_str() ); }
 
-    KRG_SYSTEM_API bool LoadFile( char const* filePath, TVector<uint8_t>& fileData );
-    KRG_FORCE_INLINE bool LoadFile( String const& filePath, TVector<uint8_t>& fileData ) { return LoadFile( filePath.c_str(), fileData ); }
+    KRG_SYSTEM_API bool LoadFile( char const* filePath, Blob& fileData );
+    KRG_FORCE_INLINE bool LoadFile( String const& filePath, Blob& fileData ) { return LoadFile( filePath.c_str(), fileData ); }
     
     // Directory Functions
     //-------------------------------------------------------------------------

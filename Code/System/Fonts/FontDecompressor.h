@@ -10,6 +10,6 @@ namespace KRG
 {
     namespace Fonts
     {
-        KRG_SYSTEM_API void GetDecompressedFontData( uint8_t const* pSourceData, TVector<uint8_t>& fontData );
+        KRG_SYSTEM_API void GetDecompressedFontData( uint8_t const* pSourceData, Blob& fontData );
     }
 }

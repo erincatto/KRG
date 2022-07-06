@@ -60,7 +60,7 @@ namespace KRG
         for ( auto pTypeInfo : worldSystemTypeInfos )
         {
             // Create and initialize world system
-            auto pWorldSystem = Cast<IWorldEntitySystem>( pTypeInfo->m_pTypeHelper->CreateType() );
+            auto pWorldSystem = Cast<IWorldEntitySystem>( pTypeInfo->CreateType() );
             pWorldSystem->InitializeSystem( systemsRegistry );
             m_worldSystems.push_back( pWorldSystem );
 
@@ -153,7 +153,7 @@ namespace KRG
     {
         for ( auto pTypeInfo : debugViewTypeInfos )
         {
-            auto pDebugView = Cast<EntityWorldDebugView>( pTypeInfo->m_pTypeHelper->CreateType() );
+            auto pDebugView = Cast<EntityWorldDebugView>( pTypeInfo->CreateType() );
             pDebugView->Initialize( systemsRegistry, this );
             m_debugViews.push_back( pDebugView );
         }

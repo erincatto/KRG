@@ -3,8 +3,8 @@
 #include "Animation_RuntimeGraph_Events.h"
 #include "Engine/Animation/AnimationSyncTrack.h"
 #include "Engine/Animation/AnimationTarget.h"
-#include "System/TypeSystem/TypeRegistrationMacros.h"
-#include "System/Serialization/BinaryArchive.h"
+#include "System/TypeSystem/RegisteredType.h"
+#include "System/Serialization/BinarySerialization.h"
 #include "System/Types/Color.h"
 #include "System/Time/Time.h"
 
@@ -116,8 +116,8 @@ namespace KRG::Animation
             virtual void InstantiateNode( TVector<GraphNode*> const& nodePtrs, GraphDataSet const* pDataSet, InitOptions options ) const = 0;
 
             // Serialization methods
-            virtual void Load( cereal::BinaryInputArchive& archive ) { archive( m_nodeIdx ); }
-            virtual void Save( cereal::BinaryOutputArchive& archive ) const { archive( m_nodeIdx ); }
+            virtual void Load( Serialization::BinaryInputArchive& archive );
+            virtual void Save( Serialization::BinaryOutputArchive& archive ) const;
 
         protected:
 
@@ -356,5 +356,5 @@ namespace KRG::Animation
 //-------------------------------------------------------------------------
 
 #define KRG_SERIALIZE_GRAPHNODESETTINGS( BaseClassTypename, ... ) \
-virtual void Load( cereal::BinaryInputArchive& archive ) override { BaseClassTypename::Load( archive ); archive( __VA_ARGS__ ); }\
-virtual void Save( cereal::BinaryOutputArchive& archive ) const override { BaseClassTypename::Save( archive ); archive( __VA_ARGS__ ); }
+virtual void Load( Serialization::BinaryInputArchive& archive ) override { BaseClassTypename::Load( archive ); archive.Serialize( __VA_ARGS__ ); }\
+virtual void Save( Serialization::BinaryOutputArchive& archive ) const override { BaseClassTypename::Save( archive ); archive.Serialize( __VA_ARGS__ ); }

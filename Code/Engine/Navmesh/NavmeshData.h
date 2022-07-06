@@ -13,15 +13,15 @@ namespace KRG::Navmesh
         friend class NavmeshGenerator;
         friend class NavmeshLoader;
 
-        KRG_SERIALIZE_MEMBERS( KRG_NVP( m_graphImage ) );
+        KRG_SERIALIZE( m_graphImage );
 
     public:
 
         virtual bool IsValid() const override { return !m_graphImage.empty(); }
-        inline TVector<uint8_t> const& GetGraphImage() const { return m_graphImage; }
+        inline Blob const& GetGraphImage() const { return m_graphImage; }
 
     private:
 
-        TVector<uint8_t>   m_graphImage;
+        Blob   m_graphImage;
     };
 }

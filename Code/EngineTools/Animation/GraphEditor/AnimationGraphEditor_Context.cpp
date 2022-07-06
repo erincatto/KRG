@@ -23,7 +23,7 @@ namespace KRG::Animation
 
         for ( auto pNodeType : m_registeredNodeTypes )
         {
-            auto pDefaultNode = Cast<EditorGraphNode const>( pNodeType->m_pTypeHelper->GetDefaultTypeInstancePtr() );
+            auto pDefaultNode = Cast<EditorGraphNode const>( pNodeType->m_pDefaultInstance );
             if ( pDefaultNode->IsUserCreatable() )
             {
                 m_categorizedNodeTypes.AddItem( pDefaultNode->GetCategory(), pDefaultNode->GetTypeName(), pNodeType );
@@ -33,7 +33,7 @@ namespace KRG::Animation
 
     //-------------------------------------------------------------------------
 
-    bool GraphEditorContext::LoadGraph( RapidJsonValue const& graphDescriptorObjectValue )
+    bool GraphEditorContext::LoadGraph( Serialization::JsonValue const& graphDescriptorObjectValue )
     {
         m_controlParameters.clear();
         m_virtualParameters.clear();
@@ -49,7 +49,7 @@ namespace KRG::Animation
         return false;
     }
 
-    void GraphEditorContext::SaveGraph( RapidJsonWriter& writer ) const
+    void GraphEditorContext::SaveGraph( Serialization::JsonWriter& writer ) const
     {
         return m_editorGraph.SaveToJson( *m_toolsContext.m_pTypeRegistry, writer );
     }

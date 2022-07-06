@@ -6,7 +6,7 @@
 #include "Engine/ToolsUI/Gizmo.h"
 #include "System/TypeSystem/TypeRegistry.h"
 #include "System/Resource/ResourceSystem.h"
-#include "System/ThirdParty/KRG_RapidJson.h"
+#include "System/Serialization/JsonSerialization.h"
 
 //-------------------------------------------------------------------------
 
@@ -56,8 +56,8 @@ namespace KRG
         template<typename T>
         T* GetDescriptorAs() { return Cast<T>( m_pDescriptor ); }
 
-        virtual void SerializeCustomDescriptorData( TypeSystem::TypeRegistry const& typeRegistry, RapidJsonValue const& descriptorObjectValue ) {}
-        virtual void SerializeCustomDescriptorData( TypeSystem::TypeRegistry const& typeRegistry, RapidJsonWriter& writer ) {}
+        virtual void SerializeCustomDescriptorData( TypeSystem::TypeRegistry const& typeRegistry, Serialization::JsonValue const& descriptorObjectValue ) {}
+        virtual void SerializeCustomDescriptorData( TypeSystem::TypeRegistry const& typeRegistry, Serialization::JsonWriter& writer ) {}
 
         virtual void BeginHotReload( TVector<Resource::ResourceRequesterID> const& usersToBeReloaded, TVector<ResourceID> const& resourcesToBeReloaded ) override;
         virtual void EndHotReload() override;

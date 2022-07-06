@@ -15,7 +15,7 @@ namespace KRG::Animation
     class KRG_ENGINE_API GraphDataSet : public Resource::IResource
     {
         KRG_REGISTER_VIRTUAL_RESOURCE( 'agds', "Animation Graph DataSet" );
-        KRG_SERIALIZE_MEMBERS( m_variationID, m_pSkeleton, m_resources );
+        KRG_SERIALIZE( m_variationID, m_pSkeleton, m_resources );
         friend class AnimationGraphCompiler;
         friend class GraphLoader;
         friend class GraphInstance;
@@ -50,7 +50,7 @@ namespace KRG::Animation
     class KRG_ENGINE_API GraphDefinition : public Resource::IResource
     {
         KRG_REGISTER_RESOURCE( 'ag', "Animation Graph" );
-        KRG_SERIALIZE_MEMBERS( m_persistentNodeIndices, m_instanceNodeStartOffsets, m_instanceRequiredMemory, m_instanceRequiredAlignment, m_numControlParameters, m_rootNodeIdx, m_controlParameterIDs );
+        KRG_SERIALIZE( m_persistentNodeIndices, m_instanceNodeStartOffsets, m_instanceRequiredMemory, m_instanceRequiredAlignment, m_numControlParameters, m_rootNodeIdx, m_controlParameterIDs );
 
         friend class GraphDefinitionCompiler;
         friend class AnimationGraphCompiler;
@@ -88,7 +88,7 @@ namespace KRG::Animation
     class KRG_ENGINE_API GraphVariation : public Resource::IResource
     {
         KRG_REGISTER_RESOURCE( 'agv', "Animation Graph Variation" );
-        KRG_SERIALIZE_MEMBERS( m_pGraphDefinition, m_pDataSet );
+        KRG_SERIALIZE( m_pGraphDefinition, m_pDataSet );
 
         friend class AnimationGraphCompiler;
         friend class GraphLoader;

@@ -9,8 +9,10 @@
 
 namespace KRG::TypeSystem
 {
-    struct EnumInfo
+    class EnumInfo
     {
+    public:
+
         inline size_t GetNumValues() const
         {
             return m_constants.size();

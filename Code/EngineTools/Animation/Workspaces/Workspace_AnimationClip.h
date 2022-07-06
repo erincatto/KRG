@@ -42,8 +42,8 @@ namespace KRG::Animation
         virtual bool IsDirty() const override;
         virtual bool Save() override;
 
-        virtual void SerializeCustomDescriptorData( TypeSystem::TypeRegistry const& typeRegistry, RapidJsonValue const& descriptorObjectValue ) override;
-        virtual void SerializeCustomDescriptorData( TypeSystem::TypeRegistry const& typeRegistry, RapidJsonWriter& writer ) override;
+        virtual void SerializeCustomDescriptorData( TypeSystem::TypeRegistry const& typeRegistry, Serialization::JsonValue const& descriptorObjectValue ) override;
+        virtual void SerializeCustomDescriptorData( TypeSystem::TypeRegistry const& typeRegistry, Serialization::JsonWriter& writer ) override;
 
         void DrawTimelineWindow( UpdateContext const& context );
         void DrawTrackDataWindow( UpdateContext const& context );

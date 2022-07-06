@@ -4,7 +4,7 @@
 #include "EngineTools/RawAssets/RawAssetReader.h"
 #include "System/Animation/AnimationSkeleton.h"
 #include "System/FileSystem/FileSystem.h"
-#include "System/Serialization/BinaryArchive.h"
+#include "System/Serialization/BinarySerialization.h"
 
 //-------------------------------------------------------------------------
 
@@ -57,10 +57,11 @@ namespace KRG::Animation
         // Serialize skeleton
         //-------------------------------------------------------------------------
 
-        Serialization::BinaryFileArchive archive( Serialization::Mode::Write, ctx.m_outputFilePath );
-        if ( archive.IsValid() )
+        Serialization::BinaryOutputArchive archive;
+        archive << Resource::ResourceHeader( s_version, Skeleton::GetStaticResourceTypeID() ) << skeleton;
+
+        if ( archive.WriteToFile( ctx.m_outputFilePath ) )
         {
-            archive << Resource::ResourceHeader( s_version, Skeleton::GetStaticResourceTypeID() ) << skeleton;
             return CompilationSucceeded( ctx );
         }
         else

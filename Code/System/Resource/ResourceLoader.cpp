@@ -1,46 +1,40 @@
 #include "ResourceLoader.h"
 #include "ResourceHeader.h"
-#include "System/Serialization/BinaryArchive.h"
+#include "System/Serialization/BinarySerialization.h"
 #include "System/Log.h"
 
 //-------------------------------------------------------------------------
 
 namespace KRG::Resource
 {
-    bool ResourceLoader::Load( ResourceID const& resourceID, TVector<uint8_t>& rawData, ResourceRecord* pResourceRecord ) const
+    bool ResourceLoader::Load( ResourceID const& resourceID, Blob& rawData, ResourceRecord* pResourceRecord ) const
     {
-        Serialization::BinaryMemoryArchive archive( Serialization::Mode::Read, rawData );
-        if ( archive.IsValid() )
+        Serialization::BinaryInputArchive archive;
+        archive.ReadFromBlob( rawData );
+
+        // Read resource header
+        Resource::ResourceHeader header;
+        archive << header;
+
+        // Set all install dependencies
+        pResourceRecord->m_installDependencyResourceIDs.reserve( header.m_installDependencies.size() );
+        for ( auto const& depResourceID : header.m_installDependencies )
         {
-            // Read resource header
-            Resource::ResourceHeader header;
-            archive >> header;
-
-            // Set all install dependencies
-            pResourceRecord->m_installDependencyResourceIDs.reserve( header.m_installDependencies.size() );
-            for ( auto const& depResourceID : header.m_installDependencies )
-            {
-                pResourceRecord->m_installDependencyResourceIDs.push_back( depResourceID );
-            }
-
-            // Perform resource load
-            if ( !LoadInternal( resourceID, pResourceRecord, archive ) )
-            {
-                KRG_LOG_ERROR( "Resource", "Resource loader failed to load resource: %s", resourceID.c_str() );
-                return false;
-            }
-
-            // Loaders must always set a valid resource data ptr, even if the resource internally is invalid
-            // This is enforced to prevent leaks from occurring when a loader allocates a resource, then tries to 
-            // load it unsuccessfully and then forgets to release the allocated data.
-            KRG_ASSERT( pResourceRecord->GetResourceData() != nullptr );
-            return true;
+            pResourceRecord->m_installDependencyResourceIDs.push_back( depResourceID );
         }
-        else
+
+        // Perform resource load
+        if ( !LoadInternal( resourceID, pResourceRecord, archive ) )
         {
-            KRG_LOG_ERROR( "Resource", "Failed to read binary resource data (%s)", resourceID.c_str() );
+            KRG_LOG_ERROR( "Resource", "Resource loader failed to load resource: %s", resourceID.c_str() );
             return false;
         }
+
+        // Loaders must always set a valid resource data ptr, even if the resource internally is invalid
+        // This is enforced to prevent leaks from occurring when a loader allocates a resource, then tries to 
+        // load it unsuccessfully and then forgets to release the allocated data.
+        KRG_ASSERT( pResourceRecord->GetResourceData() != nullptr );
+        return true;
     }
 
     InstallResult ResourceLoader::Install( ResourceID const& resourceID, ResourceRecord* pResourceRecord, InstallDependencyList const& installDependencies ) const

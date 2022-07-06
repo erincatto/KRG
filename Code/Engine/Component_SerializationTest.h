@@ -4,7 +4,7 @@
 #include "Engine/Entity/EntityDescriptors.h"
 #include "Engine/Entity/EntityComponent.h"
 #include "System/Types/Color.h"
-#include "System/TypeSystem/TypeRegistrationMacros.h"
+#include "System/TypeSystem/RegisteredType.h"
 #include "System/Math/Transform.h"
 #include "System/Resource/ResourcePtr.h"
 #include "System/Time/Time.h"

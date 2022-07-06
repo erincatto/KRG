@@ -22,7 +22,7 @@ namespace KRG::Animation::GraphNodes
 
         struct TimedEvent
         {
-            KRG_SERIALIZE_MEMBERS( m_ID, m_timeValue );
+            KRG_SERIALIZE( m_ID, m_timeValue );
 
             TimedEvent() = default;
 

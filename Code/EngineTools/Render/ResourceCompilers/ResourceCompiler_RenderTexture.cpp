@@ -3,7 +3,7 @@
 #include "EngineTools/Render/TextureTools/TextureTools.h"
 #include "System/Render/RenderTexture.h"
 #include "System/FileSystem/FileSystem.h"
-#include "System/Serialization/BinaryArchive.h"
+#include "System/Serialization/BinarySerialization.h"
 
 //-------------------------------------------------------------------------
 
@@ -58,11 +58,13 @@ namespace KRG::Render
 
         //-------------------------------------------------------------------------
 
-        Serialization::BinaryFileArchive archive( Serialization::Mode::Write, ctx.m_outputFilePath );
-        if ( archive.IsValid() )
+        Resource::ResourceHeader hdr( s_version, Texture::GetStaticResourceTypeID() );
+        
+        Serialization::BinaryOutputArchive archive;
+        archive << hdr << texture;
+        
+        if ( archive.WriteToFile( ctx.m_outputFilePath ) )
         {
-            Resource::ResourceHeader hdr( s_version, Texture::GetStaticResourceTypeID() );
-            archive << hdr << texture;
             return CompilationSucceeded( ctx );
         }
         else
@@ -98,11 +100,13 @@ namespace KRG::Render
 
         //-------------------------------------------------------------------------
 
-        Serialization::BinaryFileArchive archive( Serialization::Mode::Write, ctx.m_outputFilePath );
-        if ( archive.IsValid() )
+        Resource::ResourceHeader hdr( s_version, Texture::GetStaticResourceTypeID() );
+
+        Serialization::BinaryOutputArchive archive;
+        archive << hdr << texture;
+
+        if ( archive.WriteToFile( ctx.m_outputFilePath ) )
         {
-            Resource::ResourceHeader hdr( s_version, Texture::GetStaticResourceTypeID() );
-            archive << hdr << texture;
             return CompilationSucceeded( ctx );
         }
         else

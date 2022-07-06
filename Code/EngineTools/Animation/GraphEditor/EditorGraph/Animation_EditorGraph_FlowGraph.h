@@ -301,7 +301,7 @@ namespace KRG::Animation
             VisualGraph::ScopedGraphModification sgm( this );
 
             KRG_ASSERT( pTypeInfo->IsDerivedFrom( GraphNodes::EditorGraphNode::GetStaticTypeID() ) );
-            auto pNode = Cast<GraphNodes::EditorGraphNode>( pTypeInfo->m_pTypeHelper->CreateType() );
+            auto pNode = Cast<GraphNodes::EditorGraphNode>( pTypeInfo->CreateType() );
             KRG_ASSERT( pNode->GetAllowedParentGraphTypes().IsFlagSet( m_type ) );
             pNode->Initialize( this );
             AddNode( pNode );
@@ -311,8 +311,8 @@ namespace KRG::Animation
     private:
 
         virtual void PostPasteNodes( TInlineVector<VisualGraph::BaseNode*, 20> const& pastedNodes ) override;
-        virtual void SerializeCustom( TypeSystem::TypeRegistry const& typeRegistry, RapidJsonValue const& graphObjectValue ) override;
-        virtual void SerializeCustom( TypeSystem::TypeRegistry const& typeRegistry, RapidJsonWriter& writer ) const override;
+        virtual void SerializeCustom( TypeSystem::TypeRegistry const& typeRegistry, Serialization::JsonValue const& graphObjectValue ) override;
+        virtual void SerializeCustom( TypeSystem::TypeRegistry const& typeRegistry, Serialization::JsonWriter& writer ) const override;
 
     private:
 

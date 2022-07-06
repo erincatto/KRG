@@ -1,5 +1,5 @@
 #include "ResourceLoader_EntityCollection.h"
-#include "System/Serialization/BinaryArchive.h"
+#include "System/Serialization/BinarySerialization.h"
 
 //-------------------------------------------------------------------------
 
@@ -18,22 +18,22 @@ namespace KRG::EntityModel
         m_pTypeRegistry = pTypeRegistry;
     }
 
-    bool EntityCollectionLoader::LoadInternal( ResourceID const& resID, Resource::ResourceRecord* pResourceRecord, Serialization::BinaryMemoryArchive& archive ) const
+    bool EntityCollectionLoader::LoadInternal( ResourceID const& resID, Resource::ResourceRecord* pResourceRecord, Serialization::BinaryInputArchive& archive ) const
     {
-        KRG_ASSERT( archive.IsValid() && m_pTypeRegistry != nullptr );
+        KRG_ASSERT( m_pTypeRegistry != nullptr );
 
         EntityCollectionDescriptor* pCollectionDesc = nullptr;
 
         if ( resID.GetResourceTypeID() == EntityMapDescriptor::GetStaticResourceTypeID() )
         {
             auto pMap = KRG::New<EntityMapDescriptor>();
-            archive >> *pMap;
+            archive << *pMap;
             pCollectionDesc = pMap;
         }
         else  if ( resID.GetResourceTypeID() == EntityCollectionDescriptor::GetStaticResourceTypeID() )
         {
             auto pEC = KRG::New<EntityCollectionDescriptor>();
-            archive >> *pEC;
+            archive << *pEC;
             pCollectionDesc = pEC;
         }
 

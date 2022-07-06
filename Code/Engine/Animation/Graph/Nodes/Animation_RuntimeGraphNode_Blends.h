@@ -27,7 +27,7 @@ namespace KRG::Animation::GraphNodes
 
         struct BlendRange
         {
-            KRG_SERIALIZE_MEMBERS( m_inputIdx0, m_inputIdx1, m_parameterValueRange );
+            KRG_SERIALIZE( m_inputIdx0, m_inputIdx1, m_parameterValueRange );
 
             inline bool operator<( BlendRange const& rhs ) const
             {
@@ -41,7 +41,7 @@ namespace KRG::Animation::GraphNodes
 
         struct KRG_ENGINE_API Parameterization
         {
-            KRG_SERIALIZE_MEMBERS( m_blendRanges, m_parameterRange );
+            KRG_SERIALIZE( m_blendRanges, m_parameterRange );
 
             static Parameterization CreateParameterization( TInlineVector<float, 5> values );
 

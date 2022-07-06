@@ -86,7 +86,7 @@ namespace KRG::VisualGraph
         virtual void PreDestroyNode( BaseNode* pNodeAboutToBeDestroyed ) override;
         virtual void PostDestroyNode( UUID const& nodeID ) override;
 
-        virtual void SerializeCustom( TypeSystem::TypeRegistry const& typeRegistry, RapidJsonValue const& graphObjectValue ) override;
+        virtual void SerializeCustom( TypeSystem::TypeRegistry const& typeRegistry, Serialization::JsonValue const& graphObjectValue ) override;
 
     protected:
 

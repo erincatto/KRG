@@ -19,7 +19,7 @@ namespace KRG
             friend ResourceRecord;
             friend class ResourceSystem;
 
-            KRG_SERIALIZE_MEMBERS( m_resourceID );
+            KRG_SERIALIZE( m_resourceID );
 
         public:
 
@@ -98,7 +98,7 @@ namespace KRG
     {
         static_assert( std::is_base_of<KRG::Resource::IResource, T>::value, "Invalid specialization for TResourcePtr, only classes derived from IResource are allowed." );
 
-        KRG_SERIALIZE_MEMBERS( m_resourceID );
+        KRG_SERIALIZE( m_resourceID );
 
     public:
 

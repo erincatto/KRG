@@ -284,32 +284,32 @@ Benchmark | STD execution time | EASTL execution time | Ratio
 `tuple_vector<MovableType>/erase        ` | 104.6 ms | 106.3 ms | 0.98 
 `tuple_vector<MovableType>/reallocate   ` |   1.3 ms |   1.7 ms | 0.77  -
  |  |  | 
-`tuple_vector<uint64_t>/erase             ` |   3.4 ms |   3.5 ms | 0.98 
-`tuple_vector<uint64_t>/insert            ` |   3.4 ms |   3.4 ms | 0.99 
-`tuple_vector<uint64_t>/iteration         ` |  56.3 us |  81.4 us | 0.69  -
-`tuple_vector<uint64_t>/operator[]        ` |  67.4 us |  61.8 us | 1.09 
-`tuple_vector<uint64_t>/push_back         ` |   1.3 ms | 818.3 us | 1.53  +
-`tuple_vector<uint64_t>/sort              ` |   5.8 ms |   7.3 ms | 0.80 
+`tuple_vector<uint64>/erase             ` |   3.4 ms |   3.5 ms | 0.98 
+`tuple_vector<uint64>/insert            ` |   3.4 ms |   3.4 ms | 0.99 
+`tuple_vector<uint64>/iteration         ` |  56.3 us |  81.4 us | 0.69  -
+`tuple_vector<uint64>/operator[]        ` |  67.4 us |  61.8 us | 1.09 
+`tuple_vector<uint64>/push_back         ` |   1.3 ms | 818.3 us | 1.53  +
+`tuple_vector<uint64>/sort              ` |   5.8 ms |   7.3 ms | 0.80 
  |  |  | 
-`tuple_vector<uint64_t,Padding>/erase     ` |  34.7 ms |  32.9 ms | 1.05 
-`tuple_vector<uint64_t,Padding>/insert    ` |  41.0 ms |  32.6 ms | 1.26 
-`tuple_vector<uint64_t,Padding>/iteration ` | 247.1 us |  80.5 us | 3.07  +
-`tuple_vector<uint64_t,Padding>/operator[]` | 695.7 us |  81.1 us | 8.58  +
-`tuple_vector<uint64_t,Padding>/push_back ` |  10.0 ms |   6.0 ms | 1.67  +
-`tuple_vector<uint64_t,Padding>/sort      ` |   8.2 ms |  10.1 ms | 0.81 
+`tuple_vector<uint64,Padding>/erase     ` |  34.7 ms |  32.9 ms | 1.05 
+`tuple_vector<uint64,Padding>/insert    ` |  41.0 ms |  32.6 ms | 1.26 
+`tuple_vector<uint64,Padding>/iteration ` | 247.1 us |  80.5 us | 3.07  +
+`tuple_vector<uint64,Padding>/operator[]` | 695.7 us |  81.1 us | 8.58  +
+`tuple_vector<uint64,Padding>/push_back ` |  10.0 ms |   6.0 ms | 1.67  +
+`tuple_vector<uint64,Padding>/sort      ` |   8.2 ms |  10.1 ms | 0.81 
  |  |  | 
 `vector<AutoRefCount>/erase             ` |   1.3 ms |   1.2 ms | 1.05 
 `vector<MovableType>/erase              ` | 104.4 ms | 109.4 ms | 0.95 
 `vector<MovableType>/reallocate         ` |   1.5 ms |   1.5 ms | 0.95 
  |  |  | 
-`vector<uint64_t>/erase                   ` |   4.3 ms |   3.6 ms | 1.20 
-`vector<uint64_t>/insert                  ` |   4.8 ms |   4.8 ms | 1.01 
-`vector<uint64_t>/iteration               ` |  71.5 us |  77.3 us | 0.92 
-`vector<uint64_t>/operator[]              ` |  90.7 us |  87.2 us | 1.04 
-`vector<uint64_t>/push_back               ` |   1.6 ms |   1.2 ms | 1.38  +
-`vector<uint64_t>/sort                    ` |   7.7 ms |   8.2 ms | 0.93 
+`vector<uint64>/erase                   ` |   4.3 ms |   3.6 ms | 1.20 
+`vector<uint64>/insert                  ` |   4.8 ms |   4.8 ms | 1.01 
+`vector<uint64>/iteration               ` |  71.5 us |  77.3 us | 0.92 
+`vector<uint64>/operator[]              ` |  90.7 us |  87.2 us | 1.04 
+`vector<uint64>/push_back               ` |   1.6 ms |   1.2 ms | 1.38  +
+`vector<uint64>/sort                    ` |   7.7 ms |   8.2 ms | 0.93 
 		
-First off, `tuple_vector<uint64_t>`'s performance versus `std::vector<uint64_t>` is
+First off, `tuple_vector<uint64>`'s performance versus `std::vector<uint64>` is
 comparable, as expected, as the `tuple_vector`'s management for one type
 becomes very similar to just a regular vector. The major notable exception is
 the iteration case, which runs `eastl::find_if`. This
@@ -320,17 +320,17 @@ case where falling back to pointer-based iteration by fetching the `begin` and
 `end` pointers of that tuple element may be preferable, instead of using the
 iterator constructs.
 
-The set of `tuple_vector<uint64_t,Padding>` tests are more interesting. 
+The set of `tuple_vector<uint64,Padding>` tests are more interesting. 
 This is a comparison between a single `std::vector` with a
-structure containing a `uint64_t` and 56 bytes of padding, and a `tuple_vector` with
-two elements: one for `uint64_t` and one for 56 bytes of padding. The erase,
+structure containing a `uint64` and 56 bytes of padding, and a `tuple_vector` with
+two elements: one for `uint64` and one for 56 bytes of padding. The erase,
 insert, push_back, and sort cases all perform at a similar relative rate as
-they did in the `tuple_vector<uint64_t>` tests - demonstrating that operations
+they did in the `tuple_vector<uint64>` tests - demonstrating that operations
 that have to touch all of elements do not have a significant change in
 performance.
 
 However, iteration and operator[] are very different, because
-those only access the `uint64_t` member of both `vector` and `tuple_vector` to run
+those only access the `uint64` member of both `vector` and `tuple_vector` to run
 some operation. The iteration test now runs 3x faster whereas before it ran
 0.7x as fast, and operator[] runs 8.5x faster, instead of 1.1x. This
 demonstrates some of the utility of `tuple_vector`, in that these algorithms end

@@ -8,7 +8,7 @@
 
 namespace KRG
 {
-    namespace Serialization { class BinaryMemoryArchive; }
+    namespace Serialization { class BinaryInputArchive; }
 
     //-------------------------------------------------------------------------
 
@@ -52,7 +52,7 @@ namespace KRG
             TVector<ResourceTypeID> const& GetLoadableTypes() const { return m_loadableTypes; }
 
             // This function loads is responsible to deserialize the compiled resource data, read the resource header for install dependencies and to create the new runtime resource object
-            bool Load( ResourceID const& resourceID, TVector<uint8_t>& rawData, ResourceRecord* pResourceRecord ) const;
+            bool Load( ResourceID const& resourceID, Blob& rawData, ResourceRecord* pResourceRecord ) const;
 
             // This function will destroy the created resource object
             void Unload( ResourceID const& resourceID, ResourceRecord* pResourceRecord ) const;
@@ -69,7 +69,7 @@ namespace KRG
         protected:
 
             // (Required) Override this function to implement you custom deserialization and creation logic, resource header has already been read at this point
-            virtual bool LoadInternal( ResourceID const& resourceID, ResourceRecord* pResourceRecord, Serialization::BinaryMemoryArchive& archive ) const = 0;
+            virtual bool LoadInternal( ResourceID const& resourceID, ResourceRecord* pResourceRecord, Serialization::BinaryInputArchive& archive ) const = 0;
 
             // (Optional) Override this function to implement any custom object destruction logic if needed, by default this will just delete the created resource
             virtual void UnloadInternal( ResourceID const& resourceID, ResourceRecord* pResourceRecord ) const;

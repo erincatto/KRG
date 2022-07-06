@@ -28,20 +28,20 @@ namespace KRG::Render
         friend class MeshCompiler;
         friend class MeshLoader;
 
-        KRG_SERIALIZE_MEMBERS( KRG_NVP( m_vertices ), KRG_NVP( m_indices ), KRG_NVP( m_sections ), KRG_NVP( m_materials ), KRG_NVP( m_vertexBuffer ), KRG_NVP( m_indexBuffer ), KRG_NVP( m_bounds ) );
+        KRG_SERIALIZE( m_vertices, m_indices, m_sections, m_materials, m_vertexBuffer, m_indexBuffer, m_bounds );
 
     public:
 
         struct KRG_ENGINE_API GeometrySection
         {
-            KRG_SERIALIZE_MEMBERS( m_ID, m_startIndex, m_numIndices );
+            KRG_SERIALIZE( m_ID, m_startIndex, m_numIndices );
 
             GeometrySection() = default;
             GeometrySection( StringID ID, uint32_t startIndex, uint32_t numIndices );
 
             StringID                        m_ID;
-            uint32_t                          m_startIndex = 0;
-            uint32_t                          m_numIndices = 0;
+            uint32_t                        m_startIndex = 0;
+            uint32_t                        m_numIndices = 0;
         };
 
     public:
@@ -55,7 +55,7 @@ namespace KRG::Render
         inline OBB const& GetBounds() const { return m_bounds; }
 
         // Vertices
-        inline TVector<uint8_t> const& GetVertexData() const { return m_vertices; }
+        inline Blob const& GetVertexData() const { return m_vertices; }
         inline int32_t const GetNumVertices() const { return m_vertexBuffer.m_byteSize / m_vertexBuffer.m_byteStride; }
         inline VertexFormat const& GetVertexFormat() const { return m_vertexBuffer.m_vertexFormat; }
         inline RenderBuffer const& GetVertexBuffer() const { return m_vertexBuffer; }
@@ -80,8 +80,8 @@ namespace KRG::Render
 
     protected:
 
-        TVector<uint8_t>                       m_vertices;
-        TVector<uint32_t>                     m_indices;
+        Blob                                m_vertices;
+        TVector<uint32_t>                   m_indices;
         TVector<GeometrySection>            m_sections;
         TVector<TResourcePtr<Material>>     m_materials;
         VertexBuffer                        m_vertexBuffer;

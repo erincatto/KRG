@@ -2,7 +2,7 @@
 
 #include "Engine/_Module/API.h"
 #include "System/Math/Math.h"
-#include "System/TypeSystem/TypeRegistrationMacros.h"
+#include "System/TypeSystem/RegisteredType.h"
 
 //-------------------------------------------------------------------------
 // Easing utility functions 

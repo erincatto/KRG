@@ -45,10 +45,10 @@ namespace KRG::Animation
         //-------------------------------------------------------------------------
 
         // Load an existing graph
-        bool LoadFromJson( TypeSystem::TypeRegistry const& typeRegistry, RapidJsonValue const& graphDescriptorObjectValue );
+        bool LoadFromJson( TypeSystem::TypeRegistry const& typeRegistry, Serialization::JsonValue const& graphDescriptorObjectValue );
 
         // Saves this graph
-        void SaveToJson( TypeSystem::TypeRegistry const& typeRegistry, RapidJsonWriter& writer ) const;
+        void SaveToJson( TypeSystem::TypeRegistry const& typeRegistry, Serialization::JsonWriter& writer ) const;
 
     private:
 

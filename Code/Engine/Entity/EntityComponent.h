@@ -3,7 +3,7 @@
 #include "Engine/_Module/API.h"
 #include "EntityIDs.h"
 #include "EntityLoadingContext.h"
-#include "System/TypeSystem/TypeRegistrationMacros.h"
+#include "System/TypeSystem/RegisteredType.h"
 
 //-------------------------------------------------------------------------
 

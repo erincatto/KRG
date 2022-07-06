@@ -1,13 +1,13 @@
 #include "ResourceLoader_RenderShader.h"
-#include "System/Serialization/BinaryArchive.h"
+#include "System/Serialization/BinarySerialization.h"
 
 //-------------------------------------------------------------------------
 
 namespace KRG::Render
 {
-    bool ShaderLoader::LoadInternal( ResourceID const& resID, Resource::ResourceRecord* pResourceRecord, Serialization::BinaryMemoryArchive& archive ) const
+    bool ShaderLoader::LoadInternal( ResourceID const& resID, Resource::ResourceRecord* pResourceRecord, Serialization::BinaryInputArchive& archive ) const
     {
-        KRG_ASSERT( m_pRenderDevice != nullptr && archive.IsValid() );
+        KRG_ASSERT( m_pRenderDevice != nullptr );
 
         // Get shader resource
         Shader* pShaderResource = nullptr;
@@ -16,13 +16,13 @@ namespace KRG::Render
         if ( shaderResourceTypeID == VertexShader::GetStaticResourceTypeID() )
         {
             auto pVertexShaderResource = KRG::New<VertexShader>();
-            archive >> *pVertexShaderResource;
+            archive << *pVertexShaderResource;
             pShaderResource = pVertexShaderResource;
         }
         else if ( shaderResourceTypeID == PixelShader::GetStaticResourceTypeID() )
         {
             auto pPixelShaderResource = KRG::New<PixelShader>();
-            archive >> *pPixelShaderResource;
+            archive << *pPixelShaderResource;
             pShaderResource = pPixelShaderResource;
         }
         else

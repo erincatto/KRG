@@ -134,7 +134,7 @@ namespace KRG::Animation
 
     //-------------------------------------------------------------------------
 
-    bool VariationHierarchy::Serialize( TypeSystem::TypeRegistry const& typeRegistry, RapidJsonValue const& objectValue )
+    bool VariationHierarchy::Serialize( TypeSystem::TypeRegistry const& typeRegistry, Serialization::JsonValue const& objectValue )
     {
         m_variations.clear();
 
@@ -147,7 +147,7 @@ namespace KRG::Animation
         return true;
     }
 
-    void VariationHierarchy::Serialize( TypeSystem::TypeRegistry const& typeRegistry, RapidJsonWriter& writer ) const
+    void VariationHierarchy::Serialize( TypeSystem::TypeRegistry const& typeRegistry, Serialization::JsonWriter& writer ) const
     {
         writer.StartArray();
 

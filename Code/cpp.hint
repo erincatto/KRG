@@ -14,4 +14,3 @@
 #define KRG_REGISTER_RESOURCE
 #define KRG_REGISTER_VIRTUAL_RESOURCE
 #define KRG_ASSERT(msg) (!(msg)) ? __debugbreak() : 0
-#define KRG_SERIALIZE_MEMBERS(__VA_ARGS__) friend cereal::access; template<class Archive> void serialize( Archive& archive ) { archive( __VA_ARGS__ ); }

@@ -1,6 +1,6 @@
 #pragma once
 #include "System/Resource/ResourceID.h"
-#include "System/Serialization/Serialization.h"
+#include "System/Serialization/BinarySerialization.h"
 
 //-------------------------------------------------------------------------
 
@@ -19,7 +19,7 @@ namespace KRG
 
         struct NetworkResourceRequest
         {
-            KRG_SERIALIZE_MEMBERS( KRG_NVP( m_path ) );
+            KRG_SERIALIZE( m_path );
 
             NetworkResourceRequest() = default;
 
@@ -27,17 +27,17 @@ namespace KRG
                 : m_path( ID )
             {}
 
-            ResourceID            m_path;
+            ResourceID              m_path;
         };
 
         //-------------------------------------------------------------------------
 
         struct NetworkResourceResponse
         {
-            KRG_SERIALIZE_MEMBERS( KRG_NVP( m_resourceID ), KRG_NVP( m_filePath ) );
+            KRG_SERIALIZE( m_resourceID, m_filePath );
 
-            ResourceID          m_resourceID;
-            String              m_filePath;
+            ResourceID              m_resourceID;
+            String                  m_filePath;
         };
     }
 }

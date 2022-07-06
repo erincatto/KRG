@@ -2,13 +2,10 @@
 
 //-------------------------------------------------------------------------
 
-namespace KRG
+namespace KRG::Resource
 {
-    namespace Resource
+    ResourceRecord::~ResourceRecord()
     {
-        ResourceRecord::~ResourceRecord()
-        {
-            KRG_ASSERT( m_pResource == nullptr && !HasReferences() );
-        }
+        KRG_ASSERT( m_pResource == nullptr && !HasReferences() );
     }
 }

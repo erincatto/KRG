@@ -12,7 +12,7 @@ namespace KRG::Resource { class ResourceFilePicker; }
 
 namespace KRG::TypeSystem
 {
-    struct PropertyInfo;
+    class PropertyInfo;
     class TypeRegistry;
 
     //-------------------------------------------------------------------------
@@ -43,7 +43,7 @@ namespace KRG::TypeSystem
 
         ToolsContext const*     m_pToolsContext;
         PropertyInfo const&     m_propertyInfo;
-        uint8_t*                   m_pPropertyInstance;
+        uint8_t*                m_pPropertyInstance;
         CoreTypeID const        m_coreType;
     };
 

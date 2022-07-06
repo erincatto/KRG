@@ -1,7 +1,7 @@
 #include "ResourceCompiler_RenderShader.h"
 #include "EngineTools/Render/ResourceDescriptors/ResourceDescriptor_RenderShader.h"
 #include "System/FileSystem/FileSystem.h"
-#include "System/Serialization/BinaryArchive.h"
+#include "System/Serialization/BinarySerialization.h"
 
 #include <d3dcompiler.h>
 
@@ -216,7 +216,7 @@ namespace KRG::Render
             return Error( "Invalid texture data path: %s", resourceDescriptor.m_shaderPath.c_str() );
         }
 
-        TVector<uint8_t> fileData;
+        Blob fileData;
         if ( !FileSystem::LoadFile( shaderFilePath, fileData ) )
         {
             return Error( "Failed to load specified shader file: %s", shaderFilePath.c_str() );
@@ -280,20 +280,21 @@ namespace KRG::Render
         // Output shader resource
         //-------------------------------------------------------------------------
 
-        Serialization::BinaryFileArchive archive( Serialization::Mode::Write, ctx.m_outputFilePath );
-        if ( archive.IsValid() )
-        {
-            if ( pShader->GetPipelineStage() == PipelineStage::Pixel )
-            {
-                Resource::ResourceHeader hdr( s_version, PixelShader::GetStaticResourceTypeID() );
-                archive << hdr << *static_cast<PixelShader*>( pShader );
-            }
-            if ( pShader->GetPipelineStage() == PipelineStage::Vertex )
-            {
-                Resource::ResourceHeader hdr( s_version, PixelShader::GetStaticResourceTypeID() );
-                archive << hdr << *static_cast<VertexShader*>( pShader );
-            }
+        Serialization::BinaryOutputArchive archive;
 
+        if ( pShader->GetPipelineStage() == PipelineStage::Pixel )
+        {
+            Resource::ResourceHeader hdr( s_version, PixelShader::GetStaticResourceTypeID() );
+            archive << hdr << *static_cast<PixelShader*>( pShader );
+        }
+        if ( pShader->GetPipelineStage() == PipelineStage::Vertex )
+        {
+            Resource::ResourceHeader hdr( s_version, PixelShader::GetStaticResourceTypeID() );
+            archive << hdr << *static_cast<VertexShader*>( pShader );
+        }
+
+        if ( archive.WriteToFile( ctx.m_outputFilePath ) )
+        {
             return CompilationSucceeded( ctx );
         }
         else

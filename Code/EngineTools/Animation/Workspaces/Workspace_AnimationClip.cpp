@@ -410,12 +410,12 @@ namespace KRG::Animation
         return true;
     }
 
-    void AnimationClipWorkspace::SerializeCustomDescriptorData( TypeSystem::TypeRegistry const& typeRegistry, RapidJsonValue const& descriptorObjectValue )
+    void AnimationClipWorkspace::SerializeCustomDescriptorData( TypeSystem::TypeRegistry const& typeRegistry, Serialization::JsonValue const& descriptorObjectValue )
     {
         m_eventEditor.Serialize( typeRegistry, descriptorObjectValue );
     }
 
-    void AnimationClipWorkspace::SerializeCustomDescriptorData( TypeSystem::TypeRegistry const& typeRegistry, RapidJsonWriter& writer )
+    void AnimationClipWorkspace::SerializeCustomDescriptorData( TypeSystem::TypeRegistry const& typeRegistry, Serialization::JsonWriter& writer )
     {
         static_cast<Timeline::TimelineEditor&>( m_eventEditor ).Serialize( typeRegistry, writer );
     }

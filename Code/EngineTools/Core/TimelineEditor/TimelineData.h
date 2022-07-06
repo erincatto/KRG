@@ -1,8 +1,8 @@
 #pragma once
 
 #include "EngineTools/_Module/API.h"
-#include "System/ThirdParty/KRG_RapidJson.h"
-#include "System/TypeSystem/TypeRegistrationMacros.h"
+#include "System/Serialization/JsonSerialization.h"
+#include "System/TypeSystem/RegisteredType.h"
 #include "System/Types/Arrays.h"
 #include "System/Math/NumericRange.h"
 #include "System/Types/Color.h"
@@ -67,8 +67,8 @@ namespace KRG::Timeline
         // Optional function called when loading to initialize the event time range if not stored in the event itself
         virtual void InitializeTimeRange( FloatRange const& inRange ) {}
 
-        virtual void SerializeCustom( TypeSystem::TypeRegistry const& typeRegistry, RapidJsonValue const& dataObjectValue ) {}
-        virtual void SerializeCustom( TypeSystem::TypeRegistry const& typeRegistry, RapidJsonWriter& writer ) const {}
+        virtual void SerializeCustom( TypeSystem::TypeRegistry const& typeRegistry, Serialization::JsonValue const& dataObjectValue ) {}
+        virtual void SerializeCustom( TypeSystem::TypeRegistry const& typeRegistry, Serialization::JsonWriter& writer ) const {}
 
     private:
 
@@ -130,8 +130,8 @@ namespace KRG::Timeline
         // Serialization
         //-------------------------------------------------------------------------
 
-        virtual void SerializeCustom( TypeSystem::TypeRegistry const& typeRegistry, RapidJsonValue const& typeObjectValue ) {}
-        virtual void SerializeCustom( TypeSystem::TypeRegistry const& typeRegistry, RapidJsonWriter& writer ) const {}
+        virtual void SerializeCustom( TypeSystem::TypeRegistry const& typeRegistry, Serialization::JsonValue const& typeObjectValue ) {}
+        virtual void SerializeCustom( TypeSystem::TypeRegistry const& typeRegistry, Serialization::JsonWriter& writer ) const {}
 
     private:
 
@@ -235,13 +235,13 @@ namespace KRG::Timeline
         // Serialization
         //-------------------------------------------------------------------------
 
-        virtual bool Serialize( TypeSystem::TypeRegistry const& typeRegistry, RapidJsonValue const& typeObjectValue );
-        virtual void Serialize( TypeSystem::TypeRegistry const& typeRegistry, RapidJsonWriter& writer );
+        virtual bool Serialize( TypeSystem::TypeRegistry const& typeRegistry, Serialization::JsonValue const& typeObjectValue );
+        virtual void Serialize( TypeSystem::TypeRegistry const& typeRegistry, Serialization::JsonWriter& writer );
 
     public:
 
         TVector<Track*>     m_tracks;
-        int32_t               m_beginModificationCallCount = 0;
+        int32_t             m_beginModificationCallCount = 0;
         bool                m_isDirty = false;
     };
 }

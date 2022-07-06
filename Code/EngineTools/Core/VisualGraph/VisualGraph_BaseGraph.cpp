@@ -51,7 +51,7 @@ namespace KRG::VisualGraph
         m_ID.Clear();
     }
 
-    BaseNode* BaseNode::CreateNodeFromSerializedData( TypeSystem::TypeRegistry const& typeRegistry, RapidJsonValue const& nodeObjectValue, BaseGraph* pParentGraph )
+    BaseNode* BaseNode::CreateNodeFromSerializedData( TypeSystem::TypeRegistry const& typeRegistry, Serialization::JsonValue const& nodeObjectValue, BaseGraph* pParentGraph )
     {
         auto const& typeDataObjectValue = nodeObjectValue[s_typeDataKey];
         KRG_ASSERT( typeDataObjectValue.IsObject() );
@@ -95,7 +95,7 @@ namespace KRG::VisualGraph
         return pathString;
     }
 
-    void BaseNode::Serialize( TypeSystem::TypeRegistry const& typeRegistry, RapidJsonValue const& nodeObjectValue )
+    void BaseNode::Serialize( TypeSystem::TypeRegistry const& typeRegistry, Serialization::JsonValue const& nodeObjectValue )
     {
         KRG_ASSERT( nodeObjectValue.IsObject() );
 
@@ -132,7 +132,7 @@ namespace KRG::VisualGraph
         }
     }
 
-    void BaseNode::Serialize( TypeSystem::TypeRegistry const& typeRegistry, RapidJsonWriter& writer ) const
+    void BaseNode::Serialize( TypeSystem::TypeRegistry const& typeRegistry, Serialization::JsonWriter& writer ) const
     {
         writer.StartObject();
 
@@ -368,7 +368,7 @@ namespace KRG::VisualGraph
         KRG_UNREACHABLE_CODE();
     }
 
-    BaseGraph* BaseGraph::CreateGraphFromSerializedData( TypeSystem::TypeRegistry const& typeRegistry, RapidJsonValue const& graphObjectValue, BaseNode* pParentNode )
+    BaseGraph* BaseGraph::CreateGraphFromSerializedData( TypeSystem::TypeRegistry const& typeRegistry, Serialization::JsonValue const& graphObjectValue, BaseNode* pParentNode )
     {
         TypeSystem::TypeID const graphTypeID = graphObjectValue[BaseNode::s_typeDataKey][Serialization::s_typeIDKey].GetString();
         auto pTypeInfo = typeRegistry.GetTypeInfo( graphTypeID );
@@ -380,7 +380,7 @@ namespace KRG::VisualGraph
         return pGraph;
     }
 
-    void BaseGraph::Serialize( TypeSystem::TypeRegistry const& typeRegistry, RapidJsonValue const& graphObjectValue )
+    void BaseGraph::Serialize( TypeSystem::TypeRegistry const& typeRegistry, Serialization::JsonValue const& graphObjectValue )
     {
         KRG_ASSERT( graphObjectValue.IsObject() );
 
@@ -406,7 +406,7 @@ namespace KRG::VisualGraph
         SerializeCustom( typeRegistry, graphObjectValue );
     }
 
-    void BaseGraph::Serialize( TypeSystem::TypeRegistry const& typeRegistry, RapidJsonWriter& writer ) const
+    void BaseGraph::Serialize( TypeSystem::TypeRegistry const& typeRegistry, Serialization::JsonWriter& writer ) const
     {
         writer.StartObject();
 

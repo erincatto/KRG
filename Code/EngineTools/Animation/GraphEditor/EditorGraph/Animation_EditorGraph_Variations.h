@@ -1,9 +1,9 @@
 #pragma once
 #include "System/Animation/AnimationSkeleton.h"
 #include "System/Resource/ResourcePtr.h"
-#include "System/TypeSystem/TypeRegistrationMacros.h"
+#include "System/TypeSystem/RegisteredType.h"
 #include "System/Types/StringID.h"
-#include "System/ThirdParty/KRG_RapidJson.h"
+#include "System/Serialization/JsonSerialization.h"
 
 //-------------------------------------------------------------------------
 
@@ -65,8 +65,8 @@ namespace KRG::Animation
         void DestroyVariation( StringID variationID );
 
         // Serialization
-        bool Serialize( TypeSystem::TypeRegistry const& typeRegistry, RapidJsonValue const& objectValue );
-        void Serialize( TypeSystem::TypeRegistry const& typeRegistry, RapidJsonWriter& writer ) const;
+        bool Serialize( TypeSystem::TypeRegistry const& typeRegistry, Serialization::JsonValue const& objectValue );
+        void Serialize( TypeSystem::TypeRegistry const& typeRegistry, Serialization::JsonWriter& writer ) const;
 
     private:
 

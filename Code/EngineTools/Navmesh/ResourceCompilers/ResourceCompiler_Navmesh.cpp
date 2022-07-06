@@ -5,7 +5,7 @@
 #include "Engine/Entity/EntityDescriptors.h"
 #include "Engine/Navmesh/Components/Component_Navmesh.h"
 #include "System/FileSystem/FileSystem.h"
-#include "System/Serialization/BinaryArchive.h"
+#include "System/Serialization/BinarySerialization.h"
 #include "System/Time/Timers.h"
 #include "System/TypeSystem/TypeRegistry.h"
 #include <filesystem>
@@ -91,6 +91,7 @@ namespace KRG::Navmesh
         // Generate navmesh
         //-------------------------------------------------------------------------
 
+        #if KRG_ENABLE_NAVPOWER
         Navmesh::NavmeshGenerator generator( *m_pTypeRegistry, m_rawResourceDirectoryPath, ctx.m_outputFilePath, mapDesc, buildSettings );
 
         {
@@ -100,8 +101,9 @@ namespace KRG::Navmesh
 
         Message( "Navmesh built in: %.2fms", elapsedTime.ToFloat() );
 
-        //-------------------------------------------------------------------------
-
         return hasWarning ? Resource::CompilationResult::SuccessWithWarnings : Resource::CompilationResult::Success;
+        #else
+        return Error( "No navmesh middleware present!" );
+        #endif
     }
 }

@@ -711,7 +711,7 @@ namespace KRG::Render
         //-------------------------------------------------------------------------
 
         TVector<stbtt_packedchar> charInfo;
-        TVector<uint8_t> fontData;
+        Blob fontData;
 
         for ( auto i = 0; i < numFonts; i++ )
         {

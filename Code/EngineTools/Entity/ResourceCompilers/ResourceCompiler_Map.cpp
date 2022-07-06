@@ -3,7 +3,7 @@
 #include "Engine/Entity/EntitySerialization.h"
 #include "Engine/Navmesh/Components/Component_Navmesh.h"
 #include "System/TypeSystem/TypeRegistry.h"
-#include "System/Serialization/BinaryArchive.h"
+#include "System/Serialization/BinarySerialization.h"
 #include "System/FileSystem/FileSystem.h"
 #include "System/Time/Timers.h"
 
@@ -66,10 +66,11 @@ namespace KRG::EntityModel
         // Serialize
         //-------------------------------------------------------------------------
 
-        Serialization::BinaryFileArchive archive( Serialization::Mode::Write, ctx.m_outputFilePath );
-        if ( archive.IsValid() )
+        Serialization::BinaryOutputArchive archive;
+        archive << Resource::ResourceHeader( s_version, EntityMapDescriptor::GetStaticResourceTypeID() ) << map;
+
+        if ( archive.WriteToFile( ctx.m_outputFilePath ) )
         {
-            archive << Resource::ResourceHeader( s_version, EntityMapDescriptor::GetStaticResourceTypeID() ) << map;
             return CompilationSucceeded( ctx );
         }
         else

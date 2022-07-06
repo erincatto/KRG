@@ -3,8 +3,8 @@
 #include "Engine/_Module/API.h"
 #include "System/Types/Arrays.h"
 #include "System/Types/StringID.h"
-#include "System/Serialization/Serialization.h"
-#include "System/TypeSystem/TypeRegistrationMacros.h"
+#include "System/Serialization/BinarySerialization.h"
+#include "System/TypeSystem/RegisteredType.h"
 
 //-------------------------------------------------------------------------
 
@@ -16,7 +16,7 @@ namespace KRG::Animation
 
     struct KRG_ENGINE_API BoneWeight
     {
-        KRG_SERIALIZE_MEMBERS( m_boneID, m_weight );
+        KRG_SERIALIZE( m_boneID, m_weight );
 
         StringID        m_boneID;
         float           m_weight;

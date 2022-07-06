@@ -3,7 +3,7 @@
 #include "Engine/_Module/API.h"
 #include "Engine/UpdateStage.h"
 #include "Engine/Entity/EntityIDs.h"
-#include "System/TypeSystem/TypeRegistrationMacros.h"
+#include "System/TypeSystem/RegisteredType.h"
 #include "System/Types/Arrays.h"
 #include "System/Algorithm/Hash.h"
 

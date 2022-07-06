@@ -95,7 +95,7 @@ namespace KRG::Quantization
 
     struct EncodedQuaternion
     {
-        KRG_SERIALIZE_MEMBERS( m_data0, m_data2 );
+        KRG_SERIALIZE( m_data0, m_data2 );
 
     private:
 

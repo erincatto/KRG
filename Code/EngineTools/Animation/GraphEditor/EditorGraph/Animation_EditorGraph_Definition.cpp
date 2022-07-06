@@ -38,7 +38,7 @@ namespace KRG::Animation
         m_pRootGraph->CreateNode<ResultEditorNode>( GraphValueType::Pose );
     }
 
-    bool EditorGraphDefinition::LoadFromJson( TypeSystem::TypeRegistry const& typeRegistry, RapidJsonValue const& graphDescriptorObjectValue )
+    bool EditorGraphDefinition::LoadFromJson( TypeSystem::TypeRegistry const& typeRegistry, Serialization::JsonValue const& graphDescriptorObjectValue )
     {
         KRG_ASSERT( graphDescriptorObjectValue.IsObject() );
 
@@ -47,9 +47,9 @@ namespace KRG::Animation
         // Find relevant json values
         //-------------------------------------------------------------------------
 
-        RapidJsonValue const* pGraphObjectValue = nullptr;
-        RapidJsonValue const* pVariationsObjectValue = nullptr;
-        RapidJsonValue const* pRootGraphObjectValue = nullptr;
+        Serialization::JsonValue const* pGraphObjectValue = nullptr;
+        Serialization::JsonValue const* pVariationsObjectValue = nullptr;
+        Serialization::JsonValue const* pRootGraphObjectValue = nullptr;
 
         auto graphDefinitionValueIter = graphDescriptorObjectValue.FindMember( "GraphDefinition" );
         if ( graphDefinitionValueIter != graphDescriptorObjectValue.MemberEnd() && graphDefinitionValueIter->value.IsObject() )
@@ -102,7 +102,7 @@ namespace KRG::Animation
         return serializationSuccessful;
     }
 
-    void EditorGraphDefinition::SaveToJson( TypeSystem::TypeRegistry const& typeRegistry, RapidJsonWriter& writer ) const
+    void EditorGraphDefinition::SaveToJson( TypeSystem::TypeRegistry const& typeRegistry, Serialization::JsonWriter& writer ) const
     {
         writer.StartObject();
         writer.Key( "TypeID" );

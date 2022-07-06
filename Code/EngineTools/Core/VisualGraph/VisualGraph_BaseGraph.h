@@ -2,8 +2,8 @@
 
 #include "EngineTools/_Module/API.h"
 #include "VisualGraph_DrawingContext.h"
-#include "System/ThirdParty/KRG_RapidJson.h"
-#include "System/TypeSystem/TypeRegistrationMacros.h"
+#include "System/Serialization/JsonSerialization.h"
+#include "System/TypeSystem/RegisteredType.h"
 #include "System/KRG.h"
 #include "System/Types/Event.h"
 
@@ -39,7 +39,7 @@ namespace KRG::VisualGraph
 
         KRG_REGISTER_TYPE( BaseNode );
 
-        static BaseNode* CreateNodeFromSerializedData( TypeSystem::TypeRegistry const& typeRegistry, RapidJsonValue const& nodeObjectValue, BaseGraph* pParentGraph );
+        static BaseNode* CreateNodeFromSerializedData( TypeSystem::TypeRegistry const& typeRegistry, Serialization::JsonValue const& nodeObjectValue, BaseGraph* pParentGraph );
 
     public:
 
@@ -136,8 +136,8 @@ namespace KRG::VisualGraph
         // Serialization
         //-------------------------------------------------------------------------
 
-        void Serialize( TypeSystem::TypeRegistry const& typeRegistry, RapidJsonValue const& nodeObjectValue );
-        void Serialize( TypeSystem::TypeRegistry const& typeRegistry, RapidJsonWriter& writer ) const;
+        void Serialize( TypeSystem::TypeRegistry const& typeRegistry, Serialization::JsonValue const& nodeObjectValue );
+        void Serialize( TypeSystem::TypeRegistry const& typeRegistry, Serialization::JsonWriter& writer ) const;
 
     protected:
 
@@ -151,8 +151,8 @@ namespace KRG::VisualGraph
         void SetChildGraph( BaseGraph* pGraph );
 
         // Allow for custom serialization in derived types
-        virtual void SerializeCustom( TypeSystem::TypeRegistry const& typeRegistry, RapidJsonValue const& graphObjectValue ) {};
-        virtual void SerializeCustom( TypeSystem::TypeRegistry const& typeRegistry, RapidJsonWriter& writer ) const {};
+        virtual void SerializeCustom( TypeSystem::TypeRegistry const& typeRegistry, Serialization::JsonValue const& graphObjectValue ) {};
+        virtual void SerializeCustom( TypeSystem::TypeRegistry const& typeRegistry, Serialization::JsonWriter& writer ) const {};
 
     protected:
 
@@ -186,7 +186,7 @@ namespace KRG::VisualGraph
 
         KRG_REGISTER_TYPE( BaseGraph );
 
-        static BaseGraph* CreateGraphFromSerializedData( TypeSystem::TypeRegistry const& typeRegistry, RapidJsonValue const& graphObjectValue, BaseNode* pParentNode  );
+        static BaseGraph* CreateGraphFromSerializedData( TypeSystem::TypeRegistry const& typeRegistry, Serialization::JsonValue const& graphObjectValue, BaseNode* pParentNode  );
 
         static inline TEventHandle<BaseGraph*> OnBeginModification() { return s_onBeginModification; }
         static inline TEventHandle<BaseGraph*> OnEndModification() { return s_onEndModification; }
@@ -231,8 +231,8 @@ namespace KRG::VisualGraph
         virtual char const* GetTitle() const { return HasParentNode() ? m_pParentNode->GetDisplayName() : "Root Graph"; }
 
         // Serialization
-        void Serialize( TypeSystem::TypeRegistry const& typeRegistry, RapidJsonValue const& graphObjectValue );
-        void Serialize( TypeSystem::TypeRegistry const& typeRegistry, RapidJsonWriter& writer ) const;
+        void Serialize( TypeSystem::TypeRegistry const& typeRegistry, Serialization::JsonValue const& graphObjectValue );
+        void Serialize( TypeSystem::TypeRegistry const& typeRegistry, Serialization::JsonWriter& writer ) const;
 
         // Root Graph
         inline bool IsRootGraph() const { return !HasParentNode(); }
@@ -382,8 +382,8 @@ namespace KRG::VisualGraph
         virtual void PostDestroyNode( UUID const& nodeID ) {};
 
         // Allow for custom serialization in derived types
-        virtual void SerializeCustom( TypeSystem::TypeRegistry const& typeRegistry, RapidJsonValue const& graphObjectValue ) {}
-        virtual void SerializeCustom( TypeSystem::TypeRegistry const& typeRegistry, RapidJsonWriter& writer ) const {}
+        virtual void SerializeCustom( TypeSystem::TypeRegistry const& typeRegistry, Serialization::JsonValue const& graphObjectValue ) {}
+        virtual void SerializeCustom( TypeSystem::TypeRegistry const& typeRegistry, Serialization::JsonWriter& writer ) const {}
 
     protected:
 

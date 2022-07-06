@@ -21,7 +21,7 @@ namespace KRG::EntityModel
 {
     struct KRG_ENGINE_API ComponentDescriptor : public TypeSystem::TypeDescriptor
     {
-        KRG_SERIALIZE_MEMBERS( KRG_SERIALIZE_BASE( TypeSystem::TypeDescriptor ), m_spatialParentName, m_attachmentSocketID, m_name, m_isSpatialComponent );
+        KRG_SERIALIZE( KRG_SERIALIZE_BASE( TypeSystem::TypeDescriptor ), m_spatialParentName, m_attachmentSocketID, m_name, m_isSpatialComponent );
 
     public:
 
@@ -44,7 +44,7 @@ namespace KRG::EntityModel
 
     struct KRG_ENGINE_API SystemDescriptor
     {
-        KRG_SERIALIZE_MEMBERS( m_typeID );
+        KRG_SERIALIZE( m_typeID );
 
     public:
 
@@ -59,7 +59,7 @@ namespace KRG::EntityModel
 
     struct KRG_ENGINE_API EntityDescriptor
     {
-        KRG_SERIALIZE_MEMBERS( m_spatialParentName, m_name, m_attachmentSocketID, m_systems, m_components, m_numSpatialComponents );
+        KRG_SERIALIZE( m_spatialParentName, m_name, m_attachmentSocketID, m_systems, m_components, m_numSpatialComponents );
 
     public:
 
@@ -98,7 +98,7 @@ namespace KRG::EntityModel
     class KRG_ENGINE_API EntityCollectionDescriptor : public Resource::IResource
     {
         KRG_REGISTER_RESOURCE( 'ec', "Entity Collection" );
-        KRG_SERIALIZE_MEMBERS( m_entityDescriptors, m_entityLookupMap, m_entitySpatialAttachmentInfo );
+        KRG_SERIALIZE( m_entityDescriptors, m_entityLookupMap, m_entitySpatialAttachmentInfo );
 
         friend class EntityCollectionLoader;
 
@@ -114,7 +114,7 @@ namespace KRG::EntityModel
 
         struct SpatialAttachmentInfo
         {
-            KRG_SERIALIZE_MEMBERS( m_entityIdx, m_parentEntityIdx );
+            KRG_SERIALIZE( m_entityIdx, m_parentEntityIdx );
 
             int32_t                           m_entityIdx = InvalidIndex;
             int32_t                           m_parentEntityIdx = InvalidIndex;
@@ -259,7 +259,7 @@ namespace KRG::EntityModel
     class KRG_ENGINE_API EntityMapDescriptor final : public EntityCollectionDescriptor
     {
         KRG_REGISTER_RESOURCE( 'map', "Map" );
-        KRG_SERIALIZE_MEMBERS( KRG_SERIALIZE_BASE( EntityCollectionDescriptor ) );
+        KRG_SERIALIZE( KRG_SERIALIZE_BASE( EntityCollectionDescriptor ) );
 
         friend class EntityCollectionCompiler;
         friend class EntityCollectionLoader;

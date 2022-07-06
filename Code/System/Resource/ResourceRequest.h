@@ -112,7 +112,7 @@ namespace KRG::Resource
         ResourceRecord*                         m_pResourceRecord = nullptr;
         ResourceLoader*                         m_pResourceLoader = nullptr;
         FileSystem::Path                        m_rawResourcePath;
-        TVector<uint8_t>                           m_rawResourceData;
+        Blob                           m_rawResourceData;
         InstallDependencyList                   m_pendingInstallDependencies;
         InstallDependencyList                   m_installDependencies;
         Type                                    m_type = Type::Invalid;

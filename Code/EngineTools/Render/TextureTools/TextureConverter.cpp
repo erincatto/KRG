@@ -3730,7 +3730,7 @@ int texconv_main( _In_ int argc, _In_z_count_( argc ) wchar_t* argv[], Blob& out
 
 namespace KRG::Render
 {
-    bool ConvertTexture( FileSystem::Path const& texturePath, TextureType type, TVector<uint8_t>& rawData )
+    bool ConvertTexture( FileSystem::Path const& texturePath, TextureType type, Blob& rawData )
     {
         // Get wchar version of filename
         //-------------------------------------------------------------------------
@@ -3778,7 +3778,7 @@ namespace KRG::Render
         // Call texconv
         //-------------------------------------------------------------------------
 
-        Blob textureBlob;
+        DirectX::Blob textureBlob;
         if ( texconv_main( numArgs, args, textureBlob ) == 0 )
         {
             // Error occurred

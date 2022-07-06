@@ -14,7 +14,7 @@ namespace KRG::Animation
 {
     struct KRG_ENGINE_API RootMotionData
     {
-        KRG_SERIALIZE_MEMBERS( m_transforms, m_averageLinearVelocity, m_averageAngularVelocity, m_totalDelta );
+        KRG_SERIALIZE( m_transforms, m_averageLinearVelocity, m_averageAngularVelocity, m_totalDelta );
 
     public:
 

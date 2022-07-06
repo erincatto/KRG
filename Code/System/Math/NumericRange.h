@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Math.h"
-#include "System/Serialization/Serialization.h"
+#include "System/Serialization/BinarySerialization.h"
 #include "System/Types/Percentage.h"
 
 //-------------------------------------------------------------------------
@@ -10,7 +10,7 @@ namespace KRG
 {
     struct FloatRange
     {
-        KRG_SERIALIZE_MEMBERS( m_begin, m_end );
+        KRG_SERIALIZE( m_begin, m_end );
 
         FloatRange() = default;
 
@@ -189,7 +189,7 @@ namespace KRG
 
     struct IntRange
     {
-        KRG_SERIALIZE_MEMBERS( m_begin, m_end );
+        KRG_SERIALIZE( m_begin, m_end );
 
         IntRange() = default;
 

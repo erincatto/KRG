@@ -590,13 +590,13 @@ namespace KRG::Animation
         : m_type( type )
     {}
 
-    void FlowGraph::SerializeCustom( TypeSystem::TypeRegistry const& typeRegistry, RapidJsonValue const& graphObjectValue )
+    void FlowGraph::SerializeCustom( TypeSystem::TypeRegistry const& typeRegistry, Serialization::JsonValue const& graphObjectValue )
     {
         VisualGraph::FlowGraph::SerializeCustom( typeRegistry, graphObjectValue );
         m_type = (GraphType) graphObjectValue["GraphType"].GetUint();
     }
 
-    void FlowGraph::SerializeCustom( TypeSystem::TypeRegistry const& typeRegistry, RapidJsonWriter& writer ) const
+    void FlowGraph::SerializeCustom( TypeSystem::TypeRegistry const& typeRegistry, Serialization::JsonWriter& writer ) const
     {
         VisualGraph::FlowGraph::SerializeCustom( typeRegistry, writer );
 

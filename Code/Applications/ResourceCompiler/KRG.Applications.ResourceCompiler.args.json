@@ -3,37 +3,17 @@
   "Id": "bbcf3423-e4b4-4cdd-8a97-c6c390bacc23",
   "Items": [
     {
-      "Id": "98ebde9b-3986-4ca0-8e41-9037f5720049",
-      "Command": "-compile data://maps/prototype_combat_minimal.nav"
-    },
-    {
-      "Id": "19e93083-4c06-48bc-9521-5bdb67294403",
-      "Command": "-compile data://maps/br_minimal.nav"
-    },
-    {
-      "Id": "e2d7e307-a159-4efd-ad60-a565d13e2985",
-      "Command": "-compile data://maps/prototype_combat_minimal.nav"
-    },
-    {
       "Id": "b0658502-4a26-4be7-9861-acd7d403cbf4",
       "Command": "-shipping"
-    },
-    {
-      "Id": "64a5e0c2-5f6b-47a3-830e-c72791a32202",
-      "Command": "-compile data://physics/physicsmaterials.pmdb"
-    },
-    {
-      "Id": "0b678507-48c0-40c8-a404-d2016c5236d9",
-      "Command": "-compile data://ai/aigraph_default.agv"
-    },
-    {
-      "Id": "d91fbd26-4929-44b6-b0df-9f8a6e46a845",
-      "Command": "-compile data://keen/Player_Test_Attack.smsh"
     },
     {
       "Id": "dab7d779-e844-4589-bd58-3d6a7cd54969",
       "Command": "Entity",
       "Items": [
+        {
+          "Id": "717b1c8a-50e9-4d28-8342-23cf41389c62",
+          "Command": "-compile data://editor/editormap.map"
+        },
         {
           "Id": "0cd1ba0c-fc90-4e98-a81f-9c143eb88bae",
           "Command": "-compile data://maps/ai_test.map"
@@ -81,12 +61,12 @@
       "Command": "Physics",
       "Items": [
         {
-          "Id": "e09ffa37-b199-4382-8fd4-4d9403e66358",
-          "Command": "-compile data://testscenes/floor/floor.pmsh"
+          "Id": "64a5e0c2-5f6b-47a3-830e-c72791a32202",
+          "Command": "-compile data://physics/physicsmaterials.pmdb"
         },
         {
-          "Id": "e2cea9c5-2906-4fc8-99a0-4f5e64e6e7b8",
-          "Command": "-compile data://physics/PhysicsMaterials.pmdb"
+          "Id": "e09ffa37-b199-4382-8fd4-4d9403e66358",
+          "Command": "-compile data://testscenes/floor/floor.pmsh"
         },
         {
           "Id": "0f518efa-9b58-4db9-942d-ffa488c2273b",
@@ -107,7 +87,11 @@
       "Command": "Render",
       "Items": [
         {
-          "Id": "b9b28c3e-12b4-4135-acfe-9cecd538003e",
+          "Id": "73085163-14ce-4413-8623-ba2c65a3a1cd",
+          "Command": "-compile data://editor/floor/floor.msh"
+        },
+        {
+          "Id": "e6626772-d19b-439c-bd43-5786cbbb2f5c",
           "Command": "-compile data://packs/br/characters/sk_chr_gothfemale_01.smsh"
         },
         {
@@ -203,6 +187,28 @@
         {
           "Id": "61986e12-b844-4fe5-85ad-5ba8121cb8ad",
           "Command": "-compile data://Packs/SyntyAnims/SyntySkeleton.skel"
+        },
+        {
+          "Id": "0b678507-48c0-40c8-a404-d2016c5236d9",
+          "Command": "-compile data://ai/aigraph_default.agv"
+        }
+      ]
+    },
+    {
+      "Id": "cf9c1b2a-f2b5-41c3-9376-3aa89e03c809",
+      "Command": "Navmesh",
+      "Items": [
+        {
+          "Id": "98ebde9b-3986-4ca0-8e41-9037f5720049",
+          "Command": "-compile data://maps/prototype_combat_minimal.nav"
+        },
+        {
+          "Id": "19e93083-4c06-48bc-9521-5bdb67294403",
+          "Command": "-compile data://maps/br_minimal.nav"
+        },
+        {
+          "Id": "e2d7e307-a159-4efd-ad60-a565d13e2985",
+          "Command": "-compile data://maps/prototype_combat_minimal.nav"
         }
       ]
     }
