@@ -61,7 +61,6 @@ Easiest way to get started, is just set the "Kruger.Applications.Editor" as the 
 
 ## Thirdparty projects used
 
-* Cereal
 * EASTL
 * DearImgui
 * EnkiTS
@@ -70,6 +69,7 @@ Easiest way to get started, is just set the "Kruger.Applications.Editor" as the 
 * xxhash
 * rpmalloc
 * concurrentqueue
+* MPack
 * Game Networking Sockets
 * PhysX
 * cgltf
