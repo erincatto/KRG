@@ -1,3 +1,5 @@
+#if KRG_ENABLE_NAVPOWER
+
 #include "ResourceCompiler_Navmesh.h"
 #include "EngineTools/Navmesh/NavmeshGenerator.h"
 #include "Engine/Navmesh/NavmeshData.h"
@@ -105,3 +107,5 @@ namespace KRG::Navmesh
         return hasWarning ? Resource::CompilationResult::SuccessWithWarnings : Resource::CompilationResult::Success;
     }
 }
+
+#endif

@@ -1,4 +1,5 @@
 #pragma  once
+#if KRG_ENABLE_NAVPOWER
 
 #include "EngineTools/_Module/API.h"
 #include "EngineTools/Resource/ResourceCompiler.h"
@@ -22,3 +23,5 @@ namespace KRG::Navmesh
         Resource::CompilationResult GenerateNavmesh( Resource::CompileContext const& ctx ) const;
     };
 }
+
+#endif
